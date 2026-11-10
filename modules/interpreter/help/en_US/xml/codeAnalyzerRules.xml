@@ -36,7 +36,7 @@
         <td>NLS0004</td>
         <td>info</td>
         <td>Dataflow</td>
-        <td>A local variable is assigned but is never used afterwards. The analyzer ignores text inside comments and character vectors, does not count the left side of an assignment as a use, and skips this rule when dynamic assignment patterns make the local dataflow ambiguous.</td>
+        <td>A local variable is assigned but is never used afterwards, or a value assigned to it is overwritten or left unread on every path that follows, loops and try/catch blocks included. A field assignment is not reported because it may update a handle object. The analyzer ignores text inside comments and character vectors, does not count the left side of an assignment as a use, and skips this rule when dynamic assignment patterns make the local dataflow ambiguous.</td>
       </tr>
       <tr>
         <td>NLS0005</td>

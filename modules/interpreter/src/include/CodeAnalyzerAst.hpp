@@ -90,6 +90,14 @@ struct CodeAnalyzerLineUsage
     stringVector assigned;
     stringVector used;
     stringVector callableUsed;
+    // Bare reads of a name in the right side of its own plain assignment, outside loops.
+    stringVector selfRead;
+    // Targets of an assignment on this line whose value is never read afterwards.
+    stringVector deadAssignments;
+    std::vector<int> deadAssignmentColumns;
+    // Bare reads on this line that no assignment can reach.
+    stringVector undefinedReads;
+    std::vector<int> undefinedReadColumns;
     stringVector leftModified;
     stringVector usageNotRequired;
     stringVector existChecked;

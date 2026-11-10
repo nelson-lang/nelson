@@ -36,7 +36,7 @@
         <td>NLS0004</td>
         <td>info</td>
         <td>Dataflow</td>
-        <td>Une variable locale est assignee mais n&apos;est jamais reutilisee ensuite. L&apos;analyseur ignore le texte dans les commentaires et les chaines de caracteres, ne compte pas la partie gauche d&apos;une affectation comme une utilisation, et ignore cette regle lorsque des affectations dynamiques rendent le flux local ambigu.</td>
+        <td>Une variable locale est assignee mais n&apos;est jamais reutilisee ensuite, ou une valeur qui lui est assignee est ecrasee ou jamais lue sur tous les chemins qui suivent, boucles et blocs try/catch compris. Une affectation de champ n&apos;est pas signalee car elle peut modifier un objet handle. L&apos;analyseur ignore le texte dans les commentaires et les chaines de caracteres, ne compte pas la partie gauche d&apos;une affectation comme une utilisation, et ignore cette regle lorsque des affectations dynamiques rendent le flux local ambigu.</td>
       </tr>
       <tr>
         <td>NLS0005</td>

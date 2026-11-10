@@ -32,7 +32,7 @@
     "defaultSeverity": "info",
     "category": "Dataflow",
     "fixability": "none",
-    "description": "A local variable is assigned but never used.",
+    "description": "A local variable is never used, or a value assigned to it is never read.",
     "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html?lang=en_US&open=.%2Finterpreter%2FcodeAnalyzerRules.html"
   },
   {

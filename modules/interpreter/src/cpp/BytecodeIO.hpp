@@ -11,6 +11,7 @@
 //=============================================================================
 #include "BinaryStream.hpp"
 #include "BytecodeChunk.hpp"
+#include <filesystem>
 #include <limits>
 #include <stdexcept>
 //=============================================================================
@@ -106,6 +107,9 @@ void
 validateChunk(const BytecodeChunk& chunk);
 void
 validateInstruction(const BytecodeChunk& chunk, size_t pc, const Instruction& instruction);
+// Path of the loaded interpreter library.
+std::filesystem::path
+interpreterModulePath();
 std::string
 engineFingerprint();
 std::string

@@ -133,6 +133,12 @@ namespace {
             return;
         }
         prepareAstUsage(*usage);
+        // A call to a variable assigned earlier on the same line reads that variable.
+        if (callable && usage->assignmentFromAst
+            && std::find(usage->assigned.begin(), usage->assigned.end(), node->text)
+                != usage->assigned.end()) {
+            callable = false;
+        }
         appendUnique(callable ? usage->callableUsed : usage->used, node->text);
     }
     //=============================================================================
@@ -647,23 +653,33 @@ namespace {
     }
     //=============================================================================
     // save(file, 'name') reads the variable 'name'.
-    void
-    markSaveByNameCall(std::vector<CodeAnalyzerLineUsage>& lineUsages, AbstractSyntaxTreePtr node)
+    // Variable names given as text to save, savenh5 or savemat.
+    std::vector<AbstractSyntaxTreePtr>
+    saveByNameArguments(AbstractSyntaxTreePtr node)
     {
+        std::vector<AbstractSyntaxTreePtr> names;
         if (!isNamedParenCall(node, "save") && !isNamedParenCall(node, "savenh5")
             && !isNamedParenCall(node, "savemat")) {
-            return;
+            return names;
         }
         node = unwrapRhs(node);
         AbstractSyntaxTreePtr file = node->down->down;
         for (AbstractSyntaxTreePtr arg = file == nullptr ? nullptr : file->right; arg != nullptr;
             arg = arg->right) {
             AbstractSyntaxTreePtr name = unwrapRhs(arg);
-            if (name == nullptr
-                || (name->type != const_character_array_node && name->type != const_string_node)
-                || !isTrackedIdentifier(name->text) || name->text.front() == '-') {
-                continue;
+            if (name != nullptr
+                && (name->type == const_character_array_node || name->type == const_string_node)
+                && isTrackedIdentifier(name->text) && name->text.front() != '-') {
+                names.push_back(name);
             }
+        }
+        return names;
+    }
+    //=============================================================================
+    void
+    markSaveByNameCall(std::vector<CodeAnalyzerLineUsage>& lineUsages, AbstractSyntaxTreePtr node)
+    {
+        for (AbstractSyntaxTreePtr name : saveByNameArguments(node)) {
             CodeAnalyzerLineUsage* usage = usageAt(lineUsages, firstSourceSpan(name).line);
             if (usage != nullptr) {
                 prepareAstUsage(*usage);
@@ -966,6 +982,9 @@ namespace {
         }
         for (const CodeAnalyzerLineUsage& innerUsage : inner) {
             for (const std::string& name : innerUsage.used) {
+                appendUnique(usage->used, name);
+            }
+            for (const std::string& name : innerUsage.selfRead) {
                 appendUnique(usage->used, name);
             }
             for (const std::string& name : innerUsage.callableUsed) {
@@ -1326,6 +1345,49 @@ namespace {
         }
     }
     //=============================================================================
+    // Target identifiers of 'x = ...' or '[a, b] = f(...)', indexed ones included.
+    std::vector<AbstractSyntaxTreePtr>
+    assignmentTargets(AbstractSyntaxTreePtr node)
+    {
+        std::vector<AbstractSyntaxTreePtr> targets;
+        if (node == nullptr || node->down == nullptr) {
+            return targets;
+        }
+        if (node->opNum == OP_ASSIGN) {
+            if (node->down->type == id_node && isTrackedIdentifier(node->down->text)) {
+                targets.push_back(node->down);
+            }
+            return targets;
+        }
+        if (node->opNum != OP_MULTICALL) {
+            return targets;
+        }
+        for (AbstractSyntaxTreePtr row = node->down->down; row != nullptr; row = row->right) {
+            for (AbstractSyntaxTreePtr element = row->down; element != nullptr;
+                element = element->right) {
+                AbstractSyntaxTreePtr target = unwrapRhs(element);
+                if (target != nullptr && target->type == id_node
+                    && isTrackedIdentifier(target->text)) {
+                    targets.push_back(target);
+                }
+            }
+        }
+        return targets;
+    }
+    //=============================================================================
+    // Inside a loop the right side may read the value of the previous iteration.
+    void
+    restoreLoopSelfReads(CodeAnalyzerLineUsage* usage)
+    {
+        if (usage == nullptr || usage->selfRead.empty()) {
+            return;
+        }
+        for (const std::string& name : usage->selfRead) {
+            appendUnique(usage->used, name);
+        }
+        usage->selfRead.clear();
+    }
+    //=============================================================================
     void
     markLoopGrowth(std::vector<CodeAnalyzerLineUsage>& lineUsages, const stringVector& lines,
         AbstractSyntaxTreePtr node, LoopGrowthState& state, int loopDepth)
@@ -1351,6 +1413,9 @@ namespace {
                     && (lhs->down != nullptr ? indexedAssignmentGrows(lhs, state)
                                              : concatenationGrows(lhs->text, lhs->right));
                 CodeAnalyzerLineUsage* usage = usageAt(lineUsages, firstSourceSpan(lhs).line);
+                if (loopDepth > 0) {
+                    restoreLoopSelfReads(usage);
+                }
                 if (grows && usage != nullptr && usage->loopGrowthName.empty()) {
                     usage->loopGrowthName = lhs->text;
                     usage->loopGrowthColumn = codeAnalyzerWordColumnInLine(
@@ -1366,6 +1431,11 @@ namespace {
                 continue;
             }
             if (current->opNum == OP_MULTICALL && current->down != nullptr) {
+                if (loopDepth > 0) {
+                    for (AbstractSyntaxTreePtr target : assignmentTargets(current)) {
+                        restoreLoopSelfReads(usageAt(lineUsages, firstSourceSpan(target).line));
+                    }
+                }
                 std::vector<CodeAnalyzerLineUsage> unusedLineUsages;
                 CodeAnalyzerLineUsage targets;
                 collectAssignmentTarget(unusedLineUsages, targets, current->down->down);
@@ -1378,6 +1448,68 @@ namespace {
         }
     }
     //=============================================================================
+    // First bare (not called with parentheses) read of name in an expression.
+    AbstractSyntaxTreePtr
+    findBareRead(AbstractSyntaxTreePtr node, const std::string& name)
+    {
+        for (AbstractSyntaxTreePtr current = node; current != nullptr; current = current->right) {
+            if (current->opNum == OP_FUNCTION_HANDLE_ANONYMOUS
+                || current->opNum == OP_FUNCTION_HANDLE_NAMED) {
+                continue;
+            }
+            if (current->type == id_node && current->text == name
+                && (current->down == nullptr || current->down->opNum != OP_PARENS)) {
+                return current;
+            }
+            if (AbstractSyntaxTreePtr found = findBareRead(current->down, name)) {
+                return found;
+            }
+        }
+        return nullptr;
+    }
+    //=============================================================================
+    using SelfReadCandidates = std::vector<std::pair<CodeAnalyzerLineUsage*, AbstractSyntaxTreePtr>>;
+    //=============================================================================
+    // Plain targets not yet read or assigned on their line, taken before the right side.
+    SelfReadCandidates
+    selfReadCandidates(std::vector<CodeAnalyzerLineUsage>& lineUsages, AbstractSyntaxTreePtr node)
+    {
+        SelfReadCandidates candidates;
+        for (AbstractSyntaxTreePtr target : assignmentTargets(node)) {
+            CodeAnalyzerLineUsage* usage = usageAt(lineUsages, firstSourceSpan(target).line);
+            if (target->down != nullptr || usage == nullptr) {
+                continue;
+            }
+            const auto has = [&](const stringVector& names) {
+                return std::find(names.begin(), names.end(), target->text) != names.end();
+            };
+            if ((usage->usageFromAst && (has(usage->used) || has(usage->selfRead)))
+                || (usage->assignmentFromAst && has(usage->assigned))) {
+                continue;
+            }
+            candidates.emplace_back(usage, target);
+        }
+        return candidates;
+    }
+    //=============================================================================
+    // Moves a bare read of a target in its own right side out of the plain uses.
+    void
+    markSelfReads(const SelfReadCandidates& candidates, AbstractSyntaxTreePtr rhs)
+    {
+        for (const auto& candidate : candidates) {
+            CodeAnalyzerLineUsage* usage = candidate.first;
+            const std::string& name = candidate.second->text;
+            auto used = std::find(usage->used.begin(), usage->used.end(), name);
+            AbstractSyntaxTreePtr read = findBareRead(rhs, name);
+            if (used == usage->used.end() || read == nullptr
+                || firstSourceSpan(read).line != firstSourceSpan(candidate.second).line) {
+                continue;
+            }
+            usage->used.erase(used);
+            usage->selfRead.push_back(name);
+        }
+    }
+    //=============================================================================
     void
     applyAstLineUsage(AbstractSyntaxTreePtr node, std::vector<CodeAnalyzerLineUsage>& lineUsages,
         const stringVector& lines)
@@ -1387,16 +1519,17 @@ namespace {
             if (current->opNum == OP_FUNCTION_HANDLE_ANONYMOUS) {
                 continue;
             }
-            markAssignment(lineUsages, current);
-            if (current->opNum == OP_ASSIGN) {
+            // The right side is read before its targets are assigned.
+            if (current->opNum == OP_ASSIGN || current->opNum == OP_MULTICALL) {
+                const SelfReadCandidates candidates = selfReadCandidates(lineUsages, current);
                 markExpressionUsage(lineUsages, rightOperand(current));
                 applyAstLineUsage(rightOperand(current), lineUsages, lines);
-                continue;
-            }
-            markMultiCallAssignment(lineUsages, current);
-            if (current->opNum == OP_MULTICALL) {
-                markExpressionUsage(lineUsages, rightOperand(current));
-                applyAstLineUsage(rightOperand(current), lineUsages, lines);
+                markSelfReads(candidates, rightOperand(current));
+                if (current->opNum == OP_ASSIGN) {
+                    markAssignment(lineUsages, current);
+                } else {
+                    markMultiCallAssignment(lineUsages, current);
+                }
                 continue;
             }
             if (current->opNum == OP_RHS) {
@@ -1465,6 +1598,694 @@ namespace {
         }
     }
     //=============================================================================
+    using NameSet = std::set<std::string>;
+    //=============================================================================
+    struct LivenessContext
+    {
+        std::vector<CodeAnalyzerLineUsage>* lineUsages = nullptr;
+        NameSet exitLive;
+        // Live after the innermost loop (break) and at its head (continue).
+        std::vector<std::pair<NameSet, NameSet>> loops;
+        // Live on entry of the enclosing catch blocks: any statement of a try may fail.
+        NameSet catchLive;
+        bool report = true;
+        // When set, receives identifiers read without parentheses.
+        std::vector<AbstractSyntaxTreePtr>* bareReads = nullptr;
+        // Set when an evaluated text call is read: its line may assign variables.
+        bool evaluatedText = false;
+    };
+    //=============================================================================
+    void
+    collectReadNode(
+        AbstractSyntaxTreePtr node, NameSet& names, const NameSet& hidden, LivenessContext& ctx);
+    //=============================================================================
+    void
+    collectReadList(
+        AbstractSyntaxTreePtr node, NameSet& names, const NameSet& hidden, LivenessContext& ctx)
+    {
+        for (AbstractSyntaxTreePtr current = node; current != nullptr; current = current->right) {
+            collectReadNode(current, names, hidden, ctx);
+        }
+    }
+    //=============================================================================
+    // Names one expression may read, without its right peers.
+    void
+    collectReadNode(
+        AbstractSyntaxTreePtr node, NameSet& names, const NameSet& hidden, LivenessContext& ctx)
+    {
+        if (node == nullptr || node->opNum == OP_FUNCTION_HANDLE_NAMED
+            || (node->type == non_terminal && node->opNum == OP_DOT)) {
+            return;
+        }
+        if (node->opNum == OP_FUNCTION_HANDLE_ANONYMOUS) {
+            NameSet inner = hidden;
+            AbstractSyntaxTreePtr body = node->down;
+            if (body != nullptr && body->right != nullptr) {
+                inner.insert(body->text);
+                for (AbstractSyntaxTreePtr arg = body->down; arg != nullptr; arg = arg->right) {
+                    inner.insert(arg->text);
+                }
+                body = body->right;
+            }
+            collectReadList(body, names, inner, ctx);
+            return;
+        }
+        if (node->type != id_node) {
+            collectReadList(node->down, names, hidden, ctx);
+            return;
+        }
+        if (isTrackedIdentifier(node->text) && hidden.find(node->text) == hidden.end()) {
+            names.insert(node->text);
+            if (ctx.bareReads != nullptr
+                && (node->down == nullptr || node->down->opNum != OP_PARENS)) {
+                ctx.bareReads->push_back(node);
+            }
+        }
+        for (AbstractSyntaxTreePtr postfix = node->down; postfix != nullptr;
+            postfix = postfix->right) {
+            if (postfix->opNum == OP_PARENS || postfix->opNum == OP_BRACES
+                || postfix->opNum == OP_DOTDYN) {
+                collectReadList(postfix->down, names, hidden, ctx);
+            }
+        }
+        for (AbstractSyntaxTreePtr name : saveByNameArguments(node)) {
+            names.insert(name->text);
+        }
+        // Evaluated text reads what its line reads.
+        if (isNamedParenCall(node, "eval") || isNamedParenCall(node, "evalc")
+            || isNamedParenCall(node, "evalin")) {
+            ctx.evaluatedText = true;
+            if (CodeAnalyzerLineUsage* usage
+                = usageAt(*ctx.lineUsages, firstSourceSpan(node).line)) {
+                names.insert(usage->used.begin(), usage->used.end());
+                names.insert(usage->callableUsed.begin(), usage->callableUsed.end());
+                names.insert(usage->selfRead.begin(), usage->selfRead.end());
+            }
+        }
+    }
+    //=============================================================================
+    NameSet
+    readNames(AbstractSyntaxTreePtr node, LivenessContext& ctx)
+    {
+        NameSet names;
+        collectReadNode(node, names, {}, ctx);
+        return names;
+    }
+    //=============================================================================
+    void
+    unionInto(NameSet& target, const NameSet& source)
+    {
+        target.insert(source.begin(), source.end());
+    }
+    //=============================================================================
+    // A field assignment may update a handle object, so it is never reported.
+    bool
+    hasFieldReference(AbstractSyntaxTreePtr target)
+    {
+        for (AbstractSyntaxTreePtr postfix = target->down; postfix != nullptr;
+            postfix = postfix->right) {
+            if (postfix->opNum == OP_DOT || postfix->opNum == OP_DOTDYN) {
+                return true;
+            }
+        }
+        return false;
+    }
+    //=============================================================================
+    void
+    recordDeadAssignment(LivenessContext& ctx, AbstractSyntaxTreePtr target)
+    {
+        AstSourceSpan span = firstSourceSpan(target);
+        CodeAnalyzerLineUsage* usage = usageAt(*ctx.lineUsages, span.line);
+        if (usage == nullptr
+            || std::find(usage->deadAssignments.begin(), usage->deadAssignments.end(),
+                   target->text)
+                != usage->deadAssignments.end()) {
+            return;
+        }
+        // The parser column points just after the identifier.
+        const int column = span.column - static_cast<int>(target->text.size());
+        usage->deadAssignments.push_back(target->text);
+        usage->deadAssignmentColumns.push_back(column > 0 ? column : 1);
+    }
+    //=============================================================================
+    NameSet
+    liveBeforeBlock(AbstractSyntaxTreePtr block, NameSet live, LivenessContext& ctx);
+    //=============================================================================
+    // Live names on loop entry: 'next' gives the head set from the body entry set.
+    template <typename Next>
+    NameSet
+    loopHeadLive(AbstractSyntaxTreePtr body, const NameSet& after, NameSet head,
+        LivenessContext& ctx, Next next)
+    {
+        const bool report = ctx.report;
+        ctx.report = false;
+        while (true) {
+            ctx.loops.emplace_back(after, head);
+            NameSet bodyIn = body == nullptr ? head : liveBeforeBlock(body, head, ctx);
+            ctx.loops.pop_back();
+            NameSet updated = next(bodyIn);
+            if (updated == head) {
+                break;
+            }
+            head = std::move(updated);
+        }
+        ctx.report = report;
+        if (report && body != nullptr) {
+            ctx.loops.emplace_back(after, head);
+            liveBeforeBlock(body, head, ctx);
+            ctx.loops.pop_back();
+        }
+        return head;
+    }
+    //=============================================================================
+    NameSet
+    liveBeforeIf(AbstractSyntaxTreePtr node, const NameSet& after, LivenessContext& ctx)
+    {
+        NameSet result;
+        bool hasElse = false;
+        auto visitCondition = [&](AbstractSyntaxTreePtr cstat) {
+            AbstractSyntaxTreePtr condition = cstat->down;
+            AbstractSyntaxTreePtr block = condition == nullptr ? nullptr : condition->right;
+            unionInto(result, block == nullptr ? after : liveBeforeBlock(block, after, ctx));
+            unionInto(result, readNames(condition, ctx));
+        };
+        for (AbstractSyntaxTreePtr branch = node->down; branch != nullptr; branch = branch->right) {
+            if (branch->opNum == OP_CSTAT) {
+                visitCondition(branch);
+            } else if (branch->opNum == OP_ELSEIFBLOCK) {
+                for (AbstractSyntaxTreePtr cstat = branch->down; cstat != nullptr;
+                    cstat = cstat->right) {
+                    visitCondition(cstat);
+                }
+            } else if (branch->opNum == OP_BLOCK) {
+                hasElse = true;
+                unionInto(result, liveBeforeBlock(branch, after, ctx));
+            }
+        }
+        if (!hasElse) {
+            unionInto(result, after);
+        }
+        return result;
+    }
+    //=============================================================================
+    NameSet
+    liveBeforeSwitch(AbstractSyntaxTreePtr node, const NameSet& after, LivenessContext& ctx)
+    {
+        AbstractSyntaxTreePtr selector = node->down;
+        NameSet result = readNames(selector, ctx);
+        bool hasOtherwise = false;
+        for (AbstractSyntaxTreePtr part = selector == nullptr ? nullptr : selector->right;
+            part != nullptr; part = part->right) {
+            if (part->opNum == OP_CASEBLOCK) {
+                for (AbstractSyntaxTreePtr item = part->down; item != nullptr;
+                    item = item->right) {
+                    AbstractSyntaxTreePtr value = item->down;
+                    AbstractSyntaxTreePtr block = value == nullptr ? nullptr : value->right;
+                    unionInto(result, readNames(value, ctx));
+                    unionInto(result, block == nullptr ? after : liveBeforeBlock(block, after, ctx));
+                }
+            } else if (part->opNum == OP_BLOCK) {
+                hasOtherwise = true;
+                unionInto(result, liveBeforeBlock(part, after, ctx));
+            }
+        }
+        if (!hasOtherwise) {
+            unionInto(result, after);
+        }
+        return result;
+    }
+    //=============================================================================
+    NameSet
+    liveBeforeTry(AbstractSyntaxTreePtr node, const NameSet& after, LivenessContext& ctx)
+    {
+        AbstractSyntaxTreePtr body = node->down;
+        AbstractSyntaxTreePtr handler = body == nullptr ? nullptr : body->right;
+        // Without catch, an error goes on after the try block.
+        NameSet catchIn = after;
+        if (handler != nullptr && handler->type == id_node && handler->down != nullptr
+            && handler->down->opNum == OP_BLOCK) {
+            catchIn = liveBeforeBlock(handler->down, after, ctx);
+            catchIn.erase(handler->text);
+        } else if (handler != nullptr && handler->opNum == OP_BLOCK) {
+            catchIn = liveBeforeBlock(handler, after, ctx);
+        } else if (handler != nullptr) {
+            unionInto(catchIn, readNames(handler, ctx));
+        }
+        NameSet saved = ctx.catchLive;
+        unionInto(ctx.catchLive, catchIn);
+        NameSet result = body == nullptr ? after : liveBeforeBlock(body, after, ctx);
+        ctx.catchLive = std::move(saved);
+        unionInto(result, catchIn);
+        return result;
+    }
+    //=============================================================================
+    void
+    liveBeforeAssignment(AbstractSyntaxTreePtr node, NameSet& live, LivenessContext& ctx)
+    {
+        NameSet reads;
+        NameSet defined;
+        for (AbstractSyntaxTreePtr target : assignmentTargets(node)) {
+            if (ctx.report && live.find(target->text) == live.end()
+                && !hasFieldReference(target)) {
+                recordDeadAssignment(ctx, target);
+            }
+            if (target->down == nullptr) {
+                defined.insert(target->text);
+            } else {
+                // An indexed assignment keeps the other elements.
+                reads.insert(target->text);
+                for (AbstractSyntaxTreePtr postfix = target->down; postfix != nullptr;
+                    postfix = postfix->right) {
+                    if (postfix->opNum == OP_PARENS || postfix->opNum == OP_BRACES
+                        || postfix->opNum == OP_DOTDYN) {
+                        collectReadList(postfix->down, reads, {}, ctx);
+                    }
+                }
+            }
+        }
+        for (const std::string& name : defined) {
+            live.erase(name);
+        }
+        if (node->opNum == OP_ASSIGN) {
+            collectReadList(rightOperand(node), reads, {}, ctx);
+        } else {
+            collectReadNode(rightOperand(node), reads, {}, ctx);
+        }
+        unionInto(live, reads);
+    }
+    //=============================================================================
+    void
+    liveBeforeStatement(AbstractSyntaxTreePtr node, NameSet& live, LivenessContext& ctx)
+    {
+        if (node == nullptr) {
+            return;
+        }
+        if (node->opNum == OP_ASSIGN || node->opNum == OP_MULTICALL) {
+            liveBeforeAssignment(node, live, ctx);
+            return;
+        }
+        if (node->type == non_terminal && node->opNum == OP_SCALL) {
+            // Command syntax words may name variables, as in 'save file x'.
+            for (AbstractSyntaxTreePtr word = node->down; word != nullptr; word = word->right) {
+                if (isTrackedIdentifier(word->text)) {
+                    live.insert(word->text);
+                }
+            }
+            return;
+        }
+        if (node->type != reserved_node) {
+            unionInto(live, readNames(node, ctx));
+            return;
+        }
+        switch (node->tokenNumber) {
+        case NLS_KEYWORD_FOR: {
+            AbstractSyntaxTreePtr index = node->down;
+            AbstractSyntaxTreePtr body = index == nullptr ? nullptr : index->right;
+            const std::string variable = index == nullptr ? std::string() : index->text;
+            const NameSet after = live;
+            live = loopHeadLive(body, after, after, ctx, [&](const NameSet& bodyIn) {
+                NameSet head = after;
+                for (const std::string& name : bodyIn) {
+                    if (name != variable) {
+                        head.insert(name);
+                    }
+                }
+                return head;
+            });
+            if (index != nullptr) {
+                collectReadList(index->down, live, {}, ctx);
+            }
+        } break;
+        case NLS_KEYWORD_WHILE: {
+            AbstractSyntaxTreePtr condition = node->down;
+            AbstractSyntaxTreePtr body = condition == nullptr ? nullptr : condition->right;
+            // The condition is read before each iteration and before leaving the loop.
+            NameSet exitHead = live;
+            unionInto(exitHead, readNames(condition, ctx));
+            live = loopHeadLive(body, live, exitHead, ctx, [&](const NameSet& bodyIn) {
+                NameSet head = exitHead;
+                unionInto(head, bodyIn);
+                return head;
+            });
+        } break;
+        case NLS_KEYWORD_IF: {
+            live = liveBeforeIf(node, live, ctx);
+        } break;
+        case NLS_KEYWORD_SWITCH: {
+            live = liveBeforeSwitch(node, live, ctx);
+        } break;
+        case NLS_KEYWORD_TRY: {
+            live = liveBeforeTry(node, live, ctx);
+        } break;
+        case NLS_KEYWORD_BREAK: {
+            if (!ctx.loops.empty()) {
+                live = ctx.loops.back().first;
+            }
+        } break;
+        case NLS_KEYWORD_CONTINUE: {
+            if (!ctx.loops.empty()) {
+                live = ctx.loops.back().second;
+            }
+        } break;
+        case NLS_KEYWORD_RETURN: {
+            live = ctx.exitLive;
+        } break;
+        default: {
+            collectReadList(node->down, live, {}, ctx);
+        } break;
+        }
+    }
+    //=============================================================================
+    NameSet
+    liveBeforeBlock(AbstractSyntaxTreePtr block, NameSet live, LivenessContext& ctx)
+    {
+        std::vector<AbstractSyntaxTreePtr> statements;
+        AbstractSyntaxTreePtr first
+            = block != nullptr && block->opNum == OP_BLOCK ? block->down : block;
+        for (AbstractSyntaxTreePtr current = first; current != nullptr; current = current->right) {
+            statements.push_back(current);
+        }
+        for (auto it = statements.rbegin(); it != statements.rend(); ++it) {
+            AbstractSyntaxTreePtr statement = *it;
+            if (statement->opNum == OP_RSTATEMENT || statement->opNum == OP_QSTATEMENT) {
+                statement = statement->down;
+            }
+            liveBeforeStatement(statement, live, ctx);
+            // A statement that fails assigns nothing and goes to catch.
+            unionInto(live, ctx.catchLive);
+        }
+        return live;
+    }
+    //=============================================================================
+    // Marks assignments whose value no later statement of the function can read.
+    void
+    markDeadAssignments(std::vector<CodeAnalyzerLineUsage>& lineUsages, AbstractSyntaxTreePtr code,
+        const stringVector& outputs)
+    {
+        LivenessContext ctx;
+        ctx.lineUsages = &lineUsages;
+        ctx.exitLive.insert(outputs.begin(), outputs.end());
+        liveBeforeBlock(code, ctx.exitLive, ctx);
+    }
+    //=============================================================================
+    // Names that may hold a value at one point; unreachable code has no state.
+    struct DefinedState
+    {
+        bool reachable = true;
+        NameSet names;
+        bool
+        operator==(const DefinedState& other) const
+        {
+            return reachable == other.reachable && names == other.names;
+        }
+    };
+    //=============================================================================
+    void
+    mergeState(DefinedState& target, const DefinedState& source)
+    {
+        if (!source.reachable) {
+            return;
+        }
+        if (!target.reachable) {
+            target = source;
+            return;
+        }
+        unionInto(target.names, source.names);
+    }
+    //=============================================================================
+    DefinedState
+    unreachableState()
+    {
+        DefinedState state;
+        state.reachable = false;
+        return state;
+    }
+    //=============================================================================
+    struct DefinednessContext
+    {
+        std::vector<CodeAnalyzerLineUsage>* lineUsages = nullptr;
+        // States leaving the innermost loop (break) and going back to its head (continue).
+        std::vector<std::pair<DefinedState, DefinedState>> loops;
+        // States seen in the enclosing try blocks: an error may jump to their catch.
+        std::vector<DefinedState*> tries;
+        bool report = true;
+    };
+    //=============================================================================
+    void
+    recordUndefinedRead(DefinednessContext& ctx, AbstractSyntaxTreePtr read)
+    {
+        AstSourceSpan span = firstSourceSpan(read);
+        CodeAnalyzerLineUsage* usage = usageAt(*ctx.lineUsages, span.line);
+        if (usage == nullptr
+            || std::find(usage->undefinedReads.begin(), usage->undefinedReads.end(), read->text)
+                != usage->undefinedReads.end()) {
+            return;
+        }
+        // The parser column points just after the identifier.
+        const int column = span.column - static_cast<int>(read->text.size());
+        usage->undefinedReads.push_back(read->text);
+        usage->undefinedReadColumns.push_back(column > 0 ? column : 1);
+    }
+    //=============================================================================
+    // Checks the reads of an expression (and its right peers when 'list' is set).
+    void
+    checkReads(AbstractSyntaxTreePtr node, bool list, DefinedState& state, DefinednessContext& ctx)
+    {
+        std::vector<AbstractSyntaxTreePtr> reads;
+        LivenessContext reader;
+        reader.lineUsages = ctx.lineUsages;
+        reader.bareReads = &reads;
+        NameSet names;
+        if (list) {
+            collectReadList(node, names, {}, reader);
+        } else {
+            collectReadNode(node, names, {}, reader);
+        }
+        if (ctx.report && state.reachable) {
+            for (AbstractSyntaxTreePtr read : reads) {
+                if (state.names.find(read->text) == state.names.end()) {
+                    recordUndefinedRead(ctx, read);
+                }
+            }
+        }
+        // Evaluated text may assign the variables its line assigns.
+        if (reader.evaluatedText && node != nullptr) {
+            if (CodeAnalyzerLineUsage* usage
+                = usageAt(*ctx.lineUsages, firstSourceSpan(node).line)) {
+                state.names.insert(usage->assigned.begin(), usage->assigned.end());
+            }
+        }
+    }
+    //=============================================================================
+    DefinedState
+    definedAfterBlock(AbstractSyntaxTreePtr block, DefinedState state, DefinednessContext& ctx);
+    //=============================================================================
+    // Runs a loop body to a fixed point; 'enter' gives the body state from the head state.
+    template <typename Enter>
+    DefinedState
+    definedAfterLoop(AbstractSyntaxTreePtr condition, AbstractSyntaxTreePtr body,
+        const DefinedState& entry, DefinednessContext& ctx, Enter enter)
+    {
+        auto runBody = [&](const DefinedState& head, std::pair<DefinedState, DefinedState>& exits) {
+            DefinedState in = head;
+            checkReads(condition, false, in, ctx);
+            enter(in);
+            ctx.loops.emplace_back(unreachableState(), unreachableState());
+            DefinedState out = body == nullptr ? in : definedAfterBlock(body, in, ctx);
+            exits = ctx.loops.back();
+            ctx.loops.pop_back();
+            return out;
+        };
+        const bool report = ctx.report;
+        ctx.report = false;
+        DefinedState head = entry;
+        std::pair<DefinedState, DefinedState> exits;
+        while (true) {
+            DefinedState next = entry;
+            mergeState(next, runBody(head, exits));
+            mergeState(next, exits.second);
+            if (next == head) {
+                break;
+            }
+            head = std::move(next);
+        }
+        ctx.report = report;
+        runBody(head, exits);
+        DefinedState after = head;
+        mergeState(after, exits.first);
+        return after;
+    }
+    //=============================================================================
+    void
+    definedAfterStatement(AbstractSyntaxTreePtr node, DefinedState& state, DefinednessContext& ctx)
+    {
+        if (node == nullptr) {
+            return;
+        }
+        if (node->opNum == OP_ASSIGN || node->opNum == OP_MULTICALL) {
+            const std::vector<AbstractSyntaxTreePtr> targets = assignmentTargets(node);
+            for (AbstractSyntaxTreePtr target : targets) {
+                for (AbstractSyntaxTreePtr postfix = target->down; postfix != nullptr;
+                    postfix = postfix->right) {
+                    if (postfix->opNum == OP_PARENS || postfix->opNum == OP_BRACES
+                        || postfix->opNum == OP_DOTDYN) {
+                        checkReads(postfix->down, true, state, ctx);
+                    }
+                }
+            }
+            checkReads(rightOperand(node), node->opNum == OP_ASSIGN, state, ctx);
+            for (AbstractSyntaxTreePtr target : targets) {
+                state.names.insert(target->text);
+            }
+            return;
+        }
+        // Command syntax words are text.
+        if (node->type == non_terminal && node->opNum == OP_SCALL) {
+            return;
+        }
+        if (node->type != reserved_node) {
+            checkReads(node, false, state, ctx);
+            return;
+        }
+        switch (node->tokenNumber) {
+        case NLS_KEYWORD_FOR: {
+            AbstractSyntaxTreePtr index = node->down;
+            if (index == nullptr) {
+                break;
+            }
+            checkReads(index->down, true, state, ctx);
+            const std::string variable = index->text;
+            state = definedAfterLoop(nullptr, index->right, state, ctx,
+                [&](DefinedState& in) { in.names.insert(variable); });
+        } break;
+        case NLS_KEYWORD_WHILE: {
+            AbstractSyntaxTreePtr condition = node->down;
+            state = definedAfterLoop(condition, condition == nullptr ? nullptr : condition->right,
+                state, ctx, [](DefinedState&) {});
+        } break;
+        case NLS_KEYWORD_IF: {
+            DefinedState after = unreachableState();
+            bool hasElse = false;
+            auto visitCondition = [&](AbstractSyntaxTreePtr cstat) {
+                AbstractSyntaxTreePtr condition = cstat->down;
+                checkReads(condition, false, state, ctx);
+                AbstractSyntaxTreePtr block = condition == nullptr ? nullptr : condition->right;
+                mergeState(after, block == nullptr ? state : definedAfterBlock(block, state, ctx));
+            };
+            for (AbstractSyntaxTreePtr branch = node->down; branch != nullptr;
+                branch = branch->right) {
+                if (branch->opNum == OP_CSTAT) {
+                    visitCondition(branch);
+                } else if (branch->opNum == OP_ELSEIFBLOCK) {
+                    for (AbstractSyntaxTreePtr cstat = branch->down; cstat != nullptr;
+                        cstat = cstat->right) {
+                        visitCondition(cstat);
+                    }
+                } else if (branch->opNum == OP_BLOCK) {
+                    hasElse = true;
+                    mergeState(after, definedAfterBlock(branch, state, ctx));
+                }
+            }
+            if (!hasElse) {
+                mergeState(after, state);
+            }
+            state = std::move(after);
+        } break;
+        case NLS_KEYWORD_SWITCH: {
+            AbstractSyntaxTreePtr selector = node->down;
+            checkReads(selector, false, state, ctx);
+            DefinedState after = unreachableState();
+            bool hasOtherwise = false;
+            for (AbstractSyntaxTreePtr part = selector == nullptr ? nullptr : selector->right;
+                part != nullptr; part = part->right) {
+                if (part->opNum == OP_CASEBLOCK) {
+                    for (AbstractSyntaxTreePtr item = part->down; item != nullptr;
+                        item = item->right) {
+                        AbstractSyntaxTreePtr value = item->down;
+                        checkReads(value, false, state, ctx);
+                        AbstractSyntaxTreePtr block = value == nullptr ? nullptr : value->right;
+                        mergeState(
+                            after, block == nullptr ? state : definedAfterBlock(block, state, ctx));
+                    }
+                } else if (part->opNum == OP_BLOCK) {
+                    hasOtherwise = true;
+                    mergeState(after, definedAfterBlock(part, state, ctx));
+                }
+            }
+            if (!hasOtherwise) {
+                mergeState(after, state);
+            }
+            state = std::move(after);
+        } break;
+        case NLS_KEYWORD_TRY: {
+            AbstractSyntaxTreePtr body = node->down;
+            AbstractSyntaxTreePtr handler = body == nullptr ? nullptr : body->right;
+            DefinedState thrown = state;
+            ctx.tries.push_back(&thrown);
+            DefinedState after = body == nullptr ? state : definedAfterBlock(body, state, ctx);
+            ctx.tries.pop_back();
+            if (handler != nullptr && handler->type == id_node && handler->down != nullptr
+                && handler->down->opNum == OP_BLOCK) {
+                if (thrown.reachable) {
+                    thrown.names.insert(handler->text);
+                }
+                mergeState(after, definedAfterBlock(handler->down, thrown, ctx));
+            } else if (handler != nullptr && handler->opNum == OP_BLOCK) {
+                mergeState(after, definedAfterBlock(handler, thrown, ctx));
+            } else {
+                mergeState(after, thrown);
+            }
+            state = std::move(after);
+        } break;
+        case NLS_KEYWORD_BREAK:
+        case NLS_KEYWORD_CONTINUE: {
+            if (!ctx.loops.empty()) {
+                mergeState(node->tokenNumber == NLS_KEYWORD_BREAK ? ctx.loops.back().first
+                                                                  : ctx.loops.back().second,
+                    state);
+                state = unreachableState();
+            }
+        } break;
+        case NLS_KEYWORD_RETURN: {
+            state = unreachableState();
+        } break;
+        default: {
+            checkReads(node->down, true, state, ctx);
+        } break;
+        }
+    }
+    //=============================================================================
+    DefinedState
+    definedAfterBlock(AbstractSyntaxTreePtr block, DefinedState state, DefinednessContext& ctx)
+    {
+        AbstractSyntaxTreePtr first
+            = block != nullptr && block->opNum == OP_BLOCK ? block->down : block;
+        for (AbstractSyntaxTreePtr current = first; current != nullptr; current = current->right) {
+            AbstractSyntaxTreePtr statement = current;
+            if (statement->opNum == OP_RSTATEMENT || statement->opNum == OP_QSTATEMENT) {
+                statement = statement->down;
+            }
+            // A statement that fails assigns nothing and goes to catch.
+            for (DefinedState* thrown : ctx.tries) {
+                mergeState(*thrown, state);
+            }
+            definedAfterStatement(statement, state, ctx);
+        }
+        return state;
+    }
+    //=============================================================================
+    // Marks bare reads that no assignment of the function can reach.
+    void
+    markUndefinedReads(std::vector<CodeAnalyzerLineUsage>& lineUsages, AbstractSyntaxTreePtr code,
+        const stringVector& inputs)
+    {
+        DefinednessContext ctx;
+        ctx.lineUsages = &lineUsages;
+        DefinedState entry;
+        entry.names.insert(inputs.begin(), inputs.end());
+        definedAfterBlock(code, entry, ctx);
+    }
+    //=============================================================================
     void
     applyAstLineUsageFromParserContext(const ParserContext& parserContext,
         const stringVector& lines, std::vector<CodeAnalyzerLineUsage>& lineUsages)
@@ -1490,6 +2311,8 @@ namespace {
                 function->arguments.begin(), function->arguments.end());
             markLoopGrowth(lineUsages, lines, function->code, functionState, 0);
             markUnreachableCode(lineUsages, lines, function->code);
+            markDeadAssignments(lineUsages, function->code, function->returnVals);
+            markUndefinedReads(lineUsages, function->code, function->arguments);
         }
     }
     //=============================================================================

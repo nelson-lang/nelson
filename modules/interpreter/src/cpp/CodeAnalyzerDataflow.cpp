@@ -89,7 +89,9 @@ namespace {
         // A call without parentheses is an identifier use.
         return std::find(usage->callableUsed.begin(), usage->callableUsed.end(), name)
             != usage->callableUsed.end()
-            || std::find(usage->used.begin(), usage->used.end(), name) != usage->used.end();
+            || std::find(usage->used.begin(), usage->used.end(), name) != usage->used.end()
+            || std::find(usage->selfRead.begin(), usage->selfRead.end(), name)
+            != usage->selfRead.end();
     }
     //=============================================================================
     bool
@@ -263,6 +265,13 @@ namespace {
         return input == "obj" || input == "self" || input == "this";
     }
     //=============================================================================
+    struct DeadAssignment
+    {
+        std::string name;
+        int line = 0;
+        int column = 0;
+    };
+    //=============================================================================
     void
     applyForFunction(const std::filesystem::path& path, const stringVector& lines,
         const std::function<void(CodeAnalyzerDiagnostic)>& appendDiagnostic,
@@ -278,6 +287,11 @@ namespace {
         std::map<std::string, int> assignedCount;
         std::map<std::string, int> useCount;
         std::map<std::string, int> firstUseLine;
+        std::vector<DeadAssignment> deadAssignments;
+        // First read of each name that no assignment can reach.
+        std::map<std::string, std::pair<int, int>> undefinedReads;
+        std::set<std::string> assignedByNested;
+        std::set<std::pair<std::string, int>> neverUsedLines;
         std::set<std::string> outputs(function.outputs.begin(), function.outputs.end());
         std::set<std::string> inputs(function.inputs.begin(), function.inputs.end());
         std::set<std::string> globalNames;
@@ -354,7 +368,11 @@ namespace {
                             if (const CodeAnalyzerLineUsage* inner = lineUsageAt(lineUsages, k)) {
                                 usedByNested.insert(inner->used.begin(), inner->used.end());
                                 usedByNested.insert(
+                                    inner->selfRead.begin(), inner->selfRead.end());
+                                usedByNested.insert(
                                     inner->callableUsed.begin(), inner->callableUsed.end());
+                                assignedByNested.insert(
+                                    inner->assigned.begin(), inner->assigned.end());
                             }
                         }
                     }
@@ -471,6 +489,21 @@ namespace {
                     firstUseLine[token] = lineNumber;
                 }
             }
+            for (const std::string& token : usage->selfRead) {
+                // Without an earlier definition, 'h = h' reads no value of this variable.
+                if (assignedLine.find(token) != assignedLine.end()
+                    || parentScopeSymbols.find(token) != parentScopeSymbols.end()
+                    || globalNames.find(token) != globalNames.end()
+                    || persistentNames.find(token) != persistentNames.end() || function.script) {
+                    useCount[token]++;
+                    if (importedNames.find(token) != importedNames.end()) {
+                        usedImports.insert(token);
+                    }
+                    if (firstUseLine.find(token) == firstUseLine.end()) {
+                        firstUseLine[token] = lineNumber;
+                    }
+                }
+            }
             for (const std::string& token : usage->callableUsed) {
                 if (importedNames.find(token) != importedNames.end()) {
                     usedImports.insert(token);
@@ -519,6 +552,14 @@ namespace {
                 }
                 assignedCount[name]++;
             }
+            for (size_t k = 0; k < usage->undefinedReads.size(); ++k) {
+                undefinedReads.emplace(
+                    usage->undefinedReads[k], std::make_pair(lineNumber, usage->undefinedReadColumns[k]));
+            }
+            for (size_t k = 0; k < usage->deadAssignments.size(); ++k) {
+                deadAssignments.push_back(
+                    { usage->deadAssignments[k], lineNumber, usage->deadAssignmentColumns[k] });
+            }
         }
         for (const auto& imported : importedLine) {
             if (usedImports.find(imported.first) == usedImports.end()) {
@@ -551,17 +592,53 @@ namespace {
                         it.second, codeAnalyzerWordColumnInLine(lines[it.second - 1], it.first));
                     addUnusedAssignmentFix(diagnostic, lines, it.first);
                     appendDiagnostic(std::move(diagnostic));
+                    neverUsedLines.emplace(it.first, it.second);
                 }
-                auto firstUse = firstUseLine.find(it.first);
-                if (firstUse != firstUseLine.end() && firstUse->second < it.second
-                    && !declaredElsewhere && !wildcardImport
+                int useLine = 0;
+                int useColumn = 0;
+                if (function.script) {
+                    // Scripts have no flow analysis: a read on an earlier line comes first.
+                    auto firstUse = firstUseLine.find(it.first);
+                    if (firstUse != firstUseLine.end() && firstUse->second < it.second) {
+                        useLine = firstUse->second;
+                        useColumn = codeAnalyzerWordColumnInLine(lines[useLine - 1], it.first);
+                    }
+                } else {
+                    // A builtin such as nargin may be called without parentheses.
+                    auto undefinedRead = undefinedReads.find(it.first);
+                    if (undefinedRead != undefinedReads.end()
+                        && builtinNames.find(it.first) == builtinNames.end()
+                        && it.first != "nargin" && it.first != "nargout"
+                        && assignedByNested.find(it.first) == assignedByNested.end()
+                        && parentScopeSymbols.find(it.first) == parentScopeSymbols.end()) {
+                        useLine = undefinedRead->second.first;
+                        useColumn = undefinedRead->second.second;
+                    }
+                }
+                if (useLine > 0 && !declaredElsewhere && !wildcardImport
                     && existCheckedNames.find(it.first) == existCheckedNames.end()) {
                     appendDiagnostic(makeDiagnostic(path, "NLS0005", "warning", "Dataflow",
                         quotedNameMessage(
                             "Variable", it.first, "is used before a local assignment."),
-                        firstUse->second,
-                        codeAnalyzerWordColumnInLine(lines[firstUse->second - 1], it.first)));
+                        useLine, useColumn));
                 }
+            }
+            for (const DeadAssignment& dead : deadAssignments) {
+                const std::string& name = dead.name;
+                if (function.script || globalNames.find(name) != globalNames.end()
+                    || persistentNames.find(name) != persistentNames.end()
+                    || importedNames.find(name) != importedNames.end()
+                    || usageNotRequiredNames.find(name) != usageNotRequiredNames.end()
+                    || usedByNested.find(name) != usedByNested.end()
+                    || parentScopeSymbols.find(name) != parentScopeSymbols.end()
+                    || neverUsedLines.find({ name, dead.line }) != neverUsedLines.end()) {
+                    continue;
+                }
+                CodeAnalyzerDiagnostic diagnostic = makeDiagnostic(path, "NLS0004", "info",
+                    "Dataflow", quotedNameMessage("Value assigned to", name, "is never used."),
+                    dead.line, dead.column);
+                addUnusedAssignmentFix(diagnostic, lines, name);
+                appendDiagnostic(std::move(diagnostic));
             }
         }
         // The output of a class constructor is the object itself.

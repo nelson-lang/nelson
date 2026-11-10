@@ -30,31 +30,6 @@ namespace {
         return std::filesystem::u8path(wstring_to_utf8(filename));
     }
     //=============================================================================
-    std::filesystem::path
-    interpreterPath()
-    {
-#ifdef _WIN32
-        HMODULE module = nullptr;
-        require(GetModuleHandleExW(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS
-                        | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
-                    reinterpret_cast<LPCWSTR>(&engineFingerprint), &module)
-                != 0,
-            "Cannot locate the bytecode engine.");
-        std::wstring filename(32768, L'\0');
-        const auto length
-            = GetModuleFileNameW(module, filename.data(), static_cast<DWORD>(filename.size()));
-        require(length > 0 && length < filename.size(), "Cannot locate the bytecode engine.");
-        filename.resize(length);
-        return std::filesystem::path(filename);
-#else
-        Dl_info info {};
-        require(dladdr(reinterpret_cast<const void*>(&engineFingerprint), &info) != 0
-                && info.dli_fname != nullptr,
-            "Cannot locate the bytecode engine.");
-        return std::filesystem::path(info.dli_fname);
-#endif
-    }
-    //=============================================================================
     std::string
     hashFile(const std::filesystem::path& filename)
     {
@@ -73,12 +48,37 @@ namespace {
     //=============================================================================
 } // namespace
 //=============================================================================
+std::filesystem::path
+interpreterModulePath()
+{
+#ifdef _WIN32
+    HMODULE module = nullptr;
+    require(GetModuleHandleExW(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS
+                    | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+                reinterpret_cast<LPCWSTR>(&engineFingerprint), &module)
+            != 0,
+        "Cannot locate the bytecode engine.");
+    std::wstring filename(32768, L'\0');
+    const auto length
+        = GetModuleFileNameW(module, filename.data(), static_cast<DWORD>(filename.size()));
+    require(length > 0 && length < filename.size(), "Cannot locate the bytecode engine.");
+    filename.resize(length);
+    return std::filesystem::path(filename);
+#else
+    Dl_info info {};
+    require(dladdr(reinterpret_cast<const void*>(&engineFingerprint), &info) != 0
+            && info.dli_fname != nullptr,
+        "Cannot locate the bytecode engine.");
+    return std::filesystem::path(info.dli_fname);
+#endif
+}
+//=============================================================================
 std::string
 engineFingerprint()
 {
     // Exact engine binary identity is computed once. No source checkout is
     // needed on the target, and changing VM semantics invalidates artifacts.
-    static const std::string fingerprint = hashFile(interpreterPath());
+    static const std::string fingerprint = hashFile(interpreterModulePath());
     return fingerprint;
 }
 //=============================================================================

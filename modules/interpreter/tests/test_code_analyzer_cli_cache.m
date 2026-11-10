@@ -30,8 +30,25 @@ asserts.istrue(contains(output, '"id":"NLS0010"'));
 cacheEntries = dir([cacheDir, '/*.json']);
 asserts.istrue(length(cacheEntries) >= 1);
 cacheText = fileread([cacheEntries(1).folder, '/', cacheEntries(1).name]);
-asserts.istrue(contains(cacheText, '"version":6'));
+asserts.istrue(contains(cacheText, '"version":7'));
 asserts.istrue(contains(cacheText, '"contentHash"'));
+asserts.istrue(contains(cacheText, '"build":"'));
+% An entry from the same build is reused as stored.
+cacheEntryFile = [cacheEntries(1).folder, '/', cacheEntries(1).name];
+emptiedText = regexprep(cacheText, '"diagnostics":\[.*\],"fileSize"', '"diagnostics":[],"fileSize"');
+asserts.isfalse(strcmp(emptiedText, cacheText));
+filewrite(cacheEntryFile, emptiedText);
+[status, output] = system([lintCommand, ' --include-subfolders true --format json "', cacheRoot, '"']);
+asserts.isequal(status, 0);
+asserts.isfalse(contains(output, '"id":"NLS0010"'));
+% An entry from another analyzer build is ignored and rewritten.
+otherBuildText = regexprep(emptiedText, '"build":"[^"]*"', '"build":"other analyzer build"');
+asserts.isfalse(strcmp(otherBuildText, emptiedText));
+filewrite(cacheEntryFile, otherBuildText);
+[status, output] = system([lintCommand, ' --include-subfolders true --format json "', cacheRoot, '"']);
+asserts.isequal(status, 1);
+asserts.istrue(contains(output, '"id":"NLS0010"'));
+asserts.isequal(fileread(cacheEntryFile), cacheText);
 previousFolder = pwd();
 cleanupFolder = onCleanup(@() cd(previousFolder));
 cd(cacheRoot);

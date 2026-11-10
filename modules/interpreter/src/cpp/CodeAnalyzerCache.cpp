@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "CodeAnalyzerCache.hpp"
+#include "BytecodeIO.hpp"
 #include "Nelson_VERSION.h"
 #include "characters_encoding.hpp"
 #include "nlohmann/json.hpp"
@@ -38,7 +39,7 @@ namespace {
     //=============================================================================
     constexpr uint64_t FNV_OFFSET = 14695981039346656037ULL;
     constexpr uint64_t FNV_PRIME = 1099511628211ULL;
-    constexpr int CACHE_VERSION = 6;
+    constexpr int CACHE_VERSION = 7;
     //=============================================================================
     void
     hashBytes(uint64_t& seed, const std::string& value)
@@ -122,6 +123,23 @@ namespace {
         } catch (...) {
             return false;
         }
+    }
+    //=============================================================================
+    // Identity of the loaded analyzer build: one stat of the interpreter library.
+    const std::string&
+    buildFingerprint()
+    {
+        static const std::string fingerprint = []() -> std::string {
+            try {
+                const fs::path library = BytecodeIO::interpreterModulePath();
+                return wstring_to_utf8(library.wstring()) + "|"
+                    + std::to_string(fs::file_size(library)) + "|"
+                    + std::to_string(fs::last_write_time(library).time_since_epoch().count());
+            } catch (...) {
+                return "";
+            }
+        }();
+        return fingerprint;
     }
     //=============================================================================
     std::wstring
@@ -292,6 +310,7 @@ namespace {
             return false;
         }
         if (data.value("version", 0) != CACHE_VERSION
+            || data.value("build", std::string()) != buildFingerprint()
             || data.value("fileSize", uintmax_t { 0 }) != fileSize
             || data.value("lastWrite", 0LL) != lastWrite
             || data.value("contentHash", uint64_t { 0 }) != contentHash
@@ -315,6 +334,7 @@ namespace {
             fs::create_directories(cacheDirectory());
             nlohmann::json data;
             data["version"] = CACHE_VERSION;
+            data["build"] = buildFingerprint();
             data["fileSize"] = entry.fileSize;
             data["lastWrite"] = entry.lastWrite;
             data["contentHash"] = entry.contentHash;
