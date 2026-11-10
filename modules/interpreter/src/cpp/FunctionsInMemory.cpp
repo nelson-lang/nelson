@@ -233,15 +233,12 @@ FunctionsInMemory::find(
 }
 //=============================================================================
 bool
-FunctionsInMemory::retireIfFileRemoved(const std::string& functionName)
+FunctionsInMemory::retireUnresolvable(const std::string& functionName)
 {
     std::unique_lock<std::shared_mutex> lock(tablesMutex);
     auto retire = [this, &functionName](std::unordered_map<std::string, FunctionDefPtr>& table) {
         auto it = table.find(functionName);
         if (it == table.end() || it->second == nullptr) {
-            return false;
-        }
-        if (FileSystemWrapper::Path::is_regular_file(it->second->getFilename())) {
             return false;
         }
         _retiredFunctions.push_back(it->second);

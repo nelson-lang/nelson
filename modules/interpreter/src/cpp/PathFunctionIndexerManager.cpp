@@ -182,9 +182,9 @@ PathFunctionIndexerManager::hashOnFileWatcher()
 void
 PathFunctionIndexerManager::refreshFunctionsMap()
 {
-    // Any change of resolvable functions (addpath, cd, rehash) must
-    // invalidate caches keyed on the function tables generation.
-    FunctionsInMemory::getInstance()->bumpGeneration();
+    // addpath, cd and rehash change what resolves: drop generation caches and
+    // known misses (a miss recorded before cd hides a new @class overload).
+    FunctionsInMemory::getInstance()->clearMapCache();
     std::unordered_map<std::string, FileFunction*> refreshed;
     auto gather = [&refreshed](const PathFunctionIndexer* pathFunc) {
         if (pathFunc == nullptr) {
@@ -202,13 +202,12 @@ PathFunctionIndexerManager::refreshFunctionsMap()
     }
     gather(_userPath);
 
-    // The in-memory table is read before the indexes, so a name it holds keeps
-    // resolving after its file is gone. Retire the names the indexes dropped
-    // whose file was removed. Only the key is read: rehashing already freed the
-    // file entries the old map pointed at.
+    // The in-memory table is read before the indexes, so retire every name the
+    // indexes dropped (file removed, rmpath, cd). Only the key is read: the old
+    // file entries may already be freed.
     for (const auto& entry : _pathFuncMap) {
         if (refreshed.find(entry.first) == refreshed.end()) {
-            FunctionsInMemory::getInstance()->retireIfFileRemoved(entry.first);
+            FunctionsInMemory::getInstance()->retireUnresolvable(entry.first);
         }
     }
 
@@ -475,8 +474,6 @@ PathFunctionIndexerManager::addPath(const std::wstring& path, bool begin, bool f
             pf->startFileWatcher();
         }
 
-        FunctionsInMemory::getInstance()->clearMapCache();
-
         auto* rawPtr = pf.release();
         if (begin) {
             _pathFuncVector.insert(_pathFuncVector.begin(), rawPtr);
@@ -510,7 +507,6 @@ PathFunctionIndexerManager::removePath(const std::wstring& path)
 
     PathFunctionIndexer* pf = *it;
     if (pf != nullptr) {
-        FunctionsInMemory::getInstance()->clearMapCache();
         delete pf;
         _pathFuncVector.erase(it);
 

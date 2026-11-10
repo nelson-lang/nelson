@@ -31,7 +31,7 @@ private:
     //=============================================================================
     std::unordered_map<std::string, bool> _notExistingFunctionsInMemory;
     //=============================================================================
-    // Definitions let go of by retireIfFileRemoved(), kept alive until the tables
+    // Definitions let go of by retireUnresolvable(), kept alive until the tables
     // are cleared.
     std::vector<FunctionDefPtr> _retiredFunctions;
     //=============================================================================
@@ -109,16 +109,16 @@ public:
     void
     deleteAllBuiltinFunctionReferences();
     //=============================================================================
-    // Lets go of a name whose file has been removed, so that it stops resolving.
-    // The definition is not destroyed here: a frame may be running it and the
+    // Lets go of a name the path no longer resolves (file removed, rmpath, cd),
+    // so that it stops resolving. The definition is not destroyed here: a frame may be running it and the
     // interpreter caches hold raw pointers to it, so it is retired and destroyed
     // when the tables are cleared.
     bool
-    retireIfFileRemoved(const std::string& functionName);
+    retireUnresolvable(const std::string& functionName);
     //=============================================================================
     // Lets go of a name whose cached definition no longer matches the file it now
     // resolves to (current directory changed, or a reordered path), so the next
-    // lookup reloads the right file. Retired like in retireIfFileRemoved().
+    // lookup reloads the right file. Retired like in retireUnresolvable().
     bool
     retireIfFileReplaced(const std::string& functionName, const std::wstring& resolvedFilename);
     //=============================================================================
