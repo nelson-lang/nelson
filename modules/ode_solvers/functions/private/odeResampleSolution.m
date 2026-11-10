@@ -21,8 +21,6 @@ function sol = odeResampleSolution(sol, tspan)
     return
   end
   internal = sol;
-  values = zeros(size(sol.y, 1), length(tspan));
-  slopes = values;
   internalSlopes = [];
   if isfield(sol, 'extdata') && isfield(sol.extdata, 'slopes')
     internalSlopes = sol.extdata.slopes;

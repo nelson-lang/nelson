@@ -15,8 +15,6 @@ function p = ancestor(varargin)
 
   if (ischar(type))
     type = {type};
-  elseif (~iscellstr(type))
-    p = [];
   end
 
   do_once = true;

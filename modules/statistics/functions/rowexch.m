@@ -43,7 +43,6 @@ function [candArgs, exchArgs] = splitOptions(args)
 end
 %=============================================================================
 function tf = isOptionName(value)
-  tf = false;
   try
     optionName(value);
     tf = true;

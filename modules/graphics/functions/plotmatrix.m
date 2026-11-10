@@ -19,8 +19,6 @@ function varargout = plotmatrix(varargin)
   end
   h = gobjects(yCols, xCols);
   ax = gobjects(yCols, xCols);
-  histHandles = gobjects(1, min(xCols, yCols));
-  histAxes = gobjects(1, min(xCols, yCols));
   if ~isempty(parentAx)
     newplot(parentAx);
   end

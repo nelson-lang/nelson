@@ -69,9 +69,7 @@ function [contourMatrix, contourHandle, levelsToLabel, textPropertyPairs, forceT
   textPropertyPairs = {};
   contourHandle = [];
   % default outputs
-  uprightMode = false;
   labelSpacing = [];
-  returnEmptyPlaceholder = false;
   % Support clabel([],h) where C is empty
   if (isempty(firstArg) && numel(varargin) > 1 && isgraphics(varargin{2}))
     contourHandle = varargin{2};

@@ -265,11 +265,6 @@ function [xValues, names, values, legendLabels, xLabelName, displayVariables] = 
   explicitSelector = ~isempty(displaySelector);
   validateXVariableForTables(tables, xVariableName);
   xLabelName = defaultTableXLabel(tables{1}, xVariableName);
-  displayVariables = {};
-  names = {};
-  values = {};
-  xValues = {};
-  legendLabels = {};
 
   if isGroupedVariableSelector(displaySelector)
     [xValues, names, values, legendLabels, displayVariables] = ...

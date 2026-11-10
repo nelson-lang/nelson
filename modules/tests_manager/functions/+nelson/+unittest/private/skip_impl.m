@@ -12,7 +12,6 @@ function varargout = skip_impl(varargin)
   nargoutchk(0, 0);
 
   varargout = {};
-  condition = false;
   reason = '';
 
   if nargin == 0

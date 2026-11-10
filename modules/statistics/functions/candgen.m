@@ -59,7 +59,6 @@ function bounds = validateBounds(bounds, nfactors)
 end
 %=============================================================================
 function tf = isOptionName(value)
-  tf = false;
   try
     optionName(value);
     tf = true;

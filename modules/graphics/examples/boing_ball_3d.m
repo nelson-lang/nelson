@@ -151,7 +151,6 @@ function boingBallAnimate(animationState, statusText)
   previousWallTime = 0;
   fpsWindowStart = 0;
   renderedFrames = 0;
-  measuredFps = 0;
   wasPaused = false;
   while boingBallHandlesValid(animationState)
     frameTimer = tic();
@@ -167,7 +166,6 @@ function boingBallAnimate(animationState, statusText)
       fpsWindowStart = currentWallTime;
       renderedFrames = 0;
     elseif wasPaused
-      measuredFps = 0;
       fpsWindowStart = currentWallTime;
       renderedFrames = 0;
       set(statusText, 'String', 'Running - measuring FPS', ...

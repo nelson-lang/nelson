@@ -12,7 +12,6 @@ function varargout = newplot(varargin)
   nargoutchk(0, 1);
 
   gr = groot();
-  fig = gr.CurrentFigure;
   applyFigureNextPlot = false;
   if (nargin() == 1)
     ax = varargin{1};
@@ -40,7 +39,6 @@ function varargout = newplot(varargin)
   if (applyFigureNextPlot && any(strcmp(figNextPlot, {'replace', 'replacechildren', 'replaceall'})))
     clf(fig);
     ax = gca();
-    fig = gr.CurrentFigure;
   end
 
   axNextPlot = lower(ax.NextPlot);

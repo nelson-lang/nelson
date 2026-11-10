@@ -74,7 +74,7 @@ end
 function result = runPam(allD, midx, maxIter)
   idx = [];
   for iter = 1:maxIter
-    [newIdx, D] = assignMedoids(allD, midx);
+    [newIdx, ~] = assignMedoids(allD, midx);
     newMidx = updateMedoids(allD, newIdx, midx);
     if isequal(newMidx(:), midx(:)) && isequal(newIdx(:), idx(:))
       break

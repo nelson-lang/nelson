@@ -12,10 +12,9 @@ function [B, I] = topkrows(A, k, direction)
   if nargin < 3
     direction = 'descend';
   end
-  [S, order] = sort(A);
+  [~, order] = sort(A);
   if strcmpi(direction, 'descend')
     order = flipud(order(:));
-    S = S(order);
   end
   I = order(1:k);
   B = A(I);

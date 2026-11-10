@@ -91,7 +91,6 @@ function [x, fval, exitflag, output] = fzero(fun, x0, options)
 end
 %=============================================================================
 function [a, b, fa, fb, count] = bracketRoot(fun, x0, opts)
-  count = 0;
   if numel(x0) == 2
     a = double(x0(1)); b = double(x0(2));
     fa = scalarValue(fun, a, opts); fb = scalarValue(fun, b, opts); count = 2;

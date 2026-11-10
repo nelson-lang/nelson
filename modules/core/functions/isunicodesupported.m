@@ -26,7 +26,6 @@ function tf = isunicodesupported()
     return
   end
 
-  tf = false;
   if ~ispc()
     tf = ~strcmp(getenv('TERM'), 'linux');
     with_unicode_support = tf;

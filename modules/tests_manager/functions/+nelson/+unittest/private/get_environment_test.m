@@ -7,7 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 function info = get_environment_test()
-  platform = '';
   if ismac()
     platform = 'macos';
   else

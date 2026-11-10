@@ -32,3 +32,10 @@ asserts.isequal(ax1.CLim, [2 8]);
 asserts.isequal(ax2.CLim, [0 1]);
 close(f);
 %=============================================================================
+f = figure('Visible', 'off');
+imagesc(magic(3));
+asserts.isequal(clim('mode'), 'auto');
+clim([0 5]);
+asserts.isequal(clim('mode'), 'manual');
+close(f);
+%=============================================================================

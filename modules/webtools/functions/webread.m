@@ -101,7 +101,6 @@ function contentType = contentTypeFromMediaType(responseContentType)
 end
 %=============================================================================
 function res = convertContentType(filename, contentType, characterEncoding)
-  res = {};
   switch contentType
     case 'auto'
       res = autoConvert(filename, characterEncoding);
@@ -146,14 +145,12 @@ function res = convertContentType(filename, contentType, characterEncoding)
   end
   %=============================================================================
 function res = autoConvert(filename, characterEncoding)
-  res = {};
   try
     [y, fs] = audioread(filename);
     res = {y, fs};
     return
   catch
     lasterror('reset');
-    res = {};
   end
 
   try
@@ -162,12 +159,9 @@ function res = autoConvert(filename, characterEncoding)
     if isstruct(json)
       res = {json};
       return
-    else
-      res = {};
     end
   catch
     lasterror('reset');
-    res = {};
   end
 
   try
@@ -176,7 +170,6 @@ function res = autoConvert(filename, characterEncoding)
     return
   catch
     lasterror('reset');
-    res = {};
   end
 
   try

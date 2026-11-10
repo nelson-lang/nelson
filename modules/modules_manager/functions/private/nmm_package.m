@@ -79,9 +79,7 @@ end
 function package_file = buildDestinationFilename(destination_dir, module_name, info)
   package_file_extension = 'nmz';
   universal = false;
-  if info.builtin
-    arch = computer('arch');
-  else
+  if ~info.builtin
     platforms = info.platforms;
     if ischar(platforms)
       universal = strcmp(info.platforms, 'all');

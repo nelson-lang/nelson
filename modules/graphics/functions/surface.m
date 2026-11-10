@@ -29,7 +29,6 @@ function varargout = surface(varargin)
   else
     go = gca();
   end
-  propertiesList = {};
   firstString = find(cellfun('isclass', inputArguments, 'char'), 1);
   if (isempty(firstString))
     firstString = nbInputArguments + 1;

@@ -79,7 +79,6 @@ function [eventT, eventY] = odeLocateEvent(problem, index, v0, v1, t0, y0, t1, y
       leftValue = midValue;
     else
       rightAlpha = midAlpha;
-      rightValue = midValue;
     end
   end
   alpha = (leftAlpha + rightAlpha) / 2;

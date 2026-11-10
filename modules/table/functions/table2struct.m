@@ -15,7 +15,6 @@ function varargout = table2struct(varargin)
   end
   toScalar = false;
   if nargin == 3
-    second_arg = varargin{2};
     second_arg = convertStringsToChars(varargin{2});
     if (~ischar(second_arg))
       error('Nelson:table:invalidArgument', 'Invalid %s argument.', 'second');
@@ -30,7 +29,6 @@ function varargout = table2struct(varargin)
       error('Nelson:table:invalidArgument', 'Invalid %s argument.', 'third');
     end
   end
-  st = struct();
   T = varargin{1};
   if (~istable(T))
     error('Nelson:table:invalidArgument', 'Invalid %s argument.', 'first');

@@ -37,7 +37,6 @@ function [problemType, args] = extractTypeLocal(args, Y)
 end
 %=============================================================================
 function tf = isTypeNameLocal(value)
-  tf = false;
   if ~(ischar(value) || (isstring(value) && isscalar(value)))
     error('Nelson:statistics:unknownNameValue', 'Invalid name-value argument name.');
   end

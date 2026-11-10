@@ -153,10 +153,8 @@ function axisEqualMode(ax)
   setLimitModes(ax, 'auto');
   xr = abs(diff(ax.XLim));
   yr = abs(diff(ax.YLim));
-  zr = abs(diff(ax.ZLim));
   if (xr == 0), xr = 1; end
   if (yr == 0), yr = 1; end
-  if (zr == 0), zr = 1; end
   boxAspect = pixelBoxAspectRatio(ax);
   ax.DataAspectRatio = [1, 1, 1];
   ax.DataAspectRatioMode = 'manual';

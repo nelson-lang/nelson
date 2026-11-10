@@ -46,7 +46,6 @@ function result = optimFminconPenaltySearch(data, opts)
       displayIter(opts, values);
       if optimOutputStop(opts.OutputFcn, candidate, values, 'iter')
         x = candidate;
-        state = candidateState;
         exitflag = -1;
         break
       end

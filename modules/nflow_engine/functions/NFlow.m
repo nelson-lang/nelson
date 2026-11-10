@@ -297,7 +297,6 @@ classdef NFlow
           % Not loadable: most commonly FMI 1.0 (the runtime supports 2.0 and
           % 3.0) or a corrupt FMU. Report the version, read from the inspector
           % when exposed, otherwise straight from the modelDescription.xml.
-          ver = '';
           if isfield(j, 'fmiVersion')
             ver = char(j.fmiVersion);
           else

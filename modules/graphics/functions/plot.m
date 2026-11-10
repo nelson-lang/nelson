@@ -34,7 +34,6 @@ function varargout = plot(varargin)
   if ((propertyIndex > 0) & (propertyIndex < nbInputArguments))
     propertiesList = inputArguments(propertyIndex:end);
     inputArguments(propertyIndex:end) = [];
-    nbInputArguments = length(inputArguments);
   end
   [go, propertiesList] = extractParentProperty(go, propertiesList);
 
@@ -66,9 +65,6 @@ function varargout = plot(varargin)
 
   h = [];
   while (~isempty(inputArguments))
-    cs = '';
-    ms = '';
-    ps = '';
     if (length(inputArguments) == 1)
       if isempty(h)
         h = plot_Y(inputArguments{1}, go, propertiesList);

@@ -391,19 +391,15 @@ function [raw, colClass, position] = scanTextscan(s, specs, ncol, opts)
           pos = consumeDelims(s, pos, wsMap, delims, multi, n);
           needDelim = false;
         end
-        storeCol = 0;
         switch sp.conv
           case {'d', 'u', 'f'}
             p2 = skipWs(s, pos, wsMap, n);
             emptyToken = false;
             if hasTreatAsEmpty
-              [tok, p3] = grabPlainField(s, p2, wsMap, delims, delimMode, n);
+              [tok, ~] = grabPlainField(s, p2, wsMap, delims, delimMode, n);
               if ~isempty(tok) && isTreatAsEmpty(tok, treatAsEmpty)
-                tok = '';
                 emptyToken = true;
               end
-            else
-              tok = '';
             end
             if emptyToken
               ok = false;

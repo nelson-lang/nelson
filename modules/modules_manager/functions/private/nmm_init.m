@@ -309,7 +309,6 @@ end
 %=============================================================================
 function options = promptMissingFields(options, destination)
   if isempty(options.module)
-    default_module = '';
     try
       default_module = defaultModuleName(destination, options.title);
     catch

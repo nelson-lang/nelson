@@ -110,7 +110,7 @@ end
 function stack_locked_identity()
   value = [1, 2];
   varlock('local', 'value');
-  value = value;
+  value = value; %#ok<NLS0004>
 end
 
 function restore_stack_breakpoints(saved)

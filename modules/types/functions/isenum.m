@@ -10,7 +10,6 @@
 function tf = isenum(x)
   narginchk(1, 1);
   nargoutchk(0, 1);
-  tf = false;
   try
     mc = metaclass(x);
     tf = ~isempty(mc) && ~isempty(mc.EnumerationMemberList);

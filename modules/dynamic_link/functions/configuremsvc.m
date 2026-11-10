@@ -9,8 +9,6 @@
 %=============================================================================
 function varargout = configuremsvc()
   % currently only VS 2017, VS 2019 and VS 2022
-  status = false;
-  message = '';
   clear('havecompiler'); % clear persistent variable
   if ~ispc()
     varargout{1} = false;

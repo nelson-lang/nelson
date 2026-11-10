@@ -68,7 +68,6 @@ function varargout = imagesc(varargin)
     if ((length(varargin{end}) == 2) && varargin{end}(1) <= varargin{end}(2))
       lim = varargin{end};
       varargin(end) = [];
-      nargin = nargin - 1;
     end
   end
 

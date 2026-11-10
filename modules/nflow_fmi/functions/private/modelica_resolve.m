@@ -71,7 +71,6 @@ function info = modelica_resolve(overridePath)
 end
 %=============================================================================
 function omc = nflow_modelica_find_omc(overridePath)
-  omc = '';
   candidates = {};
   % An explicit override is AUTHORITATIVE: when configured, only that location is
   % tried. Pointing nflow at a specific OpenModelica must not silently resolve to

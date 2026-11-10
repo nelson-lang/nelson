@@ -29,7 +29,6 @@ function varargout = meshz(varargin)
   else
     meshParent = go;
   end
-  propertiesList = {};
   firstString = find(cellfun('isclass', inputArguments, 'char'), 1);
   if (isempty(firstString))
     firstString = nbInputArguments + 1;

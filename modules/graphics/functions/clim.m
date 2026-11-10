@@ -23,7 +23,6 @@ function varargout = clim(varargin)
   if (ischar(varargin{1}))
     if (strcmp(varargin{1}, 'mode'))
       varargout{1} = handle.CLimMode;
-      varargout = {};
       return;
     end
     if (strcmp(varargin{1}, 'auto'))

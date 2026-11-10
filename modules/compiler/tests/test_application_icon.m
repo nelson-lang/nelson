@@ -113,7 +113,7 @@ function check_geometry(directory)
   rgb(1, 2, 1) = 255;
   imwrite(rgb, source, 'Alpha', uint8([0, 255]));
   frames = __nelsonc_icon_files__(source, directory);
-  [pixels, map, alpha] = imread(frames{3});
+  [pixels, ~, alpha] = imread(frames{3});
   red = pixels(:, :, 1);
   asserts.isequal(red(alpha > 0), uint8(255 * ones(nnz(alpha > 0), 1)));
   asserts.isequal(pixels(:, :, 2:3), zeros(32, 32, 2, 'uint8'));

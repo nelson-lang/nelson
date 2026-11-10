@@ -12,7 +12,6 @@
 % r = nmm('autoload', module_name, true_false)
 % r = nmm('autoload', path_name, true_false)
 function res = nmm_autoload(varargin)
-  res = false;
   switch length(varargin)
     case 1
       module_or_directory = varargin{1};

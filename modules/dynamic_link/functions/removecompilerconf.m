@@ -11,7 +11,6 @@ function status = removecompilerconf()
   arch = computer('arch');
   clear('havecompiler'); % clear persistent variable
   jsonfile = [prefdir(), '/compiler_', arch, '.json'];
-  status = false;
   for k = 1:20
     if ~isfile(jsonfile)
       pause(0.2);
@@ -21,7 +20,7 @@ function status = removecompilerconf()
         return
       end
     end
-    status = rmfile(jsonfile);
+    [~] = rmfile(jsonfile);
     if ~isfile(jsonfile)
       pause(0.2);
       if ~isfile(jsonfile)

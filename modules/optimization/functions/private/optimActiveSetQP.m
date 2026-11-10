@@ -22,9 +22,7 @@ function [x, exitflag, iterations, lambda] = optimActiveSetQP(H, f, A, b, Aeq, b
   lambdaAll = zeros(size(ball));
   exitflag = 0;
   for iterations = 1:maxIter
-    if isempty(inequalities)
-      violated = zeros(0, 1);
-    else
+    if ~isempty(inequalities)
       violated = Aall * x - ball;
       [maxViolation, idx] = max(violated(inequalities));
       if maxViolation > tol

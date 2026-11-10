@@ -89,7 +89,6 @@ function varargout = webwrite(varargin)
     end
     %=============================================================================
 function res = convertContentType(filename, contentType, characterEncoding)
-  res = {};
   switch contentType
     case 'auto'
       res = autoConvert(filename, characterEncoding);

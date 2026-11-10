@@ -61,7 +61,6 @@ function [s, ok] = compactObjectText(obj)
   % compact representation, constrained to the table cell budget. Falls back
   % (ok = false) when the method is not overridden or errors.
   s = '';
-  ok = false;
   try
     config = nelson.display.DisplayConfiguration();
     rep = obj.compactRepresentationForSingleLine(config, 15);

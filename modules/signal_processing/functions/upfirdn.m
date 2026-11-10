@@ -46,7 +46,6 @@ function y = upfirdn(varargin)
   if isempty(dim)
     if isrow(x) && ~isvector(h)
       x = x(:);
-      dim = 1;
     end
     dim = find(size(x) ~= 1, 1, 'first');
     if isempty(dim)

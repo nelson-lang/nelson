@@ -118,7 +118,7 @@ end
 function profileSortWork()
   data = rand(1, 120000);
   sorted = sort(data);
-  sorted = sort(sorted, 'descend');
+  sorted = sort(sorted, 'descend'); %#ok<NLS0004>
 end
 %=============================================================================
 function profileMatrixWork()

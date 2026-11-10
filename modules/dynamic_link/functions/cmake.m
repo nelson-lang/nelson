@@ -8,8 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function [status, message] = cmake(varargin)
-  status = false;
-  message = '';
   [status, pathcmake] = findcmake();
   if status == false
     error('Nelson:cmake:notFound', 'cmake not found.');

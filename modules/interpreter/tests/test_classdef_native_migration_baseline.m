@@ -119,7 +119,6 @@ end
 function tf = mig_class_loads(name)
   % True if the class definition loads without error (constructor callable),
   % independent of whether a later method call would fail.
-  tf = false;
   try
     feval(name);
     tf = true;

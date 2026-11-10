@@ -8,8 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function [status, message] = dlmake(destinationdir)
-  status = false;
-  message = '';
   if ~isdir(destinationdir)
     error('Nelson:dynamic_link:invalidDirectory', 'Invalid directory.');
   end
@@ -128,7 +126,7 @@ function removeIntermediateFiles(destinationdir, existingFiles)
         files(c) = [];
       end
       for f = files'
-        [res, msg] = rmfile(f{1});
+        [~, ~] = rmfile(f{1});
       end
     end
   end

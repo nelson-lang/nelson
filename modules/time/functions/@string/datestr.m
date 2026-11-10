@@ -11,7 +11,6 @@ function varargout = datestr(varargin)
   narginchk(1, 4);
   nargoutchk(0, 1);
   dateStringIn = varargin{1};
-  epochs = [];
 
   if nargin == 1
     % DateString = datestr(DateStringIn)

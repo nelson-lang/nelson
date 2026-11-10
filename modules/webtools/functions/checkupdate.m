@@ -90,8 +90,6 @@ function url = getDefaultUrl()
 end
 %=============================================================================
 function [res, msg, html_url] = fetchLatestReleaseInfo(url, currentVersion)
-  res = false;
-  msg = '';
   html_url = '';
   try
     if isfile(url)

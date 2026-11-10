@@ -33,7 +33,7 @@ function varargout = web(varargin)
       currentUrl = viewer.Input;
     catch ex
       if nargout == 0
-        viewer = nelson.htmlviewer.htmlviewer.createFallback(location);
+        viewer = nelson.htmlviewer.htmlviewer.createFallback(location); %#ok<NLS0004>
         return
       end
       viewer = nelson.htmlviewer.htmlviewer.createFallback(location);

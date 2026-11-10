@@ -19,7 +19,6 @@ function rotate3d(varargin)
     option = 'toggle';
     optionPosition = 1;
   else
-    optionPosition = 1;
     if (isgraphics(varargin{1}, 'axes'))
       ax = varargin{1};
       option = varargin{2};

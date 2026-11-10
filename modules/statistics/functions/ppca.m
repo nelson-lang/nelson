@@ -143,7 +143,7 @@ function [coeff, score, pcvar, mu, v, S] = fitLocal(Y, K, opts)
   previousCost = Inf;
   step = Inf;
   for iter = 1:opts.Options.MaxIter
-    [coeff, score, pcvar] = pcaComponentsLocal(Xfilled, K);
+    [coeff, score, ~] = pcaComponentsLocal(Xfilled, K);
     recon = score * coeff' + repmat(mean(Xfilled, 1), size(Y, 1), 1);
     Xnew = Xfilled;
     if any(missing(:))

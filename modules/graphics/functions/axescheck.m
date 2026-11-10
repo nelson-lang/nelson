@@ -35,7 +35,6 @@ function [ax, args, nargs] = axescheck(varargin)
 end
 %=============================================================================
 function tf = isAxesHandleLocal(value)
-  tf = false;
   try
     tf = isgraphics(value, 'axes') || isgraphics(value, 'polaraxes');
   catch

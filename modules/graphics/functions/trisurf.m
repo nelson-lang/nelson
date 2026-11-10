@@ -19,7 +19,6 @@ function varargout = trisurf(varargin)
   previousNextPlot = go.NextPlot;
   go.NextPlot = 'add';
   vertices = [x(:), y(:), z(:)];
-  faceValues = [];
   if isempty(c)
     faceValues = faceColorValues(tri, z);
   else
@@ -50,7 +49,6 @@ end
 function [go, tri, x, y, z, c, propertiesList] = parseTrisurfInputs(varargin)
   go = [];
   c = [];
-  propertiesList = {};
   if isscalar(varargin{1}) && isgraphics(varargin{1}, 'axes')
     go = varargin{1};
     varargin = varargin(2:end);

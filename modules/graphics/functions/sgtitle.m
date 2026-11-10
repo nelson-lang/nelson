@@ -73,7 +73,6 @@ end
 %=============================================================================
 function target = currentTitleTarget()
   fig = gcf();
-  target = [];
   if isgraphics(fig, 'figure')
     children = fig.Children;
     for k = 1:numel(children)

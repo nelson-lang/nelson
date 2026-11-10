@@ -48,7 +48,7 @@ classdef MemoizedFunction < handle
         out = cell(1, no);
         [out{1:no}] = feval(fh, args{:});
         if cacheable
-          c(key) = out;
+          c(key) = out; %#ok<NLS0004>
         end
         varargout = out;
         return

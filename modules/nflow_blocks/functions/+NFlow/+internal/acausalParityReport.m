@@ -40,7 +40,6 @@ function report = acausalParityReport()
         n = n + 1; names{end + 1} = catalog(k).name; %#ok<NLS0039>
       end
     end
-    note = '';
     if strcmp(d, 'planar')
       % Planar blocks live in the native planarMechanicalIsland engine and the
       % frame-diagram expansion (NFlow.internal.planarExpand), sourced from the planar

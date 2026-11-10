@@ -8,7 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function R = compare_colon(nb_test, varargin)
-  R = false;
   switch (nb_test)
     case 1
       REF = {1, 4, 7, 2, 5, 8, 3, 6, 9};

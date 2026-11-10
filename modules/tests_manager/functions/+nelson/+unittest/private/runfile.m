@@ -15,7 +15,6 @@ function struct_res = runfile(varargin)
   feature('currentAxesOnClick', false);
   feature('currentFigureOnClick', false);
 
-  timing = 0;
   output_test = '';
   test_run_options = parsetags(filename);
   dia_ref = runfile_referenceFile(filename, test_run_options);

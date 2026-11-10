@@ -13,7 +13,6 @@
 % cell or a bare value.
 %=============================================================================
 function r = do_switch(v, c)
-  r = 'N';
   switch v
     case c
       r = 'Y';

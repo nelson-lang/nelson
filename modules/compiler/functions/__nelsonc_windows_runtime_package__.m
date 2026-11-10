@@ -18,7 +18,7 @@ function runtime = __nelsonc_windows_runtime_package__(engine, stage, payload, r
       'Application inputs collide with .nelson-install.');
   end
   for k = 1:numel(inventory.files)
-    [parent, name, extension] = fileparts(inventory.files(k).relative);
+    [~, name, extension] = fileparts(inventory.files(k).relative);
     if strcmpi([name, extension], 'nelson-runtime-package.exe')
       error('Nelson:nelsonc:installer:applicationInputUsesReservedRuntime', ...
         'Application input uses the reserved runtime installer name.');

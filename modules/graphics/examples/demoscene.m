@@ -1150,10 +1150,7 @@ end
 %=============================================================================
 function duck = demoSidechain(totalSamples, samplesPerBeat, fs)
   duck = ones(totalSamples, 1);
-  attack = round(0.004 * fs);
   release = round(0.26 * fs);
-  shape = ones(release, 1);
-  shape(1:min(release, attack)) = linspace(0.35, 0.35, min(release, attack));
   recovery = linspace(0.35, 1, release)' .^ 0.6;
   numBeats = floor(totalSamples / samplesPerBeat);
   for b = 0:numBeats - 1

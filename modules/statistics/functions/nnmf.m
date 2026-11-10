@@ -12,7 +12,7 @@ function [W, H, D] = nnmf(A, k, varargin)
   nargoutchk(0, 3);
   preserveSingle = isa(A, 'single');
   [A, k, opts] = parseInputsLocal(A, k, convertStringToCharArgs(varargin));
-  [W, H, D] = factorizeLocal(A, k, opts);
+  [W, H, ~] = factorizeLocal(A, k, opts);
   [W, H] = normalizeFactorsLocal(W, H);
   D = rmsResidualLocal(A, W, H);
   if preserveSingle

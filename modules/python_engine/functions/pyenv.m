@@ -83,7 +83,6 @@ function result = getPythonCommandResult(python, pythonScript)
 end
 %=============================================================================
 function executablePath = getExecutablePathFromWindowsRegistry(vstr)
-  executablePath = [];
   V = sscanf(vstr, '%d.%d');
   if isempty(V) || isscalar(V)
     error('Nelson:pyenv:invalidVersionOrExecutable', 'valid version or executable filename expected.');

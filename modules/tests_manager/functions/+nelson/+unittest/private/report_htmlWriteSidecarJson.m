@@ -14,7 +14,6 @@ function report_htmlWriteSidecarJson(results, outputFile)
 end
 %=============================================================================
 function sidecarFile = report_htmlSidecarFilename(outputFile)
-  sidecarFile = '';
   dotIndex = strfind(outputFile, '.');
   if isempty(dotIndex)
     sidecarFile = [outputFile, '.json'];

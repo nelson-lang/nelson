@@ -40,7 +40,6 @@ function options = statset(varargin)
 end
 %=============================================================================
 function tf = isOptionName(value)
-  tf = false;
   try
     canonicalField(char(value));
     tf = true;

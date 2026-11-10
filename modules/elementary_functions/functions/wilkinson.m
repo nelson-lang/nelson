@@ -33,7 +33,6 @@ function W = wilkinson(varargin)
   N12 = cast(N1 / 2, classname);
   S = ones(N1, 1, classname);
   C = abs(-N12:N12);
-  S = ones(N1, 1);
   W = diag(S, -1) + diag(C) + diag(S, 1);
 end
 %=============================================================================

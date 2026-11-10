@@ -19,7 +19,6 @@ function CMat = chebspec(nSize, kind, className)
   end
   order = effectiveSize - 1;
   matrixSize = order + 1;
-  CMat = zeros(matrixSize, className);
   nodes = cospi((0:order) / order).';
   scale = ones(matrixSize, 1, className);
   scale([1, matrixSize]) = 2;

@@ -762,7 +762,6 @@ function testFiles = packageTestFiles(module_path)
 end
 %=============================================================================
 function destination_dir = commitPreparedModule(source, module_name, module_version)
-  destination_dir = '';
   snapshot = installedModuleSnapshot(module_name);
   destination_dir = copyModule(source, module_name, module_version);
   try

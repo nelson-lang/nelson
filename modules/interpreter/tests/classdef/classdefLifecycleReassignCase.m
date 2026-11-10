@@ -11,8 +11,8 @@ function classdefLifecycleReassignCase()
   % reassignment inside a function frees the previous holder immediately
   global CLASSDEF_LIFECYCLE_LOG
   w = ClassdefLifecycle('f1');
-  w = ClassdefLifecycle('f2');
+  w = ClassdefLifecycle('f2'); %#ok<NLS0004>
   CLASSDEF_LIFECYCLE_LOG{end + 1} = 'after-reassign';
-  w = 1;
+  w = 1; %#ok<NLS0004>
   CLASSDEF_LIFECYCLE_LOG{end + 1} = 'after-overwrite';
 end

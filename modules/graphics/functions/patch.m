@@ -506,8 +506,6 @@ function args = parsePatchArguments(inputArguments)
   ZData = [];
   CData = [];
   haveCData = false;
-  Faces = [];
-  Vertices = [];
   FaceVertexCData = [];
   % Default face/edge is the dark-gray axes foreground (33/255), matching the
   % factory patch defaults -- not pure black.

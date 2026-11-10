@@ -14,7 +14,6 @@ function varargout = view(varargin)
 
   narginchk(0, 3);
   nargoutchk(0, 2);
-  args = {};
 
   if (nargin == 0)
     ax = gca();

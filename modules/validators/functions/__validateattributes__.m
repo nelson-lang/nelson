@@ -108,7 +108,6 @@ function value = localPositiveInteger(value, name)
 end
 %=============================================================================
 function localCheckClasses(A, classes, funcName, varName, argIndex)
-  ok = false;
   for k = 1:numel(classes)
     cls = classes{k};
     if strcmpi(cls, 'numeric')

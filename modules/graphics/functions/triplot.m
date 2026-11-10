@@ -21,7 +21,6 @@ function varargout = triplot(varargin)
 end
 %=============================================================================
 function [tri, x, y, lineArguments] = parseTriplotInputs(varargin)
-  lineArguments = {};
   if isTriangulationObject(varargin{1})
     obj = varargin{1};
     points = obj.Points;

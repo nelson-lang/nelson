@@ -206,7 +206,7 @@ function [parent, X, Y, automaticX, filled, propertiesLineA, propertiesLineB, ..
     error('Nelson:notEnoughInputs', 'Not enough input arguments.');
   end
 
-  [linespec, colorspec, markerspec, msg] = colstyle('-o', 'plot');
+  [linespec, colorspec, markerspec, ~] = colstyle('-o', 'plot');
 
   filled = false;
   isFilled = @(x)(ischar(x) || isStringScalar(x)) && strcmp(convertStringsToChars(x), 'filled');
@@ -214,7 +214,6 @@ function [parent, X, Y, automaticX, filled, propertiesLineA, propertiesLineB, ..
   if (~isempty(filledDetected))
     filled = true;
     inputArguments(filledDetected) = [];
-    nbInputArguments = length(inputArguments);
   end
   nbInputArguments = length(inputArguments);
   if (nbInputArguments > 0)

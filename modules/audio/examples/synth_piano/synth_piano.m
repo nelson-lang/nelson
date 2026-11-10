@@ -502,7 +502,7 @@ function y = synthRender(app, notes, params)
   if cache.Count >= app.cacheLimit
     remove(cache, keys(cache));
   end
-  cache(key) = y;
+  cache(key) = y; %#ok<NLS0004>
 end
 %=============================================================================
 function app = synthShowSignal(app, y, notes)
