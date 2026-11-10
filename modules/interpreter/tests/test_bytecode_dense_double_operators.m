@@ -48,7 +48,6 @@ assert_isequal(loop_plus([1 2], [3 4]), [4 6]);
 addpath(d);
 assert_isequal(loop_plus([1 2], [3 4]), 42);
 rmpath(d);
-clear functions
 assert_isequal(loop_plus([1 2], [3 4]), [4 6]);
 rmdir(d, 's');
 %=============================================================================

@@ -16,5 +16,9 @@ namespace Nelson {
 NLSOPERATORS_IMPEXP ArrayOf
 LeftDivide(ArrayOf A, ArrayOf B, bool& needToOverload);
 //=============================================================================
+// A is the conjugate transpose of the right divisor: used by RightDivide.
+ArrayOf
+LeftDivideTransposed(ArrayOf A, ArrayOf B, bool& needToOverload);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

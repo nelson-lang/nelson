@@ -16,25 +16,32 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+// transposed: A is the conjugate transpose of the matrix to factor (right division).
 NLSOPERATORS_IMPEXP
 ArrayOf
-solveLinearEquationDouble(
-    const ArrayOf& matA, const ArrayOf& matB, std::wstring& warningId, std::string& warningMessage);
+solveLinearEquationDouble(const ArrayOf& matA, const ArrayOf& matB, std::wstring& warningId,
+    std::string& warningMessage, bool transposed = false);
 //=============================================================================
 NLSOPERATORS_IMPEXP
 ArrayOf
-solveLinearEquationDoubleComplex(
-    const ArrayOf& matA, const ArrayOf& matB, std::wstring& warningId, std::string& warningMessage);
+solveLinearEquationDoubleComplex(const ArrayOf& matA, const ArrayOf& matB, std::wstring& warningId,
+    std::string& warningMessage, bool transposed = false);
 //=============================================================================
 NLSOPERATORS_IMPEXP
 ArrayOf
-solveLinearEquationSingle(
-    const ArrayOf& matA, const ArrayOf& matB, std::wstring& warningId, std::string& warningMessage);
+solveLinearEquationSingle(const ArrayOf& matA, const ArrayOf& matB, std::wstring& warningId,
+    std::string& warningMessage, bool transposed = false);
 //=============================================================================
 NLSOPERATORS_IMPEXP
 ArrayOf
-solveLinearEquationSingleComplex(
-    const ArrayOf& matA, const ArrayOf& matB, std::wstring& warningId, std::string& warningMessage);
+solveLinearEquationSingleComplex(const ArrayOf& matA, const ArrayOf& matB, std::wstring& warningId,
+    std::string& warningMessage, bool transposed = false);
+//=============================================================================
+// numerator / divisor for a dense square divisor of the same float class; false: not handled.
+NLSOPERATORS_IMPEXP
+bool
+solveRightLinearEquation(const ArrayOf& numerator, const ArrayOf& divisor, ArrayOf& result,
+    std::wstring& warningId, std::string& warningMessage);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

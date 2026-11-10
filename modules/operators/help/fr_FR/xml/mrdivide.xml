@@ -28,6 +28,8 @@
   <description>
     <p>
       <b>C = mrdivide(A, B)</b> retourne la division matricielle à droite de A par B.</p>
+    <p>Pour des matrices denses, <b>A / B</b> résout <b>X * B = A</b> avec les mêmes factorisations que <b>mldivide</b>, appliquées à la transposée de <b>B</b> : une matrice <b>B</b> carrée singulière retourne le résultat de la LU avec des valeurs Inf ou NaN et un avertissement, et une matrice <b>B</b> rectangulaire de rang déficient retourne la solution de base, où les coefficients associés aux lignes dépendantes de <b>B</b> valent 0.</p>
+    <p>Quand le résultat est complexe et que toutes ses parties imaginaires sont nulles, il est retourné sous forme de tableau réel.</p>
     <p>Lorsqu&apos;un opérande est une table ou une timetable et que l&apos;autre est un scalaire, <b>A / B</b> est une opération élément par élément appliquée à chaque variable, identique à <b>A ./ B</b> : les noms de variables, les unités et les temps de ligne sont conservés. Toute autre combinaison avec une table ou une timetable (deux tables, ou une table et un tableau non scalaire) provoque une erreur : utilisez <b>./</b> à la place.</p>
   </description>
   <used_function />
@@ -77,6 +79,10 @@ T / 2
     <history_item>
       <history_version>2.0.0</history_version>
       <history_description>opérandes table et timetable combinés avec un scalaire (opération élément par élément).</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>les systèmes denses singuliers retournent le résultat de la LU et les systèmes de rang déficient la solution de base.</history_description>
     </history_item>
   </history>
   <authors>

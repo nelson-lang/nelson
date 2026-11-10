@@ -18,6 +18,8 @@
 #include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "Decomplexify.hpp"
+#include "LinearEquationSolver.hpp"
+#include "Warning.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -34,6 +36,32 @@ zeroRightDivideResult(NelsonType dataClass, const Dimensions& dimsC)
     }
     void* ptrC = ArrayOf::allocateArrayOf(dataClass, dimsC.elementCount(), stringVector(), true);
     return ArrayOf(dataClass, dimsC, ptrC, false);
+}
+//=============================================================================
+// Dense float operands of one class: solved with the divisor as given, without transposes.
+static bool
+rightDivideDense(const ArrayOf& A, const ArrayOf& B, ArrayOf& R)
+{
+    if (A.isSparse() || B.isSparse() || A.dataClass() != B.dataClass()
+        || !(A.isDoubleType() || A.isSingleType())) {
+        return false;
+    }
+    const Dimensions& dimsA = A.dimensions();
+    const Dimensions& dimsB = B.dimensions();
+    if (!dimsA.is2D() || !dimsB.is2D() || dimsB.rows() != dimsB.columns()
+        || dimsA.columns() != dimsB.rows()) {
+        return false;
+    }
+    std::wstring warningId;
+    std::string warningMessage;
+    if (!solveRightLinearEquation(A, B, R, warningId, warningMessage)) {
+        return false;
+    }
+    if (!warningMessage.empty()) {
+        RaiseWarning(std::string(warningId.begin(), warningId.end()), warningMessage);
+    }
+    R = decomplexify(R);
+    return true;
 }
 //=============================================================================
 ArrayOf
@@ -75,6 +103,10 @@ RightDivide(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         return DotRightDivide(A, B, needToOverload);
     }
     ArrayOf R;
+    if (rightDivideDense(A, B, R)) {
+        needToOverload = false;
+        return R;
+    }
     ArrayOf _A = ComplexTranspose(A, needToOverload);
     if (needToOverload) {
         return R;
@@ -83,7 +115,7 @@ RightDivide(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
     if (needToOverload) {
         return R;
     }
-    R = LeftDivide(_B, _A, needToOverload);
+    R = LeftDivideTransposed(_B, _A, needToOverload);
     if (needToOverload) {
         return R;
     }

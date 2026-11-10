@@ -27,6 +27,8 @@
   <description>
     <p>
       <b>C = mrdivide(A, B)</b> returns the matrix right division of A and B.</p>
+    <p>For dense matrices, <b>A / B</b> solves <b>X * B = A</b> with the same factorizations as <b>mldivide</b>, applied to the transpose of <b>B</b>: a singular square <b>B</b> returns the LU result with Inf or NaN values and a warning, and a rank deficient rectangular <b>B</b> returns the basic solution, where the entries that match the dependent rows of <b>B</b> are 0.</p>
+    <p>When the result is complex and all its imaginary parts are zero, it is returned as a real array.</p>
     <p>When one operand is a table or timetable and the other operand is a scalar, <b>A / B</b> is an element-wise operation applied to every variable, identical to <b>A ./ B</b>: variable names, units and row times are kept. Any other combination with a table or timetable (two tables, or a table and a non-scalar array) is an error: use <b>./</b> instead.</p>
   </description>
   <used_function />
@@ -76,6 +78,10 @@ T / 2
     <history_item>
       <history_version>2.0.0</history_version>
       <history_description>table and timetable operands combined with a scalar (element-wise operation).</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>dense singular systems return the LU result and rank deficient systems return the basic solution.</history_description>
     </history_item>
   </history>
   <authors>

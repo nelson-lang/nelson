@@ -27,6 +27,9 @@
   <description>
     <p>
       <b>C = mldivide(A, B)</b> returns the matrix left division of A and B.</p>
+    <p>For dense matrices, a triangular <b>A</b> uses forward or back substitution, a symmetric or Hermitian positive definite <b>A</b> uses a Cholesky factorization, and any other square <b>A</b> uses an LU factorization with partial pivoting. When <b>A</b> is singular, the LU result is returned as it is, so it can hold Inf or NaN values, and the warning <b>Nelson:singularMatrix</b> is raised. When <b>A</b> is nearly singular, the warning <b>Nelson:nearlySingularMatrix</b> gives the reciprocal condition number RCOND.</p>
+    <p>For a dense rectangular <b>A</b>, the least-squares solution comes from a QR factorization with column pivoting. When <b>A</b> is rank deficient, the basic solution is returned: the dependent columns get the value 0 and the warning <b>Nelson:rankDeficientMatrix</b> gives the rank and the tolerance <b>max(m, n) * eps * abs(R(1, 1))</b> (ten times larger for complex data). Use <b>pinv</b> to get the minimum norm solution instead.</p>
+    <p>When the result is complex and all its imaginary parts are zero, it is returned as a real array.</p>
     <p>
       For sparse floating-point matrices, Nelson uses Eigen-based sparse solvers. Symmetric positive definite systems use sparse Cholesky paths, Hermitian or symmetric indefinite systems can use sparse LDLT, general square systems use sparse LU, and rectangular systems use sparse QR or iterative least-squares fallback paths.</p>
     <p>
@@ -99,6 +102,12 @@ full(A * x)]]></example_item_data>
       ><![CDATA[T = table([1; 2], [4; 8]);
 2 \ T]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Singular and rank deficient dense systems.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[x1 = [1 2; 2 4] \ [1; 1]
+x2 = [1 2; 2 4; 3 6] \ [1; 1; 1]]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>
@@ -126,6 +135,10 @@ full(A * x)]]></example_item_data>
     <history_item>
       <history_version>2.0.0</history_version>
       <history_description>table and timetable operands combined with a scalar (element-wise operation).</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>dense singular systems return the LU result and rank deficient systems return the basic solution.</history_description>
     </history_item>
   </history>
   <authors>

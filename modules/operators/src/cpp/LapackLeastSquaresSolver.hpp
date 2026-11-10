@@ -15,6 +15,7 @@
 #include "Types.hpp"
 #include "i18n.hpp"
 #include <algorithm>
+#include <cmath>
 #include <complex>
 #include <limits>
 #include <string>
@@ -30,14 +31,6 @@ template <> struct LapackLeastSquaresTraits<double>
     using Scalar = double;
     using Real = double;
     static constexpr NelsonType nelsonClass = NLS_DOUBLE;
-    static void
-    gelsy(const lapack_int* m, const lapack_int* n, const lapack_int* nrhs, Scalar* a,
-        const lapack_int* lda, Scalar* b, const lapack_int* ldb, lapack_int* jpvt,
-        const Real* rcond, lapack_int* rank, Scalar* work, const lapack_int* lwork, Real*,
-        lapack_int* info)
-    {
-        LAPACK_dgelsy(m, n, nrhs, a, lda, b, ldb, jpvt, rcond, rank, work, lwork, info);
-    }
     static void
     geqp3(lapack_int* m, lapack_int* n, Scalar* a, lapack_int* lda, lapack_int* jpvt, Scalar* tau,
         Scalar* work, lapack_int* lwork, Real*, lapack_int* info)
@@ -57,13 +50,6 @@ template <> struct LapackLeastSquaresTraits<double>
     {
         LAPACK_dormqr(side, trans, m, n, k, a, lda, tau, c, ldc, work, lwork, info);
     }
-    static void
-    gelss(const lapack_int* m, const lapack_int* n, const lapack_int* nrhs, Scalar* a,
-        const lapack_int* lda, Scalar* b, const lapack_int* ldb, Real* s, const Real* rcond,
-        lapack_int* rank, Scalar* work, const lapack_int* lwork, Real*, lapack_int* info)
-    {
-        LAPACK_dgelss(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, info);
-    }
 };
 //=============================================================================
 template <> struct LapackLeastSquaresTraits<single>
@@ -71,14 +57,6 @@ template <> struct LapackLeastSquaresTraits<single>
     using Scalar = single;
     using Real = single;
     static constexpr NelsonType nelsonClass = NLS_SINGLE;
-    static void
-    gelsy(const lapack_int* m, const lapack_int* n, const lapack_int* nrhs, Scalar* a,
-        const lapack_int* lda, Scalar* b, const lapack_int* ldb, lapack_int* jpvt,
-        const Real* rcond, lapack_int* rank, Scalar* work, const lapack_int* lwork, Real*,
-        lapack_int* info)
-    {
-        LAPACK_sgelsy(m, n, nrhs, a, lda, b, ldb, jpvt, rcond, rank, work, lwork, info);
-    }
     static void
     geqp3(lapack_int* m, lapack_int* n, Scalar* a, lapack_int* lda, lapack_int* jpvt, Scalar* tau,
         Scalar* work, lapack_int* lwork, Real*, lapack_int* info)
@@ -98,13 +76,6 @@ template <> struct LapackLeastSquaresTraits<single>
     {
         LAPACK_sormqr(side, trans, m, n, k, a, lda, tau, c, ldc, work, lwork, info);
     }
-    static void
-    gelss(const lapack_int* m, const lapack_int* n, const lapack_int* nrhs, Scalar* a,
-        const lapack_int* lda, Scalar* b, const lapack_int* ldb, Real* s, const Real* rcond,
-        lapack_int* rank, Scalar* work, const lapack_int* lwork, Real*, lapack_int* info)
-    {
-        LAPACK_sgelss(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, info);
-    }
 };
 //=============================================================================
 template <> struct LapackLeastSquaresTraits<doublecomplex>
@@ -112,14 +83,6 @@ template <> struct LapackLeastSquaresTraits<doublecomplex>
     using Scalar = doublecomplex;
     using Real = double;
     static constexpr NelsonType nelsonClass = NLS_DCOMPLEX;
-    static void
-    gelsy(const lapack_int* m, const lapack_int* n, const lapack_int* nrhs, Scalar* a,
-        const lapack_int* lda, Scalar* b, const lapack_int* ldb, lapack_int* jpvt,
-        const Real* rcond, lapack_int* rank, Scalar* work, const lapack_int* lwork, Real* rwork,
-        lapack_int* info)
-    {
-        LAPACK_zgelsy(m, n, nrhs, a, lda, b, ldb, jpvt, rcond, rank, work, lwork, rwork, info);
-    }
     static void
     geqp3(lapack_int* m, lapack_int* n, Scalar* a, lapack_int* lda, lapack_int* jpvt, Scalar* tau,
         Scalar* work, lapack_int* lwork, Real* rwork, lapack_int* info)
@@ -139,13 +102,6 @@ template <> struct LapackLeastSquaresTraits<doublecomplex>
     {
         LAPACK_zunmqr(side, trans, m, n, k, a, lda, tau, c, ldc, work, lwork, info);
     }
-    static void
-    gelss(const lapack_int* m, const lapack_int* n, const lapack_int* nrhs, Scalar* a,
-        const lapack_int* lda, Scalar* b, const lapack_int* ldb, Real* s, const Real* rcond,
-        lapack_int* rank, Scalar* work, const lapack_int* lwork, Real* rwork, lapack_int* info)
-    {
-        LAPACK_zgelss(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, rwork, info);
-    }
 };
 //=============================================================================
 template <> struct LapackLeastSquaresTraits<singlecomplex>
@@ -153,14 +109,6 @@ template <> struct LapackLeastSquaresTraits<singlecomplex>
     using Scalar = singlecomplex;
     using Real = single;
     static constexpr NelsonType nelsonClass = NLS_SCOMPLEX;
-    static void
-    gelsy(const lapack_int* m, const lapack_int* n, const lapack_int* nrhs, Scalar* a,
-        const lapack_int* lda, Scalar* b, const lapack_int* ldb, lapack_int* jpvt,
-        const Real* rcond, lapack_int* rank, Scalar* work, const lapack_int* lwork, Real* rwork,
-        lapack_int* info)
-    {
-        LAPACK_cgelsy(m, n, nrhs, a, lda, b, ldb, jpvt, rcond, rank, work, lwork, rwork, info);
-    }
     static void
     geqp3(lapack_int* m, lapack_int* n, Scalar* a, lapack_int* lda, lapack_int* jpvt, Scalar* tau,
         Scalar* work, lapack_int* lwork, Real* rwork, lapack_int* info)
@@ -179,13 +127,6 @@ template <> struct LapackLeastSquaresTraits<singlecomplex>
         lapack_int* lwork, lapack_int* info)
     {
         LAPACK_cunmqr(side, trans, m, n, k, a, lda, tau, c, ldc, work, lwork, info);
-    }
-    static void
-    gelss(const lapack_int* m, const lapack_int* n, const lapack_int* nrhs, Scalar* a,
-        const lapack_int* lda, Scalar* b, const lapack_int* ldb, Real* s, const Real* rcond,
-        lapack_int* rank, Scalar* work, const lapack_int* lwork, Real* rwork, lapack_int* info)
-    {
-        LAPACK_cgelss(m, n, nrhs, a, lda, b, ldb, s, rcond, rank, work, lwork, rwork, info);
     }
 };
 //=============================================================================
@@ -222,21 +163,32 @@ lapackWorkspaceValue(const T& value)
     return static_cast<typename LapackLeastSquaresTraits<T>::Real>(std::real(value));
 }
 //=============================================================================
+// Rank tolerance: max(m,n) * eps * |R(1,1)|, ten times larger for complex data.
 template <typename T>
 static lapack_int
-estimateQrRank(const std::vector<T>& qr, lapack_int lda, lapack_int m, lapack_int n)
+estimateQrRank(
+    const std::vector<T>& qr, lapack_int lda, lapack_int m, lapack_int n, double* rankTolerance)
 {
     using Real = typename LapackLeastSquaresTraits<T>::Real;
     lapack_int diagonalSize = std::min(m, n);
     Real scale = Real(0);
     for (lapack_int k = 0; k < diagonalSize; ++k) {
-        scale = std::max(scale, static_cast<Real>(std::abs(qr[k + k * lda])));
+        Real value = static_cast<Real>(std::abs(qr[k + k * lda]));
+        if (std::isnan(value)) {
+            return diagonalSize;
+        }
+        scale = std::max(scale, value);
+    }
+    Real factor = std::is_same<T, double>::value || std::is_same<T, single>::value ? Real(1)
+                                                                                   : Real(10);
+    Real tolerance = factor * static_cast<Real>(std::max(m, n))
+        * std::numeric_limits<Real>::epsilon() * scale;
+    if (rankTolerance != nullptr) {
+        *rankTolerance = static_cast<double>(tolerance);
     }
     if (scale == Real(0)) {
         return 0;
     }
-    Real tolerance
-        = static_cast<Real>(std::max(m, n)) * std::numeric_limits<Real>::epsilon() * scale;
     lapack_int rank = 0;
     for (lapack_int k = 0; k < diagonalSize; ++k) {
         if (static_cast<Real>(std::abs(qr[k + k * lda])) > tolerance) {
@@ -273,7 +225,7 @@ solvePivotedUpperTriangular(const std::vector<T>& qr, const std::vector<T>& qtb,
 template <typename T>
 static ArrayOf
 solveLapackFullRankQrLeastSquares(NelsonType destinationClass, const ArrayOf& matA,
-    const ArrayOf& matB, lapack_int& rank, lapack_int& info)
+    const ArrayOf& matB, lapack_int& rank, lapack_int& info, double* rankTolerance)
 {
     using Traits = LapackLeastSquaresTraits<T>;
     lapack_int m = static_cast<lapack_int>(matA.rows());
@@ -300,7 +252,7 @@ solveLapackFullRankQrLeastSquares(NelsonType destinationClass, const ArrayOf& ma
     if (info != 0) {
         return {};
     }
-    rank = estimateQrRank<T>(qr, lda, m, n);
+    rank = estimateQrRank<T>(qr, lda, m, n, rankTolerance);
     if (rank < n) {
         return {};
     }
@@ -333,11 +285,12 @@ solveLapackFullRankQrLeastSquares(NelsonType destinationClass, const ArrayOf& ma
 template <typename T>
 static ArrayOf
 solveLapackQrLeastSquares(NelsonType destinationClass, const ArrayOf& matA, const ArrayOf& matB,
-    lapack_int& rank, lapack_int& info)
+    lapack_int& rank, lapack_int& info, double* rankTolerance)
 {
     if (matA.rows() >= matA.columns()) {
         ArrayOf fullRankResult
-            = solveLapackFullRankQrLeastSquares<T>(destinationClass, matA, matB, rank, info);
+            = solveLapackFullRankQrLeastSquares<T>(
+                destinationClass, matA, matB, rank, info, rankTolerance);
         if (info != 0) {
             return {};
         }
@@ -390,7 +343,7 @@ solveLapackQrLeastSquares(NelsonType destinationClass, const ArrayOf& matA, cons
     if (info != 0) {
         return {};
     }
-    rank = estimateQrRank<T>(qr, lda, m, n);
+    rank = estimateQrRank<T>(qr, lda, m, n, rankTolerance);
     std::vector<T> solution(static_cast<size_t>(std::max<lapack_int>(1, n))
         * static_cast<size_t>(std::max<lapack_int>(1, nrhs)));
     solvePivotedUpperTriangular<T>(qr, qtb, solution, jpvt, lda, ldb, rank, n, nrhs);
@@ -399,75 +352,11 @@ solveLapackQrLeastSquares(NelsonType destinationClass, const ArrayOf& matA, cons
 }
 //=============================================================================
 template <typename T>
-static lapack_int
-lapackLeastSquaresWorkspace(bool svdDriver, lapack_int m, lapack_int n, lapack_int nrhs,
-    std::vector<T>& a, lapack_int lda, std::vector<T>& b, lapack_int ldb,
-    std::vector<lapack_int>& jpvt, std::vector<typename LapackLeastSquaresTraits<T>::Real>& s,
-    typename LapackLeastSquaresTraits<T>::Real rcond, lapack_int& rank,
-    std::vector<typename LapackLeastSquaresTraits<T>::Real>& rwork, lapack_int& info)
-{
-    using Traits = LapackLeastSquaresTraits<T>;
-    using Real = typename Traits::Real;
-    T workQuery {};
-    lapack_int lwork = -1;
-    if (svdDriver) {
-        Traits::gelss(&m, &n, &nrhs, a.data(), &lda, b.data(), &ldb, s.data(), &rcond, &rank,
-            &workQuery, &lwork, rwork.data(), &info);
-    } else {
-        Traits::gelsy(&m, &n, &nrhs, a.data(), &lda, b.data(), &ldb, jpvt.data(), &rcond, &rank,
-            &workQuery, &lwork, rwork.data(), &info);
-    }
-    if (info != 0) {
-        return 0;
-    }
-    Real query = static_cast<Real>(std::real(workQuery));
-    return std::max<lapack_int>(1, static_cast<lapack_int>(query));
-}
-//=============================================================================
-template <typename T>
 static ArrayOf
 solveLapackLeastSquares(NelsonType destinationClass, const ArrayOf& matA, const ArrayOf& matB,
-    bool svdDriver, lapack_int& rank, lapack_int& info)
+    lapack_int& rank, lapack_int& info, double* rankTolerance = nullptr)
 {
-    if (!svdDriver) {
-        return solveLapackQrLeastSquares<T>(destinationClass, matA, matB, rank, info);
-    }
-    using Traits = LapackLeastSquaresTraits<T>;
-    using Real = typename Traits::Real;
-    lapack_int m = static_cast<lapack_int>(matA.rows());
-    lapack_int n = static_cast<lapack_int>(matA.columns());
-    lapack_int nrhs = static_cast<lapack_int>(matB.columns());
-    lapack_int lda = std::max<lapack_int>(1, m);
-    lapack_int ldb = std::max<lapack_int>(1, std::max(m, n));
-    std::vector<T> a(static_cast<size_t>(lda) * static_cast<size_t>(std::max<lapack_int>(1, n)));
-    std::vector<T> b(static_cast<size_t>(ldb) * static_cast<size_t>(std::max<lapack_int>(1, nrhs)));
-    copyArrayToLapackBuffer<T>(matA, a, lda);
-    copyArrayToLapackBuffer<T>(matB, b, ldb);
-    std::vector<lapack_int> jpvt(static_cast<size_t>(std::max<lapack_int>(1, n)), 0);
-    std::vector<Real> s(static_cast<size_t>(std::max<lapack_int>(1, std::min(m, n))));
-    lapack_int rworkSize = std::max<lapack_int>(1, 5 * std::min(m, n));
-    rworkSize = std::max<lapack_int>(rworkSize, 2 * n);
-    std::vector<Real> rwork(static_cast<size_t>(rworkSize));
-    Real rcond = static_cast<Real>(-1);
-    rank = 0;
-    info = 0;
-    lapack_int lwork = lapackLeastSquaresWorkspace<T>(
-        svdDriver, m, n, nrhs, a, lda, b, ldb, jpvt, s, rcond, rank, rwork, info);
-    if (info != 0) {
-        return {};
-    }
-    std::vector<T> work(static_cast<size_t>(lwork));
-    if (svdDriver) {
-        Traits::gelss(&m, &n, &nrhs, a.data(), &lda, b.data(), &ldb, s.data(), &rcond, &rank,
-            work.data(), &lwork, rwork.data(), &info);
-    } else {
-        Traits::gelsy(&m, &n, &nrhs, a.data(), &lda, b.data(), &ldb, jpvt.data(), &rcond, &rank,
-            work.data(), &lwork, rwork.data(), &info);
-    }
-    if (info != 0) {
-        return {};
-    }
-    return copyLapackSolutionToArray<T>(destinationClass, b, ldb, matA.columns(), matB.columns());
+    return solveLapackQrLeastSquares<T>(destinationClass, matA, matB, rank, info, rankTolerance);
 }
 //=============================================================================
 template <typename T>

@@ -16,9 +16,6 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#define MSGBUFLEN 2048
-static char msgBuffer[MSGBUFLEN];
-//=============================================================================
 template <class T>
 ArrayOf
 solveLeastSquareLapack(NelsonType destinationClass, const ArrayOf& matA, const ArrayOf& matB,
@@ -31,17 +28,18 @@ solveLeastSquareLapack(NelsonType destinationClass, const ArrayOf& matA, const A
 
     lapack_int rank = 0;
     lapack_int info = 0;
-    ArrayOf res = solveLapackLeastSquares<T>(destinationClass, matA, matB, false, rank, info);
+    double tolerance = 0;
+    ArrayOf res = solveLapackLeastSquares<T>(
+        destinationClass, matA, matB, rank, info, &tolerance);
     if (info != 0) {
         Error(L"Nelson:operators:solverFailed", L"Linear least squares solver failed.");
     }
     if (isRankDeficient<T>(m, n, rank)) {
-        snprintf(msgBuffer, MSGBUFLEN, "%s RANK = %d",
-            resolveMessageTemplate("Nelson:operators:matrixRankDeficientMachine",
-                "Matrix is rank deficient to machine precision:")
-                .c_str(),
-            static_cast<int>(rank));
-        warningMessage = msgBuffer;
+        std::string format = resolveMessageTemplate("Nelson:operators:matrixRankDeficientTolerance",
+            "Matrix is rank deficient, rank = %d, tol = %e.");
+        char buffer[1024];
+        snprintf(buffer, sizeof(buffer), format.c_str(), static_cast<int>(rank), tolerance);
+        warningMessage = buffer;
         warningId = WARNING_RANK_DEFICIENT_MATRIX;
     }
     return res;

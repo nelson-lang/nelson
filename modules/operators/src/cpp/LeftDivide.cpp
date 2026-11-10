@@ -14,20 +14,185 @@
 #include <cmath>
 #include <limits>
 #include <string>
+#include <vector>
+#include <algorithm>
+#include <cstdio>
 #include "LeftDivide.hpp"
 #include "MatrixCheck.hpp"
 #include "DotLeftDivide.hpp"
 #include "LinearEquationSolver.hpp"
 #include "LeastSquareSolver.hpp"
-#include "SVDDecomposition.hpp"
 #include "Warning.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "IntegerCompatibilityHelpers.hpp"
 #include "SparseOperatorsHelpers.hpp"
+#include "Decomplexify.hpp"
+#include "LapackPrototypes.hpp"
+#include "WarningIds.hpp"
+#include "DiagonalDivide.hpp"
+//=============================================================================
+#if !defined(_MKL_LAPACK_H_)
+extern "C"
+{
+    void LAPACK_GLOBAL(sgbtrf, SGBTRF)(const lapack_int*, const lapack_int*, const lapack_int*,
+        const lapack_int*, float*, const lapack_int*, lapack_int*, lapack_int*);
+    void LAPACK_GLOBAL(dgbtrf, DGBTRF)(const lapack_int*, const lapack_int*, const lapack_int*,
+        const lapack_int*, double*, const lapack_int*, lapack_int*, lapack_int*);
+    void LAPACK_GLOBAL(cgbtrf, CGBTRF)(const lapack_int*, const lapack_int*, const lapack_int*,
+        const lapack_int*, std::complex<float>*, const lapack_int*, lapack_int*, lapack_int*);
+    void LAPACK_GLOBAL(zgbtrf, ZGBTRF)(const lapack_int*, const lapack_int*, const lapack_int*,
+        const lapack_int*, std::complex<double>*, const lapack_int*, lapack_int*, lapack_int*);
+    void LAPACK_GLOBAL(sgbtrs, SGBTRS)(const char*, const lapack_int*, const lapack_int*,
+        const lapack_int*, const lapack_int*, const float*, const lapack_int*, const lapack_int*,
+        float*, const lapack_int*, lapack_int*);
+    void LAPACK_GLOBAL(dgbtrs, DGBTRS)(const char*, const lapack_int*, const lapack_int*,
+        const lapack_int*, const lapack_int*, const double*, const lapack_int*, const lapack_int*,
+        double*, const lapack_int*, lapack_int*);
+    void LAPACK_GLOBAL(cgbtrs, CGBTRS)(const char*, const lapack_int*, const lapack_int*,
+        const lapack_int*, const lapack_int*, const std::complex<float>*, const lapack_int*,
+        const lapack_int*, std::complex<float>*, const lapack_int*, lapack_int*);
+    void LAPACK_GLOBAL(zgbtrs, ZGBTRS)(const char*, const lapack_int*, const lapack_int*,
+        const lapack_int*, const lapack_int*, const std::complex<double>*, const lapack_int*,
+        const lapack_int*, std::complex<double>*, const lapack_int*, lapack_int*);
+    void LAPACK_GLOBAL(sgbcon, SGBCON)(const char*, const lapack_int*, const lapack_int*,
+        const lapack_int*, const float*, const lapack_int*, const lapack_int*, const float*,
+        float*, float*, lapack_int*, lapack_int*);
+    void LAPACK_GLOBAL(dgbcon, DGBCON)(const char*, const lapack_int*, const lapack_int*,
+        const lapack_int*, const double*, const lapack_int*, const lapack_int*, const double*,
+        double*, double*, lapack_int*, lapack_int*);
+    void LAPACK_GLOBAL(cgbcon, CGBCON)(const char*, const lapack_int*, const lapack_int*,
+        const lapack_int*, const std::complex<float>*, const lapack_int*, const lapack_int*,
+        const float*, float*, std::complex<float>*, float*, lapack_int*);
+    void LAPACK_GLOBAL(zgbcon, ZGBCON)(const char*, const lapack_int*, const lapack_int*,
+        const lapack_int*, const std::complex<double>*, const lapack_int*, const lapack_int*,
+        const double*, double*, std::complex<double>*, double*, lapack_int*);
+}
+#endif
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+// Band LU routines per scalar type, used for sparse divisors with a dense band.
+template <class T> struct SparseBandSolver;
+//=============================================================================
+template <> struct SparseBandSolver<double>
+{
+    using Real = double;
+    static constexpr char transposeSolve = 'T';
+    static void
+    gbtrf(lapack_int n, lapack_int kl, lapack_int ku, double* ab, lapack_int ldab,
+        lapack_int* ipiv, lapack_int* info)
+    {
+        LAPACK_GLOBAL(dgbtrf, DGBTRF)(&n, &n, &kl, &ku, ab, &ldab, ipiv, info);
+    }
+    static void
+    gbtrs(char trans, lapack_int n, lapack_int kl, lapack_int ku, lapack_int nrhs,
+        const double* ab, lapack_int ldab, const lapack_int* ipiv, double* b, lapack_int* info)
+    {
+        LAPACK_GLOBAL(dgbtrs, DGBTRS)
+        (&trans, &n, &kl, &ku, &nrhs, ab, &ldab, ipiv, b, &n, info);
+    }
+    static void
+    gbcon(lapack_int n, lapack_int kl, lapack_int ku, const double* ab, lapack_int ldab,
+        const lapack_int* ipiv, double anorm, double* rcond, lapack_int* info)
+    {
+        char norm = '1';
+        std::vector<double> work((size_t)3 * (size_t)n);
+        std::vector<lapack_int> iwork((size_t)n);
+        LAPACK_GLOBAL(dgbcon, DGBCON)
+        (&norm, &n, &kl, &ku, ab, &ldab, ipiv, &anorm, rcond, work.data(), iwork.data(), info);
+    }
+};
+//=============================================================================
+template <> struct SparseBandSolver<single>
+{
+    using Real = single;
+    static constexpr char transposeSolve = 'T';
+    static void
+    gbtrf(lapack_int n, lapack_int kl, lapack_int ku, single* ab, lapack_int ldab,
+        lapack_int* ipiv, lapack_int* info)
+    {
+        LAPACK_GLOBAL(sgbtrf, SGBTRF)(&n, &n, &kl, &ku, ab, &ldab, ipiv, info);
+    }
+    static void
+    gbtrs(char trans, lapack_int n, lapack_int kl, lapack_int ku, lapack_int nrhs,
+        const single* ab, lapack_int ldab, const lapack_int* ipiv, single* b, lapack_int* info)
+    {
+        LAPACK_GLOBAL(sgbtrs, SGBTRS)
+        (&trans, &n, &kl, &ku, &nrhs, ab, &ldab, ipiv, b, &n, info);
+    }
+    static void
+    gbcon(lapack_int n, lapack_int kl, lapack_int ku, const single* ab, lapack_int ldab,
+        const lapack_int* ipiv, single anorm, single* rcond, lapack_int* info)
+    {
+        char norm = '1';
+        std::vector<single> work((size_t)3 * (size_t)n);
+        std::vector<lapack_int> iwork((size_t)n);
+        LAPACK_GLOBAL(sgbcon, SGBCON)
+        (&norm, &n, &kl, &ku, ab, &ldab, ipiv, &anorm, rcond, work.data(), iwork.data(), info);
+    }
+};
+//=============================================================================
+template <> struct SparseBandSolver<doublecomplex>
+{
+    using Real = double;
+    static constexpr char transposeSolve = 'C';
+    static void
+    gbtrf(lapack_int n, lapack_int kl, lapack_int ku, doublecomplex* ab, lapack_int ldab,
+        lapack_int* ipiv, lapack_int* info)
+    {
+        LAPACK_GLOBAL(zgbtrf, ZGBTRF)(&n, &n, &kl, &ku, ab, &ldab, ipiv, info);
+    }
+    static void
+    gbtrs(char trans, lapack_int n, lapack_int kl, lapack_int ku, lapack_int nrhs,
+        const doublecomplex* ab, lapack_int ldab, const lapack_int* ipiv, doublecomplex* b,
+        lapack_int* info)
+    {
+        LAPACK_GLOBAL(zgbtrs, ZGBTRS)
+        (&trans, &n, &kl, &ku, &nrhs, ab, &ldab, ipiv, b, &n, info);
+    }
+    static void
+    gbcon(lapack_int n, lapack_int kl, lapack_int ku, const doublecomplex* ab, lapack_int ldab,
+        const lapack_int* ipiv, double anorm, double* rcond, lapack_int* info)
+    {
+        char norm = '1';
+        std::vector<doublecomplex> work((size_t)2 * (size_t)n);
+        std::vector<double> rwork((size_t)n);
+        LAPACK_GLOBAL(zgbcon, ZGBCON)
+        (&norm, &n, &kl, &ku, ab, &ldab, ipiv, &anorm, rcond, work.data(), rwork.data(), info);
+    }
+};
+//=============================================================================
+template <> struct SparseBandSolver<singlecomplex>
+{
+    using Real = single;
+    static constexpr char transposeSolve = 'C';
+    static void
+    gbtrf(lapack_int n, lapack_int kl, lapack_int ku, singlecomplex* ab, lapack_int ldab,
+        lapack_int* ipiv, lapack_int* info)
+    {
+        LAPACK_GLOBAL(cgbtrf, CGBTRF)(&n, &n, &kl, &ku, ab, &ldab, ipiv, info);
+    }
+    static void
+    gbtrs(char trans, lapack_int n, lapack_int kl, lapack_int ku, lapack_int nrhs,
+        const singlecomplex* ab, lapack_int ldab, const lapack_int* ipiv, singlecomplex* b,
+        lapack_int* info)
+    {
+        LAPACK_GLOBAL(cgbtrs, CGBTRS)
+        (&trans, &n, &kl, &ku, &nrhs, ab, &ldab, ipiv, b, &n, info);
+    }
+    static void
+    gbcon(lapack_int n, lapack_int kl, lapack_int ku, const singlecomplex* ab, lapack_int ldab,
+        const lapack_int* ipiv, single anorm, single* rcond, lapack_int* info)
+    {
+        char norm = '1';
+        std::vector<singlecomplex> work((size_t)2 * (size_t)n);
+        std::vector<single> rwork((size_t)n);
+        LAPACK_GLOBAL(cgbcon, CGBCON)
+        (&norm, &n, &kl, &ku, ab, &ldab, ipiv, &anorm, rcond, work.data(), rwork.data(), info);
+    }
+};
 //=============================================================================
 template <class T>
 static Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>
@@ -229,81 +394,6 @@ isSparseDiagonalSingular(const NelsonSparseMatrix<T>& A)
         }
     }
     return false;
-}
-//=============================================================================
-template <class T>
-static bool
-isDenseRegularDiagonal(const ArrayOf& A)
-{
-    if (A.rows() != A.columns()) {
-        return false;
-    }
-    const T* ptrA = static_cast<const T*>(A.dataPointer());
-    for (indexType col = 0; col < A.columns(); ++col) {
-        for (indexType row = 0; row < A.rows(); ++row) {
-            const T value = ptrA[row + col * A.rows()];
-            if (row == col) {
-                if (value == T(0)) {
-                    return false;
-                }
-            } else if (value != T(0)) {
-                return false;
-            }
-        }
-    }
-    return true;
-}
-//=============================================================================
-template <class T>
-static ArrayOf
-denseRegularDiagonalLeftDivide(NelsonType dataClass, const ArrayOf& A, const ArrayOf& B)
-{
-    const T* ptrA = static_cast<const T*>(A.dataPointer());
-    const T* ptrB = static_cast<const T*>(B.dataPointer());
-    Dimensions dimsC(A.columns(), B.columns());
-    T* ptrC = static_cast<T*>(ArrayOf::allocateArrayOf(dataClass, dimsC.elementCount()));
-    for (indexType col = 0; col < B.columns(); ++col) {
-        for (indexType row = 0; row < A.columns(); ++row) {
-            ptrC[row + col * dimsC.rows()]
-                = ptrB[row + col * B.rows()] / ptrA[row + row * A.rows()];
-        }
-    }
-    return ArrayOf(dataClass, dimsC, ptrC, false);
-}
-//=============================================================================
-static ArrayOf
-denseRegularDiagonalLeftDivide(const ArrayOf& A, const ArrayOf& B, bool& solved)
-{
-    solved = false;
-    switch (A.dataClass()) {
-    case NLS_DOUBLE:
-        if (isDenseRegularDiagonal<double>(A)) {
-            solved = true;
-            return denseRegularDiagonalLeftDivide<double>(NLS_DOUBLE, A, B);
-        }
-        break;
-    case NLS_SINGLE:
-        if (isDenseRegularDiagonal<single>(A)) {
-            solved = true;
-            return denseRegularDiagonalLeftDivide<single>(NLS_SINGLE, A, B);
-        }
-        break;
-    case NLS_DCOMPLEX:
-        if (isDenseRegularDiagonal<doublecomplex>(A)) {
-            solved = true;
-            return denseRegularDiagonalLeftDivide<doublecomplex>(NLS_DCOMPLEX, A, B);
-        }
-        break;
-    case NLS_SCOMPLEX:
-        if (isDenseRegularDiagonal<singlecomplex>(A)) {
-            solved = true;
-            return denseRegularDiagonalLeftDivide<singlecomplex>(NLS_SCOMPLEX, A, B);
-        }
-        break;
-    default:
-        break;
-    }
-    return {};
 }
 //=============================================================================
 static void
@@ -650,9 +740,130 @@ sparseLuLeftDivide(NelsonType dataClass, const ArrayOf& A, const ArrayOf& B, boo
     return eigenDenseMatrixToArrayOf<T>(dataClass, result);
 }
 //=============================================================================
+// True when nonzeros fill more than half of the band and A is neither tri-diagonal nor triangular.
+template <class T>
+static bool
+useSparseBandSolver(const NelsonSparseMatrix<T>& A, signedIndexType& lower, signedIndexType& upper)
+{
+    lower = 0;
+    upper = 0;
+    double nonZeros = 0;
+    for (signedIndexType col = 0; col < A.outerSize(); ++col) {
+        for (typename NelsonSparseMatrix<T>::InnerIterator it(A, col); it; ++it) {
+            if (it.value() == T(0)) {
+                continue;
+            }
+            nonZeros += 1;
+            signedIndexType offset = it.row() - col;
+            if (offset > lower) {
+                lower = offset;
+            } else if (-offset > upper) {
+                upper = -offset;
+            }
+        }
+    }
+    if (lower == 0 || upper == 0 || (lower <= 1 && upper <= 1)) {
+        return false;
+    }
+    const double n = static_cast<double>(A.rows());
+    const double kl = static_cast<double>(lower);
+    const double ku = static_cast<double>(upper);
+    const double bandEntries = n * (kl + ku + 1) - (kl * (kl + 1) + ku * (ku + 1)) / 2;
+    return nonZeros > 0.5 * bandEntries;
+}
+//=============================================================================
+template <class R>
+static void
+warnSparseBandCondition(R rcond, bool zeroPivot)
+{
+    if (zeroPivot || rcond == R(0)) {
+        RaiseWarning("Nelson:singularMatrix",
+            resolveMessageTemplate(
+                "Nelson:singularMatrix", "Matrix is singular to working precision."));
+    } else if (std::isnan(rcond)) {
+        RaiseWarning("Nelson:illConditionedMatrix",
+            resolveMessageTemplate("Nelson:operators:matrixIllConditioned",
+                "Matrix is singular, nearly singular or badly scaled, results may be inaccurate. "
+                "RCOND = NaN."));
+    } else if (rcond < std::numeric_limits<R>::epsilon()) {
+        std::string format = resolveMessageTemplate("Nelson:operators:matrixNearlySingular",
+            "Matrix is nearly singular or badly scaled, results may be inaccurate. RCOND = %e.");
+        char buffer[1024];
+        snprintf(buffer, sizeof(buffer), format.c_str(), static_cast<double>(rcond));
+        std::wstring id = WARNING_NEARLY_SINGULAR_MATRIX;
+        RaiseWarning(std::string(id.begin(), id.end()), buffer);
+    }
+}
+//=============================================================================
+// Band LU solve; a transposed solve gets the conjugate transpose and factors the original matrix.
 template <class T>
 static ArrayOf
-sparseLeftDivide(NelsonType dataClass, const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
+sparseBandLeftDivide(NelsonType dataClass, const ArrayOf& A, const ArrayOf& B,
+    signedIndexType lower, signedIndexType upper, bool transposed)
+{
+    using Solver = SparseBandSolver<T>;
+    using Real = typename Solver::Real;
+    const auto* sparseA = getSparseMatrixPointer<T>(A);
+    const lapack_int n = static_cast<lapack_int>(A.rows());
+    const lapack_int kl = static_cast<lapack_int>(transposed ? upper : lower);
+    const lapack_int ku = static_cast<lapack_int>(transposed ? lower : upper);
+    const lapack_int ldab = 2 * kl + ku + 1;
+    std::vector<T> ab((size_t)ldab * (size_t)n, T(0));
+    std::vector<Real> columnSums((size_t)n, Real(0));
+    for (signedIndexType col = 0; col < sparseA->outerSize(); ++col) {
+        for (typename NelsonSparseMatrix<T>::InnerIterator it(*sparseA, col); it; ++it) {
+            signedIndexType row = it.row();
+            signedIndexType column = col;
+            T value = it.value();
+            if (transposed) {
+                std::swap(row, column);
+                value = Eigen::numext::conj(value);
+            }
+            ab[(size_t)(kl + ku + row - column) + (size_t)column * (size_t)ldab] = value;
+            columnSums[(size_t)column] += static_cast<Real>(std::abs(value));
+        }
+    }
+    Real anorm = 0;
+    for (Real sum : columnSums) {
+        if (std::isnan(sum)) {
+            anorm = sum;
+            break;
+        }
+        anorm = std::max(anorm, sum);
+    }
+    Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic> result = arrayToDenseEigenMatrix<T>(B);
+    const lapack_int nrhs = static_cast<lapack_int>(result.cols());
+    std::vector<lapack_int> ipiv((size_t)n);
+    lapack_int info = 0;
+    Solver::gbtrf(n, kl, ku, ab.data(), ldab, ipiv.data(), &info);
+    bool zeroPivot = info > 0;
+    Real rcond = 0;
+    if (!zeroPivot) {
+        if (std::isnan(anorm)) {
+            rcond = std::numeric_limits<Real>::quiet_NaN();
+        } else if (!std::isinf(anorm)) {
+            lapack_int conInfo = 0;
+            Solver::gbcon(n, kl, ku, ab.data(), ldab, ipiv.data(), anorm, &rcond, &conInfo);
+        }
+    }
+    // a zero pivot gives Inf or NaN entries, as plain substitution does
+    lapack_int solveInfo = 0;
+    Solver::gbtrs(transposed ? Solver::transposeSolve : 'N', n, kl, ku, nrhs, ab.data(), ldab,
+        ipiv.data(), result.data(), &solveInfo);
+    warnSparseBandCondition<Real>(rcond, zeroPivot);
+    if (B.isSparse()) {
+        return eigenDenseMatrixToSparseArrayOf<T>(dataClass, result);
+    }
+    return eigenDenseMatrixToArrayOf<T>(dataClass, result);
+}
+//=============================================================================
+static ArrayOf
+leftDivide(const ArrayOf& A, const ArrayOf& B, bool& needToOverload, bool transposed);
+//=============================================================================
+template <class T>
+static ArrayOf
+sparseLeftDivide(NelsonType dataClass, const ArrayOf& A, const ArrayOf& B, bool& needToOverload,
+    bool transposed)
 {
     needToOverload = false;
     if (A.dataClass() != B.dataClass()) {
@@ -660,8 +871,9 @@ sparseLeftDivide(NelsonType dataClass, const ArrayOf& A, const ArrayOf& B, bool&
         return {};
     }
     if (!A.isSparse() && B.isSparse()) {
+        // keep the transposed flag: '/' must factor the original dense divisor
         ArrayOf denseB = sparseArrayToDenseArrayOf<T>(dataClass, B);
-        return LeftDivide(A, denseB, needToOverload);
+        return leftDivide(A, denseB, needToOverload, transposed);
     }
     if (!A.isSparse()) {
         needToOverload = true;
@@ -682,6 +894,11 @@ sparseLeftDivide(NelsonType dataClass, const ArrayOf& A, const ArrayOf& B, bool&
         }
         if (isSparseDiagonal<T>(*sparseA)) {
             return sparseRegularDiagonalLeftDivide<T>(dataClass, A, B);
+        }
+        signedIndexType lower = 0;
+        signedIndexType upper = 0;
+        if (useSparseBandSolver<T>(*sparseA, lower, upper)) {
+            return sparseBandLeftDivide<T>(dataClass, A, B, lower, upper, transposed);
         }
         bool solved = false;
         ArrayOf result = sparseSimplicialLeftDivide<T>(dataClass, A, B, solved);
@@ -722,25 +939,36 @@ sparseLeftDivide(NelsonType dataClass, const ArrayOf& A, const ArrayOf& B, bool&
 }
 //=============================================================================
 static ArrayOf
-sparseLeftDivide(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
+sparseLeftDivide(const ArrayOf& A, const ArrayOf& B, bool& needToOverload, bool transposed)
 {
     switch (A.dataClass()) {
     case NLS_SINGLE:
-        return sparseLeftDivide<single>(NLS_SINGLE, A, B, needToOverload);
+        return sparseLeftDivide<single>(NLS_SINGLE, A, B, needToOverload, transposed);
     case NLS_SCOMPLEX:
-        return sparseLeftDivide<singlecomplex>(NLS_SCOMPLEX, A, B, needToOverload);
+        return sparseLeftDivide<singlecomplex>(NLS_SCOMPLEX, A, B, needToOverload, transposed);
     case NLS_DOUBLE:
-        return sparseLeftDivide<double>(NLS_DOUBLE, A, B, needToOverload);
+        return sparseLeftDivide<double>(NLS_DOUBLE, A, B, needToOverload, transposed);
     case NLS_DCOMPLEX:
-        return sparseLeftDivide<doublecomplex>(NLS_DCOMPLEX, A, B, needToOverload);
+        return sparseLeftDivide<doublecomplex>(NLS_DCOMPLEX, A, B, needToOverload, transposed);
     default:
         needToOverload = true;
         return {};
     }
 }
 //=============================================================================
-ArrayOf
-LeftDivide(ArrayOf A, ArrayOf B, bool& needToOverload)
+static ArrayOf
+promotedSparseLeftDivide(const ArrayOf& A, const ArrayOf& B, NelsonType dataClass,
+    bool& needToOverload, bool transposed)
+{
+    ArrayOf AA = A;
+    ArrayOf BB = B;
+    promoteSparseDivideOperand(AA, dataClass);
+    promoteSparseDivideOperand(BB, dataClass);
+    return sparseLeftDivide(AA, BB, needToOverload, transposed);
+}
+//=============================================================================
+static ArrayOf
+leftDivide(const ArrayOf& A, const ArrayOf& B, bool& needToOverload, bool transposed)
 {
     needToOverload = false;
     if (A.isScalar()) {
@@ -774,31 +1002,24 @@ LeftDivide(ArrayOf A, ArrayOf B, bool& needToOverload)
             if ((isSparseDivideDoubleClass(dataClassA) && isSparseDivideSingleClass(dataClassB))
                 || (isSparseDivideSingleClass(dataClassA)
                     && isSparseDivideDoubleClass(dataClassB))) {
-                if (isComplex) {
-                    promoteSparseDivideOperand(A, NLS_SCOMPLEX);
-                    promoteSparseDivideOperand(B, NLS_SCOMPLEX);
-                } else {
-                    promoteSparseDivideOperand(A, NLS_SINGLE);
-                    promoteSparseDivideOperand(B, NLS_SINGLE);
-                }
-                return sparseLeftDivide(A, B, needToOverload);
+                return promotedSparseLeftDivide(
+                    A, B, isComplex ? NLS_SCOMPLEX : NLS_SINGLE, needToOverload, transposed);
             }
             if (isSparseDivideDoubleClass(dataClassA) && isSparseDivideDoubleClass(dataClassB)
                 && isComplex) {
-                promoteSparseDivideOperand(A, NLS_DCOMPLEX);
-                promoteSparseDivideOperand(B, NLS_DCOMPLEX);
-                return sparseLeftDivide(A, B, needToOverload);
+                return promotedSparseLeftDivide(A, B, NLS_DCOMPLEX, needToOverload, transposed);
             }
             if (isSparseDivideSingleClass(dataClassA) && isSparseDivideSingleClass(dataClassB)
                 && isComplex) {
-                promoteSparseDivideOperand(A, NLS_SCOMPLEX);
-                promoteSparseDivideOperand(B, NLS_SCOMPLEX);
-                return sparseLeftDivide(A, B, needToOverload);
+                return promotedSparseLeftDivide(A, B, NLS_SCOMPLEX, needToOverload, transposed);
             }
         }
-        return sparseLeftDivide(A, B, needToOverload);
+        return sparseLeftDivide(A, B, needToOverload, transposed);
     }
 
+    if (!A.is2D() || !B.is2D()) {
+        Error(L"Nelson:expected2D", L"%s must be 2-D.", L"Input arguments");
+    }
     if (A.dimensionLength(0) != B.dimensionLength(0)) {
         Error(L"Nelson:dimagree:requestedDivideOperationRequiresArgumentsCorrect",
             L"Requested divide operation requires arguments to have correct dimensions.");
@@ -816,21 +1037,21 @@ LeftDivide(ArrayOf A, ArrayOf B, bool& needToOverload)
                 AA.promoteType(NLS_SINGLE);
                 BB.promoteType(NLS_SINGLE);
             }
-            return LeftDivide(AA, BB, needToOverload);
+            return leftDivide(AA, BB, needToOverload, transposed);
         }
         if (A.isDoubleType() && B.isDoubleType() && isComplex) {
             ArrayOf AA = A;
             ArrayOf BB = B;
             AA.promoteType(NLS_DCOMPLEX);
             BB.promoteType(NLS_DCOMPLEX);
-            return LeftDivide(AA, BB, needToOverload);
+            return leftDivide(AA, BB, needToOverload, transposed);
         }
         if (A.isSingleType() && B.isSingleType() && isComplex) {
             ArrayOf AA = A;
             ArrayOf BB = B;
             AA.promoteType(NLS_SCOMPLEX);
             BB.promoteType(NLS_SCOMPLEX);
-            return LeftDivide(AA, BB, needToOverload);
+            return leftDivide(AA, BB, needToOverload, transposed);
         }
 
         if (A.isIntegerType()) {
@@ -843,7 +1064,7 @@ LeftDivide(ArrayOf A, ArrayOf B, bool& needToOverload)
             if (B.dataClass() == NLS_CHAR) {
                 ArrayOf BB = B;
                 BB.promoteType(A.dataClass());
-                return LeftDivide(A, BB, needToOverload);
+                return leftDivide(A, BB, needToOverload, transposed);
             }
             if (B.isComplex()) {
                 Error(L"Nelson:operators:complexIntegerNotAllowed",
@@ -851,7 +1072,7 @@ LeftDivide(ArrayOf A, ArrayOf B, bool& needToOverload)
             }
             ArrayOf AA = A;
             AA.promoteType(B.dataClass());
-            ArrayOf res = LeftDivide(AA, B, needToOverload);
+            ArrayOf res = leftDivide(AA, B, needToOverload, transposed);
             if (!needToOverload) {
                 res.promoteType(A.dataClass());
             }
@@ -866,7 +1087,7 @@ LeftDivide(ArrayOf A, ArrayOf B, bool& needToOverload)
             if (A.dataClass() == NLS_CHAR) {
                 ArrayOf AA = A;
                 AA.promoteType(B.dataClass());
-                return LeftDivide(AA, B, needToOverload);
+                return leftDivide(AA, B, needToOverload, transposed);
             }
             if (A.isComplex()) {
                 Error(L"Nelson:operators:complexIntegerNotAllowed",
@@ -874,7 +1095,7 @@ LeftDivide(ArrayOf A, ArrayOf B, bool& needToOverload)
             }
             ArrayOf BB = B;
             BB.promoteType(A.dataClass());
-            ArrayOf res = LeftDivide(A, BB, needToOverload);
+            ArrayOf res = leftDivide(A, BB, needToOverload, transposed);
             if (!needToOverload) {
                 res.promoteType(B.dataClass());
             }
@@ -883,7 +1104,7 @@ LeftDivide(ArrayOf A, ArrayOf B, bool& needToOverload)
     }
 
     bool diagonalSolved = false;
-    ArrayOf diagonalResult = denseRegularDiagonalLeftDivide(A, B, diagonalSolved);
+    ArrayOf diagonalResult = denseDiagonalDivide<false>(A, B, diagonalSolved);
     if (diagonalSolved) {
         return diagonalResult;
     }
@@ -896,64 +1117,55 @@ LeftDivide(ArrayOf A, ArrayOf B, bool& needToOverload)
 
     switch (A.dataClass()) {
     case NLS_DOUBLE: {
-        if (isSquare) {
-            res = solveLinearEquationDouble(A, B, warningId, warningMessage);
-        } else {
-            res = solveLeastSquareDouble(A, B, warningId, warningMessage);
-        }
-        if (warningId == WARNING_RANK_DEFICIENT_MATRIX
-            || warningId == WARNING_NEARLY_SINGULAR_MATRIX) {
-            res = solveSVDDecompositionDouble(A, B);
-        }
+        res = isSquare ? solveLinearEquationDouble(A, B, warningId, warningMessage, transposed)
+                       : solveLeastSquareDouble(A, B, warningId, warningMessage);
     } break;
     case NLS_SINGLE: {
-        if (isSquare) {
-            res = solveLinearEquationSingle(A, B, warningId, warningMessage);
-        } else {
-            res = solveLeastSquareSingle(A, B, warningId, warningMessage);
-        }
-        if (warningId == WARNING_RANK_DEFICIENT_MATRIX
-            || warningId == WARNING_NEARLY_SINGULAR_MATRIX) {
-            res = solveSVDDecompositionSingle(A, B);
-        }
+        res = isSquare ? solveLinearEquationSingle(A, B, warningId, warningMessage, transposed)
+                       : solveLeastSquareSingle(A, B, warningId, warningMessage);
     } break;
     case NLS_DCOMPLEX: {
-        if (isSquare) {
-            res = solveLinearEquationDoubleComplex(A, B, warningId, warningMessage);
-        } else {
-            res = solveLeastSquareDoubleComplex(A, B, warningId, warningMessage);
-        }
-        if (warningId == WARNING_RANK_DEFICIENT_MATRIX
-            || warningId == WARNING_NEARLY_SINGULAR_MATRIX) {
-            res = solveSVDDecompositionDoubleComplex(A, B);
-        }
+        res = isSquare
+            ? solveLinearEquationDoubleComplex(A, B, warningId, warningMessage, transposed)
+            : solveLeastSquareDoubleComplex(A, B, warningId, warningMessage);
     } break;
     case NLS_SCOMPLEX: {
-        if (isSquare) {
-            res = solveLinearEquationSingleComplex(A, B, warningId, warningMessage);
-        } else {
-            res = solveLeastSquareSingleComplex(A, B, warningId, warningMessage);
-        }
-        if (warningId == WARNING_RANK_DEFICIENT_MATRIX
-            || warningId == WARNING_NEARLY_SINGULAR_MATRIX) {
-            res = solveSVDDecompositionSingleComplex(A, B);
-        }
+        res = isSquare
+            ? solveLinearEquationSingleComplex(A, B, warningId, warningMessage, transposed)
+            : solveLeastSquareSingleComplex(A, B, warningId, warningMessage);
     } break;
-
     default: {
         needToOverload = true;
     } break;
     }
     if (!warningMessage.empty()) {
-        std::string warningIdNarrow;
-        if (warningId == WARNING_RANK_DEFICIENT_MATRIX) {
-            warningIdNarrow = "Nelson:rankDeficientMatrix";
-        } else if (warningId == WARNING_NEARLY_SINGULAR_MATRIX) {
-            warningIdNarrow = "Nelson:nearlySingularMatrix";
-        }
-        RaiseWarning(warningIdNarrow, warningMessage);
+        RaiseWarning(std::string(warningId.begin(), warningId.end()), warningMessage);
     }
     return res;
+}
+//=============================================================================
+static ArrayOf
+leftDivideRealIfNoImaginaryPart(
+    const ArrayOf& A, const ArrayOf& B, bool& needToOverload, bool transposed)
+{
+    // a complex quotient whose imaginary parts are all zero is returned as real
+    ArrayOf res = leftDivide(A, B, needToOverload, transposed);
+    if (!needToOverload && res.isComplex()) {
+        res = decomplexify(res);
+    }
+    return res;
+}
+//=============================================================================
+ArrayOf
+LeftDivide(ArrayOf A, ArrayOf B, bool& needToOverload)
+{
+    return leftDivideRealIfNoImaginaryPart(A, B, needToOverload, false);
+}
+//=============================================================================
+ArrayOf
+LeftDivideTransposed(ArrayOf A, ArrayOf B, bool& needToOverload)
+{
+    return leftDivideRealIfNoImaginaryPart(A, B, needToOverload, true);
 }
 //=============================================================================
 } // namespace Nelson
