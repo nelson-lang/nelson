@@ -26,7 +26,8 @@
   </param_output>
   <description>
     <p><b>r = bitcmp(A)</b> returns the bitwise complement of <b>A</b>, where the width is given by the integer class of <b>A</b>.</p>
-    <p>When <b>A</b> is a double, pass <b>assumedtype</b> (for example <b>&apos;uint8&apos;</b>) to set the bit width; the result stays double.</p>
+    <p>When <b>A</b> is a double, its values are read as <b>uint64</b> unless <b>assumedtype</b> (for example <b>&apos;uint8&apos;</b>) sets another integer class; the result stays double.</p>
+    <p>Single and logical inputs are not supported.</p>
   </description>
   <used_function />
   <bibliography />

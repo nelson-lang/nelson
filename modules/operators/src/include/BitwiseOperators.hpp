@@ -26,5 +26,8 @@ NLSOPERATORS_IMPEXP ArrayOf
 BitwiseOperator(BITWISE_OPERATOR bitwiseOperator, const ArrayOf& A, const ArrayOf& B,
     const std::wstring& assumedType, bool withAssumedType);
 //=============================================================================
+NLSOPERATORS_IMPEXP ArrayOf
+Bitcmp(const ArrayOf& A, const std::wstring& assumedType, bool withAssumedType);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

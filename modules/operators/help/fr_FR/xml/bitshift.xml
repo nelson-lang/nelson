@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>bitshift</keyword>
+  <short_description>Décale les bits d&apos;un nombre de positions donné.</short_description>
+  <syntax>
+    <syntax_item>r = bitshift(A, k)</syntax_item>
+    <syntax_item>r = bitshift(A, k, assumedtype)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>un tableau d&apos;entiers, ou un tableau double de valeurs entières positives ou nulles.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>k</param_name>
+      <param_description>le nombre de positions : positif vers la gauche, négatif vers la droite. Un tableau double ou entier de valeurs entières.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>assumedtype</param_name>
+      <param_description>un nom de classe entière utilisé pour lire un double <b>A</b> (par défaut <b>&apos;uint64&apos;</b>).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>r</param_name>
+      <param_description><b>A</b> décalé de <b>k</b> bits, de la même classe que <b>A</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>r = bitshift(A, k)</b> décale les bits de <b>A</b> de <b>k</b> positions vers la gauche lorsque <b>k</b> est positif, et vers la droite lorsqu&apos;il est négatif.</p>
+    <p>Les bits qui dépassent la largeur de la classe entière sont perdus. Un décalage à droite d&apos;un entier signé conserve son signe.</p>
+    <p>Lorsque <b>A</b> est un double, le décalage est fait dans <b>assumedtype</b> (<b>uint64</b> par défaut) et le résultat reste double.</p>
+    <p><b>A</b> et <b>k</b> doivent avoir la même taille, ou l&apos;un d&apos;eux doit être un scalaire. Un <b>k</b> single n&apos;est accepté qu&apos;avec un <b>A</b> entier ; les <b>A</b> single et logiques ne sont pas acceptés.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[bitshift(uint8(1), 0:8)
+bitshift(int8(-100), -1)
+bitshift(255, 4, 'uint8')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${operators}bitand">bitand</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}bitcmp">bitcmp</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}bitget">bitget</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -26,7 +26,8 @@
   </param_output>
   <description>
     <p><b>r = bitcmp(A)</b> renvoie le complément bit à bit de <b>A</b>, la largeur étant donnée par la classe entière de <b>A</b>.</p>
-    <p>Lorsque <b>A</b> est un double, fournissez <b>assumedtype</b> (par exemple <b>&apos;uint8&apos;</b>) pour fixer la largeur en bits ; le résultat reste double.</p>
+    <p>Lorsque <b>A</b> est un double, ses valeurs sont lues comme <b>uint64</b> sauf si <b>assumedtype</b> (par exemple <b>&apos;uint8&apos;</b>) fixe une autre classe entière ; le résultat reste double.</p>
+    <p>Les entrées single et logiques ne sont pas acceptées.</p>
   </description>
   <used_function />
   <bibliography />

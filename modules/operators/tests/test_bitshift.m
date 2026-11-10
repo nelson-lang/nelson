@@ -30,5 +30,5 @@ assert_isequal(bitshift(uint8([1 2 4]), [1 2 3]), uint8([2 8 32]));
 assert_isequal(bitshift(uint8([1 2 4]), 1), uint8([2 4 8]));
 %=============================================================================
 % errors
-assert_checkerror('bitshift(2.5, 1)', _('bitshift: finite integer values expected.'));
+assert_checkerror('bitshift(2.5, 1)', _('Double inputs must be nonnegative whole numbers less than 2^64.'));
 %=============================================================================

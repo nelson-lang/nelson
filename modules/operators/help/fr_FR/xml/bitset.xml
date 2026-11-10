@@ -7,11 +7,13 @@
   <syntax>
     <syntax_item>r = bitset(A, pos)</syntax_item>
     <syntax_item>r = bitset(A, pos, val)</syntax_item>
+    <syntax_item>r = bitset(A, pos, assumedtype)</syntax_item>
+    <syntax_item>r = bitset(A, pos, val, assumedtype)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>A</param_name>
-      <param_description>un tableau d&apos;entiers.</param_description>
+      <param_description>un tableau d&apos;entiers, ou un tableau double de valeurs entières positives ou nulles.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>pos</param_name>
@@ -20,6 +22,10 @@
     <param_input_item>
       <param_name>val</param_name>
       <param_description>la valeur du bit, <b>0</b> ou <b>1</b> (par défaut <b>1</b>).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>assumedtype</param_name>
+      <param_description>un nom de classe entière utilisé pour lire un double <b>A</b> (par défaut <b>&apos;uint64&apos;</b>).</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -31,6 +37,8 @@
   <description>
     <p><b>r = bitset(A, pos)</b> met à <b>1</b> le bit en position <b>pos</b> de <b>A</b>.</p>
     <p><b>r = bitset(A, pos, val)</b> met ce bit à <b>val</b>.</p>
+    <p>Toutes les entrées non scalaires doivent avoir la même taille. Un <b>val</b> non nul met le bit à 1, zéro le met à 0.</p>
+    <p>Lorsque <b>A</b> est un double, le résultat est double ; les entrées single ne sont pas acceptées.</p>
   </description>
   <used_function />
   <bibliography />

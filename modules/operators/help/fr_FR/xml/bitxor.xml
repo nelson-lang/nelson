@@ -34,6 +34,7 @@
   <description>
     <p>
       <b>C = bitxor(A, B)</b> returns the bit-wise XOR of <b>A</b> and <b>B</b>.</p>
+    <p>Les entrées entières doivent être de la même classe, ou combinées avec un double scalaire contenant une valeur de cette classe. Les entrées double et logiques doivent contenir des valeurs entières positives ou nulles inférieures à 2^64, ou des valeurs de <b>assumedtype</b> lorsqu&apos;il est fourni ; le résultat est alors double. Deux entrées logiques donnent un résultat logique. Les entrées single ne sont pas acceptées.</p>
   </description>
   <used_function />
   <bibliography />

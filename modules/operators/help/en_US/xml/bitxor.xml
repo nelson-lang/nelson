@@ -35,6 +35,7 @@
   <description>
     <p>
       <b>C = bitxor(A, B)</b> returns the bit-wise XOR of <b>A</b> and<b>B</b>.</p>
+    <p>Integer inputs must share the same class, or be combined with a double scalar holding a value of that class. Double and logical inputs must hold nonnegative whole values below 2^64, or values of <b>assumedtype</b> when it is given; the result is then double. Two logical inputs give a logical result. Single inputs are not supported.</p>
   </description>
   <used_function />
   <bibliography />

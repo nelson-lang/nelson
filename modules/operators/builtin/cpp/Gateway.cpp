@@ -44,6 +44,8 @@
 #include "vertcatBuiltin.hpp"
 #include "ismemberBuiltin.hpp"
 #include "bitandBuiltin.hpp"
+#include "bitcmpBuiltin.hpp"
+#include "bitsetBuiltin.hpp"
 #include "bitgetBuiltin.hpp"
 #include "bitorBuiltin.hpp"
 #include "bitshiftBuiltin.hpp"
@@ -116,7 +118,9 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE },
     { "ismember", (ptrBuiltin)Nelson::OperatorsGateway::ismemberBuiltin, 1, 2 },
     { "bitand", (ptrBuiltin)Nelson::OperatorsGateway::bitandBuiltin, 1, 2, CPP_BUILTIN },
+    { "bitcmp", (ptrBuiltin)Nelson::OperatorsGateway::bitcmpBuiltin, 1, 2, CPP_BUILTIN },
     { "bitget", (ptrBuiltin)Nelson::OperatorsGateway::bitgetBuiltin, 1, 3, CPP_BUILTIN },
+    { "bitset", (ptrBuiltin)Nelson::OperatorsGateway::bitsetBuiltin, 1, 4, CPP_BUILTIN },
     { "bitor", (ptrBuiltin)Nelson::OperatorsGateway::bitorBuiltin, 1, 2, CPP_BUILTIN },
     { "bitshift", (ptrBuiltin)Nelson::OperatorsGateway::bitshiftBuiltin, 1, 2, CPP_BUILTIN },
     { "bitxor", (ptrBuiltin)Nelson::OperatorsGateway::bitxorBuiltin, 1, 2, CPP_BUILTIN },

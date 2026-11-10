@@ -194,6 +194,8 @@
     <ClCompile Include="..\cpp\bitgetBuiltin.cpp" />
     <ClCompile Include="..\cpp\bitorBuiltin.cpp" />
     <ClCompile Include="..\cpp\bitshiftBuiltin.cpp" />
+    <ClCompile Include="..\cpp\bitcmpBuiltin.cpp" />
+    <ClCompile Include="..\cpp\bitsetBuiltin.cpp" />
     <ClCompile Include="..\cpp\bitxorBuiltin.cpp" />
     <ClCompile Include="..\cpp\colonBuiltin.cpp" />
     <ClCompile Include="..\cpp\ctransposeBuiltin.cpp" />
@@ -258,6 +260,8 @@
     <ClInclude Include="..\include\bitgetBuiltin.hpp" />
     <ClInclude Include="..\include\bitorBuiltin.hpp" />
     <ClInclude Include="..\include\bitshiftBuiltin.hpp" />
+    <ClInclude Include="..\include\bitcmpBuiltin.hpp" />
+    <ClInclude Include="..\include\bitsetBuiltin.hpp" />
     <ClInclude Include="..\include\bitxorBuiltin.hpp" />
     <ClInclude Include="..\include\colonBuiltin.hpp" />
     <ClInclude Include="..\include\ctransposeBuiltin.hpp" />

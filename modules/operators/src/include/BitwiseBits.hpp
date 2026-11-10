@@ -1,0 +1,26 @@
+//=============================================================================
+// Copyright (c) 2016-present Allan CORNET (Nelson)
+//=============================================================================
+// This file is part of Nelson.
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// SPDX-License-Identifier: LGPL-3.0-or-later
+// LICENCE_BLOCK_END
+//=============================================================================
+#pragma once
+//=============================================================================
+#include <string>
+#include "ArrayOf.hpp"
+#include "nlsOperators_exports.h"
+//=============================================================================
+namespace Nelson {
+//=============================================================================
+NLSOPERATORS_IMPEXP ArrayOf
+Bitget(const ArrayOf& A, const ArrayOf& bit, const std::wstring& assumedType, bool withAssumedType);
+//=============================================================================
+NLSOPERATORS_IMPEXP ArrayOf
+Bitset(const ArrayOf& A, const ArrayOf& bit, const ArrayOf& V, const std::wstring& assumedType,
+    bool withAssumedType);
+//=============================================================================
+} // namespace Nelson
+//=============================================================================

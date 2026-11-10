@@ -7,11 +7,13 @@
   <syntax>
     <syntax_item>r = bitset(A, pos)</syntax_item>
     <syntax_item>r = bitset(A, pos, val)</syntax_item>
+    <syntax_item>r = bitset(A, pos, assumedtype)</syntax_item>
+    <syntax_item>r = bitset(A, pos, val, assumedtype)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>A</param_name>
-      <param_description>an integer array.</param_description>
+      <param_description>an integer array, or a double array with nonnegative whole values.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>pos</param_name>
@@ -20,6 +22,10 @@
     <param_input_item>
       <param_name>val</param_name>
       <param_description>the bit value, <b>0</b> or <b>1</b> (default <b>1</b>).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>assumedtype</param_name>
+      <param_description>an integer class name used to read a double <b>A</b> (default <b>&apos;uint64&apos;</b>).</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -31,6 +37,8 @@
   <description>
     <p><b>r = bitset(A, pos)</b> sets the bit at position <b>pos</b> of <b>A</b> to <b>1</b>.</p>
     <p><b>r = bitset(A, pos, val)</b> sets that bit to <b>val</b>.</p>
+    <p>All non-scalar inputs must have the same size. A nonzero <b>val</b> sets the bit, zero clears it.</p>
+    <p>When <b>A</b> is a double, the result is double; single inputs are not supported.</p>
   </description>
   <used_function />
   <bibliography />

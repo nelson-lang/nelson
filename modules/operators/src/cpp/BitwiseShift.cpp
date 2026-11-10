@@ -10,6 +10,7 @@
 #include <cmath>
 #include <type_traits>
 #include "BitwiseShift.hpp"
+#include "BitwiseRange.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
 #include "i18n.hpp"
@@ -17,12 +18,6 @@
 #include "omp_for_loop.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-static NelsonType
-integerTypeFromName(const std::wstring& name);
-//=============================================================================
-static void
-validateDoubleInAssumedRange(const ArrayOf& A, NelsonType assumedClass);
 //=============================================================================
 static ArrayOf
 bitshiftInteger(NelsonType destinationClass, const ArrayOf& A, const ArrayOf& N);
@@ -51,7 +46,8 @@ shiftOne(T value, int64 n)
     return (T)(value >> s); // arithmetic for signed, logical for unsigned
 }
 //=============================================================================
-template <class T>
+// S is the stored element type of A and of the result, T the integer class used to shift
+template <class T, class S = T>
 static ArrayOf
 bitshiftTyped(NelsonType destinationClass, const ArrayOf& A, const ArrayOf& N)
 {
@@ -67,17 +63,102 @@ bitshiftTyped(NelsonType destinationClass, const ArrayOf& A, const ArrayOf& N)
     }
     Dimensions dims = aScalar ? shifts.dimensions() : A.dimensions();
     indexType len = dims.elementCount();
-    T* out = (T*)ArrayOf::allocateArrayOf(destinationClass, len);
+    S* out = (S*)ArrayOf::allocateArrayOf(destinationClass, len);
     ArrayOf res(destinationClass, dims, out, false);
-    const T* pa = (const T*)A.dataPointer();
+    const S* pa = (const S*)A.dataPointer();
     const int64* pn = (const int64*)shifts.dataPointer();
+    const int64 width = static_cast<int64>(sizeof(T) * 8);
+    if (nScalar && !aScalar && pn[0] != 0 && pn[0] < width && pn[0] > -width) {
+        // one shift for every element: no per-element branch, the loop vectorizes
+        using U = typename std::make_unsigned<T>::type;
+        const int s = static_cast<int>(pn[0] > 0 ? pn[0] : -pn[0]);
+        if (pn[0] > 0) {
+            OMP_PARALLEL_FOR_LOOP(len)
+            for (ompIndexType k = 0; k < (ompIndexType)len; ++k) {
+                out[k] = static_cast<S>(static_cast<T>(static_cast<U>(static_cast<T>(pa[k])) << s));
+            }
+        } else {
+            OMP_PARALLEL_FOR_LOOP(len)
+            for (ompIndexType k = 0; k < (ompIndexType)len; ++k) {
+                out[k] = static_cast<S>(static_cast<T>(static_cast<T>(pa[k]) >> s));
+            }
+        }
+        return res;
+    }
+    if (nScalar) {
+        const int64 n = pn[0];
+        OMP_PARALLEL_FOR_LOOP(len)
+        for (ompIndexType k = 0; k < (ompIndexType)len; ++k) {
+            out[k] = static_cast<S>(shiftOne<T>(static_cast<T>(pa[aScalar ? 0 : k]), n));
+        }
+        return res;
+    }
     OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType k = 0; k < (ompIndexType)len; ++k) {
-        T a = pa[aScalar ? 0 : k];
-        int64 n = pn[nScalar ? 0 : k];
-        out[k] = shiftOne<T>(a, n);
+        T a = static_cast<T>(pa[aScalar ? 0 : k]);
+        int64 n = pn[k];
+        out[k] = static_cast<S>(shiftOne<T>(a, n));
     }
     return res;
+}
+//=============================================================================
+static ArrayOf
+bitshiftDouble(NelsonType workClass, const ArrayOf& A, const ArrayOf& N)
+{
+    switch (workClass) {
+    case NLS_INT8:
+        return bitshiftTyped<int8, double>(NLS_DOUBLE, A, N);
+    case NLS_UINT8:
+        return bitshiftTyped<uint8, double>(NLS_DOUBLE, A, N);
+    case NLS_INT16:
+        return bitshiftTyped<int16, double>(NLS_DOUBLE, A, N);
+    case NLS_UINT16:
+        return bitshiftTyped<uint16, double>(NLS_DOUBLE, A, N);
+    case NLS_INT32:
+        return bitshiftTyped<int32, double>(NLS_DOUBLE, A, N);
+    case NLS_UINT32:
+        return bitshiftTyped<uint32, double>(NLS_DOUBLE, A, N);
+    case NLS_INT64:
+        return bitshiftTyped<int64, double>(NLS_DOUBLE, A, N);
+    case NLS_UINT64:
+    default:
+        return bitshiftTyped<uint64, double>(NLS_DOUBLE, A, N);
+    }
+}
+//=============================================================================
+static void
+checkShiftOperand(const ArrayOf& X)
+{
+    NelsonType cls = X.dataClass();
+    if (cls == NLS_DCOMPLEX || cls == NLS_SCOMPLEX) {
+        Error(L"Nelson:operators:invalidBitInput:inputArgumentReal",
+            L"Input argument must be real.");
+    }
+    if (cls == NLS_SINGLE) {
+        Error(L"Nelson:operators:invalidBitshiftInput",
+            L"Invalid data type. First and second arguments must be integer or double.");
+    }
+    if (cls != NLS_DOUBLE && !IS_INTEGER_TYPE(cls)) {
+        Error(L"Nelson:operators:operandsNotNumeric", L"Operands to BIT Ops must be numeric.");
+    }
+}
+//=============================================================================
+static void
+checkShiftAmounts(const ArrayOf& N)
+{
+    bool isSingle = N.dataClass() == NLS_SINGLE;
+    if (N.dataClass() != NLS_DOUBLE && !isSingle) {
+        return;
+    }
+    indexType len = N.elementCount();
+    for (indexType k = 0; k < len; ++k) {
+        double v = isSingle ? static_cast<const single*>(N.dataPointer())[k]
+                            : static_cast<const double*>(N.dataPointer())[k];
+        if (!std::isfinite(v) || v != std::floor(v)) {
+            Error(L"Nelson:operators:invalidBitInput:bitshiftShiftAmountARealInteger",
+                L"bitshift: the shift amount must be a real integer.");
+        }
+    }
 }
 //=============================================================================
 ArrayOf
@@ -86,165 +167,34 @@ Bitshift(const ArrayOf& A, const ArrayOf& N, const std::wstring& assumedType, bo
     if (A.isSparse() || N.isSparse()) {
         Error(L"Nelson:operators:sparseNotSupported", L"Inputs must be full.");
     }
-    if (!N.isNumeric() || N.isComplex()) {
-        Error(L"Nelson:operators:invalidBitInput:bitshiftShiftAmountARealInteger",
-            L"bitshift: the shift amount must be a real integer.");
+    checkShiftOperand(A);
+    // a single shift amount is accepted with an integer value only
+    if (!(N.dataClass() == NLS_SINGLE && IS_INTEGER_TYPE(A.dataClass()))) {
+        checkShiftOperand(N);
     }
+    NelsonType assumedClass = NLS_UINT64;
     if (withAssumedType) {
-        NelsonType assumedClass = integerTypeFromName(assumedType);
+        assumedClass = bitwiseAssumedClass(assumedType);
         if (assumedClass == NLS_UNKNOWN) {
             Error(L"Nelson:operators:invalidAssumedType",
                 L"ASSUMEDTYPE must be an integer type name.");
         }
-        if (A.isIntegerType()) {
-            if (A.dataClass() != assumedClass) {
-                Error(L"Nelson:operators:integerAssumedType",
-                    L"Integer inputs cannot be assumed as any other types than their own types.");
-            }
-            // assumedType matches A's class: redundant, fall through to the
-            // regular typed path below.
-        } else if (A.dataClass() == NLS_DOUBLE) {
-            validateDoubleInAssumedRange(A, assumedClass);
-            // reinterpret the double values as the assumed integer type, shift
-            // bounded by that type's width, then restore the double class.
-            ArrayOf wide(A);
-            wide.promoteType(assumedClass);
-            ArrayOf res = bitshiftInteger(assumedClass, wide, N);
-            res.promoteType(NLS_DOUBLE);
-            return res;
-        } else {
-            Error(L"Nelson:operators:invalidBitshiftInput",
-                L"Invalid data type. First and second arguments must be integer or double.");
-        }
     }
-    switch (A.dataClass()) {
-    case NLS_INT8:
-    case NLS_UINT8:
-    case NLS_INT16:
-    case NLS_UINT16:
-    case NLS_INT32:
-    case NLS_UINT32:
-    case NLS_INT64:
-    case NLS_UINT64:
+    if (!A.isScalar() && !N.isScalar() && !A.dimensions().equals(N.dimensions())) {
+        Error(L"Nelson:dimagree:bitshiftArraysSizeOneScalar",
+            L"bitshift: arrays must be the same size or one must be scalar.");
+    }
+    checkShiftAmounts(N);
+    if (IS_INTEGER_TYPE(A.dataClass())) {
+        if (withAssumedType && A.dataClass() != assumedClass) {
+            Error(L"Nelson:operators:integerAssumedType",
+                L"Integer inputs cannot be assumed as any other types than their own types.");
+        }
         return bitshiftInteger(A.dataClass(), A, N);
-    case NLS_LOGICAL:
-    case NLS_DOUBLE:
-    case NLS_SINGLE: {
-        if (A.isComplex()) {
-            Error(L"Nelson:operators:invalidBitInput:bitshiftValueReal",
-                L"bitshift: the value must be real.");
-        }
-        if (!A.isIntegerValue() && !A.isEmpty()) {
-            Error(L"Nelson:operators:invalidBitInput:bitshiftFiniteIntegerValuesExpected",
-                L"bitshift: finite integer values expected.");
-        }
-        if (!A.isPositive()) {
-            Error(L"Nelson:operators:invalidBitInput:bitshiftFinitePositiveIntegerValuesExpected",
-                L"bitshift: finite positive integer values expected.");
-        }
-        // double/single/logical shift in an unsigned 64-bit domain, back to double
-        ArrayOf wide(A);
-        wide.promoteType(NLS_UINT64);
-        ArrayOf res = bitshiftTyped<uint64>(NLS_UINT64, wide, N);
-        res.promoteType(NLS_DOUBLE);
-        return res;
     }
-    default:
-        Error(L"Nelson:operators:invalidBitInput:bitshiftIntegerRealInputExpected",
-            L"bitshift: integer or real input expected.");
-    }
-    return {};
-}
-//=============================================================================
-NelsonType
-integerTypeFromName(const std::wstring& name)
-{
-    if (name == L"int8") {
-        return NLS_INT8;
-    }
-    if (name == L"uint8") {
-        return NLS_UINT8;
-    }
-    if (name == L"int16") {
-        return NLS_INT16;
-    }
-    if (name == L"uint16") {
-        return NLS_UINT16;
-    }
-    if (name == L"int32") {
-        return NLS_INT32;
-    }
-    if (name == L"uint32") {
-        return NLS_UINT32;
-    }
-    if (name == L"int64") {
-        return NLS_INT64;
-    }
-    if (name == L"uint64") {
-        return NLS_UINT64;
-    }
-    return NLS_UNKNOWN;
-}
-//=============================================================================
-static void
-assumedTypeRange(NelsonType assumedClass, double& minValue, double& maxValue)
-{
-    switch (assumedClass) {
-    case NLS_INT8:
-        minValue = -128.0;
-        maxValue = 127.0;
-        break;
-    case NLS_UINT8:
-        minValue = 0.0;
-        maxValue = 255.0;
-        break;
-    case NLS_INT16:
-        minValue = -32768.0;
-        maxValue = 32767.0;
-        break;
-    case NLS_UINT16:
-        minValue = 0.0;
-        maxValue = 65535.0;
-        break;
-    case NLS_INT32:
-        minValue = -2147483648.0;
-        maxValue = 2147483647.0;
-        break;
-    case NLS_UINT32:
-        minValue = 0.0;
-        maxValue = 4294967295.0;
-        break;
-    case NLS_INT64:
-        minValue = -9223372036854775808.0;
-        maxValue = 9223372036854775807.0;
-        break;
-    case NLS_UINT64:
-    default:
-        minValue = 0.0;
-        maxValue = 18446744073709551615.0;
-        break;
-    }
-}
-//=============================================================================
-void
-validateDoubleInAssumedRange(const ArrayOf& A, NelsonType assumedClass)
-{
-    if (A.isComplex()) {
-        Error(L"Nelson:operators:invalidBitInput:doubleInputsIntegerValuesRangeASSUMEDTYPE",
-            L"Double inputs must have integer values in the range of ASSUMEDTYPE.");
-    }
-    double minValue;
-    double maxValue;
-    assumedTypeRange(assumedClass, minValue, maxValue);
-    const double* ptr = (const double*)A.dataPointer();
-    indexType len = A.elementCount();
-    for (indexType k = 0; k < len; ++k) {
-        double v = ptr[k];
-        if (!std::isfinite(v) || v != std::floor(v) || v < minValue || v > maxValue) {
-            Error(L"Nelson:operators:invalidBitInput:doubleInputsIntegerValuesRangeASSUMEDTYPE",
-                L"Double inputs must have integer values in the range of ASSUMEDTYPE.");
-        }
-    }
+    // double values are shifted in the assumed integer class, then restored to double
+    checkDoubleInBitRange(A, assumedClass, withAssumedType);
+    return bitshiftDouble(assumedClass, A, N);
 }
 //=============================================================================
 ArrayOf

@@ -123,6 +123,12 @@
     <ClCompile Include="..\cpp\bitorBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\bitcmpBuiltin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\bitsetBuiltin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\cpp\bitxorBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -251,6 +257,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\bitshiftBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\bitcmpBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\bitsetBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\bitxorBuiltin.hpp">
