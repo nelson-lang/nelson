@@ -13,8 +13,8 @@ function varargout = camup(varargin)
   % camup('auto'|'manual'|'mode'), camup(ax, ...)
   narginchk(0, 2);
   nargoutchk(0, 1);
-  [ax, args] = __camAxesArgs__(varargin);
-  out = __camGetSetProp__(ax, 'CameraUpVector', 'CameraUpVectorMode', args, nargout);
+  [ax, args] = camAxesArgs(varargin);
+  out = camGetSetProp(ax, 'CameraUpVector', 'CameraUpVectorMode', args, nargout);
   if (nargout > 0 || isempty(args))
     varargout{1} = out;
   else

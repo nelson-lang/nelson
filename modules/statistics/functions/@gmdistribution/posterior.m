@@ -10,6 +10,6 @@
 function [P, nlogL] = posterior(obj, X)
   narginchk(2, 2);
   nargoutchk(0, 2);
-  [P, nlogL] = __gmm_responsibilities__(X, obj.mu, obj.Sigma, obj.ComponentProportion);
+  [P, nlogL] = gmmResponsibilities(X, obj.mu, obj.Sigma, obj.ComponentProportion);
 end
 %=============================================================================

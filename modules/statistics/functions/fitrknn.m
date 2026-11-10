@@ -10,7 +10,7 @@
 function mdl = fitrknn(X, Y, varargin)
   narginchk(2, Inf);
   nargoutchk(0, 1);
-  [X, y] = __regression_training_data__(X, Y);
+  [X, y] = regressionTrainingData(X, Y);
   if rem(length(varargin), 2) ~= 0
     error('Nelson:statistics:nameValueNotPaired', 'Name-value arguments must be paired.');
   end
@@ -36,9 +36,9 @@ end
 function opts = parseOptionsLocal(args, X)
   opts = struct('NumNeighbors', 1, 'Distance', 'euclidean', 'DistanceWeight', 'equal', ...
     'Standardize', false, 'P', 2, 'Scale', [], ...
-    'PredictorNames', {__default_predictor_names__(size(X, 2))}, 'ResponseName', 'y');
+    'PredictorNames', {defaultPredictorNames(size(X, 2))}, 'ResponseName', 'y');
   for k = 1:2:length(args)
-    name = __option_name__(args{k}, {'numneighbors', 'distance', 'distanceweight', ...
+    name = resolveOptionName(args{k}, {'numneighbors', 'distance', 'distanceweight', ...
       'standardize', 'p', 'scale', 'predictornames', 'responsename'});
     value = args{k + 1};
     switch name
@@ -55,9 +55,9 @@ function opts = parseOptionsLocal(args, X)
       case 'scale'
         opts.Scale = scaleVectorLocal(value, size(X, 2));
       case 'predictornames'
-        opts.PredictorNames = __predictor_names__(value, size(X, 2));
+        opts.PredictorNames = validatePredictorNames(value, size(X, 2));
       case 'responsename'
-        opts.ResponseName = __response_name__(value);
+        opts.ResponseName = validateResponseName(value);
     end
   end
   if opts.NumNeighbors > size(X, 1)

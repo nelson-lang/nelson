@@ -32,7 +32,6 @@ function h = barBase(orientation, varargin)
 end
 %=============================================================================
 function [parent, args] = parseParent(args)
-  parent = [];
   if ~isempty(args) && isscalar(args{1}) && (isgraphics(args{1}, 'axes') || isgraphics(args{1}, 'hggroup'))
     parent = args{1}(1);
     args = args(2:end);

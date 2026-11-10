@@ -13,14 +13,14 @@ function varargout = camva(varargin)
   % camva('auto'|'manual'|'mode'), camva(ax, ...)
   narginchk(0, 2);
   nargoutchk(0, 1);
-  [ax, args] = __camAxesArgs__(varargin);
+  [ax, args] = camAxesArgs(varargin);
   if (~isempty(args) && ~(ischar(args{1}) || isStringScalar(args{1})))
     if (~(isnumeric(args{1}) && isscalar(args{1}) && isreal(args{1}) && args{1} > 0 && args{1} < 180))
       error('Nelson:graphics:invalidCamViewAngle', ...
         'Camera view angle must be a real scalar in the range (0, 180).');
     end
   end
-  out = __camGetSetProp__(ax, 'CameraViewAngle', 'CameraViewAngleMode', args, nargout);
+  out = camGetSetProp(ax, 'CameraViewAngle', 'CameraViewAngleMode', args, nargout);
   if (nargout > 0 || isempty(args))
     varargout{1} = out;
   else

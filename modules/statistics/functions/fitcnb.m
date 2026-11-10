@@ -10,12 +10,12 @@
 function mdl = fitcnb(X, Y, varargin)
   narginchk(2, Inf);
   nargoutchk(0, 1);
-  [X, yIndex, classNames] = __classification_training_data__(X, Y);
+  [X, yIndex, classNames] = classificationTrainingData(X, Y);
   if rem(length(varargin), 2) ~= 0
     error('Nelson:statistics:nameValueNotPaired', 'Name-value arguments must be paired.');
   end
   opts = parseOptionsLocal(varargin, classNames, size(X, 2), size(X, 1));
-  [yIndex, classNames] = __reorder_class_names__(yIndex, classNames, opts.ClassNames);
+  [yIndex, classNames] = reorderClassNames(yIndex, classNames, opts.ClassNames);
   prior = priorLocal(opts.Prior, yIndex, length(classNames));
   [mu, sigma] = fitNormalParametersLocal(X, yIndex, length(classNames), opts.Weights);
   mdl = ClassificationNaiveBayes();
@@ -33,11 +33,11 @@ function opts = parseOptionsLocal(args, classNames, p, n)
   opts = struct('ClassNames', {classNames}, 'Prior', 'empirical', ...
     'DistributionNames', {repmat({'normal'}, 1, p)}, 'Weights', []);
   for k = 1:2:length(args)
-    name = __option_name__(args{k}, {'classnames', 'prior', 'distributionnames', 'weights'});
+    name = resolveOptionName(args{k}, {'classnames', 'prior', 'distributionnames', 'weights'});
     value = args{k + 1};
     switch name
       case 'classnames'
-        opts.ClassNames = __class_names__(value, classNames);
+        opts.ClassNames = validateClassNames(value, classNames);
       case 'prior'
         opts.Prior = priorOptionLocal(value, length(classNames));
       case 'distributionnames'

@@ -11,8 +11,8 @@ function opts = setvartype(opts, selection, types)
   if nargin < 3
     error('Nelson:spreadsheet:setvartype:notEnoughInputs', 'Not enough input arguments.');
   end
-  opts = __import_options_variable_options_init__(opts);
-  indices = __import_options_resolve_selection__(opts, selection);
+  opts = importOptionsVariableOptionsInit(opts);
+  indices = importOptionsResolveSelection(opts, selection);
   if isstring(types)
     types = cellstr(types);
   elseif ischar(types)

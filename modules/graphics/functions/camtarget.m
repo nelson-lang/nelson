@@ -13,8 +13,8 @@ function varargout = camtarget(varargin)
   % camtarget('auto'|'manual'|'mode'), camtarget(ax, ...)
   narginchk(0, 2);
   nargoutchk(0, 1);
-  [ax, args] = __camAxesArgs__(varargin);
-  out = __camGetSetProp__(ax, 'CameraTarget', 'CameraTargetMode', args, nargout);
+  [ax, args] = camAxesArgs(varargin);
+  out = camGetSetProp(ax, 'CameraTarget', 'CameraTargetMode', args, nargout);
   if (nargout > 0 || isempty(args))
     varargout{1} = out;
   else

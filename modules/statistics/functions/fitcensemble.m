@@ -10,13 +10,13 @@
 function mdl = fitcensemble(X, Y, varargin)
   narginchk(2, Inf);
   nargoutchk(0, 1);
-  [X, yIndex, classNames, Yclean] = __classification_training_data__(X, Y);
+  [X, yIndex, classNames, Yclean] = classificationTrainingData(X, Y);
   if rem(length(varargin), 2) ~= 0
     error('Nelson:statistics:nameValueNotPaired', 'Name-value arguments must be paired.');
   end
   opts = parseOptionsLocal(varargin, classNames, size(X, 1));
-  [yIndex, classNames] = __reorder_class_names__(yIndex, classNames, opts.ClassNames);
-  Yclean = __labels_from_class_index__(classNames, yIndex, length(yIndex));
+  [yIndex, classNames] = reorderClassNames(yIndex, classNames, opts.ClassNames);
+  Yclean = labelsFromClassIndex(classNames, yIndex, length(yIndex));
   learners = trainLearnersLocal(X, yIndex, Yclean, classNames, opts);
   mdl = ClassificationEnsemble();
   mdl.ClassNames = classNames;
@@ -33,12 +33,12 @@ function opts = parseOptionsLocal(args, classNames, n)
     'NumLearningCycles', 100, 'MaxNumSplits', max(n - 1, 0), 'MinLeafSize', 1, ...
     'MinParentSize', 10);
   for k = 1:2:length(args)
-    name = __option_name__(args{k}, {'classnames', 'method', 'learners', ...
+    name = resolveOptionName(args{k}, {'classnames', 'method', 'learners', ...
       'numlearningcycles', 'maxnumsplits', 'minleafsize', 'minparentsize'});
     value = args{k + 1};
     switch name
       case 'classnames'
-        opts.ClassNames = __class_names__(value, classNames);
+        opts.ClassNames = validateClassNames(value, classNames);
       case 'method'
         opts.Method = methodLocal(value);
       case 'learners'
@@ -54,7 +54,7 @@ function opts = parseOptionsLocal(args, classNames, n)
     end
   end
   if ~isequal(opts.ClassNames, classNames)
-    __check_class_names__(classNames, opts.ClassNames, true);
+    checkClassNames(classNames, opts.ClassNames, true);
   end
 end
 %=============================================================================

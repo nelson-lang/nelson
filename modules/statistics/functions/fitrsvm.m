@@ -10,7 +10,7 @@
 function mdl = fitrsvm(X, Y, varargin)
   narginchk(2, Inf);
   nargoutchk(0, 1);
-  [X, y] = __regression_training_data__(X, Y);
+  [X, y] = regressionTrainingData(X, Y);
   if rem(length(varargin), 2) ~= 0
     error('Nelson:statistics:nameValueNotPaired', 'Name-value arguments must be paired.');
   end
@@ -38,9 +38,9 @@ end
 function opts = parseOptionsLocal(args, X)
   opts = struct('KernelFunction', 'linear', 'KernelScale', kernelScaleAutoLocal(X), ...
     'PolynomialOrder', 3, 'BoxConstraint', 1, 'Epsilon', 0.1, 'Standardize', false, ...
-    'PredictorNames', {__default_predictor_names__(size(X, 2))}, 'ResponseName', 'y');
+    'PredictorNames', {defaultPredictorNames(size(X, 2))}, 'ResponseName', 'y');
   for k = 1:2:length(args)
-    name = __option_name__(args{k}, {'kernelfunction', 'kernelscale', 'polynomialorder', ...
+    name = resolveOptionName(args{k}, {'kernelfunction', 'kernelscale', 'polynomialorder', ...
       'boxconstraint', 'epsilon', 'standardize', 'predictornames', 'responsename'});
     value = args{k + 1};
     switch name
@@ -57,9 +57,9 @@ function opts = parseOptionsLocal(args, X)
       case 'standardize'
         opts.Standardize = logicalScalarLocal(value, 'Standardize');
       case 'predictornames'
-        opts.PredictorNames = __predictor_names__(value, size(X, 2));
+        opts.PredictorNames = validatePredictorNames(value, size(X, 2));
       case 'responsename'
-        opts.ResponseName = __response_name__(value);
+        opts.ResponseName = validateResponseName(value);
     end
   end
 end

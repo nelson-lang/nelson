@@ -10,7 +10,7 @@
 function mdl = fitrtree(X, Y, varargin)
   narginchk(2, Inf);
   nargoutchk(0, 1);
-  [X, y] = __regression_training_data__(X, Y);
+  [X, y] = regressionTrainingData(X, Y);
   if rem(length(varargin), 2) ~= 0
     error('Nelson:statistics:nameValueNotPaired', 'Name-value arguments must be paired.');
   end
@@ -38,9 +38,9 @@ end
 %=============================================================================
 function opts = parseOptionsLocal(args, n, p)
   opts = struct('MaxNumSplits', max(n - 1, 0), 'MinLeafSize', 1, 'MinParentSize', 10, ...
-    'PredictorNames', {__default_predictor_names__(p)}, 'ResponseName', 'y');
+    'PredictorNames', {defaultPredictorNames(p)}, 'ResponseName', 'y');
   for k = 1:2:length(args)
-    name = __option_name__(args{k}, {'maxnumsplits', 'minleafsize', 'minparentsize', ...
+    name = resolveOptionName(args{k}, {'maxnumsplits', 'minleafsize', 'minparentsize', ...
       'predictornames', 'responsename'});
     value = args{k + 1};
     switch name
@@ -51,9 +51,9 @@ function opts = parseOptionsLocal(args, n, p)
       case 'minparentsize'
         opts.MinParentSize = positiveIntegerLocal(value, 'MinParentSize');
       case 'predictornames'
-        opts.PredictorNames = __predictor_names__(value, p);
+        opts.PredictorNames = validatePredictorNames(value, p);
       case 'responsename'
-        opts.ResponseName = __response_name__(value);
+        opts.ResponseName = validateResponseName(value);
     end
   end
 end

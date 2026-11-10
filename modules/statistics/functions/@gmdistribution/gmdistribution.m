@@ -32,12 +32,21 @@ classdef gmdistribution
       if nargin < 3
         p = [];
       end
-      [mu, Sigma, p] = __gmm_check_model__(mu, Sigma, p);
+      [mu, Sigma, p] = gmmCheckModel(mu, Sigma, p);
       obj.mu = mu;
       obj.Sigma = Sigma;
       obj.ComponentProportion = p;
       obj.NumComponents = size(mu, 1);
       obj.NumVariables = size(mu, 2);
+    end
+  end
+  % Entry points for fitgmdist, which cannot see this class's private folder.
+  methods (Static, Hidden)
+    function X = checkData(X)
+      X = gmmCheckData(X);
+    end
+    function [P, nlogL] = responsibilities(X, centers, covariances, p)
+      [P, nlogL] = gmmResponsibilities(X, centers, covariances, p);
     end
   end
 end

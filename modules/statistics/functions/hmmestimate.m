@@ -15,8 +15,8 @@ function [trans, emis] = hmmestimate(seq, states, varargin)
   rawVector(states, 'STATES');
   nstates = max(max(double(states(:))), opts.NStates);
   nsymbols = max(max(double(seq(:))), opts.NSymbols);
-  seq = __hmm_check_sequence(seq, nsymbols, 'SEQ');
-  states = __hmm_check_sequence(states, nstates, 'STATES');
+  seq = hmmCheckSequence(seq, nsymbols, 'SEQ');
+  states = hmmCheckSequence(states, nstates, 'STATES');
   if length(seq) ~= length(states)
     error('Nelson:statistics:SEQSTATESSameLength', '%s must have the same length.', 'SEQ and STATES');
   end

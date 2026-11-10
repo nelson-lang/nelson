@@ -10,12 +10,12 @@
 function mdl = fitcecoc(X, Y, varargin)
   narginchk(2, Inf);
   nargoutchk(0, 1);
-  [X, yIndex, classNames, Yclean] = __classification_training_data__(X, Y);
+  [X, yIndex, classNames, Yclean] = classificationTrainingData(X, Y);
   if rem(length(varargin), 2) ~= 0
     error('Nelson:statistics:nameValueNotPaired', 'Name-value arguments must be paired.');
   end
   opts = parseOptionsLocal(varargin, X, classNames);
-  [yIndex, classNames] = __reorder_class_names__(yIndex, classNames, opts.ClassNames);
+  [yIndex, classNames] = reorderClassNames(yIndex, classNames, opts.ClassNames);
   learners = trainLearnersLocal(X, yIndex, classNames, Yclean, opts);
   mdl = ClassificationECOC();
   mdl.ClassNames = classNames;
@@ -31,12 +31,12 @@ function opts = parseOptionsLocal(args, X, classNames)
     'KernelScale', sqrt(size(X, 2)), 'PolynomialOrder', 3, 'BoxConstraint', 1, ...
     'Standardize', false, 'IterationLimit', 1000, 'Tolerance', 1e-3);
   for k = 1:2:length(args)
-    name = __option_name__(args{k}, {'classnames', 'kernelfunction', 'kernelscale', ...
+    name = resolveOptionName(args{k}, {'classnames', 'kernelfunction', 'kernelscale', ...
       'polynomialorder', 'boxconstraint', 'standardize', 'iterationlimit', 'tolerance'});
     value = args{k + 1};
     switch name
       case 'classnames'
-        opts.ClassNames = __class_names__(value, classNames);
+        opts.ClassNames = validateClassNames(value, classNames);
       case 'kernelfunction'
         opts.KernelFunction = kernelFunctionLocal(value);
       case 'kernelscale'
@@ -54,7 +54,7 @@ function opts = parseOptionsLocal(args, X, classNames)
     end
   end
   if ~isequal(opts.ClassNames, classNames)
-    __check_class_names__(classNames, opts.ClassNames, true);
+    checkClassNames(classNames, opts.ClassNames, true);
   end
 end
 %=============================================================================
@@ -68,7 +68,7 @@ function learners = trainLearnersLocal(X, yIndex, classNames, Yclean, opts)
     for j = i + 1:k
       m = m + 1;
       rows = yIndex == i | yIndex == j;
-      pairNames = __labels_from_class_index__(classNames, [i; j], 2);
+      pairNames = labelsFromClassIndex(classNames, [i; j], 2);
       binaryLearners{m} = fitcsvm(X(rows, :), Yclean(rows), ...
         'ClassNames', pairNames, 'KernelFunction', opts.KernelFunction, ...
         'KernelScale', opts.KernelScale, 'PolynomialOrder', opts.PolynomialOrder, ...

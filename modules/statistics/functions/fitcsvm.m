@@ -10,12 +10,12 @@
 function mdl = fitcsvm(X, Y, varargin)
   narginchk(2, Inf);
   nargoutchk(0, 1);
-  [X, yIndex, classNames] = __classification_training_data__(X, Y, 2);
+  [X, yIndex, classNames] = classificationTrainingData(X, Y, 2);
   if rem(length(varargin), 2) ~= 0
     error('Nelson:statistics:nameValueNotPaired', 'Name-value arguments must be paired.');
   end
   opts = parseOptionsLocal(varargin, X, classNames);
-  [yIndex, classNames] = __reorder_class_names__(yIndex, classNames, opts.ClassNames);
+  [yIndex, classNames] = reorderClassNames(yIndex, classNames, opts.ClassNames);
   [Xfit, mu, sigma] = standardizeTrainingLocal(X, opts.Standardize);
   ySigned = -ones(length(yIndex), 1);
   ySigned(yIndex == 2) = 1;
@@ -48,15 +48,15 @@ function opts = parseOptionsLocal(args, X, classNames)
   opts = struct('ClassNames', {classNames}, 'KernelFunction', 'linear', ...
     'KernelScale', kernelScaleAutoLocal(X), 'PolynomialOrder', 3, 'BoxConstraint', 1, ...
     'BoxConstraints', [], 'Cost', [], 'Standardize', false, 'IterationLimit', 1000, 'Tolerance', 1e-3, ...
-    'PredictorNames', {__default_predictor_names__(size(X, 2))});
+    'PredictorNames', {defaultPredictorNames(size(X, 2))});
   for k = 1:2:length(args)
-    name = __option_name__(args{k}, {'classnames', 'kernelfunction', 'kernelscale', ...
+    name = resolveOptionName(args{k}, {'classnames', 'kernelfunction', 'kernelscale', ...
       'polynomialorder', 'boxconstraint', 'standardize', 'iterationlimit', ...
       'tolerance', 'predictornames', 'cost'});
     value = args{k + 1};
     switch name
       case 'classnames'
-        opts.ClassNames = __class_names__(value, classNames);
+        opts.ClassNames = validateClassNames(value, classNames);
       case 'kernelfunction'
         opts.KernelFunction = kernelFunctionLocal(value);
       case 'kernelscale'
@@ -72,13 +72,13 @@ function opts = parseOptionsLocal(args, X, classNames)
       case 'tolerance'
         opts.Tolerance = positiveScalarLocal(value, 'Tolerance');
       case 'predictornames'
-        opts.PredictorNames = __predictor_names__(value, size(X, 2));
+        opts.PredictorNames = validatePredictorNames(value, size(X, 2));
       case 'cost'
         opts.Cost = costMatrixLocal(value, length(classNames));
     end
   end
   if ~isequal(opts.ClassNames, classNames)
-    __check_class_names__(classNames, opts.ClassNames, true);
+    checkClassNames(classNames, opts.ClassNames, true);
   end
 end
 %=============================================================================

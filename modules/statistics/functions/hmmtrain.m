@@ -10,8 +10,8 @@
 function [trans, emis] = hmmtrain(seq, trans, emis, varargin)
   narginchk(3, Inf);
   nargoutchk(0, 2);
-  [trans, emis, ~, nsymbols] = __hmm_check_model(trans, emis);
-  seq = __hmm_check_sequence(seq, nsymbols, 'SEQ');
+  [trans, emis, ~, nsymbols] = hmmCheckModel(trans, emis);
+  seq = hmmCheckSequence(seq, nsymbols, 'SEQ');
   opts = parseOptions(varargin);
   opts.PseudoTransitions = expandPseudo(opts.PseudoTransitions, size(trans), ...
     sprintf(_('%s has incompatible size.'), 'PseudoTransitions'));
@@ -19,7 +19,7 @@ function [trans, emis] = hmmtrain(seq, trans, emis, varargin)
     sprintf(_('%s has incompatible size.'), 'PseudoEmissions'));
   previous = NaN;
   for iter = 1:opts.MaxIterations
-    [gamma, xiSum, logp] = __hmm_forward_backward(seq, trans, emis);
+    [gamma, xiSum, logp] = hmmForwardBackward(seq, trans, emis);
     trans = normalizeCounts(xiSum + opts.PseudoTransitions);
     emisCounts = zeros(size(emis));
     for t = 1:length(seq)

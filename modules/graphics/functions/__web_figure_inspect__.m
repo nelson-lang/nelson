@@ -29,7 +29,7 @@ function out = __web_figure_inspect__(handle, objectHandle)
   else
     object = f;
   end
-  out = struct('model', __graphics_inspector_model__(object), ...
-    'tree', __graphics_hierarchy__(f));
+  out = struct('model', graphicsInspectorModel(object), ...
+    'tree', graphicsHierarchy(f));
 end
 %=============================================================================

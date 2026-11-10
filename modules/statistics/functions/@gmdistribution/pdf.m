@@ -10,7 +10,7 @@
 function y = pdf(obj, X)
   narginchk(2, 2);
   nargoutchk(0, 1);
-  [weighted, ~] = __gmm_weighted_density__(X, obj.mu, obj.Sigma, obj.ComponentProportion);
+  [weighted, ~] = gmmWeightedDensity(X, obj.mu, obj.Sigma, obj.ComponentProportion);
   y = weighted * ones(size(weighted, 2), 1);
 end
 %=============================================================================

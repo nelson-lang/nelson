@@ -82,9 +82,6 @@ function tf = isConstantLineProperty(name)
 end
 %=============================================================================
 function [lineStyle, colorSpec, markerSpec] = tryLineSpec(candidate)
-  lineStyle = '';
-  colorSpec = '';
-  markerSpec = '';
   try
     [lineStyle, colorSpec, markerSpec] = colstyle(candidate);
   catch

@@ -10,12 +10,12 @@
 function mdl = fitcdiscr(X, Y, varargin)
   narginchk(2, Inf);
   nargoutchk(0, 1);
-  [X, yIndex, classNames] = __classification_training_data__(X, Y);
+  [X, yIndex, classNames] = classificationTrainingData(X, Y);
   if rem(length(varargin), 2) ~= 0
     error('Nelson:statistics:nameValueNotPaired', 'Name-value arguments must be paired.');
   end
   opts = parseOptionsLocal(varargin, classNames);
-  [yIndex, classNames] = __reorder_class_names__(yIndex, classNames, opts.ClassNames);
+  [yIndex, classNames] = reorderClassNames(yIndex, classNames, opts.ClassNames);
   prior = priorLocal(opts.Prior, yIndex, length(classNames));
   [mu, Sigma] = fitDiscriminantParametersLocal(X, yIndex, length(classNames), opts);
   mdl = ClassificationDiscriminant();
@@ -34,11 +34,11 @@ function opts = parseOptionsLocal(args, classNames)
   opts = struct('ClassNames', {classNames}, 'Prior', 'empirical', ...
     'DiscrimType', 'linear', 'Gamma', 0, 'Delta', 0);
   for k = 1:2:length(args)
-    name = __option_name__(args{k}, {'classnames', 'prior', 'discrimtype', 'gamma', 'delta'});
+    name = resolveOptionName(args{k}, {'classnames', 'prior', 'discrimtype', 'gamma', 'delta'});
     value = args{k + 1};
     switch name
       case 'classnames'
-        opts.ClassNames = __class_names__(value, classNames);
+        opts.ClassNames = validateClassNames(value, classNames);
       case 'prior'
         opts.Prior = priorOptionLocal(value, length(classNames));
       case 'discrimtype'

@@ -10,6 +10,6 @@
 function y = harmmean(x, varargin)
   narginchk(1, 3);
   nargoutchk(0, 1);
-  y = __mean_family__(x, 'harmmean', varargin{:});
+  y = meanFamily(x, 'harmmean', varargin{:});
 end
 %=============================================================================

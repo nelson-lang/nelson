@@ -10,12 +10,12 @@
 function mdl = fitcknn(X, Y, varargin)
   narginchk(2, Inf);
   nargoutchk(0, 1);
-  [X, yIndex, classNames] = __classification_training_data__(X, Y);
+  [X, yIndex, classNames] = classificationTrainingData(X, Y);
   if rem(length(varargin), 2) ~= 0
     error('Nelson:statistics:nameValueNotPaired', 'Name-value arguments must be paired.');
   end
   opts = parseOptionsLocal(varargin, X, classNames);
-  [yIndex, classNames] = __reorder_class_names__(yIndex, classNames, opts.ClassNames);
+  [yIndex, classNames] = reorderClassNames(yIndex, classNames, opts.ClassNames);
   [Xfit, mu, sigma] = standardizeTrainingLocal(X, opts.Standardize);
   mdl = ClassificationKNN();
   mdl.X = Xfit;
@@ -37,7 +37,7 @@ function opts = parseOptionsLocal(args, X, classNames)
   opts = struct('NumNeighbors', 1, 'Distance', 'euclidean', 'DistanceWeight', 'equal', ...
     'Standardize', false, 'P', 2, 'Scale', [], 'ClassNames', {classNames});
   for k = 1:2:length(args)
-    name = __option_name__(args{k}, {'numneighbors', 'distance', 'distanceweight', ...
+    name = resolveOptionName(args{k}, {'numneighbors', 'distance', 'distanceweight', ...
       'standardize', 'p', 'scale', 'classnames'});
     value = args{k + 1};
     switch name
@@ -54,7 +54,7 @@ function opts = parseOptionsLocal(args, X, classNames)
       case 'scale'
         opts.Scale = scaleVectorLocal(value, size(X, 2));
       case 'classnames'
-        opts.ClassNames = __class_names__(value, classNames);
+        opts.ClassNames = validateClassNames(value, classNames);
     end
   end
   if opts.NumNeighbors > size(X, 1)
@@ -62,7 +62,7 @@ function opts = parseOptionsLocal(args, X, classNames)
       'NumNeighbors must not exceed the number of training observations.');
   end
   if ~isequal(opts.ClassNames, classNames)
-    __check_class_names__(classNames, opts.ClassNames, false);
+    checkClassNames(classNames, opts.ClassNames, false);
   end
 end
 %=============================================================================

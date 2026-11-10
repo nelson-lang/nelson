@@ -11,8 +11,8 @@ function value = getvaropts(opts, selection)
   if nargin < 2
     error('Nelson:spreadsheet:getvaropts:notEnoughInputs', 'Not enough input arguments.');
   end
-  opts = __import_options_variable_options_init__(opts);
-  indices = __import_options_resolve_selection__(opts, selection);
+  opts = importOptionsVariableOptionsInit(opts);
+  indices = importOptionsResolveSelection(opts, selection);
   value = opts.VariableOptions(indices);
 end
 %=============================================================================

@@ -10,6 +10,6 @@
 function y = nanmean(x, varargin)
   narginchk(1, 2);
   nargoutchk(0, 1);
-  y = __nan_statistics__(x, 'mean', [], varargin{:});
+  y = nanStatistics(x, 'mean', [], varargin{:});
 end
 %=============================================================================

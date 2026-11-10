@@ -13,7 +13,7 @@ function varargout = camproj(varargin)
   % camproj(ax, ...)
   narginchk(0, 2);
   nargoutchk(0, 1);
-  [ax, args] = __camAxesArgs__(varargin);
+  [ax, args] = camAxesArgs(varargin);
   if (isempty(args))
     varargout{1} = get(ax, 'Projection');
     return

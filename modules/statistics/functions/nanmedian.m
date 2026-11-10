@@ -10,6 +10,6 @@
 function y = nanmedian(x, varargin)
   narginchk(1, 2);
   nargoutchk(0, 1);
-  y = __nan_statistics__(x, 'median', [], varargin{:});
+  y = nanStatistics(x, 'median', [], varargin{:});
 end
 %=============================================================================

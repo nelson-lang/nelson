@@ -14,7 +14,7 @@ function [seq, states] = hmmgenerate(len, trans, emis)
       && floor(len) == len && len >= 0)
     error('Nelson:statistics:LENNonnegativeIntegerScalar', '%s must be a nonnegative integer scalar.', 'LEN');
   end
-  [trans, emis, nstates, ~] = __hmm_check_model(trans, emis);
+  [trans, emis, nstates, ~] = hmmCheckModel(trans, emis);
   len = double(len);
   seq = zeros(1, len);
   states = zeros(1, len);
@@ -22,11 +22,11 @@ function [seq, states] = hmmgenerate(len, trans, emis)
     return
   end
   prior = ones(1, nstates) / nstates;
-  states(1) = __hmm_sample_discrete(prior);
-  seq(1) = __hmm_sample_discrete(emis(states(1), :));
+  states(1) = hmmSampleDiscrete(prior);
+  seq(1) = hmmSampleDiscrete(emis(states(1), :));
   for t = 2:len
-    states(t) = __hmm_sample_discrete(trans(states(t - 1), :));
-    seq(t) = __hmm_sample_discrete(emis(states(t), :));
+    states(t) = hmmSampleDiscrete(trans(states(t - 1), :));
+    seq(t) = hmmSampleDiscrete(emis(states(t), :));
   end
 end
 %=============================================================================

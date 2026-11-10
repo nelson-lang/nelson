@@ -14,7 +14,7 @@ function camorbit(varargin)
   % horizontal rotation and dphi the vertical rotation, both in degrees.
   narginchk(2, 4);
   nargoutchk(0, 0);
-  [ax, args] = __camAxesArgs__(varargin);
+  [ax, args] = camAxesArgs(varargin);
   if (numel(args) < 2)
     error('Nelson:camorbit:anglesExpected', 'Horizontal and vertical angles expected.');
   end
@@ -38,11 +38,11 @@ function camorbit(varargin)
     horizontalAxis = [0, 0, 1];
   end
   offset = pos - tgt;
-  offset = __camRotateVector__(offset, horizontalAxis, dtheta);
-  up = __camRotateVector__(up, horizontalAxis, dtheta);
-  right = __camRotateVector__(right, horizontalAxis, dtheta);
-  offset = __camRotateVector__(offset, right, dphi);
-  up = __camRotateVector__(up, right, dphi);
+  offset = camRotateVector(offset, horizontalAxis, dtheta);
+  up = camRotateVector(up, horizontalAxis, dtheta);
+  right = camRotateVector(right, horizontalAxis, dtheta);
+  offset = camRotateVector(offset, right, dphi);
+  up = camRotateVector(up, right, dphi);
   set(ax, 'CameraPosition', tgt + offset);
   set(ax, 'CameraUpVector', up);
 end

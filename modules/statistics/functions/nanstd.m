@@ -11,7 +11,7 @@ function y = nanstd(x, varargin)
   narginchk(1, 3);
   nargoutchk(0, 1);
   [flag, args] = parseNanstdInputsLocal(varargin);
-  y = __nan_statistics__(x, 'std', flag, args{:});
+  y = nanStatistics(x, 'std', flag, args{:});
 end
 %=============================================================================
 function [flag, args] = parseNanstdInputsLocal(args)

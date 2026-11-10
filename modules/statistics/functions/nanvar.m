@@ -11,7 +11,7 @@ function y = nanvar(x, varargin)
   narginchk(1, 3);
   nargoutchk(0, 1);
   [weights, args] = parseNanvarInputsLocal(varargin);
-  y = __nan_statistics__(x, 'var', weights, args{:});
+  y = nanStatistics(x, 'var', weights, args{:});
 end
 %=============================================================================
 function [weights, args] = parseNanvarInputsLocal(args)

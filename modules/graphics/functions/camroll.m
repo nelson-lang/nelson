@@ -12,7 +12,7 @@ function camroll(varargin)
   % Rotates the camera up vector about the viewing axis by dtheta degrees.
   narginchk(1, 2);
   nargoutchk(0, 0);
-  [ax, args] = __camAxesArgs__(varargin);
+  [ax, args] = camAxesArgs(varargin);
   if (numel(args) ~= 1)
     error('Nelson:camroll:singleRollAngleExpected', 'A single roll angle expected.');
   end
@@ -24,6 +24,6 @@ function camroll(varargin)
   tgt = get(ax, 'CameraTarget');
   up = get(ax, 'CameraUpVector');
   viewAxis = tgt - pos;
-  set(ax, 'CameraUpVector', __camRotateVector__(up, viewAxis, dtheta));
+  set(ax, 'CameraUpVector', camRotateVector(up, viewAxis, dtheta));
 end
 %=============================================================================

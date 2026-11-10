@@ -14,7 +14,7 @@ function camdolly(varargin)
   % Moves both the camera position and the camera target.
   narginchk(3, 6);
   nargoutchk(0, 0);
-  [ax, args] = __camAxesArgs__(varargin);
+  [ax, args] = camAxesArgs(varargin);
   if (numel(args) < 3)
     error('Nelson:camdolly:offsetsExpected', 'dx, dy and dz expected.');
   end

@@ -10,7 +10,7 @@
 function mdl = fitrensemble(X, Y, varargin)
   narginchk(2, Inf);
   nargoutchk(0, 1);
-  [X, y] = __regression_training_data__(X, Y);
+  [X, y] = regressionTrainingData(X, Y);
   if rem(length(varargin), 2) ~= 0
     error('Nelson:statistics:nameValueNotPaired', 'Name-value arguments must be paired.');
   end
@@ -35,10 +35,10 @@ end
 function opts = parseOptionsLocal(args, n, p)
   opts = struct('Method', 'Bag', 'Learners', 'tree', 'NumLearningCycles', 100, ...
     'MaxNumSplits', max(n - 1, 0), 'MinLeafSize', 1, 'MinParentSize', 10, ...
-    'PredictorNames', {__default_predictor_names__(p)}, 'ResponseName', 'y', ...
+    'PredictorNames', {defaultPredictorNames(p)}, 'ResponseName', 'y', ...
     'LearnRate', 0.1, 'LearnerWeights', [], 'InitialResponse', 0);
   for k = 1:2:length(args)
-    name = __option_name__(args{k}, {'method', 'learners', 'numlearningcycles', ...
+    name = resolveOptionName(args{k}, {'method', 'learners', 'numlearningcycles', ...
       'maxnumsplits', 'minleafsize', 'minparentsize', 'predictornames', 'responsename', ...
       'learnrate'});
     value = args{k + 1};
@@ -56,9 +56,9 @@ function opts = parseOptionsLocal(args, n, p)
       case 'minparentsize'
         opts.MinParentSize = positiveIntegerLocal(value, 'MinParentSize');
       case 'predictornames'
-        opts.PredictorNames = __predictor_names__(value, p);
+        opts.PredictorNames = validatePredictorNames(value, p);
       case 'responsename'
-        opts.ResponseName = __response_name__(value);
+        opts.ResponseName = validateResponseName(value);
       case 'learnrate'
         opts.LearnRate = positiveScalarLocal(value, 'LearnRate');
     end

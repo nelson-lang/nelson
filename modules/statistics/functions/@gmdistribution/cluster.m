@@ -10,7 +10,7 @@
 function [idx, nlogL, P, logpdf] = cluster(obj, X)
   narginchk(2, 2);
   nargoutchk(0, 4);
-  [P, nlogL, y] = __gmm_responsibilities__(X, obj.mu, obj.Sigma, obj.ComponentProportion);
+  [P, nlogL, y] = gmmResponsibilities(X, obj.mu, obj.Sigma, obj.ComponentProportion);
   [~, idx] = max(P, [], 2);
   logpdf = log(max(y, realmin));
 end

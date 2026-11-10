@@ -10,6 +10,6 @@
 function y = kurtosis(x, varargin)
   narginchk(1, 3);
   nargoutchk(0, 1);
-  y = __moment_stats__(x, 4, varargin{:});
+  y = momentStats(x, 4, varargin{:});
 end
 %=============================================================================

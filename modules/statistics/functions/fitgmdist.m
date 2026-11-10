@@ -10,7 +10,7 @@
 function gm = fitgmdist(X, k, varargin)
   narginchk(2, Inf);
   nargoutchk(0, 1);
-  X = __gmm_check_data__(X);
+  X = gmdistribution.checkData(X);
   k = positiveInteger(k, sprintf(_('%s must be a positive integer scalar.'), 'K'));
   if k > size(X, 1)
     error('Nelson:statistics:kTooLarge', 'K must not exceed the number of rows in X.');
@@ -34,7 +34,7 @@ function gm = fitOneReplicate(X, k, opts, replicate)
   oldNlogL = Inf;
   converged = false;
   for iter = 1:opts.MaxIter
-    [P, nlogL] = __gmm_responsibilities__(X, mu, Sigma, p);
+    [P, nlogL] = gmdistribution.responsibilities(X, mu, Sigma, p);
     [mu, Sigma, p] = maximizeModel(X, P, opts);
     if isfinite(oldNlogL) && abs(oldNlogL - nlogL) <= opts.TolFun * (1 + abs(oldNlogL))
       converged = true;
@@ -42,7 +42,7 @@ function gm = fitOneReplicate(X, k, opts, replicate)
     end
     oldNlogL = nlogL;
   end
-  [~, nlogL] = __gmm_responsibilities__(X, mu, Sigma, p);
+  [~, nlogL] = gmdistribution.responsibilities(X, mu, Sigma, p);
   gm = gmdistribution(mu, Sigma, p);
   gm.NegativeLogLikelihood = nlogL;
   gm.NumIterations = iter;

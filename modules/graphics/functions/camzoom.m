@@ -12,7 +12,7 @@ function camzoom(varargin)
   % zf > 1 zooms in (narrows the camera view angle), zf < 1 zooms out.
   narginchk(1, 2);
   nargoutchk(0, 0);
-  [ax, args] = __camAxesArgs__(varargin);
+  [ax, args] = camAxesArgs(varargin);
   if (numel(args) ~= 1)
     error('Nelson:graphics:invalidZoomArgument', 'A single zoom factor expected.');
   end

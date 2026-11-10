@@ -10,9 +10,9 @@
 function [pstates, logpseq] = hmmdecode(seq, trans, emis)
   narginchk(3, 3);
   nargoutchk(0, 2);
-  [trans, emis, ~, nsymbols] = __hmm_check_model(trans, emis);
-  seq = __hmm_check_sequence(seq, nsymbols, 'SEQ');
-  [gamma, ~, logpseq] = __hmm_forward_backward(seq, trans, emis);
+  [trans, emis, ~, nsymbols] = hmmCheckModel(trans, emis);
+  seq = hmmCheckSequence(seq, nsymbols, 'SEQ');
+  [gamma, ~, logpseq] = hmmForwardBackward(seq, trans, emis);
   pstates = gamma';
 end
 %=============================================================================

@@ -14,11 +14,11 @@ function opts = setvaropts(opts, selection, varargin)
   if mod(numel(varargin), 2) ~= 0
     error('Nelson:spreadsheet:nameValueExpected', 'Name-value arguments expected.');
   end
-  opts = __import_options_variable_options_init__(opts);
-  indices = __import_options_resolve_selection__(opts, selection);
+  opts = importOptionsVariableOptionsInit(opts);
+  indices = importOptionsResolveSelection(opts, selection);
   options = opts.VariableOptions;
   for k = 1:2:numel(varargin)
-    name = __import_options_variable_option_name__(varargin{k});
+    name = importOptionsVariableOptionName(varargin{k});
     value = varargin{k + 1};
     for idx = indices
       options(idx).(name) = value;
@@ -26,7 +26,7 @@ function opts = setvaropts(opts, selection, varargin)
     if strcmp(name, 'Type')
       types = opts.VariableTypes;
       for idx = indices
-        types{idx} = __import_options_scalar_text__(value);
+        types{idx} = importOptionsScalarText(value);
       end
       opts.VariableTypes = types;
     end

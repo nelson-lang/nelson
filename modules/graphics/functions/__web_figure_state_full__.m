@@ -37,7 +37,7 @@ function s = __web_figure_state_full__(handle, inspectHandle)
     try
       object = __web_graphics_handle__(inspectHandle, 'object');
       if isgraphics(object) && (isequal(object, f) || isequal(ancestor(object, 'figure'), f))
-        s.inspectorValues = __graphics_inspector_values__(object);
+        s.inspectorValues = graphicsInspectorValues(object);
       end
     catch
     end

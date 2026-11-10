@@ -10,8 +10,8 @@
 function [states, logp] = hmmviterbi(seq, trans, emis)
   narginchk(3, 3);
   nargoutchk(0, 2);
-  [trans, emis, nstates, nsymbols] = __hmm_check_model(trans, emis);
-  seq = __hmm_check_sequence(seq, nsymbols, 'SEQ');
+  [trans, emis, nstates, nsymbols] = hmmCheckModel(trans, emis);
+  seq = hmmCheckSequence(seq, nsymbols, 'SEQ');
   tiny = realmin;
   len = length(seq);
   delta = zeros(len, nstates);

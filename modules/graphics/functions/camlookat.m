@@ -29,7 +29,7 @@ function camlookat(varargin)
       target = h;
     end
   end
-  b = __camObjectBounds__(target);
+  b = camObjectBounds(target);
   center = [(b(1) + b(2)) / 2, (b(3) + b(4)) / 2, (b(5) + b(6)) / 2];
   radius = 0.5 * norm([b(2) - b(1), b(4) - b(3), b(6) - b(5)]);
   if (radius == 0 || ~isfinite(radius))

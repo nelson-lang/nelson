@@ -14,7 +14,7 @@ function campan(varargin)
   % horizontal rotation and dphi the vertical rotation, both in degrees.
   narginchk(2, 4);
   nargoutchk(0, 0);
-  [ax, args] = __camAxesArgs__(varargin);
+  [ax, args] = camAxesArgs(varargin);
   if (numel(args) < 2)
     error('Nelson:campan:anglesExpected', 'Horizontal and vertical angles expected.');
   end
@@ -39,9 +39,9 @@ function campan(varargin)
     horizontalAxis = [0, 0, 1];
   end
   offset = tgt - pos;
-  offset = __camRotateVector__(offset, horizontalAxis, dtheta);
-  right = __camRotateVector__(right, horizontalAxis, dtheta);
-  offset = __camRotateVector__(offset, right, dphi);
+  offset = camRotateVector(offset, horizontalAxis, dtheta);
+  right = camRotateVector(right, horizontalAxis, dtheta);
+  offset = camRotateVector(offset, right, dphi);
   set(ax, 'CameraTarget', pos + offset);
 end
 %=============================================================================

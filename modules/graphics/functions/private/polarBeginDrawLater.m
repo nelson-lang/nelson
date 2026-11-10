@@ -8,7 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function [fig, previousDrawLater] = polarBeginDrawLater(ax)
-  fig = [];
   previousDrawLater = '';
   try
     fig = ancestor(ax, 'figure');

@@ -10,6 +10,6 @@
 function y = geomean(x, varargin)
   narginchk(1, 3);
   nargoutchk(0, 1);
-  y = __mean_family__(x, 'geomean', varargin{:});
+  y = meanFamily(x, 'geomean', varargin{:});
 end
 %=============================================================================

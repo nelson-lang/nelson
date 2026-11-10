@@ -13,8 +13,8 @@ function varargout = campos(varargin)
   % campos('auto'|'manual'|'mode'), campos(ax, ...)
   narginchk(0, 2);
   nargoutchk(0, 1);
-  [ax, args] = __camAxesArgs__(varargin);
-  out = __camGetSetProp__(ax, 'CameraPosition', 'CameraPositionMode', args, nargout);
+  [ax, args] = camAxesArgs(varargin);
+  out = camGetSetProp(ax, 'CameraPosition', 'CameraPositionMode', args, nargout);
   if (nargout > 0 || isempty(args))
     varargout{1} = out;
   else

@@ -10,6 +10,6 @@
 function y = skewness(x, varargin)
   narginchk(1, 3);
   nargoutchk(0, 1);
-  y = __moment_stats__(x, 3, varargin{:});
+  y = momentStats(x, 3, varargin{:});
 end
 %=============================================================================
