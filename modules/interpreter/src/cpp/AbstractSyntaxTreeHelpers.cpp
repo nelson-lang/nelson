@@ -166,7 +166,12 @@ AbstractSyntaxTree::toString(bool firstLevel)
 
         case OP_FUNCTION_HANDLE_ANONYMOUS: {
             if (down) {
-                stringVector arguments = down->toStringList();
+                // without parameters, 'down' is the body itself
+                AbstractSyntaxTreePtr body = down->right ? down->right : down;
+                stringVector arguments;
+                if (down->right) {
+                    arguments = down->toStringList();
+                }
                 result = "@(";
                 for (size_t k = 0; k < arguments.size(); ++k) {
                     result += arguments[k];
@@ -174,10 +179,7 @@ AbstractSyntaxTree::toString(bool firstLevel)
                         result += ",";
                     }
                 }
-                result += ") ";
-                if (down->right) {
-                    result += down->right->toString(true);
-                }
+                result += ") " + body->toString(true);
             }
         } break;
 
