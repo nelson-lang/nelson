@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>besseli</keyword>
+  <short_description>Modified Bessel function of the first kind.</short_description>
+  <syntax>
+    <syntax_item>I = besseli(nu, Z)</syntax_item>
+    <syntax_item>I = besseli(nu, Z, scale)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>nu</param_name>
+      <param_description>order: real array.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Z</param_name>
+      <param_description>argument: real or complex array.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>scale</param_name>
+      <param_description>0 (default) or 1 to return the scaled values.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>I</param_name>
+      <param_description>modified Bessel function of the first kind.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>besseli(nu, Z)</b> computes the modified Bessel function of the first kind I for each element of NU and Z.</p>
+    <p>Modified Bessel functions are solutions of the modified Bessel equation:</p>
+    <latex>z^2 \frac{d^2 w}{dz^2} + z \frac{dw}{dz} - (z^2 + \nu^2) w = 0</latex>
+    <p><b>besseli(nu, Z, 1)</b> returns <b>besseli(nu, Z) .* exp(-abs(real(Z)))</b>, which avoids overflow for large arguments.</p>
+    <p>NU and Z must have the same size, or one of them can be a scalar.</p>
+    <p>The result is single when an input is single, and real when every imaginary part is zero.</p>
+    <p>Values are computed with a C++ port of the Amos algorithms, for any real order and any complex argument.</p>
+  </description>
+  <used_function />
+  <bibliography>D. E. Amos, Algorithm 644: A portable package for Bessel functions of a complex argument and nonnegative order, ACM Transactions on Mathematical Software, 12 (1986), pp. 265-273.</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description></example_item_description>
+      <example_item_data runnable="cli"><![CDATA[I = besseli(0:3, 2.5)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description></example_item_description>
+      <example_item_data runnable="cli"><![CDATA[I = besseli(1, 800, 1)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+x = linspace(0, 4, 400);
+[N, X] = meshgrid(0:2, x);
+I = besseli(N, X);
+plot(x, I);
+grid on;
+legend('I_0', 'I_1', 'I_2');
+xlabel('x');]]></example_item_data>
+      <example_item_img
+        src="../../images/besseli.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${special_functions}besselk">besselk</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}besselj">besselj</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

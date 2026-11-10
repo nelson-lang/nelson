@@ -195,6 +195,12 @@
     <ClCompile Include="..\cpp\erfinvBuiltin.cpp" />
     <ClCompile Include="..\cpp\gammaBuiltin.cpp" />
     <ClCompile Include="..\cpp\gammaincBuiltin.cpp" />
+    <ClCompile Include="..\cpp\airyBuiltin.cpp" />
+    <ClCompile Include="..\cpp\besselhBuiltin.cpp" />
+    <ClCompile Include="..\cpp\besseliBuiltin.cpp" />
+    <ClCompile Include="..\cpp\besseljBuiltin.cpp" />
+    <ClCompile Include="..\cpp\besselkBuiltin.cpp" />
+    <ClCompile Include="..\cpp\besselyBuiltin.cpp" />
     <ClCompile Include="..\cpp\gammalnBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\gcdBuiltin.cpp" />
@@ -240,6 +246,12 @@
     <ClInclude Include="..\include\erfinvBuiltin.hpp" />
     <ClInclude Include="..\include\gammaBuiltin.hpp" />
     <ClInclude Include="..\include\gammaincBuiltin.hpp" />
+    <ClInclude Include="..\include\airyBuiltin.hpp" />
+    <ClInclude Include="..\include\besselhBuiltin.hpp" />
+    <ClInclude Include="..\include\besseliBuiltin.hpp" />
+    <ClInclude Include="..\include\besseljBuiltin.hpp" />
+    <ClInclude Include="..\include\besselkBuiltin.hpp" />
+    <ClInclude Include="..\include\besselyBuiltin.hpp" />
     <ClInclude Include="..\include\gammalnBuiltin.hpp" />
     <ClInclude Include="..\include\gcdBuiltin.hpp" />
     <ClInclude Include="..\include\isprimeBuiltin.hpp" />

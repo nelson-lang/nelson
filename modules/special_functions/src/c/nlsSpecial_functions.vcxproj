@@ -187,6 +187,8 @@
     <ClCompile Include="..\cpp\ErrorFunctions.cpp" />
     <ClCompile Include="..\cpp\Gamma.cpp" />
     <ClCompile Include="..\cpp\GammaIncomplete.cpp" />
+    <ClCompile Include="..\cpp\AmosBessel.cpp" />
+    <ClCompile Include="..\cpp\BesselFunctions.cpp" />
     <ClCompile Include="..\cpp\GCD.cpp" />
     <ClCompile Include="..\cpp\IsPrime.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
@@ -203,6 +205,8 @@
     <ClInclude Include="..\include\ErrorFunctions.hpp" />
     <ClInclude Include="..\include\Gamma.hpp" />
     <ClInclude Include="..\include\GammaIncomplete.hpp" />
+    <ClInclude Include="..\cpp\AmosBessel.hpp" />
+    <ClInclude Include="..\include\BesselFunctions.hpp" />
     <ClInclude Include="..\include\GCD.hpp" />
     <ClInclude Include="..\include\IsPrime.hpp" />
     <ClInclude Include="..\include\InterpolationND.hpp" />

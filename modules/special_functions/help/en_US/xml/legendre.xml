@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>legendre</keyword>
+  <short_description>Associated Legendre functions.</short_description>
+  <syntax>
+    <syntax_item>P = legendre(n, X)</syntax_item>
+    <syntax_item>P = legendre(n, X, normalization)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>n</param_name>
+      <param_description>degree: a nonnegative integer scalar.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>a real single or double array with values in [-1, 1].</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>normalization</param_name>
+      <param_description><b>'unnorm'</b> (default), <b>'sch'</b> (Schmidt semi-normalized) or <b>'norm'</b> (fully normalized).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>P</param_name>
+      <param_description>values of orders <b>m = 0..n</b> along the first dimension.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>P = legendre(n, X)</b> evaluates the associated Legendre functions <b>P(n, m, x)</b> of degree <b>n</b> and orders <b>m = 0, 1, ..., n</b>, including the factor <b>(-1)^m</b>. Row <b>m + 1</b> of <b>P</b> holds order <b>m</b>.</p>
+    <p>For a vector <b>X</b>, <b>P</b> is <b>(n + 1)</b>-by-<b>numel(X)</b>. For an array, <b>P</b> has size <b>[n + 1, size(X)]</b>.</p>
+    <p><b>'sch'</b> scales by <b>(-1)^m * sqrt(2 * (n - m)! / (n + m)!)</b> for <b>m &gt; 0</b>, and <b>'norm'</b> by <b>(-1)^m * sqrt((n + 1/2) * (n - m)! / (n + m)!)</b>.</p>
+    <p>The values are computed with a normalized recurrence that does not overflow for large <b>n</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[legendre(2, [0 0.5 1])
+legendre(3, 0.1, 'sch')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${polynomial_functions}polyval">polyval</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

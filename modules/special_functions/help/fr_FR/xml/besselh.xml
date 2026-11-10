@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>besselh</keyword>
+  <short_description>Fonction de Bessel de troisième espèce (fonction de Hankel).</short_description>
+  <syntax>
+    <syntax_item>H = besselh(nu, Z)</syntax_item>
+    <syntax_item>H = besselh(nu, K, Z)</syntax_item>
+    <syntax_item>H = besselh(nu, K, Z, scale)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>nu</param_name>
+      <param_description>ordre : tableau réel.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>K</param_name>
+      <param_description>1 (défaut) pour la première espèce, 2 pour la seconde espèce.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Z</param_name>
+      <param_description>argument : tableau réel ou complexe.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>scale</param_name>
+      <param_description>0 (défaut) ou 1 pour retourner les valeurs mises à l'échelle.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>H</param_name>
+      <param_description>fonction de Hankel.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>besselh(nu, K, Z)</b> calcule la fonction de Hankel de première espèce (K = 1), J + iY, ou de seconde espèce (K = 2), J - iY, pour chaque élément de NU et Z. <b>besselh(nu, Z)</b> utilise K = 1.</p>
+    <p><b>besselh(nu, K, Z, 1)</b> retourne <b>besselh(nu, K, Z) .* exp(-1i * Z)</b> pour K = 1 et <b>besselh(nu, K, Z) .* exp(1i * Z)</b> pour K = 2.</p>
+    <p>NU et Z doivent avoir la même taille, ou l'un des deux peut être un scalaire.</p>
+    <p>Le résultat est single si une entrée est single, et réel si toutes les parties imaginaires sont nulles.</p>
+    <p>Les valeurs sont calculées par un portage C++ des algorithmes d'Amos, pour tout ordre réel et tout argument complexe.</p>
+  </description>
+  <used_function />
+  <bibliography>D. E. Amos, Algorithm 644: A portable package for Bessel functions of a complex argument and nonnegative order, ACM Transactions on Mathematical Software, 12 (1986), pp. 265-273.</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description></example_item_description>
+      <example_item_data runnable="cli"><![CDATA[H = besselh(0, 1, [0.5, 2.5])]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description></example_item_description>
+      <example_item_data runnable="cli"><![CDATA[H = besselh(1.5, 2, 3 + 1i, 1)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+x = linspace(0.5, 15, 400);
+H = besselh(0, 1, x);
+plot(x, real(H), x, imag(H), x, abs(H));
+ylim([-1.5, 1.5]);
+grid on;
+legend('real', 'imag', 'abs');
+xlabel('x');]]></example_item_data>
+      <example_item_img
+        src="../../images/besselh.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${special_functions}besselj">besselj</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}bessely">bessely</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

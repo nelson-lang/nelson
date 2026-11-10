@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>besselk</keyword>
+  <short_description>Fonction de Bessel modifiée de seconde espèce.</short_description>
+  <syntax>
+    <syntax_item>K = besselk(nu, Z)</syntax_item>
+    <syntax_item>K = besselk(nu, Z, scale)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>nu</param_name>
+      <param_description>ordre : tableau réel.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Z</param_name>
+      <param_description>argument : tableau réel ou complexe.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>scale</param_name>
+      <param_description>0 (défaut) ou 1 pour retourner les valeurs mises à l'échelle.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>K</param_name>
+      <param_description>fonction de Bessel modifiée de seconde espèce.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>besselk(nu, Z)</b> calcule la fonction de Bessel modifiée de seconde espèce K pour chaque élément de NU et Z. K est paire en l'ordre : besselk(-nu, Z) est égal à besselk(nu, Z).</p>
+    <p>Les fonctions de Bessel modifiées sont les solutions de l'équation de Bessel modifiée :</p>
+    <latex>z^2 \frac{d^2 w}{dz^2} + z \frac{dw}{dz} - (z^2 + \nu^2) w = 0</latex>
+    <p><b>besselk(nu, Z, 1)</b> retourne <b>besselk(nu, Z) .* exp(Z)</b>, ce qui évite le soupassement pour les grands arguments.</p>
+    <p>NU et Z doivent avoir la même taille, ou l'un des deux peut être un scalaire.</p>
+    <p>Le résultat est single si une entrée est single, et réel si toutes les parties imaginaires sont nulles.</p>
+    <p>Les valeurs sont calculées par un portage C++ des algorithmes d'Amos, pour tout ordre réel et tout argument complexe.</p>
+  </description>
+  <used_function />
+  <bibliography>D. E. Amos, Algorithm 644: A portable package for Bessel functions of a complex argument and nonnegative order, ACM Transactions on Mathematical Software, 12 (1986), pp. 265-273.</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description></example_item_description>
+      <example_item_data runnable="cli"><![CDATA[K = besselk(0:3, 2.5)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description></example_item_description>
+      <example_item_data runnable="cli"><![CDATA[K = besselk(0.5, 1000, 1)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+x = linspace(0.05, 4, 400);
+[N, X] = meshgrid(0:2, x);
+K = besselk(N, X);
+plot(x, K);
+ylim([0, 5]);
+grid on;
+legend('K_0', 'K_1', 'K_2');
+xlabel('x');]]></example_item_data>
+      <example_item_img
+        src="../../images/besselk.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${special_functions}besseli">besseli</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}bessely">bessely</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

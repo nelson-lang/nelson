@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>besselj</keyword>
+  <short_description>Fonction de Bessel de première espèce.</short_description>
+  <syntax>
+    <syntax_item>J = besselj(nu, Z)</syntax_item>
+    <syntax_item>J = besselj(nu, Z, scale)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>nu</param_name>
+      <param_description>ordre : tableau réel.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Z</param_name>
+      <param_description>argument : tableau réel ou complexe.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>scale</param_name>
+      <param_description>0 (défaut) ou 1 pour retourner les valeurs mises à l'échelle.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>J</param_name>
+      <param_description>fonction de Bessel de première espèce.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>besselj(nu, Z)</b> calcule la fonction de Bessel de première espèce J pour chaque élément de NU et Z.</p>
+    <p>Les fonctions de Bessel sont les solutions de l'équation différentielle de Bessel :</p>
+    <latex>z^2 \frac{d^2 w}{dz^2} + z \frac{dw}{dz} + (z^2 - \nu^2) w = 0</latex>
+    <p><b>besselj(nu, Z, 1)</b> retourne <b>besselj(nu, Z) .* exp(-abs(imag(Z)))</b>.</p>
+    <p>NU et Z doivent avoir la même taille, ou l'un des deux peut être un scalaire.</p>
+    <p>Le résultat est single si une entrée est single, et réel si toutes les parties imaginaires sont nulles.</p>
+    <p>Les valeurs sont calculées par un portage C++ des algorithmes d'Amos, pour tout ordre réel et tout argument complexe.</p>
+  </description>
+  <used_function />
+  <bibliography>D. E. Amos, Algorithm 644: A portable package for Bessel functions of a complex argument and nonnegative order, ACM Transactions on Mathematical Software, 12 (1986), pp. 265-273.</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description></example_item_description>
+      <example_item_data runnable="cli"><![CDATA[J = besselj(0:3, 2.5)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description></example_item_description>
+      <example_item_data runnable="cli"><![CDATA[J = besselj(0.5, [1, -1, 2 + 3i])]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+x = linspace(0, 20, 400);
+[N, X] = meshgrid(0:3, x);
+J = besselj(N, X);
+plot(x, J);
+grid on;
+legend('J_0', 'J_1', 'J_2', 'J_3');
+xlabel('x');]]></example_item_data>
+      <example_item_img
+        src="../../images/besselj.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${special_functions}bessely">bessely</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}besselh">besselh</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}besseli">besseli</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}airy">airy</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

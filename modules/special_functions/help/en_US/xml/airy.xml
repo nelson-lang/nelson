@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>airy</keyword>
+  <short_description>Airy functions.</short_description>
+  <syntax>
+    <syntax_item>W = airy(Z)</syntax_item>
+    <syntax_item>W = airy(K, Z)</syntax_item>
+    <syntax_item>W = airy(K, Z, scale)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>K</param_name>
+      <param_description>0 (default) for Ai, 1 for the derivative of Ai, 2 for Bi, 3 for the derivative of Bi.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Z</param_name>
+      <param_description>argument: real or complex array.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>scale</param_name>
+      <param_description>0 (default) or 1 to return the scaled values.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>W</param_name>
+      <param_description>Airy function or its derivative.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>airy(K, Z)</b> computes the Airy function Ai (K = 0), its derivative (K = 1), the Airy function Bi (K = 2) or its derivative (K = 3) for each element of Z. <b>airy(Z)</b> returns Ai(Z). Ai and Bi are solutions of the Airy equation:</p>
+    <latex>\frac{d^2 w}{dz^2} - z w = 0</latex>
+    <p>With scale = 1, Ai and its derivative are multiplied by <b>exp(2/3 * Z.^(3/2))</b>, Bi and its derivative by <b>exp(-abs(real(2/3 * Z.^(3/2))))</b>.</p>
+    <p>The result is single when an input is single, and real when every imaginary part is zero.</p>
+    <p>Values are computed with a C++ port of the Amos algorithms, for any real order and any complex argument.</p>
+  </description>
+  <used_function />
+  <bibliography>D. E. Amos, Algorithm 644: A portable package for Bessel functions of a complex argument and nonnegative order, ACM Transactions on Mathematical Software, 12 (1986), pp. 265-273.</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description></example_item_description>
+      <example_item_data runnable="cli"><![CDATA[W = airy([-5, 0, 1.5])]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description></example_item_description>
+      <example_item_data runnable="cli"><![CDATA[W = airy(2, [-5, 0, 5])]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+x = linspace(-10, 2.5, 500);
+plot(x, airy(0, x), x, airy(2, x));
+ylim([-0.6, 1.5]);
+grid on;
+legend('Ai', 'Bi');
+xlabel('x');]]></example_item_data>
+      <example_item_img
+        src="../../images/airy.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${special_functions}besselk">besselk</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}besseli">besseli</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

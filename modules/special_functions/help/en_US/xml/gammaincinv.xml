@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>gammaincinv</keyword>
+  <short_description>Inverse of the regularized incomplete gamma function.</short_description>
+  <syntax>
+    <syntax_item>X = gammaincinv(Y, A)</syntax_item>
+    <syntax_item>X = gammaincinv(Y, A, type)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>Y</param_name>
+      <param_description>probabilities in [0, 1]: a real single or double array.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>a real nonnegative array of the size of <b>Y</b>, or a scalar.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>type</param_name>
+      <param_description><b>'lower'</b> (default) or <b>'upper'</b>.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>X</param_name>
+      <param_description>values such that <b>gammainc(X, A, type) = Y</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>X = gammaincinv(Y, A)</b> returns <b>X</b> such that <b>gammainc(X, A) = Y</b>. With <b>'upper'</b>, <b>X</b> solves <b>gammainc(X, A, 'upper') = Y</b>, which keeps full accuracy for small upper tail probabilities.</p>
+    <p><b>Y</b> and <b>A</b> must have the same size, or one of them is a scalar. <b>gammaincinv(0, A)</b> is <b>0</b> and <b>gammaincinv(1, A)</b> is <b>Inf</b>.</p>
+    <p>Newton iterations on <b>log(X)</b> start from the best of three approximations and stay inside a bracket narrowed by bisection.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[x = gammaincinv([0.1 0.5 0.9], 2)
+gammainc(x, 2)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${special_functions}gammainc">gammainc</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}betaincinv">betaincinv</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

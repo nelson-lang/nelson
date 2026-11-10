@@ -46,6 +46,16 @@ gammainc_lower_reg(T x, T a)
     if (x == (T)0) {
         return (T)0;
     }
+    if (std::isnan(x) || std::isnan(a)) {
+        return std::numeric_limits<T>::quiet_NaN();
+    }
+    // the lower tail tends to 1 when x grows and to 0 when a grows
+    if (std::isinf(x)) {
+        return (T)1;
+    }
+    if (std::isinf(a)) {
+        return (T)0;
+    }
     if (x < a + (T)1) {
         T ap = a;
         T del = (T)1 / a;

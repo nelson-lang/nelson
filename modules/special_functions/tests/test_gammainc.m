@@ -36,3 +36,8 @@ asserts.checkerror('gammainc(-1, 2)', _('X and A must contain nonnegative values
 asserts.checkerror('gammainc(1, 2, ''middle'')', sprintf(_('%s expected.'), ...
   'Wrong value of the third argument ''upper'' or ''lower'''));
 %=============================================================================
+% infinite limits
+assert_isequal(gammainc([Inf 1], [2 Inf]), [1 0]);
+assert_isequal(gammainc(Inf, 2, 'upper'), 0);
+assert_isequal(gammainc(single(Inf), single(3)), single(1));
+%=============================================================================

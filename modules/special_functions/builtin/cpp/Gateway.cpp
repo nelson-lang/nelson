@@ -17,6 +17,12 @@
 #include "erfcxBuiltin.hpp"
 #include "betaincBuiltin.hpp"
 #include "gammaincBuiltin.hpp"
+#include "airyBuiltin.hpp"
+#include "besselhBuiltin.hpp"
+#include "besseliBuiltin.hpp"
+#include "besseljBuiltin.hpp"
+#include "besselkBuiltin.hpp"
+#include "besselyBuiltin.hpp"
 #include "gcdBuiltin.hpp"
 #include "isprimeBuiltin.hpp"
 #include "splineBuiltin.hpp"
@@ -44,6 +50,12 @@ static const nlsGateway gateway[] = {
     { "erfcx", (ptrBuiltin)Nelson::SpecialFunctionsGateway::erfcxBuiltin, 1, 1 },
     { "betainc", (ptrBuiltin)Nelson::SpecialFunctionsGateway::betaincBuiltin, 1, 3 },
     { "gammainc", (ptrBuiltin)Nelson::SpecialFunctionsGateway::gammaincBuiltin, 1, 3 },
+    { "besselj", (ptrBuiltin)Nelson::SpecialFunctionsGateway::besseljBuiltin, 1, 3 },
+    { "bessely", (ptrBuiltin)Nelson::SpecialFunctionsGateway::besselyBuiltin, 1, 3 },
+    { "besseli", (ptrBuiltin)Nelson::SpecialFunctionsGateway::besseliBuiltin, 1, 3 },
+    { "besselk", (ptrBuiltin)Nelson::SpecialFunctionsGateway::besselkBuiltin, 1, 3 },
+    { "besselh", (ptrBuiltin)Nelson::SpecialFunctionsGateway::besselhBuiltin, 1, 4 },
+    { "airy", (ptrBuiltin)Nelson::SpecialFunctionsGateway::airyBuiltin, 1, 3 },
     { "__interp1__", (ptrBuiltin)Nelson::SpecialFunctionsGateway::__interp1__Builtin, 1, 5,
         CPP_BUILTIN },
     { "__interpn__", (ptrBuiltin)Nelson::SpecialFunctionsGateway::__interpn__Builtin, 1, -1,

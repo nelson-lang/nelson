@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>psi</keyword>
+  <short_description>Digamma and polygamma functions.</short_description>
+  <syntax>
+    <syntax_item>Y = psi(X)</syntax_item>
+    <syntax_item>Y = psi(k, X)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>a real nonnegative single or double array.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>k</param_name>
+      <param_description>order of the derivative: a nonnegative integer scalar.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>Y</param_name>
+      <param_description>an array of the size and class of <b>X</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>Y = psi(X)</b> evaluates the digamma function, the logarithmic derivative of the gamma function: <b>psi(x) = gamma'(x) / gamma(x)</b>. <b>psi(0)</b> is <b>-Inf</b>.</p>
+    <p><b>Y = psi(k, X)</b> evaluates the polygamma function of order <b>k</b>, the <b>k</b>-th derivative of <b>psi</b>. <b>psi(0, X)</b> is <b>psi(X)</b>.</p>
+    <p>Values are computed with the asymptotic expansion after shifting small arguments with the recurrence <b>psi(x + 1) = psi(x) + 1/x</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[psi(1)
+psi(1, [1 2 3])
+-psi(1) % Euler constant]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${special_functions}gamma">gamma</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}gammaln">gammaln</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
