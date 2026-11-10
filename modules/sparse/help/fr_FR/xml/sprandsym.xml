@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>sprandsym</keyword>
+  <short_description>Matrice creuse symétrique aléatoire.</short_description>
+  <syntax>
+    <syntax_item>R = sprandsym(S)</syntax_item>
+    <syntax_item>R = sprandsym(n, density)</syntax_item>
+    <syntax_item>R = sprandsym(n, density, rc)</syntax_item>
+    <syntax_item>R = sprandsym(n, density, rc, kind)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>n</param_name>
+      <param_description>taille de la matrice.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>density</param_name>
+      <param_description>fraction approximative de valeurs non nulles, dans [0, 1].</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>S</param_name>
+      <param_description>une matrice carrée dont le triangle inférieur donne la structure creuse.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>rc</param_name>
+      <param_description>conditionnement réciproque dans (0, 1], ou un vecteur de n valeurs propres positives.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>kind</param_name>
+      <param_description><b>1</b> (par défaut) ou <b>2</b>.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>R</param_name>
+      <param_description>une matrice creuse symétrique.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>R = sprandsym(S)</b> renvoie une matrice symétrique avec la structure du triangle inférieur de <b>S</b> (reflétée) et des valeurs de loi normale.</p>
+    <p><b>R = sprandsym(n, density)</b> renvoie une matrice symétrique n x n avec environ <b>density * n^2</b> valeurs non nulles de loi normale.</p>
+    <p><b>R = sprandsym(n, density, rc)</b> renvoie une matrice définie positive de conditionnement réciproque <b>rc</b> : les valeurs propres sont réparties géométriquement entre <b>rc</b> et 1 puis mélangées par des rotations planes aléatoires jusqu'à atteindre la densité.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[R = sprandsym(6, 0.3);
+issymmetric(R)
+R = sprandsym(10, 0.2, 1e-2);
+cond(full(R))]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${sparse}sprandn">sprandn</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${sparse}sprand">sprand</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
