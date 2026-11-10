@@ -20,7 +20,7 @@ for k = 1:numel(vararginFunctions)
 end
 %=============================================================================
 fixedOne = {'graythresh', 'hsv2rgb', 'im2gray', 'imcomplement', 'labelmatrix', 'rgb2gray', ...
-  'rgb2hsv', 'rgb2ycbcr', 'ycbcr2rgb'};
+  'rgb2hsv', 'rgb2ycbcr', 'ycbcr2rgb', 'getrangefromclass'};
 for k = 1:numel(fixedOne)
   asserts.isequal(nargin(fixedOne{k}), 1);
   if strcmp(fixedOne{k}, 'graythresh')

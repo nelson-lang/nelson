@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>inpolygon</keyword>
+  <short_description>Points à l'intérieur ou sur le bord d'un polygone.</short_description>
+  <syntax>
+    <syntax_item>in = inpolygon(xq, yq, xv, yv)</syntax_item>
+    <syntax_item>[in, on] = inpolygon(xq, yq, xv, yv)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>xq, yq</param_name>
+      <param_description>coordonnées des points testés : tableaux de même taille.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>xv, yv</param_name>
+      <param_description>sommets du polygone. <b>NaN</b> sépare plusieurs boucles.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>in</param_name>
+      <param_description>tableau logique : <b>true</b> pour les points à l'intérieur ou sur le bord.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>on</param_name>
+      <param_description>tableau logique : <b>true</b> pour les points sur le bord.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>[in, on] = inpolygon(xq, yq, xv, yv)</b> teste chaque point par rapport au polygone. Le polygone est fermé automatiquement.</p>
+    <p>Les boucles séparées par <b>NaN</b> sont combinées avec la règle pair-impair, donc une boucle à l'intérieur d'une autre fait un trou.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[xv = [0 1 1 0];
+yv = [0 0 1 1];
+[in, on] = inpolygon([0.5 2 1], [0.5 2 0.5], xv, yv)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${geometry}polyarea">polyarea</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${geometry}polyshape">polyshape</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

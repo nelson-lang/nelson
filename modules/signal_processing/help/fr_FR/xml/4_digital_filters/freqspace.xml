@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>freqspace</keyword>
+  <short_description>Espacement fréquentiel pour les réponses en fréquence.</short_description>
+  <syntax>
+    <syntax_item>f = freqspace(n)</syntax_item>
+    <syntax_item>f = freqspace(n, 'whole')</syntax_item>
+    <syntax_item>[f1, f2] = freqspace(n)</syntax_item>
+    <syntax_item>[f1, f2] = freqspace([m n])</syntax_item>
+    <syntax_item>[x, y] = freqspace(..., 'meshgrid')</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>n</param_name>
+      <param_description>nombre de points : un scalaire positif, ou <b>[m n]</b> pour une réponse 2-D.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'whole'</param_name>
+      <param_description>renvoie <b>n</b> points sur tout le cercle unité.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'meshgrid'</param_name>
+      <param_description>renvoie des grilles 2-D au lieu de vecteurs.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>f</param_name>
+      <param_description>fréquences normalisées, 1 étant la fréquence de Nyquist.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>f1, f2</param_name>
+      <param_description>vecteurs (ou grilles) de fréquences le long des colonnes et des lignes.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>f = freqspace(n)</b> renvoie <b>(0:floor(n/2)) * 2/n</b>, et <b>f = freqspace(n, 'whole')</b> renvoie <b>(0:n-1) * 2/n</b>.</p>
+    <p><b>[f1, f2] = freqspace(n)</b> renvoie des fréquences centrées <b>((0:n-1) - floor(n/2)) * 2/n</b> pour une réponse 2-D. Avec <b>[m n]</b>, <b>f1</b> a <b>n</b> points et <b>f2</b> a <b>m</b> points.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[freqspace(8)
+[f1, f2] = freqspace([3 4])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${signal_processing}freqz">freqz</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
