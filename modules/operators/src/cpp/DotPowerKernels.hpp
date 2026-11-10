@@ -11,7 +11,7 @@ template <typename T>
 static inline T
 powi(T a, T b)
 {
-    unsigned long u;
+    uint64 u;
     T p = 1;
     T x = a;
     T n = b;
@@ -23,7 +23,7 @@ powi(T a, T b)
             }
             x = 1 / x;
         }
-        for (u = (unsigned long)n;;) {
+        for (u = (uint64)n;;) {
             if (u & 01) {
                 p = scalar_scalar_integer_times(p, x);
             }
@@ -89,10 +89,13 @@ power_zi(double* p, const double* a, int b)
     bool negative = b < 0;
     unsigned long u = negative ? static_cast<unsigned long>(-static_cast<long>(b))
                                : static_cast<unsigned long>(b);
+    // the first factor is copied, not multiplied by 1, so infinite parts give no NaN
     std::complex<double> result(1.0, 0.0);
+    bool first = true;
     while (u) {
         if (u & 1UL) {
-            result *= base;
+            result = first ? base : result * base;
+            first = false;
         }
         u >>= 1;
         if (u) {
@@ -100,7 +103,7 @@ power_zi(double* p, const double* a, int b)
         }
     }
     if (negative) {
-        result = std::complex<double>(1.0, 0.0) / result;
+        result = complexQuotient<double>(std::complex<double>(1.0, 0.0), result);
     }
     p[0] = result.real();
     p[1] = result.imag();
@@ -114,15 +117,26 @@ power_zz(double* c, const double* a, const double* b)
         c[1] = 0;
         return;
     }
-    auto mag = complex_abs<double>(a[0], a[1]);
-    if (mag == 0) {
-        c[0] = 0;
+    if (a[1] == 0 && b[1] == 0 && (a[0] >= 0 || std::isinf(b[0]) || std::trunc(b[0]) == b[0])) {
+        // real result: computed in real arithmetic ((-2)^3 == -8 exactly, 0^-1 == Inf)
+        c[0] = power_dd(a[0], b[0]);
         c[1] = 0;
         return;
     }
-    if (a[1] == 0 && b[1] == 0 && (a[0] >= 0 || std::isinf(b[0]) || std::trunc(b[0]) == b[0])) {
-        // real result: computed in real arithmetic ((-2)^3 == -8 exactly, (-1)^Inf == 1)
-        c[0] = power_dd(a[0], b[0]);
+    // (-Inf)^b for a positive non-integer b: Inf times the direction of pi*b, zero parts stay 0
+    if (a[1] == 0 && b[1] == 0 && a[0] == -std::numeric_limits<double>::infinity()
+        && std::isfinite(b[0]) && b[0] > 0) {
+        double r = std::fmod(b[0], 2.0) * 3.14159265358979323846;
+        double cr = std::cos(r);
+        double sr = std::sin(r);
+        const double inf = std::numeric_limits<double>::infinity();
+        c[0] = std::fabs(cr) < 1e-15 ? 0.0 : std::copysign(inf, cr);
+        c[1] = std::fabs(sr) < 1e-15 ? 0.0 : std::copysign(inf, sr);
+        return;
+    }
+    auto mag = complex_abs<double>(a[0], a[1]);
+    if (mag == 0) {
+        c[0] = 0;
         c[1] = 0;
         return;
     }

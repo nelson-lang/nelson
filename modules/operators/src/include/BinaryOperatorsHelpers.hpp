@@ -10,7 +10,9 @@
 #pragma once
 //=============================================================================
 #include <array>
+#include <cmath>
 #include <complex>
+#include <limits>
 #include <string>
 #include "ArrayOf.hpp"
 #include "MatrixCheck.hpp"
@@ -147,6 +149,103 @@ binaryOperator2DDispatch(NelsonType destinationClass, const ArrayOf& A, const Ar
         return fallback(A, B, destinationClass);
     }
     return fallback(A, B, destinationClass);
+}
+//=============================================================================
+// Complex by real (finite, nonzero) products and quotients are computed part by part.
+template <class T>
+inline bool
+realFactorsAreFiniteNonZero(const T* values, indexType count)
+{
+    for (indexType k = 0; k < count; ++k) {
+        if (!std::isfinite(values[k]) || values[k] == T(0)) {
+            return false;
+        }
+    }
+    return true;
+}
+//=============================================================================
+// Complex times real c (finite, nonzero): part by part; a NaN spreads to both parts when
+// both input parts are nonzero.
+template <class T>
+inline std::complex<T>
+complexTimesRealScalar(std::complex<T> z, T c)
+{
+    T re = z.real() * c;
+    T im = z.imag() * c;
+    if ((std::isnan(re) || std::isnan(im)) && z.real() != 0 && z.imag() != 0) {
+        re = std::numeric_limits<T>::quiet_NaN();
+        im = re;
+    }
+    return std::complex<T>(re, im);
+}
+//=============================================================================
+// Quotients needing the special rules (real or imaginary divisor, Inf or NaN part), branch-free;
+// an overflowing sum or underflowing product only sends a finite case to the exact path.
+template <class T>
+inline bool
+complexQuotientIsSpecial(std::complex<T> n, std::complex<T> z)
+{
+    T sum = n.real() + n.imag() + z.real() + z.imag();
+    return !std::isfinite(sum) | (z.real() * z.imag() == 0);
+}
+//=============================================================================
+// Real or imaginary divisor: part by part, an exact zero part paired with a nonzero one stays
+// 0. Otherwise a NaN gives NaN + NaNi and an infinite divisor of a finite value gives 0.
+template <class T>
+inline std::complex<T>
+complexQuotientSpecial(std::complex<T> n, std::complex<T> z)
+{
+    T a = n.real();
+    T b = n.imag();
+    T c = z.real();
+    T d = z.imag();
+    if (d == 0) {
+        return std::complex<T>((a == 0 && b != 0) ? (T)0 : a / c, b == 0 ? (T)0 : b / c);
+    }
+    if (c == 0) {
+        return std::complex<T>((b == 0 && a != 0) ? (T)0 : b / d, a == 0 ? (T)0 : -a / d);
+    }
+    if (std::isnan(a) || std::isnan(b) || std::isnan(c) || std::isnan(d)) {
+        T nan = std::numeric_limits<T>::quiet_NaN();
+        return std::complex<T>(nan, nan);
+    }
+    if (std::isinf(c) || std::isinf(d)) {
+        if (std::isinf(a) || std::isinf(b)) {
+            T nan = std::numeric_limits<T>::quiet_NaN();
+            return std::complex<T>(nan, nan);
+        }
+        return std::complex<T>((T)0, (T)0);
+    }
+    // infinite numerator, finite divisor
+    if (std::fabs(c) >= std::fabs(d)) {
+        T r = d / c;
+        T den = c + d * r;
+        return std::complex<T>((a + b * r) / den, (b - a * r) / den);
+    }
+    T r = c / d;
+    T den = c * r + d;
+    return std::complex<T>((a * r + b) / den, (b * r - a) / den);
+}
+//=============================================================================
+template <class T>
+inline std::complex<T>
+complexQuotient(std::complex<T> n, std::complex<T> z)
+{
+    return complexQuotientIsSpecial<T>(n, z) ? complexQuotientSpecial<T>(n, z) : n / z;
+}
+//=============================================================================
+// Element quotient for real or complex values (complex ones follow complexQuotient).
+template <class T>
+inline T
+divideValues(T n, T d)
+{
+    return n / d;
+}
+template <class T>
+inline std::complex<T>
+divideValues(std::complex<T> n, std::complex<T> d)
+{
+    return complexQuotient<T>(n, d);
 }
 //=============================================================================
 } // namespace Nelson

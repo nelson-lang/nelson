@@ -26,6 +26,7 @@
 #include "NewWithException.hpp"
 #include "i18n.hpp"
 #include "IntegerCompatibilityHelpers.hpp"
+#include "IntegerDoubleArithmetic.hpp"
 #include "SparseOperatorsHelpers.hpp"
 #include "Decomplexify.hpp"
 #include <complex>
@@ -762,6 +763,10 @@ matrixMultiplication(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
                 Error(L"Nelson:operators:complexIntegerNotAllowed",
                     L"Complex integer not allowed for arithmetic operator *");
             }
+            ArrayOf exact;
+            if (tryInteger64DoubleScalar(A, B, Integer64DoubleOperation::Times, exact)) {
+                return exact;
+            }
             ArrayOf AA = A;
             AA.promoteType(B.dataClass());
             ArrayOf res = matrixMultiplication(AA, B, needToOverload);
@@ -784,6 +789,10 @@ matrixMultiplication(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
             if (A.isComplex()) {
                 Error(L"Nelson:operators:complexIntegerNotAllowed",
                     L"Complex integer not allowed for arithmetic operator *");
+            }
+            ArrayOf exact;
+            if (tryInteger64DoubleScalar(B, A, Integer64DoubleOperation::Times, exact)) {
+                return exact;
             }
             ArrayOf BB = B;
             BB.promoteType(A.dataClass());

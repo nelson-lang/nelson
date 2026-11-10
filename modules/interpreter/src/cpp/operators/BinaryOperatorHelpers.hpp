@@ -273,6 +273,18 @@ prepareBinaryNumericOperands(const BinaryOperatorCommonType& commonType, ArrayOf
     promoteBinaryCharOperands(commonType, A, B);
 }
 //=============================================================================
+// ^ with an integer operand is only defined when both operands are scalars
+inline void
+checkIntegerMatrixPowerArguments(const ArrayOf& A, const ArrayOf& B)
+{
+    if ((A.isIntegerType() || B.isIntegerType()) && !(A.isScalar() && B.isScalar())) {
+        Error(L"Nelson:mpower:integerArgumentsNotScalar",
+            L"Integer arguments of ^ must both be scalars; use .^ for element-wise power.");
+    }
+}
+//=============================================================================
+// An integer with a real double scalar stays mixed: DotPower checks the exponent
+// and keeps the double base unrounded.
 inline void
 prepareBinaryPowerOperands(const BinaryOperatorCommonType& commonType, ArrayOf& A, ArrayOf& B)
 {
@@ -280,11 +292,17 @@ prepareBinaryPowerOperands(const BinaryOperatorCommonType& commonType, ArrayOf& 
     if (A.dataClass() != B.dataClass()) {
         if (A.isIntegerType()) {
             checkBinaryIntegerCompatibility(B);
+            if (B.dataClass() == NLS_DOUBLE) {
+                return;
+            }
             checkBinaryIntegralPowerExponent(B);
             A.promoteType(commonType.type);
             B.promoteType(commonType.type);
         } else if (B.isIntegerType()) {
             checkBinaryIntegerCompatibility(A);
+            if (A.dataClass() == NLS_DOUBLE) {
+                return;
+            }
             A.promoteType(commonType.type);
             B.promoteType(commonType.type);
         } else if (commonType.type <= NLS_CHAR) {

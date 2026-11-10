@@ -11,7 +11,10 @@
 #pragma warning(disable : 4146)
 #endif
 //=============================================================================
+#include <algorithm>
+#include <cmath>
 #include <limits>
+#include <type_traits>
 #include <complex>
 #include <vector>
 #include "nlsBuildConfig.h"
@@ -20,6 +23,7 @@
 #include "DotPower.hpp"
 #include "BinaryOperatorsHelpers.hpp"
 #include "IntegerCompatibilityHelpers.hpp"
+#include "IntegerDoubleArithmetic.hpp"
 #include "MatrixCheck.hpp"
 #include "complex_abs.hpp"
 #include "IEEEFP.hpp"
@@ -548,6 +552,106 @@ DoPowerTwoArgFunction(const ArrayOf& A, const ArrayOf& B)
     return {};
 }
 //=============================================================================
+// integer base with a non-negative integer or +Inf double exponent; exponents above 64
+// saturate bases other than 0 and +-1, so they become 64 or 65 by parity (+Inf is even).
+static ArrayOf
+integerPowerDoubleExponent(const ArrayOf& exponent, NelsonType integerClass)
+{
+    double e = static_cast<const double*>(exponent.dataPointer())[0];
+    if (e < 0) {
+        Error(L"Nelson:operators:invalidBitInput:onlyPositiveIntegersExpected",
+            _W("Only positive integers expected."));
+    }
+    if (std::isnan(e) || (std::isfinite(e) && std::trunc(e) != e)) {
+        Error(L"Nelson:interpreter:positiveIntegralPowerExpected",
+            _W("Positive integral powers expected."));
+    }
+    if (e > 64) {
+        // doubles from 2^53 up are even
+        e = (std::isinf(e) || e >= 9007199254740992.0) ? 64 : 64 + std::fmod(e, 2.0);
+    }
+    ArrayOf reduced = ArrayOf::doubleScalar(e);
+    reduced.promoteType(integerClass);
+    return reduced;
+}
+//=============================================================================
+// double scalar base with integer exponents: the power is computed in double, the
+// parity of the exact exponent gives the sign, then it is rounded and saturated.
+template <class T>
+static ArrayOf
+doubleBasePowerInteger(NelsonType integerClass, double base, const ArrayOf& exponents)
+{
+    const T* ptrE = static_cast<const T*>(exponents.dataPointer());
+    indexType n = exponents.elementCount();
+    if constexpr (std::is_signed<T>::value) {
+        for (indexType k = 0; k < n; ++k) {
+            if (ptrE[k] < 0) {
+                Error(L"Nelson:operators:invalidBitInput:onlyPositiveIntegersExpected",
+                    _W("Only positive integers expected."));
+            }
+        }
+    }
+    T* ptrC = static_cast<T*>(ArrayOf::allocateArrayOf(integerClass, n));
+    ArrayOf res(integerClass, exponents.dimensions(), ptrC, false);
+    if (std::isnan(base)) {
+        // a NaN base gives 0, even for a zero exponent
+        std::fill_n(ptrC, n, static_cast<T>(0));
+        return res;
+    }
+    if (isExactIntegerValueOf<T>(base)) {
+        // an integer base of the class: exact saturated integer power
+        const T integerBase = static_cast<T>(base);
+        OMP_PARALLEL_FOR_LOOP(n)
+        for (ompIndexType k = 0; k < (ompIndexType)n; ++k) {
+            const T e = ptrE[k];
+            // above 64 only the parity matters (|base| >= 2 saturates)
+            const T reduced = (e > 64) ? static_cast<T>(64 + (e & 1)) : e;
+            ptrC[k] = powi<T>(integerBase, reduced);
+        }
+        return res;
+    }
+    OMP_PARALLEL_FOR_LOOP(n)
+    for (ompIndexType k = 0; k < (ompIndexType)n; ++k) {
+        // binary powering in double from the lowest exponent bit
+        uint64 bits = static_cast<uint64>(ptrE[k]);
+        double factor = base;
+        double value = 1.0;
+        while (bits != 0) {
+            if ((bits & 1) != 0) {
+                value *= factor;
+            }
+            bits >>= 1;
+            factor *= factor;
+        }
+        ptrC[k] = numeric_cast<double, T>(std::round(value));
+    }
+    return res;
+}
+//=============================================================================
+static ArrayOf
+doubleBasePowerInteger(double base, const ArrayOf& exponents)
+{
+    switch (exponents.dataClass()) {
+    case NLS_INT8:
+        return doubleBasePowerInteger<int8>(NLS_INT8, base, exponents);
+    case NLS_UINT8:
+        return doubleBasePowerInteger<uint8>(NLS_UINT8, base, exponents);
+    case NLS_INT16:
+        return doubleBasePowerInteger<int16>(NLS_INT16, base, exponents);
+    case NLS_UINT16:
+        return doubleBasePowerInteger<uint16>(NLS_UINT16, base, exponents);
+    case NLS_INT32:
+        return doubleBasePowerInteger<int32>(NLS_INT32, base, exponents);
+    case NLS_UINT32:
+        return doubleBasePowerInteger<uint32>(NLS_UINT32, base, exponents);
+    case NLS_INT64:
+        return doubleBasePowerInteger<int64>(NLS_INT64, base, exponents);
+    case NLS_UINT64:
+    default:
+        return doubleBasePowerInteger<uint64>(NLS_UINT64, base, exponents);
+    }
+}
+//=============================================================================
 ArrayOf
 DotPower(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
@@ -587,6 +691,9 @@ DotPower(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
                 Error(L"Nelson:operators:complexIntegerNotAllowed",
                     L"Complex integer not allowed for arithmetic operator *");
             }
+            if (B.dataClass() == NLS_DOUBLE && !B.isSparse()) {
+                return DotPower(A, integerPowerDoubleExponent(B, A.dataClass()), needToOverload);
+            }
             ArrayOf AA = A;
             AA.promoteType(B.dataClass());
             ArrayOf res = DotPower(AA, B, needToOverload);
@@ -609,6 +716,9 @@ DotPower(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
             if (A.isComplex()) {
                 Error(L"Nelson:operators:complexIntegerNotAllowed",
                     L"Complex integer not allowed for arithmetic operator *");
+            }
+            if (A.dataClass() == NLS_DOUBLE && !A.isSparse() && !B.isSparse()) {
+                return doubleBasePowerInteger(static_cast<const double*>(A.dataPointer())[0], B);
             }
             ArrayOf BB = B;
             BB.promoteType(A.dataClass());
