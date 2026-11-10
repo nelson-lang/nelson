@@ -12,6 +12,7 @@
     <syntax_item>R = mean(M, &apos;all&apos;, t)</syntax_item>
     <syntax_item>R = mean(M, d, t, f)</syntax_item>
     <syntax_item>R = mean(M, &apos;all&apos;, t, f)</syntax_item>
+    <syntax_item>R = mean(M, vecdim, t, f)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -23,6 +24,11 @@
       <param_name>d</param_name>
       <param_description
       >dimension to operate along: positive integer scalar.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>vecdim</param_name>
+      <param_description
+      >vector of positive integers: dimensions to operate along.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>t</param_name>
@@ -51,6 +57,9 @@
     <p>where</p>
     <latex>n</latex>
     <p>is the number of elements.</p>
+    <p>
+      <b>R = mean(M, vecdim)</b> averages over all the dimensions listed in vecdim: each result is the sum of the selected elements divided by their count. With <b>'omitnan'</b>, NaN values are left out of both. With <b>'native'</b>, an integer mean is computed in double and rounded once to the class of M.</p>
+    <p>For a logical M, <b>'native'</b> uses the logical sum, which saturates at true: the result is double, 1/n where any selected element is true and 0 otherwise (for example, <b>mean(logical([1 0 1 1]), 'native')</b> is 0.25). <b>'default'</b> and <b>'double'</b> return the true mean.</p>
   </description>
   <used_function>
     <link linkend="${statistics}median">median</link>

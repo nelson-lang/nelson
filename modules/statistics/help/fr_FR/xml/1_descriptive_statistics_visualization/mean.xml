@@ -12,6 +12,7 @@
     <syntax_item>R = mean(M, &apos;all&apos;, t)</syntax_item>
     <syntax_item>R = mean(M, d, t, f)</syntax_item>
     <syntax_item>R = mean(M, &apos;all&apos;, t, f)</syntax_item>
+    <syntax_item>R = mean(M, vecdim, t, f)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -23,6 +24,11 @@
       <param_name>d</param_name>
       <param_description
       >dimension le long de laquelle opérer : scalaire entier positif.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>vecdim</param_name>
+      <param_description
+      >vecteur d&apos;entiers positifs : dimensions selon lesquelles opérer.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>t</param_name>
@@ -51,6 +57,9 @@
     <p>où</p>
     <latex>n</latex>
     <p>est le nombre d&apos;éléments.</p>
+    <p>
+      <b>R = mean(M, vecdim)</b> calcule la moyenne sur toutes les dimensions listées dans vecdim : chaque résultat est la somme des éléments sélectionnés divisée par leur nombre. Avec <b>'omitnan'</b>, les NaN sont exclus des deux. Avec <b>'native'</b>, la moyenne d&apos;entiers est calculée en double puis arrondie une seule fois dans la classe de M.</p>
+    <p>Pour un M logique, <b>'native'</b> utilise la somme logique, qui sature à true : le résultat est double, 1/n si au moins un élément sélectionné est vrai et 0 sinon (par exemple, <b>mean(logical([1 0 1 1]), 'native')</b> vaut 0.25). <b>'default'</b> et <b>'double'</b> renvoient la vraie moyenne.</p>
   </description>
   <used_function>
     <link linkend="${statistics}median">median</link>
