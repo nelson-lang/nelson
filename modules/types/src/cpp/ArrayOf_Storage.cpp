@@ -363,7 +363,7 @@ ArrayOf::referenceCount() const
         return 1;
     }
     if (dp) {
-        return dp->numberOfOwners();
+        return dp->payloadSharingCount();
     }
     return 0;
 }
@@ -394,6 +394,9 @@ void
 ArrayOf::ensureSingleOwner()
 {
     if (hasScalarStorage()) {
+        return;
+    }
+    if (dp != nullptr && dp->adoptBorrowedPayload()) {
         return;
     }
     if (dp != nullptr && dp->numberOfOwners() > 1) {

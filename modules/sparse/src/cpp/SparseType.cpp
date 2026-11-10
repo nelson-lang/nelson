@@ -666,40 +666,27 @@ Eigen_ReshapeSparseMatrix(
         return Eigen_CopySparseMatrix<T>(rows, cols, cp);
     }
     if (cp) {
-        Eigen::SparseMatrix<T, 0, signedIndexType>* spMat
-            = (Eigen::SparseMatrix<T, 0, signedIndexType>*)cp;
-        indexType nnz = spMat->nonZeros();
+        using SparseMatrixT = Eigen::SparseMatrix<T, 0, signedIndexType>;
+        const auto* spMat = static_cast<const SparseMatrixT*>(cp);
+        const indexType nnz = spMat->nonZeros();
+        auto* reshapedMat = new SparseMatrixT(newrows, newcols);
+        reshapedMat->resizeNonZeros(nnz);
+        signedIndexType* outer = reshapedMat->outerIndexPtr();
+        signedIndexType* inner = reshapedMat->innerIndexPtr();
+        T* values = reshapedMat->valuePtr();
+        // column-major order is kept: entries land in the new layout in one pass, no sort
         indexType q = 0;
-        T* pV = new_with_exception<T>(spMat->nonZeros(), false);
-        indexType* pI = new_with_exception<indexType>(spMat->nonZeros(), false);
-        indexType* pJ = new_with_exception<indexType>(spMat->nonZeros(), false);
         for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
-            for (typename Eigen::SparseMatrix<T, 0, signedIndexType>::InnerIterator it(*spMat, k);
-                it; ++it) {
-                pI[q] = it.row() + 1;
-                pJ[q] = it.col() + 1;
-                pV[q] = it.value();
+            for (typename SparseMatrixT::InnerIterator it(*spMat, k); it; ++it) {
+                const indexType linear = (indexType)it.row() + k * rows;
+                inner[q] = (signedIndexType)(linear % newrows);
+                values[q] = it.value();
+                outer[linear / newrows + 1]++;
                 q++;
             }
         }
-        using Triplet = Eigen::Triplet<T, signedIndexType>;
-        std::vector<Triplet> tripletList;
-        tripletList.reserve(nnz);
-        for (indexType k = 0; k < nnz; k++) {
-            indexType idx = pI[k] + (pJ[k] - 1) * rows;
-            indexType vi = ((idx - 1) % newrows) + 1;
-            indexType Y = (idx - vi) / newrows + 1;
-            indexType X = vi;
-            tripletList.push_back(Triplet(X - 1, Y - 1, pV[k]));
-        }
-        delete[] pV;
-        delete[] pI;
-        delete[] pJ;
-        Eigen::SparseMatrix<T, 0, signedIndexType>* reshapedMat
-            = new Eigen::SparseMatrix<T, 0, signedIndexType>(newrows, newcols);
-        if (reshapedMat) {
-            reshapedMat->setFromTriplets(tripletList.begin(), tripletList.end());
-            reshapedMat->makeCompressed();
+        for (indexType c = 0; c < newcols; ++c) {
+            outer[c + 1] += outer[c];
         }
         return (void*)reshapedMat;
     }

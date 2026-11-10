@@ -28,6 +28,11 @@ class NLSTYPES_IMPEXP Data
 {
     friend class ArrayOf;
 
+public:
+    // reshape without copying the payload: the block to keep, nullptr when a detach is needed
+    Data*
+    reshapedBlock(const Dimensions& dims);
+
 private:
     NelsonType dataClass;
     bool sparse;
@@ -142,8 +147,33 @@ private:
     noteAppendedField(const std::string& name, indexType newIndex);
     void*
     writableData();
+    // owner count for copy-on-write: a borrowing block always counts as shared
+    [[nodiscard]] inline indexType
+    numberOfOwners() const
+    {
+        const indexType count = owners.load(std::memory_order_relaxed);
+        return payloadOwner_ != nullptr ? count + 1 : count;
+    }
+    // payload holders: 1 for a last holder, otherwise more than two while borrowing
+    [[nodiscard]] inline indexType
+    payloadSharingCount() const
+    {
+        return payloadOwner_ != nullptr ? borrowedSharingCount()
+                                        : owners.load(std::memory_order_relaxed);
+    }
     [[nodiscard]] indexType
-    numberOfOwners() const;
+    borrowedSharingCount() const;
+    // new block with its own dimensions reading the payload of source, no copy
+    static Data*
+    borrowPayload(Data* source, const Dimensions& dims);
+    // take the borrowed payload over when this block is its last holder
+    inline bool
+    adoptBorrowedPayload()
+    {
+        return payloadOwner_ != nullptr && adoptPayloadFromOwner();
+    }
+    bool
+    adoptPayloadFromOwner();
     /**
      * Release the payload by class: reference classes delete nested objects,
      * value classes free the raw block.
@@ -199,6 +229,9 @@ private:
     indexType columnsCache;
     indexType rowsCache;
     indexType elementCountCache;
+    //=============================================================================
+    // block whose payload cp is read (reshape of a shared array), or nullptr when cp is owned
+    Data* payloadOwner_ = nullptr;
     //=============================================================================
 };
 //=============================================================================

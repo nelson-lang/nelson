@@ -283,14 +283,79 @@ Data::setClassdefLayout(ClassdefLayoutPtr layout)
 }
 //=============================================================================
 indexType
-Data::numberOfOwners() const
+Data::borrowedSharingCount() const
 {
-    return owners.load(std::memory_order_relaxed);
+    const indexType count = owners.load(std::memory_order_relaxed);
+    const indexType ownerCount = payloadOwner_->owners.load(std::memory_order_relaxed);
+    // last holder: the payload is adopted on the first write, so no copy is needed
+    if (count == 1 && ownerCount == 1) {
+        return 1;
+    }
+    // never 2 while shared: equal data pointers no longer imply one block
+    return count + ownerCount + 1;
+}
+//=============================================================================
+Data*
+Data::borrowPayload(Data* source, const Dimensions& dims)
+{
+    // always borrow from the block that owns cp: no chain of borrowers
+    Data* root = source->payloadOwner_ != nullptr ? source->payloadOwner_ : source;
+    auto* block = new Data(source->dataClass, dims, source->cp, false, source->fieldNames_);
+    block->payloadOwner_ = root->copy();
+    block->classTypeName_ = source->classTypeName_;
+    block->classdefLayout_ = source->classdefLayout_;
+    return block;
+}
+//=============================================================================
+Data*
+Data::reshapedBlock(const Dimensions& dims)
+{
+    if (owners.load(std::memory_order_acquire) == 1) {
+        // the shape is private to this block even when its payload is borrowed
+        dimensions_ = dims;
+        refreshDimensionCache();
+        return this;
+    }
+    if (sparse || isInline || cp == nullptr || dims.elementCount() <= 1
+        || this == immortalEmptyBlock.load(std::memory_order_relaxed)) {
+        return nullptr;
+    }
+    Data* block = borrowPayload(this, dims);
+    if (deleteCopy() == 1) {
+        delete this;
+    }
+    return block;
+}
+//=============================================================================
+bool
+Data::adoptPayloadFromOwner()
+{
+    if (owners.load(std::memory_order_acquire) != 1
+        || payloadOwner_->owners.load(std::memory_order_acquire) != 1) {
+        return false;
+    }
+    // this block is the only holder of the owner: move cp out of it
+    Data* owner = payloadOwner_;
+    payloadOwner_ = nullptr;
+    owner->cp = nullptr;
+    delete owner;
+    allocatedElementCount = elementCountCache;
+    return true;
 }
 //=============================================================================
 void
 Data::freeDataBlock()
 {
+    if (payloadOwner_ != nullptr) {
+        // borrowed payload: release the owner block instead of freeing cp
+        Data* owner = payloadOwner_;
+        payloadOwner_ = nullptr;
+        cp = nullptr;
+        if (owner->deleteCopy() == 1) {
+            delete owner;
+        }
+        return;
+    }
     if (isInline) {
         cp = nullptr;
         isInline = false;

@@ -15,6 +15,7 @@
 #include "CtransposeSparseDouble.hpp"
 #include "CtransposeSparseLogical.hpp"
 #include "ComplexTranspose.hpp"
+#include "Transpose.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -73,6 +74,9 @@ ComplexTranspose(const ArrayOf& A, bool& needToOverload)
         Res = A;
         Res.ensureSingleOwner();
         Res.reshape(dimsRes);
+        return Res;
+    }
+    if (transposeVectorWithoutCopy(A, true, Res)) {
         return Res;
     }
     switch (classA) {

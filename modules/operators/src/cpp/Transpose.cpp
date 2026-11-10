@@ -49,6 +49,21 @@ transposeComplexTemplate(const Dimensions& dimsA, T* ptrA, T* ptrRes)
     }
 }
 //=============================================================================
+bool
+transposeVectorWithoutCopy(const ArrayOf& A, bool conjugate, ArrayOf& res)
+{
+    const bool plainStorage = A.dataClass() <= NLS_CHAR || A.isCell() || A.isStringArray()
+        || A.isStruct();
+    if (!plainStorage || A.isSparse() || A.isClassType() || (conjugate && A.isComplex())
+        || !A.is2D() || (A.rows() != 1 && A.columns() != 1)) {
+        return false;
+    }
+    Dimensions dimsRes(A.columns(), A.rows());
+    res = A;
+    res.reshape(dimsRes, false);
+    return true;
+}
+//=============================================================================
 ArrayOf
 Transpose(const ArrayOf& A, bool& needToOverload)
 {
@@ -72,6 +87,9 @@ Transpose(const ArrayOf& A, bool& needToOverload)
         Res = A;
         Res.ensureSingleOwner();
         Res.reshape(dimsRes);
+        return Res;
+    }
+    if (transposeVectorWithoutCopy(A, false, Res)) {
         return Res;
     }
     switch (classA) {

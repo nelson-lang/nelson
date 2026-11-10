@@ -1,0 +1,51 @@
+%=============================================================================
+% Copyright (c) 2026-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% SPDX-License-Identifier: LGPL-3.0-or-later
+% LICENCE_BLOCK_END
+%=============================================================================
+% <--WEIGHT 8-->
+% <--TIMEOUT 180-->
+skip_testsuite(~ismodule('dynamic_link'), 'Native compiler module unavailable');
+skip_testsuite(strcmp(dltarget(), 'wasm32'), 'A native executable target is required');
+if ispc() && ~havecompiler()
+  configuremsvc();
+end
+skip_testsuite(~havecompiler(), 'Native compiler unavailable');
+skip_testsuite(~findcmake(), 'CMake unavailable');
+skip_testsuite(~isfile([modulepath('types'), '/tests/reshape_shared_storage.cpp']), 'C++ test source not installed');
+%=============================================================================
+destination = tempname();
+mkdir(destination);
+cleanupDirectory = onCleanup(@() rmdir(destination, 's')); %#ok<NLS0004>
+source = [modulepath('types'), '/tests/reshape_shared_storage.cpp'];
+[ok, message] = dlgeneratemake('executable', destination, ...
+  'reshape_shared_storage', source, dlgetnelsonincludes(), [], dlgetnelsonlibraries());
+if ~ok
+  error(message);
+end
+cmakeFile = [destination, '/CMakeLists.txt'];
+cmake = fileread(cmakeFile);
+cmake = replace(cmake, 'set(CMAKE_CXX_STANDARD 11)', 'set(CMAKE_CXX_STANDARD 17)');
+cmake = replace(cmake, 'SET(CMAKE_SKIP_BUILD_RPATH TRUE)', 'SET(CMAKE_SKIP_BUILD_RPATH FALSE)');
+filewrite(cmakeFile, cmake);
+[ok, message] = dlmake(destination);
+if ~ok
+  error(message);
+end
+previousPath = getenv('PATH');
+cleanupPath = onCleanup(@() setenv('PATH', previousPath)); %#ok<NLS0004>
+setenv('PATH', [modulepath('nelson', 'builtin'), pathsep(), previousPath]);
+executable = [destination, '/reshape_shared_storage'];
+if ispc()
+  executable = [executable, '.exe'];
+end
+[status, output] = unix(['"', executable, '"']);
+if status ~= 0
+  error('Nelson:types:reshapeSharedStorageTest', '%s', output);
+end
+asserts.istrue(contains(output, 'RESHAPE_SHARED_STORAGE_OK'));
+%=============================================================================

@@ -66,6 +66,25 @@ Permute(
         return arrayIn;
     }
 
+    // moving only singleton dimensions keeps the element order: a reshape shares the data
+    bool orderKept = true;
+    int64 lastSource = -1;
+    for (indexType k = 0; k < (indexType)permutationVector.size() && orderKept; ++k) {
+        const indexType source = permutationVector[k] - 1;
+        if (dimsIn.dimensionLength(source) == 1) {
+            continue;
+        }
+        orderKept = (int64)source > lastSource;
+        lastSource = (int64)source;
+    }
+    if (orderKept) {
+        res = arrayIn;
+        Dimensions newdims(dimsIn.permute(permutationVector, false));
+        newdims.simplify();
+        res.reshape(newdims, false);
+        return res;
+    }
+
     if (arrayIn.is2D()) {
         bool isTranspose = true;
         for (int i = 2; i < dimsIn.length(); i++) {
@@ -81,26 +100,6 @@ Permute(
         }
         if (isTranspose) {
             return Transpose(arrayIn, needToOverload);
-        }
-        // A bare reshape keeps the element layout only when dimension 1 still
-        // precedes dimension 2 in the output, or one of them is a singleton.
-        // Otherwise the data must be moved by the general N-D path below.
-        indexType pos1 = 0;
-        indexType pos2 = 0;
-        for (indexType k = 0; k < (indexType)permutationVector.size(); ++k) {
-            if (permutationVector[k] == 1) {
-                pos1 = k;
-            } else if (permutationVector[k] == 2) {
-                pos2 = k;
-            }
-        }
-        bool reshapeSafe
-            = (dimsIn.dimensionLength(0) == 1) || (dimsIn.dimensionLength(1) == 1) || (pos1 < pos2);
-        if (reshapeSafe) {
-            res = arrayIn;
-            Dimensions newdims(dimsIn.permute(permutationVector, false));
-            res.reshape(newdims);
-            return res;
         }
     }
 

@@ -23,5 +23,9 @@ relationOperator(const ArrayOf& A, const ArrayOf& B, const std::wstring& operato
         NelsonType commonClass, void* vptrA, void* vptrB, indexType idxA, indexType idxB),
     bool& needToOverload);
 //=============================================================================
+// both operands hold the same values in the same shape, with no NaN possible
+bool
+isSameNonFloatingOperand(const ArrayOf& A, const ArrayOf& B);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

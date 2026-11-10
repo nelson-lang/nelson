@@ -43,6 +43,18 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+// new shape without copying a shared dense payload; false when the block must be detached first
+static bool
+setBlockDimensions(Data*& dp, const Dimensions& dims)
+{
+    Data* block = dp->reshapedBlock(dims);
+    if (block == nullptr) {
+        return false;
+    }
+    dp = block;
+    return true;
+}
+//=============================================================================
 indexType
 ArrayOf::rows() const
 {
@@ -132,9 +144,10 @@ ArrayOf::resize(Dimensions& a)
         return;
     }
     if (newSize.elementCount() == elementCount()) {
-        ensureSingleOwner();
-        dp->dimensions_ = newSize;
-        dp->refreshDimensionCache();
+        if (!setBlockDimensions(dp, newSize)) {
+            ensureSingleOwner();
+            setBlockDimensions(dp, newSize);
+        }
         return;
     }
     if (isSparse()) {
@@ -304,10 +317,9 @@ ArrayOf::reshape(Dimensions& a, bool checkValidDimension)
             Error(L"Nelson:types:sparseNotSupported:reshapeOperationNotAllowedNDimensions",
                 L"Reshape operation not allowed with N Dimensions sparse arrays.");
         }
-    } else {
+    } else if (!setBlockDimensions(dp, a)) {
         ensureSingleOwner();
-        dp->dimensions_ = a;
-        dp->refreshDimensionCache();
+        setBlockDimensions(dp, a);
     }
 }
 //=============================================================================
@@ -327,10 +339,10 @@ ArrayOf::changeInPlaceDimensions(const Dimensions& a)
         Error(L"Nelson:types:invalidDimensions:valueOperationCannotChangeNumberElements",
             L"%s operation cannot change the number of elements in array.", L"changeDimensions");
     }
-    // the shape lives on the shared block: detach before changing it
-    ensureSingleOwner();
-    dp->dimensions_ = a;
-    dp->refreshDimensionCache();
+    if (!setBlockDimensions(dp, a)) {
+        ensureSingleOwner();
+        setBlockDimensions(dp, a);
+    }
 }
 //=============================================================================
 } // namespace Nelson

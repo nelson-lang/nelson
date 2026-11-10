@@ -679,6 +679,18 @@ broadcast_operator(const ArrayOf& A, const ArrayOf& B, const std::wstring& opera
     return ArrayOf(NLS_LOGICAL, info.dimensions, Cp, false);
 }
 //=============================================================================
+bool
+isSameNonFloatingOperand(const ArrayOf& A, const ArrayOf& B)
+{
+    // a reshape shares data across shapes, and NaN never equals itself
+    const NelsonType classA = A.dataClass();
+    const bool nonFloating = classA == NLS_LOGICAL || classA == NLS_CHAR
+        || (classA >= NLS_INT8 && classA <= NLS_UINT64);
+    return nonFloating && classA == B.dataClass() && !A.isSparse() && !B.isSparse()
+        && A.dataPointer() != nullptr && A.dataPointer() == B.dataPointer()
+        && A.dimensions().equals(B.dimensions());
+}
+//=============================================================================
 ArrayOf
 relationOperator(const ArrayOf& A, const ArrayOf& B, const std::wstring& operatorName,
     logical (*realRelationOperator)(

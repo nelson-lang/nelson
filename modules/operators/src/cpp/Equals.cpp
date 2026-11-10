@@ -130,9 +130,7 @@ Equals(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         return relationOperator(A, B, L"==", &realComparatorEquals, &complexComparatorEquals,
             &stringArrayComparatorEquals, needToOverload);
     }
-    void* ptrA = const_cast<void*>(A.dataPointer());
-    void* ptrB = const_cast<void*>(B.dataPointer());
-    if (ptrA == ptrB && ptrA != nullptr) {
+    if (isSameNonFloatingOperand(A, B)) {
         Dimensions dimsA = A.dimensions();
         logical* res = static_cast<logical*>(
             ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.elementCount(), stringVector(), false));

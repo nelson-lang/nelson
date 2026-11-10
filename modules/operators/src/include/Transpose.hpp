@@ -16,6 +16,9 @@ namespace Nelson {
 //=============================================================================
 NLSOPERATORS_IMPEXP ArrayOf
 Transpose(const ArrayOf& A, bool& needToOverload);
+// a dense vector transposed without conjugation only changes shape: res shares its data
+NLSOPERATORS_IMPEXP bool
+transposeVectorWithoutCopy(const ArrayOf& A, bool conjugate, ArrayOf& res);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================
