@@ -237,6 +237,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\cpp\HypotenuseComplex.hpp" />
+    <ClInclude Include="..\cpp\LogarithmKernels.hpp" />
     <ClInclude Include="..\cpp\HypotenuseReal.hpp" />
     <ClInclude Include="..\include\AbsoluteValue.hpp" />
     <ClInclude Include="..\include\AllFinite.hpp" />

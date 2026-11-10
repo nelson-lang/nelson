@@ -22,6 +22,7 @@
 #include <cmath>
 #include <complex>
 #include <functional>
+#include <limits>
 #include "TrigonometricFunctions.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
@@ -66,6 +67,39 @@ acosRealAsComplex(T v)
         return std::complex<T>((T)M_PI, (T)-std::acosh(-(double)v));
     }
     return std::complex<T>((T)std::acos((double)v), (T)0);
+}
+//=============================================================================
+// Complex input: a zero imaginary part follows the real rule, a NaN part gives NaN + NaNi.
+template <class T>
+static inline std::complex<T>
+asinComplexValue(std::complex<T> z)
+{
+    if (z.imag() == 0) {
+        return asinRealAsComplex<T>(z.real());
+    }
+    if (std::isnan(z.real()) || std::isnan(z.imag())) {
+        T nan = std::numeric_limits<T>::quiet_NaN();
+        return std::complex<T>(nan, nan);
+    }
+    return std::asin(z);
+}
+//=============================================================================
+// Same rules as asinComplexValue; both parts infinite give pi/2 with an infinite imaginary part.
+template <class T>
+static inline std::complex<T>
+acosComplexValue(std::complex<T> z)
+{
+    if (z.imag() == 0) {
+        return acosRealAsComplex<T>(z.real());
+    }
+    if (std::isnan(z.real()) || std::isnan(z.imag())) {
+        T nan = std::numeric_limits<T>::quiet_NaN();
+        return std::complex<T>(nan, nan);
+    }
+    if (std::isinf(z.real()) && std::isinf(z.imag())) {
+        return std::complex<T>((T)(M_PI / 2), -z.imag());
+    }
+    return std::acos(z);
 }
 //=============================================================================
 template <typename F>
@@ -763,7 +797,8 @@ Acos(const ArrayOf& A, bool& needToOverload)
             return SparseMapDoubleToDouble(A, [](double v) { return std::acos(v); }, M_PI / 2.);
         case NLS_DCOMPLEX:
             return SparseMapComplexToComplex(
-                A, [](doublecomplex v) { return std::acos(v); }, doublecomplex(M_PI / 2., 0.));
+                A, [](doublecomplex v) { return acosComplexValue<double>(v); },
+                doublecomplex(M_PI / 2., 0.));
         default:
             needToOverload = true;
             return {};
@@ -779,16 +814,10 @@ Acos(const ArrayOf& A, bool& needToOverload)
         R = ArrayOf(NLS_SCOMPLEX, A.dimensions(), ptrR);
         auto* Az = reinterpret_cast<singlecomplex*>((single*)A.dataPointer());
         auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
-#if defined(_NLS_WITH_VML)
-        Eigen::Map<Eigen::VectorXcf> matEigen(Az, R.dimensions().elementCount());
-        Eigen::Map<Eigen::VectorXcf> matRes(Rz, R.dimensions().elementCount());
-        matRes = matEigen.array().acos();
-#else
         OMP_PARALLEL_FOR_LOOP(A.elementCount())
         for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
-            Rz[k] = std::acos(Az[k]);
+            Rz[k] = acosComplexValue<single>(Az[k]);
         }
-#endif
         if (R.allReal()) {
             R.promoteType(NLS_SINGLE);
         }
@@ -835,16 +864,10 @@ Acos(const ArrayOf& A, bool& needToOverload)
         R = ArrayOf(NLS_DCOMPLEX, A.dimensions(), ptrR);
         auto* Az = reinterpret_cast<doublecomplex*>((double*)A.dataPointer());
         auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
-#if defined(_NLS_WITH_VML)
-        Eigen::Map<Eigen::VectorXcd> matEigen(Az, R.dimensions().elementCount());
-        Eigen::Map<Eigen::VectorXcd> matRes(Rz, R.dimensions().elementCount());
-        matRes = matEigen.array().acos();
-#else
         OMP_PARALLEL_FOR_LOOP(A.elementCount())
         for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
-            Rz[k] = std::acos(Az[k]);
+            Rz[k] = acosComplexValue<double>(Az[k]);
         }
-#endif
         if (R.allReal()) {
             R.promoteType(NLS_DOUBLE);
         }
@@ -910,7 +933,7 @@ Asin(const ArrayOf& A, bool& needToOverload)
             return SparseMapDoubleToDouble(A, [](double v) { return std::asin(v); }, 0.);
         case NLS_DCOMPLEX:
             return SparseMapComplexToComplex(
-                A, [](doublecomplex v) { return std::asin(v); }, doublecomplex(0., 0.));
+                A, [](doublecomplex v) { return asinComplexValue<double>(v); }, doublecomplex(0., 0.));
         default:
             needToOverload = true;
             return {};
@@ -926,16 +949,10 @@ Asin(const ArrayOf& A, bool& needToOverload)
         R = ArrayOf(NLS_SCOMPLEX, A.dimensions(), ptrR);
         auto* Az = reinterpret_cast<singlecomplex*>((single*)A.dataPointer());
         auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
-#if defined(_NLS_WITH_VML)
-        Eigen::Map<Eigen::VectorXcf> matEigen(Az, R.dimensions().elementCount());
-        Eigen::Map<Eigen::VectorXcf> matRes(Rz, R.dimensions().elementCount());
-        matRes = matEigen.array().asin();
-#else
         OMP_PARALLEL_FOR_LOOP(A.elementCount())
         for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
-            Rz[k] = std::asin(Az[k]);
+            Rz[k] = asinComplexValue<single>(Az[k]);
         }
-#endif
         if (R.allReal()) {
             R.promoteType(NLS_SINGLE);
         }
@@ -982,16 +999,10 @@ Asin(const ArrayOf& A, bool& needToOverload)
         R = ArrayOf(NLS_DCOMPLEX, A.dimensions(), ptrR);
         auto* Az = reinterpret_cast<doublecomplex*>((double*)A.dataPointer());
         auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
-#if defined(_NLS_WITH_VML)
-        Eigen::Map<Eigen::VectorXcd> matEigen(Az, R.dimensions().elementCount());
-        Eigen::Map<Eigen::VectorXcd> matRes(Rz, R.dimensions().elementCount());
-        matRes = matEigen.array().asin();
-#else
         OMP_PARALLEL_FOR_LOOP(A.elementCount())
         for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
-            Rz[k] = std::asin(Az[k]);
+            Rz[k] = asinComplexValue<double>(Az[k]);
         }
-#endif
         if (R.allReal()) {
             R.promoteType(NLS_DOUBLE);
         }
@@ -1114,98 +1125,392 @@ Atan(const ArrayOf& A, bool& needToOverload)
     return R;
 }
 //=============================================================================
-template <typename T>
-static inline void
-arctanh(bool asComplex, T xr, T xi, T& yr, T& yi)
+// Complex value with a NaN part: NaN + 0i stays NaN + 0i, anything else is NaN + NaNi.
+template <class T>
+static inline std::complex<T>
+complexNaNResult(std::complex<T> z)
 {
-    if ((xr >= 0 && std::isinf(xr)) && (xi == 0)) {
-        yr = 0;
-        yi = (T)M_PI / 2.0;
-        return;
-    }
-    if ((xr < 0 && std::isinf(xr)) && (xi == 0)) {
-        yr = 0;
-        yi = -(T)M_PI / 2.0;
-        return;
-    }
-    std::complex<T> v(xr, xi);
-    std::complex<T> r = std::atanh(v);
-    yr = r.real();
-    yi = r.imag();
-
-    if (!asComplex) {
-        if (std::isnan(yr) && std::isnan(yi)) {
-            yi = 0;
-        }
-    }
+    T nan = std::numeric_limits<T>::quiet_NaN();
+    return std::complex<T>(nan, z.imag() == 0 ? (T)0 : nan);
 }
 //=============================================================================
-ArrayOf
-Atanh(const ArrayOf& A, bool& needToOverload)
+// Zero parts of a complex result: the real one is -0 only for a negative input real part,
+// the imaginary one is +0.
+template <class T>
+static inline std::complex<T>
+withInputSignedZeros(std::complex<T> w, std::complex<T> z)
+{
+    T re = w.real() == 0 ? (z.real() < 0 ? (T)-0.0 : (T)0) : w.real();
+    return std::complex<T>(re, w.imag() == 0 ? (T)0 : w.imag());
+}
+//=============================================================================
+// Maps a dense real or complex array. Real input gives a complex result only when one
+// value is outside the real domain; complex input gives a real result when it can.
+template <class T, class InDomain, class RealFn, class RealAsComplexFn, class ComplexFn>
+static ArrayOf
+mapUnaryDense(const ArrayOf& A, NelsonType realClass, NelsonType complexClass,
+    InDomain inDomain, RealFn realFn, RealAsComplexFn realAsComplexFn, ComplexFn complexFn)
+{
+    Dimensions dims = A.dimensions();
+    ompIndexType n = (ompIndexType)dims.elementCount();
+    if (A.dataClass() == realClass) {
+        const T* x = (const T*)A.dataPointer();
+        bool allInDomain = true;
+        for (ompIndexType k = 0; k < n; ++k) {
+            if (!inDomain(x[k])) {
+                allInDomain = false;
+                break;
+            }
+        }
+        if (allInDomain) {
+            T* y = (T*)ArrayOf::allocateArrayOf(realClass, n, stringVector(), false);
+            OMP_PARALLEL_FOR_LOOP(n)
+            for (ompIndexType k = 0; k < n; ++k) {
+                y[k] = realFn(x[k]);
+            }
+            return ArrayOf(realClass, dims, y);
+        }
+        T* y = (T*)ArrayOf::allocateArrayOf(complexClass, n, stringVector(), false);
+        auto* yz = reinterpret_cast<std::complex<T>*>(y);
+        OMP_PARALLEL_FOR_LOOP(n)
+        for (ompIndexType k = 0; k < n; ++k) {
+            yz[k] = realAsComplexFn(x[k]);
+        }
+        return ArrayOf(complexClass, dims, y);
+    }
+    const auto* xz = reinterpret_cast<const std::complex<T>*>(A.dataPointer());
+    T* y = (T*)ArrayOf::allocateArrayOf(complexClass, n, stringVector(), false);
+    auto* yz = reinterpret_cast<std::complex<T>*>(y);
+    OMP_PARALLEL_FOR_LOOP(n)
+    for (ompIndexType k = 0; k < n; ++k) {
+        yz[k] = complexFn(xz[k]);
+    }
+    ArrayOf R(complexClass, dims, y);
+    if (R.allReal()) {
+        R.promoteType(realClass);
+    }
+    return R;
+}
+//=============================================================================
+// Runs one kernel namespace (inDomain, real, realAsComplex, complexValue) on a dense array.
+template <class T, class Kernel>
+static ArrayOf
+mapKernelDense(const ArrayOf& A, NelsonType realClass, NelsonType complexClass)
+{
+    return mapUnaryDense<T>(
+        A, realClass, complexClass, [](T x) { return Kernel::template inDomain<T>(x); },
+        [](T x) { return Kernel::template real<T>(x); },
+        [](T x) { return Kernel::template realAsComplex<T>(x); },
+        [](std::complex<T> z) { return Kernel::template complexValue<T>(z); });
+}
+//=============================================================================
+template <class Kernel>
+static ArrayOf
+mapKernel(const ArrayOf& A, bool& needToOverload, doublecomplex sparseImplicitValue)
 {
     needToOverload = false;
-    ArrayOf R;
     if (A.isEmpty()) {
-        R = A;
+        ArrayOf R = A;
         R.ensureSingleOwner();
         return R;
     }
     if (A.isSparse()) {
         switch (A.dataClass()) {
         case NLS_DOUBLE:
+            if (sparseImplicitValue.imag() == 0 && Kernel::realOnly) {
+                return SparseMapDoubleToDouble(
+                    A, [](double v) { return Kernel::template real<double>(v); },
+                    sparseImplicitValue.real());
+            }
             return SparseMapDoubleToComplex(
-                A, [](double v) { return std::atanh(doublecomplex(v, 0.)); },
-                doublecomplex(0., 0.));
+                A, [](double v) { return Kernel::template realAsComplex<double>(v); },
+                sparseImplicitValue);
         case NLS_DCOMPLEX:
             return SparseMapComplexToComplex(
-                A, [](doublecomplex v) { return std::atanh(v); }, doublecomplex(0., 0.));
+                A, [](doublecomplex v) { return Kernel::template complexValue<double>(v); },
+                sparseImplicitValue);
         default:
             needToOverload = true;
             return {};
         }
     }
     switch (A.dataClass()) {
-    default: {
+    case NLS_DOUBLE:
+    case NLS_DCOMPLEX:
+        return mapKernelDense<double, Kernel>(A, NLS_DOUBLE, NLS_DCOMPLEX);
+    case NLS_SINGLE:
+    case NLS_SCOMPLEX:
+        return mapKernelDense<single, Kernel>(A, NLS_SINGLE, NLS_SCOMPLEX);
+    default:
         needToOverload = true;
-    } break;
-    case NLS_SCOMPLEX: {
-        single* ptrR = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.elementCount());
-        R = ArrayOf(NLS_SCOMPLEX, A.dimensions(), ptrR);
-        single* ptrA = (single*)A.dataPointer();
-        OMP_PARALLEL_FOR_LOOP(A.elementCount())
-        for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); k = k + 2) {
-            arctanh<single>(true, ptrA[k], ptrA[k + 1], ptrR[k], ptrR[k + 1]);
-        }
-    } break;
-    case NLS_SINGLE: {
-        single* ptrR = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, A.elementCount());
-        R = ArrayOf(NLS_SCOMPLEX, A.dimensions(), ptrR);
-        single* ptrA = (single*)A.dataPointer();
-        OMP_PARALLEL_FOR_LOOP(A.elementCount())
-        for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
-            arctanh<single>(false, ptrA[k], 0, ptrR[2 * k], ptrR[(2 * k) + 1]);
-        }
-    } break;
-    case NLS_DCOMPLEX: {
-        double* ptrR = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.elementCount());
-        R = ArrayOf(NLS_DCOMPLEX, A.dimensions(), ptrR);
-        double* ptrA = (double*)A.dataPointer();
-        OMP_PARALLEL_FOR_LOOP(A.elementCount())
-        for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); k = k + 2) {
-            arctanh<double>(true, ptrA[k], ptrA[k + 1], ptrR[k], ptrR[k + 1]);
-        }
-    } break;
-    case NLS_DOUBLE: {
-        double* ptrR = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, A.elementCount());
-        R = ArrayOf(NLS_DCOMPLEX, A.dimensions(), ptrR);
-        double* ptrA = (double*)A.dataPointer();
-        OMP_PARALLEL_FOR_LOOP(A.elementCount())
-        for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
-            arctanh<double>(false, ptrA[k], 0, ptrR[2 * k], ptrR[(2 * k) + 1]);
-        }
-    } break;
+        return {};
     }
-    return decomplexify(R);
+}
+//=============================================================================
+struct AtanhKernel
+{
+    static constexpr bool realOnly = false;
+    template <class T>
+    static bool
+    inDomain(T x)
+    {
+        return !(std::fabs(x) > 1);
+    }
+    template <class T>
+    static T
+    real(T x)
+    {
+        return std::atanh(x);
+    }
+    // Outside [-1, 1] the imaginary part takes the sign of x: atanh(-Inf) is -0 - pi/2 i.
+    template <class T>
+    static std::complex<T>
+    realAsComplex(T x)
+    {
+        if (std::fabs(x) > 1) {
+            return std::complex<T>(std::atanh((T)1 / x), std::copysign((T)(M_PI / 2), x));
+        }
+        return std::complex<T>(std::atanh(x), (T)0);
+    }
+    template <class T>
+    static std::complex<T>
+    complexValue(std::complex<T> z)
+    {
+        if (z.imag() == 0) {
+            return realAsComplex<T>(z.real());
+        }
+        if (std::isnan(z.real()) || std::isnan(z.imag())) {
+            return complexNaNResult<T>(z);
+        }
+        return withInputSignedZeros<T>(std::atanh(z), z);
+    }
+};
+//=============================================================================
+struct AsinhKernel
+{
+    static constexpr bool realOnly = true;
+    template <class T>
+    static bool
+    inDomain(T)
+    {
+        return true;
+    }
+    template <class T>
+    static T
+    real(T x)
+    {
+        return std::asinh(x);
+    }
+    template <class T>
+    static std::complex<T>
+    realAsComplex(T x)
+    {
+        return std::complex<T>(std::asinh(x), (T)0);
+    }
+    template <class T>
+    static std::complex<T>
+    complexValue(std::complex<T> z)
+    {
+        if (z.imag() == 0) {
+            return realAsComplex<T>(z.real());
+        }
+        if (std::isnan(z.real()) || std::isnan(z.imag())) {
+            if (z.real() == 0) {
+                return std::complex<T>((T)0, std::numeric_limits<T>::quiet_NaN());
+            }
+            return complexNaNResult<T>(z);
+        }
+        // at infinity on the imaginary axis both parts follow the sign of the imaginary part
+        if (z.real() == 0 && std::isinf(z.imag())) {
+            return std::complex<T>(z.imag(), std::copysign((T)(M_PI / 2), z.imag()));
+        }
+        return withInputSignedZeros<T>(std::asinh(z), z);
+    }
+};
+//=============================================================================
+struct AcoshKernel
+{
+    static constexpr bool realOnly = false;
+    template <class T>
+    static bool
+    inDomain(T x)
+    {
+        return x >= 1 || std::isnan(x);
+    }
+    template <class T>
+    static T
+    real(T x)
+    {
+        return std::acosh(x);
+    }
+    // Below 1: i*acos(x) on [-1, 1), acosh(-x) + pi*i below -1.
+    template <class T>
+    static std::complex<T>
+    realAsComplex(T x)
+    {
+        if (x >= 1 || std::isnan(x)) {
+            return std::complex<T>(std::acosh(x), (T)0);
+        }
+        if (x >= -1) {
+            return std::complex<T>((T)0, std::acos(x));
+        }
+        return std::complex<T>(std::acosh(-x), (T)M_PI);
+    }
+    template <class T>
+    static std::complex<T>
+    complexValue(std::complex<T> z)
+    {
+        if (z.imag() == 0) {
+            return realAsComplex<T>(z.real());
+        }
+        if (std::isnan(z.real()) || std::isnan(z.imag())) {
+            return complexNaNResult<T>(z);
+        }
+        if (std::isinf(z.real()) && std::isinf(z.imag())) {
+            return std::complex<T>(
+                std::numeric_limits<T>::infinity(), std::copysign((T)(M_PI / 2), z.imag()));
+        }
+        return withInputSignedZeros<T>(std::acosh(z), z);
+    }
+};
+//=============================================================================
+// Sine and cosine of an angle in degrees: exact range reduction, quadrant choice and
+// a two-part pi/180 so that sind(30) is 0.5 and multiples of 90 are exact.
+static inline void
+sinCosDegrees(double x, double& s, double& c)
+{
+    const double degToRadHigh = 0.017453292519943295;
+    const double degToRadLow = 2.9486522708701687e-19;
+    double r = std::fmod(x, 360.0);
+    double q = std::round(r / 90.0);
+    double t = r - 90.0 * q;
+    double hi = t * degToRadHigh;
+    double lo = std::fma(t, degToRadHigh, -hi) + t * degToRadLow;
+    double sv = std::sin(hi) + lo * (1.0 - 0.5 * hi * hi);
+    double cv = std::cos(hi) - lo * hi;
+    switch (static_cast<int>(q) & 3) {
+    case 0:
+        s = sv;
+        c = cv;
+        break;
+    case 1:
+        s = cv;
+        c = -sv;
+        break;
+    case 2:
+        s = -sv;
+        c = -cv;
+        break;
+    default:
+        s = -cv;
+        c = sv;
+        break;
+    }
+}
+//=============================================================================
+// Zero sines take the sign of x, zero cosines are +0.
+static inline double
+sindValue(double x)
+{
+    if (!std::isfinite(x)) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    double s;
+    double c;
+    sinCosDegrees(x, s, c);
+    return s == 0 ? std::copysign(0.0, x) : s;
+}
+//=============================================================================
+static inline double
+cosdValue(double x)
+{
+    if (!std::isfinite(x)) {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    double s;
+    double c;
+    sinCosDegrees(x, s, c);
+    return c == 0 ? 0.0 : c;
+}
+//=============================================================================
+// sin(a + bi) = sin(a)cosh(b) + i cos(a)sinh(b) in degrees; an exact zero factor stays
+// zero even when the other factor is infinite.
+template <class T, bool IsSine>
+static inline std::complex<T>
+degreesComplexValue(std::complex<T> z)
+{
+    double a = (double)z.real();
+    if (z.imag() == 0) {
+        return std::complex<T>((T)(IsSine ? sindValue(a) : cosdValue(a)), (T)0);
+    }
+    double s = sindValue(a);
+    double c = cosdValue(a);
+    double b = (double)z.imag() * (M_PI / 180.0);
+    double chb = std::cosh(b);
+    double shb = std::sinh(b);
+    if (IsSine) {
+        return std::complex<T>((T)(s == 0 ? s : s * chb), (T)(c == 0 ? c : c * shb));
+    }
+    return std::complex<T>((T)(c == 0 ? c : c * chb), (T)(s == 0 ? 0.0 : -s * shb));
+}
+//=============================================================================
+template <bool IsSine> struct DegreesKernel
+{
+    static constexpr bool realOnly = true;
+    template <class T>
+    static bool
+    inDomain(T)
+    {
+        return true;
+    }
+    template <class T>
+    static T
+    real(T x)
+    {
+        return (T)(IsSine ? sindValue((double)x) : cosdValue((double)x));
+    }
+    template <class T>
+    static std::complex<T>
+    realAsComplex(T x)
+    {
+        return std::complex<T>(real<T>(x), (T)0);
+    }
+    template <class T>
+    static std::complex<T>
+    complexValue(std::complex<T> z)
+    {
+        return degreesComplexValue<T, IsSine>(z);
+    }
+};
+//=============================================================================
+ArrayOf
+Atanh(const ArrayOf& A, bool& needToOverload)
+{
+    return mapKernel<AtanhKernel>(A, needToOverload, doublecomplex(0., 0.));
+}
+//=============================================================================
+ArrayOf
+Asinh(const ArrayOf& A, bool& needToOverload)
+{
+    return mapKernel<AsinhKernel>(A, needToOverload, doublecomplex(0., 0.));
+}
+//=============================================================================
+ArrayOf
+Acosh(const ArrayOf& A, bool& needToOverload)
+{
+    return mapKernel<AcoshKernel>(A, needToOverload, doublecomplex(0., M_PI / 2.));
+}
+//=============================================================================
+ArrayOf
+Sind(const ArrayOf& A, bool& needToOverload)
+{
+    return mapKernel<DegreesKernel<true>>(A, needToOverload, doublecomplex(0., 0.));
+}
+//=============================================================================
+ArrayOf
+Cosd(const ArrayOf& A, bool& needToOverload)
+{
+    return mapKernel<DegreesKernel<false>>(A, needToOverload, doublecomplex(1., 0.));
 }
 //=============================================================================
 } // namespace Nelson

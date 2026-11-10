@@ -167,7 +167,7 @@ evaluateUnaryScalarMathBuiltin(ScalarMathBuiltinKind kind, double value, double&
         if (value < 0) {
             return false;
         }
-        result = std::log(value) / std::log(2.0);
+        result = std::log2(value);
         return true;
     case ScalarMathBuiltinKind::Log10:
         if (value < 0) {
@@ -185,7 +185,8 @@ evaluateUnaryScalarMathBuiltin(ScalarMathBuiltinKind kind, double value, double&
         if (value < 0) {
             return false;
         }
-        result = std::sqrt(value);
+        // sqrt(-0) is +0
+        result = value == 0 ? 0.0 : std::sqrt(value);
         return true;
     case ScalarMathBuiltinKind::Tan:
         result = std::tan(value);

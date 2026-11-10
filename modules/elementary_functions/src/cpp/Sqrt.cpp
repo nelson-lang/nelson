@@ -23,37 +23,38 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+// Real value as a complex square root: sqrt(-0) is +0, negatives are pure imaginary.
 template <class T>
-std::complex<T>
-SqrtComplexScalar(std::complex<T> z, bool& isReal)
+static inline std::complex<T>
+SqrtRealAsComplex(T x)
 {
-    // r = sqrt((real(z) * real(z)) + (imag(z) * imag(z)))
-    // phi = atan2(imag(z), real(z))
-    // sqrt(r)*(cos(phi/2) + 1i*sin(phi/2))
-    T realPart = 0;
-    T phi = atan2(z.imag(), z.real());
-    T r = sqrt((z.real() * z.real()) + (z.imag() * z.imag()));
-    if (z.imag() != 0 || z.real() >= 0) {
-        realPart = sqrt(r) * cos(phi / 2);
+    if (x < 0) {
+        return std::complex<T>((T)0, std::sqrt(-x));
     }
-    T imagPart = sqrt(r) * sin(phi / 2);
-    isReal = false;
-    if (fabs(imagPart) < std::numeric_limits<T>::epsilon()) {
-        imagPart = (T)0.;
-        isReal = true;
-    }
-    if (fabs(realPart) < std::numeric_limits<single>::epsilon()) {
-        realPart = 0;
-    }
-    std::complex<T> res(realPart, imagPart);
-    return res;
+    return std::complex<T>(x == 0 ? (T)0 : std::sqrt(x), (T)0);
 }
 //=============================================================================
+// A zero imaginary part (of either sign) is read as a real value; other NaN give NaN + NaNi.
 template <class T>
-T
+static inline std::complex<T>
+SqrtComplexScalar(std::complex<T> z)
+{
+    if (z.imag() == 0) {
+        return SqrtRealAsComplex<T>(z.real());
+    }
+    if (std::isnan(z.real()) || std::isnan(z.imag())) {
+        T nan = std::numeric_limits<T>::quiet_NaN();
+        return std::complex<T>(nan, nan);
+    }
+    return std::sqrt(z);
+}
+//=============================================================================
+// sqrt(-0) is +0.
+template <class T>
+static inline T
 SqrtRealScalar(T value)
 {
-    return sqrt(value);
+    return value == 0 ? (T)0 : std::sqrt(value);
 }
 //=============================================================================
 template <class T>
@@ -79,7 +80,7 @@ SqrtReal(NelsonType classDestination, const ArrayOf& A)
 #if defined(_NLS_WITH_VML)
     Eigen::Map<Eigen::Matrix<T, 1, Eigen::Dynamic>> matIn(ptrIn, elementCount);
     Eigen::Map<Eigen::Matrix<T, 1, Eigen::Dynamic>> matOut(ptrOut, elementCount);
-    matOut = matIn.array().sqrt();
+    matOut = (matIn.array() == (T)0).select((T)0, matIn.array().sqrt());
 #else
     OMP_PARALLEL_FOR_LOOP(elementCount)
     for (ompIndexType k = 0; k < elementCount; k++) {
@@ -91,23 +92,34 @@ SqrtReal(NelsonType classDestination, const ArrayOf& A)
 //=============================================================================
 template <class T>
 static ArrayOf
-SqrtComplex(NelsonType classDestination, const ArrayOf& A, bool& allReal)
+SqrtComplex(NelsonType classDestination, const ArrayOf& A)
 {
     Dimensions dimsA = A.dimensions();
     ompIndexType elementCount = (ompIndexType)A.elementCount();
     T* ptrOut = (T*)ArrayOf::allocateArrayOf(
         classDestination, dimsA.elementCount(), stringVector(), false);
     std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>((T*)ptrOut);
-    T* ptrIn = (T*)A.dataPointer();
-    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.dataPointer());
-    allReal = true;
+    const std::complex<T>* Az = reinterpret_cast<const std::complex<T>*>(A.dataPointer());
     OMP_PARALLEL_FOR_LOOP(elementCount)
     for (ompIndexType k = 0; k < elementCount; k++) {
-        bool isReal;
-        Cz[k] = SqrtComplexScalar<T>(Az[k], isReal);
-        if (!isReal) {
-            allReal = false;
-        }
+        Cz[k] = SqrtComplexScalar<T>(Az[k]);
+    }
+    return ArrayOf(classDestination, dimsA, ptrOut);
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+SqrtRealToComplex(NelsonType classDestination, const ArrayOf& A)
+{
+    Dimensions dimsA = A.dimensions();
+    ompIndexType elementCount = (ompIndexType)A.elementCount();
+    T* ptrOut = (T*)ArrayOf::allocateArrayOf(
+        classDestination, dimsA.elementCount(), stringVector(), false);
+    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>((T*)ptrOut);
+    const T* ptrIn = (const T*)A.dataPointer();
+    OMP_PARALLEL_FOR_LOOP(elementCount)
+    for (ompIndexType k = 0; k < elementCount; k++) {
+        Cz[k] = SqrtRealAsComplex<T>(ptrIn[k]);
     }
     return ArrayOf(classDestination, dimsA, ptrOut);
 }
@@ -161,9 +173,8 @@ SparseSqrtReal(const ArrayOf& A, NelsonType realClass, NelsonType complexClass)
     for (signedIndexType k = 0; k < spmatSRC->outerSize(); ++k) {
         for (typename Eigen::SparseMatrix<T, 0, signedIndexType>::InnerIterator it(*spmatSRC, k);
             it; ++it) {
-            bool isReal = true;
-            std::complex<T> value = SqrtComplexScalar<T>(std::complex<T>(it.value(), T(0)), isReal);
-            if (!isReal) {
+            std::complex<T> value = SqrtRealAsComplex<T>(it.value());
+            if (value.imag() != 0) {
                 allReal = false;
             }
             if (value != std::complex<T>(0)) {
@@ -184,7 +195,6 @@ Sqrt(const ArrayOf& A, bool& needToOverload)
 {
     ArrayOf res;
     needToOverload = false;
-    bool asComplex = false;
     if (A.isSparse()) {
         switch (A.dataClass()) {
         case NLS_DOUBLE:
@@ -204,40 +214,28 @@ Sqrt(const ArrayOf& A, bool& needToOverload)
         }
         }
     }
-    NelsonType classA = A.dataClass();
-    ArrayOf AA(A);
-
-    if (classA == NLS_DOUBLE) {
-        auto* ptrIn = (double*)A.dataPointer();
-        if (haveNegativeValue<double>(ptrIn, A.elementCount())) {
-            AA.promoteType(NLS_DCOMPLEX);
-        }
-    } else if (classA == NLS_SINGLE) {
-        auto* ptrIn = (single*)A.dataPointer();
-        if (haveNegativeValue<single>(ptrIn, A.elementCount())) {
-            AA.promoteType(NLS_SCOMPLEX);
-        }
-    }
-
-    NelsonType classAA = AA.dataClass();
-    switch (AA.dataClass()) {
+    switch (A.dataClass()) {
     case NLS_DOUBLE: {
-        res = SqrtReal<double>(NLS_DOUBLE, AA);
+        if (haveNegativeValue<double>((double*)A.dataPointer(), A.elementCount())) {
+            return SqrtRealToComplex<double>(NLS_DCOMPLEX, A);
+        }
+        return SqrtReal<double>(NLS_DOUBLE, A);
     } break;
     case NLS_SINGLE: {
-        res = SqrtReal<single>(NLS_SINGLE, AA);
+        if (haveNegativeValue<single>((single*)A.dataPointer(), A.elementCount())) {
+            return SqrtRealToComplex<single>(NLS_SCOMPLEX, A);
+        }
+        return SqrtReal<single>(NLS_SINGLE, A);
     } break;
     case NLS_DCOMPLEX: {
-        bool allReal = false;
-        res = SqrtComplex<double>(NLS_DCOMPLEX, AA, allReal);
-        if (allReal) {
+        res = SqrtComplex<double>(NLS_DCOMPLEX, A);
+        if (res.allReal()) {
             res.promoteType(NLS_DOUBLE);
         }
     } break;
     case NLS_SCOMPLEX: {
-        bool allReal = false;
-        res = SqrtComplex<single>(NLS_SCOMPLEX, AA, allReal);
-        if (allReal) {
+        res = SqrtComplex<single>(NLS_SCOMPLEX, A);
+        if (res.allReal()) {
             res.promoteType(NLS_SINGLE);
         }
     } break;

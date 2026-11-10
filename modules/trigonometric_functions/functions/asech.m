@@ -10,6 +10,12 @@
 function x = asech(varargin)
   narginchk(1, 1);
   nargoutchk(0, 1);
-  x = acosh(1 ./ varargin{1});
+  v = varargin{1};
+  r = 1 ./ v;
+  if isreal(v) && all(v(:) >= 0 & v(:) <= 1 | isnan(v(:)))
+    % on the real domain -0 gives NaN, as 1/-0 is outside it
+    r(r == -Inf) = NaN;
+  end
+  x = acosh(r);
 end
 %=============================================================================

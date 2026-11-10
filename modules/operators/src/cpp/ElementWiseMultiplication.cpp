@@ -22,6 +22,7 @@
 #include "i18n.hpp"
 #include "IntegerOperations.hpp"
 #include "IntegerCompatibilityHelpers.hpp"
+#include "IntegerDoubleArithmetic.hpp"
 #include "SparseOperatorsHelpers.hpp"
 #include "Decomplexify.hpp"
 #include "ErrorID.hpp"
@@ -1047,6 +1048,10 @@ elementWiseMultiplication(const ArrayOf& A, const ArrayOf& B, bool& needToOverlo
                 Error(L"Nelson:operators:complexIntegerNotAllowed",
                     L"Complex integer not allowed for arithmetic operator *");
             }
+            ArrayOf exact;
+            if (tryInteger64DoubleScalar(A, B, Integer64DoubleOperation::Times, exact)) {
+                return exact;
+            }
             ArrayOf AA = A;
             AA.promoteType(B.dataClass());
             ArrayOf res = elementWiseMultiplication(AA, B, needToOverload);
@@ -1070,6 +1075,10 @@ elementWiseMultiplication(const ArrayOf& A, const ArrayOf& B, bool& needToOverlo
                 Error(L"Nelson:operators:complexIntegerNotAllowed",
                     L"Complex integer not allowed for arithmetic operator *");
             }
+            ArrayOf exact;
+            if (tryInteger64DoubleScalar(B, A, Integer64DoubleOperation::Times, exact)) {
+                return exact;
+            }
             ArrayOf BB = B;
             BB.promoteType(A.dataClass());
             ArrayOf res = elementWiseMultiplication(A, BB, needToOverload);
@@ -1082,28 +1091,34 @@ elementWiseMultiplication(const ArrayOf& A, const ArrayOf& B, bool& needToOverlo
     return {};
 }
 //=============================================================================
-// Fast path for complex-by-real element-wise multiplication: scaling
-// (a + bi) * c = (a * c) + (b * c)i avoids promoting the real operand to a complex
-// array. It is bit-identical to the generic product for finite operands, so the
-// kernels below run only when every value is finite. Non-finite operands go to the
-// generic path: its cross terms turn an infinite imaginary part into NaN, which
-// scaling would not reproduce.
+// Complex by real: (a + bi) * c = (a * c) + (b * c)i keeps Inf parts. Zero or non-finite
+// factors keep the generic path.
 template <class T>
 static bool
-complexRealTimesOperandsAreClean(const std::complex<T>* complexData, indexType complexCount,
-    const T* realData, indexType realCount)
+complexHasNaNPart(const std::complex<T>* values, indexType count)
 {
-    for (indexType k = 0; k < realCount; ++k) {
-        if (!std::isfinite(realData[k])) {
-            return false;
+    for (indexType k = 0; k < count; ++k) {
+        if (std::isnan(values[k].real()) | std::isnan(values[k].imag())) {
+            return true;
         }
     }
-    for (indexType k = 0; k < complexCount; ++k) {
-        if (!std::isfinite(complexData[k].real()) || !std::isfinite(complexData[k].imag())) {
-            return false;
+    return false;
+}
+//=============================================================================
+// A NaN part spreads to both parts when both input parts are nonzero (rare, so done apart).
+template <class T>
+static void
+spreadComplexNaNParts(const std::complex<T>* in, indexType inCount, std::complex<T>* out,
+    indexType outCount)
+{
+    T nan = std::numeric_limits<T>::quiet_NaN();
+    for (indexType k = 0; k < outCount; ++k) {
+        const std::complex<T>& z = in[inCount == 1 ? 0 : k];
+        if (z.imag() != 0 && z.real() != 0
+            && (std::isnan(out[k].real()) || std::isnan(out[k].imag()))) {
+            out[k] = std::complex<T>(nan, nan);
         }
     }
-    return true;
 }
 //=============================================================================
 template <class T>
@@ -1171,12 +1186,9 @@ complex_real_times_scaling(NelsonType classDestination, const ArrayOf& complexAr
         // Broadcasting shapes (row/column, row/matrix, ...) keep the generic path.
         return false;
     }
-    const std::complex<T>* Az
-        = reinterpret_cast<const std::complex<T>*>(complexArray.dataPointer());
     const T* Br = reinterpret_cast<const T*>(realArray.dataPointer());
-    indexType complexCount = complexArray.isScalar() ? 1 : complexArray.dimensions().elementCount();
     indexType realCount = realArray.isScalar() ? 1 : realArray.dimensions().elementCount();
-    if (!complexRealTimesOperandsAreClean<T>(Az, complexCount, Br, realCount)) {
+    if (!realFactorsAreFiniteNonZero<T>(Br, realCount)) {
         return false;
     }
     if (matrixMatrix) {
@@ -1185,6 +1197,14 @@ complex_real_times_scaling(NelsonType classDestination, const ArrayOf& complexAr
         result = matrix_scalar_complex_real_times<T>(classDestination, complexArray, realArray);
     } else {
         result = scalar_matrix_complex_real_times<T>(classDestination, complexArray, realArray);
+    }
+    const std::complex<T>* Az
+        = reinterpret_cast<const std::complex<T>*>(complexArray.dataPointer());
+    indexType complexCount = complexArray.isScalar() ? 1 : complexArray.dimensions().elementCount();
+    if (complexHasNaNPart<T>(Az, complexCount)) {
+        spreadComplexNaNParts<T>(Az, complexCount,
+            reinterpret_cast<std::complex<T>*>((T*)result.dataPointer()),
+            result.dimensions().elementCount());
     }
     return true;
 }
@@ -1208,16 +1228,23 @@ dotTimesComplexRealScaling(const ArrayOf& A, const ArrayOf& B, ArrayOf& result)
         complexArray = &B;
         realArray = &A;
         classDestination = NLS_DCOMPLEX;
-    } else if (classA == NLS_SCOMPLEX && classB == NLS_SINGLE) {
+    } else if (classA == NLS_SCOMPLEX && (classB == NLS_SINGLE || classB == NLS_DOUBLE)) {
         complexArray = &A;
         realArray = &B;
         classDestination = NLS_SCOMPLEX;
-    } else if (classA == NLS_SINGLE && classB == NLS_SCOMPLEX) {
+    } else if ((classA == NLS_SINGLE || classA == NLS_DOUBLE) && classB == NLS_SCOMPLEX) {
         complexArray = &B;
         realArray = &A;
         classDestination = NLS_SCOMPLEX;
     } else {
         return false;
+    }
+    // a double factor gives a single result
+    ArrayOf singleReal;
+    if (classDestination == NLS_SCOMPLEX && realArray->dataClass() == NLS_DOUBLE) {
+        singleReal = *realArray;
+        singleReal.promoteType(NLS_SINGLE);
+        realArray = &singleReal;
     }
     bool handled = false;
     if (classDestination == NLS_DCOMPLEX) {

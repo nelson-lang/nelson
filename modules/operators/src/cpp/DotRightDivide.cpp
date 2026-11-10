@@ -19,6 +19,7 @@
 #include "DotRightDivideInteger.hpp"
 #include "BinaryOperatorsHelpers.hpp"
 #include "IntegerCompatibilityHelpers.hpp"
+#include "IntegerDoubleArithmetic.hpp"
 #include "SparseOperatorsHelpers.hpp"
 //=============================================================================
 namespace Nelson {
@@ -57,7 +58,7 @@ sparseDotRightDivideDenseResult(NelsonType dataClass, const ArrayOf& A, const Ar
         } else {
             denominator = denseB[indexB];
         }
-        ptrC[idx] = numerator / denominator;
+        ptrC[idx] = divideValues(numerator, denominator);
     }
     return ArrayOf(dataClass, info.dimensions, ptrC, false);
 }
@@ -79,7 +80,7 @@ sparseNumeratorDotRightDivideMatrix(NelsonType dataClass, const ArrayOf& A, cons
             static_cast<signedIndexType>(indexA / A.rows()));
         T denominator = sparseB->coeff(static_cast<signedIndexType>(indexB % B.rows()),
             static_cast<signedIndexType>(indexB / B.rows()));
-        T value = numerator / denominator;
+        T value = divideValues(numerator, denominator);
         if (value != T(0)) {
             triplets.emplace_back(static_cast<signedIndexType>(idx % rows),
                 static_cast<signedIndexType>(idx / rows), value);
@@ -105,7 +106,7 @@ sparseNumeratorDotRightDivideScalarZero(
         for (indexType row = 0; row < rows; ++row) {
             signedIndexType sparseRow = static_cast<signedIndexType>(row);
             signedIndexType sparseCol = static_cast<signedIndexType>(col);
-            T value = sparseA->coeff(sparseRow, sparseCol) / zero;
+            T value = divideValues(sparseA->coeff(sparseRow, sparseCol), zero);
             if (value != T(0)) {
                 triplets.emplace_back(sparseRow, sparseCol, value);
             }
@@ -136,7 +137,7 @@ sparseNumeratorDenseDenominatorDotRightDivide(
         indexType indexB = binaryOperatorBroadcastIndex(info, idx, info.bStrides);
         T numerator = sparseA->coeff(static_cast<signedIndexType>(indexA % A.rows()),
             static_cast<signedIndexType>(indexA / A.rows()));
-        T value = numerator / ptrB[indexB];
+        T value = divideValues(numerator, ptrB[indexB]);
         if (value != T(0)) {
             triplets.emplace_back(static_cast<signedIndexType>(idx % rows),
                 static_cast<signedIndexType>(idx / rows), value);
@@ -161,7 +162,7 @@ denseNumeratorSparseDenominatorDotRightDivide(
         indexType indexB = binaryOperatorBroadcastIndex(info, idx, info.bStrides);
         T denominator = sparseB->coeff(static_cast<signedIndexType>(indexB % B.rows()),
             static_cast<signedIndexType>(indexB / B.rows()));
-        ptrC[idx] = ptrA[indexA] / denominator;
+        ptrC[idx] = divideValues(ptrA[indexA], denominator);
     }
     return ArrayOf(dataClass, info.dimensions, ptrC, false);
 }
@@ -185,7 +186,8 @@ sparseDotRightDivide(NelsonType dataClass, const ArrayOf& A, const ArrayOf& B, b
     if (scalarValue == T(0)) {
         return sparseNumeratorDotRightDivideScalarZero<T>(dataClass, A, A.dimensions());
     }
-    return scalarSparseOperatorProduct<T>(dataClass, A.dimensions(), A, T(1) / scalarValue);
+    return scalarSparseOperatorProduct<T>(
+        dataClass, A.dimensions(), A, divideValues(T(1), scalarValue));
 }
 //=============================================================================
 static ArrayOf
@@ -241,9 +243,13 @@ dotRightDivideComplexRealScaling(const ArrayOf& numerator, const ArrayOf& diviso
         if (handled && result.allReal()) {
             result.promoteType(NLS_DOUBLE);
         }
-    } else if (numeratorClass == NLS_SCOMPLEX && divisorClass == NLS_SINGLE) {
-        handled
-            = complex_real_dotRightDivide_scaling<single>(NLS_SCOMPLEX, numerator, divisor, result);
+    } else if (numeratorClass == NLS_SCOMPLEX
+        && (divisorClass == NLS_SINGLE || divisorClass == NLS_DOUBLE)) {
+        // a double divisor gives a single result
+        ArrayOf singleDivisor(divisor);
+        singleDivisor.promoteType(NLS_SINGLE);
+        handled = complex_real_dotRightDivide_scaling<single>(
+            NLS_SCOMPLEX, numerator, singleDivisor, result);
         if (handled && result.allReal()) {
             result.promoteType(NLS_SINGLE);
         }
@@ -313,6 +319,10 @@ DotRightDivide(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
                 Error(L"Nelson:operators:complexIntegerNotAllowed",
                     L"Complex integer not allowed for arithmetic operator *");
             }
+            ArrayOf exact;
+            if (tryInteger64DoubleScalar(A, B, Integer64DoubleOperation::IntegerOverDouble, exact)) {
+                return exact;
+            }
             ArrayOf AA = A;
             AA.promoteType(B.dataClass());
             ArrayOf res = DotRightDivide(AA, B, needToOverload);
@@ -335,6 +345,10 @@ DotRightDivide(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
             if (A.isComplex()) {
                 Error(L"Nelson:operators:complexIntegerNotAllowed",
                     L"Complex integer not allowed for arithmetic operator *");
+            }
+            ArrayOf exact;
+            if (tryInteger64DoubleScalar(B, A, Integer64DoubleOperation::DoubleOverInteger, exact)) {
+                return exact;
             }
             ArrayOf BB = B;
             BB.promoteType(A.dataClass());

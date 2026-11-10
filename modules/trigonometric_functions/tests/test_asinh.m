@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-asserts.isequal(nargin('asinh'), -1);
+asserts.isequal(nargin('asinh'), 1);
 asserts.isequal(nargout('asinh'), 1);
 %=============================================================================
 R = asinh([-i, 0, 1 / 6, i / 2, i, 2]);

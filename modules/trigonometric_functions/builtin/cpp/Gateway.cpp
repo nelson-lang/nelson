@@ -27,6 +27,10 @@
 #include "tanmBuiltin.hpp"
 #include "atan2Builtin.hpp"
 #include "atanhBuiltin.hpp"
+#include "asinhBuiltin.hpp"
+#include "acoshBuiltin.hpp"
+#include "sindBuiltin.hpp"
+#include "cosdBuiltin.hpp"
 #include "wrapTo180Builtin.hpp"
 #include "wrapTo360Builtin.hpp"
 #include "wrapToPiBuiltin.hpp"
@@ -51,6 +55,10 @@ static const nlsGateway gateway[] = {
     { "tanm", (ptrBuiltin)Nelson::TrigonometricGateway::tanmBuiltin, 1, 1 },
     { "atan2", (ptrBuiltin)Nelson::TrigonometricGateway::atan2Builtin, 1, 2 },
     { "atanh", (ptrBuiltin)Nelson::TrigonometricGateway::atanhBuiltin, 1, 1 },
+    { "asinh", (ptrBuiltin)Nelson::TrigonometricGateway::asinhBuiltin, 1, 1 },
+    { "acosh", (ptrBuiltin)Nelson::TrigonometricGateway::acoshBuiltin, 1, 1 },
+    { "sind", (ptrBuiltin)Nelson::TrigonometricGateway::sindBuiltin, 1, 1 },
+    { "cosd", (ptrBuiltin)Nelson::TrigonometricGateway::cosdBuiltin, 1, 1 },
     { "wrapTo180", (ptrBuiltin)Nelson::TrigonometricGateway::wrapTo180Builtin, 1, 1 },
     { "wrapTo360", (ptrBuiltin)Nelson::TrigonometricGateway::wrapTo360Builtin, 1, 1 },
     { "wrapToPi", (ptrBuiltin)Nelson::TrigonometricGateway::wrapToPiBuiltin, 1, 1 },

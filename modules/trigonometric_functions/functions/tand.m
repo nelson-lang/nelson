@@ -8,14 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = tand(x)
-  % sind and cosd perform an exact reduction on degrees:
-  % zeros and infinities (with the right sign) come out exactly.
+  % exact sind and cosd give exact zeros, signed infinities and +/-1 at 45 degrees
   r = sind(x) ./ cosd(x);
-  if isreal(x)
-    % multiples of 45 degrees are exactly +/-1
-    q = mod(x, 180);
-    r(q == 45) = 1;
-    r(q == 135) = -1;
-  end
 end
 %=============================================================================

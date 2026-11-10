@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-asserts.isequal(nargin('acosh'), -1);
+asserts.isequal(nargin('acosh'), 1);
 asserts.isequal(nargout('acosh'), 1);
 %=============================================================================
 X = [2, -3, 1 + 2i];

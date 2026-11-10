@@ -11,6 +11,7 @@
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
 #include "Logarithm2.hpp"
+#include "LogarithmKernels.hpp"
 #include "Warning.hpp"
 #include "i18n.hpp"
 //=============================================================================
@@ -19,96 +20,23 @@ namespace Nelson {
 ArrayOf
 Logarithm2(const ArrayOf& A, bool& needToOverload)
 {
-    ArrayOf res;
     needToOverload = false;
     if (A.isSparse()) {
         needToOverload = true;
-        return res;
+        return {};
     }
-    Dimensions dimsA = A.dimensions();
-    ompIndexType elementCount = dimsA.elementCount();
     switch (A.dataClass()) {
-    case NLS_DOUBLE: {
-        double* ptrA = (double*)A.dataPointer();
-        double* ptrC = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, elementCount);
-        std::complex<double>* ptrCplxC = reinterpret_cast<std::complex<double>*>((double*)ptrC);
-        res = ArrayOf(NLS_DCOMPLEX, dimsA, ptrC);
-        bool allReal = true;
-        OMP_PARALLEL_FOR_LOOP(elementCount)
-        for (ompIndexType k = 0; k < elementCount; ++k) {
-            std::complex<double> C(ptrA[k], 0);
-            ptrCplxC[k] = std::log(C) / std::log(2);
-            if (!((ptrCplxC[k].imag() == 0.)
-                    || (std::isnan(ptrCplxC[k].real()) && std::isnan(ptrCplxC[k].imag())))) {
-                allReal = false;
-            }
-        }
-        if (allReal) {
-            res.promoteType(NLS_DOUBLE);
-        }
-    } break;
-    case NLS_SINGLE: {
-        single* ptrA = (single*)A.dataPointer();
-        single* ptrC = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, elementCount);
-        std::complex<single>* ptrCplxC = reinterpret_cast<std::complex<single>*>((single*)ptrC);
-        res = ArrayOf(NLS_SCOMPLEX, dimsA, ptrC);
-        bool allReal = true;
-        OMP_PARALLEL_FOR_LOOP(elementCount)
-        for (ompIndexType k = 0; k < elementCount; ++k) {
-            std::complex<single> C(ptrA[k], 0);
-            ptrCplxC[k] = std::log(C) / std::log(2.f);
-            if (!((ptrCplxC[k].imag() == 0.)
-                    || (std::isnan(ptrCplxC[k].real()) && std::isnan(ptrCplxC[k].imag())))) {
-                allReal = false;
-            }
-        }
-        if (allReal) {
-            res.promoteType(NLS_SINGLE);
-        }
-    } break;
-    case NLS_DCOMPLEX: {
-        double* ptrA = (double*)A.dataPointer();
-        std::complex<double>* ptrCplxA = reinterpret_cast<std::complex<double>*>((double*)ptrA);
-        double* ptrC = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, elementCount);
-        std::complex<double>* ptrCplxC = reinterpret_cast<std::complex<double>*>((double*)ptrC);
-        res = ArrayOf(NLS_DCOMPLEX, dimsA, ptrC);
-        bool allReal = true;
-        OMP_PARALLEL_FOR_LOOP(elementCount)
-        for (ompIndexType k = 0; k < elementCount; ++k) {
-            ptrCplxC[k] = std::log(ptrCplxA[k]) / std::log(2);
-            if (!((ptrCplxC[k].imag() == 0.)
-                    || (std::isnan(ptrCplxC[k].real()) && std::isnan(ptrCplxC[k].imag())))) {
-                allReal = false;
-            }
-        }
-        if (allReal) {
-            res.promoteType(NLS_DOUBLE);
-        }
-    } break;
-    case NLS_SCOMPLEX: {
-        single* ptrA = (single*)A.dataPointer();
-        std::complex<single>* ptrCplxA = reinterpret_cast<std::complex<single>*>((single*)ptrA);
-        single* ptrC = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, elementCount);
-        std::complex<single>* ptrCplxC = reinterpret_cast<std::complex<single>*>((single*)ptrC);
-        res = ArrayOf(NLS_SCOMPLEX, dimsA, ptrC);
-        bool allReal = true;
-        OMP_PARALLEL_FOR_LOOP(elementCount)
-        for (ompIndexType k = 0; k < elementCount; ++k) {
-            ptrCplxC[k] = std::log(ptrCplxA[k]) / std::log(2.f);
-            if (!((ptrCplxC[k].imag() == 0.)
-                    || (std::isnan(ptrCplxC[k].real()) && std::isnan(ptrCplxC[k].imag())))) {
-                allReal = false;
-            }
-        }
-        if (allReal) {
-            res.promoteType(NLS_SINGLE);
-        }
-    } break;
-    default: {
+    case NLS_DOUBLE:
+    case NLS_DCOMPLEX:
+        return logarithmDense<double, LogarithmBase::Two>(A, NLS_DOUBLE, NLS_DCOMPLEX, true);
+    case NLS_SINGLE:
+    case NLS_SCOMPLEX:
+        return logarithmDense<single, LogarithmBase::Two>(A, NLS_SINGLE, NLS_SCOMPLEX, true);
+    default:
         needToOverload = true;
-    } break;
+        break;
     }
-    return res;
+    return {};
 }
 //=============================================================================
 ArrayOfVector

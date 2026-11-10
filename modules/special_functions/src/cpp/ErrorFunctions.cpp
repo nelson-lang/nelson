@@ -93,6 +93,9 @@ erfinvValue(T v)
     if (v < (T)-1 || v > (T)1) {
         return std::numeric_limits<T>::quiet_NaN();
     }
+    if (v == (T)0) {
+        return v;
+    }
     if (v == (T)-1) {
         return -std::numeric_limits<T>::infinity();
     }
@@ -181,10 +184,19 @@ errorFunctionDouble(double v, ErrorFunctionType functionType)
     return errorFunctionValue(v, functionType);
 }
 //=============================================================================
+// erfcx in single overflows exp(x^2) early and erfc loses its smallest subnormals,
+// so both go through double.
 static single
 errorFunctionSingle(single v, ErrorFunctionType functionType)
 {
-    return errorFunctionValue(v, functionType);
+    if (functionType == ErrorFunctionType::Erfcx) {
+        return (single)errorFunctionValue((double)v, functionType);
+    }
+    single r = errorFunctionValue(v, functionType);
+    if (functionType == ErrorFunctionType::Erfc && r < std::numeric_limits<single>::min()) {
+        return (single)std::erfc((double)v);
+    }
+    return r;
 }
 //=============================================================================
 ArrayOf

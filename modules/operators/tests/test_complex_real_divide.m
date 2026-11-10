@@ -58,11 +58,15 @@ assert_istrue(isreal(res));
 res = complex(single([4 8]), single([0 0])) ./ single(4);
 assert_istrue(isreal(res));
 %=============================================================================
-% Zero / non-finite divisors keep the generic semantics (fall back).
-assert_istrue(all(isnan(real(complex([1 2]) ./ 0))));
-assert_istrue(all(isnan(imag(complex([1 2]) ./ 0))));
-assert_istrue(all(isnan(real((1 + 1i) ./ [0 -0]))));
+% Zero / non-finite divisors divide each part on its own.
+R = complex([1 2]) ./ 0;
+assert_isequal(real(R), [Inf Inf]);
+assert_isequal(imag(R), [0 0]);
+R = (1 + 1i) ./ [0 -0];
+assert_isequal(real(R), [Inf -Inf]);
+assert_isequal(imag(R), [Inf -Inf]);
 assert_isequal((3 + 4i) ./ Inf, complex(3 + 4i) ./ complex(Inf));
+assert_isequal(abs((3 + 4i) ./ Inf), 0);
 %=============================================================================
 % Empty operands.
 assert_isequal(complex(zeros(0, 3)) ./ zeros(0, 3), complex(zeros(0, 3)) ./ complex(zeros(0, 3)));

@@ -245,6 +245,9 @@
     <ClInclude Include="..\cpp\HypotenuseComplex.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\cpp\LogarithmKernels.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\cpp\HypotenuseReal.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

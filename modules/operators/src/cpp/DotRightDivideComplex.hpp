@@ -11,6 +11,7 @@
 //=============================================================================
 #include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
+#include <algorithm>
 #include <cmath>
 #include <complex>
 #include <limits>
@@ -19,21 +20,50 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+// Vectorized quotient by blocks; the special ones (real or imaginary divisor, Inf or NaN
+// parts) are redone with complexQuotientSpecial while the block is still in cache.
 template <class T>
 void
-normalizeComplexZeroDivisors(std::complex<T>* values, const std::complex<T>* denominators,
-    indexType count, bool scalarDenominator = false)
+blockedComplexQuotient(std::complex<T>* values, const std::complex<T>* numerators,
+    bool scalarNumerator, const std::complex<T>* denominators, bool scalarDenominator,
+    indexType count)
 {
-    if (scalarDenominator && denominators[0] != std::complex<T>(0)) {
-        return;
-    }
-    // Keep Eigen's vectorized finite quotient, but make zero denominators
-    // independent of the packet kernel and platform complex division library.
-    for (indexType k = 0; k < count; ++k) {
-        const auto denominator = denominators[scalarDenominator ? 0 : k];
-        if (denominator == std::complex<T>(0)) {
-            const T nan = std::numeric_limits<T>::quiet_NaN();
-            values[k] = { nan, nan };
+    using ArrayMap = Eigen::Map<Eigen::Array<std::complex<T>, Eigen::Dynamic, 1>>;
+    using ConstArrayMap = Eigen::Map<const Eigen::Array<std::complex<T>, Eigen::Dynamic, 1>>;
+    const indexType blockSize = 4096;
+    for (indexType start = 0; start < count; start += blockSize) {
+        indexType len = std::min(blockSize, count - start);
+        ArrayMap out(values + start, len);
+        const std::complex<T>* n = scalarNumerator ? numerators : numerators + start;
+        const std::complex<T>* z = scalarDenominator ? denominators : denominators + start;
+        if (scalarNumerator) {
+            out = n[0] / ConstArrayMap(z, len);
+        } else if (scalarDenominator) {
+            out = ConstArrayMap(n, len) / z[0];
+        } else {
+            out = ConstArrayMap(n, len) / ConstArrayMap(z, len);
+        }
+        // vectorizable scan first: x - x is nonzero only for Inf or NaN
+        bool anySpecial = false;
+        indexType zLen = scalarDenominator ? 1 : len;
+        for (indexType k = 0; k < zLen; ++k) {
+            T zSum = z[k].real() + z[k].imag();
+            anySpecial |= ((zSum - zSum) != 0) | (z[k].real() * z[k].imag() == 0);
+        }
+        indexType nLen = scalarNumerator ? 1 : len;
+        for (indexType k = 0; k < nLen; ++k) {
+            T nSum = n[k].real() + n[k].imag();
+            anySpecial |= (nSum - nSum) != 0;
+        }
+        if (!anySpecial) {
+            continue;
+        }
+        for (indexType k = 0; k < len; ++k) {
+            const std::complex<T> nk = n[scalarNumerator ? 0 : k];
+            const std::complex<T> zk = z[scalarDenominator ? 0 : k];
+            if (complexQuotientIsSpecial<T>(nk, zk)) {
+                values[start + k] = complexQuotientSpecial<T>(nk, zk);
+            }
         }
     }
 }
@@ -54,12 +84,7 @@ scalar_matrix_complex_dotRightDivide(
     std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(ptrA);
     std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
     std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
-    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matC(
-        (std::complex<T>*)Cz, 1, Clen);
-    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matB(
-        (std::complex<T>*)Bz, 1, Clen);
-    matC = Az[0] / matB.array();
-    normalizeComplexZeroDivisors(Cz, Bz, Clen);
+    blockedComplexQuotient<T>(Cz, Az, true, Bz, false, Clen);
     return res;
 }
 //=============================================================================
@@ -79,12 +104,7 @@ matrix_scalar_complex_dotRightDivide(
     std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(ptrA);
     std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
     std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
-    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matC(
-        (std::complex<T>*)Cz, 1, Clen);
-    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matA(
-        (std::complex<T>*)Az, 1, Clen);
-    matC = matA.array() / Bz[0];
-    normalizeComplexZeroDivisors(Cz, Bz, Clen, true);
+    blockedComplexQuotient<T>(Cz, Az, false, Bz, true, Clen);
     return res;
 }
 //=============================================================================
@@ -104,14 +124,7 @@ matrix_matrix_complex_dotRightDivide(
     std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(ptrA);
     std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
     std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
-    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matC(
-        (std::complex<T>*)Cz, 1, Clen);
-    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matA(
-        (std::complex<T>*)Az, 1, Clen);
-    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matB(
-        (std::complex<T>*)Bz, 1, Clen);
-    matC = matA.cwiseQuotient(matB);
-    normalizeComplexZeroDivisors(Cz, Bz, Clen);
+    blockedComplexQuotient<T>(Cz, Az, false, Bz, false, Clen);
     return res;
 }
 //=============================================================================
@@ -137,7 +150,7 @@ row_column_complex_dotRightDivide(NelsonType classDestination, const ArrayOf& A,
     indexType m = 0;
     for (indexType i = 0; i < dimsA.columns(); i++) {
         for (indexType j = 0; j < dimsB.rows(); j++) {
-            Cz[m] = Az[i] / Bz[j];
+            Cz[m] = complexQuotient<T>(Az[i], Bz[j]);
             m++;
         }
     }
@@ -168,7 +181,7 @@ column_row_complex_dotRightDivide(NelsonType classDestination, const ArrayOf& A,
     indexType elementCountB = dimsB.elementCount();
     for (indexType i = 0; i < elementCountB; i++) {
         for (indexType j = 0; j < elementCountA; j++) {
-            Cz[m] = Az[j] / Bz[i];
+            Cz[m] = complexQuotient<T>(Az[j], Bz[i]);
             m++;
         }
     }
@@ -195,7 +208,7 @@ row_matrix_complex_dotRightDivide(NelsonType classDestination, const ArrayOf& A,
     for (indexType i = 0; i < dimsC.rows(); i++) {
         for (indexType j = 0; j < dimsC.columns(); j++) {
             indexType m = i + j * dimsA.rows();
-            Cz[m] = Az[q] / Bz[m];
+            Cz[m] = complexQuotient<T>(Az[q], Bz[m]);
         }
         q++;
     }
@@ -223,7 +236,7 @@ matrix_row_complex_dotRightDivide(NelsonType classDestination, const ArrayOf& A,
     for (indexType i = 0; i < dimsC.rows(); i++) {
         for (indexType j = 0; j < dimsC.columns(); j++) {
             indexType m = i + j * dimsB.rows();
-            Cz[m] = Az[m] / Bz[q];
+            Cz[m] = complexQuotient<T>(Az[m], Bz[q]);
         }
         q++;
     }
@@ -250,7 +263,7 @@ column_matrix_complex_dotRightDivide(
     for (indexType i = 0; i < dimsC.rows(); i++) {
         for (indexType j = 0; j < dimsC.columns(); j++) {
             indexType m = i + j * dimsB.rows();
-            Cz[m] = Az[j] / Bz[m];
+            Cz[m] = complexQuotient<T>(Az[j], Bz[m]);
         }
     }
 
@@ -277,35 +290,14 @@ matrix_column_complex_dotRightDivide(
     for (indexType i = 0; i < dimsC.rows(); i++) {
         for (indexType j = 0; j < dimsC.columns(); j++) {
             indexType m = i + j * dimsA.rows();
-            Cz[m] = Az[m] / Bz[j];
+            Cz[m] = complexQuotient<T>(Az[m], Bz[j]);
         }
     }
     return res;
 }
 //=============================================================================
-// Fast path for complex-numerator / real-divisor element-wise division: scaling
-// (a + bi) / c = (a / c) + (b / c)i avoids promoting the divisor to a complex array.
-// For finite numerators and finite nonzero divisors it is bit-identical to the complex
-// quotient, so the kernels run only when the operands pass
-// complexRealDivideOperandsAreClean. Other cases go to the generic path, which defines
-// their (NaN / Inf) semantics.
-template <class T>
-bool
-complexRealDivideOperandsAreClean(const std::complex<T>* numerator, indexType numeratorCount,
-    const T* divisor, indexType divisorCount)
-{
-    for (indexType k = 0; k < divisorCount; ++k) {
-        if (!std::isfinite(divisor[k]) || divisor[k] == T(0)) {
-            return false;
-        }
-    }
-    for (indexType k = 0; k < numeratorCount; ++k) {
-        if (!std::isfinite(numerator[k].real()) || !std::isfinite(numerator[k].imag())) {
-            return false;
-        }
-    }
-    return true;
-}
+// Complex by real divisor: (a + bi) / c = (a / c) + (b / c)i keeps Inf and NaN parts. Zero or
+// non-finite divisors keep the generic path.
 //=============================================================================
 template <class T>
 ArrayOf
@@ -370,11 +362,9 @@ complex_real_dotRightDivide_scaling(
         // Broadcasting shapes (row/column, row/matrix, ...) keep the generic path.
         return false;
     }
-    const std::complex<T>* Az = reinterpret_cast<const std::complex<T>*>(A.dataPointer());
     const T* Br = reinterpret_cast<const T*>(B.dataPointer());
-    indexType numeratorCount = A.isScalar() ? 1 : A.dimensions().elementCount();
     indexType divisorCount = B.isScalar() ? 1 : B.dimensions().elementCount();
-    if (!complexRealDivideOperandsAreClean<T>(Az, numeratorCount, Br, divisorCount)) {
+    if (!realFactorsAreFiniteNonZero<T>(Br, divisorCount)) {
         return false;
     }
     if (matrixMatrix) {
@@ -399,7 +389,7 @@ complex_dotRightDivide(NelsonType classDestination, const ArrayOf& A, const Arra
         matrix_column_complex_dotRightDivide<T>,
         [](const ArrayOf& lhs, const ArrayOf& rhs, NelsonType destinationClass) {
             return binaryOperatorBroadcastComplex<T>(lhs, rhs, destinationClass, "./",
-                [](std::complex<T> a, std::complex<T> b) { return a / b; });
+                [](std::complex<T> a, std::complex<T> b) { return complexQuotient<T>(a, b); });
         });
 }
 //=============================================================================

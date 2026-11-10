@@ -55,10 +55,20 @@ c = complex(3);
 assert_istrue(isreal(c * 2));
 assert_isequal(c * 2, 6);
 %=============================================================================
-% Division by a zero complex denominator yields NaN + NaNi.
+% Division by a zero complex denominator divides each part: Inf + Infi.
 z = (1 + 1i) / (0 + 0i);
-assert_istrue(isnan(real(z)));
-assert_istrue(isnan(imag(z)));
+assert_isequal([real(z), imag(z)], [Inf Inf]);
+% A complex scalar times or over a finite real keeps infinite parts.
+z = complex(1, -Inf) * 180;
+assert_isequal([real(z), imag(z)], [180 -Inf]);
+z = 180 * complex(Inf, 1);
+assert_isequal([real(z), imag(z)], [Inf 180]);
+z = complex(Inf, 2) / 2;
+assert_isequal([real(z), imag(z)], [Inf 1]);
+z = complex(2, NaN) * 3;
+assert_istrue(isnan(real(z)) && isnan(imag(z)));
+z = 1 / complex(2, Inf);
+assert_isequal(abs(z), 0);
 %=============================================================================
 % Equality / inequality compare both parts.
 assert_istrue((1 + 2i) == (1 + 2i));

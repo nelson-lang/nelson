@@ -7,42 +7,55 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% Dense Eigen quotient kernels retain their native complex-zero results.
-% Sparse and broadcast scalar kernels keep their existing nonfinite semantics.
+% A zero divisor divides each part on its own; an exact zero part paired with a
+% nonzero one stays 0. Dense, broadcast, sparse and scalar paths agree.
 for precision = {'double', 'single'}
-  numerators = feval(precision{1}, [0, 1, -1, 1i, 1 + 2i, Inf, NaN, complex(Inf, Inf)]);
-  divisors = feval(precision{1}, [0, -0, 1i]);
-  result = feval(precision{1}, 1) ./ divisors;
-  check_complex_nan(result(1:2));
-  assert_isequal(result(3), feval(precision{1}, -1i));
+  c = precision{1};
+  numerators = feval(c, [0, 1, -1, 1i, 1 + 2i, Inf, NaN, complex(Inf, Inf)]);
+  divisors = feval(c, [0, -0, 1i]);
+  result = feval(c, 1) ./ divisors;
+  assert_isequal(real(result), feval(c, [Inf -Inf 0]));
+  assert_isequal(imag(result), feval(c, [0 0 -1]));
 
-  check_complex_nan(numerators ./ feval(precision{1}, 0));
-  check_complex_nan(numerators ./ feval(precision{1}, -0));
-  check_complex_nan(numerators ./ zeros(size(numerators), precision{1}));
-  check_complex_nan(zeros(size(numerators), precision{1}) .\ numerators);
+  expectedReal = feval(c, [NaN Inf -Inf 0 Inf Inf NaN Inf]);
+  expectedImag = feval(c, [0 0 0 Inf Inf 0 0 Inf]);
+  for R = {numerators ./ feval(c, 0), numerators ./ zeros(size(numerators), c), ...
+      zeros(size(numerators), c) .\ numerators}
+    assert_isequal(real(R{1}), expectedReal);
+    assert_isequal(imag(R{1}), expectedImag);
+  end
+  R = numerators ./ feval(c, -0);
+  assert_isequal(real(R), -expectedReal);
+  assert_isequal(imag(R), -expectedImag);
 
-  values = feval(precision{1}, [1 + 1i, 2i]);
+  values = feval(c, [1 + 1i, 2i]);
   result = values ./ divisors.';
-  assert_isequal(real(result(1, 1)), feval(precision{1}, Inf));
-  assert_isequal(imag(result(1, 2)), feval(precision{1}, Inf));
+  assert_isequal(real(result), feval(c, [Inf 0; -Inf 0; 1 2]));
+  assert_isequal(imag(result), feval(c, [Inf Inf; -Inf -Inf; -1 0]));
   result = reshape(values, 1, 1, 2) ./ reshape(divisors, 1, 3, 1);
-  assert_isequal(real(result(1, 1, 1)), feval(precision{1}, Inf));
-  assert_isequal(imag(result(1, 1, 2)), feval(precision{1}, Inf));
+  assert_isequal(real(result(1, 1, 1)), feval(c, Inf));
+  assert_isequal(imag(result(1, 1, 2)), feval(c, Inf));
+  assert_isequal(real(result(1, 1, 2)), feval(c, 0));
 
-  result = sparse(values) ./ feval(precision{1}, 0);
+  result = sparse(values) ./ feval(c, 0);
   assert_istrue(issparse(result));
-  assert_isequal(real(full(result(1))), feval(precision{1}, Inf));
-  assert_isequal(imag(full(result(2))), feval(precision{1}, Inf));
-  result = values ./ sparse(zeros(size(values), precision{1}));
-  assert_isequal(real(full(result(1))), feval(precision{1}, Inf));
-  assert_isequal(imag(full(result(2))), feval(precision{1}, Inf));
+  assert_isequal(real(full(result)), feval(c, [Inf 0]));
+  assert_isequal(imag(full(result)), feval(c, [Inf Inf]));
+  result = values ./ sparse(zeros(size(values), c));
+  assert_isequal(real(full(result)), feval(c, [Inf 0]));
+  assert_isequal(imag(full(result)), feval(c, [Inf Inf]));
 end
+%=============================================================================
+% scalar forms
+z = (1 + 1i) / (0 + 0i);
+assert_isequal([real(z), imag(z)], [Inf Inf]);
+z = (1 + 1i) / complex(0, 0);
+assert_isequal([real(z), imag(z)], [Inf Inf]);
 assert_isequal(1 ./ 0, Inf);
 assert_isequal(-1 ./ 0, -Inf);
 assert_isequal(0 ./ 0, NaN);
 %=============================================================================
-function check_complex_nan(value)
-  assert_istrue(all(isnan(real(value)), 'all'));
-  assert_istrue(all(isnan(imag(value)), 'all'));
-end
+% infinite divisors of finite values give 0
+R = (3 + 4i) ./ [Inf, complex(Inf, 1), complex(-Inf, Inf)];
+assert_isequal(abs(R), [0 0 0]);
 %=============================================================================

@@ -9,85 +9,32 @@
 //=============================================================================
 #include <complex>
 #include "Logarithm10.hpp"
+#include "LogarithmKernels.hpp"
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-template <class T>
-ArrayOf
-log10Complex(NelsonType destinationClass, T* values, bool allReal, Dimensions& dims)
-{
-    ompIndexType elementCount = dims.elementCount();
-    T* ptrOut = (T*)ArrayOf::allocateArrayOf(destinationClass, elementCount);
-    std::complex<T>* outZ = reinterpret_cast<std::complex<T>*>(ptrOut);
-    if (allReal) {
-        OMP_PARALLEL_FOR_LOOP(elementCount)
-        for (ompIndexType k = 0; k < elementCount; ++k) {
-            if (values[k] >= 0) {
-                outZ[k].real(std::log10(values[k]));
-                outZ[k].imag(0);
-            } else {
-                std::complex<T> current(values[k], (T)0);
-                outZ[k] = std::log10(current);
-                if (std::isnan(outZ[k].imag())) {
-                    outZ[k].imag((T)0);
-                }
-            }
-        }
-    } else {
-        std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(values);
-        OMP_PARALLEL_FOR_LOOP(elementCount)
-        for (ompIndexType k = 0; k < elementCount; ++k) {
-            outZ[k] = std::log10(Az[k]);
-        }
-    }
-    return ArrayOf(destinationClass, dims, ptrOut);
-}
-//=============================================================================
 ArrayOf
 Logarithm10(const ArrayOf& A, bool& needToOverload)
 {
-    ArrayOf res;
+    needToOverload = false;
     if (A.isSparse()) {
         needToOverload = true;
-        return res;
+        return {};
     }
-    needToOverload = false;
     switch (A.dataClass()) {
-    case NLS_DOUBLE: {
-        Dimensions dimsA = A.dimensions();
-        res = log10Complex<double>(NLS_DCOMPLEX, (double*)A.dataPointer(), true, dimsA);
-        if (res.allReal()) {
-            res.promoteType(NLS_DOUBLE);
-        }
-    } break;
-    case NLS_DCOMPLEX: {
-        Dimensions dimsA = A.dimensions();
-        res = log10Complex<double>(NLS_DCOMPLEX, (double*)A.dataPointer(), false, dimsA);
-        if (res.allReal()) {
-            res.promoteType(NLS_DOUBLE);
-        }
-    } break;
-    case NLS_SINGLE: {
-        Dimensions dimsA = A.dimensions();
-        res = log10Complex<single>(NLS_SCOMPLEX, (single*)A.dataPointer(), true, dimsA);
-        if (res.allReal()) {
-            res.promoteType(NLS_SINGLE);
-        }
-    } break;
-    case NLS_SCOMPLEX: {
-        Dimensions dimsA = A.dimensions();
-        res = log10Complex<single>(NLS_SCOMPLEX, (single*)res.dataPointer(), false, dimsA);
-        if (res.allReal()) {
-            res.promoteType(NLS_SINGLE);
-        }
-    } break;
-    default: {
+    case NLS_DOUBLE:
+    case NLS_DCOMPLEX:
+        return logarithmDense<double, LogarithmBase::Ten>(A, NLS_DOUBLE, NLS_DCOMPLEX, true);
+    case NLS_SINGLE:
+    case NLS_SCOMPLEX:
+        return logarithmDense<single, LogarithmBase::Ten>(A, NLS_SINGLE, NLS_SCOMPLEX, true);
+    default:
         needToOverload = true;
-    } break;
+        break;
     }
-    return res;
+    return {};
 }
 //=============================================================================
 } // namespace Nelson

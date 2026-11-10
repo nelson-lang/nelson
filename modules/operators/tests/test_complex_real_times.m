@@ -9,8 +9,8 @@
 %=============================================================================
 % The complex-by-real fast path for .* must stay bit-identical to the generic
 % complex product (multiplying by the same value promoted to complex), for
-% either operand order, and must keep the generic non-finite semantics by
-% falling back.
+% either operand order. Infinite and NaN parts follow the part-by-part rules
+% checked below.
 %=============================================================================
 for precision = {'double', 'single'}
   cast = precision{1};
@@ -32,12 +32,17 @@ for precision = {'double', 'single'}
   assert_isequal(r .* cs, complex(r) .* complex(cs));
 end
 %=============================================================================
-% Non-finite operands fall back to the generic path (identical results).
+% Infinite parts are scaled one by one; a NaN part spreads to both parts unless imag is 0.
 C = complex(cos(1:12), sin(1:12));
 C = reshape(C, 3, 4);
 r = reshape((1:12) * 0.1, 3, 4);
-Ci = C; Ci(1) = complex(Inf, 1); Ci(2) = complex(1, Inf); Ci(3) = complex(NaN, 0);
-assert_isequal(isequaln(Ci .* r, Ci .* complex(r)), true);
+Ci = C; Ci(1) = complex(Inf, 1); Ci(2) = complex(1, Inf); Ci(3) = complex(NaN, 0); Ci(4) = complex(2, NaN);
+R = Ci .* r;
+assert_isequal(R(1), complex(Inf, 0.1));
+assert_isequal(R(2), complex(0.2, Inf));
+assert_isequal(isnan(real(R(3))) && imag(R(3)) == 0, true);
+assert_isequal(isnan(real(R(4))) && isnan(imag(R(4))), true);
+assert_isequal(isequaln(R(5:end), C(5:end) .* r(5:end)), true);
 rn = r; rn(1) = Inf; rn(2) = NaN;
 assert_isequal(isequaln(C .* rn, C .* complex(rn)), true);
 %=============================================================================

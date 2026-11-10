@@ -192,6 +192,10 @@
     <ClCompile Include="..\cpp\atan2Builtin.cpp" />
     <ClCompile Include="..\cpp\atanBuiltin.cpp" />
     <ClCompile Include="..\cpp\atanhBuiltin.cpp" />
+    <ClCompile Include="..\cpp\asinhBuiltin.cpp" />
+    <ClCompile Include="..\cpp\acoshBuiltin.cpp" />
+    <ClCompile Include="..\cpp\sindBuiltin.cpp" />
+    <ClCompile Include="..\cpp\cosdBuiltin.cpp" />
     <ClCompile Include="..\cpp\cosBuiltin.cpp" />
     <ClCompile Include="..\cpp\coshBuiltin.cpp" />
     <ClCompile Include="..\cpp\cosmBuiltin.cpp" />
@@ -234,6 +238,10 @@
     <ClInclude Include="..\include\atan2Builtin.hpp" />
     <ClInclude Include="..\include\atanBuiltin.hpp" />
     <ClInclude Include="..\include\atanhBuiltin.hpp" />
+    <ClInclude Include="..\include\asinhBuiltin.hpp" />
+    <ClInclude Include="..\include\acoshBuiltin.hpp" />
+    <ClInclude Include="..\include\sindBuiltin.hpp" />
+    <ClInclude Include="..\include\cosdBuiltin.hpp" />
     <ClInclude Include="..\include\cosBuiltin.hpp" />
     <ClInclude Include="..\include\coshBuiltin.hpp" />
     <ClInclude Include="..\include\cosmBuiltin.hpp" />

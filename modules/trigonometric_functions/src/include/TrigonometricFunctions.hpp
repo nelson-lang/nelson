@@ -44,5 +44,17 @@ Tanh(const ArrayOf& A, bool& needToOverload);
 NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
 Atanh(const ArrayOf& A, bool& needToOverload);
 //=============================================================================
+NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
+Asinh(const ArrayOf& A, bool& needToOverload);
+//=============================================================================
+NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
+Acosh(const ArrayOf& A, bool& needToOverload);
+//=============================================================================
+NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
+Sind(const ArrayOf& A, bool& needToOverload);
+//=============================================================================
+NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
+Cosd(const ArrayOf& A, bool& needToOverload);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================
