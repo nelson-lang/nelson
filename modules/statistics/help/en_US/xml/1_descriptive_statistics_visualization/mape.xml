@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>mape</keyword>
+  <short_description>Mean absolute percentage error.</short_description>
+  <syntax>
+    <syntax_item>E = mape(F, A)</syntax_item>
+    <syntax_item>E = mape(F, A, dim)</syntax_item>
+    <syntax_item>E = mape(F, A, 'all')</syntax_item>
+    <syntax_item>E = mape(..., nanflag)</syntax_item>
+    <syntax_item>E = mape(..., 'Weights', w)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>F</param_name>
+      <param_description>forecast values: a single or double array.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>actual values: a single or double array compatible with <b>F</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dim</param_name>
+      <param_description>dimension to operate along, or <b>'all'</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>nanflag</param_name>
+      <param_description><b>'includenan'</b> (default) or <b>'omitnan'</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>w</param_name>
+      <param_description>weights given with <b>'Weights'</b>: a vector along <b>dim</b> or an array of the size of the data.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>E</param_name>
+      <param_description>the mean absolute percentage error along <b>dim</b>, in percent.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>E = mape(F, A)</b> returns <b>100 * mean(abs((A - F) ./ A))</b> along the first dimension whose size is not 1. A zero actual value with a nonzero error gives <b>Inf</b>.</p>
+    <p>The dimension, <b>'all'</b>, <b>nanflag</b> and <b>'Weights'</b> options work as for <b>rmse</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[mape([1 2 4], [1 2 3])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}rmse">rmse</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}mean">mean</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

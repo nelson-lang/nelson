@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>rmse</keyword>
+  <short_description>Erreur quadratique moyenne.</short_description>
+  <syntax>
+    <syntax_item>E = rmse(F, A)</syntax_item>
+    <syntax_item>E = rmse(F, A, dim)</syntax_item>
+    <syntax_item>E = rmse(F, A, 'all')</syntax_item>
+    <syntax_item>E = rmse(..., nanflag)</syntax_item>
+    <syntax_item>E = rmse(..., 'Weights', w)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>F</param_name>
+      <param_description>valeurs prévues : un tableau single ou double.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>valeurs réelles : un tableau single ou double compatible avec <b>F</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dim</param_name>
+      <param_description>dimension de calcul, ou <b>'all'</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>nanflag</param_name>
+      <param_description><b>'includenan'</b> (par défaut) ou <b>'omitnan'</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>w</param_name>
+      <param_description>poids donnés avec <b>'Weights'</b> : un vecteur le long de <b>dim</b> ou un tableau de la taille des données.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>E</param_name>
+      <param_description>l'erreur quadratique moyenne le long de <b>dim</b>, en single si une entrée est single.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>E = rmse(F, A)</b> renvoie <b>sqrt(mean(abs(F - A).^2))</b> le long de la première dimension de taille différente de 1. <b>F</b> et <b>A</b> suivent l'expansion implicite.</p>
+    <p>Avec <b>'Weights', w</b>, la moyenne est pondérée : <b>sqrt(sum(w .* abs(F - A).^2) / sum(w))</b>. <b>'omitnan'</b> ignore les erreurs <b>NaN</b> et leurs poids.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[rmse([1 2 3], [1 2 4])
+rmse([1 2; 3 4], [2 2; 3 6], 2)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}mape">mape</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}mean">mean</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

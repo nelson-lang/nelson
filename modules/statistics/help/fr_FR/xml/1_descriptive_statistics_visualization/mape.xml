@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>mape</keyword>
+  <short_description>Erreur absolue moyenne en pourcentage.</short_description>
+  <syntax>
+    <syntax_item>E = mape(F, A)</syntax_item>
+    <syntax_item>E = mape(F, A, dim)</syntax_item>
+    <syntax_item>E = mape(F, A, 'all')</syntax_item>
+    <syntax_item>E = mape(..., nanflag)</syntax_item>
+    <syntax_item>E = mape(..., 'Weights', w)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>F</param_name>
+      <param_description>valeurs prévues : un tableau single ou double.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>valeurs réelles : un tableau single ou double compatible avec <b>F</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dim</param_name>
+      <param_description>dimension de calcul, ou <b>'all'</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>nanflag</param_name>
+      <param_description><b>'includenan'</b> (par défaut) ou <b>'omitnan'</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>w</param_name>
+      <param_description>poids donnés avec <b>'Weights'</b> : un vecteur le long de <b>dim</b> ou un tableau de la taille des données.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>E</param_name>
+      <param_description>l'erreur absolue moyenne en pourcentage le long de <b>dim</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>E = mape(F, A)</b> renvoie <b>100 * mean(abs((A - F) ./ A))</b> le long de la première dimension de taille différente de 1. Une valeur réelle nulle avec une erreur non nulle donne <b>Inf</b>.</p>
+    <p>Les options de dimension, <b>'all'</b>, <b>nanflag</b> et <b>'Weights'</b> fonctionnent comme pour <b>rmse</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[mape([1 2 4], [1 2 3])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}rmse">rmse</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}mean">mean</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
