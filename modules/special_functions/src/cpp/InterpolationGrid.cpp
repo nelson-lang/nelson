@@ -131,6 +131,13 @@ evaluateImplicitGridLinear2D(const T* values, indexType rows, indexType columns,
     for (indexType qi = 0; qi < totalQueries; ++qi) {
         const T qx = queryX[qi];
         const T qy = queryY[qi];
+        // a NaN query reads NaN, even with a fill value for the outside
+        if (std::isnan(qx) || std::isnan(qy)) {
+            for (indexType page = 0; page < pageCount; ++page) {
+                output[qi + totalQueries * page] = std::numeric_limits<T>::quiet_NaN();
+            }
+            continue;
+        }
         if (!(qy >= static_cast<T>(1) && qy <= static_cast<T>(rows) && qx >= static_cast<T>(1)
                 && qx <= static_cast<T>(columns))) {
             for (indexType page = 0; page < pageCount; ++page) {

@@ -15,7 +15,7 @@ xq = [1.5 2.25 4.5];
 yq = [1.5 3.75 2];
 %=============================================================================
 asserts.isapprox(interp2(V, xq, yq), [1.5 1.3125 1], 1e-12);
-asserts.isequal(interp2(V, xq, yq, 'nearest'), [1 1 1]);
+asserts.isequal(interp2(V, xq, yq, 'nearest'), [-1 1 1]);
 asserts.isapprox(interp2(V, xq, yq, 'cubic'), [-1.08984375 2.25140380859375 -0.375], 1e-12);
 asserts.isapprox(interp2(V, xq, yq, 'spline'), [-1.08984375 2.25140380859375 -0.375], 1e-12);
 asserts.isapprox(interp2(V, xq, yq, 'makima'), [0.53865971549854852 1.4923922613236593 0.63602941176470584], 1e-12);

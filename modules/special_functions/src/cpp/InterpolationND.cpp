@@ -225,6 +225,8 @@ evaluateNDReal(const std::vector<const T*>& grids, const std::vector<indexType>&
         std::vector<T> frac(nd, static_cast<T>(0));
         std::vector<T> queryValues(nd, static_cast<T>(0));
         bool outside = false;
+        // a NaN query reads NaN whatever the extrapolation
+        bool nanQuery = false;
 
         indexType remIndex = (indexType)qi;
         for (indexType dim = 0; dim < nd; dim++) {
@@ -237,6 +239,7 @@ evaluateNDReal(const std::vector<const T*>& grids, const std::vector<indexType>&
             queryValues[dim] = q;
             const T* grid = grids[dim];
             indexType n = gridSize[dim];
+            nanQuery = nanQuery || std::isnan((double)q);
             if (std::isnan((double)q) || q < grid[0] || q > grid[n - 1]) {
                 outside = true;
             }
@@ -244,16 +247,17 @@ evaluateNDReal(const std::vector<const T*>& grids, const std::vector<indexType>&
             frac[dim] = (q - grid[left[dim]]) / (grid[left[dim] + 1] - grid[left[dim]]);
             T dl = std::abs(q - grid[left[dim]]);
             T dr = std::abs(grid[left[dim] + 1] - q);
-            nearest[dim] = (dl <= dr) ? left[dim] : left[dim] + 1;
+            nearest[dim] = (dl < dr) ? left[dim] : left[dim] + 1;
         }
 
-        if (outside && extrapolation == InterpolationNDExtrapolation::CONSTANT) {
+        if (outside && !nanQuery && extrapolation == InterpolationNDExtrapolation::CONSTANT) {
             for (indexType page = 0; page < pageCount; page++) {
                 output[qi + totalQueries * page] = extrapolationValue;
             }
             continue;
         }
-        if (outside && extrapolation == InterpolationNDExtrapolation::DEFAULT_NAN) {
+        if (outside
+            && (nanQuery || extrapolation == InterpolationNDExtrapolation::DEFAULT_NAN)) {
             for (indexType page = 0; page < pageCount; page++) {
                 output[qi + totalQueries * page] = numericNaNND<T>();
             }
@@ -312,6 +316,8 @@ evaluateNDComplex(const std::vector<const T*>& grids, const std::vector<indexTyp
         std::vector<T> frac(nd, static_cast<T>(0));
         std::vector<T> queryValues(nd, static_cast<T>(0));
         bool outside = false;
+        // a NaN query reads NaN whatever the extrapolation
+        bool nanQuery = false;
 
         indexType remIndex = (indexType)qi;
         for (indexType dim = 0; dim < nd; dim++) {
@@ -324,17 +330,18 @@ evaluateNDComplex(const std::vector<const T*>& grids, const std::vector<indexTyp
             queryValues[dim] = q;
             const T* grid = grids[dim];
             indexType n = gridSize[dim];
+            nanQuery = nanQuery || std::isnan((double)q);
             if (std::isnan((double)q) || q < grid[0] || q > grid[n - 1]) {
                 outside = true;
             }
             left[dim] = findLeftIndexND(grid, n, q);
             frac[dim] = (q - grid[left[dim]]) / (grid[left[dim] + 1] - grid[left[dim]]);
-            nearest[dim] = (std::abs(q - grid[left[dim]]) <= std::abs(grid[left[dim] + 1] - q))
+            nearest[dim] = (std::abs(q - grid[left[dim]]) < std::abs(grid[left[dim] + 1] - q))
                 ? left[dim]
                 : left[dim] + 1;
         }
 
-        if (outside && extrapolation == InterpolationNDExtrapolation::CONSTANT) {
+        if (outside && !nanQuery && extrapolation == InterpolationNDExtrapolation::CONSTANT) {
             for (indexType page = 0; page < pageCount; page++) {
                 indexType outIndex = qi + totalQueries * page;
                 output[2 * outIndex] = extrapolationReal;
@@ -342,7 +349,8 @@ evaluateNDComplex(const std::vector<const T*>& grids, const std::vector<indexTyp
             }
             continue;
         }
-        if (outside && extrapolation == InterpolationNDExtrapolation::DEFAULT_NAN) {
+        if (outside
+            && (nanQuery || extrapolation == InterpolationNDExtrapolation::DEFAULT_NAN)) {
             for (indexType page = 0; page < pageCount; page++) {
                 indexType outIndex = qi + totalQueries * page;
                 output[2 * outIndex] = numericNaNND<T>();
@@ -465,6 +473,13 @@ evaluate2DLinearUniform(const std::vector<const T*>& grids, const std::vector<in
     for (ompIndexType qi = 0; qi < (ompIndexType)totalQueries; qi++) {
         T qy = queryAsGrid ? queryY[(indexType)qi % querySize[0]] : queryY[qi];
         T qx = queryAsGrid ? queryX[(indexType)qi / querySize[0]] : queryX[qi];
+        // a NaN query reads NaN whatever the extrapolation
+        if (std::isnan((double)qy) || std::isnan((double)qx)) {
+            for (indexType page = 0; page < pageCount; page++) {
+                output[qi + totalQueries * page] = numericNaNND<T>();
+            }
+            continue;
+        }
         if (!extrapolate
             && !(qy >= gridY[0] && qy <= gridY[ny - 1] && qx >= gridX[0] && qx <= gridX[nx - 1])) {
             for (indexType page = 0; page < pageCount; page++) {

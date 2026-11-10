@@ -199,7 +199,12 @@ Nelson::SpecialFunctionsGateway::splineBuiltin(int nLhs, const ArrayOfVector& ar
     std::vector<double> coefs = splineCoefs(x, y);
     ArrayOfVector retval;
     if (argIn.size() == 3) {
-        retval << evaluateSpline(x, coefs, argIn[2]);
+        ArrayOf values = evaluateSpline(x, coefs, argIn[2]);
+        // single data gives single values
+        if (argIn[0].isSingleClass() || argIn[1].isSingleClass() || argIn[2].isSingleClass()) {
+            values.promoteType(NLS_SINGLE);
+        }
+        retval << values;
     } else {
         retval << ppStruct(x, coefs);
     }

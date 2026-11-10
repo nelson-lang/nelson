@@ -35,7 +35,7 @@ R = interp2(V, [0, 2.5, 8, 7], [2, 3.5, 2, 5], 'linear', -7);
 asserts.isequal(R([1 3]), [-7 -7]);
 asserts.isapprox(R([2 4]), f([2.5 7], [3.5 5]), 1e-12);
 R = interp2(V, NaN, 2, 'linear', 0);
-asserts.isequal(R, 0);
+asserts.istrue(isnan(R));
 %=============================================================================
 % equally spaced grid vectors with rounding (linspace)
 x = linspace(0, 1, 11);
@@ -111,7 +111,7 @@ asserts.isapprox(R, ref, 1e-13);
 %=============================================================================
 % 'nearest' and 'cubic' are not affected by the linear fast path
 R = interp2(V, [1.5 2.4 6.6], [1.5 4.6 2.2], 'nearest');
-asserts.isequal(R, [V(1, 1), V(5, 2), V(2, 7)]);
+asserts.isequal(R, [V(2, 2), V(5, 2), V(2, 7)]);
 R = interp2(V, [2.5 3.25], [2.5 3.75], 'cubic');
 asserts.isapprox(R, f([2.5 3.25], [2.5 3.75]), 1e-12);
 %=============================================================================
