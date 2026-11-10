@@ -56,7 +56,6 @@ function varargout = ctrbf(varargin)
 
     % Update variables
     sigma_j = row_B_current - ro_j;
-    sigma_j_minus_1 = sigma_j;
     k_values(j) = ro_j;
 
     % Check termination conditions

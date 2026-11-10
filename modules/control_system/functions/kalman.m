@@ -59,7 +59,6 @@ function R = symmetrize(R)
 end
 %=============================================================================
 function [kEstim, L, M, Z] = kalmanEstimator(A, B, C, D, E, Ts, rA, rrn, nu, P, K, rB)
-  M = [];
   L = K';
   aEstim = A - L * C;
   bEstim = [B - L * D, L];

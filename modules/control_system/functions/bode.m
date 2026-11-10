@@ -90,14 +90,11 @@ function varargout = bode(varargin)
   end
   L = numel(w); % Follow the actual frequency vector length
 
-  phase = {};
-  magnitude = {};
 
   a = sys.Numerator;
   b = sys.Denominator;
   a = a{1};
   b = b{1};
-  H = zeros(1, length(w));
   h = sys.Ts;
   delay = 0;
   N = length(b);

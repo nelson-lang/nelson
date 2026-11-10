@@ -40,17 +40,19 @@
     <param_output_item>
       <param_name>b</param_name>
       <param_description
-      >Coefficients du numérateur de la fonction de transfert : vecteur ou matrice.</param_description>
+      >Coefficients du numérateur de la fonction de transfert : une ligne par sortie, avec n + 1 colonnes (les zéros de tête sont conservés).</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>a</param_name>
       <param_description
-      >Coefficients du dénominateur de la fonction de transfert : vecteur.</param_description>
+      >Coefficients du dénominateur de la fonction de transfert : vecteur ligne de longueur n + 1, égal à 1 quand il n&apos;y a pas d&apos;état.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p
     >Convertit les matrices d&apos;état A, B, C, D en numérateur et dénominateur d&apos;une fonction de transfert.</p>
+    <p>Chaque numérateur est construit à partir du gain et des zéros de sa voie : les coefficients structurellement nuls restent exactement nuls.</p>
+    <p>Quand <b>A</b> est vide, le système est un gain statique : <b>B</b> et <b>C</b> vides prennent leurs tailles depuis <b>D</b>, <b>b</b> vaut la colonne <b>D(:, ni)</b> et <b>a</b> vaut 1.</p>
   </description>
   <examples>
     <example_item>
@@ -69,6 +71,18 @@ D = eye(2);
 [b, a] = ss2tf(A, B, C, D, 2)
 ]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Les numérateurs gardent leurs zéros de tête, une ligne par sortie.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [0 1; -2 -3];
+B = [0; 1];
+C = [1 0; 0 1];
+D = [0; 0];
+[b, a] = ss2tf(A, B, C, D)
+]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>
@@ -85,6 +99,10 @@ D = eye(2);
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>numérateurs exacts à partir des zéros de chaque voie, zéros de tête conservés, gain statique avec A vide.</history_description>
     </history_item>
   </history>
   <authors>

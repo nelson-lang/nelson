@@ -12,5 +12,5 @@ function varargout = augstate(varargin)
   nargoutchk(0, 1);
   sys = ss(varargin{1});
   sysa = augstate(sys);
-  sysa = tf(sysa);
+  varargout{1} = tf(sysa);
 end

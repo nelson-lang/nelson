@@ -44,3 +44,16 @@ sysa = augstate(sys);
 
 asserts.istrue(isstatic(sysa));
 %=============================================================================
+sysa = augstate(tf(2));
+asserts.isequal(class(sysa), 'tf');
+asserts.istrue(isstatic(sysa));
+%=============================================================================
+sysa = augstate(tf(1, [1 2]));
+asserts.isequal(class(sysa), 'tf');
+asserts.isequal(size(sysa), [2 1]);
+REF = tf(augstate(ss(tf(1, [1 2]))));
+asserts.isequal(sysa.Numerator, REF.Numerator);
+asserts.isequal(sysa.Denominator, REF.Denominator);
+asserts.isequal(sysa.Numerator, {[0 1]; [0 1]});
+asserts.isequal(sysa.Denominator, {[1 2]; [1 2]});
+%=============================================================================

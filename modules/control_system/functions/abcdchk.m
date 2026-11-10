@@ -69,8 +69,6 @@ function varargout = abcdchk(varargin)
       msg.identifier = 'Nelson:control_system:AAndESizeMismatch';
     end
   else
-    ME = MA;
-    NE = NA;
     E_MODIFIED = zeros(MA, NA, 'like', A);
   end
 

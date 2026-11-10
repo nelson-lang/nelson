@@ -48,7 +48,7 @@ sysIn = ss(A, B, C, D);
 sys = tf(sysIn);
 [N, D] = tfdata(sys);
 
-N_REF = {[1 -1], [1.0000 5.0000 7.0000]};
+N_REF = {[1 -1], [0 1 2]};
 D_REF = {[1 1], [1.0000 4.0000 5.0000]};
 
 asserts.isapprox(N{1}, N_REF{1}, 1e-4);

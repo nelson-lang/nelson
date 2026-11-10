@@ -97,7 +97,6 @@ function realization = scaledRealization(realization)
   scaleRatios = stateScaleRatios(realization.A, descriptorCount, stateCount);
   if descriptorCount > 0
     descriptorScales = descriptorScaleRatios(realization.C, descriptorCount, stateCount);
-    descriptorCount = descriptorScales.descriptorCount;
     scaleRatios = [descriptorScales.ratios; scaleRatios];
   end
 

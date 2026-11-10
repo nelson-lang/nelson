@@ -26,9 +26,6 @@ function varargout = care(varargin)
 
   [m, n] = size(B);
 
-  R = [];
-  S = [];
-  E = [];
 
   if nargin > 3
     R = varargin{4};
@@ -92,9 +89,6 @@ function varargout = care(varargin)
   mustBeFinite(Q, 3);
   mustBeFinite(R, 4);
 
-  X = [];
-  L = [];
-  G = [];
 
   DICO = 'C';
   JOBB = 'B';

@@ -250,22 +250,37 @@ function obj = ssToTf(sysIn)
     return
   end
   [A, B, C, D, Ts] = ssdata(sysIn);
-  obj = tf();
-  for i = 1:size(B, 2)
-    for j = 1:size(C, 1)
-      [a, b, c, d] = minreal(A, B(:, i), C(j, :), D(j, i));
-      [N, D] = ss2tf(a, b, c, d);
-      partialG = tf(N, D, Ts);
-      obj.Numerator(j, i) = partialG.Numerator;
-      obj.Denominator(j, i) = partialG.Denominator;
+  [ny, nu] = size(D);
+  numerators = cell(ny, nu);
+  denominators = cell(ny, nu);
+  pattern = (A ~= 0);
+  for i = 1:nu
+    for j = 1:ny
+      keep = structuralStates(pattern, B(:, i), C(j, :));
+      [num, den] = ss2tf(A(keep, keep), B(keep, i), C(j, keep), D(j, i));
+      [numerators{j, i}, denominators{j, i}] = arrangeVectors(num, den);
     end
   end
-  obj.Ts = sysIn.Ts;
+  obj = tf(numerators, denominators, Ts);
   obj = lti.copyModelMetadata(obj, sysIn);
 end
 %=============================================================================
+function keep = structuralStates(pattern, b, c)
+  % Keeps states both driven by the input and seen by the output, from the nonzero pattern of A.
+  driven = (b ~= 0);
+  seen = (c(:) ~= 0);
+  changed = true;
+  while changed
+    nextDriven = driven | any(pattern(:, driven), 2);
+    nextSeen = seen | any(pattern(seen, :), 1)';
+    changed = ~isequal(nextDriven, driven) || ~isequal(nextSeen, seen);
+    driven = nextDriven;
+    seen = nextSeen;
+  end
+  keep = find(driven & seen);
+end
+%=============================================================================
 function [numerator, denominator, variableName, isStaticGain] = adjustTransferFunctionParameters(numerator, denominator, Ts)
-  variableName = '';
   isStaticGain = false;
   if isempty(denominator)
     if isempty(numerator)
@@ -285,19 +300,17 @@ function [numerator, denominator, variableName, isStaticGain] = adjustTransferFu
     denominator = {denominator};
   end
   checkAllZeros = @(x) all(x == 0.);
-  zeroNumerator = cellfun(checkAllZeros, numerator);
   zeroDenominator = cellfun(checkAllZeros, denominator);
-  isAllZeroNumerator = all(zeroNumerator(:));
   isAllZeroDenominator = all(zeroDenominator(:));
   checkScalar = @(x) isempty(find(x ~= 0, 1)) || (find(x ~= 0, 1) == length(x));
   scalarNumerator = cellfun(checkScalar, numerator);
   scalarDenominator = cellfun(checkScalar, denominator);
-  isAllScalarNumerator = ~isAllZeroNumerator && all(scalarNumerator(:));
+  isAllScalarNumerator = all(scalarNumerator(:));
   isAllScalarDenominator = ~isAllZeroDenominator && all(scalarDenominator(:));
   if isAllScalarNumerator && isAllScalarDenominator
     isStaticGain = true;
   end
-  if isStaticGain || Ts == 0
+  if Ts == 0
     variableName = 's';
   else
     variableName = 'z';
@@ -308,21 +321,17 @@ function obj = tfConstructor(obj, numerator, denominator, Ts, variableName, isSt
   lti.validateSampleTime(Ts);
   numerator = checkFractionPart(numerator);
   denominator = checkFractionPart(denominator);
-  if length(numerator) == 1
-    for k = 2:length(denominator)
-      numerator{k} = numerator{1};
-    end
+  if isscalar(numerator)
+    numerator = repmat(numerator, size(denominator));
   end
-  if length(denominator) == 1
-    for k = 2:length(numerator)
-      denominator{k} = denominator{1};
-    end
+  if isscalar(denominator)
+    denominator = repmat(denominator, size(numerator));
   end
-  if length(numerator) ~= length(denominator)
+  if ~isequal(size(numerator), size(denominator))
     error('Nelson:control_system:dimagree:numeratorDenominatorCompatibleSizes', ...
       'Numerator and Denominator must have compatible sizes.');
   end
-  for k = 1:length(numerator)
+  for k = 1:numel(numerator)
     [N, D] = arrangeVectors(numerator{k}, denominator{k});
     numerator{k} = N;
     denominator{k} = D;

@@ -62,9 +62,6 @@ function varargout = dare(varargin)
   mustBeFinite(Q, 3);
   mustBeFinite(R, 4);
 
-  X = [];
-  L = [];
-  G = [];
 
   DICO = 'D';
   JOBB = 'B';
@@ -93,8 +90,6 @@ function varargout = dare(varargin)
       warning('Nelson:control_system:accuracyCompromised', 'The accuracy of the solution could be compromised by inadequate scaling or eigenvalues that are in close proximity to the stability domain''s boundary.');
     end
   else
-    SCAL = 'N';
-    ACC = 'N';
     [RCOND, X, ALFAR, ALFAI, BETA, S_OUT, T, U, INFO] = slicot_sb02od(DICO, JOBB, FACT, UPLO, JOBL, SORT, P, A, B, ...
       Q, R, SorB, TOL);
     if (INFO(1) ~= 0)

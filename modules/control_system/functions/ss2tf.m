@@ -21,6 +21,10 @@ function varargout = ss2tf(varargin)
   B = varargin{2};
   C = varargin{3};
   D = varargin{4};
+  if isempty(A)
+    % A static gain takes its input and output counts from D.
+    [B, C] = staticGainShapes(B, C, D);
+  end
 
   % Validate state-space matrices
   msg = checkABCDE(A, B, C, D);
@@ -50,7 +54,7 @@ function varargout = ss2tf(varargin)
   denominator = real(denominator);
 
   % Output results
-  varargout{1} = removeLeadingZeroColumns(numerator);
+  varargout{1} = numerator;
   if nargout > 1
     varargout{2} = denominator;
   end
@@ -64,45 +68,56 @@ function validateInputIndex(iu, nu)
 end
 %=============================================================================
 function [numerator, denominator] = computeTransferFunctionCoefficients(A, B, C, D, iu)
-  % Compute transfer function coefficients
   denominator = poly(A);
-
-  if ~isempty(B) && iu >= 1 && iu <= size(B, 2)
-    numerator = computeNumerator(A, B, C, D, denominator, iu);
-  else
-    % System is a gain or has only a denominator
+  if isempty(D)
     numerator = D;
-    if isempty(D) && isempty(A)
-      denominator = [];
-    end
+  elseif isempty(A)
+    numerator = D(:, iu);
+  else
+    numerator = computeNumerator(A, B, C, D, iu);
   end
 end
 %=============================================================================
-function p = removeLeadingZeroColumns(p)
-  [~, m] = size(p);
-  % Check if there are multiple columns and the norm of the first column is zero
-  if m > 1 && norm(p(:, 1)) == 0
-    % Remove the first column and recursively call removeLeadingZeroColumns
-    p(:, 1) = [];
-    p = removeLeadingZeroColumns(p);
+function [B, C] = staticGainShapes(B, C, D)
+  if isempty(B)
+    B = zeros(0, size(D, 2));
+  end
+  if isempty(C)
+    C = zeros(size(D, 1), 0);
   end
 end
 %=============================================================================
-function V = computeNumerator(A, B, C, D, denominator, iu)
+function V = computeNumerator(A, B, C, D, iu)
   mc = size(D, 1);
-  nc = length(A);
+  nc = size(A, 1);
   V = zeros(mc, nc + 1);
-
   for k = 1:mc
-    p = A - B(:, iu) * C(k, :);
-    V(k, :) = poly(p) - poly(A) + D(k, iu) * denominator;
+    V(k, :) = channelNumerator(A, B(:, iu), C(k, :), D(k, iu));
   end
-
-  if isvector(V)
-    idx = find(V);
-    if ~isempty(idx)
-      V = V(idx(1):end);
+end
+%=============================================================================
+function num = channelNumerator(A, b, c, d)
+  % Numerator is gain * prod(s - zeros), so structural zeros stay exact.
+  n = size(A, 1);
+  if d ~= 0
+    num = d * poly(eig(A - b * (c / d)));
+    return
+  end
+  num = zeros(1, n + 1);
+  rows = zeros(n, n);
+  w = c;
+  for r = 1:n
+    g = w * b;
+    if abs(g) > 10 * n * eps * norm(w) * norm(b)
+      % Zeros are the eigenvalues of the zero dynamics on the kernel of c, c*A, ...
+      F = A - b * ((w * A) / g);
+      rows(r, :) = w;
+      N = null(rows(1:r, :));
+      num(r + 1:end) = g * poly(eig(N' * F * N));
+      return
     end
+    rows(r, :) = w;
+    w = w * A;
   end
 end
 %=============================================================================

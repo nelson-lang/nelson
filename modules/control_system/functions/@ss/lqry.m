@@ -32,10 +32,6 @@ function varargout = lqry(varargin)
       'Wrong value for argument #1: sys.E must not be singular.');
   end
 
-  rA = size(sys.A, 1);
-  if isempty(E)
-    E = eye(rA, rA);
-  end
 
   nd = N' * sys.D;
 

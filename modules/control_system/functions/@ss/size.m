@@ -12,9 +12,6 @@ function varargout = size(varargin)
   nargoutchk(0, 2);
 
   sys = varargin{1};
-  p = 0; % Number of outputs
-  m = 0; % Number of inputs
-  n = 0; % Number of states
   if isempty(sys.A) && isempty(sys.B) && isempty(sys.C) && ~isempty(sys.D)
     p = size(sys.D, 1);
     m = size(sys.D, 2);

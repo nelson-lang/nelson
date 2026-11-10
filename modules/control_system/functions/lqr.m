@@ -34,7 +34,7 @@ function varargout = lqr(varargin)
   if nargin > 5
     E = varargin{6};
   else
-    [rB, cB] = size(B);
+    [rB, ~] = size(B);
     E = eye(rB, rB);
   end
   [K, S, e] = lqr(sys, Q, R, N, E);

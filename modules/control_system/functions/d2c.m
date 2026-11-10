@@ -30,6 +30,7 @@ function varargout = d2c(varargin)
   if rowCount == 1 && phi == 1
     a = 0;
     b = gamma / T;
+    varargout = {a, b};
     return
   end
 
@@ -38,10 +39,11 @@ function varargout = d2c(varargin)
   nonzeroCount = length(nonzero);
 
   augmentedMatrix = [[phi, gamma(:, nonzero)]; zeros(nonzeroCount, columnCount), eye(nonzeroCount)];
-  [logMatrix, ~] = logm(augmentedMatrix); %#ok<NLS0004>
+  logMatrix = logm(augmentedMatrix);
   logMatrix = real(logMatrix / T);
   a = logMatrix(1:columnCount, 1:columnCount);
   if length(b)
     b(:, nonzero) = logMatrix(1:columnCount, columnCount + 1:columnCount + nonzeroCount);
   end
+  varargout = {a, b};
 end
