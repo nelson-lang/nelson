@@ -10,6 +10,7 @@
 #include "nlsBuildConfig.h"
 #include <algorithm>
 #include "Sum.hpp"
+#include "ReduceLines.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
@@ -169,71 +170,7 @@ SparseSum(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
         Error(L"Nelson:sum:typeNotSupported", msg);
     } break;
     }
-    return {};
-}
-//=============================================================================
-static void
-signedIntegerSumAsDouble(const int64* sp, double* dp, indexType elementCount)
-{
-    if (dp == nullptr) {
-        return;
-    }
-    double sum = 0;
-#if WITH_OPENMP
-#pragma omp parallel for reduction(+ : sum)
-#endif
-    for (ompIndexType i = 0; i < (ompIndexType)elementCount; ++i) {
-        sum += (double)sp[i];
-    }
-    dp[0] = sum;
-}
-//=============================================================================
-static void
-signedIntegerSumAsDouble(
-    const int64* sp, double* dp, indexType planes, indexType planesize, indexType linesize)
-{
-    for (indexType i = 0; i < planes; i++) {
-        for (indexType j = 0; j < planesize; j++) {
-            double accum = 0;
-            for (indexType k = 0; k < linesize; k++) {
-                int64 val = sp[i * planesize * linesize + j + k * planesize];
-                accum += val;
-            }
-            dp[i * planesize + j] = accum;
-        }
-    }
-}
-//=============================================================================
-static void
-unsignedIntegerSumAsDouble(const uint64* sp, double* dp, indexType elementCount)
-{
-    if (dp == nullptr) {
-        return;
-    }
-    double sum = 0;
-#if WITH_OPENMP
-#pragma omp parallel for reduction(+ : sum)
-#endif
-    for (ompIndexType i = 0; i < (ompIndexType)elementCount; ++i) {
-        sum += (double)sp[i];
-    }
-    dp[0] = sum;
-}
-//=============================================================================
-static void
-unsignedIntegerSumAsDouble(
-    const uint64* sp, double* dp, indexType planes, indexType planesize, indexType linesize)
-{
-    for (indexType i = 0; i < planes; i++) {
-        for (indexType j = 0; j < planesize; j++) {
-            double accum = 0;
-            for (indexType k = 0; k < linesize; k++) {
-                uint64 val = sp[i * planesize * linesize + j + k * planesize];
-                accum += val;
-            }
-            dp[i * planesize + j] = accum;
-        }
-    }
+    return { };
 }
 //=============================================================================
 template <class T>
@@ -265,21 +202,12 @@ void
 RealSumT(
     const T* sp, T* dp, indexType planes, indexType planesize, indexType linesize, bool withnan)
 {
-    for (indexType i = 0; i < planes; i++) {
-        for (indexType j = 0; j < planesize; j++) {
-            T accum = 0;
-            for (indexType k = 0; k < linesize; k++) {
-                T val = sp[i * planesize * linesize + j + k * planesize];
-                if (!withnan) {
-                    if (!std::isnan(val)) {
-                        accum += val;
-                    }
-                } else {
-                    accum += val;
-                }
-            }
-            dp[i * planesize + j] = accum;
-        }
+    if (withnan) {
+        reduceLinesInOrder(
+            sp, dp, planes, planesize, linesize, (T)0, [](T a, T v) { return a + v; });
+    } else {
+        reduceLinesInOrder(sp, dp, planes, planesize, linesize, (T)0,
+            [](T a, T v) { return std::isnan(v) ? a : a + v; });
     }
 }
 //=============================================================================
@@ -317,31 +245,21 @@ void
 ComplexSumT(
     const T* sp, T* dp, indexType planes, indexType planesize, indexType linesize, bool withnan)
 {
-    for (indexType i = 0; i < planes; i++) {
-        for (indexType j = 0; j < planesize; j++) {
-            T accum_r = 0;
-            T accum_i = 0;
-            for (indexType k = 0; k < linesize; k++) {
-                T vr = sp[2 * (i * planesize * linesize + j + k * planesize)];
-                T vi = sp[2 * (i * planesize * linesize + j + k * planesize) + 1];
-                if (!withnan) {
-                    if (!std::isnan(vr) && !std::isnan(vi)) {
-                        accum_r += vr;
-                        accum_i += vi;
-                    }
-                } else {
-                    accum_r += vr;
-                    accum_i += vi;
-                }
-            }
-            dp[2 * (i * planesize + j)] = accum_r;
-            dp[2 * (i * planesize + j) + 1] = accum_i;
-        }
+    using C = ComplexPair<T>;
+    const C* csp = reinterpret_cast<const C*>(sp);
+    C* cdp = reinterpret_cast<C*>(dp);
+    if (withnan) {
+        reduceLinesInOrder(csp, cdp, planes, planesize, linesize, C { },
+            [](C a, C v) { return C { a.re + v.re, a.im + v.im }; });
+    } else {
+        reduceLinesInOrder(csp, cdp, planes, planesize, linesize, C { }, [](C a, C v) {
+            return (std::isnan(v.re) || std::isnan(v.im)) ? a : C { a.re + v.re, a.im + v.im };
+        });
     }
 }
 //=============================================================================
 ArrayOf
-Sum(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
+Sum(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan, indexType lastDim)
 {
     ArrayOf res;
     NelsonType classA = A.dataClass();
@@ -386,56 +304,36 @@ Sum(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
         } else {
             workDim = d - 1;
         }
-        Dimensions dimsRes = dimsA;
+        indexType lastWorkDim = workDim;
         if (allElements) {
-            dimsRes = Dimensions(1, 1);
-        } else {
-            dimsRes.setDimensionLength(workDim, 1);
+            lastWorkDim = dimsA.length() - 1;
+        } else if (d != 0 && lastDim > d) {
+            lastWorkDim = lastDim - 1;
         }
-        dimsRes.simplify();
-        indexType planecount;
-        indexType planesize = 1;
-        indexType linesize = dimsA[workDim];
-        for (indexType l = 0; l < workDim; l++) {
-            planesize *= dimsA[l];
-        }
-        planecount = 1;
-        for (indexType l = workDim + 1; l < dimsA.length(); l++) {
-            planecount *= dimsA[l];
-        }
+        ReductionLines lines = reductionLines(dimsA, workDim, lastWorkDim);
+        Dimensions dimsRes = lines.dimsRes;
+        indexType planecount = lines.planecount;
+        indexType planesize = lines.planesize;
+        indexType linesize = lines.linesize;
         switch (classA) {
         case NLS_LOGICAL:
         case NLS_UINT8:
-        case NLS_UINT16:
-        case NLS_UINT32:
-        case NLS_UINT64: {
-            A.promoteType(NLS_UINT64);
-            double* ptr = static_cast<double*>(
-                ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsRes.elementCount(), stringVector(), true));
-            res = ArrayOf(NLS_DOUBLE, dimsRes, ptr);
-            if (allElements) {
-                unsignedIntegerSumAsDouble(
-                    static_cast<const uint64*>(A.dataPointer()), ptr, dimsA.elementCount());
-            } else {
-                unsignedIntegerSumAsDouble(static_cast<const uint64*>(A.dataPointer()), ptr,
-                    planecount, planesize, linesize);
-            }
-        } break;
         case NLS_INT8:
+        case NLS_UINT16:
         case NLS_INT16:
+        case NLS_UINT32:
         case NLS_INT32:
+        case NLS_UINT64:
         case NLS_INT64: {
-            A.promoteType(NLS_INT64);
+            if (strtype == L"native" && classA != NLS_LOGICAL) {
+                res = NativeIntegerReduce<false>(A, dimsRes, planecount, planesize, linesize);
+                break;
+            }
             double* ptr = static_cast<double*>(
                 ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsRes.elementCount(), stringVector(), true));
             res = ArrayOf(NLS_DOUBLE, dimsRes, ptr);
-            if (allElements) {
-                signedIntegerSumAsDouble(
-                    static_cast<const int64*>(A.dataPointer()), ptr, dimsA.elementCount());
-            } else {
-                signedIntegerSumAsDouble(static_cast<const int64*>(A.dataPointer()), ptr,
-                    planecount, planesize, linesize);
-            }
+            IntegerReduceToDouble<false>(
+                A, ptr, allElements, dimsA.elementCount(), planecount, planesize, linesize);
         } break;
         case NLS_SINGLE: {
             single* ptr = static_cast<single*>(

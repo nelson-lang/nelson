@@ -94,6 +94,9 @@
     <ClInclude Include="..\cpp\CumulativeLines.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\cpp\ReduceLines.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\cpp\ExtremumKernels.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

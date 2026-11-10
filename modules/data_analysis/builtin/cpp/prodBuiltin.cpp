@@ -20,17 +20,6 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-static ArrayOf
-reduceOverDimensions(
-    const ArrayOf& X, const std::vector<indexType>& dims, const std::wstring& strtype, bool withnan)
-{
-    ArrayOf acc(X);
-    for (indexType dm : dims) {
-        acc = Prod(acc, dm, strtype, withnan);
-    }
-    return acc;
-}
-//=============================================================================
 ArrayOfVector
 Nelson::DataAnalysisGateway::prodBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
@@ -43,7 +32,10 @@ Nelson::DataAnalysisGateway::prodBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOf X = argIn[0];
     SumProdOptions options = parseSumProdOptions(argIn);
     if (!options.vecDims.empty()) {
-        retval << reduceOverDimensions(X, options.vecDims, options.outType, options.withNaN);
+        retval << reduceOverDimensionVector(
+            X, options.vecDims, [&](const ArrayOf& A, indexType first, indexType last) {
+                return Prod(A, first, options.outType, options.withNaN, last);
+            });
     } else {
         retval << Prod(X, options.dim, options.outType, options.withNaN);
     }

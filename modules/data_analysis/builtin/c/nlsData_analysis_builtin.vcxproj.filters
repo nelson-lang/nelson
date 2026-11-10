@@ -136,6 +136,9 @@
     <ClInclude Include="..\cpp\extremumBuiltinHelpers.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\cpp\objectArgumentOverload.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\cpp\sumProdOptionsHelpers.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

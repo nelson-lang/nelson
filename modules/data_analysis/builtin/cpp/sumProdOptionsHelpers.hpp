@@ -9,6 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <functional>
 #include <string>
 #include <vector>
 #include "ArrayOf.hpp"
@@ -27,6 +28,11 @@ struct SumProdOptions
 //=============================================================================
 SumProdOptions
 parseSumProdOptions(const ArrayOfVector& argIn);
+//=============================================================================
+// Reduces X over a vector of dimensions: consecutive dimensions form one line, smallest first.
+ArrayOf
+reduceOverDimensionVector(const ArrayOf& X, const std::vector<indexType>& dims,
+    const std::function<ArrayOf(const ArrayOf&, indexType, indexType)>& reduceDims);
 //=============================================================================
 } // namespace Nelson::DataAnalysisGateway
 //=============================================================================

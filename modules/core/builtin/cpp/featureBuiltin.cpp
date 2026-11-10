@@ -27,6 +27,8 @@ static ArrayOf
 ompEnabled();
 static ArrayOf
 ompThreshold();
+static ArrayOf
+nativeIntegerLanes();
 //=============================================================================
 static ArrayOf
 setCurrentAxesOnClick(const ArrayOf& value);
@@ -36,6 +38,8 @@ static ArrayOf
 setOmpEnabled(const ArrayOf& value);
 static ArrayOf
 setOmpThreshold(const ArrayOf& value);
+static ArrayOf
+setNativeIntegerLanes(const ArrayOf& value);
 //=============================================================================
 ArrayOfVector
 Nelson::CoreGateway::featureBuiltin(int nLhs, const ArrayOfVector& argIn)
@@ -52,6 +56,7 @@ Nelson::CoreGateway::featureBuiltin(int nLhs, const ArrayOfVector& argIn)
         methodMap[L"currentFigureOnClick"] = &currentFigureOnClick;
         methodMap[L"ompEnabled"] = &ompEnabled;
         methodMap[L"ompThreshold"] = &ompThreshold;
+        methodMap[L"nativeIntegerLanes"] = &nativeIntegerLanes;
 
         if (methodMap.count(fieldname) == 1) {
             retval << (methodMap[fieldname])();
@@ -65,6 +70,7 @@ Nelson::CoreGateway::featureBuiltin(int nLhs, const ArrayOfVector& argIn)
         methodMap[L"currentFigureOnClick"] = &setCurrentFigureOnClick;
         methodMap[L"ompEnabled"] = &setOmpEnabled;
         methodMap[L"ompThreshold"] = &setOmpThreshold;
+        methodMap[L"nativeIntegerLanes"] = &setNativeIntegerLanes;
 
         if (methodMap.count(fieldname) == 1) {
             retval << (methodMap[fieldname])(fieldvalue);
@@ -127,6 +133,19 @@ setOmpThreshold(const ArrayOf& value)
 {
     NelsonConfiguration::getInstance()->setOpenMPParallelizationThreshold(
         (uint64_t)value.asDoubleScalar());
+    return ArrayOf();
+}
+//=============================================================================
+ArrayOf
+nativeIntegerLanes()
+{
+    return ArrayOf::logicalScalar(NelsonConfiguration::getInstance()->getNativeIntegerLanes());
+}
+//=============================================================================
+ArrayOf
+setNativeIntegerLanes(const ArrayOf& value)
+{
+    NelsonConfiguration::getInstance()->setNativeIntegerLanes(value.asLogicalScalar());
     return ArrayOf();
 }
 //=============================================================================

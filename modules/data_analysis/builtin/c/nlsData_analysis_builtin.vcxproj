@@ -248,6 +248,7 @@
     <ClInclude Include="..\include\allbetweenBuiltin.hpp" />
     <ClInclude Include="..\cpp\cumulativeFunctionBuiltinHelpers.hpp" />
     <ClInclude Include="..\cpp\extremumBuiltinHelpers.hpp" />
+    <ClInclude Include="..\cpp\objectArgumentOverload.hpp" />
     <ClInclude Include="..\cpp\sumProdOptionsHelpers.hpp" />
     <ClInclude Include="..\include\accumarrayBuiltin.hpp" />
     <ClInclude Include="..\include\conv2Builtin.hpp" />

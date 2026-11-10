@@ -55,6 +55,33 @@ parseSumProdOptions(const ArrayOfVector& argIn)
     return options;
 }
 //=============================================================================
+ArrayOf
+reduceOverDimensionVector(const ArrayOf& X, const std::vector<indexType>& dims,
+    const std::function<ArrayOf(const ArrayOf&, indexType, indexType)>& reduceDims)
+{
+    std::vector<indexType> sorted(dims);
+    std::sort(sorted.begin(), sorted.end());
+    ArrayOf acc(X);
+    size_t k = 0;
+    while (k < sorted.size()) {
+        indexType first = sorted[k];
+        indexType last = first;
+        while (k + 1 < sorted.size() && sorted[k + 1] == last + 1) {
+            last = sorted[++k];
+        }
+        k++;
+        last = std::min(last, std::max(first, (indexType)acc.dimensions().length()));
+        if (acc.isSparse()) {
+            for (indexType d = first; d <= last; ++d) {
+                acc = reduceDims(acc, d, 0);
+            }
+        } else {
+            acc = reduceDims(acc, first, last);
+        }
+    }
+    return acc;
+}
+//=============================================================================
 // Collect a vector-of-dimensions argument (e.g. sum(A, [1 2])). Returns true
 // when the argument is a non-scalar numeric vector of positive integers.
 bool

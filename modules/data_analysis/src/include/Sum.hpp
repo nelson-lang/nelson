@@ -16,8 +16,9 @@ namespace Nelson {
 /* if d == 0 --> Sum(X) */
 /* if d != 0 --> Sum(X, n) */
 /* if d == static_cast<indexType>(-1) --> Sum(X, 'all') */
+/* lastDim > d: dimensions d..lastDim are reduced as one line (dense arrays only) */
 NLSDATA_ANALYSIS_IMPEXP ArrayOf
-Sum(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan);
+Sum(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan, indexType lastDim = 0);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

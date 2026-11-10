@@ -223,6 +223,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\cpp\CumulativeLines.hpp" />
+    <ClInclude Include="..\cpp\ReduceLines.hpp" />
     <ClInclude Include="..\cpp\ExtremumKernels.hpp" />
     <ClInclude Include="..\cpp\ExtremumOfEmpty.hpp" />
     <ClInclude Include="..\cpp\SortCellHelpers.hpp" />

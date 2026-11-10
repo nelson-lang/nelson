@@ -12,6 +12,7 @@
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
 #include "Prod.hpp"
+#include "ReduceLines.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
@@ -173,7 +174,7 @@ SparseProd(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
         Error(L"Nelson:prod:typeNotSupported", msg);
     } break;
     }
-    return {};
+    return { };
 }
 //=============================================================================
 template <class T>
@@ -202,88 +203,13 @@ void
 RealProdT(
     const T* sp, T* dp, indexType planes, indexType planesize, indexType linesize, bool withnan)
 {
-    ompIndexType totalElements = planes * planesize;
-    OMP_PARALLEL_FOR_LOOP(totalElements)
-    for (ompIndexType idx = 0; idx < totalElements; idx++) {
-        indexType i = idx / planesize;
-        indexType j = idx % planesize;
-
-        T accum = 1;
-        for (indexType k = 0; k < linesize; k++) {
-            T val = sp[i * planesize * linesize + j + k * planesize];
-            if (!withnan) {
-                if (!std::isnan(val)) {
-                    accum *= val;
-                }
-            } else {
-                accum *= val;
-            }
-        }
-        dp[i * planesize + j] = accum;
+    if (withnan) {
+        reduceLinesInOrder(
+            sp, dp, planes, planesize, linesize, (T)1, [](T a, T v) { return a * v; });
+    } else {
+        reduceLinesInOrder(sp, dp, planes, planesize, linesize, (T)1,
+            [](T a, T v) { return std::isnan(v) ? a : a * v; });
     }
-}
-//=============================================================================
-// Integer prod accumulates the native buffer directly into a double result,
-// without a promoteType(NLS_DOUBLE) copy. Integers never hold NaN.
-template <class T>
-static void
-IntegerProdToDouble(const T* sp, double* dp, indexType elementCount)
-{
-    double accum = 1.0;
-#if WITH_OPENMP
-#pragma omp parallel for reduction(* : accum)
-#endif
-    for (ompIndexType k = 0; k < (ompIndexType)elementCount; k++) {
-        accum *= (double)sp[k];
-    }
-    dp[0] = accum;
-}
-//=============================================================================
-template <class T>
-static void
-IntegerProdToDouble(
-    const T* sp, double* dp, indexType planes, indexType planesize, indexType linesize)
-{
-    ompIndexType totalElements = (ompIndexType)(planes * planesize);
-    OMP_PARALLEL_FOR_LOOP(totalElements)
-    for (ompIndexType idx = 0; idx < totalElements; idx++) {
-        indexType i = idx / planesize;
-        indexType j = idx % planesize;
-        double accum = 1.0;
-        for (indexType k = 0; k < linesize; k++) {
-            accum *= (double)sp[i * planesize * linesize + j + k * planesize];
-        }
-        dp[i * planesize + j] = accum;
-    }
-}
-//=============================================================================
-static void
-integerProdToDouble(const ArrayOf& A, double* ptr, bool isVector, indexType elementCount,
-    indexType planecount, indexType planesize, indexType linesize)
-{
-    const void* p = A.dataPointer();
-#define NLS_PROD_INT_CASE(NLSTYPE, CTYPE)                                                          \
-    case NLSTYPE:                                                                                  \
-        if (isVector) {                                                                            \
-            IntegerProdToDouble<CTYPE>((const CTYPE*)p, ptr, elementCount);                        \
-        } else {                                                                                   \
-            IntegerProdToDouble<CTYPE>((const CTYPE*)p, ptr, planecount, planesize, linesize);     \
-        }                                                                                          \
-        break;
-    switch (A.dataClass()) {
-        NLS_PROD_INT_CASE(NLS_LOGICAL, logical)
-        NLS_PROD_INT_CASE(NLS_UINT8, uint8)
-        NLS_PROD_INT_CASE(NLS_INT8, int8)
-        NLS_PROD_INT_CASE(NLS_UINT16, uint16)
-        NLS_PROD_INT_CASE(NLS_INT16, int16)
-        NLS_PROD_INT_CASE(NLS_UINT32, uint32)
-        NLS_PROD_INT_CASE(NLS_INT32, int32)
-        NLS_PROD_INT_CASE(NLS_UINT64, uint64)
-        NLS_PROD_INT_CASE(NLS_INT64, int64)
-    default:
-        break;
-    }
-#undef NLS_PROD_INT_CASE
 }
 //=============================================================================
 template <class T>
@@ -320,41 +246,25 @@ void
 ComplexProdT(
     const T* sp, T* dp, indexType planes, indexType planesize, indexType linesize, bool withnan)
 {
-    ompIndexType totalElements = planes * planesize;
-    OMP_PARALLEL_FOR_LOOP(totalElements)
-    for (ompIndexType idx = 0; idx < totalElements; idx++) {
-        indexType i = idx / planesize;
-        indexType j = idx % planesize;
-
-        T accum_r = 1;
-        T accum_i = 0;
-
-        for (indexType k = 0; k < linesize; k++) {
-            T vr = sp[2 * (i * planesize * linesize + j + k * planesize)];
-            T vi = sp[2 * (i * planesize * linesize + j + k * planesize) + 1];
-
-            if (!withnan) {
-                if (!std::isnan(vr) && !std::isnan(vi)) {
-                    T t1 = accum_r * vr - accum_i * vi;
-                    T t2 = accum_r * vi + accum_i * vr;
-                    accum_r = t1;
-                    accum_i = t2;
-                }
-            } else {
-                T t1 = accum_r * vr - accum_i * vi;
-                T t2 = accum_r * vi + accum_i * vr;
-                accum_r = t1;
-                accum_i = t2;
-            }
-        }
-
-        dp[2 * (i * planesize + j)] = accum_r;
-        dp[2 * (i * planesize + j) + 1] = accum_i;
+    using C = ComplexPair<T>;
+    auto times = [](C a, C v) {
+        T t1 = a.re * v.re - a.im * v.im;
+        T t2 = a.re * v.im + a.im * v.re;
+        return C { t1, t2 };
+    };
+    const C* csp = reinterpret_cast<const C*>(sp);
+    C* cdp = reinterpret_cast<C*>(dp);
+    const C one { (T)1, (T)0 };
+    if (withnan) {
+        reduceLinesInOrder(csp, cdp, planes, planesize, linesize, one, times);
+    } else {
+        reduceLinesInOrder(csp, cdp, planes, planesize, linesize, one,
+            [times](C a, C v) { return (std::isnan(v.re) || std::isnan(v.im)) ? a : times(a, v); });
     }
 }
 //=============================================================================
 ArrayOf
-Prod(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
+Prod(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan, indexType lastDim)
 {
     ArrayOf res;
     NelsonType classA = A.dataClass();
@@ -374,13 +284,6 @@ Prod(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
         Error(L"Nelson:prod:typeNotSupported", msg);
     }
     bool allElements = d == static_cast<indexType>(-1);
-    if (allElements) {
-        if (!A.isScalar() && !A.isEmpty(true)) {
-            Dimensions vectorDims(A.elementCount(), 1);
-            A.reshape(vectorDims);
-        }
-        d = 1;
-    }
     // prod([]) is 1; with a dimension, [] follows the reduction rule
     if (A.isEmpty(true) && A.is2D() && (d == 0 || allElements)) {
         res = ArrayOf::doubleScalar(1);
@@ -389,7 +292,9 @@ Prod(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
     } else {
         Dimensions dimsA = A.dimensions();
         indexType workDim;
-        if (d == 0) {
+        if (allElements) {
+            workDim = 0;
+        } else if (d == 0) {
             indexType l = 0;
             while (dimsA.at(l) == 1) {
                 l++;
@@ -398,20 +303,18 @@ Prod(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
         } else {
             workDim = d - 1;
         }
-        Dimensions dimsRes = dimsA;
-        dimsRes.setDimensionLength(workDim, 1);
-        dimsRes.simplify();
-        indexType planecount;
-        indexType planesize = 1;
-        indexType linesize = dimsA[workDim];
+        indexType lastWorkDim = workDim;
+        if (allElements) {
+            lastWorkDim = dimsA.length() - 1;
+        } else if (d != 0 && lastDim > d) {
+            lastWorkDim = lastDim - 1;
+        }
+        ReductionLines lines = reductionLines(dimsA, workDim, lastWorkDim);
+        Dimensions dimsRes = lines.dimsRes;
+        indexType planecount = lines.planecount;
+        indexType planesize = lines.planesize;
+        indexType linesize = lines.linesize;
         bool reduceAsVector = d == 0 && A.isVector();
-        for (indexType l = 0; l < workDim; l++) {
-            planesize *= dimsA[l];
-        }
-        planecount = 1;
-        for (indexType l = workDim + 1; l < dimsA.length(); l++) {
-            planecount *= dimsA[l];
-        }
         switch (classA) {
         case NLS_LOGICAL:
         case NLS_UINT8:
@@ -422,9 +325,13 @@ Prod(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
         case NLS_INT32:
         case NLS_UINT64:
         case NLS_INT64: {
+            if (strtype == L"native" && classA != NLS_LOGICAL) {
+                res = NativeIntegerReduce<true>(A, dimsRes, planecount, planesize, linesize);
+                break;
+            }
             double* ptr = static_cast<double*>(
                 ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsRes.elementCount(), stringVector(), true));
-            integerProdToDouble(
+            IntegerReduceToDouble<true>(
                 A, ptr, reduceAsVector, dimsA.elementCount(), planecount, planesize, linesize);
             // A negative factor times a zero factor gives -0.0, which would display as "-0".
             indexType resCount = dimsRes.elementCount();

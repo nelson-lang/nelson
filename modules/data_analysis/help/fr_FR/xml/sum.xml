@@ -44,6 +44,7 @@
     <p><b>R = sum(M)</b> renvoie la somme selon la premi&#232;re dimension non singleton de M.</p>
     <p><b>R = sum(M, d)</b> somme selon la dimension d. <b>R = sum(M, &apos;all&apos;)</b> somme tous les &#233;l&#233;ments de M et renvoie un scalaire.</p>
     <p>Les arguments texte optionnels contr&#244;lent le type de sortie (<b>&apos;default&apos;</b>, <b>&apos;double&apos;</b> ou <b>&apos;native&apos;</b>) et le traitement des NaN (<b>&apos;includenan&apos;</b> ou <b>&apos;omitnan&apos;</b>).</p>
+    <p>Avec <b>&apos;native&apos;</b>, les entiers sont additionn&#233;s dans leur propre classe, dans l&apos;ordre des indices, et chaque somme partielle est satur&#233;e &#224; l&apos;intervalle de cette classe : <b>sum(int8([100 100 -10]), &apos;native&apos;)</b> renvoie 117.</p>
   </description>
   <used_function />
   <bibliography />

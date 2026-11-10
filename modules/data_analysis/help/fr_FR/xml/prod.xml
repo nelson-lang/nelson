@@ -42,6 +42,8 @@
   <description>
     <p>
       <b>R = prod(M)</b> renvoie le produit des éléments du tableau M.</p>
+    <p>
+      Avec <b>'native'</b>, les entiers sont multipliés dans leur propre classe, dans l'ordre des indices, et chaque produit partiel est saturé à l'intervalle de cette classe : <b>prod(int8([100 2 -1]), 'native')</b> renvoie -127.</p>
   </description>
   <used_function />
   <bibliography />

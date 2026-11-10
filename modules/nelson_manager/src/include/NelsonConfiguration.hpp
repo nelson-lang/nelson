@@ -298,6 +298,13 @@ public:
     uint64_t
     getOpenMPParallelizationThreshold();
     //=============================================================================
+    // 'native' integer sums accumulate in four interleaved lanes instead of index order
+    void
+    setNativeIntegerLanes(bool on);
+    //=============================================================================
+    bool
+    getNativeIntegerLanes();
+    //=============================================================================
     std::wstring
     getNelsonDomainName();
     //=============================================================================
@@ -418,6 +425,9 @@ private:
     std::atomic_bool m_webGraphicsMode { false };
     //=============================================================================
     mutable std::recursive_mutex stringMutex;
+    //=============================================================================
+    // Appended last so that the offsets of the members above do not change.
+    std::atomic_bool m_nativeIntegerLanes { false };
     //=============================================================================
 };
 //=============================================================================

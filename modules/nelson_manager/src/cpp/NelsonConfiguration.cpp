@@ -637,6 +637,18 @@ NelsonConfiguration::getOpenMPParallelizationThreshold()
     return ompThreshold;
 }
 //=============================================================================
+void
+NelsonConfiguration::setNativeIntegerLanes(bool on)
+{
+    m_nativeIntegerLanes.store(on, std::memory_order_relaxed);
+}
+//=============================================================================
+bool
+NelsonConfiguration::getNativeIntegerLanes()
+{
+    return m_nativeIntegerLanes.load(std::memory_order_relaxed);
+}
+//=============================================================================
 std::wstring
 NelsonConfiguration::getNelsonDomainName()
 {
