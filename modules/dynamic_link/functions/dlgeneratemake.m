@@ -13,7 +13,6 @@ function [status, message, generatedfilename] = dlgeneratemake(varargin)
   % dlgeneratemake('f:/demo', 'toto', {'f:/demo/toto.cpp'}, {'f:/demo/'}, {'NLSDYNAMIC_LINK_EXPORTS'})
 
   generatedfilename = [];
-  status = false;
   message = '';
   if nargin < 4
     error('Nelson:dlgeneratemake:least4InputArgumentsExpected2', 'At least 4 input arguments expected.');
@@ -50,14 +49,6 @@ function [status, message, generatedfilename] = dlgeneratemake(varargin)
   build_configuration = [];
   if nargin > indexstart + 5
     build_configuration = varargin{indexstart + 6};
-  end
-  if isempty(build_configuration)
-    ver_comp = version('-compiler');
-    if strcmp(ver_comp{2}, 'debug')
-      build_configuration = 'Debug';
-    else
-      build_configuration = 'Release';
-    end
   end
   c_flags = [];
   if nargin > indexstart + 6
@@ -210,7 +201,6 @@ end
 %=============================================================================
 function [r, c_cpp_files_modified] = checkAndPrepareCppFiles(c_cpp_files)
   c_cpp_files_modified = '';
-  r = false;
   if ischar(c_cpp_files)
     c_cpp_files = {uniformizePath(c_cpp_files)};
   end
@@ -238,7 +228,6 @@ end
 %=============================================================================
 function [r, includes_modified] = checkAndPrepareIncludesDirectories(includes)
   includes_modified = '';
-  r = false;
   if ischar(includes)
     includes = {uniformizePath(includes)};
   end
@@ -266,7 +255,6 @@ end
 %=============================================================================
 function [r, defines_modified] = checkAndPrepareDefines(defines)
   defines_modified = '';
-  r = false;
   if ischar(defines)
     defines = {defines};
   end
@@ -305,7 +293,6 @@ end
 %=============================================================================
 function [r, external_libraries_modified] = checkAndPrepareExternalLibraries(external_libraries)
   external_libraries_modified = '';
-  r = false;
   if ischar(external_libraries)
     external_libraries = {uniformizePath(addLibrarySuffix(external_libraries))};
   end
@@ -335,14 +322,13 @@ end
 function [r, build_configuration_modified] = checkAndPrepareBuildConfiguration(build_configuration)
   build_configuration_modified = '';
   if isempty(build_configuration)
+    % default follows the build type of Nelson itself
     ver_comp = version('-compiler');
     if strcmp(ver_comp{2}, 'debug')
       build_configuration = 'Debug';
     else
       build_configuration = 'Release';
     end
-    r = true;
-    return
   end
   if ischar(build_configuration)
     r = strcmp(build_configuration, 'Debug') || strcmp(build_configuration, 'Release');
