@@ -11,7 +11,7 @@
     <param_input_item>
       <param_name>M</param_name>
       <param_description
-      >une variable : matrice pleine réelle entière, single ou double.</param_description>
+      >une variable : matrice pleine entière, single ou double, réelle ou complexe.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -25,6 +25,7 @@
     <p>
       <b>swapbytes</b> inverse l&apos;ordre des octets.</p>
     <p>convertisseur d&apos;endianness (petit-boutiste / gros-boutiste)</p>
+    <p>Pour une entrée complexe, les octets des parties réelle et imaginaire sont inversés séparément.</p>
   </description>
   <used_function />
   <bibliography />

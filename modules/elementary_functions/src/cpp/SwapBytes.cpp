@@ -212,10 +212,33 @@ SwapBytes(const ArrayOf& A, bool& needToOverload)
             }
         }
     } break;
+    case NLS_SCOMPLEX: {
+        // real and imaginary parts are stored side by side and swapped one by one
+        res = A;
+        res.ensureSingleOwner();
+        auto* ptr = (single*)res.dataPointer();
+        ompIndexType count = 2 * (ompIndexType)dimsA.elementCount();
+        OMP_PARALLEL_FOR_LOOP(count)
+        for (ompIndexType k = 0; k < count; ++k) {
+            ptr[k] = swapSingle(ptr[k]);
+        }
+    } break;
+    case NLS_DCOMPLEX: {
+        if (A.isSparse()) {
+            needToOverload = true;
+        } else {
+            res = A;
+            res.ensureSingleOwner();
+            auto* ptr = (double*)res.dataPointer();
+            ompIndexType count = 2 * (ompIndexType)dimsA.elementCount();
+            OMP_PARALLEL_FOR_LOOP(count)
+            for (ompIndexType k = 0; k < count; ++k) {
+                ptr[k] = swapDouble(ptr[k]);
+            }
+        }
+    } break;
     case NLS_CHAR:
     case NLS_LOGICAL:
-    case NLS_SCOMPLEX:
-    case NLS_DCOMPLEX:
     default: {
         needToOverload = true;
     } break;

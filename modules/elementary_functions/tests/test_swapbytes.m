@@ -53,9 +53,17 @@ asserts.isequal(R, REF);
 %=============================================================================
 msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'swapbytes');
 %=============================================================================
-asserts.checkerror('R = swapbytes(3+i);', msg);
+asserts.checkerror('R = swapbytes(''a'');', msg);
 %=============================================================================
 asserts.checkerror('R = swapbytes(true)', msg);
 %=============================================================================
 asserts.isequal(swapbytes(uint16(1)), uint16(256));
+%=============================================================================
+% complex values: real and imaginary parts are swapped separately
+Z = swapbytes([1+2i, -1.5-3i]);
+asserts.isequal(Z, complex(swapbytes([1 -1.5]), swapbytes([2 -3])));
+asserts.isequal(swapbytes(Z), [1+2i, -1.5-3i]);
+S = swapbytes(single(1+2i));
+asserts.isequal(class(S), 'single');
+asserts.isequal(S, complex(swapbytes(single(1)), swapbytes(single(2))));
 %=============================================================================
