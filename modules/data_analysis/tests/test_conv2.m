@@ -101,3 +101,8 @@ asserts.isequal(R, REF)
 %=============================================================================
 asserts.isequal(conv2([1 2; 3 4], [1 0; 0 1]), [1 2 0; 3 5 2; 0 3 4]);
 %=============================================================================
+% a kernel larger than the data gives an empty 'valid' result
+asserts.isequal(size(conv2(ones(1, 6), ones(3), 'valid')), [0 4]);
+asserts.isequal(size(conv2(ones(3), ones(5, 2), 'valid')), [0 2]);
+asserts.isequal(size(conv2(ones(2), ones(3), 'valid')), [0 0]);
+%=============================================================================

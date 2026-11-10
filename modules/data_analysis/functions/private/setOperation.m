@@ -181,7 +181,7 @@ function [C, ia, ib] = mergePartsLocal(cA, cB, iaAll, ibAll, stable, useKeys)
   if useKeys
     [C, p] = sortByKeysLocal(C0);
   else
-    [C, p] = sort(C0);
+    [~, p] = sort(C0);
     C = C0(p);
   end
   fromA = (p <= nA);

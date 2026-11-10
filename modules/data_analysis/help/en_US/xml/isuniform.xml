@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>isuniform</keyword>
+  <short_description>Check whether a vector is evenly spaced.</short_description>
+  <syntax>
+    <syntax_item>tf = isuniform(v)</syntax_item>
+    <syntax_item>[tf, step] = isuniform(v)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>v</param_name>
+      <param_description>a real numeric or logical vector.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>tf</param_name>
+      <param_description>a logical scalar: <b>true</b> when the spacing is constant up to round-off.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>step</param_name>
+      <param_description>the spacing, or <b>NaN</b> when <b>v</b> is not evenly spaced.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>[tf, step] = isuniform(v)</b> returns <b>true</b> when consecutive elements of <b>v</b> differ by the same amount, within a tolerance of four times the floating-point spacing of the largest end value. A vector with fewer than two elements, or with <b>Inf</b> or <b>NaN</b> values, is not uniform.</p>
+    <p><b>step</b> keeps the class of a single precision <b>v</b>, and is a double otherwise.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[[tf, step] = isuniform(0:0.25:1)
+isuniform([1 2 4])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_analysis}issorted">issorted</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}linspace">linspace</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -213,8 +213,11 @@ Conv2dXYFull(const ArrayOf& A, const ArrayOf& B)
 static ArrayOf
 Conv2dXYValid(const ArrayOf& A, const ArrayOf& B)
 {
-    indexType Cm = indexType(A.rows() - B.rows() + 1);
-    indexType Cn = indexType(A.columns() - B.columns() + 1);
+    // a kernel larger than the data leaves an empty result, not a wrapped unsigned size
+    int64_t rows = (int64_t)A.rows() - (int64_t)B.rows() + 1;
+    int64_t columns = (int64_t)A.columns() - (int64_t)B.columns() + 1;
+    indexType Cm = indexType(rows > 0 ? rows : 0);
+    indexType Cn = indexType(columns > 0 ? columns : 0);
     if ((Cm == 0) || (Cn == 0)) {
         Dimensions dims(Cm, Cn);
         ArrayOf res = ArrayOf::empty(dims);

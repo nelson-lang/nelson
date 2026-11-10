@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>paddata</keyword>
+  <short_description>Complète des données jusqu'à une longueur donnée.</short_description>
+  <syntax>
+    <syntax_item>B = paddata(A, m)</syntax_item>
+    <syntax_item>B = paddata(A, m, Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>un tableau : numérique, logique, char, string ou cellule.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>m</param_name>
+      <param_description>longueur cible : un scalaire, ou un vecteur avec une longueur par dimension.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Pattern</param_name>
+      <param_description><b>'constant'</b> (par défaut), <b>'edge'</b>, <b>'circular'</b>, <b>'flip'</b> ou <b>'reflect'</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>FillValue</param_name>
+      <param_description>valeur utilisée par le motif <b>'constant'</b>. Par défaut : 0, <b>false</b>, <b>char(0)</b>, une chaîne manquante ou une cellule vide.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Side</param_name>
+      <param_description><b>'trailing'</b> (par défaut), <b>'leading'</b> ou <b>'both'</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Dimension</param_name>
+      <param_description><b>'auto'</b> (par défaut) ou les dimensions de calcul.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>B</param_name>
+      <param_description>le tableau complété.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>B = paddata(A, m)</b> ajoute des valeurs pour que <b>A</b> ait la longueur <b>m</b> le long de sa première dimension non singleton. Les données déjà plus longues que <b>m</b> ne changent pas.</p>
+    <p><b>'edge'</b> répète les valeurs extrêmes, <b>'circular'</b> répète les données périodiquement, <b>'flip'</b> les reflète en incluant les valeurs extrêmes et <b>'reflect'</b> les reflète sans les répéter.</p>
+    <p>Avec <b>'Side', 'both'</b>, <b>floor(r/2)</b> valeurs sont ajoutées au début et le reste à la fin, <b>r</b> étant le nombre à ajouter.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[paddata(1:3, 5)
+paddata(1:3, 8, 'Pattern', 'reflect')
+paddata([1 2; 3 4], [3 4], 'FillValue', NaN)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_analysis}trimdata">trimdata</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

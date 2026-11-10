@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>convn</keyword>
+  <short_description>N-D convolution.</short_description>
+  <syntax>
+    <syntax_item>C = convn(A, B)</syntax_item>
+    <syntax_item>C = convn(A, B, shape)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>a numeric, char or logical N-D array.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>B</param_name>
+      <param_description>a numeric, char or logical N-D array.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>shape</param_name>
+      <param_description><b>'full'</b> (default), <b>'same'</b> or <b>'valid'</b>.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>C</param_name>
+      <param_description>the convolution: double, or single when an input is single.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>C = convn(A, B)</b> returns the N-D convolution of <b>A</b> and <b>B</b>, of size <b>size(A) + size(B) - 1</b>.</p>
+    <p><b>'same'</b> keeps the central part of the size of <b>A</b>. <b>'valid'</b> keeps only the values computed without zero padding, of size <b>max(size(A) - size(B) + 1, 0)</b>.</p>
+    <p>Integer, char and logical inputs are computed in double. Two inputs with at most two dimensions use <b>conv2</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[A = reshape(1:8, 2, 2, 2);
+C = convn(A, ones(2, 2, 2))
+S = convn(A, ones(2, 1, 2), 'same')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_analysis}conv2">conv2</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}conv">conv</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
