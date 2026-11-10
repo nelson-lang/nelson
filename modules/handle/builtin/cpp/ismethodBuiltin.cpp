@@ -31,7 +31,7 @@ Nelson::HandleGateway::ismethodBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (!className.empty() && argIn[1].isRowVectorCharacterArray()
         && classdefLoadClass(className)) {
         std::string methodName = argIn[1].asUtf8String();
-        bool res = classdefHasMethod(className, methodName)
+        bool res = classdefHasVisibleMethod(className, methodName)
             || classdefHasStaticMethod(className, methodName);
         retval << ArrayOf::logicalScalar(res);
         return retval;

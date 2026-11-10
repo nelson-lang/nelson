@@ -93,6 +93,8 @@ tryFastTableDotAssign(
     Evaluator* eval, ArrayOf& base, const std::string& field, const ArrayOf& value);
 bool
 isTableDotIndexAssignTarget(Evaluator* eval, const ArrayOf& base);
+bool
+isHandleDotIndexAssignTarget(Evaluator* eval, const ArrayOf& base);
 ArrayOf
 readTableDynamicDotIndex(
     Evaluator* eval, const ArrayOf& base, const ArrayOf& fieldValue, const ArrayOfVector& indices);

@@ -48,6 +48,7 @@ target_link_libraries(${module_library_name}
     nlsI18n
     nlsInterpreter
     nlsSparse
+    nlsStream_manager
     nlsTypes
     ${HDF5_LIBRARIES}
 )
@@ -82,6 +83,7 @@ target_link_libraries(${module_library_builtin_name}
     nlsError_manager
     nlsI18n
     nlsInterpreter
+    nlsStream_manager
     nlsTypes
 )
 # ==============================================================================

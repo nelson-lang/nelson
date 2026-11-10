@@ -16,6 +16,7 @@
 #include "StringHelpers.hpp"
 #include "SaveMatioFile.hpp"
 #include "SaveMatioVariable.hpp"
+#include "matioHelpers.hpp"
 #include "Evaluator.hpp"
 #include "IsValidVariableName.hpp"
 #include "characters_encoding.hpp"
@@ -46,28 +47,6 @@ versionToEnum(const std::wstring& matFileVersion, matio_compression& compression
         return MAT_FT_MAT4;
     }
     return MAT_FT_UNDEFINED;
-}
-//=============================================================================
-static std::string
-createHeaderMatioFile()
-{
-    std::string header = std::string("Nelson 1.0 MAT-file");
-    header = header + std::string(" Created by libmatio ") + std::string(MATIO_VERSION_STR);
-#ifdef _MSC_VER
-    time_t _tm = time(nullptr);
-    struct tm* curtime = localtime(&_tm);
-    std::string timestr = asctime(curtime);
-#else
-    struct tm newtime;
-    time_t ltime;
-    char buf[128];
-    ltime = time(&ltime);
-    localtime_r(&ltime, &newtime);
-    std::string timestr = asctime_r(&newtime, buf);
-#endif
-    StringHelpers::replace_last(timestr, "\n", "");
-    header = header + std::string(" on ") + timestr;
-    return header;
 }
 //=============================================================================
 void

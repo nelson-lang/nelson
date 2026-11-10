@@ -58,6 +58,7 @@ Nelson 2.0 is a major release. Existing scripts run faster, larger projects can 
 
 - `.xlsx` read and write on every platform, and optional NetCDF and Parquet support.
 - `readlines` and `writelines` to read and write text files line by line.
+- `matfile` and `nh5file` load and save parts of variables of a MAT-file or a `.nh5` file without reading the whole file.
 - Python package to drive Nelson from Python, with NumPy and pandas conversion.
 - Built-in MCP server for AI agents.
 - Optional `compiler` module to build standalone applications and installers from `.m` files.

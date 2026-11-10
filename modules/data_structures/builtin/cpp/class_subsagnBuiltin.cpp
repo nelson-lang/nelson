@@ -9,6 +9,7 @@
 //=============================================================================
 #include "class_subsagnBuiltin.hpp"
 #include "ClassdefParser.hpp"
+#include "ClassdefPropertyAccess.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
 #include "i18n.hpp"
@@ -19,67 +20,6 @@
 using namespace Nelson;
 //=============================================================================
 namespace {
-//=============================================================================
-ArrayOf
-callPropertySetter(
-    Evaluator* eval, const ArrayOf& object, const std::string& propertyName, const ArrayOf& value)
-{
-    struct PropertySetContextGuard
-    {
-        Evaluator* eval = nullptr;
-        bool active = false;
-
-        PropertySetContextGuard(
-            Evaluator* evaluator, const std::string& className, const std::string& propertyName)
-            : eval(evaluator)
-        {
-            if (eval == nullptr) {
-                return;
-            }
-            ClassdefPropertyDefinition property;
-            if (!classdefPropertyDefinition(className, propertyName, property)) {
-                return;
-            }
-            const std::string setterClassName
-                = property.definingClassName.empty() ? className : property.definingClassName;
-            eval->pushClassdefPropertySetContext(setterClassName, property.name);
-            active = true;
-        }
-
-        ~PropertySetContextGuard()
-        {
-            if (active) {
-                eval->popClassdefPropertySetContext();
-            }
-        }
-
-        PropertySetContextGuard(const PropertySetContextGuard&) = delete;
-        PropertySetContextGuard&
-        operator=(const PropertySetContextGuard&)
-            = delete;
-    };
-
-    if (eval == nullptr || eval->getContext() == nullptr) {
-        Error("Nelson:subsasgn:cannotSetProperty", "Cannot set property: %s", propertyName);
-    }
-    std::string functionName;
-
-    if (!classdefResolvePropertyAccessorFunction(
-            object.classType(), propertyName, "set", functionName)) {
-        Error("Nelson:subsasgn:cannotSetProperty", "Cannot set property: %s", propertyName);
-    }
-    FunctionDef* functionDef = nullptr;
-    if (!eval->getContext()->lookupFunction(functionName, functionDef) || functionDef == nullptr) {
-        Error("Nelson:subsasgn:cannotSetProperty", "Cannot set property: %s", propertyName);
-    }
-    ArrayOfVector inputs;
-    inputs << object;
-    inputs << value;
-    int nLhs = functionDef->outputArgCount() == 0 ? 0 : 1;
-    PropertySetContextGuard guard(eval, object.classType(), propertyName);
-    ArrayOfVector result = functionDef->evaluateFunction(eval, inputs, nLhs);
-    return result.empty() ? object : result[0];
-}
 //=============================================================================
 bool
 storedPropertyHasValue(const ArrayOf& object, const std::string& propertyName)
@@ -165,25 +105,10 @@ Nelson::DataStructuresGateway::class_subsagnBuiltin(
             assignedValue = classdefValidatePropertyValue(eval, property, assignedValue);
         }
     }
-    if (isClassdef) {
-        std::string setterFunctionName;
-        bool hasSetter = classdefResolvePropertyAccessorFunction(
-            className, fieldname, "set", setterFunctionName);
-        bool isSameStoredPropertySetter = false;
-        if (hasSetter && hasPropertyDefinition
-            && !classdefHasDependentProperty(className, fieldname) && eval != nullptr) {
-            const std::string setterClassName
-                = property.definingClassName.empty() ? className : property.definingClassName;
-            isSameStoredPropertySetter
-                = eval->isCurrentClassdefPropertySetContext(setterClassName, property.name);
-        }
-        if (hasSetter && !isSameStoredPropertySetter) {
-            retval << callPropertySetter(eval, argIn[0], fieldname, assignedValue);
-            return retval;
-        }
-    }
-    if (isClassdef && classdefHasDependentProperty(className, fieldname)) {
-        retval << callPropertySetter(eval, argIn[0], fieldname, assignedValue);
+    if (isClassdef
+        && (classdefHasDependentProperty(className, fieldname)
+            || classdefStoredPropertySetterApplies(eval, className, fieldname))) {
+        retval << classdefCallPropertySetter(eval, argIn[0], className, fieldname, assignedValue);
         return retval;
     }
     ArrayOf res = argIn[0];

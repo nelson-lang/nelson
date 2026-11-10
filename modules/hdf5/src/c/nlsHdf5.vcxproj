@@ -187,6 +187,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\stream_manager\src\c\nlsStream_manager.vcxproj">
+      <Project>{1B461DB6-82EA-4436-A674-D2975F184B90}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">
       <Project>{a75dc538-eefa-4873-888b-a034a7ee72c5}</Project>
     </ProjectReference>
@@ -269,6 +272,8 @@
     <ClInclude Include="..\include\h5WriteAttribute.hpp" />
     <ClInclude Include="..\include\h5WriteDataset.hpp" />
     <ClInclude Include="..\include\HDF5_helpers.hpp" />
+    <ClInclude Include="..\include\Nh5FileIO.hpp" />
+    <ClInclude Include="..\include\h5Hyperslab.hpp" />
     <ClInclude Include="..\include\isNh5File.hpp" />
     <ClInclude Include="..\include\nlsHdf5_exports.h" />
     <ClInclude Include="..\include\whoNh5File.hpp" />
@@ -322,6 +327,7 @@
     <ClCompile Include="..\cpp\h5WriteHelpers.cpp" />
     <ClCompile Include="..\cpp\haveNh5Header.cpp" />
     <ClCompile Include="..\cpp\HDF5_helpers.cpp" />
+    <ClCompile Include="..\cpp\Nh5FileIO.cpp" />
     <ClCompile Include="..\cpp\isNh5File.cpp" />
     <ClCompile Include="..\cpp\whoNh5File.cpp" />
     <ClCompile Include="..\cpp\whosNh5File.cpp" />

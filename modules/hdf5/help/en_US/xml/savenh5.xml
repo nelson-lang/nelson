@@ -106,6 +106,10 @@ no_compression = dir([tempdir(), 'example_h5save_no_compression.nh5'])]]></examp
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
     </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Compressed variables are saved in chunks of at most 512 KB, so nh5file reads and writes parts of them.</history_description>
+    </history_item>
   </history>
   <authors>
     <author_item>Allan CORNET</author_item>

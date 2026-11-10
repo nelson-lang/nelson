@@ -27,6 +27,16 @@ evaluateClassdefHandleGet(Evaluator* eval, const ArrayOfVector& argIn);
 NLSINTERPRETER_IMPEXP ArrayOfVector
 evaluateClassdefHandleSet(Evaluator* eval, const ArrayOfVector& argIn);
 //=============================================================================
+// True when a write of a stored property must go through its set.X method.
+NLSINTERPRETER_IMPEXP bool
+classdefStoredPropertySetterApplies(
+    Evaluator* eval, const std::string& className, const std::string& propertyName);
+//=============================================================================
+// Calls set.X(obj, value) and returns the updated object.
+NLSINTERPRETER_IMPEXP ArrayOf
+classdefCallPropertySetter(Evaluator* eval, const ArrayOf& object, const std::string& className,
+    const std::string& propertyName, const ArrayOf& value);
+//=============================================================================
 // Native dynamicprops support (add and remove a dynamic property).
 // argIn = [obj, propertyName].
 NLSINTERPRETER_IMPEXP ArrayOfVector

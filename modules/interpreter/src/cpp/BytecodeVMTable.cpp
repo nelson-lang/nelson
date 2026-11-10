@@ -15,6 +15,9 @@
 #include <algorithm>
 #include <string>
 #include "BytecodeVMInternal.hpp"
+#include "ClassdefHandleObject.hpp"
+#include "ClassdefParser.hpp"
+#include "Operators.hpp"
 #include "ClassName.hpp"
 #include "Evaluator.hpp"
 #include "NelsonException.hpp"
@@ -284,9 +287,27 @@ isTableDotIndexAssignTarget(Evaluator* eval, const ArrayOf& base)
     // T.name(indices) = value and T.name{indices} = value give both
     // subscripts to the subsasgn of a table, a timetable or an eventtable
     // (JUMP_IF_NOT_TABLE).
+    if (base.isHandle()) {
+        return isHandleDotIndexAssignTarget(eval, base);
+    }
     return (isFastTableObject(base) || isFastTimetableObject(base)
                || (base.isClassType() && base.classType() == "eventtable"))
         && base.isScalar() && isOverloadedTableAccess(eval, base);
+}
+//=============================================================================
+bool
+isHandleDotIndexAssignTarget(Evaluator* eval, const ArrayOf& base)
+{
+    // h.name(indices) = value on a classdef handle with an overloaded subsasgn
+    auto* object
+        = base.isScalar() ? dynamic_cast<ClassdefHandleObject*>(base.asHandleScalar()) : nullptr;
+    if (object == nullptr) {
+        return false;
+    }
+    const std::string& className = object->category();
+    return classdefLoadClass(className)
+        && eval->isOverloadedDotAccess(
+            className, classdefHasMethod(className, SUBSASGN_OPERATOR_STR));
 }
 //=============================================================================
 ArrayOf

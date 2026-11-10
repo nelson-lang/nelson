@@ -8,4 +8,5 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 addgateway(modulepath('matio', 'builtin'), 'matio');
+addpath(modulepath('matio', 'functions'), '-frozen');
 %=============================================================================

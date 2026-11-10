@@ -183,7 +183,7 @@ h5SaveCharacterMatrix(hid_t fid, const std::string& location, const std::string&
         asUint16.promoteType(NLS_UINT16);
         buffer = const_cast<void*>(asUint16.dataPointer());
     }
-    hid_t plist = setCompression(dimsValue, useCompression);
+    hid_t plist = setCompression(dimsValue, useCompression, sizeof(uint16));
     hid_t dataset_id
         = H5Dcreate(fid, h5path.c_str(), type_id, dspace_id, H5P_DEFAULT, plist, H5P_DEFAULT);
     herr_t status = H5Dwrite(dataset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, buffer);

@@ -13,6 +13,7 @@
 #include "ismatfileBuiltin.hpp"
 #include "whosmatBuiltin.hpp"
 #include "whomatBuiltin.hpp"
+#include "matfileBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -27,6 +28,11 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "whomat", (ptrBuiltin)Nelson::MatioGateway::whomatBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "ismatfile", (ptrBuiltin)Nelson::MatioGateway::ismatfileBuiltin, 1, 1 },
+    { "__matfile_read__", (ptrBuiltin)Nelson::MatioGateway::matfileReadBuiltin, 1, 3,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "__matfile_write__", (ptrBuiltin)Nelson::MatioGateway::matfileWriteBuiltin, 0, 4,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "__matfile_size__", (ptrBuiltin)Nelson::MatioGateway::matfileSizeBuiltin, 1, 2 },
 };
 //=============================================================================
 NLS_GATEWAY_FUNC(gateway)

@@ -156,7 +156,7 @@ h5SaveDoubleMatrix(hid_t fid, const std::string& location, const std::string& va
         hid_t compoundId = H5Tcreate(H5T_COMPOUND, sizeof(doublecomplex));
         H5Tinsert(compoundId, "real", HOFFSET(complex_type, r), H5T_NATIVE_DOUBLE);
         H5Tinsert(compoundId, "imag", HOFFSET(complex_type, i), H5T_NATIVE_DOUBLE);
-        hid_t plist = setCompression(dimsValue, useCompression);
+        hid_t plist = setCompression(dimsValue, useCompression, sizeof(doublecomplex));
         hid_t dataset_id = H5Dcreate(
             fid, h5path.c_str(), compoundId, dspace_id, H5P_DEFAULT, plist, H5P_DEFAULT);
         herr_t status = H5Dwrite(dataset_id, compoundId, H5S_ALL, H5S_ALL, H5P_DEFAULT, buffer);
@@ -169,7 +169,7 @@ h5SaveDoubleMatrix(hid_t fid, const std::string& location, const std::string& va
             bSuccess = h5SaveComplexAttribute(fid, h5path);
         }
     } else {
-        hid_t plist = setCompression(dimsValue, useCompression);
+        hid_t plist = setCompression(dimsValue, useCompression, sizeof(double));
         hid_t dataset_id
             = H5Dcreate(fid, h5path.c_str(), type_id, dspace_id, H5P_DEFAULT, plist, H5P_DEFAULT);
         herr_t status = H5Dwrite(dataset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, buffer);

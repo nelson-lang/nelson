@@ -187,6 +187,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\stream_manager\src\c\nlsStream_manager.vcxproj">
+      <Project>{1B461DB6-82EA-4436-A674-D2975F184B90}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\error_manager\src\c\nlsError_manager.vcxproj">
       <Project>{d0ef0ceb-a3bd-44ab-91b3-f33db1870f8d}</Project>
     </ProjectReference>
@@ -221,6 +224,7 @@
     <ClInclude Include="..\include\nlsMatio_builtin_exports.h" />
     <ClInclude Include="..\include\savematBuiltin.hpp" />
     <ClInclude Include="..\include\whomatBuiltin.hpp" />
+    <ClInclude Include="..\include\matfileBuiltin.hpp" />
     <ClInclude Include="..\include\whosmatBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -229,6 +233,7 @@
     <ClCompile Include="..\cpp\loadmatBuiltin.cpp" />
     <ClCompile Include="..\cpp\savematBuiltin.cpp" />
     <ClCompile Include="..\cpp\whomatBuiltin.cpp" />
+    <ClCompile Include="..\cpp\matfileBuiltin.cpp" />
     <ClCompile Include="..\cpp\whosmatBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>

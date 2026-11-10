@@ -20,6 +20,7 @@
 #include "NelsonConfiguration.hpp"
 #include "HandleGenericObject.hpp"
 #include "Operators.hpp"
+#include "ClassdefParser.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -71,6 +72,16 @@ callOverloadedFunctionAllTypes(Evaluator* eval, int nLhs, const ArrayOfVector& a
 
     if (!FunctionsInMemory::getInstance()->isNotExistingFunction(overloadTypeName)) {
         lookupOverloadFunctionCached(eval->getContext(), overloadTypeName, funcDef);
+    }
+
+    // a classdef handle method inherited from a superclass comes before the generic handle one
+    if (!funcDef && commonType == NLS_HANDLE && argsIn[0].isHandle()
+        && classdefLoadClass(commonTypeName)) {
+        std::string inheritedName;
+        if (classdefResolveMethodFunction(
+                commonTypeName, functionName, inheritedName, eval->getClassdefAccessContext())) {
+            lookupOverloadFunctionCached(eval->getContext(), inheritedName, funcDef);
+        }
     }
 
     if (!funcDef && hasNativeHandleFallback(commonType)) {

@@ -18,6 +18,7 @@
 #include "isnh5fileBuiltin.hpp"
 #include "whosnh5Builtin.hpp"
 #include "whonh5Builtin.hpp"
+#include "nh5fileBuiltin.hpp"
 #include "h5lsBuiltin.hpp"
 #include "h5dumpBuiltin.hpp"
 #include "HDF5_helpers.hpp"
@@ -41,6 +42,11 @@ static const nlsGateway gateway[] = {
     { "h5dump", (ptrBuiltin)Nelson::Hdf5Gateway::h5dumpBuiltin, 1, 2, CPP_BUILTIN_WITH_EVALUATOR },
     { "h5create", (ptrBuiltin)Nelson::Hdf5Gateway::h5createBuiltin, 0, -4 },
     { "isnh5file", (ptrBuiltin)Nelson::Hdf5Gateway::isnh5fileBuiltin, 1, 1 },
+    { "__nh5file_read__", (ptrBuiltin)Nelson::Hdf5Gateway::nh5fileReadBuiltin, 1, 3,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "__nh5file_write__", (ptrBuiltin)Nelson::Hdf5Gateway::nh5fileWriteBuiltin, 0, 4,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "__nh5file_size__", (ptrBuiltin)Nelson::Hdf5Gateway::nh5fileSizeBuiltin, 1, 2 },
 };
 //=============================================================================
 static bool

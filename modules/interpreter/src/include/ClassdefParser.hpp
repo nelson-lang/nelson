@@ -127,6 +127,9 @@ NLSINTERPRETER_IMPEXP ClassdefLayoutPtr
 classdefLayout(const std::string& className);
 NLSINTERPRETER_IMPEXP bool
 classdefHasMethod(const std::string& className, const std::string& methodName);
+// listed method: public and not Hidden (ismethod, methods)
+NLSINTERPRETER_IMPEXP bool
+classdefHasVisibleMethod(const std::string& className, const std::string& methodName);
 NLSINTERPRETER_IMPEXP bool
 classdefHasMethodDefinition(const std::string& className, const std::string& methodName);
 NLSINTERPRETER_IMPEXP bool

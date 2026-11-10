@@ -308,11 +308,43 @@ Evaluator::bytecodeGetOrInvokeHandle(
 {
     // a single returned object: ArrayOfVector has no move operations
     ArrayOfVector result;
-    if (!(r.isHandle() && params.empty() && tryReadHandleDot(r, fieldname, result))) {
-        result = isObjectMethod(r, fieldname) ? invokeMethod(r, fieldname, params)
-                                              : getHandle(r, fieldname, params);
+    if (r.isHandle()
+        && (params.empty() ? tryReadHandleDot(r, fieldname, result)
+                           : tryReadHandleDotIndex(r, fieldname, params, result))) {
+        return result;
     }
-    return result;
+    return isObjectMethod(r, fieldname) ? invokeMethod(r, fieldname, params)
+                                        : getHandle(r, fieldname, params);
+}
+//=============================================================================
+bool
+Evaluator::tryReadHandleDotIndex(const ArrayOf& r, const std::string& fieldname,
+    const ArrayOfVector& params, ArrayOfVector& result)
+{
+    // h.name(indices) on a classdef handle with an overloaded subsref: one call with both
+    // subscripts
+    auto* object = r.isScalar() ? dynamic_cast<ClassdefHandleObject*>(r.asHandleScalar()) : nullptr;
+    if (object == nullptr) {
+        return false;
+    }
+    const std::string& className = object->category();
+    if (!classdefLoadClass(className)) {
+        return false;
+    }
+    const bool subsrefOverloaded = classdefHasMethod(className, SUBSREF_OPERATOR_STR)
+        && !classdefHasMethodDefinition(className, fieldname);
+    if (!isOverloadedDotAccess(className, subsrefOverloaded)
+        || isContainersMapReadableProperty(className, fieldname, getClassdefAccessContext())) {
+        return false;
+    }
+    ArrayOfMatrix indices;
+    indices.push_back(params);
+    ArrayOfVector subsindices;
+    subsindices.push_back(ArrayOf::characterArray(fieldname));
+    subsindices.push_back(ArrayOf::cellArray(indices));
+    bool haveFunction = false;
+    result = extractClass(r, { ".", "()" }, subsindices, haveFunction, 1);
+    return haveFunction;
 }
 //=============================================================================
 bool

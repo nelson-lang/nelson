@@ -11,6 +11,7 @@
 #include <Windows.h>
 //=============================================================================
 #pragma comment(lib, "libmatio.lib")
+#pragma comment(lib, "hdf5.lib")
 //=============================================================================
 int WINAPI
 DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)

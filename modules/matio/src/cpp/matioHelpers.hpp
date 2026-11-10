@@ -10,6 +10,7 @@
 #pragma once
 //=============================================================================
 #include <matio.h>
+#include <string>
 #include "Dimensions.hpp"
 //=============================================================================
 namespace Nelson {
@@ -19,6 +20,9 @@ getMatVarDimensions(matvar_t* matVariable);
 //=============================================================================
 size_t*
 convertDimensionsForMatVar(const Dimensions& dims, indexType& rank);
+// text header written at the top of the MAT-files created by Nelson
+std::string
+createHeaderMatioFile();
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

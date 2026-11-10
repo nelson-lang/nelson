@@ -90,6 +90,9 @@
     <ClInclude Include="..\include\ReadLines.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\PartialFileAccess.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\include\TextFileWriter.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -174,6 +177,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\ReadLines.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\PartialFileAccess.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\TextFileWriter.cpp">

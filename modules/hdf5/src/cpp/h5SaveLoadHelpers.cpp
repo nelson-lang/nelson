@@ -12,14 +12,14 @@
 #endif
 //=============================================================================
 #include "h5SaveLoadHelpers.hpp"
+#include <algorithm>
 #include <cstdio>
 #include <cstring>
 #include <ctime>
+#include <vector>
 #include "Error.hpp"
 #include "ErrorID.hpp"
 #include "FileSystemWrapper.hpp"
-#include "NelsonException.hpp"
-#include "NewWithException.hpp"
 #include "StringHelpers.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
@@ -477,37 +477,37 @@ isNelsonComplex(hid_t fid, const std::string& location, const std::string& varia
 }
 //=============================================================================
 hid_t
-setCompression(const Dimensions& dims, bool useCompression)
+setCompression(const Dimensions& dims, bool useCompression, size_t elementSize)
 {
-    hid_t plist = H5I_INVALID_HID;
     if (dims.isEmpty(false) || dims.isScalar() || !useCompression) {
         return H5Pcopy(H5P_DEFAULT);
     }
-    plist = H5Pcreate(H5P_DATASET_CREATE);
-    if (H5Pset_layout(plist, H5D_COMPACT) < 0) {
+    // hdf5 dimensions are the reversed Nelson dimensions
+    const size_t rank = dims.length();
+    std::vector<hsize_t> chunk(rank);
+    for (size_t k = 0; k < rank; k++) {
+        chunk[k] = static_cast<hsize_t>(dims.at(rank - 1 - k, false));
+    }
+    // halve the largest side until a chunk fits the default chunk cache
+    const hsize_t budget
+        = std::max<hsize_t>(1, NELSON_CHUNK_BYTES / std::max<size_t>(1, elementSize));
+    auto elements = [&chunk]() {
+        hsize_t n = 1;
+        for (hsize_t c : chunk) {
+            n *= c;
+        }
+        return n;
+    };
+    while (elements() > budget) {
+        auto largest = std::max_element(chunk.begin(), chunk.end());
+        *largest = (*largest + 1) / 2;
+    }
+    hid_t plist = H5Pcreate(H5P_DATASET_CREATE);
+    if (H5Pset_chunk(plist, static_cast<int>(rank), chunk.data()) < 0) {
         H5Pclose(plist);
         return H5Pcopy(H5P_DEFAULT);
     }
-    hsize_t* dimsAsHsize_t = nullptr;
-    indexType nbElementsSizeData = dims.length();
-    try {
-        dimsAsHsize_t = new_with_exception<hsize_t>(dims.length(), true);
-    } catch (NelsonException&) {
-        H5Pclose(plist);
-        return H5Pcopy(H5P_DEFAULT);
-    }
-    Dimensions _dims = dims;
-    for (indexType k = 1; k <= nbElementsSizeData; k++) {
-        dimsAsHsize_t[k - 1] = (hsize_t)_dims[nbElementsSizeData - k];
-    }
-    herr_t status = H5Pset_chunk(plist, (int)dims.length(), dimsAsHsize_t);
-    delete[] dimsAsHsize_t;
-    if (status < 0) {
-        H5Pclose(plist);
-        plist = H5Pcopy(H5P_DEFAULT);
-    } else {
-        H5Pset_deflate(plist, NELSON_COMPRESSION_LEVEL);
-    }
+    H5Pset_deflate(plist, NELSON_COMPRESSION_LEVEL);
     return plist;
 }
 //=============================================================================

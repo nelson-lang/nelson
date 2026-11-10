@@ -128,7 +128,8 @@ h5SaveSingleMatrix(hid_t fid, const std::string& location, const std::string& va
         dspace_id = H5Screate_simple((int)dimsValue.length(), dimsAsHsize_t, dimsAsHsize_t);
     }
     delete[] dimsAsHsize_t;
-    hid_t plist = setCompression(dimsValue, useCompression);
+    hid_t plist = setCompression(dimsValue, useCompression,
+        VariableValue.isComplex() ? sizeof(singlecomplex) : sizeof(single));
     void* buffer = const_cast<void*>(VariableValue.dataPointer());
     if (VariableValue.isComplex()) {
         using complex_type = struct complex_type

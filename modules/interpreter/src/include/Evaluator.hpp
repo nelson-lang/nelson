@@ -686,6 +686,9 @@ private:
     bool
     tryReadHandleDot(const ArrayOf& r, const std::string& fieldname, ArrayOfVector& result);
     bool
+    tryReadHandleDotIndex(const ArrayOf& r, const std::string& fieldname,
+        const ArrayOfVector& params, ArrayOfVector& result);
+    bool
     tryAssignHandleDot(const ArrayOf& r, const std::string& fieldname, const ArrayOf& value);
     ArrayOf
     EndReference(const ArrayOf& v, indexType index, size_t count);

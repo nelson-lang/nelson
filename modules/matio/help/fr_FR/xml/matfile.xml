@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>matfile</keyword>
+  <short_description>Charge et sauvegarde des parties de variables d&apos;un fichier MAT.</short_description>
+  <syntax>
+    <syntax_item>m = matfile(filename)</syntax_item>
+    <syntax_item>m = matfile(filename, 'Writable', isWritable)</syntax_item>
+    <syntax_item>value = m.name</syntax_item>
+    <syntax_item>value = m.name(i1, ..., iN)</syntax_item>
+    <syntax_item>m.name = value</syntax_item>
+    <syntax_item>m.name(i1, ..., iN) = value</syntax_item>
+    <syntax_item>sz = size(m, name)</syntax_item>
+    <syntax_item>[d1, ..., dN] = size(m, name)</syntax_item>
+    <syntax_item>d = size(m, name, dim)</syntax_item>
+    <syntax_item>names = who(m, pattern1, ..., patternN)</syntax_item>
+    <syntax_item>info = whos(m, pattern1, ..., patternN)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>vecteur de caractères ou chaîne scalaire : nom du fichier MAT. Sans extension, <code>.mat</code> est ajouté. Un nom relatif est cherché dans le dossier courant, puis dans le chemin de recherche.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>isWritable</param_name>
+      <param_description>scalaire logique : autorise ou interdit la sauvegarde par l&apos;objet. Par défaut <code>false</code> pour un fichier existant et <code>true</code> pour un nouveau fichier.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>i1, ..., iN</param_name>
+      <param_description>un indice par dimension : un entier positif, un intervalle croissant à pas constant comme <code>10:2:50</code>, ou <code>:</code>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>pattern1, ..., patternN</param_name>
+      <param_description>noms de variables, avec le joker <code>*</code>, ou <code>'-regexp'</code> suivi d&apos;expressions régulières.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>m</param_name>
+      <param_description>objet handle <b>nelson.io.MatFile</b> connecté au fichier.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>matfile</b> crée un objet connecté à un fichier MAT. Aucune donnée n&apos;est lue à la création de l&apos;objet. Les variables du fichier sont accessibles avec la syntaxe point, comme les champs d&apos;une structure.</p>
+    <p><b>m.name</b> charge la variable entière. <b>m.name(i1, ..., iN)</b> charge seulement le bloc sélectionné. Sur les fichiers MAT version 7.3, les variables numériques et logiques sont lues directement dans le fichier : un bloc d&apos;une grande variable est lu sans charger la variable. Les autres classes, et les fichiers de versions plus anciennes, chargent la variable entière avant de l&apos;indexer ; les versions anciennes émettent aussi l&apos;avertissement <b>Nelson:matfile:wholeVariableLoad</b>.</p>
+    <p><b>m.name = value</b> ajoute ou remplace une variable. <b>m.name(i1, ..., iN) = value</b> modifie un bloc. Sur les fichiers MAT version 7.3, un bloc à l&apos;intérieur d&apos;une variable numérique, caractère ou logique est écrit sur place. Un bloc hors de la taille courante agrandit la variable, complétée par des zéros. Une nouvelle variable est créée avec la classe de la valeur affectée. <b>m.name(i1, ..., iN) = []</b> supprime les éléments sélectionnés.</p>
+    <p>Si le fichier n&apos;existe pas, il est créé au format MAT version 7.3 lors de la première affectation.</p>
+    <p>L&apos;objet a une propriété, <b>Properties</b>, avec deux champs :</p>
+    <ul>
+      <li><b>Properties.Source :</b> chemin complet du fichier MAT (lecture seule).</li>
+      <li><b>Properties.Writable :</b> scalaire logique, indique si les affectations sont autorisées.</li>
+    </ul>
+    <p>Règles des indices :</p>
+    <ul>
+      <li>Donner un indice pour chaque dimension : l&apos;indexation linéaire n&apos;est pas supportée.</li>
+      <li>Seule l&apos;indexation <code>()</code> est supportée, avec des indices numériques. Les intervalles doivent croître à pas constant.</li>
+      <li>Utiliser <code>end</code> dans un indice charge la variable entière. Utiliser <b>size(m, name)</b> pour obtenir la taille sans charger les données.</li>
+      <li>La valeur affectée doit avoir la classe de la variable, ou une autre classe flottante pour une variable flottante, ou une autre classe entière pour une variable entière. Une valeur complexe ne peut pas être affectée dans une variable réelle.</li>
+      <li>Un bloc d&apos;une variable creuse peut être lu mais pas affecté.</li>
+      <li>Les tableaux de chaînes, les handles de fonctions et les objets se chargent ou se sauvegardent seulement en entier.</li>
+    </ul>
+    <p><b>size</b>, <b>who</b> et <b>whos</b> inspectent le fichier sans charger les variables. Les appeler avec la syntaxe fonction, par exemple <code>size(m, 'x')</code>.</p>
+  </description>
+  <used_function />
+  <bibliography>Remerciements à la bibliothèque MATIO (http://sourceforge.net/projects/matio/).</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Sauvegarder des blocs d&apos;une variable, puis en charger une partie.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[filename = [tempname(), '.mat'];
+m = matfile(filename)
+m.savedVar(81:100, 81:100) = magic(20);
+[nrows, ncols] = size(m, 'savedVar')
+loadVar = m.savedVar(nrows - 19:nrows, 86:95)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Moyenne de chaque colonne sans charger la variable entière.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[filename = [tempname(), '.mat'];
+stocks = rand(1000, 4);
+savemat(filename, 'stocks', '-v7.3');
+m = matfile(filename);
+[nrows, ncols] = size(m, 'stocks');
+avgs = zeros(1, ncols);
+for k = 1:ncols
+  avgs(k) = mean(m.stocks(:, k));
+end
+avgs]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Autoriser l&apos;écriture dans un fichier existant.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[filename = [tempname(), '.mat'];
+x = magic(4);
+savemat(filename, 'x', '-v7.3');
+m = matfile(filename);
+m.Properties.Writable = true;
+m.x(2, :) = [0 0 0 0];
+m.y = 'new variable';
+whos(m)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${matio}loadmat">loadmat</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${matio}savemat">savemat</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${matio}whosmat">whosmat</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${matio}whomat">whomat</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${hdf5}nh5file">nh5file</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

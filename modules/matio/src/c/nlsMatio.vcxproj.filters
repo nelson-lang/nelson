@@ -131,6 +131,9 @@
     <ClCompile Include="..\cpp\WhoMatioFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\MatFileIO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\cpp\dllMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -245,6 +248,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\WhoMatioFile.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\MatFileIO.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\cpp\SaveMatioFunctionHandle.hpp">

@@ -92,7 +92,7 @@ h5SaveInteger(hid_t fid, const std::string& location, const std::string& variabl
         dspace_id = H5Screate_simple((int)dimsValue.length(), dimsAsHsize_t, dimsAsHsize_t);
     }
     delete[] dimsAsHsize_t;
-    hid_t plist = setCompression(dimsValue, useCompression);
+    hid_t plist = setCompression(dimsValue, useCompression, H5Tget_size(type_id));
     buffer = const_cast<void*>(VariableValue.dataPointer());
     hid_t dataset_id
         = H5Dcreate(fid, h5path.c_str(), type_id, dspace_id, H5P_DEFAULT, plist, H5P_DEFAULT);

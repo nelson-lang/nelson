@@ -233,30 +233,64 @@ callDependentGetter(Evaluator* eval, const ArrayOf& object, const std::string& c
     return functionDef->evaluateFunction(eval, inputs, 1);
 }
 //=============================================================================
-static void
-callDependentSetter(Evaluator* eval, const ArrayOf& object, const std::string& className,
+static std::string
+setterClassName(const std::string& className, const std::string& propertyName,
+    std::string& exactPropertyName)
+{
+    ClassdefPropertyDefinition property;
+    if (!classdefPropertyDefinition(className, propertyName, property)) {
+        exactPropertyName = propertyName;
+        return className;
+    }
+    exactPropertyName = property.name;
+    return property.definingClassName.empty() ? className : property.definingClassName;
+}
+//=============================================================================
+bool
+classdefStoredPropertySetterApplies(
+    Evaluator* eval, const std::string& className, const std::string& propertyName)
+{
+    std::string functionName;
+    if (eval == nullptr || classdefHasDependentProperty(className, propertyName)
+        || !classdefResolvePropertyAccessorFunction(
+            className, propertyName, CLASSDEF_ACCESSOR_SET, functionName)) {
+        return false;
+    }
+    // inside set.X itself, obj.X = v stores the value
+    std::string exactName;
+    const std::string ownerName = setterClassName(className, propertyName, exactName);
+    return !eval->isCurrentClassdefPropertySetContext(ownerName, exactName);
+}
+//=============================================================================
+ArrayOf
+classdefCallPropertySetter(Evaluator* eval, const ArrayOf& object, const std::string& className,
     const std::string& propertyName, const ArrayOf& value)
 {
-    if (eval == nullptr || eval->getContext() == nullptr) {
-        RaiseError(_(CLASSDEF_ERROR_CANNOT_SET_PROPERTY) + propertyName,
-            "Nelson:interpreter:cannotSetProperty");
-    }
     std::string functionName;
-    if (!classdefResolvePropertyAccessorFunction(
-            className, propertyName, CLASSDEF_ACCESSOR_SET, functionName)) {
-        RaiseError(_(CLASSDEF_ERROR_CANNOT_SET_PROPERTY) + propertyName,
-            "Nelson:interpreter:cannotSetProperty");
-    }
     FunctionDef* functionDef = nullptr;
-    if (!eval->getContext()->lookupFunction(functionName, functionDef) || functionDef == nullptr) {
+    if (eval == nullptr || eval->getContext() == nullptr
+        || !classdefResolvePropertyAccessorFunction(
+            className, propertyName, CLASSDEF_ACCESSOR_SET, functionName)
+        || !eval->getContext()->lookupFunction(functionName, functionDef)
+        || functionDef == nullptr) {
         RaiseError(_(CLASSDEF_ERROR_CANNOT_SET_PROPERTY) + propertyName,
             "Nelson:interpreter:cannotSetProperty");
     }
+    struct SetContextGuard
+    {
+        Evaluator* eval;
+        ~SetContextGuard() { eval->popClassdefPropertySetContext(); }
+    };
+    std::string exactName;
+    eval->pushClassdefPropertySetContext(
+        setterClassName(className, propertyName, exactName), exactName);
+    SetContextGuard guard { eval };
     ArrayOfVector inputs;
     inputs << object;
     inputs << value;
-    int nLhs = functionDef->outputArgCount() == 0 ? 0 : 1;
-    functionDef->evaluateFunction(eval, inputs, nLhs);
+    const int nLhs = functionDef->outputArgCount() == 0 ? 0 : 1;
+    ArrayOfVector result = functionDef->evaluateFunction(eval, inputs, nLhs);
+    return result.empty() ? object : result[0];
 }
 //=============================================================================
 static ArrayOfVector
@@ -377,6 +411,21 @@ evaluateClassdefHandleSet(Evaluator* eval, const ArrayOfVector& argIn)
         RaiseError(_(CLASSDEF_ERROR_CANNOT_SET_PROPERTY) + propertyName,
             "Nelson:interpreter:cannotSetProperty");
     }
+    std::string setterFunctionName;
+    const bool hasStoredSetter = !isDynamicProperty && !isDependentProperty
+        && classdefResolvePropertyAccessorFunction(
+            object->category(), propertyName, CLASSDEF_ACCESSOR_SET, setterFunctionName);
+    // a fourth argument marks a default value: set.X is not called for it
+    const bool defaultInitialization = argIn.size() > 3;
+    const bool callStoredSetter = hasStoredSetter && !defaultInitialization
+        && classdefStoredPropertySetterApplies(eval, object->category(), propertyName);
+    if (hasStoredSetter && !defaultInitialization && !callStoredSetter) {
+        // write from inside set.X: store it, the outer set already ran checks and events
+        object->setProperty(propertyName,
+            hasPropertyDefinition ? classdefValidatePropertyValue(eval, property, argIn[2])
+                                  : argIn[2]);
+        return retval;
+    }
     const bool abortSet = (isDynamicProperty && dynamicAttributes.abortSet)
         || (hasPropertyDefinition
             && classdefAttributeListContains(property.attributes, CLASSDEF_ATTR_ABORT_SET));
@@ -408,8 +457,8 @@ evaluateClassdefHandleSet(Evaluator* eval, const ArrayOfVector& argIn)
     }
     nelson_handle sourceHandle = handleScalarId(argIn[0]);
     object->notifyPropertyEvent(eval, sourceHandle, propertyName, CLASSDEF_EVENT_PRE_SET);
-    if (isDependentProperty) {
-        callDependentSetter(eval, argIn[0], object->category(), propertyName, assignedValue);
+    if (isDependentProperty || callStoredSetter) {
+        classdefCallPropertySetter(eval, argIn[0], object->category(), propertyName, assignedValue);
         object->notifyPropertyEvent(eval, sourceHandle, propertyName, CLASSDEF_EVENT_POST_SET);
         return retval;
     }

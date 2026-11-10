@@ -71,7 +71,8 @@ classdefIsBuiltinClass(const std::string& className)
 }
 //=============================================================================
 static bool
-classdefHasMethodUncached(const std::string& className, const std::string& methodName)
+classdefHasMethodUncached(
+    const std::string& className, const std::string& methodName, bool visibleOnly = false)
 {
     std::unordered_set<std::string> visited;
     std::function<bool(const std::string&)> visit = [&](const std::string& currentClass) -> bool {
@@ -89,8 +90,10 @@ classdefHasMethodUncached(const std::string& className, const std::string& metho
         }
         for (const auto& method : definition->methods) {
             if (!method.isStatic && equalsIgnoreCase(method.name, methodName)) {
+                // Hidden only hides a method from listings: it is still dispatched
                 return !isPropertyAccessorMethodName(method.name)
-                    && isVisibleMember(method.attributes);
+                    && (visibleOnly ? isVisibleMember(method.attributes)
+                                    : hasPublicAccess(method.attributes));
             }
         }
         if (functionExistsInMemoryOrPath(getOverloadFunctionName(trimmedClass, methodName))) {
@@ -137,6 +140,13 @@ classdefHasMethod(const std::string& className, const std::string& methodName)
     bool result = classdefHasMethodUncached(className, methodName);
     cache.emplace(std::move(key), result);
     return result;
+}
+//=============================================================================
+bool
+classdefHasVisibleMethod(const std::string& className, const std::string& methodName)
+{
+    return classdefHasMethod(className, methodName)
+        && classdefHasMethodUncached(className, methodName, true);
 }
 //=============================================================================
 static bool
@@ -419,6 +429,43 @@ classdefHasSealedMethod(const std::string& className, const std::string& methodN
     return visit(className);
 }
 //=============================================================================
+// a superclass reaches the non-private override of a method its own hierarchy declares
+static bool
+overridesCallerMethod(const std::string& definingClass, const stringVector& attributes,
+    const std::string& methodName, const std::string& callerClassName)
+{
+    if (callerClassName.empty() || equalsIgnoreCase(definingClass, callerClassName)
+        || equalsIgnoreCase(accessAttributeValue(attributes), CLASSDEF_ACCESS_PRIVATE)
+        || !classdefIsA(definingClass, callerClassName)) {
+        return false;
+    }
+    std::unordered_set<std::string> visited;
+    std::function<bool(const std::string&)> declares = [&](const std::string& currentClass) {
+        const std::string trimmedClass = trim(currentClass);
+        if (trimmedClass.empty() || !visited.insert(trimmedClass).second
+            || !classdefLoadClass(trimmedClass)) {
+            return false;
+        }
+        const ClassdefDefinition* definition = findClassdefDefinition(trimmedClass);
+        if (definition == nullptr) {
+            return false;
+        }
+        for (const auto& method : definition->methods) {
+            if (!method.isStatic && equalsIgnoreCase(method.name, methodName)) {
+                return isCallableFromClassdefContext(
+                    trimmedClass, method.attributes, callerClassName);
+            }
+        }
+        for (const auto& superclass : definition->superclasses) {
+            if (declares(superclass)) {
+                return true;
+            }
+        }
+        return false;
+    };
+    return declares(callerClassName);
+}
+//=============================================================================
 static bool
 classdefResolveMethodFunctionUncached(const std::string& className, const std::string& methodName,
     std::string& functionName, const std::string& callerClassName)
@@ -445,8 +492,11 @@ classdefResolveMethodFunctionUncached(const std::string& className, const std::s
         }
         for (const auto& method : definition->methods) {
             if (!method.isStatic && equalsIgnoreCase(method.name, methodName)) {
-                if (isCallableFromClassdefContext(trimmedClass, method.attributes, callerClassName)
-                    && functionExistsInMemoryOrPath(candidate)) {
+                const bool callable = isCallableFromClassdefContext(
+                                          trimmedClass, method.attributes, callerClassName)
+                    || overridesCallerMethod(
+                        trimmedClass, method.attributes, methodName, callerClassName);
+                if (callable && functionExistsInMemoryOrPath(candidate)) {
                     functionName = candidate;
                     return true;
                 }

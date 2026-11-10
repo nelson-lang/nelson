@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nh5file</keyword>
+  <short_description>Load and save parts of variables in a .nh5 file.</short_description>
+  <syntax>
+    <syntax_item>m = nh5file(filename)</syntax_item>
+    <syntax_item>m = nh5file(filename, 'Writable', isWritable)</syntax_item>
+    <syntax_item>value = m.name</syntax_item>
+    <syntax_item>value = m.name(i1, ..., iN)</syntax_item>
+    <syntax_item>m.name = value</syntax_item>
+    <syntax_item>m.name(i1, ..., iN) = value</syntax_item>
+    <syntax_item>sz = size(m, name)</syntax_item>
+    <syntax_item>[d1, ..., dN] = size(m, name)</syntax_item>
+    <syntax_item>d = size(m, name, dim)</syntax_item>
+    <syntax_item>names = who(m, pattern1, ..., patternN)</syntax_item>
+    <syntax_item>info = whos(m, pattern1, ..., patternN)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>character vector or string scalar: .nh5 file name. Without extension, <code>.nh5</code> is appended. A relative name is searched in the current folder, then on the search path.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>isWritable</param_name>
+      <param_description>logical scalar: enables or disables saving through the object. Default is <code>false</code> for an existing file and <code>true</code> for a new file.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>i1, ..., iN</param_name>
+      <param_description>one subscript per dimension: a positive integer, an increasing range with a constant step such as <code>10:2:50</code>, or <code>:</code>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>pattern1, ..., patternN</param_name>
+      <param_description>variable names, with the <code>*</code> wildcard, or <code>'-regexp'</code> followed by regular expressions.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>m</param_name>
+      <param_description><b>nelson.io.Nh5File</b> handle object connected to the file.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nh5file</b> creates an object connected to a .nh5 file. No data is read when the object is created. Variables of the file are accessed with the dot syntax, as fields of a structure.</p>
+    <p><b>m.name</b> loads the whole variable. <b>m.name(i1, ..., iN)</b> loads only the selected block: numeric, char and logical variables are read directly from the file, so a block of a large variable is read without loading the variable. Other classes load the whole variable before indexing it.</p>
+    <p>Compressed variables are saved in chunks of at most 512 KB, and a block reads only the chunks it crosses. Files saved by older versions hold each compressed variable in a single chunk: blocks are still read and written correctly, but each access decompresses the whole variable. Save such a file again to split it into chunks.</p>
+    <p><b>m.name = value</b> adds or replaces a variable. <b>m.name(i1, ..., iN) = value</b> changes a block. A block inside a numeric, char or logical variable is written in place. A block outside the current size grows the variable, filled with zeros. A new variable is created with the class of the assigned value. <b>m.name(i1, ..., iN) = []</b> deletes the selected elements.</p>
+    <p>When the file does not exist, it is created as a .nh5 file on the first assignment.</p>
+    <p>The object has one property, <b>Properties</b>, with two fields:</p>
+    <ul>
+      <li><b>Properties.Source:</b> full path of the .nh5 file (read-only).</li>
+      <li><b>Properties.Writable:</b> logical scalar, whether assignments are allowed.</li>
+    </ul>
+    <p>Rules for subscripts:</p>
+    <ul>
+      <li>Give a subscript for every dimension: linear indexing is not supported.</li>
+      <li>Only <code>()</code> indexing is supported, with numeric subscripts. Ranges must increase with a constant step.</li>
+      <li>Using <code>end</code> in a subscript loads the whole variable. Use <b>size(m, name)</b> to get the size without loading data.</li>
+      <li>The assigned value must have the class of the variable, or another floating-point class for a floating-point variable, or another integer class for an integer variable. A complex value cannot be assigned into a real variable.</li>
+      <li>A block of a sparse variable can be read but not assigned.</li>
+      <li>String arrays, function handles and objects can be loaded or saved as a whole only.</li>
+    </ul>
+    <p><b>size</b>, <b>who</b> and <b>whos</b> inspect the file without loading the variables. Call them with function syntax, for example <code>size(m, 'x')</code>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Save blocks of a variable, then load a part of it.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[filename = [tempname(), '.nh5'];
+m = nh5file(filename)
+m.savedVar(81:100, 81:100) = magic(20);
+[nrows, ncols] = size(m, 'savedVar')
+loadVar = m.savedVar(nrows - 19:nrows, 86:95)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Mean of each column without loading the whole variable.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[filename = [tempname(), '.nh5'];
+stocks = rand(1000, 4);
+savenh5(filename, 'stocks');
+m = nh5file(filename);
+[nrows, ncols] = size(m, 'stocks');
+avgs = zeros(1, ncols);
+for k = 1:ncols
+  avgs(k) = mean(m.stocks(:, k));
+end
+avgs]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Enable write access to an existing file.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[filename = [tempname(), '.nh5'];
+x = magic(4);
+savenh5(filename, 'x');
+m = nh5file(filename);
+m.Properties.Writable = true;
+m.x(2, :) = [0 0 0 0];
+m.y = 'new variable';
+whos(m)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${hdf5}loadnh5">loadnh5</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${hdf5}savenh5">savenh5</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${hdf5}whosnh5">whosnh5</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${hdf5}whonh5">whonh5</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${matio}matfile">matfile</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

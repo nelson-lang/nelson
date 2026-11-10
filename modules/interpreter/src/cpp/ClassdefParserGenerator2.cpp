@@ -107,6 +107,10 @@ classInitializationSource(const ClassdefDefinition& definition, const std::strin
                 source += objectName + " = " + std::string(CLASSDEF_VALUE_SET_STORED_BUILTIN) + "("
                     + objectName + ", '" + property.name + "', " + valueExpression + ");\n";
             }
+        } else if (definitionIsHandleClass(definition)) {
+            // checked store that skips set.X: defaults never call it
+            source += std::string(CLASSDEF_HANDLE_SET_BUILTIN) + "(" + objectName + ", '"
+                + property.name + "', " + valueExpression + ", true);\n";
         } else {
             source += objectName + "." + property.name + " = " + valueExpression + ";\n";
         }

@@ -141,7 +141,7 @@ h5SaveLogicalMatrix(hid_t fid, const std::string& location, const std::string& v
     }
     delete[] dimsAsHsize_t;
 
-    hid_t plist = setCompression(dimsValue, useCompression);
+    hid_t plist = setCompression(dimsValue, useCompression, sizeof(uint8));
     void* buffer = const_cast<void*>(VariableValue.dataPointer());
     hid_t dataset_id
         = H5Dcreate(fid, h5path.c_str(), type_id, dspace_id, H5P_DEFAULT, plist, H5P_DEFAULT);

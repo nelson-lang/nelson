@@ -126,7 +126,7 @@ h5SaveMissingMatrix(hid_t fid, const std::string& location, const std::string& v
     }
     delete[] dimsAsHsize_t;
 
-    hid_t plist = setCompression(dimsValue, useCompression);
+    hid_t plist = setCompression(dimsValue, useCompression, sizeof(double));
     hid_t dataset_id
         = H5Dcreate(fid, h5path.c_str(), type_id, dspace_id, H5P_DEFAULT, plist, H5P_DEFAULT);
     H5Pclose(plist);
