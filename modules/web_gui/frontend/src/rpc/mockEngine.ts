@@ -39,6 +39,7 @@ import type {
 } from './types';
 import { decodePointPairs } from '../panels/figureMarkers';
 import { mockFigureAction } from './mockFigureActions';
+import { contentStamp } from '../editor/externalChange';
 //=============================================================================
 // Base64 little-endian float32 pairs, the vertex format of the real display list.
 function encodePointPairsMock(points: [number, number][]): string {
@@ -605,9 +606,16 @@ export class MockEngine {
 
       case 'editor.open':
         return this.editorOpen(String(params.path ?? ''));
-      case 'editor.save':
-        this.files.set(this.workspacePath(String(params.path)), String(params.content ?? ''));
-        return { ok: true };
+      case 'editor.save': {
+        const content = String(params.content ?? '');
+        this.files.set(this.workspacePath(String(params.path)), content);
+        return { ok: true, stamp: contentStamp(content) };
+      }
+      case 'editor.stat': {
+        const path = String(params.path ?? '');
+        const resolved = this.files.has(path) ? path : this.workspacePath(path);
+        return contentStamp(this.files.get(resolved) ?? null);
+      }
       case 'code.analyze':
         return this.codeAnalyze(String(params.path ?? ''), String(params.source ?? ''));
       case 'debugger.getBreakpoints':
@@ -1749,7 +1757,12 @@ export class MockEngine {
   private editorOpen(path: string): EditorOpenResult {
     const resolved = this.files.has(path) ? path : this.workspacePath(path);
     const content = this.files.get(resolved) ?? '';
-    return { path, content, language: path.endsWith('.m') ? 'nelson' : 'plaintext' };
+    return {
+      path,
+      content,
+      language: path.endsWith('.m') ? 'nelson' : 'plaintext',
+      stamp: contentStamp(this.files.get(resolved) ?? null),
+    };
   }
   //=============================================================================
   private fsCreate(params: Record<string, unknown>): { ok: true; path: string } {

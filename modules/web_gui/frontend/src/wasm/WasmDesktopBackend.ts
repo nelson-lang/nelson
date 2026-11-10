@@ -17,6 +17,7 @@ import { isMatrixOnlyFrame, mergeMatrixOnlyFrame } from './figureFrameCache';
 import { setWasmFigureView } from './figureView';
 import type {
   DrawPrimitive,
+  EditorFileStamp,
   FigureDisplayListResult,
   FigureImageResult,
   FsEntry,
@@ -49,6 +50,7 @@ import {
   recordWasmFigureReceived,
 } from './wasmFigureProfile';
 import { resolveSelectionType } from '../panels/figureMouseEvents';
+import { contentStamp } from '../editor/externalChange';
 //=============================================================================
 const WORKSPACE = '/workspace';
 const DEFAULT_NMM_REGISTRY =
@@ -467,6 +469,8 @@ export class WasmDesktopBackend implements LocalRpcBackend {
         return this.openEditor(String(params.path ?? ''));
       case 'editor.save':
         return this.saveEditor(String(params.path ?? ''), String(params.content ?? ''));
+      case 'editor.stat':
+        return this.statEditor(String(params.path ?? ''));
       case 'code.analyze':
         return this.client.analyzeCode(String(params.path ?? ''), String(params.source ?? ''));
       case 'profile.info':
@@ -2973,27 +2977,41 @@ export class WasmDesktopBackend implements LocalRpcBackend {
   //=============================================================================
   private async openEditor(
     path: string
-  ): Promise<{ path: string; content: string; language: string }> {
+  ): Promise<{ path: string; content: string; language: string; stamp: EditorFileStamp }> {
     const workspacePath = this.browserFilePath(path || 'untitled.m');
     await this.materializeBrowserExample(workspacePath);
-    let content = '';
+    let bytes: Uint8Array | null = null;
     try {
-      content = new TextDecoder().decode(await this.client.readFile(workspacePath));
+      bytes = await this.client.readFile(workspacePath);
     } catch {
       // A new buffer is materialized in the virtual filesystem on its first save.
     }
     return {
       path,
-      content,
+      content: bytes ? new TextDecoder().decode(bytes) : '',
       language: /\.m$/i.test(workspacePath) ? 'nelson' : 'plaintext',
+      stamp: contentStamp(bytes),
     };
   }
   //=============================================================================
-  private async saveEditor(path: string, content: string): Promise<{ ok: true; path: string }> {
+  // The virtual filesystem keeps no file times: the version is a content fingerprint.
+  private async statEditor(path: string): Promise<EditorFileStamp> {
+    try {
+      return contentStamp(await this.client.readFile(this.browserFilePath(path || 'untitled.m')));
+    } catch {
+      return contentStamp(null);
+    }
+  }
+  //=============================================================================
+  private async saveEditor(
+    path: string,
+    content: string
+  ): Promise<{ ok: true; path: string; stamp: EditorFileStamp }> {
     const workspacePath = this.browserFilePath(path || 'untitled.m');
-    await this.client.writeFile(workspacePath, new TextEncoder().encode(content));
+    const bytes = new TextEncoder().encode(content);
+    await this.client.writeFile(workspacePath, bytes);
     emitLocalPush('fs.changed', { path: workspacePath });
-    return { ok: true, path: workspacePath };
+    return { ok: true, path: workspacePath, stamp: contentStamp(bytes) };
   }
 }
 //=============================================================================

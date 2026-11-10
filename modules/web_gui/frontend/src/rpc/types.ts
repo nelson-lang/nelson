@@ -475,10 +475,21 @@ export interface MenuNode {
   children?: MenuNode[];
 }
 //=============================================================================
+// editor.stat: one version of a file on disk; version changes whenever the file does
+export interface EditorFileStamp {
+  exists: boolean;
+  version: string;
+  size: number;
+}
 export interface EditorOpenResult {
   path: string;
   content: string;
   language: string;
+  stamp?: EditorFileStamp;
+}
+export interface EditorSaveResult {
+  ok: boolean;
+  stamp?: EditorFileStamp;
 }
 //=============================================================================
 // debugger.state: where and why the debugger is paused (same fields as the Qt editor)

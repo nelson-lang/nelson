@@ -25,7 +25,9 @@ import type {
   DebuggerCommand,
   DebuggerEvaluateResult,
   DebuggerState,
+  EditorFileStamp,
   EditorOpenResult,
+  EditorSaveResult,
 } from '../rpc/types';
 import { DesktopIcon } from '../components/DesktopIcon';
 import { BreakpointPopover } from '../components/BreakpointPopover';
@@ -41,6 +43,7 @@ import {
   type EditorBreakpoint,
 } from '../editor/debugDecorations';
 import { subscribeTranslations, t, tf } from '../i18n';
+import { externalChangeAction, rpcFailureReason } from '../editor/externalChange';
 //=============================================================================
 setupMonaco();
 //=============================================================================
@@ -335,6 +338,12 @@ export function EditorPanel({
   const [conditionError, setConditionError] = useState('');
   const [errorBreakpoints, setErrorBreakpoints] = useState({ error: false, caughtError: false });
   const [notice, setNotice] = useState('');
+  // the file on disk as last opened, saved or kept; checks compare against it
+  const stampRef = useRef<EditorFileStamp | null>(null);
+  const diskStampRef = useRef<EditorFileStamp | null>(null);
+  const savingRef = useRef(0);
+  const checkGenRef = useRef(0);
+  const [diskChanged, setDiskChanged] = useState(false);
   const noticeTimerRef = useRef<number | undefined>(undefined);
   const [engineBusy, setEngineBusy] = useState(isEngineBusy());
   const prefsOffRef = useRef<(() => void) | null>(null);
@@ -370,6 +379,10 @@ export function EditorPanel({
     setNotice(text);
     if (noticeTimerRef.current) window.clearTimeout(noticeTimerRef.current);
     noticeTimerRef.current = window.setTimeout(() => setNotice(''), 6000);
+  };
+  const showWriteError = (file: string, error: unknown) => {
+    const reason = rpcFailureReason(error);
+    showNotice(`${t('Cannot write file: ')}${file}${reason ? ` (${t(reason)})` : ''}`);
   };
   const currentLineOf = (decorationId: string): number | null => {
     const model = editorRef.current?.getModel();
@@ -572,11 +585,82 @@ export function EditorPanel({
   useEffect(() => {
     rpc<EditorOpenResult>('editor.open', { path })
       .then((r) => {
+        stampRef.current = r.stamp ?? null;
         setContent(r.content);
         setLanguage(r.language);
         setReady(true);
       })
       .catch(() => setReady(true));
+  }, [path]);
+
+  // replaces the buffer with the file on disk; undo can still bring the old text back
+  const reloadFromDisk = async (automatic: boolean) => {
+    const gen = ++checkGenRef.current;
+    let r: EditorOpenResult;
+    try {
+      r = await rpc<EditorOpenResult>('editor.open', { path });
+    } catch {
+      return;
+    }
+    const model = editorRef.current?.getModel();
+    if (!model || gen !== checkGenRef.current || savingRef.current) return;
+    if (model.getValue() !== r.content) {
+      model.pushEditOperations(
+        [],
+        [{ range: model.getFullModelRange(), text: r.content }],
+        () => null
+      );
+    }
+    stampRef.current = r.stamp ?? null;
+    savedVersionRef.current = model.getAlternativeVersionId();
+    dirtyRef.current = false;
+    setDiskChanged(false);
+    if (automatic) showNotice(tf('File %1 was reloaded from disk.', baseName(path)));
+    await syncBreakpoints();
+    runAnalyze();
+  };
+  const keepBuffer = () => {
+    if (diskStampRef.current) stampRef.current = diskStampRef.current;
+    setDiskChanged(false);
+  };
+  // compares the file on disk with the one the buffer came from (no timer: zero idle cost)
+  const checkDisk = () => {
+    if (!stampRef.current || savingRef.current || !editorRef.current) return;
+    const gen = ++checkGenRef.current;
+    rpc<EditorFileStamp>('editor.stat', { path })
+      .then((current) => {
+        if (gen !== checkGenRef.current || savingRef.current) return;
+        const action = externalChangeAction(stampRef.current, current, dirtyRef.current);
+        if (action === 'forget') {
+          stampRef.current = current;
+          setDiskChanged(false);
+        } else if (action === 'reload') {
+          void reloadFromDisk(true);
+        } else if (action === 'ask') {
+          diskStampRef.current = current;
+          setDiskChanged(true);
+        }
+      })
+      .catch(() => undefined);
+  };
+  const checkDiskRef = useRef(checkDisk);
+  checkDiskRef.current = checkDisk;
+  useEffect(() => {
+    const check = () => checkDiskRef.current();
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') check();
+    };
+    window.addEventListener('focus', check);
+    document.addEventListener('visibilitychange', onVisible);
+    // commands typed at the prompt may write the file too
+    const offReady = onEngineReady(check);
+    const offFs = onPush('fs.changed', check);
+    return () => {
+      window.removeEventListener('focus', check);
+      document.removeEventListener('visibilitychange', onVisible);
+      offReady();
+      offFs();
+    };
   }, [path]);
 
   useEffect(() => subscribeScheme(setScheme), []);
@@ -770,13 +854,22 @@ export function EditorPanel({
     const moves = breakpointMoves(bpRef.current, currentLineOf);
     const pending = pendingBreakpoints(bpRef.current, currentLineOf);
     const wasPaused = debugRef.current.paused;
+    const version = model.getAlternativeVersionId();
+    savingRef.current += 1;
+    checkGenRef.current += 1;
     try {
-      await rpc('editor.save', { path, content: editor.getValue() });
-    } catch {
+      const r = await rpc<EditorSaveResult>('editor.save', { path, content: editor.getValue() });
+      stampRef.current = r?.stamp ?? stampRef.current;
+      setDiskChanged(false);
+    } catch (e) {
+      // the buffer stays modified
+      showWriteError(path, e);
       return false;
+    } finally {
+      savingRef.current -= 1;
     }
-    savedVersionRef.current = model.getAlternativeVersionId();
-    dirtyRef.current = false;
+    savedVersionRef.current = version;
+    dirtyRef.current = model.getAlternativeVersionId() !== version;
     if (wasPaused) {
       await debugCommand('quit');
       showNotice(t('Debugging ended: the file was saved while paused.'));
@@ -838,7 +931,7 @@ export function EditorPanel({
     if (!target || target === path) return;
     rpc('editor.save', { path: target, content: editor.getValue() })
       .then(() => openEditor(target))
-      .catch(() => undefined);
+      .catch((e) => showWriteError(target, e));
   };
 
   const act = (id: string) => editorRef.current?.getAction(id)?.run();
@@ -1360,6 +1453,22 @@ export function EditorPanel({
       {notice && (
         <div className="editor-notice" role="status">
           {notice}
+        </div>
+      )}
+      {diskChanged && (
+        <div className="editor-notice editor-notice--disk" role="alert">
+          <span className="editor-notice__text">
+            {tf(
+              'File %1 was modified by an external software.\nDo you want to reopen it?',
+              baseName(path)
+            ).replace(/\n/g, ' ')}
+          </span>
+          <button type="button" onClick={() => void reloadFromDisk(false)}>
+            {t('Reload')}
+          </button>
+          <button type="button" onClick={keepBuffer}>
+            {t('Keep')}
+          </button>
         </div>
       )}
       {debug.running && (

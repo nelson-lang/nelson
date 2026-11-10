@@ -1159,7 +1159,9 @@ describe('WebAssembly desktop backend', () => {
     const fixture = clientFixture();
     const backend = new WasmDesktopBackend(fixture.client);
 
-    await expect(backend.handle('editor.open', { path: 'script.m' }, signal)).resolves.toEqual({
+    await expect(
+      backend.handle('editor.open', { path: 'script.m' }, signal)
+    ).resolves.toMatchObject({
       path: 'script.m',
       content: '',
       language: 'nelson',
@@ -1169,7 +1171,9 @@ describe('WebAssembly desktop backend', () => {
       { path: 'script.m', content: 'editorAnswer = 73;' },
       signal
     );
-    await expect(backend.handle('editor.open', { path: 'script.m' }, signal)).resolves.toEqual({
+    await expect(
+      backend.handle('editor.open', { path: 'script.m' }, signal)
+    ).resolves.toMatchObject({
       path: 'script.m',
       content: 'editorAnswer = 73;',
       language: 'nelson',
@@ -1181,13 +1185,36 @@ describe('WebAssembly desktop backend', () => {
     backend.dispose();
   });
 
+  it('stamps editor files so the editor sees changes made outside it', async () => {
+    const fixture = clientFixture();
+    const backend = new WasmDesktopBackend(fixture.client);
+
+    const saved = (await backend.handle(
+      'editor.save',
+      { path: 'stamped.m', content: 'a = 1;' },
+      signal
+    )) as { stamp: unknown };
+    await expect(backend.handle('editor.stat', { path: 'stamped.m' }, signal)).resolves.toEqual(
+      saved.stamp
+    );
+    await fixture.client.writeFile('/workspace/stamped.m', new TextEncoder().encode('a = 2;'));
+    await expect(backend.handle('editor.stat', { path: 'stamped.m' }, signal)).resolves.not.toEqual(
+      saved.stamp
+    );
+    fixture.client.readFile.mockRejectedValueOnce(new Error('no such file'));
+    await expect(backend.handle('editor.stat', { path: 'gone.m' }, signal)).resolves.toMatchObject({
+      exists: false,
+    });
+    backend.dispose();
+  });
+
   it('opens and saves packaged module sources without rewriting their path', async () => {
     const fixture = clientFixture();
     const backend = new WasmDesktopBackend(fixture.client);
     const path = '/modules/graphics/examples/portable_peaks.m';
 
     await backend.handle('editor.save', { path, content: 'plot(1:3);' }, signal);
-    await expect(backend.handle('editor.open', { path }, signal)).resolves.toEqual({
+    await expect(backend.handle('editor.open', { path }, signal)).resolves.toMatchObject({
       path,
       content: 'plot(1:3);',
       language: 'nelson',
@@ -1230,7 +1257,7 @@ describe('WebAssembly desktop backend', () => {
     });
     const path = '/modules/graphics/examples/portable_peaks.m';
 
-    await expect(backend.handle('editor.open', { path }, signal)).resolves.toEqual({
+    await expect(backend.handle('editor.open', { path }, signal)).resolves.toMatchObject({
       path,
       content: 'surf(peaks)\n',
       language: 'nelson',
@@ -1312,7 +1339,7 @@ describe('WebAssembly desktop backend', () => {
     });
     const path = '/modules/graphics/examples/portable_peaks.m';
 
-    await expect(backend.handle('editor.open', { path }, signal)).resolves.toEqual({
+    await expect(backend.handle('editor.open', { path }, signal)).resolves.toMatchObject({
       path,
       content: 'surf(peaks)\n',
       language: 'nelson',

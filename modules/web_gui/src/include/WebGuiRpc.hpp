@@ -212,6 +212,9 @@ private:
     editorOpen(const nlohmann::json& params);
     nlohmann::json
     editorSave(const nlohmann::json& params);
+    // editor.stat {path} -> {exists, version, size}: the version changes when the file does
+    nlohmann::json
+    editorStat(const nlohmann::json& params);
     nlohmann::json
     codeAnalyze(const nlohmann::json& params);
     // debugger.* methods share one implementation with the wasm bridge (DebuggerJson)

@@ -441,6 +441,9 @@ WebGuiRpc::handle(const std::string& method, const nlohmann::json& params)
     if (method == "editor.save") {
         return editorSave(params);
     }
+    if (method == "editor.stat") {
+        return editorStat(params);
+    }
     if (method == "code.analyze") {
         return codeAnalyze(params);
     }
@@ -2259,20 +2262,59 @@ WebGuiRpc::shellRun(const nlohmann::json& params)
     return { { "output", output }, { "cwd", cwd.generic_string() }, { "exitCode", exitCode } };
 }
 //=============================================================================
+// Identifies one version of a file on disk: the editor compares it to notice external changes.
+static nlohmann::json
+editorFileStamp(const std::filesystem::path& file)
+{
+    std::error_code ec;
+    if (!std::filesystem::is_regular_file(file, ec)) {
+        return { { "exists", false }, { "version", "" }, { "size", 0 } };
+    }
+    const auto size = std::filesystem::file_size(file, ec);
+    const auto written = std::filesystem::last_write_time(file, ec);
+    const std::string version
+        = std::to_string(written.time_since_epoch().count()) + ":" + std::to_string(size);
+    return { { "exists", true }, { "version", version }, { "size", size } };
+}
+//=============================================================================
+// Why a file cannot be written, in the user language.
+static std::string
+editorWriteFailureReason(const std::filesystem::path& file)
+{
+    std::error_code ec;
+    const std::filesystem::path parent = file.parent_path();
+    if (!parent.empty() && !std::filesystem::is_directory(parent, ec)) {
+        return _("The folder does not exist.");
+    }
+    if (std::filesystem::is_directory(file, ec)) {
+        return _("The path is a folder.");
+    }
+    const std::filesystem::file_status status = std::filesystem::status(file, ec);
+    if (!ec && std::filesystem::exists(status)
+        && (status.permissions() & std::filesystem::perms::owner_write)
+            == std::filesystem::perms::none) {
+        return _("The file is read-only.");
+    }
+    return _("Access denied.");
+}
+//=============================================================================
 nlohmann::json
 WebGuiRpc::editorOpen(const nlohmann::json& params)
 {
     const std::string path = params.value("path", std::string());
-    std::ifstream in(std::filesystem::path(utf8_to_wstring(path)), std::ios::binary);
+    const std::filesystem::path file(utf8_to_wstring(path));
+    std::ifstream in(file, std::ios::binary);
     if (!in) {
         throw std::runtime_error("cannot open '" + path + "'");
     }
     std::string content((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
+    in.close();
     const bool isM = path.size() >= 2 && path.substr(path.size() - 2) == ".m";
     return {
         { "path", path },
         { "content", content },
         { "language", isM ? "nelson" : "plaintext" },
+        { "stamp", editorFileStamp(file) },
     };
 }
 //=============================================================================
@@ -2281,12 +2323,24 @@ WebGuiRpc::editorSave(const nlohmann::json& params)
 {
     const std::string path = params.value("path", std::string());
     const std::string content = params.value("content", std::string());
-    std::ofstream out(std::filesystem::path(utf8_to_wstring(path)), std::ios::binary);
+    const std::filesystem::path file(utf8_to_wstring(path));
+    std::ofstream out(file, std::ios::binary);
     if (!out) {
-        throw std::runtime_error("cannot write '" + path + "'");
+        throw std::runtime_error(editorWriteFailureReason(file));
     }
     out.write(content.data(), (std::streamsize)content.size());
-    return { { "ok", true } };
+    out.close();
+    if (out.fail()) {
+        throw std::runtime_error(_("The file could not be written completely."));
+    }
+    return { { "ok", true }, { "stamp", editorFileStamp(file) } };
+}
+//=============================================================================
+nlohmann::json
+WebGuiRpc::editorStat(const nlohmann::json& params)
+{
+    return editorFileStamp(
+        std::filesystem::path(utf8_to_wstring(params.value("path", std::string()))));
 }
 //=============================================================================
 // Analyzes the editor buffer without saving it; diagnostics are shaped for

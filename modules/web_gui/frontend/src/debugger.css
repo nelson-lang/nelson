@@ -157,6 +157,14 @@
   background: rgba(255, 140, 0, 0.15);
   border-bottom: 1px solid var(--border);
 }
+.nelson-shell .editor-notice--disk {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.nelson-shell .editor-notice--disk .editor-notice__text {
+  flex: 1;
+}
 .nelson-shell .debug-current-statement {
   border-left: 2px solid #2a8f2a;
 }
