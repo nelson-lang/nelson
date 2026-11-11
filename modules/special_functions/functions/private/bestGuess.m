@@ -10,11 +10,14 @@
 function t = bestGuess(residual, varargin)
   % keeps, for each element, the starting point with the smallest residual
   t = varargin{1};
-  best = abs(residual(t, ':'));
+  % only the first column of the residual is its value
+  best = residual(t, ':');
+  best = abs(best(:, 1));
   best(~isfinite(t)) = Inf;
   for k = 2:numel(varargin)
     candidate = varargin{k};
-    r = abs(residual(candidate, ':'));
+    r = residual(candidate, ':');
+    r = abs(r(:, 1));
     r(~isfinite(candidate)) = Inf;
     better = r < best | isnan(best);
     t(better) = candidate(better);

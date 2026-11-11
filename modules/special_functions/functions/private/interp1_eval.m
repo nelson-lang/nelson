@@ -32,10 +32,6 @@ function vq = interp1_eval(x, v, xq, method, extrapMode, extrapValue)
   if n < 2
     error('Nelson:special_functions:notEnoughSamplePoints', 'At least two sample points expected.');
   end
-  dx = diff(x);
-  if any(dx == 0) || ~(all(dx > 0) || all(dx < 0))
-    error('Nelson:interp1:samplePointsNotMonotonic', 'Sample points must be strictly monotonic.');
-  end
 
   originalVector = isvector(v);
   if originalVector
@@ -53,9 +49,13 @@ function vq = interp1_eval(x, v, xq, method, extrapMode, extrapValue)
     vMatrix = reshape(full(v), n, []);
   end
 
-  if dx(1) < 0
-    x = flipud(x);
-    vMatrix = flipud(vMatrix);
+  % unordered sample points are sorted with their values
+  if ~issorted(x)
+    [x, order] = sort(x);
+    vMatrix = vMatrix(order, :);
+  end
+  if any(diff(x) == 0)
+    error('Nelson:interp1:repeatedSamplePoints', 'Sample points must be distinct.');
   end
 
   qSize = size(xq);

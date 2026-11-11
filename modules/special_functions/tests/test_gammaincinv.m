@@ -26,3 +26,16 @@ assert_checkerror('gammaincinv([0.5; 0.6], [1 2])', _('Inputs must have the same
 assert_checkerror('gammaincinv(0.5, -1)', _('A must be nonnegative.'));
 assert_checkerror('gammaincinv(0.5, 2, ''foo'')', _('Tail must be ''lower'' or ''upper''.'));
 %=============================================================================
+% tails far from 0.5 are solved on the smaller tail
+assert_isapprox(gammaincinv(1e-300, 5, 'upper'), 713.8859780649442, 1e-13);
+assert_isapprox(gammaincinv(1e-100, 50, 'upper'), 376.43878236368579, 1e-13);
+assert_isapprox(gammaincinv(1e-300, 1000), 233.92836429004888, 1e-11);
+assert_isapprox(gammaincinv(1 - 1e-10, 5), 34.083808975952067, 1e-13);
+assert_isapprox(gammaincinv(1 - 1e-10, 2, 'upper'), 1.4142202875898018e-05, 1e-12);
+assert_isapprox(gammaincinv(0.5, 1e5), 99999.666666864199, 1e-13);
+%=============================================================================
+% every element converges
+y = linspace(0.01, 0.99, 2000);
+a = linspace(0.5, 20, 2000);
+assert_isapprox(gammainc(gammaincinv(y, a), a), y, 1e-12);
+%=============================================================================

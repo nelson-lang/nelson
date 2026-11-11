@@ -41,3 +41,15 @@ assert_isequal(gammainc([Inf 1], [2 Inf]), [1 0]);
 assert_isequal(gammainc(Inf, 2, 'upper'), 0);
 assert_isequal(gammainc(single(Inf), single(3)), single(1));
 %=============================================================================
+% tiny upper tails are not rounded to zero
+assert_isapprox(gammainc(700, 5, 'upper'), 9.9203914798000074e-295, 1e-12);
+assert_isapprox(gammainc(690, 5, 'upper'), 2.0630697080063586e-290, 1e-12);
+assert_isapprox(gammainc(700, 0.5, 'upper'), 2.1010145162642849e-306, 1e-12);
+assert_isapprox(gammainc(720, 1, 'upper'), 2.0322308024183599e-313, 1e-10);
+%=============================================================================
+% large a near x = a
+assert_isapprox(gammainc(1e5, 1e5), 0.50042052211036514, 1e-12);
+assert_isapprox(gammainc(1e6, 1e6), 0.50013298076087254, 1e-12);
+assert_isapprox(gammainc(0.99e6, 1e6), 5.4466446930105589e-24, 1e-9);
+assert_isapprox(gammainc(1.003e6, 1e6), 0.99863825935378192, 1e-12);
+%=============================================================================

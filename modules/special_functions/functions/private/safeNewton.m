@@ -9,6 +9,7 @@
 %=============================================================================
 function t = safeNewton(residual, slope, t, lowLimit, highLimit)
   % Newton iterations on an increasing residual, kept inside a bracket that bisection narrows
+  % an empty slope means the residual returns [value, slope] columns
   lo = lowLimit + zeros(size(t), 'like', t);
   hi = highLimit + zeros(size(t), 'like', t);
   tol = 4 * eps(underlyingType(t));
@@ -19,15 +20,24 @@ function t = safeNewton(residual, slope, t, lowLimit, highLimit)
       break
     end
     ta = t(idx);
-    r = residual(ta, idx);
+    if isempty(slope)
+      rd = residual(ta, idx);
+      r = rd(:, 1);
+      d = rd(:, 2);
+    else
+      r = residual(ta, idx);
+      d = slope(ta, idx);
+    end
     above = r > 0;
     hiA = hi(idx);
     loA = lo(idx);
     hiA(above) = ta(above);
     loA(~above) = ta(~above);
-    step = r ./ slope(ta, idx);
+    step = r ./ d;
     next = ta - step;
-    outside = ~(next >= loA & next <= hiA);
+    % a step onto a bracket end can cycle, bisect unless the step is already below tolerance
+    small = abs(next - ta) <= tol * max(1, abs(ta));
+    outside = ~small & ~(next > loA & next < hiA);
     next(outside) = (loA(outside) + hiA(outside)) / 2;
     next(r == 0) = ta(r == 0);
     done = r == 0 | abs(next - ta) <= tol * max(1, abs(ta)) | hiA - loA <= tol * max(1, abs(ta));

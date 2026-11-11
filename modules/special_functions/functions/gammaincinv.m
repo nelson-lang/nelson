@@ -41,22 +41,31 @@ function X = gammaincinv(Y, A, tail)
     zscore = -sqrt(2) * erfcinv(2 * p);
   end
   logGammaA = gammaln(a);
-  residual = @(t, k) gammaResidual(exp(t), a(k), y(k), upper);
-  slope = @(t, k) exp(-exp(t) + a(k) .* t - logGammaA(k));
+  % solve on the smaller tail, its complement 1 - y is exact
+  useUpper = q < p;
   smallGuess = (log(p) + gammaln(a + 1)) ./ a;
   w = 1 - 1 ./ (9 * a) + zscore ./ (3 * sqrt(a));
   normalGuess = log(a .* max(w, 1e-3) .^ 3);
   tailGuess = log(max(-log(q) - logGammaA, a));
+  logTarget = log(min(p, q));
+  residual = @(t, k) gammaResidual(t, a(k), logTarget(k), logGammaA(k), useUpper(k));
   t = bestGuess(residual, smallGuess, normalGuess, tailGuess);
-  X(work) = exp(safeNewton(residual, slope, t, -745, 709));
+  x = exp(safeNewton(residual, [], t, -745, 709));
+  X(work) = x;
 end
 %=============================================================================
-function r = gammaResidual(x, a, y, upper)
-  % residual that increases with x
-  if upper
-    r = y - gammainc(x, a, 'upper');
+function rs = gammaResidual(t, a, logTarget, logGammaA, useUpper)
+  % log residual that increases with x = exp(t), and its slope in t, as two columns
+  x = exp(t);
+  if ~any(useUpper)
+    logTail = log(gammainc(x, a));
+  elseif all(useUpper)
+    logTail = log(gammainc(x, a, 'upper'));
   else
-    r = gammainc(x, a) - y;
+    % products by 0 and 1 are exact
+    logTail = log(gammainc(x, a) .* ~useUpper + gammainc(x, a, 'upper') .* useUpper);
   end
+  r = (logTail - logTarget) .* (1 - 2 * useUpper);
+  rs = [r, exp(-x + a .* t - logGammaA - logTail)];
 end
 %=============================================================================

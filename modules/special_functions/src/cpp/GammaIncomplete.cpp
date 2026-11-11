@@ -32,35 +32,53 @@ maxDimensions(Dimensions& a, Dimensions& b)
     return ret;
 }
 //=============================================================================
-// Regularized lower incomplete gamma function P(x, a), computed with a series
-// expansion for x < a + 1 and a continued fraction otherwise.
+// log(x^a * exp(-x) / gamma(a)), with a Stirling form for large a that avoids cancellation
 template <typename T>
 static T
-gammainc_lower_reg(T x, T a)
+gammaincLogPrefactor(T x, T a)
+{
+    if (a < (T)100) {
+        return -x + a * std::log(x) - std::lgamma(a);
+    }
+    const T d = (x - a) / a;
+    const T inv = (T)1 / a;
+    const T inv2 = inv * inv;
+    const T correction
+        = inv * ((T)1 / 12 - inv2 * ((T)1 / 360 - inv2 * ((T)1 / 1260 - inv2 / 1680)));
+    return a * (std::log1p(d) - d) + (T)0.5 * std::log(a / (T)6.283185307179586477) - correction;
+}
+//=============================================================================
+// Regularized incomplete gamma functions P(x, a) and Q(x, a): series for x < a + 1,
+// continued fraction otherwise, so the small tail never comes from 1 - (1 - tail).
+template <typename T>
+static void
+gammainc_reg(T x, T a, T& P, T& Q)
 {
     const T EPS = std::numeric_limits<T>::epsilon();
     const T FPMIN = std::numeric_limits<T>::min() / EPS;
-    if (a == (T)0) {
-        return (x > (T)0) ? (T)1 : (T)0;
-    }
-    if (x == (T)0) {
-        return (T)0;
-    }
     if (std::isnan(x) || std::isnan(a)) {
-        return std::numeric_limits<T>::quiet_NaN();
+        P = Q = std::numeric_limits<T>::quiet_NaN();
+        return;
     }
     // the lower tail tends to 1 when x grows and to 0 when a grows
-    if (std::isinf(x)) {
-        return (T)1;
+    if ((a == (T)0 && x > (T)0) || std::isinf(x)) {
+        P = (T)1;
+        Q = (T)0;
+        return;
     }
-    if (std::isinf(a)) {
-        return (T)0;
+    if (x == (T)0 || std::isinf(a)) {
+        P = (T)0;
+        Q = (T)1;
+        return;
     }
+    const T logPrefactor = gammaincLogPrefactor(x, a);
+    // both expansions need about sqrt(a) terms near x = a
+    const int maxTerms = 1000 + (int)std::min((T)1e8, (T)20 * std::sqrt(a));
     if (x < a + (T)1) {
         T ap = a;
         T del = (T)1 / a;
         T sum = del;
-        for (int n = 0; n < 1000; ++n) {
+        for (int n = 0; n < maxTerms; ++n) {
             ap += (T)1;
             del *= x / ap;
             sum += del;
@@ -68,14 +86,16 @@ gammainc_lower_reg(T x, T a)
                 break;
             }
         }
-        return sum * std::exp(-x + a * std::log(x) - std::lgamma(a));
+        P = std::exp(logPrefactor + std::log(sum));
+        Q = (T)1 - P;
+        return;
     }
-    // continued fraction (Lentz) yields the upper Q(x, a); return 1 - Q
+    // continued fraction (Lentz) for Q
     T b = x + (T)1 - a;
     T c = (T)1 / FPMIN;
     T d = (T)1 / b;
     T h = d;
-    for (int i = 1; i <= 1000; ++i) {
+    for (int i = 1; i <= maxTerms; ++i) {
         T an = (T)(-i) * ((T)i - a);
         b += (T)2;
         d = an * d + b;
@@ -93,8 +113,8 @@ gammainc_lower_reg(T x, T a)
             break;
         }
     }
-    T Q = std::exp(-x + a * std::log(x) - std::lgamma(a)) * h;
-    return (T)1 - Q;
+    Q = std::exp(logPrefactor + std::log(h));
+    P = (T)1 - Q;
 }
 //=============================================================================
 template <class T>
@@ -111,8 +131,9 @@ GammaIncomplete(const Dimensions& retDims, NelsonType destinationType, indexType
     for (ompIndexType i = 0; i < (ompIndexType)maxLen; ++i) {
         T x = (X.isScalar()) ? ptrX[0] : ptrX[i];
         T a = (A.isScalar()) ? ptrA[0] : ptrA[i];
-        T p = gammainc_lower_reg<T>(x, a);
-        result[i] = isLower ? p : ((T)1 - p);
+        T P, Q;
+        gammainc_reg<T>(x, a, P, Q);
+        result[i] = isLower ? P : Q;
     }
     return res;
 }

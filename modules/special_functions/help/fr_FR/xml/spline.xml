@@ -5,7 +5,7 @@
   <syntax><syntax_item>yq = spline(x, y, xq)</syntax_item><syntax_item>pp = spline(x, y)</syntax_item></syntax>
   <param_input><param_input_item><param_name>x</param_name><param_description>Points d'echantillonnage.</param_description></param_input_item><param_input_item><param_name>y</param_name><param_description>Valeurs echantillonnees.</param_description></param_input_item><param_input_item><param_name>xq</param_name><param_description>Points de requete.</param_description></param_input_item></param_input>
   <param_output><param_output_item><param_name>yq</param_name><param_description>Valeurs interpolees.</param_description></param_output_item><param_output_item><param_name>pp</param_name><param_description>Structure polynomiale par morceaux.</param_description></param_output_item></param_output>
-  <description><p><b>spline</b> evalue une spline cubique not-a-knot ou retourne sa forme polynomiale par morceaux.</p></description>
+  <description><p><b>spline</b> evalue une spline cubique not-a-knot ou retourne sa forme polynomiale par morceaux.</p><p>Les points d'échantillonnage peuvent être donnés dans n'importe quel ordre ; ils sont triés avec leurs valeurs. Les points où <b>x</b> ou <b>y</b> vaut NaN sont ignorés avec un avertissement, et des points d'échantillonnage répétés provoquent une erreur.</p></description>
   <used_function /><bibliography />
   <examples><example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="cli"><![CDATA[yq = spline(1:4, [0 1 0 1], [1.5 2.5])]]></example_item_data></example_item></examples>
   <see_also><see_also_item><link linkend="${special_functions}interp1">interp1</link></see_also_item></see_also>

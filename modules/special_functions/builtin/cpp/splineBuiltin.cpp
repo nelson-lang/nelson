@@ -176,6 +176,50 @@ evaluateSpline(const std::vector<double>& x, const std::vector<double>& coefs, c
 //=============================================================================
 } // namespace
 //=============================================================================
+// drops NaN points, sorts the sites and rejects repeated ones
+static void
+prepareSites(std::vector<double>& x, std::vector<double>& y)
+{
+    size_t kept = 0;
+    for (size_t k = 0; k < x.size(); ++k) {
+        if (!std::isnan(x[k]) && !std::isnan(y[k])) {
+            x[kept] = x[k];
+            y[kept] = y[k];
+            ++kept;
+        }
+    }
+    if (kept != x.size()) {
+        Warning(L"Nelson:spline:nanIgnored", L"NaN sample points and their values were ignored.");
+        x.resize(kept);
+        y.resize(kept);
+    }
+    if (x.size() < 2) {
+        Error(L"Nelson:special_functions:notEnoughSamplePoints",
+            L"At least two sample points expected.");
+    }
+    if (!std::is_sorted(x.begin(), x.end())) {
+        std::vector<size_t> order(x.size());
+        for (size_t k = 0; k < order.size(); ++k) {
+            order[k] = k;
+        }
+        std::stable_sort(
+            order.begin(), order.end(), [&x](size_t a, size_t b) { return x[a] < x[b]; });
+        std::vector<double> xs(x.size());
+        std::vector<double> ys(y.size());
+        for (size_t k = 0; k < order.size(); ++k) {
+            xs[k] = x[order[k]];
+            ys[k] = y[order[k]];
+        }
+        x.swap(xs);
+        y.swap(ys);
+    }
+    for (size_t k = 1; k < x.size(); ++k) {
+        if (x[k] == x[k - 1]) {
+            Error(L"Nelson:spline:repeatedSites", L"Sample points must be distinct.");
+        }
+    }
+}
+//=============================================================================
 ArrayOfVector
 Nelson::SpecialFunctionsGateway::splineBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
@@ -186,16 +230,7 @@ Nelson::SpecialFunctionsGateway::splineBuiltin(int nLhs, const ArrayOfVector& ar
     if (x.size() != y.size()) {
         Error(L"Nelson:dimagree:xYLengthX", L"X and Y must have the same length.");
     }
-    if (x.size() < 2) {
-        Error(L"Nelson:special_functions:notEnoughSamplePoints",
-            L"At least two sample points expected.");
-    }
-    for (size_t k = 1; k < x.size(); ++k) {
-        if (!(x[k] > x[k - 1])) {
-            Error(L"Nelson:interp:samplePointsNotIncreasing",
-                L"Sample points must be strictly increasing.");
-        }
-    }
+    prepareSites(x, y);
     std::vector<double> coefs = splineCoefs(x, y);
     ArrayOfVector retval;
     if (argIn.size() == 3) {
