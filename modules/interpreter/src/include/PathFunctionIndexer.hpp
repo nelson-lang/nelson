@@ -35,8 +35,16 @@ public:
     // index alone and the call touches the disk at most once.
     bool
     findFuncName(const std::string& functionName, std::wstring& filename, bool probeDisk) const;
-    std::unordered_map<std::string, FileFunction*>
+    const std::unordered_map<std::string, FileFunction*>&
     getAllFileFunctions() const;
+
+    // Identity of a directory (empty when unknown); compared without disk access.
+    static std::string
+    directoryIdentity(const std::wstring& path);
+
+    // Same answer as Path::equivalent, but needs no disk access when identities are known.
+    bool
+    isSameDirectory(const std::wstring& normalizedPath, const std::string& pathIdentity) const;
 
     // True once the directory has changed since the last rehash, and resets
     // the reference so that the next call only reports the next change.
@@ -61,6 +69,7 @@ private:
     std::unordered_map<std::string, FileFunction*> mapAllFiles;
     std::unordered_map<std::string, FileFunction*> mapRecentFiles;
     std::wstring _path;
+    std::string _identity;
     bool
     isSupportedFuncFilename(const std::wstring& name);
     bool

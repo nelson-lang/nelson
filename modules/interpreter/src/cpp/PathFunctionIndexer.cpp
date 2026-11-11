@@ -21,6 +21,11 @@
 #include "FileSystemWrapper.hpp"
 #include "OverloadName.hpp"
 #include "NelsonConfiguration.hpp"
+#ifdef _MSC_VER
+#include <Windows.h>
+#endif
+#include <algorithm>
+#include <cwctype>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -33,7 +38,60 @@ PathFunctionIndexer::PathFunctionIndexer(const std::wstring& path, bool withWatc
     } else {
         _path.clear();
     }
+    _identity = directoryIdentity(_path);
     rehash();
+}
+//=============================================================================
+std::string
+PathFunctionIndexer::directoryIdentity(const std::wstring& path)
+{
+#ifdef _MSC_VER
+    // Volume serial + file id: the pair std::filesystem::equivalent compares.
+    if (path.empty()) {
+        return {};
+    }
+    HANDLE handle = CreateFileW(path.c_str(), FILE_READ_ATTRIBUTES,
+        FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, nullptr, OPEN_EXISTING,
+        FILE_FLAG_BACKUP_SEMANTICS, nullptr);
+    if (handle == INVALID_HANDLE_VALUE) {
+        return {};
+    }
+    std::string identity;
+    FILE_ID_INFO info;
+    if (GetFileInformationByHandleEx(handle, FileIdInfo, &info, sizeof(info))) {
+        identity.assign(reinterpret_cast<const char*>(&info), sizeof(info));
+    }
+    CloseHandle(handle);
+    return identity;
+#else
+    return {};
+#endif
+}
+//=============================================================================
+bool
+PathFunctionIndexer::isSameDirectory(
+    const std::wstring& normalizedPath, const std::string& pathIdentity) const
+{
+    if (_path.size() == normalizedPath.size()) {
+#ifdef _MSC_VER
+        if (std::equal(_path.begin(), _path.end(), normalizedPath.begin(),
+                [](wchar_t a, wchar_t b) { return towlower(a) == towlower(b); })) {
+            return true;
+        }
+#else
+        if (_path == normalizedPath) {
+            return true;
+        }
+#endif
+    }
+    if (!pathIdentity.empty() && !_identity.empty()) {
+        return pathIdentity == _identity;
+    }
+    // A directory that no longer exists is not the same as another one.
+    std::error_code errorCode;
+    const bool same = nfs::equivalent(nfs::path(FileSystemWrapper::Path(_path).native()),
+        nfs::path(FileSystemWrapper::Path(normalizedPath).native()), errorCode);
+    return !errorCode && same;
 }
 //=============================================================================
 bool
@@ -53,7 +111,7 @@ PathFunctionIndexer::startFileWatcher()
 #endif
 }
 //=============================================================================
-std::unordered_map<std::string, FileFunction*>
+const std::unordered_map<std::string, FileFunction*>&
 PathFunctionIndexer::getAllFileFunctions() const
 {
     return mapAllFiles;

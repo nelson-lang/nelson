@@ -35,7 +35,8 @@ Nelson::FunctionsGateway::rmpathBuiltin(Evaluator* eval, int nLhs, const ArrayOf
                         L"Nelson:functions_manager:warningPath", L"Warning: Not in path:")
                         + L" " + pathToRemove + L"\n");
             }
-        } else {
+        } else if (!PathFunctionIndexerManager::getInstance()->removePath(pathToRemove)) {
+            // A deleted directory still on the path is removed without warning.
             RaiseWarning(L"Nelson:rmpath:notADirectory",
                 resolveMessageTemplate(
                     L"Nelson:functions_manager:warningDirectory", L"Warning: Not a directory:")

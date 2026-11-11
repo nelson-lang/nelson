@@ -190,7 +190,7 @@ PathFunctionIndexerManager::refreshFunctionsMap()
         if (pathFunc == nullptr) {
             return;
         }
-        auto fileFunctions = pathFunc->getAllFileFunctions();
+        const auto& fileFunctions = pathFunc->getAllFileFunctions();
         refreshed.reserve(refreshed.size() + fileFunctions.size());
         refreshed.insert(fileFunctions.begin(), fileFunctions.end());
     };
@@ -459,12 +459,46 @@ bool
 PathFunctionIndexerManager::addPath(const std::wstring& path, bool begin, bool frozen)
 {
     std::lock_guard<std::recursive_mutex> lock(m_mutex);
+    if (!addPathWithoutRefresh(path, begin, frozen)) {
+        return false;
+    }
+    refreshFunctionsMap();
+    return true;
+}
+//=============================================================================
+size_t
+PathFunctionIndexerManager::addPaths(const wstringVector& paths, bool begin, bool frozen)
+{
+    std::lock_guard<std::recursive_mutex> lock(m_mutex);
+    size_t added = 0;
+    try {
+        for (const auto& path : paths) {
+            if (addPathWithoutRefresh(path, begin, frozen)) {
+                added++;
+            }
+        }
+    } catch (...) {
+        // Keep the map in step with the directories already added, as addPath does.
+        if (added > 0) {
+            refreshFunctionsMap();
+        }
+        throw;
+    }
+    if (added > 0) {
+        refreshFunctionsMap();
+    }
+    return added;
+}
+//=============================================================================
+bool
+PathFunctionIndexerManager::addPathWithoutRefresh(const std::wstring& path, bool begin, bool frozen)
+{
     const auto normalizedPath = FileSystemWrapper::Path::normalize(path);
 
+    const std::string identity = PathFunctionIndexer::directoryIdentity(normalizedPath);
     auto it = std::find_if(_pathFuncVector.begin(), _pathFuncVector.end(),
-        [&normalizedPath](const PathFunctionIndexer* x) {
-            return FileSystemWrapper::Path::equivalent(x->getPath(), normalizedPath);
-        });
+        [&normalizedPath, &identity](
+            const PathFunctionIndexer* x) { return x->isSameDirectory(normalizedPath, identity); });
 
     if (it != _pathFuncVector.end()) {
         return false;
@@ -487,8 +521,6 @@ PathFunctionIndexerManager::addPath(const std::wstring& path, bool begin, bool f
         if (!frozen) {
             _pathWatchFuncVector.emplace_back(rawPtr);
         }
-
-        refreshFunctionsMap();
         return true;
     } catch (const std::bad_alloc&) {
         return false;
@@ -499,10 +531,11 @@ bool
 PathFunctionIndexerManager::removePath(const std::wstring& path)
 {
     std::lock_guard<std::recursive_mutex> lock(m_mutex);
-    auto it = std::find_if(
-        _pathFuncVector.begin(), _pathFuncVector.end(), [&path](const PathFunctionIndexer* x) {
-            return FileSystemWrapper::Path::equivalent(x->getPath(), path);
-        });
+    const std::wstring normalizedPath = FileSystemWrapper::Path::normalize(path);
+    const std::string identity = PathFunctionIndexer::directoryIdentity(normalizedPath);
+    auto it = std::find_if(_pathFuncVector.begin(), _pathFuncVector.end(),
+        [&normalizedPath, &identity](
+            const PathFunctionIndexer* x) { return x->isSameDirectory(normalizedPath, identity); });
 
     if (it == _pathFuncVector.end()) {
         return false;
@@ -595,12 +628,13 @@ PathFunctionIndexerManager::rehash(const std::wstring& path)
             return;
         }
     }
+    const std::wstring normalizedPath = FileSystemWrapper::Path::normalize(path);
+    const std::string identity = PathFunctionIndexer::directoryIdentity(normalizedPath);
     for (std::vector<PathFunctionIndexer*>::reverse_iterator it = _pathFuncVector.rbegin();
         it != _pathFuncVector.rend(); ++it) {
         PathFunctionIndexer* pf = *it;
         if (pf) {
-            FileSystemWrapper::Path p1 { pf->getPath() }, p2 { path };
-            if (FileSystemWrapper::Path::equivalent(p1, p2)) {
+            if (pf->isSameDirectory(normalizedPath, identity)) {
                 pf->rehash();
                 return;
             }

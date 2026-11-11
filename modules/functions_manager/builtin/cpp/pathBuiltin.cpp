@@ -18,8 +18,38 @@
 #include "NelsonPrint.hpp"
 #include "StringHelpers.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "FileSystemWrapper.hpp"
+#include "Warning.hpp"
 //=============================================================================
 using namespace Nelson;
+//=============================================================================
+// Directories of a path string, in order; missing ones are skipped with a warning.
+static wstringVector
+existingDirectories(const std::wstring& pathString)
+{
+    wstringVector parts;
+#ifdef _MSC_VER
+    StringHelpers::split(parts, pathString, L';');
+#else
+    StringHelpers::split(parts, pathString, L':');
+#endif
+    wstringVector directories;
+    directories.reserve(parts.size());
+    for (const auto& part : parts) {
+        if (part.empty()) {
+            continue;
+        }
+        if (FileSystemWrapper::Path::is_directory(part)) {
+            directories.push_back(part);
+        } else {
+            RaiseWarning(L"Nelson:path:notADirectory",
+                resolveMessageTemplate(
+                    L"Nelson:functions_manager:warningDirectory", L"Warning: Not a directory:")
+                    + L" " + part + L"\n");
+        }
+    }
+    return directories;
+}
 //=============================================================================
 ArrayOfVector
 Nelson::FunctionsGateway::pathBuiltin(int nLhs, const ArrayOfVector& argIn)
@@ -50,21 +80,11 @@ Nelson::FunctionsGateway::pathBuiltin(int nLhs, const ArrayOfVector& argIn)
             Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
                 L"string");
         }
-        std::wstring p = param1.asWideString();
-        wstringVector paths;
-#ifdef _MSC_VER
-        StringHelpers::split(paths, p, L';');
-#else
-        StringHelpers::split(paths, p, L':');
-#endif
+        wstringVector paths = existingDirectories(param1.asWideString());
         PathFunctionIndexerManager::getInstance()->clearUserPath();
         PathFunctionIndexerManager::getInstance()->clear();
-        wstringVector::reverse_iterator it;
-        for (it = paths.rbegin(); it != paths.rend(); ++it) {
-            if (!it->empty()) {
-                PathFunctionIndexerManager::getInstance()->addPath(*it, true, false);
-            }
-        }
+        PathFunctionIndexerManager::getInstance()->addPaths(
+            wstringVector(paths.rbegin(), paths.rend()), true, false);
     }
     if (argIn.size() == 2) {
         ArrayOf param1 = argIn[0];
@@ -77,30 +97,13 @@ Nelson::FunctionsGateway::pathBuiltin(int nLhs, const ArrayOfVector& argIn)
             Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (2),
                 L"string");
         }
-        std::wstring p1 = param1.asWideString();
-        std::wstring p2 = param2.asWideString();
-        wstringVector paths1;
-#ifdef _MSC_VER
-        StringHelpers::split(paths1, p1, L';');
-#else
-        StringHelpers::split(paths1, p1, L':');
-#endif
-        wstringVector paths2;
-#ifdef _MSC_VER
-        StringHelpers::split(paths2, p2, L';');
-#else
-        StringHelpers::split(paths2, p2, L':');
-#endif
+        wstringVector paths1 = existingDirectories(param1.asWideString());
+        wstringVector paths2 = existingDirectories(param2.asWideString());
         PathFunctionIndexerManager::getInstance()->clearUserPath();
         PathFunctionIndexerManager::getInstance()->clear();
-        wstringVector::reverse_iterator rit;
-        wstringVector::iterator it;
-        for (rit = paths1.rbegin(); rit != paths1.rend(); ++rit) {
-            PathFunctionIndexerManager::getInstance()->addPath(*rit, true, false);
-        }
-        for (it = paths2.begin(); it != paths2.end(); ++it) {
-            PathFunctionIndexerManager::getInstance()->addPath(*it, false, false);
-        }
+        PathFunctionIndexerManager::getInstance()->addPaths(
+            wstringVector(paths1.rbegin(), paths1.rend()), true, false);
+        PathFunctionIndexerManager::getInstance()->addPaths(paths2, false, false);
     }
     return retval;
 }

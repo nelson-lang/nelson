@@ -76,6 +76,10 @@ private:
     void
     refreshFunctionsMap();
 
+    // Called with m_mutex held; the caller refreshes the functions map.
+    bool
+    addPathWithoutRefresh(const std::wstring& path, bool begin, bool frozen);
+
     bool _filesWatcherStarted;
     bool _currentDirectorySearchEnabled = true;
 
@@ -109,6 +113,9 @@ public:
 
     bool
     addPath(const std::wstring& path, bool begin, bool frozen);
+    // Same as addPath in order, with one functions map refresh; returns how many were added.
+    size_t
+    addPaths(const wstringVector& paths, bool begin, bool frozen);
     bool
     removePath(const std::wstring& path);
     wstringVector
