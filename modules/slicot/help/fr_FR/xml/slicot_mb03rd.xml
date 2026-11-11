@@ -60,7 +60,7 @@
     <param_output_item>
       <param_name>BLSIZE</param_name>
       <param_description
-      >Les NBLCKS premiers éléments de ce tableau contiennent les ordres des blocs diagonaux résultants de la matrice A.</param_description>
+      >vecteur ligne int32 : les NBLCKS premiers éléments contiennent les ordres des blocs diagonaux résultants de la matrice A.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>WR</param_name>
@@ -122,6 +122,10 @@ X_IN = zeros(N, N);
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>BLSIZE est retourné en ordres de blocs int32.</history_description>
     </history_item>
   </history>
   <authors>

@@ -41,8 +41,9 @@ asserts.isapprox(A_OUT, A_OUT_REF, 1e-4);
 NBLCKS_REF = int32(2);
 asserts.isequal(NBLCKS, NBLCKS_REF);
 %=============================================================================
-BLSIZE_REF = [0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000];
-asserts.isapprox(BLSIZE, BLSIZE_REF, 1e-4);
+BLSIZE_REF = int32([6 2 0 0 0 0 0 0]);
+asserts.isequal(BLSIZE, BLSIZE_REF);
+asserts.isequal(sum(double(BLSIZE(1:NBLCKS))), N);
 %=============================================================================
 WR_REF = [1.0000, 1.0000, 1.0000, 1.0000, 1.0000, 1.0000, 1.0000, 1.0000];
 asserts.isapprox(WR, WR_REF, 1e-4);

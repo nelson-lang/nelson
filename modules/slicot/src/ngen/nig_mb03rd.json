@@ -79,7 +79,7 @@
     },
     {
       "NAME": "BLSIZE",
-      "TYPE": "double_array",
+      "TYPE": "integer_array",
       "MODE": "output",
       "VALUE": [],
       "DIMENSION_M": "1",

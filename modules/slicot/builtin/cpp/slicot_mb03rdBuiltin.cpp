@@ -23,7 +23,7 @@ extern "C"
 #endif
     extern SLICOT_SUBROUTINE
     mb03rd_(const char* JOBX, const char* SORT, int* N, double* PMAX, double* A, int* LDA,
-        double* X, int* LDX, int* NBLCKS, double* BLSIZE, double* WR, double* WI, double* TOL,
+        double* X, int* LDX, int* NBLCKS, int* BLSIZE, double* WR, double* WI, double* TOL,
         double* DWORK, int* INFO SLICOT_STRLEN_DECL(2));
 #ifdef __cplusplus
 }
@@ -82,8 +82,8 @@ Nelson::SlicotGateway::slicot_mb03rdBuiltin(int nLhs, const ArrayOfVector& argIn
     // OUTPUT VARIABLES
     ArrayOf NBLCKS_output = ArrayOf::int32RowVector(1);
     int* NBLCKS_output_ptr = (int*)NBLCKS_output.dataPointer();
-    ArrayOf BLSIZE_output = ArrayOf::doubleMatrix2d((indexType)1, (indexType)(int)A.columns());
-    double* BLSIZE_output_ptr = (double*)BLSIZE_output.dataPointer();
+    ArrayOf BLSIZE_output = ArrayOf::int32Matrix2d((indexType)1, (indexType)(int)A.columns());
+    int* BLSIZE_output_ptr = (int*)BLSIZE_output.dataPointer();
     ArrayOf WR_output = ArrayOf::doubleMatrix2d((indexType)1, (indexType)(int)A.columns());
     double* WR_output_ptr = (double*)WR_output.dataPointer();
     ArrayOf WI_output = ArrayOf::doubleMatrix2d((indexType)1, (indexType)(int)A.columns());

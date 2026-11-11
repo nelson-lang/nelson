@@ -60,7 +60,7 @@
     <param_output_item>
       <param_name>BLSIZE</param_name>
       <param_description
-      >The first NBLCKS elements of this array contain the orders of the resulting diagonal blocks of the matrix A.</param_description>
+      >int32 row vector: the first NBLCKS elements contain the orders of the resulting diagonal blocks of the matrix A.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>WR</param_name>
@@ -122,6 +122,10 @@ X_IN = zeros(N, N);
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>BLSIZE is returned as int32 block orders.</history_description>
     </history_item>
   </history>
   <authors>
