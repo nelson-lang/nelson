@@ -24,7 +24,7 @@
   </param_output>
   <description>
     <p>This is the method-style form of assert_isapprox.</p>
-    <p>The initial relative comparison follows isapprox. When absTol is positive, an additional elementwise comparison accepts numeric arrays of equal dimensions when every difference is at most max(absTol, relTol * max(abs(expected), abs(computed))). Real and imaginary components are checked separately. Matching NaNs and infinities of the same sign are accepted.</p>
+    <p>The initial relative comparison follows isapproxnorm. When absTol is positive, an additional elementwise comparison accepts numeric arrays of equal dimensions when every difference is at most max(absTol, relTol * max(abs(expected), abs(computed))). Real and imaginary components are checked separately. Matching NaNs and infinities of the same sign are accepted.</p>
     <p>The absolute comparison supports sparse/sparse and sparse/full inputs, including implicit zeros and different sparsity patterns. Sparse/sparse comparisons visit the union of stored coordinates without expanding the arrays to full storage. A mixed comparison visits the full input and the stored sparse coefficients. Failure diagnostics include the first differing coordinate.</p>
   </description>
   <used_function />

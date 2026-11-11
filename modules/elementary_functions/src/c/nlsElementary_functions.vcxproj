@@ -216,6 +216,7 @@
     <ClCompile Include="..\cpp\Exponential.cpp" />
     <ClCompile Include="..\cpp\ImagPart.cpp" />
     <ClCompile Include="..\cpp\IsApprox.cpp" />
+    <ClCompile Include="..\cpp\IsApproxNorm.cpp" />
     <ClCompile Include="..\cpp\IsEqual.cpp" />
     <ClCompile Include="..\cpp\IsFinite.cpp" />
     <ClCompile Include="..\cpp\IsInf.cpp" />
@@ -254,6 +255,7 @@
     <ClInclude Include="..\include\Hypotenuse.hpp" />
     <ClInclude Include="..\include\ImagPart.hpp" />
     <ClInclude Include="..\include\IsApprox.hpp" />
+    <ClInclude Include="..\include\IsApproxNorm.hpp" />
     <ClInclude Include="..\include\IsEqual.hpp" />
     <ClInclude Include="..\include\RationalApproximation.hpp" />
     <ClInclude Include="..\include\IsEqualNaN.hpp" />

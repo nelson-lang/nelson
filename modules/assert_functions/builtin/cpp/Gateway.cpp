@@ -48,12 +48,13 @@ static const nlsGateway gateway[] = {
     ASSERTS_BUILTIN_WITH_FLAG(
         "checkerror", assert_checkerrorBuiltin, 2, -2, CPP_BUILTIN_WITH_EVALUATOR),
     { "assert_isequal", (ptrBuiltin)Nelson::AssertFunctionsGateway::assert_isequalBuiltin, 2, -2,
-        CPP_BUILTIN_WITH_EVALUATOR },
-    ASSERTS_BUILTIN_WITH_FLAG("isequal", assert_isequalBuiltin, 2, -2, CPP_BUILTIN_WITH_EVALUATOR),
-    { "assert_isapprox", (ptrBuiltin)Nelson::AssertFunctionsGateway::assert_isapproxBuiltin, 2, -2,
-        CPP_BUILTIN_WITH_EVALUATOR },
+        CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE },
     ASSERTS_BUILTIN_WITH_FLAG(
-        "isapprox", assert_isapproxBuiltin, 2, -2, CPP_BUILTIN_WITH_EVALUATOR),
+        "isequal", assert_isequalBuiltin, 2, -2, CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE),
+    { "assert_isapprox", (ptrBuiltin)Nelson::AssertFunctionsGateway::assert_isapproxBuiltin, 2, -2,
+        CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE },
+    ASSERTS_BUILTIN_WITH_FLAG(
+        "isapprox", assert_isapproxBuiltin, 2, -2, CPP_BUILTIN_WITH_EVALUATOR_NO_CALLER_WORKSPACE),
     ASSERTS_BUILTIN("size", assert_sizeBuiltin, 2, 2),
     ASSERTS_BUILTIN("class", assert_classBuiltin, 2, 2),
     ASSERTS_BUILTIN("empty", assert_emptyBuiltin, 2, 1),

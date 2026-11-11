@@ -69,12 +69,13 @@ S_REF_2 = [-0.6928 -0.3883 0.2739 -0.3070 0;
   0 0 0 -0.7071 -1.4142];
 
 REF_CASE = 0;
-if isapprox(S, S_REF_1, 1e-4)
+if all(isapprox(S, S_REF_1, 'AbsoluteTolerance', 1e-4), 'all')
   REF_CASE = 1;
 else
   REF_CASE = 2;
 end
-asserts.istrue(isapprox(S, S_REF_1, 1e-4) || isapprox(S, S_REF_2, 1e-4));
+isRef2 = all(isapprox(S, S_REF_2, 'AbsoluteTolerance', 1e-4), 'all');
+asserts.istrue(REF_CASE == 1 || isRef2);
 %=============================================================================
 T_REF_1 = [1.0000 0.0000 -0.0000 -0.0000;
   0.0000 0.8987 -0.0000 -0.2707;

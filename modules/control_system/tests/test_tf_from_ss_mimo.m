@@ -40,7 +40,9 @@ sys = tf(ss([0 1; -2 -3], [0; 1], [1 0; 0 1; 1 1], [0; 0; 0], 0.1));
 asserts.isequal(size(sys), [3 1]);
 asserts.isequal(sys.Ts, 0.1);
 asserts.isequal(sys.Variable, 'z');
-asserts.isequal(sys.Numerator, {[0 0 1]; [0 1 0]; [0 1 1]});
+% Third channel goes through null(): reference itself is a few ulps off
+asserts.isequal(sys.Numerator(1:2), {[0 0 1]; [0 1 0]});
+asserts.isapprox(sys.Numerator{3}, [0 1 1], 1e-14);
 asserts.isequal(sys.Denominator, {[1 3 2]; [1 3 2]; [1 3 2]});
 %=============================================================================
 % Metadata follows the model

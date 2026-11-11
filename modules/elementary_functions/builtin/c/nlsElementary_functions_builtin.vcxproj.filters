@@ -45,6 +45,9 @@
     <ClCompile Include="..\cpp\isapproxBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\isapproxnormBuiltin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\cpp\isequalBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -245,6 +248,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\isapproxBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\isapproxnormBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\isequalBuiltin.hpp">

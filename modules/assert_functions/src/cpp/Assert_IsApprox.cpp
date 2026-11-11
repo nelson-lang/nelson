@@ -16,7 +16,9 @@
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "Assert_IsApprox.hpp"
+#include "BuiltInFunctionDef.hpp"
 #include "ClassName.hpp"
+#include "IsApproxNorm.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
 //=============================================================================
@@ -225,6 +227,15 @@ formatDetailedMessage(Evaluator* eval, const ArrayOf& computedArray, const Array
     return message;
 }
 //=============================================================================
+// numeric inputs skip the call when isapproxnorm is the builtin and no overload is known
+static bool
+reachesBuiltinRule(
+    Evaluator* eval, FunctionDef* funcDef, const ArrayOf& computed, const ArrayOf& expected)
+{
+    return funcDef->type() == NLS_BUILT_IN_FUNCTION && computed.isNumeric() && expected.isNumeric()
+        && static_cast<BuiltInFunctionDef*>(funcDef)->skipsOverloadFor(eval, computed);
+}
+//=============================================================================
 bool
 Assert_IsApprox(Evaluator* eval, const ArrayOf& computedArray, const ArrayOf& expectedArray,
     double precision, std::wstring& msg)
@@ -239,9 +250,12 @@ Assert_IsApprox(Evaluator* eval, const ArrayOf& computedArray, const ArrayOf& ex
     bool bRes = false;
     Context* context = eval->getContext();
     FunctionDef* funcDef = nullptr;
-    std::string IsApproxName = "isapprox";
+    std::string IsApproxName = "isapproxnorm";
     if (context->lookupFunction(IsApproxName, funcDef)) {
-        if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION)) {
+        if (reachesBuiltinRule(eval, funcDef, computedArray, expectedArray)) {
+            bRes = IsApproxNorm(computedArray, expectedArray, relativeTolerance);
+        } else if ((funcDef->type() == NLS_BUILT_IN_FUNCTION)
+            || (funcDef->type() == NLS_MACRO_FUNCTION)) {
             ArrayOfVector argInCopy(3);
             argInCopy << computedArray;
             argInCopy << expectedArray;
@@ -249,22 +263,22 @@ Assert_IsApprox(Evaluator* eval, const ArrayOf& computedArray, const ArrayOf& ex
             try {
                 ArrayOfVector resVect = funcDef->evaluateFunction(eval, argInCopy, 1);
                 if (resVect.size() != 1) {
-                    Error(L"Nelson:asserts:invalidComparisonFunction:isapproxMultipleOutputs",
-                        L"isapprox returns more than one output argument.");
+                    Error(L"Nelson:asserts:invalidComparisonFunction:isapproxnormMultipleOutputs",
+                        L"isapproxnorm returns more than one output argument.");
                 }
                 ArrayOf r = resVect[0];
                 if (r.isScalar() && r.isLogical()) {
                     bRes = r.asLogicalScalar() ? true : false;
                 } else {
-                    Error(L"Nelson:asserts:invalidComparisonFunction:isapproxNotLogical",
-                        L"isapprox must return an logical.");
+                    Error(L"Nelson:asserts:invalidComparisonFunction:isapproxnormNotLogical",
+                        L"isapproxnorm must return a logical.");
                 }
             } catch (const NelsonException&) {
                 throw;
             }
         }
     } else {
-        Error(L"Nelson:asserts:missingFunction:isapprox", L"isapprox function not found.");
+        Error(L"Nelson:asserts:missingFunction:isapproxnorm", L"isapproxnorm function not found.");
     }
     if (!bRes && absoluteTolerance > 0. && computedArray.isNumeric() && expectedArray.isNumeric()
         && computedArray.dimensions().equals(expectedArray.dimensions())) {

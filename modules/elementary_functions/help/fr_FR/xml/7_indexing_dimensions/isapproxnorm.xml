@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>isapproxnorm</keyword>
+  <short_description>Détermine l'égalité approchée de tableaux entiers avec une norme.</short_description>
+  <syntax>
+    <syntax_item>TF = isapproxnorm(A, B)</syntax_item>
+    <syntax_item>TF = isapproxnorm(A, B, precision)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A, B</param_name>
+      <param_description
+      >tableaux numériques (double, single, entiers, réels ou complexes, pleins ou creux).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>precision</param_name>
+      <param_description>précision relative : scalaire numérique réel fini positif ou nul, 0 par défaut.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>TF</param_name>
+      <param_description
+      >scalaire logique : vrai si A et B sont approximativement égaux en tant que tableaux entiers.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
+      >TF = isapproxnorm(A, B, precision)</b> compare A et B en tant que tableaux entiers et retourne une seule valeur logique.</p>
+    <p
+    >A et B sont approximativement égaux si norm(A - B, 'fro') &lt;= precision * min(norm(A, 'fro'), norm(B, 'fro')).</p>
+    <p
+    >Les parties réelles et imaginaires sont contrôlées séparément. Les valeurs NaN, Inf et -Inf doivent être aux mêmes positions dans A et B, puis sont exclues des normes.</p>
+    <p
+    >Un grand élément peut absorber une petite erreur sur les autres éléments, contrairement à la comparaison élément par élément de isapprox.</p>
+    <p
+    >A et B doivent avoir les mêmes dimensions, sinon le résultat est faux. Deux tableaux vides sont égaux si leurs dimensions sont égales.</p>
+    <p
+    >Si A ou B est creux, les deux tableaux doivent avoir la même structure de valeurs non nulles.</p>
+    <p
+    >Les valeurs sont converties en double précision avant la comparaison, et les très grandes valeurs sont mises à l'échelle pour que les normes ne débordent pas. Avec une précision de 0, A et B doivent être égaux.</p>
+    <p>assert_isapprox utilise isapproxnorm pour sa comparaison relative.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Comparaison de tableaux entiers</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[isapproxnorm([1 1e5], [2 1e5], 1e-3)
+isapprox([1 1e5], [2 1e5], 'RelativeTolerance', 1e-3)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Valeurs spéciales</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[isapproxnorm([1 NaN Inf], [1 NaN Inf], eps)
+isapproxnorm([NaN 1], [1 NaN], eps)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${elementary_functions}isapprox">isapprox</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${assert_functions}assert_isapprox">assert_isapprox</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}norm">norm</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description
+      >version initiale, reprend la comparaison de tableaux entiers de l'ancien isapprox.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

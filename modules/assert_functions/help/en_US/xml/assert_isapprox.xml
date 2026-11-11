@@ -28,7 +28,7 @@
     <p>Absolute tolerance applies to sparse and full numeric arrays, including implicit sparse zeros, with the same rules as asserts.isapprox.</p>
     <p>For complete documentation, use <link linkend="${assert_functions}asserts.isapprox">asserts.isapprox</link>.</p>
   </description>
-  <used_function>isapprox</used_function>
+  <used_function>isapproxnorm</used_function>
   <bibliography />
   <examples>
     <example_item><example_item_type>nelson</example_item_type><example_item_description>Historical call</example_item_description><example_item_data runnable="cli"><![CDATA[assert_isapprox(1.23456, 1.23457, 1e-5);]]></example_item_data></example_item>
@@ -36,7 +36,7 @@
   </examples>
   <see_also>
     <see_also_item><link linkend="${assert_functions}asserts.isapprox">asserts.isapprox</link></see_also_item>
-    <see_also_item><link linkend="${elementary_functions}isapprox">isapprox</link></see_also_item>
+    <see_also_item><link linkend="${elementary_functions}isapproxnorm">isapproxnorm</link></see_also_item>
   </see_also>
   <history>
     <history_item><history_version>1.0.0</history_version><history_description>initial version</history_description></history_item>

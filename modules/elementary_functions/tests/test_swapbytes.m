@@ -14,13 +14,14 @@ R = swapbytes(0);
 asserts.isequal(R, 0);
 %=============================================================================
 R = swapbytes(NaN);
-asserts.isapprox(R, 3.1493e-319);
+% swapped bytes of NaN and Inf are subnormal values
+asserts.isequal(R, 63615 * pow2(-1074));
 %=============================================================================
 R2 = swapbytes(R);
 asserts.isequal(R2, NaN);
 %=============================================================================
 R = swapbytes(Inf);
-asserts.isapprox(R, 3.0418e-319);
+asserts.isequal(R, 61567 * pow2(-1074));
 %=============================================================================
 R = swapbytes(single(1));
 asserts.isapprox(R, single(4.6006e-41));

@@ -13,4 +13,4 @@ A = rand(3000, 3000);
 tic();writematrix(A, filename);toc()
 options = detectImportOptions(filename);
 tic();B = readmatrix(filename,options);toc()
-isapprox(A, B, 1e-3)
+all(isapprox(A, B, 'AbsoluteTolerance', 1e-3), 'all')

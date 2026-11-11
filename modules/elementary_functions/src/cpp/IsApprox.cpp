@@ -7,251 +7,241 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "lapack_eigen_config.hpp"
-#include <Eigen/Dense>
-#include <Eigen/Sparse>
-#include <vector>
+#include <algorithm>
+#include <array>
+#include <cmath>
+#include <complex>
+#include "nlsBuildConfig.h"
+#include "omp_for_loop.hpp"
 #include "IsApprox.hpp"
-#include "RealPart.hpp"
-#include "ImagPart.hpp"
-#include "SparseType.hpp"
+#include "Error.hpp"
+#include "ErrorID.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static bool
-isApproxValue(double a, double b, double precision)
-{
-    if (std::isnan(a) || std::isnan(b)) {
-        return std::isnan(a) && std::isnan(b);
+namespace {
+    //=============================================================================
+    inline bool
+    approxValue(double a, double b, double absTol, double relTol)
+    {
+        if (!(std::isfinite(a) && std::isfinite(b))) {
+            return a == b;
+        }
+        double d = std::fabs(a - b);
+        return d <= absTol || d <= relTol * std::max(std::fabs(a), std::fabs(b));
     }
-    if (std::isinf(a) || std::isinf(b)) {
-        return a == b;
+    //=============================================================================
+    inline bool
+    approxValue(
+        const std::complex<double>& a, const std::complex<double>& b, double absTol, double relTol)
+    {
+        if (!(std::isfinite(a.real()) && std::isfinite(a.imag()) && std::isfinite(b.real())
+                && std::isfinite(b.imag()))) {
+            return a == b;
+        }
+        double d = std::abs(a - b);
+        return d <= absTol || d <= relTol * std::max(std::abs(a), std::abs(b));
     }
-    Eigen::Matrix<double, 1, 1> valueA;
-    Eigen::Matrix<double, 1, 1> valueB;
-    valueA(0) = a;
-    valueB(0) = b;
-    return valueA.isApprox(valueB, precision);
-}
-//=============================================================================
-static bool
-isApproxValue(const doublecomplex& a, const doublecomplex& b, double precision)
-{
-    return isApproxValue(a.real(), b.real(), precision)
-        && isApproxValue(a.imag(), b.imag(), precision);
-}
-//=============================================================================
-template <class T>
-bool
-IsApprox(T* ptrA, T* ptrB, const Dimensions& dims, double precision);
-//=============================================================================
-static bool
-SparseValuesIsApprox(std::vector<double>& valuesA, std::vector<double>& valuesB, double precision)
-{
-    Dimensions dims(valuesA.size(), 1);
-    return IsApprox<double>(valuesA.data(), valuesB.data(), dims, precision);
-}
-//=============================================================================
-static bool
-SparseValuesIsApprox(
-    std::vector<doublecomplex>& valuesA, std::vector<doublecomplex>& valuesB, double precision)
-{
-    std::vector<double> realA;
-    std::vector<double> realB;
-    std::vector<double> imagA;
-    std::vector<double> imagB;
-    realA.reserve(valuesA.size());
-    realB.reserve(valuesB.size());
-    imagA.reserve(valuesA.size());
-    imagB.reserve(valuesB.size());
-    for (indexType k = 0; k < (indexType)valuesA.size(); ++k) {
-        realA.push_back(valuesA[k].real());
-        realB.push_back(valuesB[k].real());
-        imagA.push_back(valuesA[k].imag());
-        imagB.push_back(valuesB[k].imag());
-    }
-    return SparseValuesIsApprox(realA, realB, precision)
-        && SparseValuesIsApprox(imagA, imagB, precision);
-}
-//=============================================================================
-template <class T>
-bool
-SparseIsApprox(const ArrayOf& A, const ArrayOf& B, double precision)
-{
-    const auto* spmatA
-        = static_cast<const Eigen::SparseMatrix<T, 0, signedIndexType>*>(A.sparseDataPointer());
-    const auto* spmatB
-        = static_cast<const Eigen::SparseMatrix<T, 0, signedIndexType>*>(B.sparseDataPointer());
-    if (spmatA->nonZeros() != spmatB->nonZeros()) {
-        return false;
-    }
-    std::vector<T> valuesA;
-    std::vector<T> valuesB;
-    valuesA.reserve(spmatA->nonZeros());
-    valuesB.reserve(spmatB->nonZeros());
-    for (indexType k = 0; k < (indexType)spmatA->outerSize(); ++k) {
-        typename Eigen::SparseMatrix<T, 0, signedIndexType>::InnerIterator itA(*spmatA, k);
-        typename Eigen::SparseMatrix<T, 0, signedIndexType>::InnerIterator itB(*spmatB, k);
-        for (; itA && itB; ++itA, ++itB) {
-            if (itA.row() != itB.row() || itA.col() != itB.col()) {
-                return false;
+    //=============================================================================
+    // operand layout inside the expanded output
+    struct Operand
+    {
+        indexType count = 0;
+        std::array<indexType, MAXDIMS> strides {};
+    };
+    //=============================================================================
+    struct Expansion
+    {
+        Dimensions dims;
+        indexType nDims = 0;
+        std::array<indexType, MAXDIMS> lengths {};
+        std::array<Operand, 4> operands;
+    };
+    //=============================================================================
+    Expansion
+    expandDimensions(const std::array<Dimensions, 4>& inputDims)
+    {
+        Expansion e;
+        indexType nDims = 2;
+        for (const Dimensions& d : inputDims) {
+            nDims = std::max(nDims, d.length());
+        }
+        std::vector<indexType> out(static_cast<size_t>(nDims), 1);
+        for (indexType k = 0; k < nDims; ++k) {
+            indexType len = 1;
+            for (const Dimensions& d : inputDims) {
+                indexType dk = d.dimensionLength(k);
+                if (dk == 1) {
+                    continue;
+                }
+                if (len != 1 && dk != len) {
+                    Error(L"Nelson:sizeDimensionsMustMatch",
+                        L"Arrays have incompatible sizes for this operation.");
+                }
+                len = dk;
             }
-            valuesA.push_back(itA.value());
-            valuesB.push_back(itB.value());
+            out[static_cast<size_t>(k)] = len;
+            e.lengths[k] = len;
         }
-        if (itA || itB) {
-            return false;
-        }
-    }
-    return SparseValuesIsApprox(valuesA, valuesB, precision);
-}
-//=============================================================================
-template <class T>
-std::vector<indexType>
-nanIndices(T* values, indexType nbElements)
-{
-    std::vector<indexType> res;
-    for (indexType k = 0; k < nbElements; k++) {
-        if (std::isnan(values[k])) {
-            res.push_back(k);
-        }
-    }
-    return res;
-}
-//=============================================================================
-template <class T>
-std::vector<indexType>
-infIndices(T* values, indexType nbElements)
-{
-    std::vector<indexType> res;
-    for (indexType k = 0; k < nbElements; k++) {
-        if (std::isinf(values[k]) && (values[k] > 0)) {
-            res.push_back(k);
-        }
-    }
-    return res;
-}
-//=============================================================================
-template <class T>
-std::vector<indexType>
-ninfIndices(T* values, indexType nbElements)
-{
-    std::vector<indexType> res;
-    for (indexType k = 0; k < nbElements; k++) {
-        if (std::isinf(values[k]) && (values[k] < 0)) {
-            res.push_back(k);
-        }
-    }
-    return res;
-}
-//=============================================================================
-template <class T>
-bool
-IsApprox(T* ptrA, T* ptrB, const Dimensions& dims, double precision)
-{
-    bool bRes = false;
-    std::vector<indexType> infA = infIndices<T>(ptrA, dims.elementCount());
-    std::vector<indexType> infB = infIndices<T>(ptrB, dims.elementCount());
-    if (infA.size() != infB.size()) {
-        return false;
-    }
-    for (indexType k = 0; k < (indexType)infA.size(); k++) {
-        if (infA[k] != infB[k]) {
-            return false;
-        }
-        ptrA[infA[k]] = 0;
-        ptrB[infB[k]] = 0;
-    }
-    infA.clear();
-    infB.clear();
-    std::vector<indexType> ninfA = ninfIndices<T>(ptrA, dims.elementCount());
-    std::vector<indexType> ninfB = ninfIndices<T>(ptrB, dims.elementCount());
-    if (ninfA.size() != ninfB.size()) {
-        return false;
-    }
-    for (size_t k = 0; k < ninfA.size(); k++) {
-        if (ninfA[k] != ninfB[k]) {
-            return false;
-        }
-        ptrA[ninfA[k]] = 0;
-        ptrB[ninfB[k]] = 0;
-    }
-    ninfA.clear();
-    ninfB.clear();
-    std::vector<indexType> nanA = nanIndices<T>(ptrA, dims.elementCount());
-    std::vector<indexType> nanB = nanIndices<T>(ptrB, dims.elementCount());
-    if (nanA.size() != nanB.size()) {
-        return false;
-    }
-    for (size_t k = 0; k < nanA.size(); k++) {
-        if (nanA[k] != nanB[k]) {
-            return false;
-        }
-        ptrA[nanA[k]] = 0;
-        ptrB[nanB[k]] = 0;
-    }
-    nanA.clear();
-    nanB.clear();
-    if (!dims.is2D()) {
-        Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA(
-            ptrA, 1, dims.elementCount());
-        Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(
-            ptrB, 1, dims.elementCount());
-        bRes = matA.isApprox(matB, (T)precision);
-    } else {
-        Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matA(
-            ptrA, dims.rows(), dims.columns());
-        Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matB(
-            ptrB, dims.rows(), dims.columns());
-        bRes = matA.isApprox(matB, (T)precision);
-    }
-    return bRes;
-}
-//=============================================================================
-bool
-IsApprox(ArrayOf A, ArrayOf B, double precision)
-{
-    bool bRes = false;
-    if (A.dataClass() == B.dataClass()) {
-        Dimensions dimsA = A.dimensions();
-        Dimensions dimsB = B.dimensions();
-        if (A.isEmpty() || B.isEmpty()) {
-            return dimsA.equals(dimsB);
-        }
-        if (!dimsA.equals(dimsB)) {
-            return false;
-        }
-        if (A.isSparse() || B.isSparse()) {
-            if (!A.isSparse() || !B.isSparse()) {
-                return false;
+        e.nDims = nDims;
+        for (size_t op = 0; op < inputDims.size(); ++op) {
+            indexType stride = 1;
+            for (indexType k = 0; k < nDims; ++k) {
+                indexType dk = inputDims[op].dimensionLength(k);
+                e.operands[op].strides[k] = dk == 1 ? 0 : stride;
+                stride *= dk;
             }
-            if (A.dataClass() == NLS_DOUBLE) {
-                return SparseIsApprox<double>(A, B, precision);
-            }
-            if (A.dataClass() == NLS_DCOMPLEX) {
-                return SparseIsApprox<doublecomplex>(A, B, precision);
-            }
-            return false;
+            e.operands[op].count = inputDims[op].elementCount();
         }
-        if (A.dataClass() == NLS_SINGLE) {
-            auto* ptrA = static_cast<single*>(A.readWriteDataPointer());
-            auto* ptrB = static_cast<single*>(B.readWriteDataPointer());
-            bRes = IsApprox<single>(ptrA, ptrB, dimsA, precision);
-        } else if (A.dataClass() == NLS_DOUBLE) {
-            auto* ptrA = static_cast<double*>(A.readWriteDataPointer());
-            auto* ptrB = static_cast<double*>(B.readWriteDataPointer());
-            bRes = IsApprox<double>(ptrA, ptrB, dimsA, precision);
-        } else if ((A.dataClass() == NLS_DCOMPLEX) || (A.dataClass() == NLS_SCOMPLEX)) {
-            ArrayOf realpartA = RealPart(A);
-            ArrayOf realpartB = RealPart(B);
-            if (IsApprox(realpartA, realpartB, precision)) {
-                ArrayOf imagpartA = ImagPart(A);
-                ArrayOf imagpartB = ImagPart(B);
-                bRes = IsApprox(imagpartA, imagpartB, precision);
+        e.dims = Dimensions(out);
+        e.dims.simplify();
+        return e;
+    }
+    //=============================================================================
+    template <class T>
+    void
+    compareExpanded(const T* a, const T* b, const double* absTol, const double* relTol,
+        logical* out, const Expansion& e)
+    {
+        indexType total = e.dims.elementCount();
+        const auto& ops = e.operands;
+        bool flat = true;
+        for (const Operand& op : ops) {
+            flat = flat && (op.count == total || op.count == 1);
+        }
+        if (flat) {
+            indexType sa = ops[0].count == 1 ? 0 : 1;
+            indexType sb = ops[1].count == 1 ? 0 : 1;
+            indexType st = ops[2].count == 1 ? 0 : 1;
+            indexType sr = ops[3].count == 1 ? 0 : 1;
+            OMP_PARALLEL_FOR_LOOP(total)
+            for (ompIndexType k = 0; k < (ompIndexType)total; ++k) {
+                out[k] = approxValue(a[k * sa], b[k * sb], absTol[k * st], relTol[k * sr]);
+            }
+            return;
+        }
+        // walk the output column by column, keeping one offset per operand
+        std::array<indexType, MAXDIMS> coords {};
+        std::array<indexType, 4> offsets {};
+        indexType inner = e.lengths[0];
+        for (indexType k = 0; k < total; k += inner) {
+            for (indexType i = 0; i < inner; ++i) {
+                out[k + i] = approxValue(a[offsets[0] + i * ops[0].strides[0]],
+                    b[offsets[1] + i * ops[1].strides[0]],
+                    absTol[offsets[2] + i * ops[2].strides[0]],
+                    relTol[offsets[3] + i * ops[3].strides[0]]);
+            }
+            for (indexType d = 1; d < e.nDims; ++d) {
+                coords[d]++;
+                for (size_t op = 0; op < 4; ++op) {
+                    offsets[op] += ops[op].strides[d];
+                }
+                if (coords[d] < e.lengths[d]) {
+                    break;
+                }
+                for (size_t op = 0; op < 4; ++op) {
+                    offsets[op] -= coords[d] * ops[op].strides[d];
+                }
+                coords[d] = 0;
             }
         }
     }
-    return bRes;
+    //=============================================================================
+    void
+    checkIntegerRangeOf(const ArrayOf& value)
+    {
+        constexpr double flintmax = 9007199254740992.;
+        indexType n = value.elementCount();
+        bool tooLarge = false;
+        if (value.dataClass() == NLS_INT64) {
+            const auto* p = static_cast<const int64*>(value.dataPointer());
+            for (indexType k = 0; k < n && !tooLarge; ++k) {
+                tooLarge = p[k] > (int64)flintmax || p[k] < -(int64)flintmax;
+            }
+        } else if (value.dataClass() == NLS_UINT64) {
+            const auto* p = static_cast<const uint64*>(value.dataPointer());
+            for (indexType k = 0; k < n && !tooLarge; ++k) {
+                tooLarge = p[k] > (uint64)flintmax;
+            }
+        }
+        if (tooLarge) {
+            Error(L"Nelson:isapprox:integerTooLarge",
+                L"int64 and uint64 values above flintmax cannot be compared exactly.");
+        }
+    }
+    //=============================================================================
+    // full double (or double complex) copy only when the input is not already one
+    ArrayOf
+    asFullDouble(const ArrayOf& value, bool asComplex)
+    {
+        NelsonType target = asComplex ? NLS_DCOMPLEX : NLS_DOUBLE;
+        if (value.dataClass() == target && !value.isSparse()) {
+            return value;
+        }
+        ArrayOf converted(value);
+        if (converted.isSparse()) {
+            converted.makeDense();
+        }
+        converted.promoteType(target);
+        return converted;
+    }
+    //=============================================================================
+}
+//=============================================================================
+void
+IsApproxCheckIntegerRange(const ArrayOf& A, const ArrayOf& B)
+{
+    checkIntegerRangeOf(A);
+    checkIntegerRangeOf(B);
+}
+//=============================================================================
+double
+IsApproxLevelTolerance(IsApproxLevel level, bool singlePrecision)
+{
+    switch (level) {
+    case IsApproxLevel::VeryTight:
+        return singlePrecision ? 5e-7 : 1e-15;
+    case IsApproxLevel::Tight:
+        return singlePrecision ? 1e-6 : 1e-12;
+    case IsApproxLevel::Loose:
+        return singlePrecision ? 1e-4 : 1e-8;
+    case IsApproxLevel::VeryLoose:
+    default:
+        return singlePrecision ? 1e-2 : 1e-3;
+    }
+}
+//=============================================================================
+ArrayOf
+IsApprox(const ArrayOf& A, const ArrayOf& B, const ArrayOf& absoluteTolerance,
+    const ArrayOf& relativeTolerance)
+{
+    IsApproxCheckIntegerRange(A, B);
+    Expansion e = expandDimensions({ A.dimensions(), B.dimensions(), absoluteTolerance.dimensions(),
+        relativeTolerance.dimensions() });
+    indexType total = e.dims.elementCount();
+    logical* out = static_cast<logical*>(ArrayOf::allocateArrayOf(NLS_LOGICAL, total));
+    ArrayOf result(NLS_LOGICAL, e.dims, out);
+    if (total > 0) {
+        bool asComplex = A.isComplex() || B.isComplex();
+        ArrayOf a = asFullDouble(A, asComplex);
+        ArrayOf b = asFullDouble(B, asComplex);
+        ArrayOf absTol = asFullDouble(absoluteTolerance, false);
+        ArrayOf relTol = asFullDouble(relativeTolerance, false);
+        const auto* pAbs = static_cast<const double*>(absTol.dataPointer());
+        const auto* pRel = static_cast<const double*>(relTol.dataPointer());
+        if (asComplex) {
+            compareExpanded(static_cast<const std::complex<double>*>(a.dataPointer()),
+                static_cast<const std::complex<double>*>(b.dataPointer()), pAbs, pRel, out, e);
+        } else {
+            compareExpanded(static_cast<const double*>(a.dataPointer()),
+                static_cast<const double*>(b.dataPointer()), pAbs, pRel, out, e);
+        }
+    }
+    if (A.isSparse() && B.isSparse()) {
+        result.makeSparse();
+    }
+    return result;
 }
 //=============================================================================
 } // namespace Nelson

@@ -24,7 +24,7 @@
   </param_output>
   <description>
     <p>Forme methode de assert_isapprox.</p>
-    <p>La comparaison relative initiale suit isapprox. Quand absTol est positive, une comparaison supplémentaire accepte les tableaux numériques de mêmes dimensions si chaque différence est au plus max(absTol, relTol * max(abs(expected), abs(computed))). Les parties réelles et imaginaires sont contrôlées séparément. Les NaN correspondants et les infinis de même signe sont acceptés.</p>
+    <p>La comparaison relative initiale suit isapproxnorm. Quand absTol est positive, une comparaison supplémentaire accepte les tableaux numériques de mêmes dimensions si chaque différence est au plus max(absTol, relTol * max(abs(expected), abs(computed))). Les parties réelles et imaginaires sont contrôlées séparément. Les NaN correspondants et les infinis de même signe sont acceptés.</p>
     <p>La comparaison absolue accepte les entrées creuses/creuses et creuses/pleines, y compris les zéros implicites et des motifs de stockage différents. Deux tableaux creux sont comparés sur l'union de leurs coordonnées stockées, sans conversion en tableaux pleins. Un cas mixte parcourt le tableau plein et les coefficients creux stockés. Le diagnostic indique la première coordonnée différente.</p>
   </description>
   <used_function />

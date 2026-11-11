@@ -33,12 +33,15 @@ target_include_directories(${module_library_name}
     ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/fmt/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_functions/src/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
 )
 
 target_link_libraries(${module_library_name}
   PRIVATE
     nlsCommons
     nlsCore
+    nlsElementary_functions
     nlsI18n
     nlsError_manager
     nlsInterpreter

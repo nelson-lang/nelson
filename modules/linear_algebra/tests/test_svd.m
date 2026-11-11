@@ -272,7 +272,9 @@ V_REF_MKL = [-0.5774, -0.5774;
   -0.5774, -0.2113];
 asserts.isapprox(abs(U), abs(U_REF), 1e-4);
 asserts.isapprox(S, S_REF, 1e-4);
-asserts.istrue(isapprox(abs(V), abs(V_REF), 1e-4) || isapprox(V, V_REF_MKL, 1e-4));
+isRef = all(isapprox(abs(V), abs(V_REF), 'AbsoluteTolerance', 1e-4), 'all');
+isRefMkl = all(isapprox(V, V_REF_MKL, 'AbsoluteTolerance', 1e-4), 'all');
+asserts.istrue(isRef || isRefMkl);
 %=============================================================================
 A = ones(3, 3);
 [U1, S1, V1] = svd(A, 'econ');
@@ -299,7 +301,7 @@ S2_REF = [2.4495 0.0000;
   0.0000 0.0000];
 V2_REF = [-0.7071 0.7071;
   -0.7071 -0.7071];
-if isapprox(abs(U), abs(U2_REF), 1e-4)
+if all(isapprox(abs(U), abs(U2_REF), 'AbsoluteTolerance', 1e-4), 'all')
   asserts.isapprox(abs(U), abs(U2_REF), 1e-4);
   asserts.isapprox(S, S2_REF, 1e-4);
   asserts.isapprox(abs(V), abs(V2_REF), 1e-4);
@@ -344,18 +346,18 @@ V2_REF = [-0.7071 0.7071;
 if U(1, 3) < eps
   U(1, 3) = 0;
 end
-if isapprox(U, U1_REF, 1e-4)
+if all(isapprox(U, U1_REF, 'AbsoluteTolerance', 1e-4), 'all')
   asserts.isapprox(U, U1_REF, 1e-4);
   asserts.isapprox(S, S1_REF, 1e-4);
   asserts.isapprox(V, V1_REF, 1e-4);
 end
-if isapprox(U, U2_REF, 1e-4)
+if all(isapprox(U, U2_REF, 'AbsoluteTolerance', 1e-4), 'all')
   asserts.isapprox(U, U2_REF, 1e-4);
 end
-if isapprox(U, U3_REF, 1e-4)
+if all(isapprox(U, U3_REF, 'AbsoluteTolerance', 1e-4), 'all')
   asserts.isapprox(U, U3_REF, 1e-4);
 end
-if isapprox(U, U4_REF, 1e-4)
+if all(isapprox(U, U4_REF, 'AbsoluteTolerance', 1e-4), 'all')
   asserts.isapprox(U, U4_REF, 1e-4);
 end
 asserts.isapprox(S, S1_REF, 1e-4);
@@ -378,7 +380,7 @@ S2_REF = [2.4495 0.0000;
   0.0000 0.0000];
 V2_REF = [-0.7071 0.7071;
   -0.7071 -0.7071];
-if isapprox(U, U2_REF, 1e-4)
+if all(isapprox(U, U2_REF, 'AbsoluteTolerance', 1e-4), 'all')
   asserts.isapprox(U, U2_REF, 1e-4);
   asserts.isapprox(S, S2_REF, 1e-4);
   asserts.isapprox(V, V2_REF, 1e-4);
@@ -414,7 +416,7 @@ U2_REF = [-0.5774 0.8165;
   -0.5774 -0.4082];
 S2_REF = [2.4495 0.0000;
   0.0000 0.0000];
-if isapprox(U, U2_REF, 1e-4)
+if all(isapprox(U, U2_REF, 'AbsoluteTolerance', 1e-4), 'all')
   asserts.isapprox(U, U2_REF, 1e-4);
   asserts.isapprox(S, S2_REF, 1e-4);
 else

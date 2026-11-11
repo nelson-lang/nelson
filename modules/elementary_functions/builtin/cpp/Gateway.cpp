@@ -23,6 +23,7 @@
 #include "floorBuiltin.hpp"
 #include "imagBuiltin.hpp"
 #include "isapproxBuiltin.hpp"
+#include "isapproxnormBuiltin.hpp"
 #include "isequalBuiltin.hpp"
 #include "isequalnBuiltin.hpp"
 #include "isequalwithequalnansBuiltin.hpp"
@@ -113,6 +114,7 @@ static const nlsGateway gateway[] = {
     { "complex", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::complexBuiltin, 1, 2 },
     { "numel", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::numelBuiltin, 1, 1 },
     { "isapprox", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::isapproxBuiltin, 1, -2 },
+    { "isapproxnorm", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::isapproxnormBuiltin, 1, -2 },
     { "ceil", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::ceilBuiltin, 1, 1 },
     { "floor", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::floorBuiltin, 1, 1 },
     { "fix", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::fixBuiltin, 1, 1 },

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>isapproxnorm</keyword>
+  <short_description>Determine approximate equality of whole arrays with a norm.</short_description>
+  <syntax>
+    <syntax_item>TF = isapproxnorm(A, B)</syntax_item>
+    <syntax_item>TF = isapproxnorm(A, B, precision)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A, B</param_name>
+      <param_description
+      >numeric arrays (double, single, integer, real or complex, full or sparse).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>precision</param_name>
+      <param_description>relative precision: nonnegative finite real numeric scalar, 0 by default.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>TF</param_name>
+      <param_description
+      >logical scalar: true when A and B are approximately equal as whole arrays.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b
+      >TF = isapproxnorm(A, B, precision)</b> compares A and B as whole arrays and returns a single logical value.</p>
+    <p
+    >A and B are approximately equal when norm(A - B, 'fro') &lt;= precision * min(norm(A, 'fro'), norm(B, 'fro')).</p>
+    <p
+    >Real and imaginary parts are checked separately. NaN, Inf and -Inf values must be at the same places in A and B, and are then left out of the norms.</p>
+    <p
+    >A large element can absorb a small error on other elements, unlike the element-wise comparison of isapprox.</p>
+    <p
+    >A and B must have the same dimensions, otherwise the result is false. Two empty arrays are equal when their dimensions are equal.</p>
+    <p
+    >When A or B is sparse, both arrays must have the same pattern of nonzero values.</p>
+    <p
+    >Values are converted to double precision before the comparison, and very large values are scaled so that the norms do not overflow. With a precision of 0, A and B must be equal.</p>
+    <p>assert_isapprox uses isapproxnorm for its relative comparison.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Whole-array comparison</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[isapproxnorm([1 1e5], [2 1e5], 1e-3)
+isapprox([1 1e5], [2 1e5], 'RelativeTolerance', 1e-3)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Special values</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[isapproxnorm([1 NaN Inf], [1 NaN Inf], eps)
+isapproxnorm([NaN 1], [1 NaN], eps)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${elementary_functions}isapprox">isapprox</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${assert_functions}assert_isapprox">assert_isapprox</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}norm">norm</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description
+      >initial version, takes over the whole-array comparison of the previous isapprox.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

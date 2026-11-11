@@ -32,14 +32,14 @@ A_OUT_REF = [-20.8327 -4.9442 -5.1842 -4.8002 -9.1683;
   0.0000 5.6174 1.3118 5.2101 1.1875;
   0.2098 0.1959 -5.0402 -1.2461 -3.1571;
   0.0000 0.1511 -0.1597 1.5035 -0.7517];
-asserts.istrue(isapprox(A_OUT_REDUCED, A_OUT_REF, 1e-4));
+asserts.isapprox(A_OUT_REDUCED, A_OUT_REF, 1e-4);
 %=============================================================================
 JPVT_OUT_REF = int32([4, 3, 1, 5, 2]);
 asserts.isequal(JPVT_OUT, JPVT_OUT_REF);
 %=============================================================================
 TAU_REDUCED = TAU(1:4);
 TAU_REF = [1.1440 1.1780 1.8633 1.4354];
-asserts.istrue(isapprox(TAU_REDUCED, TAU_REF, 1e-4));
+asserts.isapprox(TAU_REDUCED, TAU_REF, 1e-4);
 %=============================================================================
 RANK_REF = int32(4);
 asserts.isequal(RANK, RANK_REF);

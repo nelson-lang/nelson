@@ -3,80 +3,90 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>en_US</language>
   <keyword>isapprox</keyword>
-  <short_description
-  >Return true if arguments are approximately equal, within the precision.</short_description>
+  <short_description>Determine approximate equality, element by element.</short_description>
   <syntax>
-    <syntax_item>res = isapprox(x1, x2)</syntax_item>
-    <syntax_item>res = isapprox(x1, x2, precision)</syntax_item>
+    <syntax_item>TF = isapprox(A, B)</syntax_item>
+    <syntax_item>TF = isapprox(A, B, tol)</syntax_item>
+    <syntax_item>TF = isapprox(A, B, 'AbsoluteTolerance', absTol)</syntax_item>
+    <syntax_item>TF = isapprox(A, B, 'RelativeTolerance', relTol)</syntax_item>
+    <syntax_item
+    >TF = isapprox(A, B, 'AbsoluteTolerance', absTol, 'RelativeTolerance', relTol)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
-      <param_name>x1</param_name>
+      <param_name>A, B</param_name>
       <param_description
-      >a matrix, a sparse matrix of doubles, or a multidimensional matrix.</param_description>
+      >numeric arrays (double, single, integer, real or complex, full or sparse) with compatible sizes.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>x2</param_name>
+      <param_name>tol</param_name>
       <param_description
-      >a matrix, a sparse matrix of doubles, or a multidimensional matrix.</param_description>
+      >tolerance level: 'verytight' (default), 'tight', 'loose' or 'veryloose'.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>precision</param_name>
-      <param_description>a double value: 0. by default</param_description>
+      <param_name>absTol</param_name>
+      <param_description
+      >absolute tolerance: nonnegative finite real double or single scalar or array.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>relTol</param_name>
+      <param_description
+      >relative tolerance: nonnegative finite real double or single scalar or array, smaller than 1.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
-      <param_name>res</param_name>
-      <param_description>a logical value</param_description>
+      <param_name>TF</param_name>
+      <param_description
+      >logical array: true where the elements of A and B are approximately equal.</param_description>
     </param_output_item>
   </param_output>
   <description>
+    <p><b
+      >TF = isapprox(A, B)</b> compares A and B element by element and returns a logical array with the size given by implicit expansion of A and B.</p>
     <p
-    >For matrices, the comparison is done using the Hilbert-Schmidt norm (aka Frobenius norm L2 norm).</p>
-    <p>
-      <b>isapprox</b> manages complex numbers. In this case, the real parts of the input arguments are compared. If this fails, it returns false. If this succeeds, the imaginary parts are compared.</p>
+    >Two finite values a and b are approximately equal when abs(a - b) &lt;= max(absTol, relTol * max(abs(a), abs(b))). For complex values, abs is the modulus.</p>
     <p
-    >To compare values, NaN, Inf, -Inf and remaining values, are separated. As it is impossible to compare NaN values between them, we compare the indices where NaN value occurs. For infinity values, we also compare the indices where Inf values occurs.</p>
+    >NaN is never approximately equal to anything. Inf and -Inf are only equal to themselves. A complex value with an infinite part must be exactly equal.</p>
+    <p
+    >A tolerance level sets both tolerances to the same value. When A or B is single, the single precision values are used, otherwise the double precision values:</p>
+    <ul>
+      <li>'verytight': 1e-15 (double), 5e-7 (single).</li>
+      <li>'tight': 1e-12 (double), 1e-6 (single).</li>
+      <li>'loose': 1e-8 (double), 1e-4 (single).</li>
+      <li>'veryloose': 1e-3 (double), 1e-2 (single).</li>
+    </ul>
+    <p
+    >When tolerances are given by name, a tolerance that is not given is 0. A tolerance level cannot be combined with named tolerances. Names and levels are case insensitive and can be shortened.</p>
+    <p
+    >Tolerance arrays expand like A and B. The result is sparse only when A and B are both sparse.</p>
+    <p
+    >Values are compared in double precision. int64 and uint64 values larger than flintmax in magnitude raise an error.</p>
+    <p
+    >To check that two whole arrays are approximately equal, use all(isapprox(A, B), 'all'), or isapproxnorm for a comparison based on a norm.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description />
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[A = pi
-B = single(pi)
-res = isapprox(A, B)]]></example_item_data>
+      <example_item_description>Element-wise comparison</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[TF = isapprox([1 2 NaN Inf], [1 2 + 1e-16 NaN Inf])
+TF = isapprox(1, [1 2; 1 1 + 1e-9])]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description />
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[A = pi
-B = single(pi)
-res = isapprox(A, B, 1e-4)]]></example_item_data>
+      <example_item_description>Tolerance levels</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[isapprox(pi, pi + 1e-10)
+isapprox(pi, pi + 1e-10, 'loose')
+isapprox(pi, single(pi))]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description />
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[A = [pi NaN]
-res = isapprox(A, A)]]></example_item_data>
-    </example_item>
-    <example_item>
-      <example_item_type>nelson</example_item_type>
-      <example_item_description />
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[A = [pi NaN]
-B = [pi + 2*eps, NaN]
-res = isapprox(A, B)
-res = isapprox(A, B, eps)]]></example_item_data>
+      <example_item_description>Named tolerances</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[isapprox(1, 1.5, 'AbsoluteTolerance', 0.6)
+isapprox(100, 101, 'RelativeTolerance', 0.02)
+all(isapprox(magic(3), magic(3) + 1e-6, 'AbsoluteTolerance', 1e-5), 'all')]]></example_item_data>
     </example_item>
   </examples>
   <see_also>
@@ -86,11 +96,22 @@ res = isapprox(A, B, eps)]]></example_item_data>
     <see_also_item>
       <link linkend="${elementary_functions}isequal">isequal</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}isapproxnorm">isapproxnorm</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${assert_functions}assert_isapprox">assert_isapprox</link>
+    </see_also_item>
   </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description
+      >element-wise result with implicit expansion, tolerance levels, AbsoluteTolerance and RelativeTolerance; the numeric precision argument is removed.</history_description>
     </history_item>
   </history>
   <authors>

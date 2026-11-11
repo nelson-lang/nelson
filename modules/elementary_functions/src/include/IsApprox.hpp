@@ -13,8 +13,27 @@
 #include "nlsElementary_functions_exports.h"
 //=============================================================================
 namespace Nelson {
-NLSELEMENTARY_FUNCTIONS_IMPEXP bool
-IsApprox(ArrayOf A, ArrayOf B, double precision);
+//=============================================================================
+enum class IsApproxLevel
+{
+    VeryTight,
+    Tight,
+    Loose,
+    VeryLoose
+};
+//=============================================================================
+// default tolerance of a level, single precision when an input is single
+NLSELEMENTARY_FUNCTIONS_IMPEXP double
+IsApproxLevelTolerance(IsApproxLevel level, bool singlePrecision);
+//=============================================================================
+// int64 and uint64 values must stay within flintmax to be compared exactly
+NLSELEMENTARY_FUNCTIONS_IMPEXP void
+IsApproxCheckIntegerRange(const ArrayOf& A, const ArrayOf& B);
+//=============================================================================
+// element-wise |A-B| <= max(absTol, relTol*max(|A|,|B|)) with implicit expansion
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+IsApprox(const ArrayOf& A, const ArrayOf& B, const ArrayOf& absoluteTolerance,
+    const ArrayOf& relativeTolerance);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

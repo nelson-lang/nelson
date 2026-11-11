@@ -17,9 +17,59 @@
 #include "Assert_IsEqual.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
+#include "FindCommonType.hpp"
+#include "FunctionsInMemory.hpp"
+#include "IsEqualTo.hpp"
+#include "OverloadName.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+static bool
+isObject(const ArrayOf& value)
+{
+    return value.isClassType() || value.isHandle();
+}
+//=============================================================================
+// non-object values reach IsEqualTo directly when the builtin would find no overload
+static bool
+reachesBuiltinRule(FunctionDef* funcDef, const ArrayOfVector& args)
+{
+    if (funcDef->type() != NLS_BUILT_IN_FUNCTION || isObject(args[0]) || isObject(args[1])) {
+        return false;
+    }
+    const NelsonType classA = args[0].dataClass();
+    const NelsonType classB = args[1].dataClass();
+    if (classA >= NLS_UNKNOWN || classB >= NLS_UNKNOWN) {
+        return false;
+    }
+    // without objects the common type only depends on both classes and sparsity
+    // per thread like the function tables: a known miss holds for one generation (+1, 0 = unknown)
+    static thread_local uint64 missGeneration[NLS_UNKNOWN][NLS_UNKNOWN][4] = { };
+    const int sparsity = (args[0].isSparse() ? 2 : 0) + (args[1].isSparse() ? 1 : 0);
+    uint64& knownMiss = missGeneration[classA][classB][sparsity];
+    const uint64 generation = FunctionsInMemory::getInstance()->generation() + 1;
+    if (knownMiss == generation) {
+        return true;
+    }
+    NelsonType commonType = NLS_UNKNOWN;
+    bool isSparse = false;
+    bool isComplex = false;
+    std::string commonTypeName;
+    if (!FindCommonType(args, commonType, isSparse, isComplex, commonTypeName)) {
+        return false;
+    }
+    if (isSparse && commonType != NLS_DOUBLE && commonType != NLS_DCOMPLEX
+        && commonType != NLS_LOGICAL) {
+        return false;
+    }
+    if (!FunctionsInMemory::getInstance()->isNotExistingFunction(
+            getOverloadFunctionName(commonTypeName, "isequalto"))) {
+        return false;
+    }
+    knownMiss = generation;
+    return true;
+}
 //=============================================================================
 static bool
 valuesAreEqual(Evaluator* eval, const ArrayOf& computedArray, const ArrayOf& expectedArray)
@@ -28,10 +78,24 @@ valuesAreEqual(Evaluator* eval, const ArrayOf& computedArray, const ArrayOf& exp
     FunctionDef* funcDef = nullptr;
     std::string isEqualToName = "isequalto";
     if (context->lookupFunction(isEqualToName, funcDef)) {
+        ArrayOfVector argInCopy(2);
+        argInCopy << computedArray;
+        argInCopy << expectedArray;
+        if (reachesBuiltinRule(funcDef, argInCopy)) {
+            bool needToOverload = false;
+            bool result = false;
+            try {
+                result = IsEqualTo(eval, argInCopy, needToOverload);
+            } catch (const NelsonException&) {
+                needToOverload = true;
+            }
+            if (needToOverload) {
+                Error(L"Nelson:asserts:unexpectedComparisonError",
+                    L"isequalto returns an unexpected error.");
+            }
+            return result;
+        }
         if ((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION)) {
-            ArrayOfVector argInCopy(2);
-            argInCopy << computedArray;
-            argInCopy << expectedArray;
             try {
                 ArrayOfVector resVect = funcDef->evaluateFunction(eval, argInCopy, 1);
                 if (resVect.size() != 1) {

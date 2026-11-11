@@ -52,11 +52,11 @@
     X(imresize)                                                                                    \
     X(imshow)                                                                                      \
     X(imwrite)                                                                                     \
-    X(ind2rgb)                                                                                     \
     X(int2str)                                                                                     \
     X(intmax)                                                                                      \
     X(intmin)                                                                                      \
     X(isapprox)                                                                                    \
+    X(isapproxnorm)                                                                                \
     X(ischar)                                                                                      \
     X(islocalmax)                                                                                  \
     X(islocalmin)                                                                                  \
