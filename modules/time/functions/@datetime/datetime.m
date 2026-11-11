@@ -854,85 +854,145 @@ classdef datetime
     function [serial, millis] = parseTextArray(value, options)
       % millis is the exact time of day of each parsed text, so instants read
       % from text compare and subtract exactly like numeric-component ones.
-      if ischar(value)
-        rows = cellstr(value);
-        outSize = [size(value, 1), 1];
-      elseif isstring(value)
-        rows = cellstr(value(:));
-        outSize = size(value);
-      else
-        rows = value(:);
-        outSize = size(value);
-      end
-      serial = zeros(numel(rows), 1);
-      millis = zeros(numel(rows), 1);
-      % Compile the InputFormat once and capture the fallback year once, so
-      % every text reuses them instead of rebuilding the regex and reading the
-      % clock per element (which made this loop linear with a large constant).
-      [options, detected] = datetime.textFormatOptions(rows, options);
-      if ~isempty(options.CompiledFormat)
-        % Match every text with a single vectorized regexp (the pattern is
-        % compiled once for the whole array), then resolve the fields per text.
-        % A per-text regexp call is ~10x slower than one call over the array.
-        allTokens = regexp(strtrim(rows), options.CompiledFormat.pattern, 'tokens', 'once');
-        for k = 1:numel(rows)
-          [serial(k), millis(k)] = datetime.resolveTextTokens(allTokens{k}, rows{k}, options, detected);
-        end
-      else
+      [rows, outSize] = datetime.textRows(value);
+      serial = NaN(numel(rows), 1);
+      millis = NaN(numel(rows), 1);
+      % Compile the format once and capture the fallback year once, so every
+      % text reuses them instead of rebuilding the regex per element.
+      [options, mode] = datetime.textFormatOptions(rows, options);
+      if strcmp(mode, 'fallback')
         for k = 1:numel(rows)
           [serial(k), millis(k)] = datetime.parseOneText(rows{k}, options);
         end
+      else
+        % one vectorized regexp over the array, then the fields per text
+        allTokens = cell(numel(rows), 1);
+        if ~isempty(options.CompiledFormat) && ~isempty(rows)
+          allTokens = regexp(strtrim(rows), options.CompiledFormat.pattern, 'tokens', 'once');
+        end
+        for k = 1:numel(rows)
+          [serial(k), millis(k)] = datetime.resolveTextTokens(allTokens{k}, rows{k}, options);
+        end
+        datetime.checkTextConverted(rows, serial, options, mode);
       end
       serial = reshape(serial, outSize);
       millis = reshape(millis, outSize);
     end
 
-    function [options, detected] = textFormatOptions(rows, options)
-      % compiled InputFormat, or the format detected from the first date text
-      detected = false;
+    function [rows, outSize] = textRows(value)
+      % texts of a char matrix, string or cell array ('' and <missing> are NaT)
+      if ischar(value)
+        if isequal(size(value), [0 0])
+          rows = {''};
+          outSize = [1, 1];
+        elseif size(value, 1) == 0
+          rows = cell(0, 1);
+          outSize = [0, 1];
+        else
+          rows = cellstr(value);
+          outSize = [size(value, 1), 1];
+        end
+      elseif isstring(value)
+        texts = value(:);
+        texts(ismissing(texts)) = "NaT";
+        rows = cellstr(texts);
+        outSize = size(value);
+      else
+        rows = value(:);
+        outSize = size(value);
+      end
+    end
+
+    function [options, mode] = textFormatOptions(rows, options)
+      % 'input': compiled InputFormat; 'fallback': InputFormat the regex parser
+      % does not read; 'detected' / 'unrecognized': layout of the first date text
       if ~isempty(options.InputFormat)
-        try
-          options.CompiledFormat = datetime.compileInputFormat(options.InputFormat);
-        catch
-          options.CompiledFormat = [];
+        options.CompiledFormat = datetime.compileReadableFormat(options.InputFormat);
+        mode = 'input';
+        if isempty(options.CompiledFormat)
+          mode = 'fallback';
         end
       else
-        options.CompiledFormat = datetime.detectTextFormat(rows);
-        detected = ~isempty(options.CompiledFormat);
+        options.CompiledFormat = datetime.detectTextFormat(rows, options.Format);
+        mode = 'detected';
+        if isempty(options.CompiledFormat)
+          mode = 'unrecognized';
+        end
       end
       baseDv = datevec(now());
       options.BaseYear = baseDv(1);
     end
 
-    function [serial, millis] = resolveTextTokens(tok, row, options, detected)
-      % one text matched (or not) against the compiled format
-      fields = options.CompiledFormat.fields;
-      if detected && (isempty(tok) || ~datetime.validDateTokens(tok, fields))
-        % a text that does not follow the detected format is NaT
-        [serial, millis] = datetime.keywordOrNaT(row, options);
-      elseif isempty(tok)
-        % no match: a keyword ('now', 'NaT', ...) or a value for the datenum fallback
-        [serial, millis] = datetime.parseOneText(row, options);
-      else
-        [serial, millis] = datetime.applyFormatTokens(tok, fields, options.BaseYear);
+    function spec = compileReadableFormat(fmt)
+      % compiled format, or [] when it has fields the regex parser does not read
+      spec = [];
+      quote = char(39);
+      unquoted = regexprep(char(fmt), [quote, '[^', quote, ']*', quote], '');
+      letters = unquoted(isletter(unquoted));
+      if all(ismember(letters, 'yuMdHhmsSa'))
+        try
+          spec = datetime.compileInputFormat(fmt);
+        catch
+          spec = [];
+        end
       end
     end
 
-    function spec = detectTextFormat(rows)
-      % Compiled format of the first date text among the usual layouts (ISO,
-      % dd-MMM-yyyy, US then day-first slashes), or [] when none fits it.
-      spec = [];
-      sample = '';
-      for k = 1:numel(rows)
-        text = strtrim(char(rows{k}));
-        if ~isempty(text) && ~any(strcmpi(text, {'now', 'today', 'tomorrow', 'yesterday', 'nat'}))
-          sample = text;
-          break
-        end
+    function [serial, millis] = resolveTextTokens(tok, row, options)
+      % one text matched (or not) against the compiled format: no match is NaT
+      if ~isempty(tok) && datetime.validDateTokens(tok, options.CompiledFormat.fields)
+        [serial, millis] = datetime.applyFormatTokens(tok, options.CompiledFormat.fields, options.BaseYear);
+      else
+        [serial, millis] = datetime.keywordOrNaT(row, options);
       end
-      if isempty(sample)
+    end
+
+    function checkTextConverted(rows, serial, options, mode)
+      % Unreadable text is an error: without InputFormat when the first date
+      % text has no known layout, with it when no date text converts.
+      dates = ~cellfun(@datetime.isPlaceholderText, rows);
+      unreadable = strcmp(mode, 'unrecognized') || (strcmp(mode, 'input') && all(isnan(serial(dates))));
+      if any(dates) && unreadable
+        datetime.unreadableTextError(rows, options);
+      end
+    end
+
+    function unreadableTextError(rows, options)
+      % error naming the text (one text) and the format when one was given
+      fmt = options.InputFormat;
+      if isempty(fmt) && ~strcmp(options.Format, 'default')
+        fmt = options.Format;
+      end
+      if isempty(fmt) && isscalar(rows)
+        error('Nelson:datetime:UnrecognizedDateString', ...
+          'Unable to recognize the date and time format of ''%s''. Use the ''InputFormat'' option to give it.', ...
+          strtrim(rows{1}));
+      elseif isempty(fmt)
+        error('Nelson:datetime:UnrecognizedDateStrings', ...
+          'Unable to recognize the date and time format of the text. Use the ''InputFormat'' option to give it.');
+      elseif isscalar(rows)
+        error('Nelson:datetime:ParseErr', 'Unable to read ''%s'' as a datetime with the format ''%s''.', ...
+          strtrim(rows{1}), fmt);
+      end
+      error('Nelson:datetime:ParseErrs', 'Unable to read the text as datetime values with the format ''%s''.', fmt);
+    end
+
+    function tf = isPlaceholderText(text)
+      % empty text, 'NaT' and keywords such as 'now' never make the text unreadable
+      word = lower(strtrim(char(text)));
+      tf = isempty(word) || any(strcmp(word, {'nat', 'now', 'today', 'tomorrow', 'yesterday'}));
+    end
+
+    function spec = detectTextFormat(rows, preferred)
+      % Compiled format of the first date text: the given Format when it fits,
+      % else the usual layouts (ISO, dd-MMM-yyyy, US then day-first slashes);
+      % [] when none fits it.
+      spec = [];
+      first = find(~cellfun(@datetime.isPlaceholderText, rows), 1);
+      if isempty(first)
         return
       end
+      sample = strtrim(char(rows{first}));
       candidates = {'yyyy-MM-dd HH:mm:ss.S', 'yyyy-MM-dd HH:mm:ss', 'yyyy-MM-dd HH:mm', ...
         'yyyy-MM-dd hh:mm:ss a', 'yyyy-MM-dd hh:mm a', 'yyyy-MM-dd''T''HH:mm:ss.S', ...
         'yyyy-MM-dd''T''HH:mm:ss', 'yyyy-MM-dd', ...
@@ -940,8 +1000,14 @@ classdef datetime
         'dd-MMM-yyyy hh:mm:ss a', 'dd-MMM-yyyy hh:mm a', 'dd-MMM-yyyy', ...
         'MM/dd/yyyy HH:mm:ss', 'MM/dd/yyyy HH:mm', 'MM/dd/yyyy hh:mm a', 'MM/dd/yyyy', ...
         'dd/MM/yyyy HH:mm:ss', 'dd/MM/yyyy HH:mm', 'dd/MM/yyyy', 'MMM d, yyyy'};
+      if ~strcmp(preferred, 'default')
+        candidates = [{preferred}, candidates];
+      end
       for k = 1:numel(candidates)
-        candidate = datetime.compileInputFormat(candidates{k});
+        candidate = datetime.compileReadableFormat(candidates{k});
+        if isempty(candidate)
+          continue
+        end
         tok = regexp(sample, candidate.pattern, 'tokens', 'once');
         if ~isempty(tok) && datetime.validDateTokens(tok, candidate.fields)
           spec = candidate;
@@ -994,22 +1060,10 @@ classdef datetime
         case 'nat'
           serial = NaN;
         otherwise
+          % InputFormat with fields the regex parser does not read: the
+          % numeric datenum parser handles them
           try
-            if isempty(options.InputFormat)
-              serial = datenum(value);
-            else
-              try
-                if isfield(options, 'CompiledFormat') && ~isempty(options.CompiledFormat)
-                  [serial, millis] = datetime.applyInputFormat(value, options.CompiledFormat, options.BaseYear);
-                else
-                  [serial, millis] = datetime.parseWithInputFormat(value, options.InputFormat);
-                end
-              catch
-                % Fall back to the numeric datenum parser for formats the
-                % classdef parser does not handle.
-                serial = datenum(value, datetime.toDateNumberFormat(options.InputFormat));
-              end
-            end
+            serial = datenum(value, datetime.toDateNumberFormat(options.InputFormat));
           catch
             serial = NaN;
           end
@@ -1102,30 +1156,10 @@ classdef datetime
       spec = struct('pattern', [pattern, '$'], 'fields', {fields});
     end
 
-    function [serial, millis] = parseWithInputFormat(value, fmt)
-      % Parse a single text value against an LDML InputFormat. This handles
-      % quoted literals (e.g. the escaped 'T' in yyyy-MM-dd'T'HH:mm:ss) that
-      % the numeric datenum format parser mishandles.
-      dv = datevec(now());
-      [serial, millis] = datetime.applyInputFormat(value, datetime.compileInputFormat(fmt), dv(1));
-    end
-
-    function [serial, millis] = applyInputFormat(value, spec, baseYear)
-      % Parse a single text value against a compiled InputFormat spec (see
-      % compileInputFormat). baseYear supplies the year when the format omits
-      % it, captured once per call so every text in an array shares it.
-      tokens = regexp(strtrim(char(value)), spec.pattern, 'tokens', 'once');
-      if isempty(tokens)
-        error('Nelson:time:failedConvertTextDatetime', 'Failed to convert text to %s.', 'datetime');
-      end
-      [serial, millis] = datetime.applyFormatTokens(tokens, spec.fields, baseYear);
-    end
-
     function [serial, millis] = applyFormatTokens(tokens, fields, baseYear)
       % Resolve a datetime from format tokens already matched by the compiled
-      % pattern (see applyInputFormat). Kept separate so an array of texts can
-      % be matched with a single vectorized regexp and only the field
-      % resolution runs per text.
+      % pattern, so an array of texts is matched with a single vectorized
+      % regexp and only the field resolution runs per text.
       y = baseYear;
       mo = 1;
       d = 1;

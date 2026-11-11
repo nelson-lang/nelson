@@ -14,7 +14,7 @@ function [args, options] = datetimeParseNameValue(values)
   args = {};
   k = 1;
   while k <= numel(values)
-    if datetime.isTextScalar(values{k})
+    if isOptionName(values{k})
       name = char(values{k});
       if any(strcmpi(name, {'Format', 'TimeZone', 'InputFormat', 'ConvertFrom', 'Epoch', ...
           'TicksPerSecond', 'Locale'}))
@@ -29,6 +29,11 @@ function [args, options] = datetimeParseNameValue(values)
     args{end + 1} = values{k};
     k = k + 1;
   end
+end
+%=============================================================================
+function tf = isOptionName(value)
+  % a char row or a non-missing string scalar may name an option
+  tf = (ischar(value) && isrow(value)) || (isstring(value) && isscalar(value) && ~ismissing(value));
 end
 %=============================================================================
 function options = defaultOptions()
