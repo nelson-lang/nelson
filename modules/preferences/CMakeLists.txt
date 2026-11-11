@@ -32,6 +32,7 @@ target_include_directories(${module_library_name}
     ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../os_functions/src/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
     ${HDF5_C_INCLUDE_DIR}
@@ -47,6 +48,7 @@ target_link_libraries(${module_library_name}
     nlsI18n
     nlsInterpreter
     nlsNelson_manager
+    nlsOs_functions
     nlsStream_manager
     nlsTypes
     ${HDF5_LIBRARIES}

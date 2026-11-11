@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "PreferencesStore.hpp"
-#include <cstdlib>
 #include <mutex>
 #ifndef H5_BUILT_AS_DYNAMIC_LIB
 #define H5_BUILT_AS_DYNAMIC_LIB
@@ -17,6 +16,7 @@
 #include "Error.hpp"
 #include "ErrorID.hpp"
 #include "FileSystemWrapper.hpp"
+#include "GetVariableEnvironment.hpp"
 #include "IsValidVariableName.hpp"
 #include "NelsonConfiguration.hpp"
 #include "NelsonException.hpp"
@@ -71,30 +71,13 @@ namespace {
         return wstring_to_utf8(name);
     }
     //=============================================================================
-    std::string
-    getEnvironmentVariable(const char* name)
-    {
-#ifdef _MSC_VER
-        char* value = nullptr;
-        size_t length = 0;
-        if (_dupenv_s(&value, &length, name) != 0 || value == nullptr) {
-            return {};
-        }
-        std::string result(value, length > 0 ? length - 1 : 0);
-        free(value);
-        return result;
-#else
-        const char* value = std::getenv(name);
-        return value == nullptr ? std::string() : std::string(value);
-#endif
-    }
-    //=============================================================================
     std::wstring
     preferencesDirectoryPath()
     {
-        std::string overrideDirectory = getEnvironmentVariable("NELSON_PREFERENCES_PATH");
+        // Read the process environment so setenv() values are seen (the CRT copy is not).
+        std::wstring overrideDirectory = GetVariableEnvironment(L"NELSON_PREFERENCES_PATH");
         if (!overrideDirectory.empty()) {
-            return utf8_to_wstring(overrideDirectory);
+            return overrideDirectory;
         }
         return NelsonConfiguration::getInstance()->getNelsonPreferencesDirectory();
     }
