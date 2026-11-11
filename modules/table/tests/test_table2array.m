@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 T = table([1; 2; 3], [2 8; 4 10; 6 12], [3 12 21; 6 15 24; 9 18 27], 'VariableNames', ["One" "Two" "Three"]);
 R = table2array(T);
 REF = [1 2 8 3 12 21;

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 T = table([1; -99; 3], 'VariableNames', {'A'});
 R = standardizeMissing(T, -99);
 asserts.istrue(isnan(R.A(2)));

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % splitvars(T) splits every variable with several columns or holding a table
 R = splitvars(table([1 3; 2 4]));
 asserts.isequal(R.Properties.VariableNames, {'Var1_1', 'Var1_2'});

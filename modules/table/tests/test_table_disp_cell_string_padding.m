@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 function test_table_disp_cell_string_padding()
   % <missing> string element: no quotes, no padding
   T = table(["x"; string(missing)]);

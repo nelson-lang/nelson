@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % T{:, name} = value creates the variable when it does not exist
 %=============================================================================
 T = table([1; 2]);

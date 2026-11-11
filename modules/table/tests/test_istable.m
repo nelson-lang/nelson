@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 T = table([1; 2], 'VariableNames', {'A'});
 TT = timetable(seconds([1; 2]), [10; 20], 'VariableNames', {'A'});
 asserts.istrue(istable(T));

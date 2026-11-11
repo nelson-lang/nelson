@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 function test_table_display_complex_columns()
   % a complex variable with several columns shows its values, not its size
   T = table([1+2i, 3+4i; 5+6i, 7-8i]);

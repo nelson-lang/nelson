@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % a row index beyond the height is rejected even when no variable is selected
 %=============================================================================
 msg = _('Row index exceeds table dimensions.');

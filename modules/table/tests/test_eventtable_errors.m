@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 assert_checkerror('eventtable(seconds([1; 2]), ''EventLengths'', seconds([1; 2]), ''EventEnds'', seconds([2; 3]))', ...
   'Specify either event lengths or event ends but not both.', 'Nelson:eventtable:bothLengthsAndEnds');
 assert_checkerror('eventtable(seconds([1; 2]), ''EventLengths'', [1; 2])', ...

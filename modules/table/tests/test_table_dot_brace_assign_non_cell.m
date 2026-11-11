@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % T.name{k} = v and T.(name){k} = v on a numeric table variable
 %=============================================================================
 msg = _('Unable to perform assignment because brace indexing is not supported for variables of this type.');

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 T = table('Size', [2 2], 'VariableTypes', {'double', 'string'}, ...
   'VariableNames', {'X', 'Y'});
 asserts.isequal(size(T), [2 2]);

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % T.name(indices) = value on a name that is not a variable creates a column
 % of the default value of the class of value; rows past the height grow the
 % table

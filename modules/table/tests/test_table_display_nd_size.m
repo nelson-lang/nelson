@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 function test_table_display_nd_size()
   % a row with more than 2 dimensions shows its size and class, the size
   % written with the times sign as in the cell display and the table header

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Per-variable metadata is stored as a row, whatever the orientation given.
 %=============================================================================
 T = table([1; 2], [3; 4]);

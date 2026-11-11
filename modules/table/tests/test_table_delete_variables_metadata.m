@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Deleting variables removes their units, descriptions and continuity.
 %=============================================================================
 T = table([1; 2], [3; 4], [5; 6]);

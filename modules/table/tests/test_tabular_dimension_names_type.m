@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % DimensionNames requires two distinct nonempty names, given as a string
 % array or a cell array, that are not variable names.
 %=============================================================================

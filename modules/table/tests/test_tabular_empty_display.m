@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % the display header flags a table without rows or variables as empty
 %=============================================================================
 T = table([1; 2]);

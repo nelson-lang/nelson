@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 T = table({'r1'; 'r2'}, [10; 20], 'VariableNames', {'Name', 'Value'});
 R = rows2vars(T, 'VariableNamesSource', 'Name');
 asserts.isequal(R.Properties.VariableNames, {'OriginalVariableNames', 'r1', 'r2'});

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 asserts.istrue(isregular(timetable(seconds([1; 3; 5]), [10; 20; 30])));
 asserts.isfalse(isregular(timetable(seconds([1; 3; 6]), [10; 20; 30])));
 %=============================================================================

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 T = table([2; 1; 2], {'b'; 'a'; 'b'}, 'VariableNames', {'A', 'B'});
 S = sortrows(T, 'A');
 asserts.isequal(S.A, [1; 2; 2]);

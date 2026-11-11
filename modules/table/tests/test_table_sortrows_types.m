@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % numeric variable is sorted numerically even with a cellstr variable
 T = table([10; 9; 2], {'a'; 'b'; 'c'});
 [R, I] = sortrows(T);

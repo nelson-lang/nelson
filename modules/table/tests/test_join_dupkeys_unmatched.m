@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Join types with duplicate keys on both sides and unmatched rows on both
 % sides. Row order follows the Nelson convention: left rows ascending, each
 % with its right matches ascending, then right-only rows appended ascending.

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % size(T) as a statement sets and displays ans.
 %=============================================================================
 T = table([1; 2]);

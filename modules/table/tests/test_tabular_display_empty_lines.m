@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % The separator lines of a loose display are empty, without any blank; the
 % compact display of a timerange or a withtol has no separator line.
 %=============================================================================

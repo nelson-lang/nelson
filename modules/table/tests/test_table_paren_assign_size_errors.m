@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % a variable assigned with parentheses keeps its size: the value of a
 % multicolumn variable must have its columns, only a scalar is expanded
 rowMsg = _('To assign to or create a variable in a table, the number of rows must match the height of the table.');

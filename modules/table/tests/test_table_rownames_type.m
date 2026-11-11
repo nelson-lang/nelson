@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % RowNames requires a string array or a cell array of nonempty names.
 %=============================================================================
 msg = _('The RowNames property must be a string array or a cell array, with each name containing one or more characters.');

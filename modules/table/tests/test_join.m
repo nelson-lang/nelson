@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % join matches every left row to a single right row, in left order, and looks
 % up the right match regardless of the right row order.
 L = table([1; 2], [10; 20], 'VariableNames', {'Key', 'LeftValue'});

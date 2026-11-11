@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % unique on a table without rows validates its options like any other table
 %=============================================================================
 T = table(zeros(0, 1));

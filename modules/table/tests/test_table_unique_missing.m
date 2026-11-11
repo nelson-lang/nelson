@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % unique on tables: rows holding missing values ('TreatMissingAsDistinct')
 %=============================================================================
 T = table([1; NaN; NaN; 2], [3; 4; 4; 5]);

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % T.(n): a number as dynamic field name is the variable number n. The
 % errors are checked with try/catch: assert_checkerror does not evaluate
 % through the same indexing paths as a statement.

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 T = table([1; 2], 'VariableNames', {'A'});
 T = addprop(T, 'Source', 'table');
 T.Properties.CustomProperties.Source = 'unit-test';

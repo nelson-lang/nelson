@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % In compact format, the first row of a table, timetable or eventtable body
 % directly follows the underline of the headers; loose format separates them
 % with an empty line.

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % a row subscript beyond the height raises the table row index error
 %=============================================================================
 msg = _('Row index exceeds table dimensions.');

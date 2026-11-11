@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 T = table({'A'; 'B'}, [1; 2], [3; 4], 'VariableNames', {'ID', 'X', 'Y'});
 S = stack(T, {'X', 'Y'}, 'NewDataVariableName', 'Value', 'IndexVariableName', 'Measure');
 asserts.isequal(height(S), 4);

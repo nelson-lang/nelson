@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 C = {5, 'a'; 12, 'b'};
 T = cell2table(C, 'RowNames', {'r1'; 'r2'});
 asserts.isequal(T.Properties.RowNames, {'r1'; 'r2'});

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % T.name, T.name(k) and T.name = value on tables and timetables give the same
 % object as the subsref and subsasgn methods called explicitly, hidden
 % storage included.

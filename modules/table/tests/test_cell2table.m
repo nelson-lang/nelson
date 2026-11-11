@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 C = {5, 'cereal', 110, 'C+'; 12, 'pizza', 140, 'B'; 23, 'salmon', 367, 'A'; 2, 'cookies', 160, 'D'};
 T = cell2table(C);
 P = properties(T);

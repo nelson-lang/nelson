@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 function test_table_display_long_text()
   % a long text shows its text, not its size and class
   T = table(categorical({'a_very_long_category_name'}));

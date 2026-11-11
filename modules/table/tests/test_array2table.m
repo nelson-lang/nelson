@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 A = [1 4 7; 2 5 8; 3 6 9];
 T = array2table(A);
 asserts.istrue(istable(T));

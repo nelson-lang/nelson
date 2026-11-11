@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 T = table({'a'; 'a'; 'b'}, [1; 2; 4], [10; 20; 30], 'VariableNames', {'G', 'X', 'Y'});
 R = groupsummary(T, 'G', 'sum', {'X', 'Y'});
 asserts.isequal(R.sum_X, [3; 4]);

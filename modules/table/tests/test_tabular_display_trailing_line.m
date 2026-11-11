@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % In loose format, the body of a table, timetable or eventtable ends with an
 % empty line; in compact format it ends with its last row.
 %=============================================================================

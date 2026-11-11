@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 ET = eventtable(seconds([1; 2]));
 R = evalc('ET');
 assert_istrue(contains(R, ['2', char(215), '1 eventtable']));

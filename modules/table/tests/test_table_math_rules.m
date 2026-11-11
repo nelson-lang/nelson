@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 T1 = table([1; 2], [3; 4], 'VariableNames', {'A', 'B'});
 T2 = table([30; 40], [10; 20], 'VariableNames', {'B', 'A'});
 R = T1 + T2;

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 TT = timetable(seconds([1; 2]), [1; 2], [3; 4]);
 TT.Properties.VariableNames = {'x', 'y'};
 assert_isequal(TT.Properties.VariableNames, {'x', 'y'});

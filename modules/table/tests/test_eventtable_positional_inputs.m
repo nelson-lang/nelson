@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % event data come only from a timetable first input
 TT = timetable(seconds([2; 4]), [10; 20], 'VariableNames', {'X'});
 msg = 'Invalid argument at position 2. Function requires 0 to 1 positional input(s).';

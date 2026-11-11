@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % a calendarDuration array is a table variable with one row per element
 T = table(["a"; "b"], calmonths([1; 2]));
 assert_isequal(size(T), [2 2]);

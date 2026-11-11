@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % the format of a datetime variable is the format of the whole variable, not
 % of the rows shown by the compact display of a long table
 T = table(datetime(2020, 1, 1) + days(0:29)', (1:30)');

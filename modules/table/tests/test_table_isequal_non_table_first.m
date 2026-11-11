@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % isequal is false when the first argument is not a table or timetable.
 %=============================================================================
 A = table([1; 2]);

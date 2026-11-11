@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % a variable passed by name keeps its name, an expression is named Var<N>
 T = table([1; 2], [3; 4], [5; 6], 'VariableNames', {'A', 'B', 'C'});
 x = [7; 8];

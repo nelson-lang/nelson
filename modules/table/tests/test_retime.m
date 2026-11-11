@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 TT = timetable(seconds([1; 2; 3]), [10; 20; 30], 'VariableNames', {'A'});
 R = retime(TT, seconds([1; 1.5; 2]), 'linear');
 asserts.isequal(R.Properties.RowTimes, seconds([1; 1.5; 2]));

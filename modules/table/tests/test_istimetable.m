@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 TT = timetable(seconds([1; 2]), [3; 4]);
 T = table([1; 2]);
 asserts.istrue(istimetable(TT));

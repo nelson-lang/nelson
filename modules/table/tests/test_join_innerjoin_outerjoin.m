@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 L = table([1; 2; 3], {'A'; 'B'; 'C'}, 'VariableNames', {'Key', 'LeftValue'});
 R = table([2; 3; 4], [20; 30; 40], 'VariableNames', {'Key', 'RightValue'});
 %=============================================================================

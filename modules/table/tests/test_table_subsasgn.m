@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % dot
 %=============================================================================
 name = {'Harry'; 'Mark'; 'Steven'};
@@ -73,7 +74,7 @@ name = {'Harry'; 'Mark'; 'Steven'};
 age = [23; 54; 13];
 Employed = logical([1; 0; 1]);
 T = table(name, age, Employed, 'RowNames', {'A'; 'B'; 'C'});
-T.firstName = ["Al"; "Claude"; "Cat"];
+T.firstName = ["Al"; "Bob"; "Cat"];
 R = evalc('T');
 REF = '
 T =
@@ -83,9 +84,9 @@ T =
             name       age    Employed    firstName
          __________    ___    ________    _________
 
-    A    {''Harry'' }    23      true       "Al"     
-    B    {''Mark''  }    54      false      "Claude" 
-    C    {''Steven''}    13      true       "Cat"    
+    A    {''Harry'' }    23      true         "Al"   
+    B    {''Mark''  }    54      false        "Bob"  
+    C    {''Steven''}    13      true         "Cat"  
 
 ';
 asserts.isequal(R, REF);

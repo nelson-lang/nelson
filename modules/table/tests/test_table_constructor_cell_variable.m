@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % table(C): a cell array argument is one variable, stored as given.
 %=============================================================================
 cases = {{[1 2]; [3 4]}, {'a'; 'bcd'}, {[1 2]; 3}, {1; 2}, {1 2; 3 4}, ...

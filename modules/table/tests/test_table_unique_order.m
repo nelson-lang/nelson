@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % unique on tables: 'sorted' (default) / 'stable' order, 'first' / 'last'
 %=============================================================================
 T = table([3; 1; 3; 2; 1], {'b'; 'a'; 'b'; 'c'; 'a'}, 'VariableNames', {'X', 'S'});

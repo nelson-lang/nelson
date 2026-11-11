@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 T = table([1; NaN; 3], 'VariableNames', {'A'});
 R = fillmissing(T, 'constant', 0);
 asserts.isequal(R.A, [1; 0; 3]);

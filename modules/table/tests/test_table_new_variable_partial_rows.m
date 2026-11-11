@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % assigning a new variable on some rows fills the other rows with default
 % values and warns; T(rows, name) = table or cell adds the variable
 %=============================================================================

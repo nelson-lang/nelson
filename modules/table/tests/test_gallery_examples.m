@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 helperPath = [modulepath('tests_manager', 'tests'), '/helpers'];
 previousPath = addpath(helperPath);
 cleanupPath = onCleanup(@() path(previousPath));

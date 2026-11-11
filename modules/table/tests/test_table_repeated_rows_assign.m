@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % a row repeated in the subscript of an assignment keeps its last value
 T = table([1; 2], [3; 4], 'VariableNames', {'A', 'B'});
 R = T;

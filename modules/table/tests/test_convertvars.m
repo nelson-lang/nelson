@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 T = table([1; 2], [3; 4], 'VariableNames', {'A', 'B'});
 R = convertvars(T, {'A', 'B'}, @(x) single(x));
 asserts.isequal(class(R.A), 'single');

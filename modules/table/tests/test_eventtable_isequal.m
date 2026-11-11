@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 E = eventtable(seconds(1));
 E2 = eventtable(seconds(2));
 TT = timetable(seconds(1), 1);

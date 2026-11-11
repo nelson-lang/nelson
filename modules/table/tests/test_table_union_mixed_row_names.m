@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % union / setxor of tables when only one of them has row names follow
 % vertical concatenation: the other rows get Row<k> names.
 A = table([3; 1], 'RowNames', {'r1', 'r2'});

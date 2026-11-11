@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 function test_table_internal_classdef_storage()
   T = table([1; 2], 'VariableNames', {'A'});
   asserts.isequal(class(T), 'table');

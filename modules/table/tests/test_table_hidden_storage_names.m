@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % The internal storage of tables and timetables (data, Table, Version) is not
 % reachable by dot indexing: these names are ordinary variable names.
 %=============================================================================

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 L = table([1; 2], [10; 20], 'VariableNames', {'Key', 'LeftValue'});
 R = table([2; 3], [200; 300], 'VariableNames', {'Key', 'RightValue'});
 J = outerjoin(L, R, 'Keys', 'Key');

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % a 1x1 table is expanded to the indexed rows and variables, like a scalar
 T = table([1; 2; 3], [4; 5; 6]);
 T([2 3], :) = table(9);

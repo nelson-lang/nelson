@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Only some tables have row names: the rows of the others get Row<k>, k
 % being the row number in the result.
 A = table([3; 1], 'RowNames', {'r1', 'r2'});

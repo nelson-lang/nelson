@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % 'VariableNames' requires a string array or a cell array of character vectors.
 %=============================================================================
 msg = _('To assign multiple variable names, specify nonempty names in a string array or a cell array of character vectors.');

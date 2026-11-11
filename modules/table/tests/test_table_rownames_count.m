@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % RowNames assigned through Properties must name every row
 %=============================================================================
 msg = _('The RowNames property must contain one name for each row in the table.');

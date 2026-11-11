@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % numel(T) is height(T) * width(T); indexing still yields one value.
 %=============================================================================
 T = table([1; 2], [3; 4]);
