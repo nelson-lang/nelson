@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>copyobj</keyword>
+  <short_description
+  >Copie des objets graphiques et leurs enfants.</short_description>
+  <syntax>
+    <syntax_item>c = copyobj(h)</syntax_item>
+    <syntax_item>c = copyobj(h, parent)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>h</param_name>
+      <param_description
+      >un objet graphique ou un tableau d'objets graphiques à copier.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description
+      >un objet graphique scalaire : le parent des copies.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>c</param_name>
+      <param_description
+      >un tableau d'objets graphiques de même taille que h : les nouveaux objets.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>c = copyobj(h, parent)</b> crée un nouvel objet graphique pour chaque élément de <b>h</b>, lui donne les valeurs de propriétés de l'original et le rattache à <b>parent</b>. Les enfants sont copiés eux aussi : copier des axes copie également leurs lignes, surfaces, textes, etc.</p>
+    <p>
+      <b>c = copyobj(h)</b> rattache chaque copie au parent de son original.</p>
+    <p
+    >Les copies sont indépendantes : modifier une propriété d'une copie ne modifie pas l'original.</p>
+    <p
+    >Les propriétés de mode comme <b>XLimMode</b> ou <b>XTickMode</b> gardent leur valeur 'auto' ou 'manual' sur la copie : des axes copiés avec des limites automatiques continuent de les ajuster aux données qu'ils reçoivent ensuite.</p>
+    <p
+    >Copier une figure crée toujours une nouvelle figure de premier niveau, quel que soit <b>parent</b> ; la nouvelle figure devient la figure courante.</p>
+    <p
+    >Lorsque plusieurs objets sont copiés dans un parent qui empile ses enfants (comme des axes), les copies apparaissent dans <b>c</b> dans le même ordre que dans <b>h</b>.</p>
+    <p
+    >L'objet racine ne peut pas être copié (erreur <b>Nelson:copyobj:cannotCopyRoot</b>). Une entrée qui n'est pas un objet graphique lève une erreur.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Copie d'une ligne dans les axes d'une autre figure.</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f1 = figure('Visible', 'off');
+ax1 = axes(f1);
+l = plot(ax1, 1:10, (1:10).^2, 'r');
+f2 = figure('Visible', 'off');
+ax2 = axes(f2);
+c = copyobj(l, ax2);
+isequal(c.Parent, ax2)
+isequal(c.YData, l.YData)
+c.Color = [0 0 1];
+l.Color]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/findobj">findobj</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/allchild">allchild</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/gobjects">gobjects</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

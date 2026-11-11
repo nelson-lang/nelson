@@ -24,6 +24,7 @@
 #include "GOMenuBuilder.hpp"
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
+#include "GOStringAutoManualProperty.hpp"
 #include "GraphicsObjectFactory.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -65,6 +66,25 @@ copyProperties(GraphicsObject* source, GraphicsObject* target)
             target->findProperty(name)->set(source->findProperty(name)->get());
         } catch (const NelsonException&) {
         }
+    }
+}
+//=============================================================================
+// Copied values flip their auto modes to manual: give the copy the source modes back.
+static void
+restoreAutoManualModes(GraphicsObject* source, GraphicsObject* target)
+{
+    bool changed = false;
+    for (const auto& name : source->fieldnames()) {
+        auto* sourceMode = dynamic_cast<GOAutoManualProperty*>(source->findProperty(name, false));
+        auto* targetMode = dynamic_cast<GOAutoManualProperty*>(target->findProperty(name, false));
+        if (!sourceMode || !targetMode || targetMode->data() == sourceMode->data()) {
+            continue;
+        }
+        targetMode->data(sourceMode->data());
+        changed = true;
+    }
+    if (changed) {
+        target->updateState();
     }
 }
 //=============================================================================
@@ -168,6 +188,10 @@ copyOne(int64 sourceHandle, int64 parentHandle)
     if (source->isType(GO_PROPERTY_VALUE_ROOT_STR)) {
         Error(L"Nelson:copyobj:cannotCopyRoot", L"Cannot copy root graphics object.");
     }
+    // Pending limits and ticks must be computed before they are copied.
+    if (GOAxis* sourceAxis = dynamic_cast<GOAxis*>(source)) {
+        sourceAxis->updateStateIfDirty();
+    }
 
     int64 newHandle = HANDLE_UNASSIGNED_OBJECT;
     GraphicsObject* target = nullptr;
@@ -212,6 +236,7 @@ copyOne(int64 sourceHandle, int64 parentHandle)
     }
 
     target->updateState();
+    restoreAutoManualModes(source, target);
     return newHandle;
 }
 //=============================================================================
