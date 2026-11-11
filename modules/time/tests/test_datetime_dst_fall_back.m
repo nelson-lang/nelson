@@ -114,4 +114,12 @@ asserts.isequal(timezoneoffset(dn, 'Europe/Paris', '', 'first'), 7200);
 [tf, shift] = timezonedst(dn, 'Europe/Paris', '', 'first');
 asserts.isequal(tf, true);
 asserts.isequal(shift, 3600);
+[offset, repeated] = timezoneoffset([dn, dn + 1], 'Europe/Paris');
+asserts.isequal(offset, [3600 3600]);
+asserts.isequal(repeated, [true false]);
+% UTC instants: 00:30 UTC is the first 02:30, 01:30 UTC the second one
+utc = datenum(2024, 10, 27, [0 1], 30, 0);
+[offset, repeated] = timezoneoffset(utc, 'Europe/Paris', '', 'utc');
+asserts.isequal(offset, [7200 3600]);
+asserts.isequal(repeated, [true false]);
 %=============================================================================

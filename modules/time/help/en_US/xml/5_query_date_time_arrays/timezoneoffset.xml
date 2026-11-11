@@ -9,6 +9,7 @@
     <syntax_item>offset = timezoneoffset(dn, tz)</syntax_item>
     <syntax_item>offset = timezoneoffset(dn, tz, dataPath)</syntax_item>
     <syntax_item>offset = timezoneoffset(dn, tz, dataPath, reference)</syntax_item>
+    <syntax_item>[offset, repeated] = timezoneoffset(dn, tz, dataPath, reference)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -29,7 +30,7 @@
     <param_input_item>
       <param_name>reference</param_name>
       <param_description
-      >a string: 'local' (default) when dn holds wall-clock times of tz, 'utc' when dn holds UTC instants.</param_description>
+      >a string: 'local' (default) when dn holds wall-clock times of tz, 'first' for the same with the first occurrence of an ambiguous time (end of daylight saving time), 'utc' when dn holds UTC instants.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -37,6 +38,11 @@
       <param_name>offset</param_name>
       <param_description
       >a double array of the same size as dn: offset from UTC in seconds, daylight saving time included.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>repeated</param_name>
+      <param_description
+      >a logical array of the same size as dn: with 'local' or 'first', true where the wall-clock time is ambiguous; with 'utc', true where the instant is the first of two instants with the same wall-clock time.</param_description>
     </param_output_item>
   </param_output>
   <description>
@@ -48,6 +54,8 @@
     >The names 'UTC', 'GMT' and 'Z' (any case) mean UTC, 'local' means the time zone of the operating system, and a fixed offset can be given as '+HH:MM' or '-HH:MM'. Other names are searched in the time zone database. When no database is set, a short list of common zones and POSIX TZ rules such as 'EST5EDT,M3.2.0/2,M11.1.0/2' are still accepted.</p>
     <p
     >When <b>dataPath</b> is given, it becomes the database folder of all the time zone functions for the rest of the session. Nelson ships a database in <b>[modulepath('time'), '/resources/tzdata']</b>.</p>
+    <p
+    >When daylight saving time ends, a wall-clock time happens twice. With 'local' it is read as the later occurrence (standard time), with 'first' as the earlier one. A wall-clock time skipped when daylight saving time starts takes the offset before the change.</p>
     <p
     >Non-finite values of <b>dn</b> (NaN, Inf) give an offset of 0. An unknown time zone raises an error.</p>
   </description>
