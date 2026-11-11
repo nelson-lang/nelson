@@ -56,7 +56,8 @@ function Run-Setup([string]$Executable, [string]$Destination, [string]$Pause = '
     $process = [Diagnostics.Process]::Start($info)
     try {
         if ($Pause) {
-            $deadline = [DateTime]::UtcNow.AddSeconds(30)
+            # Same bound as the installer: a loaded host can copy the runtime slowly before the pause.
+            $deadline = [DateTime]::UtcNow.AddMilliseconds($installerTimeoutMs)
             while (-not (Test-Path -LiteralPath $marker)) {
                 if ($process.HasExited -or [DateTime]::UtcNow -gt $deadline) { throw "No $Pause pause: $(Get-Content -LiteralPath $log -Raw)" }
                 Start-Sleep -Milliseconds 10
