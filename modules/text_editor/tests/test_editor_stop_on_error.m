@@ -37,6 +37,8 @@ try
 catch e
   caught = e.message;
 end
+% clear before asserting: a failed assert caught by the runner would pause here forever
+dbclear all
 asserts.istrue(contains(caught, 'undefined_editor_thing'));
 asserts.isequal(numel(editor_test_log), 2);
 state = editor_test_log{1};
@@ -46,7 +48,6 @@ asserts.isequal(state.line, 3);
 asserts.istrue(strcmp(strrep(state.file, '\', '/'), strrep(fixture, '\', '/')));
 asserts.istrue(contains(state.errorMessage, 'undefined_editor_thing'));
 asserts.isequal(editor_test_log{2}, 'r = 2');
-dbclear all
 clear global editor_test_log
 % release the cleanups here, not at process exit, where the editor is already shutting down
 clear editorCleanup

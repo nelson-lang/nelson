@@ -134,8 +134,8 @@ namespace {
                 const fs::path library = BytecodeIO::interpreterModulePath();
                 return wstring_to_utf8(library.wstring()) + "|"
                     + std::to_string(fs::file_size(library)) + "|"
-                    + std::to_string(
-                        static_cast<long long>(fs::last_write_time(library).time_since_epoch().count()));
+                    + std::to_string(static_cast<long long>(
+                        fs::last_write_time(library).time_since_epoch().count()));
             } catch (...) {
                 return "";
             }
