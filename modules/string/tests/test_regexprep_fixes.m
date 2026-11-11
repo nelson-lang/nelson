@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % several patterns are applied one after the other to the same text
 asserts.isequal(regexprep('ab', {'a', 'b'}, {'1', '2'}), '12');
 asserts.isequal(regexprep('ab', {'a', 'b'}, 'X'), 'XX');

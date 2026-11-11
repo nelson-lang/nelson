@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % named tokens come in pattern order
 names = regexp('a1b2', '(?<l>[a-z])(?<d>\d)', 'names');
 asserts.isequal(fieldnames(names), {'l'; 'd'});

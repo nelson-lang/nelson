@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % <--WEIGHT 2-->
 asserts.isequal(str2num('[1 2 3]'), [1 2 3]);
 asserts.isequal(str2num('1 2 3'), [1 2 3]);

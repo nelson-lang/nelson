@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 asserts.isequal(char(characterListPattern('abc')), '[abc]');
 asserts.isequal(char(characterListPattern("a", "g")), '[a-g]');
 %=============================================================================

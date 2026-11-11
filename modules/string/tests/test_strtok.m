@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 [tok, rem] = strtok('  abc def');
 asserts.isequal(tok, 'abc');
 asserts.isequal(rem, ' def');

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % (5a) complex value with a zero imaginary part shows only the real part.
 asserts.isequal(mat2str(complex(1, 0)), '1');
 asserts.isequal(mat2str([complex(1, 0) complex(2, 3)]), '[1 2+3i]');

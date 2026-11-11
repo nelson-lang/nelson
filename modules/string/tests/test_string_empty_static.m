@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 R = string.empty;
 assert_isequal(class(R), 'string');
 assert_isequal(size(R), [0 0]);

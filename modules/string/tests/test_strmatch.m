@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 asserts.isequal(strmatch('ab', {'abc'; 'ac'; 'ab'}), [1; 3]);
 asserts.isequal(strmatch('ab', {'abc'; 'ac'; 'ab'}, 'exact'), 3);
 %=============================================================================

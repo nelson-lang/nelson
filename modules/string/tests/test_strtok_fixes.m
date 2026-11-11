@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % a cell input keeps its shape
 asserts.isequal(strtok({'a b', 'c d'}), {'a', 'c'});
 [t, r] = strtok({'a b', 'c d'});

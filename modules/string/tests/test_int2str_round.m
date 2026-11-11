@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % (6) int2str rounds (half away from zero) instead of truncating.
 asserts.isequal(int2str(2.5), '3');
 asserts.isequal(int2str(-2.5), '-3');

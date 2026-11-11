@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % a count below one compares nothing, an infinite count the whole strings,
 % a fractional count is rounded down
 asserts.istrue(strncmp('abc', 'abd', 0));

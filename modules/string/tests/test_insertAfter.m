@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 asserts.isequal(insertAfter('abc', 2, 'XX'), 'abXXc');
 asserts.isequal(insertAfter("a=b", "=", "XX"), "a=XXb");
 S = ["a=b"; "c:d"];

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 p = possessivePattern('a');
 asserts.istrue(isa(p, 'pattern'));
 asserts.isequal(char(p), '(?:a)++');

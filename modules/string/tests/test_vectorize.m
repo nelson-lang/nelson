@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 asserts.isequal(vectorize('x^2 + y*z - a/b'), 'x.^2 + y.*z - a./b');
 asserts.isequal(vectorize('sin(x)+a.^b'), 'sin(x)+a.^b');
 asserts.isequal(vectorize('f(''a*b'')'), 'f(''a.*b'')');

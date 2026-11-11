@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % An empty numeric argument gives an empty string array (no out-of-bounds read)
 R = compose('Row%d', zeros(0, 1));
 asserts.isequal(class(R), 'string');

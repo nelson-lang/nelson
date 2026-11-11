@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 txt = "This is line one." + newline + "Here is line two.";
 asserts.isequal(extract(txt, lineBoundary + lettersPattern), ["This"; "Here"]);
 asserts.istrue(isa(lineBoundary(), 'pattern'));

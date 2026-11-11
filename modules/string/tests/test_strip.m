@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 asserts.isequal(strip('  abc  '), 'abc');
 asserts.isequal(strip('__abc__', 'both', '_'), 'abc');
 asserts.isequal(strip(["  a", "b  "]), ["a", "b"]);

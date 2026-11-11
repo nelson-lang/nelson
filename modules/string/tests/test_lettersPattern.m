@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 asserts.isequal(char(lettersPattern()), '(?:[A-Za-z])+');
 asserts.isequal(extract("The 2 parties agreed.", lettersPattern), ["The"; "parties"; "agreed"]);
 %=============================================================================

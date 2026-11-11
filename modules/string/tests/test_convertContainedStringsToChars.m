@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 C = convertContainedStringsToChars({"a", struct('b', "c")});
 asserts.isequal(C{1}, 'a');
 asserts.isequal(C{2}.b, 'c');

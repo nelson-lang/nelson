@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % the pad character may follow the width directly, the side is any case
 asserts.isequal(pad('abc', 5, '*'), 'abc**');
 asserts.isequal(pad('abc', 5, 'left', '*'), '**abc');

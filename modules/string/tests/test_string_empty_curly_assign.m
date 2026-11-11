@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % S{I} = B on an empty string array grows a string array, gaps are missing.
 %=============================================================================
 x = strings(0, 0);

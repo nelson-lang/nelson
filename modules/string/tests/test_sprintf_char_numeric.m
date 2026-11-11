@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % A character argument passed to a numeric conversion is consumed as its
 % character code, recycling for character vectors. All expected values are
 % the expected behavior.

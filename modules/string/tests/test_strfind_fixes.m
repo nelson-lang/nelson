@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % numeric arrays are searched value by value, characters by their codes
 asserts.isequal(strfind([1 2 3 2], 2), [2 4]);
 asserts.isequal(strfind([1 2 3], [2 3]), 2);

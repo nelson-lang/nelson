@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % <--WEIGHT 8-->
 asserts.isequal(nargin('sprintf'), -1);
 asserts.isequal(nargout('sprintf'), 2);

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 [A, B] = strread('1 one 2 two', '%d %s');
 asserts.isequal(A, [1; 2]);
 asserts.isequal(B, {'one'; 'two'});

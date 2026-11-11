@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % S{I} = B on a string array accepts a character row vector, '' or [] only
 %=============================================================================
 msg = _('Curly brace assignment into a string expects a character vector.');

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % strcmp and strcmpi of two char arrays need the same size and characters,
 % empty ones included; a string or a cell compares the text alone.
 %=============================================================================

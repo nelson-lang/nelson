@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 p = asManyOfPattern('a', 2, 4);
 asserts.istrue(isa(p, 'pattern'));
 asserts.isequal(char(p), '(?:a){2,4}');

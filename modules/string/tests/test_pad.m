@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 asserts.isequal(pad('abc', 5), 'abc  ');
 asserts.isequal(pad('abc', 5, 'left', '0'), '00abc');
 asserts.isequal(pad("abc", 5, "both", "_"), "_abc_");

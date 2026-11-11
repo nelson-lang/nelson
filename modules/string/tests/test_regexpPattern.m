@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 asserts.isequal(char(regexpPattern('\d+')), '\d+');
 asserts.isequal(extract("a12", regexpPattern('\d+')), "12");
 %=============================================================================

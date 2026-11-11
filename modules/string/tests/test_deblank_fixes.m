@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % a character matrix loses its trailing all-blank columns
 asserts.isequal(deblank(['a  '; 'bc ']), ['a '; 'bc']);
 asserts.isequal(deblank(['ab '; 'cd ']), ['ab'; 'cd']);

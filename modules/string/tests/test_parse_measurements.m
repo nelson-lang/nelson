@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 run([modulepath('string', 'root'), '/examples/parse_measurements.m']);
 assert(isequal(measurementNames, ["temperature"; "pressure"; "humidity"]));
 assert(max(abs(measurementValues - [21.5; 101.3; 48])) < eps);

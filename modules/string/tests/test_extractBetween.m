@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 asserts.isequal(extractBetween("abcDEFghi", 3, 7), "cDEFg");
 asserts.isequal(extractBetween("a[bc]d", "[", "]"), "bc");
 asserts.isequal(extractBetween("a<one>b<two>", "<", ">"), ["one"; "two"]);

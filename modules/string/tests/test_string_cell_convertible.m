@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Each element of a cell converted to a string array must become one string:
 % a scalar, a character row ('' too) or a 1x1 cell holding such a value. The
 % first other element, by linear index, names the error.

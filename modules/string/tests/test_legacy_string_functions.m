@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % <--WEIGHT 2-->
 asserts.isequal(findstr('abcdef', 'cd'), 3);
 asserts.isequal(findstr('你好你好', '好'), [2 4]);

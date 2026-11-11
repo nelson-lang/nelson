@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % <--WEIGHT 16-->
 asserts.isequal(str2double('+i'), i);
 asserts.isequal(str2double('-i'), -i);

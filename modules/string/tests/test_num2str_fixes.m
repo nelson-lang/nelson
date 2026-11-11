@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % (4a) real-valued single complex uses the real part, not the interleaved data.
 asserts.isequal(num2str(complex(single([1 2 3]), single(0))), '1  2  3');
 %=============================================================================

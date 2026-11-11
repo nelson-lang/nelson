@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % <--WEIGHT 4-->
 % (2a) non-double numeric arrays are converted according to their real class.
 asserts.isequal(sprintf('%f ', single([1.5 2.5])), '1.500000 2.500000 ');

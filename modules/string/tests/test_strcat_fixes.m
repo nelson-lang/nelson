@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % character matrices are concatenated row by row, a single row is reused
 asserts.isequal(strcat(['a'; 'b'], 'c'), ['ac'; 'bc']);
 asserts.isequal(strcat(['a'; 'b'], ['c'; 'd']), ['ac'; 'bd']);

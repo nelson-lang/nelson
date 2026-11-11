@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 asserts.istrue(strncmp('Nelson', 'Nelson', 3));
 asserts.isfalse(strncmp('Nelson', 'nelson', 3));
 %=============================================================================

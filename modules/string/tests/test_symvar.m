@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 assert_isequal(symvar('x.^2'), {'x'});
 %=============================================================================
 assert_isequal(symvar('a + b*c'), {'a'; 'b'; 'c'});

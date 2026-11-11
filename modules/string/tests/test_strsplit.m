@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 asserts.isequal(strsplit('a,b,c', ','), {'a', 'b', 'c'});
 asserts.isequal(strsplit('a,,b', ',', 'CollapseDelimiters', true), {'a', 'b'});
 [parts, matches] = strsplit('a1b22c', '\d+', 'DelimiterType', 'RegularExpression');

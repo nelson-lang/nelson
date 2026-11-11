@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 p = digitsPattern(2);
 R = extract('a12b345', p);
 asserts.isequal(R{1}, '12');

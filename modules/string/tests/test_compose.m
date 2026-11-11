@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 asserts.isequal(compose('%0.2f', [1; 2]), ["1.00"; "2.00"]);
 asserts.isequal(compose('%s=%d', "x", 3), "x=3");
 asserts.isequal(compose("%% ready"), "% ready");

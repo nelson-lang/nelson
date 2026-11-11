@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % <--WEIGHT 4-->
 % Width, left/right alignment and precision must apply to the '%s' specifier,
 % for char and string arguments alike. All expected values are the reference

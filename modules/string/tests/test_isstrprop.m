@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 asserts.isequal(isstrprop('a1 ', 'alpha'), [true false false]);
 asserts.isequal(isstrprop('a1 ', 'digit'), [false true false]);
 asserts.isequal(isstrprop('a1 ', 'alphanum'), [true true false]);

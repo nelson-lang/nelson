@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 p = lookAheadBoundary('b');
 asserts.istrue(isa(p, 'pattern'));
 asserts.isequal(extract("ab", "a" + p), "a");

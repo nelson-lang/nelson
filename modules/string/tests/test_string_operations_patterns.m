@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % <--WEIGHT 16-->
 names = ["alpha.txt", "beta.csv"; "ALPHA.dat", "report.txt"];
 asserts.isequal(contains(names, "alpha", 'IgnoreCase', true), logical([1 0; 1 0]));

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Output is size(A,1) x ceil(size(A,2) / number of conversions)
 R = compose('%d', 1:3);
 asserts.isequal(R, ["1" "2" "3"]);

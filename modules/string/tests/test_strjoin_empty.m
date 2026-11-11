@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % (8) joining an empty cell yields an empty char row.
 asserts.isequal(strjoin({}, ','), '');
 asserts.isequal(class(strjoin({}, ',')), 'char');

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % <--WEIGHT 2-->
 % Dynamic field width and precision taken from arguments with '*' must apply
 % to numeric conversions, not only to '%s'. All expected values are the

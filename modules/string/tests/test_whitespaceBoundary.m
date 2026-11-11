@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 p = whitespaceBoundary();
 asserts.istrue(isa(p, 'pattern'));
 asserts.isequal(replace("a b", p, "|"), "a| |b");

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 asserts.isequal(char(digitBoundary("end")), '(?<=\d)(?!\d)');
 asserts.istrue(isa(digitBoundary(), 'pattern'));
 %=============================================================================

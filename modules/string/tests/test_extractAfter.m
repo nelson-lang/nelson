@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 asserts.isequal(extractAfter('abc.def', '.'), 'def');
 asserts.isequal(extractAfter('abcdef', 3), 'def');
 asserts.isequal(extractAfter(["a:b", "c:d"], ":"), ["b", "d"]);

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % error() with an identifier and a format that has more specs than data keeps
 % the identifier and formats the available part; the internal "No more data."
 % message must never leak.

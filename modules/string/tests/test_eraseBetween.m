@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 asserts.isequal(eraseBetween('abcdef', 2, 5), 'af');
 asserts.isequal(eraseBetween("a[bc]d", "[", "]"), "a[]d");
 %=============================================================================

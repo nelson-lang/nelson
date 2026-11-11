@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % <--WEIGHT 2-->
 asserts.isequal(replaceBetween('abcdef', 2, 5, 'XX'), 'aXXf');
 asserts.isequal(replaceBetween("a[bc]d", "[", "]", "XX"), "a[XX]d");

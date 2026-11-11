@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 asserts.isequal(reverse('abc'), 'cba');
 asserts.isequal(reverse(["abc", "de"]), ["cba", "ed"]);
 asserts.isequal(reverse({'abc', 'de'}), {'cba', 'ed'});

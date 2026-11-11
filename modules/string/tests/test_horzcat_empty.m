@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 R = horzcat(char(zeros(0, 0)), 'A');
 asserts.isequal(R, 'A');
 R = horzcat(char(zeros(1, 0)), 'A');
