@@ -127,6 +127,10 @@ public:
     stringVector
     getMacroAndMexNames();
     //=============================================================================
+    // Drops builtin references whose name a path file now defines (the file wins).
+    void
+    dropShadowedBuiltinReferences(const std::function<bool(const std::string&)>& hasFile);
+    //=============================================================================
     void
     deleteAllMFunctions();
     //=============================================================================

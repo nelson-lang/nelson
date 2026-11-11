@@ -88,11 +88,8 @@ Context::lookupFunction(const std::string& funcName, FunctionDefPtr& val, bool b
                 funcName, val, FunctionsInMemory::FIND_FUNCTION_TYPE::BUILTIN)) {
             return true;
         }
-        found = BuiltInFunctionDefManager::getInstance()->find(funcName, val);
-        if (found) {
-            FunctionsInMemory::getInstance()->add(funcName, val);
-        }
-        return found;
+        // not cached: the shared table would then hide a .m file of the same name
+        return BuiltInFunctionDefManager::getInstance()->find(funcName, val);
     }
 
     if (scopestack.back()->lookupFunction(funcName, val)) {

@@ -220,6 +220,9 @@ PathFunctionIndexerManager::refreshFunctionsMap()
             FunctionsInMemory::getInstance()->retireIfFileReplaced(name, it->second->getFilename());
         }
     }
+    // a builtin cached before a file of the same name became reachable must not hide it
+    FunctionsInMemory::getInstance()->dropShadowedBuiltinReferences(
+        [&refreshed](const std::string& name) { return refreshed.count(name) != 0; });
     _pathFuncMap = std::move(refreshed);
 }
 //=============================================================================

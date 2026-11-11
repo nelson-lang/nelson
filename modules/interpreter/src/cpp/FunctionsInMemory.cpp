@@ -299,6 +299,25 @@ FunctionsInMemory::getMacroAndMexNames()
 }
 //=============================================================================
 void
+FunctionsInMemory::dropShadowedBuiltinReferences(
+    const std::function<bool(const std::string&)>& hasFile)
+{
+    std::unique_lock<std::shared_mutex> lock(tablesMutex);
+    bool dropped = false;
+    for (auto it = _builtinFunctionInMemory.begin(); it != _builtinFunctionInMemory.end();) {
+        if (hasFile(it->first)) {
+            it = _builtinFunctionInMemory.erase(it);
+            dropped = true;
+        } else {
+            ++it;
+        }
+    }
+    if (dropped) {
+        clearMapCacheLocked();
+    }
+}
+//=============================================================================
+void
 FunctionsInMemory::destroyRetiredFunctions()
 {
     for (auto* definition : _retiredFunctions) {
