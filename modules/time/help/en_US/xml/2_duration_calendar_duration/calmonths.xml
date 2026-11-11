@@ -6,6 +6,7 @@
   <short_description>Create calendar durations containing calendar months.</short_description>
   <syntax>
     <syntax_item>c = calmonths(x)</syntax_item>
+    <syntax_item>c = calmonths(x, 'ArithmeticMethod', method)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -23,6 +24,7 @@
     <p>Create calendar durations containing calendar months.</p>
     <p>Month arithmetic handles variable month lengths and clamps to the end of the destination month when necessary.</p>
     <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
+    <p><b>ArithmeticMethod</b> may be 'default' or 'endofmonth' (see <b>calendarDuration</b>): with 'endofmonth', a month end stays a month end when the calendar duration is added to a datetime.</p>
   </description>
   <used_function />
   <bibliography />

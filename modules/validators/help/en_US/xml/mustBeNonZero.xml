@@ -29,6 +29,7 @@
       <b>mustBeNonZero</b> checks that value is not zero or raise an error.</p>
     <p>
       <b>mustBeNonzero</b> is another spelling of <b>mustBeNonZero</b>: both names call the same function and raise the same error.</p>
+    <p>The value is compared with 0 by <b>==</b>, so any type that implements it is accepted (char, duration, ...).</p>
   </description>
   <used_function />
   <bibliography />
@@ -61,6 +62,10 @@ mustBeNonZero(0)
     <history_item>
       <history_version>2.0.0</history_version>
       <history_description>lower case spelling mustBeNonzero added</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>any type that implements == is accepted.</history_description>
     </history_item>
   </history>
   <authors>

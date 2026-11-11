@@ -24,6 +24,7 @@
     <p>Teste si des valeurs datetime sont regulierement espacees.</p>
     <p>Sans unite, la regularite est testee sur les differences de dates serie. Avec une unite calendaire, la fonction compare les indices d unite.</p>
     <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
+    <p>L'unité peut aussi être 'endofmonth' (chaque date en fin de mois, à un nombre constant de mois d'écart) ou 'endofquarter' (chaque date en fin de trimestre, à un nombre constant de trimestres d'écart).</p>
   </description>
   <used_function />
   <bibliography />

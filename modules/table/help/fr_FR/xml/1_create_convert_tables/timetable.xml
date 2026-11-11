@@ -29,6 +29,7 @@
     <p><b>timetable</b> cree une timetable, un objet tabulaire dont les lignes sont identifiees par des temps.</p>
     <p>Les temps de lignes peuvent etre fournis comme premier argument ou avec l&apos;argument nom-valeur <b>&apos;RowTimes&apos;</b>.</p>
     <p>Les noms de variables, noms de dimensions, description, donnees utilisateur et proprietes personnalisees sont stockes dans <b>TT.Properties</b>.</p>
+    <p>Les temps de ligne peuvent aussi être des nombres réels <b>double</b> ou <b>single</b> (distance, profondeur, ...), donnés par l'argument nom-valeur <b>RowTimes</b>, ou produits par un <b>StartTime</b> ou un <b>TimeStep</b> numérique (<b>timetable(x, 'SampleRate', 100, 'StartTime', 1)</b> donne 1, 1.01, 1.02, ...). Un indice numérique reste une position de ligne : utilisez <b>labels</b> pour sélectionner les lignes par leurs temps de ligne numériques (<b>TT(labels(3), :)</b>). Le premier argument positionnel doit rester un vecteur datetime ou duration.</p>
   </description>
   <used_function />
   <bibliography />

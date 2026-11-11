@@ -349,132 +349,55 @@ mustBeNumeric(const ArrayOf& arg, int argPosition, bool asCaller)
     }
 }
 //=============================================================================
+// every element compares with 0 through the operator, so any type that
+// implements it (char, string, duration, ...) is accepted
+static void
+mustCompareWithZero(const ArrayOf& arg, const std::string& operatorName, const std::wstring& id,
+    const std::wstring& defaultMessage, int argPosition, bool asCaller)
+{
+    if (arg.isEmpty()) {
+        return;
+    }
+    Dimensions dimsV(1, arg.dimensions().elementCount());
+    ArrayOf asVector = arg;
+    asVector.reshape(dimsV);
+    ArrayOfVector params(asVector);
+    params.push_back(ArrayOf::doubleScalar(0));
+    ArrayOfVector argOut = evaluateFunction(params, 1, operatorName);
+    argOut = evaluateFunction(argOut, 1, "all");
+    if (!argOut[0].asLogicalScalar()) {
+        std::wstring msg = invalidPositionMessage(argPosition)
+            + formatI18nMessage(resolveMessageTemplate(id, defaultMessage), L"Value");
+        RaiseError(msg, id, asCaller);
+    }
+}
+//=============================================================================
 void
 mustBePositive(const ArrayOf& arg, int argPosition, bool asCaller)
 {
-    mustBeNumericOrLogical(arg, argPosition, asCaller);
-    ArrayOfVector argIn(arg);
-    ArrayOfVector argOut = evaluateFunction(argIn, 1, "isreal");
-    bool isReal = argOut[0].asLogicalScalar();
-    if (!isReal) {
-        std::wstring msg = invalidPositionMessage(argPosition)
-            + formatI18nMessage(
-                resolveMessageTemplate(L"Nelson:validators:mustBeReal", L"%s must be real."),
-                L"Value");
-        RaiseError(msg, L"Nelson:validators:mustBeReal", asCaller);
-    }
-    Dimensions dimsA = argIn[0].dimensions();
-    Dimensions dimsV(1, dimsA.elementCount());
-    ArrayOf asVector = argIn[0];
-    asVector.reshape(dimsV);
-    ArrayOfVector vAsArrayOfVector(asVector);
-    vAsArrayOfVector.push_back(ArrayOf::doubleScalar(0));
-    argOut = evaluateFunction(vAsArrayOfVector, 1, GT_OPERATOR_STR);
-    argOut = evaluateFunction(argOut, 1, "all");
-    bool isPositive = argOut[0].asLogicalScalar();
-    if (!isPositive) {
-        std::wstring msg = invalidPositionMessage(argPosition)
-            + formatI18nMessage(resolveMessageTemplate(
-                                    L"Nelson:validators:mustBePositive", L"%s must be positive."),
-                L"Value");
-        RaiseError(msg, L"Nelson:validators:mustBePositive", asCaller);
-    }
+    mustCompareWithZero(arg, GT_OPERATOR_STR, L"Nelson:validators:mustBePositive",
+        L"%s must be positive.", argPosition, asCaller);
 }
 //=============================================================================
 void
 mustBeNonpositive(const ArrayOf& arg, int argPosition, bool asCaller)
 {
-    mustBeNumericOrLogical(arg, argPosition, asCaller);
-    ArrayOfVector argIn(arg);
-    ArrayOfVector argOut = evaluateFunction(argIn, 1, "isreal");
-    bool isReal = argOut[0].asLogicalScalar();
-    if (!isReal) {
-        std::wstring msg = invalidPositionMessage(argPosition)
-            + formatI18nMessage(
-                resolveMessageTemplate(L"Nelson:validators:mustBeReal", L"%s must be real."),
-                L"Value");
-        RaiseError(msg, L"Nelson:validators:mustBeReal", asCaller);
-    }
-    Dimensions dimsA = argIn[0].dimensions();
-    Dimensions dimsV(1, dimsA.elementCount());
-    ArrayOf asVector = argIn[0];
-    asVector.reshape(dimsV);
-    ArrayOfVector vAsArrayOfVector(asVector);
-    vAsArrayOfVector.push_back(ArrayOf::doubleScalar(0));
-    argOut = evaluateFunction(vAsArrayOfVector, 1, LE_OPERATOR_STR);
-    argOut = evaluateFunction(argOut, 1, "all");
-    bool isNonpositive = argOut[0].asLogicalScalar();
-    if (!isNonpositive) {
-        std::wstring msg = invalidPositionMessage(argPosition)
-            + formatI18nMessage(resolveMessageTemplate(L"Nelson:validators:mustBeNonpositive",
-                                    L"%s must be nonpositive."),
-                L"Value");
-        RaiseError(msg, L"Nelson:validators:mustBeNonpositive", asCaller);
-    }
+    mustCompareWithZero(arg, LE_OPERATOR_STR, L"Nelson:validators:mustBeNonpositive",
+        L"%s must be nonpositive.", argPosition, asCaller);
 }
 //=============================================================================
 void
 mustBeNonnegative(const ArrayOf& arg, int argPosition, bool asCaller)
 {
-    mustBeNumericOrLogical(arg, argPosition, asCaller);
-    ArrayOfVector argIn(arg);
-    ArrayOfVector argOut = evaluateFunction(argIn, 1, "isreal");
-    bool isReal = argOut[0].asLogicalScalar();
-    if (!isReal) {
-        std::wstring msg = invalidPositionMessage(argPosition)
-            + formatI18nMessage(
-                resolveMessageTemplate(L"Nelson:validators:mustBeReal", L"%s must be real."),
-                L"Value");
-        RaiseError(msg, L"Nelson:validators:mustBeReal", asCaller);
-    }
-    Dimensions dimsA = argIn[0].dimensions();
-    Dimensions dimsV(1, dimsA.elementCount());
-    ArrayOf asVector = argIn[0];
-    asVector.reshape(dimsV);
-    ArrayOfVector vAsArrayOfVector(asVector);
-    vAsArrayOfVector.push_back(ArrayOf::doubleScalar(0));
-    argOut = evaluateFunction(vAsArrayOfVector, 1, GE_OPERATOR_STR);
-    argOut = evaluateFunction(argOut, 1, "all");
-    bool isNonnegative = argOut[0].asLogicalScalar();
-    if (!isNonnegative) {
-        std::wstring msg = invalidPositionMessage(argPosition)
-            + formatI18nMessage(resolveMessageTemplate(L"Nelson:validators:mustBeNonnegative",
-                                    L"%s must be nonnegative."),
-                L"Value");
-        RaiseError(msg, L"Nelson:validators:mustBeNonnegative", asCaller);
-    }
+    mustCompareWithZero(arg, GE_OPERATOR_STR, L"Nelson:validators:mustBeNonnegative",
+        L"%s must be nonnegative.", argPosition, asCaller);
 }
 //=============================================================================
 void
 mustBeNegative(const ArrayOf& arg, int argPosition, bool asCaller)
 {
-    mustBeNumericOrLogical(arg, argPosition, asCaller);
-    ArrayOfVector argIn(arg);
-    ArrayOfVector argOut = evaluateFunction(argIn, 1, "isreal");
-    bool isReal = argOut[0].asLogicalScalar();
-    if (!isReal) {
-        std::wstring msg = invalidPositionMessage(argPosition)
-            + formatI18nMessage(
-                resolveMessageTemplate(L"Nelson:validators:mustBeReal", L"%s must be real."),
-                L"Value");
-        RaiseError(msg, L"Nelson:validators:mustBeReal", asCaller);
-    }
-    Dimensions dimsA = argIn[0].dimensions();
-    Dimensions dimsV(1, dimsA.elementCount());
-    ArrayOf asVector = argIn[0];
-    asVector.reshape(dimsV);
-    ArrayOfVector vAsArrayOfVector(asVector);
-    vAsArrayOfVector.push_back(ArrayOf::doubleScalar(0));
-    argOut = evaluateFunction(vAsArrayOfVector, 1, LT_OPERATOR_STR);
-    argOut = evaluateFunction(argOut, 1, "all");
-    bool isNegative = argOut[0].asLogicalScalar();
-    if (!isNegative) {
-        std::wstring msg = invalidPositionMessage(argPosition)
-            + formatI18nMessage(resolveMessageTemplate(
-                                    L"Nelson:validators:mustBeNegative", L"%s must be negative."),
-                L"Value");
-        RaiseError(msg, L"Nelson:validators:mustBeNegative", asCaller);
-    }
+    mustCompareWithZero(arg, LT_OPERATOR_STR, L"Nelson:validators:mustBeNegative",
+        L"%s must be negative.", argPosition, asCaller);
 }
 //=============================================================================
 void
@@ -503,7 +426,7 @@ mustBeNonNan(const ArrayOf& arg, int argPosition, bool asCaller)
 void
 mustBeNonZero(const ArrayOf& arg, int argPosition, bool asCaller)
 {
-    mustBeNumericOrLogical(arg, argPosition, asCaller);
+    // any type that implements == is accepted
     Dimensions dimsA = arg.dimensions();
     Dimensions dimsV(1, dimsA.elementCount());
     ArrayOf asVector = arg;
@@ -552,22 +475,15 @@ mustBeReal(const ArrayOf& arg, int argPosition, bool asCaller)
 void
 mustBeInteger(const ArrayOf& arg, int argPosition, bool asCaller)
 {
-    mustBeNumericOrLogical(arg, argPosition, asCaller);
-    ArrayOfVector argIn(arg);
-    ArrayOfVector argOut = evaluateFunction(argIn, 1, "isreal");
-    bool isReal = argOut[0].asLogicalScalar();
-    if (!isReal) {
-        std::wstring msg = invalidPositionMessage(argPosition)
-            + formatI18nMessage(
-                resolveMessageTemplate(L"Nelson:validators:mustBeReal", L"%s must be real."),
-                L"Value");
-        RaiseError(msg, L"Nelson:validators:mustBeReal", asCaller);
+    // isfinite, floor and == decide, so any type implementing them is accepted
+    if (arg.isEmpty()) {
+        return;
     }
+    ArrayOfVector argOut;
     Dimensions dimsA = arg.dimensions();
     Dimensions dimsV(1, dimsA.elementCount());
     ArrayOf asVector = arg;
     asVector.reshape(dimsV);
-    ArrayOfVector vAsArrayOfVector(asVector);
     argOut = evaluateFunction(asVector, 1, "isfinite");
     argOut = evaluateFunction(argOut, 1, "all");
     if (!argOut[0].asLogicalScalar()) {

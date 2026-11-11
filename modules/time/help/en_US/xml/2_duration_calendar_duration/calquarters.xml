@@ -6,6 +6,7 @@
   <short_description>Create calendar durations containing calendar quarters.</short_description>
   <syntax>
     <syntax_item>c = calquarters(x)</syntax_item>
+    <syntax_item>c = calquarters(x, 'ArithmeticMethod', method)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -23,6 +24,7 @@
     <p>Create calendar durations containing calendar quarters.</p>
     <p>Use calquarters for month-based calendar shifts. This differs from days or duration arithmetic because month lengths vary.</p>
     <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
+    <p><b>ArithmeticMethod</b> may be 'default' or 'endofquarter' (see <b>calendarDuration</b>): with 'endofquarter', a quarter end stays a quarter end when the calendar duration is added to a datetime.</p>
   </description>
   <used_function />
   <bibliography />

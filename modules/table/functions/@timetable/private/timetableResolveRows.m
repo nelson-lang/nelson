@@ -19,8 +19,9 @@ function [rows, newTimes] = timetableResolveRows(rowTimes, sub, allowNew)
     rows = 1:timetableTimeCount(rowTimes);
     return
   end
-  if ischar(sub) || isstring(sub) || iscellstr(sub)
-    sub = textTimes(rowTimes, sub);
+  [sub, rows, newTimes, done] = labelOrTextSubscript(rowTimes, sub, nargin > 2 && allowNew);
+  if done
+    return
   end
   if islogical(sub)
     rows = find(sub);
@@ -45,19 +46,74 @@ function [rows, newTimes] = timetableResolveRows(rowTimes, sub, allowNew)
   end
 end
 %=============================================================================
+function [sub, rows, newTimes, done] = labelOrTextSubscript(rowTimes, sub, allowNew)
+  % labels are resolved here; text becomes row times of the row time type
+  done = isa(sub, 'labels');
+  rows = [];
+  newTimes = rowTimes([]);
+  if done
+    [rows, newTimes] = labelRows(rowTimes, labels.values(sub), allowNew);
+  elseif ischar(sub) || isstring(sub) || iscellstr(sub)
+    sub = textTimes(rowTimes, sub);
+  end
+end
+%=============================================================================
 function times = textTimes(rowTimes, text)
   if isa(rowTimes, 'datetime')
     times = datetime(text);
-  else
+  elseif isa(rowTimes, 'duration')
     times = duration(text);
+  else
+    error('Nelson:timetable:textSubscriptNumericRowTimes', ...
+      'Text cannot select rows of a timetable with numeric row times: use labels.');
+  end
+end
+%=============================================================================
+function [rows, newTimes] = labelRows(rowTimes, values, allowNew)
+  % rows whose row times equal the label values (datetime and duration
+  % labels select like times)
+  if isa(values, 'datetime') || isa(values, 'duration')
+    [rows, newTimes] = timetableResolveRows(rowTimes, values, allowNew);
+    return
+  end
+  if ~(isa(rowTimes, 'double') || isa(rowTimes, 'single'))
+    error('Nelson:timetable:labelsTypeMismatch', ...
+      'Numeric labels select rows of a timetable with numeric row times only.');
+  end
+  if allowNew
+    [rows, newTimes] = assignedLabelRows(rowTimes, values);
+    return
+  end
+  newTimes = rowTimes([]);
+  matched = arrayfun(@(v) reshape(find(rowTimes == v), 1, []), values(:)', 'UniformOutput', false);
+  rows = [zeros(1, 0), matched{:}];
+end
+%=============================================================================
+function [rows, newTimes] = assignedLabelRows(rowTimes, values)
+  % first row at each label value, or a new row after the last one
+  newTimes = rowTimes([]);
+  rows = zeros(1, numel(values));
+  for k = 1:numel(values)
+    idx = find(rowTimes == values(k), 1);
+    if isempty(idx)
+      idx = find(newTimes == values(k), 1);
+      if isempty(idx)
+        newTimes(end + 1, 1) = values(k);
+        idx = numel(newTimes);
+      end
+      idx = numel(rowTimes) + idx;
+    end
+    rows(k) = idx;
   end
 end
 %=============================================================================
 function n = timetableTimeCount(value)
   if isa(value, 'datetime')
     n = numel(datenum(value));
-  else
+  elseif isa(value, 'duration')
     n = numel(seconds(value));
+  else
+    n = numel(value);
   end
 end
 %=============================================================================

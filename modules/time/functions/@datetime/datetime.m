@@ -865,18 +865,29 @@ classdef datetime
           [serial(k), millis(k)] = datetime.parseOneText(rows{k}, options);
         end
       else
-        % one vectorized regexp over the array, then the fields per text
-        allTokens = cell(numel(rows), 1);
-        if ~isempty(options.CompiledFormat) && ~isempty(rows)
-          allTokens = regexp(strtrim(rows), options.CompiledFormat.pattern, 'tokens', 'once');
-        end
+        allTokens = datetime.matchTextTokens(rows, options);
         for k = 1:numel(rows)
           [serial(k), millis(k)] = datetime.resolveTextTokens(allTokens{k}, rows{k}, options);
         end
         datetime.checkTextConverted(rows, serial, options, mode);
+        datetime.warnAmbiguousDayMonth(allTokens, options.CompiledFormat, mode);
       end
       serial = reshape(serial, outSize);
       millis = reshape(millis, outSize);
+    end
+
+    function allTokens = matchTextTokens(rows, options)
+      % one vectorized regexp over the array, then the fields per text
+      allTokens = cell(numel(rows), 1);
+      spec = options.CompiledFormat;
+      if isempty(spec) || isempty(rows)
+        return
+      end
+      allTokens = regexp(strtrim(rows), spec.pattern, 'tokens', 'once');
+      if spec.hasRuns
+        allTokens = cellfun(@(tok) datetime.splitRunTokens(tok, spec, options.PivotYear), allTokens, ...
+          'UniformOutput', false);
+      end
     end
 
     function [rows, outSize] = textRows(value)
@@ -906,6 +917,12 @@ classdef datetime
     function [options, mode] = textFormatOptions(rows, options)
       % 'input': compiled InputFormat; 'fallback': InputFormat the regex parser
       % does not read; 'detected' / 'unrecognized': layout of the first date text
+      % missing date fields come from today (in the time zone of the result)
+      baseDv = datevec(datetimeNow(options.TimeZone));
+      options.BaseDate = baseDv(1:3);
+      if ~isfield(options, 'PivotYear') || isempty(options.PivotYear)
+        options.PivotYear = baseDv(1) - 50;
+      end
       if ~isempty(options.InputFormat)
         options.CompiledFormat = datetime.compileReadableFormat(options.InputFormat);
         mode = 'input';
@@ -913,14 +930,12 @@ classdef datetime
           mode = 'fallback';
         end
       else
-        options.CompiledFormat = datetime.detectTextFormat(rows, options.Format);
+        options.CompiledFormat = datetime.detectTextFormat(rows, options.Format, options.PivotYear);
         mode = 'detected';
         if isempty(options.CompiledFormat)
           mode = 'unrecognized';
         end
       end
-      baseDv = datevec(now());
-      options.BaseYear = baseDv(1);
     end
 
     function spec = compileReadableFormat(fmt)
@@ -941,7 +956,8 @@ classdef datetime
     function [serial, millis] = resolveTextTokens(tok, row, options)
       % one text matched (or not) against the compiled format: no match is NaT
       if ~isempty(tok) && datetime.validDateTokens(tok, options.CompiledFormat.fields)
-        [serial, millis] = datetime.applyFormatTokens(tok, options.CompiledFormat.fields, options.BaseYear);
+        [serial, millis] = datetime.applyFormatTokens(tok, options.CompiledFormat.fields, options.BaseDate, ...
+          options.PivotYear);
       else
         [serial, millis] = datetime.keywordOrNaT(row, options);
       end
@@ -977,13 +993,28 @@ classdef datetime
       error('Nelson:datetime:ParseErrs', 'Unable to read the text as datetime values with the format ''%s''.', fmt);
     end
 
+    function warnAmbiguousDayMonth(allTokens, spec, mode)
+      % a guessed month-first layout warns when no day is above 12
+      if ~strcmp(mode, 'detected') || ~spec.guessed || ~strncmp(spec.format, 'MM/dd/', 6)
+        return
+      end
+      matched = allTokens(~cellfun(@isempty, allTokens));
+      dayField = strcmp(spec.fields, 'day');
+      days = cellfun(@(tok) str2double(tok{dayField}), matched);
+      if ~isempty(days) && all(days <= 12)
+        other = ['dd/MM/', spec.format(7:end)];
+        warning('Nelson:datetime:AmbiguousDateString', ['The text was read with the format ''%s'', ', ...
+          'but ''%s'' could also apply. Use the ''InputFormat'' option to choose.'], spec.format, other);
+      end
+    end
+
     function tf = isPlaceholderText(text)
       % empty text, 'NaT' and keywords such as 'now' never make the text unreadable
       word = lower(strtrim(char(text)));
       tf = isempty(word) || any(strcmp(word, {'nat', 'now', 'today', 'tomorrow', 'yesterday'}));
     end
 
-    function spec = detectTextFormat(rows, preferred)
+    function spec = detectTextFormat(rows, preferred, pivotYear)
       % Compiled format of the first date text: the given Format when it fits,
       % else the usual layouts (ISO, dd-MMM-yyyy, US then day-first slashes);
       % [] when none fits it.
@@ -1000,17 +1031,21 @@ classdef datetime
         'dd-MMM-yyyy hh:mm:ss a', 'dd-MMM-yyyy hh:mm a', 'dd-MMM-yyyy', ...
         'MM/dd/yyyy HH:mm:ss', 'MM/dd/yyyy HH:mm', 'MM/dd/yyyy hh:mm a', 'MM/dd/yyyy', ...
         'dd/MM/yyyy HH:mm:ss', 'dd/MM/yyyy HH:mm', 'dd/MM/yyyy', 'MMM d, yyyy'};
+      guessed = true(size(candidates));
       if ~strcmp(preferred, 'default')
         candidates = [{preferred}, candidates];
+        guessed = [false, guessed];
       end
       for k = 1:numel(candidates)
         candidate = datetime.compileReadableFormat(candidates{k});
         if isempty(candidate)
           continue
         end
-        tok = regexp(sample, candidate.pattern, 'tokens', 'once');
+        tok = datetime.splitRunTokens(regexp(sample, candidate.pattern, 'tokens', 'once'), candidate, pivotYear);
         if ~isempty(tok) && datetime.validDateTokens(tok, candidate.fields)
           spec = candidate;
+          spec.format = char(candidates{k});
+          spec.guessed = guessed(k);
           return
         end
       end
@@ -1019,17 +1054,18 @@ classdef datetime
     function tf = validDateTokens(tokens, fields)
       % true when the matched fields form a real date and time of day
       names = {'year', 'month', 'day', 'hour', 'minute', 'second'};
+      kinds = strrep(fields, 'pivotyear', 'year');
       v = [2000, 1, 1, 0, 0, 0];
-      for k = 1:numel(fields)
-        idx = find(strcmp(names, fields{k}));
-        if strcmp(fields{k}, 'monthname')
+      for k = 1:numel(kinds)
+        idx = find(strcmp(names, kinds{k}));
+        if strcmp(kinds{k}, 'monthname')
           v(2) = datetime.monthNameToNumber(tokens{k});
         elseif ~isempty(idx)
           v(idx) = str2double(tokens{k});
         end
       end
       % hours are 1-12 with AM/PM, 0-23 otherwise
-      twelve = any(strcmp(fields, 'ampm'));
+      twelve = any(strcmp(kinds, 'ampm')) && any(strcmp(kinds, 'hour'));
       low = [-Inf, 1, 1, twelve, 0, 0];
       high = [Inf, 12, 31, 23 - 11 * twelve, 59, 59];
       tf = all(v >= low & v <= high) && v(3) <= eomday(v(1), v(2));
@@ -1123,46 +1159,112 @@ classdef datetime
 
     function spec = compileInputFormat(fmt)
       % Build the regex pattern and ordered field list for an LDML InputFormat
-      % once. Parsing an array of texts that share a format reuses this spec
-      % instead of re-tokenizing and rebuilding (and recompiling) the pattern
-      % per element, which made datetime(text, 'InputFormat', ...) take time
-      % proportional to the number of texts times a large per-text constant.
+      % once, so an array of texts sharing a format reuses it. Abutting numeric
+      % fields (yyyyMMdd) share one digit group split per text (splitRunTokens).
       segs = datetime.tokenizeInputFormat(char(fmt));
       pattern = '^';
-      fields = {};
-      for k = 1:numel(segs)
+      fields = cell(1, numel(segs));
+      runs = cell(1, numel(segs));
+      nFields = 0;
+      nRuns = 0;
+      k = 1;
+      while k <= numel(segs)
         seg = segs{k};
-        if seg.isField
-          % When a numeric token is immediately followed by another numeric
-          % token (no literal separator between them), the format is
-          % delimiter-less and the token must consume exactly its declared
-          % width; otherwise a greedy match would let the first token swallow
-          % the digits belonging to the following token (e.g. yyyyMMdd on
-          % '20210315'). Delimited formats keep the flexible width they
-          % already relied on.
-          fixedWidth = false;
-          if datetime.isNumericField(seg.letter, seg.count) ...
-              && k < numel(segs) && segs{k + 1}.isField ...
-              && datetime.isNumericField(segs{k + 1}.letter, segs{k + 1}.count)
-            fixedWidth = true;
-          end
-          [grp, name] = datetime.fieldRegex(seg.letter, seg.count, fixedWidth);
-          pattern = [pattern, grp];
-          fields{end + 1} = name;
-        else
-          pattern = [pattern, datetime.regexEscape(seg.text)];
+        if ~seg.isField
+          % spaces of the format match any (or no) spaces of the text
+          pattern = [pattern, regexprep(datetime.regexEscape(seg.text), '\s+', '\\s*')];
+          k = k + 1;
+          continue
         end
+        last = datetime.numericRunEnd(segs, k);
+        [grp, names, run] = datetime.fieldGroup(segs(k:last));
+        fields(nFields + 1:nFields + numel(names)) = names;
+        nFields = nFields + numel(names);
+        nRuns = nRuns + 1;
+        runs{nRuns} = run;
+        pattern = [pattern, grp];
+        k = last + 1;
       end
-      spec = struct('pattern', [pattern, '$'], 'fields', {fields});
+      runs = runs(1:nRuns);
+      spec = struct('pattern', [pattern, '$'], 'fields', {fields(1:nFields)}, 'runs', {runs}, ...
+        'hasRuns', any(~cellfun(@isempty, runs)));
     end
 
-    function [serial, millis] = applyFormatTokens(tokens, fields, baseYear)
+    function [grp, names, run] = fieldGroup(segs)
+      % regex group, field names and run layout of one field or of a run of
+      % abutting numeric fields (one digit group, run is [] for one field)
+      names = cell(1, numel(segs));
+      for r = 1:numel(segs)
+        [grp, names{r}] = datetime.fieldRegex(segs{r}.letter, segs{r}.count);
+      end
+      run = [];
+      if numel(segs) > 1
+        grp = '(\d+)';
+        run = struct('letters', cellfun(@(seg) seg.letter, segs), 'counts', cellfun(@(seg) seg.count, segs));
+      end
+    end
+
+    function last = numericRunEnd(segs, k)
+      % last segment of the run of abutting numeric fields that starts at k
+      last = k;
+      while last < numel(segs) && datetime.isNumericSegment(segs{last}) ...
+          && datetime.isNumericSegment(segs{last + 1})
+        last = last + 1;
+      end
+    end
+
+    function tf = isNumericSegment(seg)
+      tf = seg.isField && datetime.isNumericField(seg.letter, seg.count);
+    end
+
+    function out = splitRunTokens(tok, spec, pivotYear)
+      % Per-field tokens of a match: in a run of abutting numeric fields every
+      % field but the first takes its exact width, the first one takes the rest
+      % (from 1 digit up to its width); {} when the digits do not fit.
+      out = tok;
+      if isempty(tok) || ~spec.hasRuns
+        return
+      end
+      out = cell(1, numel(spec.fields));
+      next = 1;
+      for g = 1:numel(spec.runs)
+        parts = tok(g);
+        if ~isempty(spec.runs{g})
+          parts = datetime.splitRunDigits(tok{g}, spec.runs{g}, pivotYear);
+        end
+        if isempty(parts)
+          out = {};
+          return
+        end
+        out(next:next + numel(parts) - 1) = parts;
+        next = next + numel(parts);
+      end
+    end
+
+    function parts = splitRunDigits(text, run, pivotYear)
+      % digits of one abutting run cut into its fields, {} when they do not fit
+      parts = {};
+      widths = run.counts;
+      widths(1) = numel(text) - sum(run.counts(2:end));
+      if numel(text) < run.counts(1) || widths(1) < 1 || widths(1) > run.counts(1)
+        return
+      end
+      edges = [0, cumsum(widths)];
+      parts = arrayfun(@(r) text(edges(r) + 1:edges(r + 1)), 1:numel(widths), 'UniformOutput', false);
+      % a 'y' year cut down to two digits is read with the pivot year
+      if run.letters(1) == 'y' && widths(1) == 2 && run.counts(1) > 2
+        parts{1} = sprintf('%d', datetime.pivotedYear(parts{1}, pivotYear));
+      end
+    end
+
+    function [serial, millis] = applyFormatTokens(tokens, fields, baseDate, pivotYear)
       % Resolve a datetime from format tokens already matched by the compiled
       % pattern, so an array of texts is matched with a single vectorized
       % regexp and only the field resolution runs per text.
-      y = baseYear;
-      mo = 1;
-      d = 1;
+      ymd = datetime.defaultDateFields(fields, baseDate);
+      y = ymd(1);
+      mo = ymd(2);
+      d = ymd(3);
       h = 0;
       mi = 0;
       s = 0;
@@ -1173,9 +1275,8 @@ classdef datetime
         switch fields{k}
           case 'year'
             y = str2double(tok);
-            if numel(strtrim(tok)) <= 2
-              y = y + 2000;
-            end
+          case 'pivotyear'
+            y = datetime.pivotedYear(tok, pivotYear);
           case 'month'
             mo = str2double(tok);
           case 'monthname'
@@ -1204,6 +1305,39 @@ classdef datetime
       end
       serial = datenum(y, mo, d, h, mi, s + frac);
       millis = datetime.timeOfDayMillis(h, mi, s + frac);
+    end
+
+    function name = yearFieldName(letter, count)
+      % 'y' and 'yy' read a two-digit year with the pivot year
+      if letter == 'y' && count <= 2
+        name = 'pivotyear';
+      else
+        name = 'year';
+      end
+    end
+
+    function ymd = defaultDateFields(fields, baseDate)
+      % date fields the format does not give: those above its largest date
+      % field are today's, those below are 1 (no date field at all: today)
+      given = [any(ismember(fields, {'year', 'pivotyear'})), ...
+        any(ismember(fields, {'month', 'monthname'})), any(strcmp(fields, 'day'))];
+      ymd = baseDate;
+      largest = find(given, 1);
+      if ~isempty(largest)
+        ymd(largest + 1:end) = 1;
+      end
+    end
+
+    function y = pivotedYear(tok, pivotYear)
+      % 'y'/'yy' with two digits: the year of the 100 years from pivotYear,
+      % any other width is the year as written
+      y = str2double(tok);
+      if numel(strtrim(tok)) == 2
+        y = pivotYear - mod(pivotYear, 100) + y;
+        if y < pivotYear
+          y = y + 100;
+        end
+      end
     end
 
     function segs = tokenizeInputFormat(fmt)
@@ -1262,71 +1396,29 @@ classdef datetime
       end
     end
 
-    function [grp, name] = fieldRegex(letter, count, fixedWidth)
-      if nargin < 3
-        fixedWidth = false;
-      end
-      % A fixed-width numeric field consumes exactly its declared width so
-      % adjacent tokens in a delimiter-less format do not run together.
-      if fixedWidth
-        digits = sprintf('(\\d{%d})', count);
-      else
-        digits = '';
-      end
+    function [grp, name] = fieldRegex(letter, count)
+      % regex group and field name of one format letter run
+      grp = '(\d{1,2})';
       switch letter
         case {'y', 'u'}
-          if isempty(digits)
-            grp = '(\d+)';
-          else
-            grp = digits;
-          end
-          name = 'year';
+          grp = '(\d+)';
+          name = datetime.yearFieldName(letter, count);
         case 'M'
+          name = 'month';
           if count >= 3
             grp = '([A-Za-z]+)';
             name = 'monthname';
-          else
-            if isempty(digits)
-              grp = '(\d{1,2})';
-            else
-              grp = digits;
-            end
-            name = 'month';
           end
         case 'd'
-          if isempty(digits)
-            grp = '(\d{1,2})';
-          else
-            grp = digits;
-          end
           name = 'day';
         case {'H', 'h'}
-          if isempty(digits)
-            grp = '(\d{1,2})';
-          else
-            grp = digits;
-          end
           name = 'hour';
         case 'm'
-          if isempty(digits)
-            grp = '(\d{1,2})';
-          else
-            grp = digits;
-          end
           name = 'minute';
         case 's'
-          if isempty(digits)
-            grp = '(\d{1,2})';
-          else
-            grp = digits;
-          end
           name = 'second';
         case 'S'
-          if isempty(digits)
-            grp = '(\d+)';
-          else
-            grp = digits;
-          end
+          grp = '(\d+)';
           name = 'frac';
         case 'a'
           grp = '([AaPp][Mm])';

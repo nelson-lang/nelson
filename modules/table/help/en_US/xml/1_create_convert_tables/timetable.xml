@@ -29,6 +29,7 @@
     <p><b>timetable</b> creates a timetable, a tabular object whose rows are identified by times.</p>
     <p>Row times can be provided as the first input or with the <b>&apos;RowTimes&apos;</b> name-value argument.</p>
     <p>Variable names, dimension names, description, user data, and custom properties are stored in <b>TT.Properties</b>.</p>
+    <p>Row times may also be real <b>double</b> or <b>single</b> numbers (distance, depth, ...), given with the <b>RowTimes</b> name-value argument, or produced by a numeric <b>StartTime</b> or <b>TimeStep</b> (<b>timetable(x, 'SampleRate', 100, 'StartTime', 1)</b> gives 1, 1.01, 1.02, ...). A numeric subscript stays a row position: use <b>labels</b> to select rows by their numeric row times (<b>TT(labels(3), :)</b>). The first positional input must still be a datetime or duration vector.</p>
   </description>
   <used_function />
   <bibliography />

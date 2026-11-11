@@ -26,6 +26,7 @@
   <description>
     <p>
       <b>mustBeInteger</b> vérifie que la valeur est entière ou renvoie une erreur.</p>
+    <p>Le contrôle utilise <b>isfinite</b>, <b>floor</b> et <b>==</b> : tout type qui les implémente est accepté (char, duration, ...), sans restriction numérique, logique ou réelle. Les valeurs vides sont acceptées.</p>
   </description>
   <used_function />
   <bibliography />
@@ -48,6 +49,10 @@ mustBeInteger(Inf)]]></example_item_data>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>tout type qui implémente isfinite, floor et == est accepté.</history_description>
     </history_item>
   </history>
   <authors>

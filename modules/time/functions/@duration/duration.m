@@ -753,10 +753,20 @@ classdef duration
       if isa(b, 'missing')
         b = duration(b);
       end
-      if ~isa(a, 'duration') || ~isa(b, 'duration')
+      % a number compares as a count of days
+      a = duration.comparedSeconds(a);
+      b = duration.comparedSeconds(b);
+      [a, b] = duration.expandPair(a, b);
+    end
+
+    function value = comparedSeconds(x)
+      if isa(x, 'duration')
+        value = x.SecondsValue;
+      elseif (isnumeric(x) || islogical(x)) && isreal(x)
+        value = double(x) .* 86400;
+      else
         error('Nelson:time:durationOperandsExpected', '%s operands expected.', 'Duration');
       end
-      [a, b] = duration.expandPair(a.SecondsValue, b.SecondsValue);
     end
 
     function out = formatOne(value, fmt)

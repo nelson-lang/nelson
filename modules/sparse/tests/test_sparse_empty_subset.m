@@ -7,7 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-%=============================================================================
 % empty subsets of sparse arrays are sparse with real empty storage
 a = sparse([1 2 3]);
 b = sparse([1 0; 0 2]);

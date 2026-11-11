@@ -6,6 +6,7 @@
   <short_description>Cree des durees calendaires contenant des trimestres calendaires.</short_description>
   <syntax>
     <syntax_item>c = calquarters(x)</syntax_item>
+    <syntax_item>c = calquarters(x, 'ArithmeticMethod', method)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -23,6 +24,7 @@
     <p>Cree des durees calendaires contenant des trimestres calendaires.</p>
     <p>Utilisez calquarters pour les decalages calendaires bases sur les mois. Cela differe de days ou duration car la longueur des mois varie.</p>
     <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
+    <p><b>ArithmeticMethod</b> peut valoir 'default' ou 'endofquarter' (voir <b>calendarDuration</b>) : avec 'endofquarter', une fin de trimestre reste une fin de trimestre quand la durée calendaire est ajoutée à un datetime.</p>
   </description>
   <used_function />
   <bibliography />

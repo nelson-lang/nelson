@@ -26,6 +26,7 @@
   <description>
     <p>
       <b>mustBeNegative</b> checks that value is negative or raise an error.</p>
+    <p>The value is compared with 0 by the <b>&lt;</b> operator (<b>lt</b>), so any type that implements it is accepted (char, duration, ...): there is no numeric, logical or real restriction. Add <b>mustBeNumericOrLogical</b> and <b>mustBeReal</b> to keep one. Empty values are accepted.</p>
   </description>
   <used_function />
   <bibliography />
@@ -48,6 +49,10 @@ mustBeNegative(1)]]></example_item_data>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>any type that implements the comparison is accepted.</history_description>
     </history_item>
   </history>
   <authors>

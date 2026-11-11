@@ -17,7 +17,7 @@ function [args, options] = datetimeParseNameValue(values)
     if isOptionName(values{k})
       name = char(values{k});
       if any(strcmpi(name, {'Format', 'TimeZone', 'InputFormat', 'ConvertFrom', 'Epoch', ...
-          'TicksPerSecond', 'Locale'}))
+          'TicksPerSecond', 'Locale', 'PivotYear'}))
         if k == numel(values)
           error('Nelson:time:missingValueNameValueArgument', 'Missing value for name-value argument.');
         end
@@ -45,19 +45,23 @@ function options = defaultOptions()
   options.Epoch = datetime.fromSerial(datenum(1970, 1, 1), 'default', '');
   options.TicksPerSecond = 1;
   options.Locale = 'en_US';
+  % two-digit years ('y', 'yy') fall in the 100 years from PivotYear
+  options.PivotYear = [];
 end
 %=============================================================================
 function options = setOption(options, name, value)
+  % text options are stored as given
+  textOptions = {'Format', 'InputFormat', 'ConvertFrom', 'Locale'};
+  match = strcmpi(textOptions, name);
+  if any(match)
+    field = textOptions{match};
+    options.(field) = datetime.validateTextScalar(value, field);
+    return
+  end
   switch name
-    case 'format'
-      options.Format = datetime.validateTextScalar(value, 'Format');
     case 'timezone'
       options.TimeZone = datetimeTimeZoneName(value);
       options.HasTimeZone = true;
-    case 'inputformat'
-      options.InputFormat = datetime.validateTextScalar(value, 'InputFormat');
-    case 'convertfrom'
-      options.ConvertFrom = datetime.validateTextScalar(value, 'ConvertFrom');
     case 'epoch'
       if isa(value, 'datetime')
         options.Epoch = value;
@@ -66,8 +70,15 @@ function options = setOption(options, name, value)
       end
     case 'tickspersecond'
       options.TicksPerSecond = double(value);
-    case 'locale'
-      options.Locale = datetime.validateTextScalar(value, 'Locale');
+    case 'pivotyear'
+      options.PivotYear = pivotYearValue(value);
   end
+end
+%=============================================================================
+function value = pivotYearValue(value)
+  if ~(isnumeric(value) && isscalar(value) && isreal(value) && value == fix(value))
+    error('Nelson:datetime:InvalidPivotYear', 'The pivot year must be an integer scalar.');
+  end
+  value = double(value);
 end
 %=============================================================================

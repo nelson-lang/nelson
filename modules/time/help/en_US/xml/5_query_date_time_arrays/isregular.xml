@@ -24,6 +24,7 @@
     <p>Test whether datetime values are regularly spaced.</p>
     <p>Without a unit, regularity is tested on serial date differences. With a calendar unit, the function compares unit indices.</p>
     <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
+    <p>The unit may also be 'endofmonth' (every date at a month end, a constant number of months apart) or 'endofquarter' (every date at a quarter end, a constant number of quarters apart).</p>
   </description>
   <used_function />
   <bibliography />

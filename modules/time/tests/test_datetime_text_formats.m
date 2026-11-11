@@ -101,3 +101,114 @@ t = datetime('2024-10-27 02:30', 'TimeZone', 'Europe/Paris');
 asserts.isequal(char(t), '27-Oct-2024 02:30:00');
 asserts.isequal(hours(tzoffset(t)), 1);
 %=============================================================================
+% a guessed month-first layout warns when no day is above 12
+id = 'Nelson:datetime:AmbiguousDateString';
+msg = ['The text was read with the format ''MM/dd/yyyy'', but ''dd/MM/yyyy'' could also apply. ', ...
+  'Use the ''InputFormat'' option to choose.'];
+ambiguous = {{'10/11/2024'}, {'1/2/2024'}, {'12/12/2024'}, {{'NaT', '10/11/2024'}}, {["10/11/2024"; "10/12/2024"]}, ...
+  {'10/11/2024', 'TimeZone', 'UTC'}, {'10/11/2024', 'Format', 'yyyy-MM-dd'}};
+for k = 1:numel(ambiguous)
+  lastwarn('', '');
+  t = datetime(ambiguous{k}{:});
+  [warnMessage, warnId] = lastwarn();
+  asserts.isequal(warnId, id);
+  asserts.isequal(warnMessage, msg);
+end
+asserts.isequal(datetime('10/11/2024').Month, 10);
+lastwarn('', '');
+datetime('10/11/2024 02:30');
+[warnMessage, warnId] = lastwarn();
+asserts.isequal(warnId, id);
+asserts.istrue(contains(warnMessage, '''MM/dd/yyyy HH:mm'''));
+asserts.istrue(contains(warnMessage, '''dd/MM/yyyy HH:mm'''));
+unambiguous = {{'10/27/2024'}, {'27/10/2024'}, {{'10/11/2024', '10/27/2024'}}, {{'10/27/2024', '10/11/2024'}}, ...
+  {'10/11/2024', 'Format', 'MM/dd/yyyy'}, {'10/11/2024', 'InputFormat', 'MM/dd/yyyy'}, {'2024-10-11'}, {'11-Oct-2024'}};
+for k = 1:numel(unambiguous)
+  lastwarn('', '');
+  t = datetime(unambiguous{k}{:});
+  [~, warnId] = lastwarn();
+  asserts.isequal(warnId, '');
+end
+%=============================================================================
+% 'yyyy', 'uuuu', 'uu' and guessed layouts keep the year as written
+t = datetime('1/2/3');
+asserts.isequal([t.Year, t.Month, t.Day], [3 1 2]);
+asserts.isequal(datetime('1/2/24').Year, 24);
+asserts.isequal(datetime('24-01-02').Year, 24);
+asserts.isequal(datetime('02-Jan-24').Year, 24);
+asserts.isequal(datetime('24', 'InputFormat', 'yyyy').Year, 24);
+asserts.isequal(datetime('3', 'InputFormat', 'yyyy').Year, 3);
+asserts.isequal(datetime('24', 'InputFormat', 'uuuu').Year, 24);
+asserts.isequal(datetime('24', 'InputFormat', 'uu').Year, 24);
+asserts.isequal(datetime('24', 'InputFormat', 'yyy').Year, 24);
+asserts.isequal(datetime('12345', 'InputFormat', 'yyyy').Year, 12345);
+%=============================================================================
+% 'y' and 'yy' read two digits in the 100 years from the pivot year
+pivot = year(datetime('now')) - 50;
+expected = @(y2) pivot - mod(pivot, 100) + y2 + 100 * (pivot - mod(pivot, 100) + y2 < pivot);
+asserts.isequal(datetime('24', 'InputFormat', 'yy').Year, expected(24));
+asserts.isequal(datetime('75', 'InputFormat', 'yy').Year, expected(75));
+asserts.isequal(datetime('76', 'InputFormat', 'yy').Year, expected(76));
+asserts.isequal(datetime('24', 'InputFormat', 'y').Year, expected(24));
+asserts.isequal(datetime('3', 'InputFormat', 'yy').Year, 3);
+asserts.isequal(datetime('2024', 'InputFormat', 'yy').Year, 2024);
+asserts.isequal(datetime('10/11/24', 'InputFormat', 'MM/dd/yy').Year, expected(24));
+asserts.isequal(datetime('240102', 'InputFormat', 'yyMMdd').Year, expected(24));
+asserts.isequal(datetime('24', 'Format', 'yy').Year, expected(24));
+asserts.isequal(datetime('1/2/3', 'Format', 'MM/dd/yy').Year, 3);
+asserts.isequal(datetime('24', 'InputFormat', 'yy', 'PivotYear', 1900).Year, 1924);
+asserts.isequal(datetime('99', 'InputFormat', 'yy', 'PivotYear', 2000).Year, 2099);
+asserts.isequal(datetime('00', 'InputFormat', 'yy', 'PivotYear', 1950).Year, 2000);
+asserts.checkerror('datetime(''24'', ''InputFormat'', ''yy'', ''PivotYear'', 1.5)', ...
+  'The pivot year must be an integer scalar.', 'Nelson:datetime:InvalidPivotYear');
+%=============================================================================
+% abutting numeric fields: each field but the first takes its exact width,
+% the first takes the rest; a 'y' year cut to two digits uses the pivot year
+abutting = {'2401', 'yyyyMM', [2024 1 1]; '202401', 'yyyyMM', [2024 1 1]; '24011', 'yyyyMM', [240 11 1]; ...
+  '240102', 'yyyyMMdd', [2024 1 2]; '2401021', 'yyyyMMdd', [240 10 21]; '20240102', 'yyyyMMdd', [2024 1 2]; ...
+  '122024', 'MMyyyy', [2024 12 1]; '12245', 'MMyyyy', [2245 1 1]; '2401', 'uuuuMM', [24 1 1]; ...
+  '2401', 'yyyyM', [240 1 1]; '24011', 'yyyyM', [2401 1 1]; '2024-0102', 'yyyy-MMdd', [2024 1 2]; ...
+  '240102T0230', 'yyyyMMdd''T''HHmm', [2024 1 2]};
+for k = 1:size(abutting, 1)
+  t = datetime(abutting{k, 1}, 'InputFormat', abutting{k, 2});
+  asserts.isequal([t.Year, t.Month, t.Day], abutting{k, 3});
+end
+t = datetime('2401021230', 'InputFormat', 'yyyyMMddHHmm');
+asserts.isequal([t.Year, t.Month, t.Day, t.Hour, t.Minute], [2024 1 2 12 30]);
+t = datetime('102', 'InputFormat', 'ddMM');
+asserts.isequal([t.Day, t.Month], [1 2]);
+asserts.isequal(datetime('9901', 'InputFormat', 'yyyyMM', 'PivotYear', 1976).Year, 1999);
+asserts.isequal(datetime('7601', 'InputFormat', 'yyyyMM', 'PivotYear', 1976).Year, 1976);
+asserts.isequal(datetime('7501', 'InputFormat', 'yyyyMM', 'PivotYear', 1976).Year, 2075);
+unreadable = {'20241', 'yyyyMM'; '240', 'yyyyMM'; '2024011', 'yyyyMM'; '24010', 'yyyyMMdd'; '202412', 'yyyyMMdd'; ...
+  '1224', 'MMyyyy'; '124', 'MMyyyy'; '12', 'ddMM'; '202401', 'yyMM'; '241', 'yyyyM'; '2024-012', 'yyyy-MMdd'};
+for k = 1:size(unreadable, 1)
+  cmd = sprintf('datetime(''%s'', ''InputFormat'', ''%s'')', unreadable{k, 1}, unreadable{k, 2});
+  asserts.checkerror(cmd, sprintf('Unable to read ''%s'' as a datetime with the format ''%s''.', ...
+    unreadable{k, 1}, unreadable{k, 2}), 'Nelson:datetime:ParseErr');
+end
+% spaces of the format match the spaces of the text
+asserts.isequal(datetime('240102 ', 'InputFormat', 'yyyyMMdd ').Day, 2);
+asserts.isequal(datetime('2024-01-02  12:30', 'InputFormat', 'yyyy-MM-dd HH:mm').Hour, 12);
+%=============================================================================
+% date fields the format does not give: today's above its largest date field,
+% 1 below it, today when it has none
+now0 = datetime('now');
+t = datetime('02:30', 'InputFormat', 'HH:mm');
+asserts.isequal([t.Year, t.Month, t.Day, t.Hour, t.Minute], [now0.Year, now0.Month, now0.Day, 2, 30]);
+t = datetime('15', 'InputFormat', 'dd');
+asserts.isequal([t.Year, t.Month, t.Day], [now0.Year, now0.Month, 15]);
+t = datetime('05', 'InputFormat', 'MM');
+asserts.isequal([t.Year, t.Month, t.Day], [now0.Year, 5, 1]);
+t = datetime('2024', 'InputFormat', 'yyyy');
+asserts.isequal([t.Year, t.Month, t.Day], [2024, 1, 1]);
+t = datetime('15 02:30', 'InputFormat', 'dd HH:mm');
+asserts.isequal([t.Year, t.Month, t.Day, t.Hour], [now0.Year, now0.Month, 15, 2]);
+t = datetime('PM', 'InputFormat', 'a');
+asserts.isequal([t.Day, t.Hour], [now0.Day, 12]);
+t = datetime({'02:30'; '03:45'}, 'InputFormat', 'HH:mm');
+asserts.isequal(t.Day, [now0.Day; now0.Day]);
+tokyo = datetime('now', 'TimeZone', 'Asia/Tokyo');
+t = datetime('02:30', 'InputFormat', 'HH:mm', 'TimeZone', 'Asia/Tokyo');
+asserts.isequal([t.Year, t.Month, t.Day], [tokyo.Year, tokyo.Month, tokyo.Day]);
+%=============================================================================

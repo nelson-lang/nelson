@@ -9,6 +9,7 @@
     <syntax_item>c = calendarDuration(y, mo, d, h, mi, s)</syntax_item>
     <syntax_item>c = calendarDuration(x)</syntax_item>
     <syntax_item>c = calendarDuration(..., 'Format', fmt)</syntax_item>
+    <syntax_item>c = calendarDuration(..., 'ArithmeticMethod', method)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -32,6 +33,7 @@
     <p>La propriété <b>Format</b> choisit les unités affichées : 'y' années, 'q' trimestres, 'm' mois, 'w' semaines, 'd' jours, 't' temps. Elle doit contenir 'm', 'd' et 't' ; un format sans ces lettres est complété avec un avertissement (par exemple 'ymd' devient 'ymdt'). Le format par défaut est 'ymdt', <b>calweeks</b> renvoie 'ymwdt' et <b>calquarters</b> renvoie 'qmdt'.</p>
     <p>La concaténation et l'addition de durées calendaires utilisent toutes les unités présentes dans les formats des opérandes.</p>
     <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
+    <p><b>ArithmeticMethod</b> (fixée à la création, en lecture seule) indique comment des mois s'ajoutent à un datetime : 'default' garde le jour du mois (limité à la fin du mois), 'endofmonth' garde une fin de mois en fin de mois et 'endofquarter' une fin de trimestre en fin de trimestre (30-Sep-2000 + 1 mois donne 31-Oct-2000 avec 'endofmonth'). Ces deux méthodes exigent des mois entiers (multiples de 3 pour 'endofquarter') sans jours ni temps, fixent le format à 'mdt' ou 'qmdt' et sont indiquées dans l'en-tête d'affichage. Les opérations gardent la méthode de leurs opérandes si elle est commune, sinon 'default'.</p>
   </description>
   <used_function />
   <bibliography />

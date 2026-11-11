@@ -8,6 +8,7 @@
     <syntax_item>c = caldiff(t)</syntax_item>
     <syntax_item>c = caldiff(t, components)</syntax_item>
     <syntax_item>c = caldiff(t, components, dim)</syntax_item>
+    <syntax_item>c = caldiff(t, components, 'ArithmeticMethod', method)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -25,6 +26,7 @@
     <p>Renvoie les differences calendaires entre valeurs datetime adjacentes.</p>
     <p>caldiff calcule les differences adjacentes par paires en deleguant chaque intervalle a between.</p>
     <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
+    <p><b>ArithmeticMethod</b> ('default', 'endofmonth' avec le seul composant 'months', 'endofquarter' avec le seul composant 'quarters') compte les mois ou trimestres en gardant les fins de mois ou de trimestre, et devient la méthode arithmétique du résultat (voir <b>calendarDuration</b>).</p>
   </description>
   <used_function />
   <bibliography />

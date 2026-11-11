@@ -29,6 +29,7 @@
       <b>mustBeNonZero</b> vérifie que la valeur n&apos;est pas zéro ou renvoie une erreur.</p>
     <p>
       <b>mustBeNonzero</b> est une autre écriture de <b>mustBeNonZero</b> : les deux noms appellent la même fonction et provoquent la même erreur.</p>
+    <p>La valeur est comparée à 0 par <b>==</b> : tout type qui l'implémente est accepté (char, duration, ...).</p>
   </description>
   <used_function />
   <bibliography />
@@ -61,6 +62,10 @@ mustBeNonZero(0)
     <history_item>
       <history_version>2.0.0</history_version>
       <history_description>ajout de l'écriture mustBeNonzero en minuscules</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>tout type qui implémente == est accepté.</history_description>
     </history_item>
   </history>
   <authors>

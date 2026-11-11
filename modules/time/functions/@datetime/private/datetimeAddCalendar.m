@@ -33,7 +33,7 @@ function out = datetimeAddCalendar(t, c, signValue)
   zone = t.TimeZoneValue;
   moved = monthsValue ~= 0;
   if any(moved(:))
-    serial(moved) = addMonths(serial(moved), monthsValue(moved), millis(moved));
+    serial(moved) = addMonths(serial(moved), monthsValue(moved), millis(moved), calendarDuration.rawMethod(c));
     fold(moved) = false;
     [serial, millis, fold] = datetimeConvertZone(serial, millis, zone, zone, fold);
   end
@@ -54,13 +54,29 @@ function out = datetimeAddCalendar(t, c, signValue)
   out = datetime.fromSerial(serial, t.Format, zone, millis, fold);
 end
 %=============================================================================
-function serial = addMonths(serial, monthsValue, millis)
-  % same day (clamped to the month end) and time of day, months later
+function serial = addMonths(serial, monthsValue, millis, method)
+  % same day (clamped to the month end) and time of day, months later; with
+  % 'endofmonth' ('endofquarter'), a month (quarter) end stays one
   v = datevec(reshape(serial, [], 1));
+  keepEnd = keepsMonthEnd(v, method);
   v(:, 2) = v(:, 2) + reshape(monthsValue, [], 1);
   y = v(:, 1) + floor((v(:, 2) - 1) ./ 12);
   m = mod(v(:, 2) - 1, 12) + 1;
   d = min(v(:, 3), eomday(y, m));
+  d(keepEnd) = eomday(y(keepEnd), m(keepEnd));
   serial = reshape(datenum(y, m, d) + reshape(millis, [], 1) ./ 86400000, size(serial));
+end
+%=============================================================================
+function tf = keepsMonthEnd(v, method)
+  % source dates that stay at the end of their month or quarter
+  atMonthEnd = v(:, 3) == eomday(v(:, 1), v(:, 2));
+  switch method
+    case 'endofmonth'
+      tf = atMonthEnd;
+    case 'endofquarter'
+      tf = atMonthEnd & mod(v(:, 2), 3) == 0;
+    otherwise
+      tf = false(size(atMonthEnd));
+  end
 end
 %=============================================================================

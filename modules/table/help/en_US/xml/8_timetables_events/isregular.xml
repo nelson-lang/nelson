@@ -15,6 +15,7 @@
   </param_output>
   <description>
     <p><b>isregular</b> returns true when all adjacent row-time differences are equal.</p>
+    <p>The unit may also be 'endofmonth' (every date at a month end, a constant number of months apart) or 'endofquarter' (every date at a quarter end, a constant number of quarters apart).</p>
   </description>
   <used_function />
   <bibliography />

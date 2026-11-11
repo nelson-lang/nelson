@@ -10,6 +10,7 @@
 classdef calendarDuration
   properties (Dependent)
     Format
+    ArithmeticMethod
   end
 
   properties (Hidden)
@@ -17,6 +18,8 @@ classdef calendarDuration
     DaysValue = 0
     SecondsValue = 0
     FormatValue = 'ymdt'
+    % 'default', 'endofmonth' or 'endofquarter' (month or quarter ends kept)
+    MethodValue = 'default'
   end
 
   methods
@@ -28,7 +31,7 @@ classdef calendarDuration
         obj = varargin{1};
         return
       end
-      [args, fmt] = calendarDuration.parseInputs(varargin);
+      [args, fmt, method, fmtGiven] = calendarDuration.parseInputs(varargin);
       if isempty(args)
         obj.FormatValue = fmt;
         return
@@ -66,6 +69,11 @@ classdef calendarDuration
         error('Nelson:time:invalidCalendarDurationInput', 'Invalid %s.', 'calendar duration input');
       end
       obj.FormatValue = fmt;
+      obj = calendarDuration.withMethod(obj, method, fmtGiven);
+    end
+
+    function value = get.ArithmeticMethod(obj)
+      value = obj.MethodValue;
     end
 
     function value = get.Format(obj)
@@ -133,7 +141,8 @@ classdef calendarDuration
         months = state.MonthsValue(S(1).subs{:});
         daysValue = state.DaysValue(S(1).subs{:});
         secondsValue = state.SecondsValue(S(1).subs{:});
-        out = calendarDuration.fromParts(months, daysValue, secondsValue, state.FormatValue);
+        out = calendarDuration.fromParts(months, daysValue, secondsValue, state.FormatValue, ...
+          calendarDuration.rawMethod(obj));
         if numel(S) > 1
           varargout{1} = subsref(out, S(2:end));
         else
@@ -142,21 +151,7 @@ classdef calendarDuration
         return
       end
       if strcmp(S(1).type, '.')
-        state = builtin('struct', obj);
-        switch S(1).subs
-          case 'Format'
-            value = state.FormatValue;
-          case 'MonthsValue'
-            value = state.MonthsValue;
-          case 'DaysValue'
-            value = state.DaysValue;
-          case 'SecondsValue'
-            value = state.SecondsValue;
-          case 'FormatValue'
-            value = state.FormatValue;
-          otherwise
-            error('Nelson:time:invalidCalendarDurationProperty', 'Invalid %s.', 'calendar duration property');
-        end
+        value = calendarDuration.propertyValue(obj, S(1).subs);
         if numel(S) > 1
           value = subsref(value, S(2:end));
         end
@@ -182,8 +177,8 @@ classdef calendarDuration
         obj.SecondsValue(S(1).subs{:}) = calendarDuration.rawSeconds(value);
         return
       end
-      if isscalar(S) && strcmp(S(1).type, '.') && strcmp(S(1).subs, 'Format')
-        obj.Format = value;
+      if isscalar(S) && strcmp(S(1).type, '.')
+        obj = calendarDuration.assignProperty(obj, S(1).subs, value);
         return
       end
       error('Nelson:time:invalidCalendarDurationAssignment', 'Invalid %s.', 'calendar duration assignment');
@@ -191,7 +186,8 @@ classdef calendarDuration
 
     function out = transpose(obj)
       out = calendarDuration.fromParts(calendarDuration.rawMonths(obj).', ...
-        calendarDuration.rawDays(obj).', calendarDuration.rawSeconds(obj).', obj.FormatValue);
+        calendarDuration.rawDays(obj).', calendarDuration.rawSeconds(obj).', obj.FormatValue, ...
+        calendarDuration.rawMethod(obj));
     end
 
     function out = ctranspose(obj)
@@ -201,7 +197,7 @@ classdef calendarDuration
     function out = reshape(obj, varargin)
       out = calendarDuration.fromParts(reshape(calendarDuration.rawMonths(obj), varargin{:}), ...
         reshape(calendarDuration.rawDays(obj), varargin{:}), ...
-        reshape(calendarDuration.rawSeconds(obj), varargin{:}), obj.FormatValue);
+        reshape(calendarDuration.rawSeconds(obj), varargin{:}), obj.FormatValue, calendarDuration.rawMethod(obj));
     end
 
     function out = plus(a, b)
@@ -210,7 +206,7 @@ classdef calendarDuration
         [ad, bd] = calendarDuration.expandPair(calendarDuration.rawDays(a), calendarDuration.rawDays(b));
         [as, bs] = calendarDuration.expandPair(calendarDuration.rawSeconds(a), calendarDuration.rawSeconds(b));
         out = calendarDuration.fromParts(am + bm, ad + bd, as + bs, ...
-          calendarDuration.mergeFormats(a.FormatValue, b.FormatValue));
+          calendarDuration.mergeFormats(a.FormatValue, b.FormatValue), calendarDuration.commonMethod({a, b}));
         return
       end
       if isa(a, 'datetime') && isa(b, 'calendarDuration')
@@ -238,7 +234,8 @@ classdef calendarDuration
 
     function out = uminus(obj)
       out = calendarDuration.fromParts(-calendarDuration.rawMonths(obj), ...
-        -calendarDuration.rawDays(obj), -calendarDuration.rawSeconds(obj), obj.FormatValue);
+        -calendarDuration.rawDays(obj), -calendarDuration.rawSeconds(obj), obj.FormatValue, ...
+        calendarDuration.rawMethod(obj));
     end
 
     function out = times(a, b)
@@ -254,7 +251,7 @@ classdef calendarDuration
       end
       out = calendarDuration.fromParts(calendarDuration.rawMonths(obj) .* factor, ...
         calendarDuration.rawDays(obj) .* factor, calendarDuration.rawSeconds(obj) .* factor, ...
-        obj.FormatValue);
+        obj.FormatValue, calendarDuration.rawMethod(obj));
     end
 
     function out = mtimes(a, b)
@@ -271,7 +268,7 @@ classdef calendarDuration
       end
       out = calendarDuration.fromParts(calendarDuration.rawMonths(a) ./ double(b), ...
         calendarDuration.rawDays(a) ./ double(b), calendarDuration.rawSeconds(a) ./ double(b), ...
-        a.FormatValue);
+        a.FormatValue, calendarDuration.rawMethod(a));
     end
 
     function out = mrdivide(a, b)
@@ -383,7 +380,9 @@ classdef calendarDuration
         values(needSeparator) = values(needSeparator) + " ";
         values(mask) = values(mask) + part(mask);
       end
-      values(strlength(values) == 0) = "0d";
+      % zero is shown in the unit of a month or quarter end method
+      zeroTexts = struct('default', "0d", 'endofmonth', "0mo", 'endofquarter', "0q");
+      values(strlength(values) == 0) = zeroTexts.(calendarDuration.rawMethod(obj));
       values(isnan(months(:)) | isnan(daysValue(:)) | isnan(s)) = "NaN";
       out = reshape(values, size(months));
     end
@@ -445,7 +444,13 @@ classdef calendarDuration
       else
         name = varargin{1};
       end
-      nelson.time.displayTextArray(string(obj), 'calendarDuration', false, name);
+      % a month or quarter end method is named in the header, without the size
+      method = calendarDuration.rawMethod(obj);
+      header = '';
+      if ~strcmp(method, 'default')
+        header = sprintf('calendarDuration (ArithmeticMethod="%s")', method);
+      end
+      nelson.time.displayTextArray(string(obj), 'calendarDuration', false, name, header);
     end
   end
 
@@ -492,13 +497,103 @@ classdef calendarDuration
       obj = calendarDuration.fromParts(z, z, z);
     end
 
-    function obj = fromParts(months, daysValue, secondsValue, formatValue)
+    function obj = fromParts(months, daysValue, secondsValue, formatValue, method)
       obj = calendarDuration();
       obj.MonthsValue = double(months);
       obj.DaysValue = double(daysValue);
       obj.SecondsValue = double(secondsValue);
       if nargin > 3
         obj.FormatValue = formatValue;
+      end
+      if nargin > 4
+        obj.MethodValue = method;
+      end
+    end
+
+    function value = propertyValue(obj, name)
+      % value of a public or stored property
+      state = builtin('struct', obj);
+      switch name
+        case {'Format', 'FormatValue'}
+          value = state.FormatValue;
+        case {'MonthsValue', 'DaysValue', 'SecondsValue'}
+          value = state.(name);
+        case {'ArithmeticMethod', 'MethodValue'}
+          value = calendarDuration.rawMethod(obj);
+        otherwise
+          error('Nelson:time:invalidCalendarDurationProperty', 'Invalid %s.', 'calendar duration property');
+      end
+    end
+
+    function obj = assignProperty(obj, name, value)
+      % only the Format can change after creation
+      switch name
+        case 'Format'
+          obj.Format = value;
+        case 'ArithmeticMethod'
+          error('Nelson:time:readOnlyArithmeticMethod', ...
+            'The ArithmeticMethod property is set when the calendar duration is created.');
+        otherwise
+          error('Nelson:time:invalidCalendarDurationAssignment', 'Invalid %s.', 'calendar duration assignment');
+      end
+    end
+
+    function method = rawMethod(obj)
+      state = builtin('struct', obj);
+      method = 'default';
+      if isfield(state, 'MethodValue')
+        method = state.MethodValue;
+      end
+    end
+
+    function method = commonMethod(operands)
+      % the method shared by every calendarDuration operand, else 'default'
+      methods = cellfun(@calendarDuration.rawMethod, ...
+        operands(cellfun(@(v) isa(v, 'calendarDuration'), operands)), 'UniformOutput', false);
+      method = 'default';
+      if ~isempty(methods) && all(strcmp(methods, methods{1}))
+        method = methods{1};
+      end
+    end
+
+    function method = validateMethod(value)
+      % 'default', 'endofmonth' or 'endofquarter' (any case)
+      names = {'default', 'endofmonth', 'endofquarter'};
+      match = calendarDuration.isTextScalar(value) && any(strcmpi(char(value), names));
+      if ~match
+        error('Nelson:time:invalidArithmeticMethod', ...
+          'The arithmetic method must be ''default'', ''endofmonth'' or ''endofquarter''.');
+      end
+      method = names{strcmpi(char(value), names)};
+    end
+
+    function obj = withMethod(obj, method, fmtGiven)
+      % A month or quarter end method needs whole months (multiples of 3 for
+      % quarters) without days or time; it shows months or quarters.
+      if strcmp(method, 'default')
+        return
+      end
+      months = obj.MonthsValue;
+      step = 1 + 2 * strcmp(method, 'endofquarter');
+      valid = all(obj.DaysValue(:) == 0) && all(obj.SecondsValue(:) == 0) && all(mod(months(:), step) == 0);
+      if ~valid
+        error('Nelson:time:arithmeticMethodWholeMonths', ...
+          'With the arithmetic method ''%s'', the calendar duration must be whole %s without days or time.', ...
+          method, calendarDuration.methodUnit(method));
+      end
+      obj.MethodValue = method;
+      if ~fmtGiven
+        obj.FormatValue = 'mdt';
+        if step == 3
+          obj.FormatValue = 'qmdt';
+        end
+      end
+    end
+
+    function unit = methodUnit(method)
+      unit = 'months';
+      if strcmp(method, 'endofquarter')
+        unit = 'quarters';
       end
     end
 
@@ -535,24 +630,44 @@ classdef calendarDuration
         secondsValue{k} = calendarDuration.rawSeconds(v);
       end
       out = calendarDuration.fromParts(cat(dim, months{:}), cat(dim, daysValue{:}), ...
-        cat(dim, secondsValue{:}), calendarDuration.mergeFormats(fmt, 'mdt'));
+        cat(dim, secondsValue{:}), calendarDuration.mergeFormats(fmt, 'mdt'), calendarDuration.commonMethod(varargin));
     end
 
-    function [args, fmt] = parseInputs(values)
+    function [args, fmt, method, fmtGiven] = parseInputs(values)
       args = {};
       fmt = 'ymdt';
+      method = 'default';
+      fmtGiven = false;
       k = 1;
       while k <= numel(values)
-        if calendarDuration.isTextScalar(values{k}) && strcmpi(char(values{k}), 'Format')
+        name = calendarDuration.optionName(values{k});
+        if ~isempty(name)
           if k == numel(values)
             error('Nelson:time:missingValueNameValueArgument', 'Missing value for name-value argument.');
           end
-          fmt = calendarDuration.normalizeFormat(values{k + 1});
+          fmtGiven = fmtGiven || strcmp(name, 'format');
+          [fmt, method] = calendarDuration.setOption(name, values{k + 1}, fmt, method);
           k = k + 2;
         else
           args{end + 1} = values{k};
           k = k + 1;
         end
+      end
+    end
+
+    function name = optionName(value)
+      % 'format' or 'arithmeticmethod' when value names an option, else ''
+      name = '';
+      if calendarDuration.isTextScalar(value) && any(strcmpi(char(value), {'Format', 'ArithmeticMethod'}))
+        name = lower(char(value));
+      end
+    end
+
+    function [fmt, method] = setOption(name, value, fmt, method)
+      if strcmp(name, 'format')
+        fmt = calendarDuration.normalizeFormat(value);
+      else
+        method = calendarDuration.validateMethod(value);
       end
     end
 

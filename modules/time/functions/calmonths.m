@@ -7,12 +7,12 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function c = calmonths(x)
-  narginchk(1, 1);
+function c = calmonths(x, varargin)
+  narginchk(1, 3);
   if isa(x, 'calendarDuration')
     c = calendarDuration.rawMonths(x);
   else
-    c = calendarDuration(0, double(x), 0);
+    c = calendarDuration(0, double(x), 0, varargin{:});
   end
 end
 %=============================================================================

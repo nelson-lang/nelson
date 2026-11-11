@@ -7,7 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-%=============================================================================
 % concatenation of empty sparse arrays follows the dense rule and stays sparse
 x = sparse(zeros(1, 0));
 y = sparse(zeros(0, 2));

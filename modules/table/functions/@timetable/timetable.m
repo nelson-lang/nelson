@@ -98,7 +98,7 @@ classdef timetable < tabular
         end
       end
       if isscalar(sasgn) && strcmp(sasgn.type, '.') && strcmp(sasgn.subs, 'Properties') ...
-          && isstruct(value) && isfield(value, 'RowTimes') && isTimeVector(obj, value.RowTimes) ...
+          && isstruct(value) && isfield(value, 'RowTimes') && isRowTimeVector(obj, value.RowTimes) ...
           && timeLength(obj, value.RowTimes) ~= timeLength(obj, obj.Properties.RowTimes)
         error('Nelson:timetable:incorrectNumberOfRowTimes', ...
           _('RowTimes property must contain one time for each row in the timetable.'));
@@ -497,8 +497,9 @@ classdef timetable < tabular
       obj.Table = tableStruct;
       obj.Properties = mergeTableProperties(obj, obj.Properties, tableStruct.Properties);
       obj.Properties.RowTimes = columnTimes(obj, obj.Properties.RowTimes);
-      if ~isTimeVector(obj, obj.Properties.RowTimes)
-        error('Nelson:timetable:invalidRowTimes', 'Timetable row times must be datetime or duration values.');
+      if ~isRowTimeVector(obj, obj.Properties.RowTimes)
+        error('Nelson:timetable:invalidRowTimesType', ...
+          'Timetable row times must be datetime, duration, double or single values.');
       end
       if tableWidthFromStruct(obj, tableStruct) > 0 ...
           && timeLength(obj, obj.Properties.RowTimes) ~= tableHeightFromStruct(obj, tableStruct)
@@ -639,7 +640,7 @@ classdef timetable < tabular
       if strcmp(field, 'Properties')
         obj.Properties = timetableAssignedProperties(obj.Properties, value);
       elseif strcmp(field, obj.Properties.DimensionNames{1})
-        if isTimeVector(obj, value) && timeLength(obj, value) ~= timeLength(obj, obj.Properties.RowTimes)
+        if isRowTimeVector(obj, value) && timeLength(obj, value) ~= timeLength(obj, obj.Properties.RowTimes)
           error('Nelson:table:dimagree:valueAssignmentNumberRowsTable', ...
             'Value assignment must have the same number of rows as the table.');
         end
@@ -703,8 +704,14 @@ classdef timetable < tabular
       tf = isa(value, 'datetime') || isa(value, 'duration');
     end
 
+    function tf = isRowTimeVector(obj, value)
+      % row times may also be real double or single numbers (distance, depth, ...)
+      tf = isTimeVector(obj, value) || ((isa(value, 'double') || isa(value, 'single')) ...
+        && isreal(value) && ~issparse(value) && (isvector(value) || isempty(value)));
+    end
+
     function value = columnTimes(obj, value)
-      if isTimeVector(obj, value)
+      if isRowTimeVector(obj, value)
         value = value(:);
       elseif isrow(value)
         value = value(:);

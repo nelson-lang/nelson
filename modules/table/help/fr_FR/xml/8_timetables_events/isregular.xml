@@ -15,6 +15,7 @@
   </param_output>
   <description>
     <p><b>isregular</b> renvoie vrai quand toutes les differences entre temps adjacents sont egales.</p>
+    <p>L'unité peut aussi être 'endofmonth' (chaque date en fin de mois, à un nombre constant de mois d'écart) ou 'endofquarter' (chaque date en fin de trimestre, à un nombre constant de trimestres d'écart).</p>
   </description>
   <used_function />
   <bibliography />

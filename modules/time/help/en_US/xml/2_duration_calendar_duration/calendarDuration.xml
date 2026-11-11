@@ -9,6 +9,7 @@
     <syntax_item>c = calendarDuration(y, mo, d, h, mi, s)</syntax_item>
     <syntax_item>c = calendarDuration(x)</syntax_item>
     <syntax_item>c = calendarDuration(..., 'Format', fmt)</syntax_item>
+    <syntax_item>c = calendarDuration(..., 'ArithmeticMethod', method)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -32,6 +33,7 @@
     <p>The <b>Format</b> property selects the displayed units: 'y' years, 'q' quarters, 'm' months, 'w' weeks, 'd' days, 't' time. It must contain 'm', 'd' and 't'; a format without them is completed with a warning (for example 'ymd' becomes 'ymdt'). The default is 'ymdt', <b>calweeks</b> returns 'ymwdt' and <b>calquarters</b> returns 'qmdt'.</p>
     <p>Concatenation and addition of calendar durations use every unit found in the operand formats.</p>
     <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
+    <p><b>ArithmeticMethod</b> (set at creation, read-only) tells how months are added to a datetime: 'default' keeps the day of the month (clamped to the month end), 'endofmonth' keeps a month end at the month end and 'endofquarter' keeps a quarter end at the quarter end (30-Sep-2000 + 1 month gives 31-Oct-2000 with 'endofmonth'). Those two methods need whole months (multiples of 3 for 'endofquarter') without days or time, set the format to 'mdt' or 'qmdt' and are named in the display header. Operations keep the method of their operands when they share it, else use 'default'.</p>
   </description>
   <used_function />
   <bibliography />

@@ -10,6 +10,11 @@
 function tf = isregular(TT, varargin)
   narginchk(1, 2);
   st = struct(TT);
+  if ~isempty(varargin) && isa(st.Properties.RowTimes, 'datetime')
+    % calendar units ('months', 'endofmonth', ...) of datetime row times
+    tf = isregular(st.Properties.RowTimes, varargin{:});
+    return
+  end
   values = timeAsDoubleLocal(st.Properties.RowTimes);
   if length(values) <= 2
     tf = true;

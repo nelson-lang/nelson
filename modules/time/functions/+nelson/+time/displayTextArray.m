@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function displayTextArray(values, className, alignLeft, name)
+function displayTextArray(values, className, alignLeft, name, varargin)
   % Shared display of duration, datetime and calendarDuration arrays.
   % values: string array of the element texts (same size as the object).
   % Without name, behaves as disp; with a name, as display (class header,
@@ -30,7 +30,7 @@ function displayTextArray(values, className, alignLeft, name)
         fprintf('\n');
       end
     end
-    fprintf('%s\n', headerText(sz, className));
+    fprintf('%s\n', classHeader(sz, className, varargin));
     if isLoose && (isempty(values) || ~isND)
       fprintf('\n');
     end
@@ -59,6 +59,17 @@ function displayTextArray(values, className, alignLeft, name)
     if isLoose
       fprintf('\n');
     end
+  end
+end
+%=============================================================================
+function text = classHeader(sz, className, extra)
+  % a header given by the class (optional 5th input) replaces the size and class name
+  header = [extra, {''}];
+  header = header{1};
+  if isempty(header)
+    text = headerText(sz, className);
+  else
+    text = ['  ', header];
   end
 end
 %=============================================================================
