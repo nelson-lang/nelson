@@ -42,5 +42,23 @@ concatenateKeptOperand(const ArrayOf& value, NelsonType commonType)
     return kept;
 }
 //=============================================================================
+// When every operand of a sparse concatenation is empty, dense empties of the
+// same sizes give the result shape (the dense rule); false otherwise.
+inline bool
+sparseEmptyPlaceholders(
+    const ArrayOfVector& operands, NelsonType sparseType, ArrayOfVector& placeholders)
+{
+    for (const auto& arg : operands) {
+        if (!arg.isEmpty()) {
+            return false;
+        }
+    }
+    for (const auto& arg : operands) {
+        placeholders.push_back(
+            ArrayOf(sparseType, arg.dimensions(), ArrayOf::allocateArrayOf(sparseType, 0), false));
+    }
+    return true;
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

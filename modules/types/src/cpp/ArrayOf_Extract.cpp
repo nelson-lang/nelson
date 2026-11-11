@@ -31,6 +31,9 @@ static NelsonType
 emptySubsetClass(NelsonType dataClass);
 static Dimensions
 emptyLinearSubsetDimensions(Dimensions source, Dimensions index);
+static ArrayOf
+emptySubset(
+    const ArrayOf& source, NelsonType dataClass, Dimensions dims, const stringVector& fieldNames);
 //=============================================================================
 static bool
 isAscendingUnitStrideIndex(constIndexPtr index, indexType length);
@@ -298,8 +301,7 @@ ArrayOf::vectorSubset(ArrayOf& index)
                     return ArrayOf(dataClass(), dims, static_cast<void*>(nullptr), false);
                 }
                 return preserveClassType(*this,
-                    ArrayOf(emptySubsetClass(dp->dataClass), dims, nullptr, isSparse(),
-                        dp->fieldNames()));
+                    emptySubset(*this, emptySubsetClass(dp->dataClass), dims, dp->fieldNames()));
             }
             if (index.isSparse()) {
                 index.makeDense();
@@ -319,9 +321,9 @@ ArrayOf::vectorSubset(ArrayOf& index)
             // Q(eye(2,0))
             // Q(eye(0,2))
             return preserveClassType(*this,
-                ArrayOf(emptySubsetClass(dp->dataClass),
-                    emptyLinearSubsetDimensions(dp->dimensions_, index.dp->dimensions_), nullptr,
-                    isSparse(), dp->fieldNames()));
+                emptySubset(*this, emptySubsetClass(dp->dataClass),
+                    emptyLinearSubsetDimensions(dp->dimensions_, index.dp->dimensions_),
+                    dp->fieldNames()));
         }
         if (index.isEmpty()) {
             // Q = 1:10
@@ -331,9 +333,8 @@ ArrayOf::vectorSubset(ArrayOf& index)
             if (hasScalarStorage()) {
                 return ArrayOf(dataClass(), dims, static_cast<void*>(nullptr), false);
             }
-            return preserveClassType(*this,
-                ArrayOf(
-                    emptySubsetClass(dp->dataClass), dims, nullptr, isSparse(), dp->fieldNames()));
+            return preserveClassType(
+                *this, emptySubset(*this, emptySubsetClass(dp->dataClass), dims, dp->fieldNames()));
         }
         materializeScalar();
         ArrayOf range;
@@ -470,8 +471,7 @@ ArrayOf::nDimSubset(ArrayOfVector& index)
                 }
             }
             return preserveClassType(*this,
-                ArrayOf(emptySubsetClass(dp->dataClass), emptyDims, nullptr, isSparse(),
-                    dp->fieldNames()));
+                emptySubset(*this, emptySubsetClass(dp->dataClass), emptyDims, dp->fieldNames()));
         }
         indx.resize(L);
         Dimensions outDims(L);
@@ -487,8 +487,7 @@ ArrayOf::nDimSubset(ArrayOfVector& index)
                 }
             }
             return preserveClassType(*this,
-                ArrayOf(
-                    emptySubsetClass(dp->dataClass), outDims, nullptr, false, dp->fieldNames()));
+                emptySubset(*this, emptySubsetClass(dp->dataClass), outDims, dp->fieldNames()));
         }
         if (isSparse()) {
             if (L > 2) {
@@ -591,6 +590,23 @@ emptyLinearSubsetDimensions(Dimensions source, Dimensions index)
         return (source.dimensionLength(0) == 1) ? Dimensions(1, 0) : Dimensions(0, 1);
     }
     return index;
+}
+//=============================================================================
+static ArrayOf
+emptySubset(
+    const ArrayOf& source, NelsonType dataClass, Dimensions dims, const stringVector& fieldNames)
+{
+    if (!source.isSparse()) {
+        return ArrayOf(dataClass, dims, nullptr, false, fieldNames);
+    }
+    // an empty sparse subset gets real (empty) sparse storage, not a null one
+    dims.simplify();
+    if (!dims.is2D()) {
+        return ArrayOf(dataClass, dims, nullptr, true, fieldNames);
+    }
+    ArrayOf result(dataClass, dims, ArrayOf::allocateArrayOf(dataClass, 0), false);
+    result.makeSparse();
+    return result;
 }
 //=============================================================================
 static NelsonType

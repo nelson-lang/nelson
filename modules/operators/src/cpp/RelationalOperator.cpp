@@ -704,19 +704,20 @@ relationOperator(const ArrayOf& A, const ArrayOf& B, const std::wstring& operato
     Dimensions dimsA = A.dimensions();
     Dimensions dimsB = B.dimensions();
     if (A.isEmpty() || B.isEmpty()) {
-        if (A.isScalar() || B.isScalar()) {
-            if (A.isScalar()) {
-                ArrayOf res = ArrayOf::empty(dimsB);
-                res.promoteType(NLS_LOGICAL);
-                return res;
-            }
-            ArrayOf res = ArrayOf::empty(dimsA);
-            res.promoteType(NLS_LOGICAL);
-            return res;
+        Dimensions dims;
+        if (A.isScalar()) {
+            dims = dimsB;
+        } else if (B.isScalar()) {
+            dims = dimsA;
+        } else {
+            dims = binaryOperatorBroadcast(A, B, asciiOperatorName(operatorName)).dimensions;
         }
-        BinaryBroadcast info = binaryOperatorBroadcast(A, B, asciiOperatorName(operatorName));
-        ArrayOf res = ArrayOf::empty(info.dimensions);
+        ArrayOf res = ArrayOf::empty(dims);
         res.promoteType(NLS_LOGICAL);
+        // a comparison with a sparse operand is sparse, even when empty
+        if ((A.isSparse() || B.isSparse()) && res.is2D()) {
+            res.makeSparse();
+        }
         return res;
     }
     if (A.isSparse() || B.isSparse()) {

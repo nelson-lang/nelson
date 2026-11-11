@@ -515,6 +515,18 @@ VertCatOperands(const ArrayOfVector& argIn, NelsonType commonType)
         isComplex = isComplex || arg.isComplex();
     }
     if (isSparse) {
+        NelsonType emptyType = NLS_LOGICAL;
+        if (commonType != NLS_LOGICAL) {
+            bool isSingle = commonType == NLS_SINGLE;
+            emptyType = isComplex ? (isSingle ? NLS_SCOMPLEX : NLS_DCOMPLEX)
+                                  : (isSingle ? NLS_SINGLE : NLS_DOUBLE);
+        }
+        ArrayOfVector placeholders;
+        if (sparseEmptyPlaceholders(argIn, emptyType, placeholders)) {
+            ArrayOf res = VertCatOperands(placeholders, emptyType);
+            res.makeSparse();
+            return res;
+        }
         ArrayOfVector _argIn(argIn);
         if (commonType == NLS_LOGICAL) {
             for (auto& arg : _argIn) {

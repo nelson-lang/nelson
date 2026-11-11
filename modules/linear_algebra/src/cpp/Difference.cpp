@@ -11,6 +11,7 @@
 #include <cstring>
 #include <vector>
 #include "Difference.hpp"
+#include "Error.hpp"
 #include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
@@ -30,6 +31,10 @@ differenceAlongDimension(const ArrayOf& x, const std::vector<indexType>& sizes, 
 ArrayOf
 Difference(const ArrayOf& x, double order, indexType dim, const DifferenceSubtraction& subtract)
 {
+    if (x.isSparse() && dim > 2) {
+        Error(L"Nelson:diff:sparseDimensionOneOrTwo",
+            L"Sparse arrays only allow a difference along dimension 1 or 2.");
+    }
     std::vector<indexType> sizes = significantSizes(x);
     indexType along = 0;
     if (dim == 0) {
@@ -98,7 +103,12 @@ emptyDifference(const ArrayOf& x, const std::vector<indexType>& sizes)
     } else if (x.isIntegerType()) {
         type = x.dataClass();
     }
-    return ArrayOf(type, Dimensions(sizes), ArrayOf::allocateArrayOf(type, 0), false);
+    ArrayOf result(type, Dimensions(sizes), ArrayOf::allocateArrayOf(type, 0), false);
+    if (x.isSparse()) {
+        // an empty difference of a sparse array is a real sparse array
+        result.makeSparse();
+    }
+    return result;
 }
 //=============================================================================
 static ArrayOf

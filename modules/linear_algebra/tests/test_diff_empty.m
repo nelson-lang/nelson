@@ -37,3 +37,43 @@ asserts.isequal(diff(uint16([1 2]), 5), uint16(zeros(1, 0)));
 asserts.isequal(diff(false(0, 3), 1, 1), zeros(0, 3));
 asserts.isequal(diff(int8([1 2 4])), int8([1 2]));
 %=============================================================================
+% an empty difference of a sparse array stays sparse, real and double
+R = diff(sparse([1 2 3]), 5);
+asserts.isequal(size(R), [1 0]);
+asserts.istrue(issparse(R));
+asserts.isequal(class(R), 'double');
+R = diff(sparse(5));
+asserts.isequal(size(R), [0 0]);
+asserts.istrue(issparse(R));
+R = diff(sparse(true(1, 3)), 5);
+asserts.isequal(size(R), [1 0]);
+asserts.istrue(issparse(R));
+asserts.isequal(class(R), 'double');
+R = diff(sparse(true));
+asserts.isequal(size(R), [0 0]);
+asserts.istrue(issparse(R));
+asserts.isequal(class(R), 'double');
+R = diff(sparse(ones(2, 3)), 2);
+asserts.isequal(size(R), [0 3]);
+asserts.istrue(issparse(R));
+R = diff(sparse(ones(2, 3)), 3, 2);
+asserts.isequal(size(R), [2 0]);
+asserts.istrue(issparse(R));
+R = diff(sparse(ones(2, 3)), 5, 1);
+asserts.isequal(size(R), [0 3]);
+asserts.istrue(issparse(R));
+R = diff(sparse(1i * [1 2]), 3);
+asserts.isequal(size(R), [1 0]);
+asserts.istrue(issparse(R));
+asserts.istrue(isreal(R));
+R = diff(sparse([]));
+asserts.isequal(size(R), [0 0]);
+asserts.istrue(issparse(R));
+% the empty sparse result can be used in later operations
+asserts.isequal(size(R - R), [0 0]);
+asserts.isequal(size(diff(sparse(true(0, 3)))), [0 3]);
+asserts.istrue(issparse(diff(sparse(true(0, 3)))));
+% a sparse array has no third working dimension
+asserts.checkerror('diff(sparse(ones(2, 3)), 1, 3)', ...
+  _('Sparse arrays only allow a difference along dimension 1 or 2.'));
+%=============================================================================
