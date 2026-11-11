@@ -26,24 +26,41 @@ differenceOnce(const ArrayOf& x, indexType dim, const DifferenceSubtraction& sub
 static ArrayOf
 differenceAlongDimension(const ArrayOf& x, const std::vector<indexType>& sizes, double order,
     indexType dim, const DifferenceSubtraction& subtract);
-static ArrayOf
-differenceAlongFirstDimensions(const ArrayOf& x, const std::vector<indexType>& sizes, double order,
-    const DifferenceSubtraction& subtract);
 //=============================================================================
 ArrayOf
 Difference(const ArrayOf& x, double order, indexType dim, const DifferenceSubtraction& subtract)
 {
     std::vector<indexType> sizes = significantSizes(x);
+    indexType along = 0;
     if (dim == 0) {
-        return differenceAlongFirstDimensions(x, sizes, order, subtract);
+        // first non-singleton dimension; a scalar gives an empty 0x0 result
+        auto found = std::find_if(sizes.begin(), sizes.end(), [](indexType n) { return n != 1; });
+        if (found == sizes.end()) {
+            return emptyDifference(x, { 0, 0 });
+        }
+        along = static_cast<indexType>(found - sizes.begin());
+    } else {
+        along = dim - 1;
+        // dimensions after the last one have length 1
+        if (along >= static_cast<indexType>(sizes.size())) {
+            sizes.resize(along + 1, 1);
+        }
     }
-    return differenceAlongDimension(x, sizes, order, dim - 1, subtract);
+    return differenceAlongDimension(x, sizes, order, along, subtract);
 }
 //=============================================================================
 static ArrayOf
 differenceAlongDimension(const ArrayOf& x, const std::vector<indexType>& sizes, double order,
     indexType dim, const DifferenceSubtraction& subtract)
 {
+    if (sizes[dim] == 0 && x.isSparse()) {
+        // nothing to subtract: an empty sparse array stays sparse
+        ArrayOf result = x;
+        if (result.isLogical()) {
+            result.promoteType(NLS_DOUBLE);
+        }
+        return result;
+    }
     if (static_cast<double>(sizes[dim]) <= order) {
         std::vector<indexType> emptySizes = sizes;
         emptySizes[dim] = 0;
@@ -53,48 +70,6 @@ differenceAlongDimension(const ArrayOf& x, const std::vector<indexType>& sizes, 
     auto steps = static_cast<indexType>(order);
     for (indexType k = 0; k < steps; ++k) {
         result = differenceOnce(result, dim, subtract);
-    }
-    return result;
-}
-//=============================================================================
-static ArrayOf
-differenceAlongFirstDimensions(const ArrayOf& x, const std::vector<indexType>& sizes, double order,
-    const DifferenceSubtraction& subtract)
-{
-    indexType nd = static_cast<indexType>(sizes.size());
-    indexType dim = 0;
-    while (dim < nd && sizes[dim] == 1) {
-        dim++;
-    }
-    if (dim >= nd) {
-        dim = 0;
-    }
-    double reducible = 0;
-    for (indexType len : sizes) {
-        reducible += static_cast<double>(len) - 1;
-    }
-    if (reducible < order) {
-        return emptyDifference(x, { 0, 0 });
-    }
-    ArrayOf result = x;
-    double remaining = order;
-    while (remaining > 0) {
-        // Differencing along a dimension of length 0 leaves the (empty) result as
-        // it is: there is nothing left to subtract.
-        if (dim >= nd || sizes[dim] == 0) {
-            break;
-        }
-        auto steps
-            = static_cast<indexType>(std::min(remaining, static_cast<double>(sizes[dim] - 1)));
-        for (indexType k = 0; k < steps; ++k) {
-            result = differenceOnce(result, dim, subtract);
-        }
-        remaining -= static_cast<double>(steps);
-        dim++;
-    }
-    if (result.isLogical() || result.isCharacterArray()) {
-        // a difference of logical or char values is double, even when empty
-        result.promoteType(NLS_DOUBLE);
     }
     return result;
 }

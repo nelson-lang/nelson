@@ -14,7 +14,7 @@
 %=============================================================================
 asserts.isequal(diff(zeros(0, 3)), zeros(0, 3));
 asserts.isequal(diff(zeros(0, 3, 2)), zeros(0, 3, 2));
-asserts.isequal(diff(zeros(3, 0, 5), 3), zeros(1, 0, 5));
+asserts.isequal(diff(zeros(3, 0, 5), 3), zeros(0, 0, 5));
 asserts.isequal(diff(int8(zeros(0, 3))), int8(zeros(0, 3)));
 asserts.isequal(diff(single(zeros(0, 3))), single(zeros(0, 3)));
 asserts.isequal(diff(false(0, 3)), zeros(0, 3));
@@ -33,7 +33,7 @@ asserts.isequal(diff(single(zeros(3, 0))), single(zeros(2, 0)));
 %=============================================================================
 % an empty result keeps the class a subtraction would give
 asserts.isequal(diff(int8(zeros(0, 3)), 1, 1), int8(zeros(0, 3)));
-asserts.isequal(diff(uint16([1 2]), 5), uint16([]));
+asserts.isequal(diff(uint16([1 2]), 5), uint16(zeros(1, 0)));
 asserts.isequal(diff(false(0, 3), 1, 1), zeros(0, 3));
 asserts.isequal(diff(int8([1 2 4])), int8([1 2]));
 %=============================================================================

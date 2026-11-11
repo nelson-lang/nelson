@@ -20,7 +20,7 @@ asRealScalar(const ArrayOf& value, double& result);
 static double
 parseDifferenceOrder(const ArrayOf& value);
 static indexType
-parseDifferenceDimension(const ArrayOf& value, const ArrayOf& x);
+parseDifferenceDimension(const ArrayOf& value);
 //=============================================================================
 // x = diff(X), x = diff(X, n), x = diff(X, n, dim)
 ArrayOfVector
@@ -34,7 +34,7 @@ Nelson::LinearAlgebraGateway::diffBuiltin(Evaluator* eval, int nLhs, const Array
     }
     indexType dim = 0;
     if (argIn.size() > 2) {
-        dim = parseDifferenceDimension(argIn[2], argIn[0]);
+        dim = parseDifferenceDimension(argIn[2]);
     }
     DifferenceSubtraction subtract = [eval](const ArrayOf& a, const ArrayOf& b) {
         ArrayOfVector operands;
@@ -74,13 +74,12 @@ parseDifferenceOrder(const ArrayOf& value)
 }
 //=============================================================================
 static indexType
-parseDifferenceDimension(const ArrayOf& value, const ArrayOf& x)
+parseDifferenceDimension(const ArrayOf& value)
 {
-    Dimensions dims = x.dimensions();
-    dims.simplify();
-    double nd = static_cast<double>(std::max<indexType>(dims.length(), 2));
+    // any dimension after the last one is allowed (its length is 1)
     double dim = 0;
-    if (!asRealScalar(value, dim) || (dim != std::round(dim)) || !(dim > 0) || !(dim < nd + 1)) {
+    if (!asRealScalar(value, dim) || (dim != std::round(dim)) || !(dim > 0)
+        || !(dim <= static_cast<double>(maxDims))) {
         Error(L"Nelson:getdimarg:dimensionMustBePositiveInteger",
             L"Dimension argument must be a positive integer scalar within indexing range.");
     }

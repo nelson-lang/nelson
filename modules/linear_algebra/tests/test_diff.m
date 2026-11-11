@@ -63,13 +63,16 @@ asserts.isequal(size(R), [4 0]);
 R = diff([1 Inf NaN 2]);
 asserts.istrue(isequaln(R, [Inf NaN NaN]));
 %=============================================================================
-% matrices: along the first non-singleton dimension, then the next ones
+% matrices: along the first non-singleton dimension only; an order not below
+% its length gives an empty result there
 X = [1 3 5; 7 11 13; 17 19 23];
 asserts.isequal(diff(X), [6 8 8; 10 8 10]);
 asserts.isequal(diff(X, 2), [4 0 2]);
-asserts.isequal(diff(X, 3), [-4 2]);
-asserts.isequal(diff(X, 4), 6);
-asserts.isequal(diff(X, 5), []);
+asserts.isequal(diff(X, 3), zeros(0, 3));
+asserts.isequal(diff(X, 4), zeros(0, 3));
+asserts.isequal(diff(X, 5), zeros(0, 3));
+asserts.isequal(size(diff(1:5, 6)), [1 0]);
+asserts.isequal(size(diff(ones(1, 1, 3), 5)), [1 1 0]);
 asserts.isequal(diff(X, 1, 1), [6 8 8; 10 8 10]);
 asserts.isequal(diff(X, 2, 2), [0; -2; 2]);
 %=============================================================================
@@ -87,7 +90,8 @@ R = diff([]);
 asserts.isequal(size(R), [0 0]);
 asserts.isequal(class(R), 'double');
 %=============================================================================
-asserts.isequal(size(diff(zeros(1, 0))), [0 0]);
+asserts.isequal(size(diff(zeros(1, 0))), [1 0]);
+asserts.isequal(size(diff(zeros(0, 1))), [0 1]);
 asserts.isequal(size(diff(zeros(3, 0))), [2 0]);
 asserts.isequal(size(diff(zeros(0, 3), 1, 2)), [0 2]);
 %=============================================================================
@@ -153,7 +157,9 @@ asserts.checkerror('diff(1:3, NaN)', msg, 'Nelson:diff:differenceOrderMustBePosi
 msg = _('Dimension argument must be a positive integer scalar within indexing range.');
 asserts.checkerror('diff(1:3, 1, 0)', msg, 'Nelson:getdimarg:dimensionMustBePositiveInteger');
 asserts.checkerror('diff(1:3, 1, 1.5)', msg, 'Nelson:getdimarg:dimensionMustBePositiveInteger');
-asserts.checkerror('diff(1:3, 1, 3)', msg, 'Nelson:getdimarg:dimensionMustBePositiveInteger');
+% a dimension after the last one has length 1
+asserts.isequal(size(diff(1:3, 1, 3)), [1 3 0]);
+asserts.isequal(size(diff(1:3, 1, 5)), [1 3 1 1 0]);
 %=============================================================================
 asserts.checkerror('diff()', _('Not enough input arguments.'));
 asserts.checkerror('diff(1:3, 1, 2, 4)', _('Too many input arguments.'));

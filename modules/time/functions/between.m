@@ -8,84 +8,94 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function c = between(t1, t2, components)
+  % Calendar difference t2 - t1 split greedily into the requested components,
+  % largest first: each takes the most whole units that do not go past t2.
   narginchk(2, 3);
   if nargin < 3
-    components = 'months';
+    components = {'years', 'months', 'days', 'time'};
   end
-  serial1 = datenum(t1);
-  serial2 = datenum(t2);
-  [serial1, serial2] = expandPair(serial1, serial2);
-  v1 = datevec(serial1(:));
-  v2 = datevec(serial2(:));
-  components = lower(char(components));
-  switch components
-    case {'years', 'year', 'y'}
-      monthsValue = wholeMonths(v1, v2);
-      monthsValue = fix(monthsValue ./ 12) .* 12;
-      daysValue = zeros(size(monthsValue));
-    case {'quarters', 'quarter', 'q'}
-      monthsValue = wholeMonths(v1, v2);
-      monthsValue = fix(monthsValue ./ 3) .* 3;
-      daysValue = zeros(size(monthsValue));
-    case {'months', 'month', 'm'}
-      monthsValue = wholeMonths(v1, v2);
-      anchor = addMonths(serial1(:), monthsValue);
-      daysValue = floor(serial2(:)) - floor(anchor);
-    case {'days', 'day', 'd'}
-      monthsValue = zeros(size(serial1(:)));
-      daysValue = floor(serial2(:)) - floor(serial1(:));
-    otherwise
-      monthsValue = wholeMonths(v1, v2);
-      anchor = addMonths(serial1(:), monthsValue);
-      daysValue = floor(serial2(:)) - floor(anchor);
+  units = parseComponents(components);
+  t1 = asDatetime(t1);
+  t2 = asDatetime(t2);
+  [t1, t2] = expandPair(t1, t2);
+  nat = isnat(t1) | isnat(t2);
+  if any(nat(:))
+    % pairs with a NaT are computed on a valid date, then set to NaN
+    t1(nat) = datetime(2000, 1, 1, 'TimeZone', t1.TimeZone);
+    t2(nat) = datetime(2000, 1, 1, 'TimeZone', t2.TimeZone);
   end
-  secondsValue = timePart(t1, t2, serial1, serial2, monthsValue, daysValue, components);
-  c = calendarDuration.fromParts(reshape(monthsValue, size(serial1)), ...
-    reshape(daysValue, size(serial1)), reshape(secondsValue, size(serial1)), 'ymd');
+  forward = t2 >= t1;
+  monthsValue = zeros(size(t1));
+  for u = [12 3 1; units.years units.quarters units.months]
+    if u(2)
+      monthsValue = monthsValue + u(1) .* wholeMonthUnits(t1, t2, monthsValue, u(1), forward);
+    end
+  end
+  daysValue = zeros(size(t1));
+  anchor = t1 + calmonths(monthsValue);
+  for u = [7 1; units.weeks units.days]
+    if u(2)
+      reached = datenum(anchor + caldays(daysValue));
+      daysValue = daysValue + u(1) .* fix((datenum(t2) - reached) ./ u(1));
+    end
+  end
+  secondsValue = zeros(size(t1));
+  if units.time
+    secondsValue = seconds(t2 - (anchor + caldays(daysValue)));
+  end
+  monthsValue(nat) = NaN;
+  daysValue(nat) = NaN;
+  secondsValue(nat) = NaN;
+  c = calendarDuration.fromParts(monthsValue, daysValue, secondsValue, units.format);
 end
 %=============================================================================
-function secondsValue = timePart(t1, t2, serial1, serial2, monthsValue, daysValue, components)
-  % time-of-day difference; zoned dates take the time elapsed after the
-  % calendar part (UTC offsets may differ)
-  zoned = isa(t1, 'datetime') && ~isempty(t1.TimeZone) ...
-    && ~any(strcmp(components, {'years', 'year', 'y', 'quarters', 'quarter', 'q', 'days', 'day', 'd'}));
-  if zoned
-    sz = size(serial1);
-    anchor = t1 + calmonths(reshape(monthsValue, sz)) + caldays(reshape(daysValue, sz));
-    secondsValue = seconds(t2 - anchor);
-    secondsValue = secondsValue(:);
-  else
-    secondsValue = (serial2(:) - floor(serial2(:)) - (serial1(:) - floor(serial1(:)))) .* 86400;
+function k = wholeMonthUnits(t1, t2, monthsValue, unitMonths, forward)
+  % most whole units of unitMonths months after t1 + monthsValue not past t2
+  v1 = datevec(t1);
+  v2 = datevec(t2);
+  remaining = (v2(:, 1) - v1(:, 1)) .* 12 + (v2(:, 2) - v1(:, 2)) - monthsValue(:);
+  k = reshape(fix(remaining ./ unitMonths), size(t1));
+  % the calendar month count may be one too many when the day or time is not reached
+  reached = t1 + calmonths(monthsValue + k .* unitMonths);
+  overshoot = (forward & reached > t2) | (~forward & reached < t2);
+  k(overshoot) = k(overshoot) - sign(k(overshoot));
+end
+%=============================================================================
+function units = parseComponents(components)
+  % requested components and the display format they give
+  if ischar(components) || isstring(components)
+    components = cellstr(components);
   end
+  if ~iscellstr(components) || isempty(components)
+    error('Nelson:time:invalidBetweenComponents', 'Invalid %s.', 'calendar components');
+  end
+  names = {'years', 'quarters', 'months', 'weeks', 'days', 'time'};
+  units = struct('years', false, 'quarters', false, 'months', false, 'weeks', false, 'days', false, 'time', false);
+  for k = 1:numel(components)
+    name = lower(components{k});
+    match = strcmp(names, name) | strcmp(names, [name, 's']);
+    if ~any(match)
+      error('Nelson:time:invalidBetweenComponents', 'Invalid %s.', 'calendar components');
+    end
+    units.(names{find(match, 1)}) = true;
+  end
+  letters = {'y', 'q', 'm', 'w', 'd', 't'};
+  shown = [units.years, units.quarters, true, units.weeks, true, true];
+  units.format = [letters{shown}];
 end
 %=============================================================================
-function m = wholeMonths(v1, v2)
-  m = (v2(:, 1) - v1(:, 1)) .* 12 + (v2(:, 2) - v1(:, 2));
-  % Clamp the start day to the last day of the target month: when the start day
-  % is past the target month's length (e.g. Jan 31 -> Feb 28, or Mar 31 ->
-  % Apr 30), reaching that clamped month-end still completes a whole month, so
-  % v2.day == eomday must not be treated as "earlier in the month".
-  clampedStartDay = min(v1(:, 3), eomday(v2(:, 1), v2(:, 2)));
-  adjustPositive = m >= 0 & v2(:, 3) < clampedStartDay;
-  adjustNegative = m < 0 & v2(:, 3) > v1(:, 3);
-  m(adjustPositive) = m(adjustPositive) - 1;
-  m(adjustNegative) = m(adjustNegative) + 1;
-end
-%=============================================================================
-function out = addMonths(serial, monthsValue)
-  v = datevec(serial);
-  v(:, 2) = v(:, 2) + monthsValue(:);
-  y = v(:, 1) + floor((v(:, 2) - 1) ./ 12);
-  m = mod(v(:, 2) - 1, 12) + 1;
-  d = min(v(:, 3), eomday(y, m));
-  out = datenum(y, m, d, v(:, 4), v(:, 5), v(:, 6));
+function t = asDatetime(t)
+  % serial date numbers are accepted for the dates
+  if ~isa(t, 'datetime')
+    t = datetime(t, 'ConvertFrom', 'datenum');
+  end
 end
 %=============================================================================
 function [a, b] = expandPair(a, b)
   if isscalar(a) && ~isscalar(b)
-    a = repmat(a, size(b));
+    a = a(ones(size(b)));
   elseif isscalar(b) && ~isscalar(a)
-    b = repmat(b, size(a));
+    b = b(ones(size(a)));
   elseif ~isequal(size(a), size(b))
     error('Nelson:time:inputSizesMatchScalar', 'Input sizes must match or be scalar.');
   end

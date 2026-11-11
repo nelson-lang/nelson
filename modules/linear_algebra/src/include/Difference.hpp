@@ -24,8 +24,8 @@ using DifferenceSubtraction = std::function<ArrayOf(const ArrayOf&, const ArrayO
 //=============================================================================
 /**
  * Differences of order 'order' (positive integer) of x.
- * dim is one-based; dim == 0 selects the first non-singleton dimension and
- * continues along the next dimensions when the order exceeds its length.
+ * dim is one-based; dim == 0 selects the first non-singleton dimension. An
+ * order not below the length along dim gives an empty result.
  */
 NLSLINEAR_ALGEBRA_IMPEXP ArrayOf
 Difference(const ArrayOf& x, double order, indexType dim, const DifferenceSubtraction& subtract);

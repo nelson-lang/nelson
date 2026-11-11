@@ -34,6 +34,8 @@
   <description>
     <p>If <b>X</b> is a vector of length <b>n</b>, result of <b>diff(X)</b> is a vector of first differences<b>X(2) - X(1), ..., X(n) - X(n-1)</b>.</p>
     <p>If <b>X</b> is a matrix, result of <b>diff(X)</b> is a matrix of column differences along the first non-singleton dimension.</p>
+    <p><b>diff(X, n)</b> applies <b>diff</b> <b>n</b> times along that dimension. When <b>n</b> is not lower than its length, the result is empty along it (other dimensions are kept). <b>diff(X, n, dim)</b> works along <b>dim</b>, which can be after the last dimension of <b>X</b> (its length is then 1).</p>
+    <p>For a datetime array, <b>diff</b> returns the elapsed time between consecutive elements as a duration array (a daylight saving time change is taken into account). For a duration array, the result keeps the display format of <b>X</b>.</p>
   </description>
   <used_function />
   <bibliography />
@@ -46,6 +48,12 @@
       ><![CDATA[h = .01; x = 0:h:pi;
 X = sin(x.^2);
 R = diff(X)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Elapsed time between datetime values.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[t = datetime(2024, 10, 27, 0, 30, 0, 'TimeZone', 'Europe/Paris') + hours([0 1 2 4]);
+d = diff(t)]]></example_item_data>
     </example_item>
   </examples>
   <see_also>
@@ -60,6 +68,10 @@ R = diff(X)]]></example_item_data>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>datetime and duration inputs; an order not lower than the length gives an empty result along the dimension; any dimension after the last one.</history_description>
     </history_item>
   </history>
   <authors>
