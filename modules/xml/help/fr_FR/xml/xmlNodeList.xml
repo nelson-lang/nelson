@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>xmlNodeList</keyword>
+  <short_description
+  >Liste d'éléments XML retournée par getElementsByTagName.</short_description>
+  <syntax>
+    <syntax_item>nodes = xmlNodeList(elements)</syntax_item>
+    <syntax_item>n = nodes.getLength()</syntax_item>
+    <syntax_item>element = nodes.item(index)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>elements</param_name>
+      <param_description
+      >un tableau de cellules d'objets xmlElement.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>index</param_name>
+      <param_description
+      >un entier scalaire : position de l'élément dans la liste, en partant de zéro.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>nodes</param_name>
+      <param_description>un objet xmlNodeList.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>n</param_name>
+      <param_description
+      >un double : nombre d'éléments de la liste.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>element</param_name>
+      <param_description
+      >un objet xmlElement, ou [] lorsque index est hors limites.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>xmlNodeList</b> est la classe de l'objet retourné par la méthode <b>getElementsByTagName</b> de <b>xmlDocument</b> et de <b>xmlElement</b>. Les éléments sont conservés dans la propriété cachée <b>Nodes</b>, dans l'ordre du document.</p>
+    <p>Méthodes :</p>
+    <ul>
+      <li>
+        <b>getLength</b> retourne le nombre d'éléments.</li>
+      <li>
+        <b>item</b> retourne l'élément situé à une position comptée à partir de zéro : <b>item(0)</b> est le premier élément. Un index négatif, non entier ou trop grand retourne [] au lieu de provoquer une erreur.</li>
+      <li>
+        <b>disp</b> et <b>display</b> affichent 'xmlNodeList with n nodes'.</li>
+    </ul>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[xml_filename = [tempdir(), 'xmlNodeList_example.xml'];
+filewrite(xml_filename, '<list><item>one</item><item>two</item><item>three</item></list>');
+doc = xmlread(xml_filename);
+nodes = doc.getElementsByTagName('item')
+for k = 0:nodes.getLength() - 1
+  disp(nodes.item(k).getTextContent());
+end
+isempty(nodes.item(3))
+delete(xml_filename);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${xml}xmlDocument">xmlDocument</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${xml}xmlElement">xmlElement</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${xml}xmlread">xmlread</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

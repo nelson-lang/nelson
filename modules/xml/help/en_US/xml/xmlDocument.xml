@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>xmlDocument</keyword>
+  <short_description>XML document object returned by xmlread.</short_description>
+  <syntax>
+    <syntax_item>doc = xmlDocument(text)</syntax_item>
+    <syntax_item>root = doc.getDocumentElement()</syntax_item>
+    <syntax_item>nodes = doc.getElementsByTagName(tagName)</syntax_item>
+    <syntax_item>txt = doc.getTextContent()</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>text</param_name>
+      <param_description
+      >a character vector: the XML content of the document.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tagName</param_name>
+      <param_description
+      >a string: element name to search, or '*' for all elements.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>doc</param_name>
+      <param_description>an xmlDocument object.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>root</param_name>
+      <param_description
+      >an xmlElement object: the root element, or [] when the document has none.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>nodes</param_name>
+      <param_description
+      >an xmlNodeList object: matching elements in document order.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>txt</param_name>
+      <param_description
+      >a character vector: all the text of the root element and its descendants, joined.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>xmlDocument</b> is the class of the object returned by <b>xmlread</b>. It can be passed to <b>xmlwrite</b> and <b>xslt</b>, and it gives a small read-only access to the content in the style of a DOM document.</p>
+    <p
+    >The object keeps the XML content as text in its hidden property <b>Text</b>. The constructor stores <b>text</b> without checking it: a content that is not well-formed XML raises an error only when a method is called.</p>
+    <p>Methods:</p>
+    <ul>
+      <li>
+        <b>getDocumentElement</b> returns the root element as an <b>xmlElement</b>.</li>
+      <li>
+        <b>getElementsByTagName</b> returns an <b>xmlNodeList</b> of all the elements with the given name, the root element included.</li>
+      <li>
+        <b>getTextContent</b> returns the text of the whole document, without tags. As <b>xmlread</b> stores the document indented, this text can hold the line breaks and spaces found between elements.</li>
+      <li>
+        <b>disp</b> and <b>display</b> print '[#document: null]'.</li>
+    </ul>
+    <p
+    >The elements returned are copies of the content: they do not change the document, and the document cannot be modified through them.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[xml_filename = [tempdir(), 'xmlDocument_example.xml'];
+filewrite(xml_filename, '<catalog><book id="b1">Algebra</book><book id="b2">Geometry</book></catalog>');
+doc = xmlread(xml_filename)
+root = doc.getDocumentElement()
+books = doc.getElementsByTagName('book')
+txt = doc.getTextContent()
+delete(xml_filename);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${xml}xmlElement">xmlElement</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${xml}xmlNodeList">xmlNodeList</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${xml}xmlread">xmlread</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${xml}xmlwrite">xmlwrite</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${xml}xslt">xslt</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

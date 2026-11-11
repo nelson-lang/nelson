@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>xmlElement</keyword>
+  <short_description>XML element object of an xmlDocument.</short_description>
+  <syntax>
+    <syntax_item>element = xmlElement(text, name)</syntax_item>
+    <syntax_item>name = element.getTagName()</syntax_item>
+    <syntax_item>name = element.getNodeName()</syntax_item>
+    <syntax_item>value = element.getAttribute(attributeName)</syntax_item>
+    <syntax_item>tf = element.hasAttribute(attributeName)</syntax_item>
+    <syntax_item>txt = element.getTextContent()</syntax_item>
+    <syntax_item>nodes = element.getElementsByTagName(tagName)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>text</param_name>
+      <param_description
+      >a character vector: the XML content of the element, its own tags included.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>name</param_name>
+      <param_description>a string: the element name.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>attributeName</param_name>
+      <param_description>a string: an attribute name.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tagName</param_name>
+      <param_description
+      >a string: element name to search, or '*' for all elements.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>element</param_name>
+      <param_description>an xmlElement object.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>name</param_name>
+      <param_description>a string: the element name.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>value</param_name>
+      <param_description
+      >a character vector: the attribute value, or an empty char when the attribute does not exist.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>tf</param_name>
+      <param_description
+      >a logical: true when the element has the attribute.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>txt</param_name>
+      <param_description
+      >a character vector: all the text of the element and its descendants, joined.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>nodes</param_name>
+      <param_description
+      >an xmlNodeList object: matching descendant elements in document order.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>xmlElement</b> is the class of the elements returned by <b>getDocumentElement</b>, <b>getElementsByTagName</b> and the <b>item</b> method of an <b>xmlNodeList</b>.</p>
+    <p
+    >An element is a read-only copy of a part of the document: its XML text is stored in the hidden property <b>Text</b> and its name in the hidden property <b>Name</b>. The constructor stores both values without checking them.</p>
+    <p>Methods:</p>
+    <ul>
+      <li>
+        <b>getTagName</b> and <b>getNodeName</b> return the element name.</li>
+      <li>
+        <b>getAttribute</b> returns the value of an attribute of the element.</li>
+      <li>
+        <b>hasAttribute</b> tells if the element has an attribute.</li>
+      <li>
+        <b>getTextContent</b> returns the text of the element, without tags.</li>
+      <li>
+        <b>getElementsByTagName</b> searches the descendants of the element; the element itself is not part of the result.</li>
+      <li>
+        <b>disp</b> and <b>display</b> print '[name: null]'.</li>
+    </ul>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[xml_filename = [tempdir(), 'xmlElement_example.xml'];
+filewrite(xml_filename, '<catalog><book id="b1"><title>Algebra</title></book></catalog>');
+doc = xmlread(xml_filename);
+book = doc.getElementsByTagName('book').item(0)
+name = book.getTagName()
+id = book.getAttribute('id')
+has_year = book.hasAttribute('year')
+title = book.getElementsByTagName('title').item(0).getTextContent()
+delete(xml_filename);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${xml}xmlDocument">xmlDocument</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${xml}xmlNodeList">xmlNodeList</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${xml}xmlread">xmlread</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
