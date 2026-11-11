@@ -230,8 +230,8 @@ checkFillClass(const ArrayOf& fillValue, NelsonType outClass)
 //=============================================================================
 // output array of outClass whose every element holds the fill value (0 by default)
 ArrayOf
-filledOutput(NelsonType outClass, const Dimensions& outDims, indexType outTotal,
-    const ArrayOf& fillValue)
+filledOutput(
+    NelsonType outClass, const Dimensions& outDims, indexType outTotal, const ArrayOf& fillValue)
 {
     if (!fillValue.isEmpty() && fillValue.isComplex()) {
         outClass = complexClassOf(outClass);
@@ -467,15 +467,15 @@ Nelson::DataAnalysisGateway::accumarrayBuiltin(
         bool cplx = isComplexClass(valClass) || (!fillValue.isEmpty() && fillValue.isComplex());
         ArrayOf result;
         if (outClass == NLS_SINGLE) {
-            result = cplx ? sumPath<std::complex<float>>(
-                         NLS_SCOMPLEX, outDims, outTotal, vals, valScalar, lin, fillValue)
-                          : sumPath<float>(
-                              NLS_SINGLE, outDims, outTotal, vals, valScalar, lin, fillValue);
+            result = cplx
+                ? sumPath<std::complex<float>>(
+                      NLS_SCOMPLEX, outDims, outTotal, vals, valScalar, lin, fillValue)
+                : sumPath<float>(NLS_SINGLE, outDims, outTotal, vals, valScalar, lin, fillValue);
         } else {
-            result = cplx ? sumPath<std::complex<double>>(
-                         NLS_DCOMPLEX, outDims, outTotal, vals, valScalar, lin, fillValue)
-                          : sumPath<double>(
-                              NLS_DOUBLE, outDims, outTotal, vals, valScalar, lin, fillValue);
+            result = cplx
+                ? sumPath<std::complex<double>>(
+                      NLS_DCOMPLEX, outDims, outTotal, vals, valScalar, lin, fillValue)
+                : sumPath<double>(NLS_DOUBLE, outDims, outTotal, vals, valScalar, lin, fillValue);
         }
         if (cplx) {
             result = decomplexify(result);
@@ -519,8 +519,8 @@ Nelson::DataAnalysisGateway::accumarrayBuiltin(
         }
     } else {
         std::iota(order.begin(), order.end(), (indexType)0);
-        std::stable_sort(order.begin(), order.end(),
-            [&](indexType a, indexType b) { return lin[a] < lin[b]; });
+        std::stable_sort(
+            order.begin(), order.end(), [&](indexType a, indexType b) { return lin[a] < lin[b]; });
     }
 
     const indexType valElementSize = vals.elementSize();
@@ -575,8 +575,8 @@ Nelson::DataAnalysisGateway::accumarrayBuiltin(
                     errorFillClass();
                 }
                 ArrayOf* cellOut = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, outTotal);
-                ArrayOf content = fillIsCell ? ((const ArrayOf*)fillValue.dataPointer())[0]
-                                             : ArrayOf::empty();
+                ArrayOf content
+                    = fillIsCell ? ((const ArrayOf*)fillValue.dataPointer())[0] : ArrayOf::empty();
                 for (indexType k = 0; k < outTotal; ++k) {
                     cellOut[k] = content;
                 }
@@ -584,7 +584,8 @@ Nelson::DataAnalysisGateway::accumarrayBuiltin(
                 cellPtr = cellOut;
             } else {
                 outRealClass = realClassOf(r0.dataClass());
-                if (fillIsCell || (!sparseOutput && !fillValue.isEmpty()
+                if (fillIsCell
+                    || (!sparseOutput && !fillValue.isEmpty()
                         && realClassOf(fillValue.dataClass()) != outRealClass)) {
                     errorFillClass();
                 }
@@ -627,9 +628,8 @@ Nelson::DataAnalysisGateway::accumarrayBuiltin(
             retval << ArrayOf(NLS_CELL_ARRAY, outDims, cellOut);
             return retval;
         }
-        NelsonType emptyClass = fillValue.isEmpty() || sparseOutput
-            ? NLS_DOUBLE
-            : realClassOf(fillValue.dataClass());
+        NelsonType emptyClass
+            = fillValue.isEmpty() || sparseOutput ? NLS_DOUBLE : realClassOf(fillValue.dataClass());
         out = filledOutput(emptyClass, outDims, outTotal, fillValue);
     }
     if (out.isComplex()) {

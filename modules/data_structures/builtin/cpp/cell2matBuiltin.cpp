@@ -321,7 +321,8 @@ cell2matHandles(Evaluator* eval, const ArrayOf& input)
 } // namespace
 //=============================================================================
 ArrayOfVector
-Nelson::DataStructuresGateway::cell2matBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::DataStructuresGateway::cell2matBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);

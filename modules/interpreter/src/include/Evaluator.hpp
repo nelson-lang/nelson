@@ -357,7 +357,8 @@ public:
         ~DebugHooksSuppressor() { m_eval->popDebugHooksSuppression(); }
         DebugHooksSuppressor(const DebugHooksSuppressor&) = delete;
         DebugHooksSuppressor&
-        operator=(const DebugHooksSuppressor&) = delete;
+        operator=(const DebugHooksSuppressor&)
+            = delete;
 
     private:
         Evaluator* m_eval;
@@ -373,7 +374,8 @@ public:
         ~ScopedErrorCatcher() { m_eval->popCppErrorCatcher(); }
         ScopedErrorCatcher(const ScopedErrorCatcher&) = delete;
         ScopedErrorCatcher&
-        operator=(const ScopedErrorCatcher&) = delete;
+        operator=(const ScopedErrorCatcher&)
+            = delete;
 
     private:
         Evaluator* m_eval;

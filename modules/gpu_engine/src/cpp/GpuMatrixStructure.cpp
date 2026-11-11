@@ -79,7 +79,8 @@ GpuMatrixStructure(GpuArrayObject* a, GpuStructureInfo& info)
     GpuArrayObject* flags = AllocateGpuArray(Dimensions(1, 6), "uint32", false);
     ArrayOf owner = ArrayOf::handle(flags);
     uint32_t n = (uint32_t)a->elementCount();
-    uint32_t params[4] = { (uint32_t)info.rows, (uint32_t)info.columns, a->isComplex() ? 1u : 0u, 0u };
+    uint32_t params[4]
+        = { (uint32_t)info.rows, (uint32_t)info.columns, a->isComplex() ? 1u : 0u, 0u };
     GpuDispatchKernel(pipeline("gpuArray:structure", STRUCTURE_WGSL),
         { a->buffer(), flags->buffer() }, params, 4, (n + 255u) / 256u, 1);
     ArrayOf host = GatherGpuArray(flags);

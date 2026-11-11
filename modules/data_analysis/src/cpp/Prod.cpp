@@ -174,7 +174,7 @@ SparseProd(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
         Error(L"Nelson:prod:typeNotSupported", msg);
     } break;
     }
-    return { };
+    return {};
 }
 //=============================================================================
 template <class T>

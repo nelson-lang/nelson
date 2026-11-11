@@ -88,8 +88,8 @@ realSingle(GpuArrayObject* a)
 }
 //=============================================================================
 static void
-runBins(GpuArrayObject* x, GpuArrayObject* edges, uint32_t mode, WGPUBuffer counts,
-    WGPUBuffer index)
+runBins(
+    GpuArrayObject* x, GpuArrayObject* edges, uint32_t mode, WGPUBuffer counts, WGPUBuffer index)
 {
     uint32_t n = (uint32_t)x->elementCount();
     if (n == 0) {
@@ -185,7 +185,8 @@ GpuAccumarray(GpuArrayObject* subs, GpuArrayObject* vals, const std::vector<inde
     Dimensions sd = subs->dimensions();
     indexType n = sd.rows();
     indexType k = sd.columns();
-    if (sd.length() > 2 || (indexType)outDims.size() < k || (vals->elementCount() != n && vals->elementCount() != 1)) {
+    if (sd.length() > 2 || (indexType)outDims.size() < k
+        || (vals->elementCount() != n && vals->elementCount() != 1)) {
         return false;
     }
     Dimensions dims(outDims);

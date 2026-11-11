@@ -234,8 +234,8 @@ callDependentGetter(Evaluator* eval, const ArrayOf& object, const std::string& c
 }
 //=============================================================================
 static std::string
-setterClassName(const std::string& className, const std::string& propertyName,
-    std::string& exactPropertyName)
+setterClassName(
+    const std::string& className, const std::string& propertyName, std::string& exactPropertyName)
 {
     ClassdefPropertyDefinition property;
     if (!classdefPropertyDefinition(className, propertyName, property)) {

@@ -179,10 +179,10 @@ estimateQrRank(
         }
         scale = std::max(scale, value);
     }
-    Real factor = std::is_same<T, double>::value || std::is_same<T, single>::value ? Real(1)
-                                                                                   : Real(10);
-    Real tolerance = factor * static_cast<Real>(std::max(m, n))
-        * std::numeric_limits<Real>::epsilon() * scale;
+    Real factor
+        = std::is_same<T, double>::value || std::is_same<T, single>::value ? Real(1) : Real(10);
+    Real tolerance
+        = factor * static_cast<Real>(std::max(m, n)) * std::numeric_limits<Real>::epsilon() * scale;
     if (rankTolerance != nullptr) {
         *rankTolerance = static_cast<double>(tolerance);
     }
@@ -288,9 +288,8 @@ solveLapackQrLeastSquares(NelsonType destinationClass, const ArrayOf& matA, cons
     lapack_int& rank, lapack_int& info, double* rankTolerance)
 {
     if (matA.rows() >= matA.columns()) {
-        ArrayOf fullRankResult
-            = solveLapackFullRankQrLeastSquares<T>(
-                destinationClass, matA, matB, rank, info, rankTolerance);
+        ArrayOf fullRankResult = solveLapackFullRankQrLeastSquares<T>(
+            destinationClass, matA, matB, rank, info, rankTolerance);
         if (info != 0) {
             return {};
         }

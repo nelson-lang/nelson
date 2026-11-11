@@ -110,7 +110,10 @@ checkDoubleInBitRange(const ArrayOf& X, NelsonType cls, bool withAssumedType)
     ompIndexType len = (ompIndexType)X.elementCount();
     int bad = 0;
 #if WITH_OPENMP
-#pragma omp parallel for reduction(| : bad) if (NelsonConfiguration::getInstance()->isOpenMPParallelizationEnabled() && (uint64_t)len > NelsonConfiguration::getInstance()->getOpenMPParallelizationThreshold())
+#pragma omp parallel for reduction(                                                                \
+        | : bad) if (NelsonConfiguration::getInstance()->isOpenMPParallelizationEnabled()          \
+        && (uint64_t)len                                                                           \
+            > NelsonConfiguration::getInstance()->getOpenMPParallelizationThreshold())
 #endif
     for (ompIndexType k = 0; k < len; ++k) {
         double v = p[k];

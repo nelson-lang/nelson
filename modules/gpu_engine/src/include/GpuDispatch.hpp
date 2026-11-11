@@ -151,7 +151,7 @@ struct GpuLaneSpec
 void
 GpuRunLaneReduce(const std::string& opKey, const GpuLaneSpec& spec, const GpuLaneGeometry& lane,
     WGPUBuffer input, const std::vector<WGPUBuffer>& outputs,
-    const std::vector<uint32_t>& extraParams = { });
+    const std::vector<uint32_t>& extraParams = {});
 //=============================================================================
 // true when a non-associative scan of this lane is too long for one GPU thread
 bool

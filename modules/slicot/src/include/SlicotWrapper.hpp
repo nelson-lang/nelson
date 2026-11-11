@@ -32,8 +32,8 @@ extern "C"
         int* M, int* N, double* A, int* LDA, int* JPVT, double* TAU, double* DWORK, int* INFO);
     //=============================================================================
     NLSSLICOT_IMPEXP int C2F(mb03rd)(const char* JOBX, const char* SORT, int* N, double* PMAX,
-        double* A, int* LDA, double* X, int* LDX, int* NBLCKS, int* BLSIZE, double* WR,
-        double* WI, double* TOL, double* DWORK, int* INFO);
+        double* A, int* LDA, double* X, int* LDX, int* NBLCKS, int* BLSIZE, double* WR, double* WI,
+        double* TOL, double* DWORK, int* INFO);
     //=============================================================================
     NLSSLICOT_IMPEXP int C2F(mb03pd)(const char* JOBRQ, int* M, int* N, double* A, int* LDA,
         int* JPVT, double* RCOND, double* SVLMAX, double* TAU, int* RANK, double* SVAL,

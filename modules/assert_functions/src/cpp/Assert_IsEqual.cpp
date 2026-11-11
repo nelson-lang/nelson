@@ -45,7 +45,7 @@ reachesBuiltinRule(FunctionDef* funcDef, const ArrayOfVector& args)
     }
     // without objects the common type only depends on both classes and sparsity
     // per thread like the function tables: a known miss holds for one generation (+1, 0 = unknown)
-    static thread_local uint64 missGeneration[NLS_UNKNOWN][NLS_UNKNOWN][4] = { };
+    static thread_local uint64 missGeneration[NLS_UNKNOWN][NLS_UNKNOWN][4] = {};
     const int sparsity = (args[0].isSparse() ? 2 : 0) + (args[1].isSparse() ? 1 : 0);
     uint64& knownMiss = missGeneration[classA][classB][sparsity];
     const uint64 generation = FunctionsInMemory::getInstance()->generation() + 1;

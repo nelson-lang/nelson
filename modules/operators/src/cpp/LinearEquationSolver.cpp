@@ -258,7 +258,8 @@ template <> struct DenseSolverTraits<std::complex<single>>
     }
 };
 //=============================================================================
-// True when the count entries at p are zero; bit test without the sign bit, so -0 is zero and NaN is not.
+// True when the count entries at p are zero; bit test without the sign bit, so -0 is zero and NaN
+// is not.
 template <class T>
 static bool
 isZeroRange(const T* p, indexType count)

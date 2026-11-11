@@ -240,11 +240,17 @@ function(nelson_add_frontend_build _target _build_target)
   # Serialize frontend builds: parallel `npm ci` wipes node_modules, and web_gui
   # compiles nmm_gui/frontend sources.
   get_property(_previous_frontend_build GLOBAL
-    PROPERTY NELSON_LAST_FRONTEND_BUILD_TARGET)
+    PROPERTY NELSON_LAST_FRONTEND_BUILD_TARGET
+  )
   if(_previous_frontend_build)
     add_dependencies(${_build_target} ${_previous_frontend_build})
   endif()
-  set_property(GLOBAL PROPERTY NELSON_LAST_FRONTEND_BUILD_TARGET ${_build_target})
+  set_property(
+    GLOBAL
+    PROPERTY
+      NELSON_LAST_FRONTEND_BUILD_TARGET
+      ${_build_target}
+  )
 endfunction()
 # ==============================================================================
 # nelson_install_module_data(<module_name>

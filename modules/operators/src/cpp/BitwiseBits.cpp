@@ -96,7 +96,10 @@ bitPositions(const ArrayOf& bit, int width)
         const single* ps = static_cast<const single*>(bit.dataPointer());
         int bad = 0;
 #if WITH_OPENMP
-#pragma omp parallel for reduction(| : bad) if (NelsonConfiguration::getInstance()->isOpenMPParallelizationEnabled() && (uint64_t)len > NelsonConfiguration::getInstance()->getOpenMPParallelizationThreshold())
+#pragma omp parallel for reduction(                                                                \
+        | : bad) if (NelsonConfiguration::getInstance()->isOpenMPParallelizationEnabled()          \
+        && (uint64_t)len                                                                           \
+            > NelsonConfiguration::getInstance()->getOpenMPParallelizationThreshold())
 #endif
         for (ompIndexType k = 0; k < (ompIndexType)len; ++k) {
             double v = isSingle ? static_cast<double>(ps[k]) : pd[k];
@@ -140,7 +143,8 @@ commonDimensions(const ArrayOf* operands, size_t count)
 //=============================================================================
 template <class T, class S, class O>
 static ArrayOf
-bitgetKernel(const ArrayOf& A, const ArrayOf& positions, NelsonType outClass, const Dimensions& dims)
+bitgetKernel(
+    const ArrayOf& A, const ArrayOf& positions, NelsonType outClass, const Dimensions& dims)
 {
     using U = typename std::make_unsigned<T>::type;
     indexType len = dims.elementCount();
@@ -206,8 +210,8 @@ Bitget(const ArrayOf& A, const ArrayOf& bit, const std::wstring& assumedType, bo
 //=============================================================================
 template <class T, class S>
 static ArrayOf
-bitsetKernel(const ArrayOf& A, const ArrayOf& positions, const ArrayOf& values,
-    NelsonType outClass, const Dimensions& dims)
+bitsetKernel(const ArrayOf& A, const ArrayOf& positions, const ArrayOf& values, NelsonType outClass,
+    const Dimensions& dims)
 {
     using U = typename std::make_unsigned<T>::type;
     indexType len = dims.elementCount();
@@ -246,8 +250,8 @@ Bitset(const ArrayOf& A, const ArrayOf& bit, const ArrayOf& V, const std::wstrin
     bool withAssumedType)
 {
     if (A.isComplex() || bit.isComplex() || V.isComplex()) {
-        Error(L"Nelson:operators:invalidBitInput:inputArgumentReal",
-            L"Input argument must be real.");
+        Error(
+            L"Nelson:operators:invalidBitInput:inputArgumentReal", L"Input argument must be real.");
     }
     bool isDouble = A.dataClass() == NLS_DOUBLE;
     if (A.dataClass() == NLS_SINGLE || (bit.dataClass() == NLS_SINGLE && !A.isIntegerType())) {

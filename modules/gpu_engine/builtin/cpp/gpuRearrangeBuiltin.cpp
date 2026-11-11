@@ -109,8 +109,9 @@ grids(Evaluator* eval, const wchar_t* name, int nLhs, const ArrayOfVector& argIn
     for (size_t k = 0; k < count; ++k) {
         const ArrayOf& value = argIn[std::min(k, argIn.size() - 1)];
         GpuArrayObject* gpuObject = AsGpuArrayObject(value);
-        bool isVector = gpuObject ? gpuObject->dimensions().isVector() || gpuObject->dimensions().isScalar()
-                                  : (value.isVector() || value.isScalar());
+        bool isVector = gpuObject
+            ? gpuObject->dimensions().isVector() || gpuObject->dimensions().isScalar()
+            : (value.isVector() || value.isScalar());
         if (!isVector || (!gpuObject && !(value.isNumeric() || value.isLogical()))) {
             return host(eval, name, nLhs, argIn);
         }
@@ -231,8 +232,7 @@ Nelson::GpuEngineGateway::gpuArrayRepmatBuiltin(
     bool valid = a != nullptr && argIn.size() >= 2 && nLhs <= 1;
     for (size_t k = 1; valid && k < argIn.size(); ++k) {
         std::vector<int64_t> part;
-        valid = integerValues(argIn[k], part, true)
-            && (argIn.size() == 2 || part.size() == 1);
+        valid = integerValues(argIn[k], part, true) && (argIn.size() == 2 || part.size() == 1);
         tiles.insert(tiles.end(), part.begin(), part.end());
     }
     if (!valid || tiles.empty()) {
@@ -293,7 +293,8 @@ Nelson::GpuEngineGateway::gpuArrayCircshiftBuiltin(
     std::vector<int64_t> shifts;
     if (argIn.size() == 3) {
         std::vector<int64_t> dim;
-        if (!integerValues(argIn[2], dim, false) || dim.size() != 1 || dim[0] < 1 || k.size() != 1) {
+        if (!integerValues(argIn[2], dim, false) || dim.size() != 1 || dim[0] < 1
+            || k.size() != 1) {
             return host(eval, L"circshift", nLhs, argIn);
         }
         shifts.assign((size_t)dim[0], 0);
@@ -336,7 +337,8 @@ halfShift(Evaluator* eval, const wchar_t* name, int nLhs, const ArrayOfVector& a
     GpuArrayObject* a = AsGpuArrayObject(argIn.empty() ? ArrayOf() : argIn[0]);
     std::vector<int64_t> dim;
     if (a == nullptr || argIn.size() > 2 || nLhs > 1
-        || (argIn.size() == 2 && (!integerValues(argIn[1], dim, false) || dim.size() != 1 || dim[0] < 1))) {
+        || (argIn.size() == 2
+            && (!integerValues(argIn[1], dim, false) || dim.size() != 1 || dim[0] < 1))) {
         return host(eval, name, nLhs, argIn);
     }
     Dimensions dims = a->dimensions();

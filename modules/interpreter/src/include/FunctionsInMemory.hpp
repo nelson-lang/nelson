@@ -110,9 +110,9 @@ public:
     deleteAllBuiltinFunctionReferences();
     //=============================================================================
     // Lets go of a name the path no longer resolves (file removed, rmpath, cd),
-    // so that it stops resolving. The definition is not destroyed here: a frame may be running it and the
-    // interpreter caches hold raw pointers to it, so it is retired and destroyed
-    // when the tables are cleared.
+    // so that it stops resolving. The definition is not destroyed here: a frame may be running it
+    // and the interpreter caches hold raw pointers to it, so it is retired and destroyed when the
+    // tables are cleared.
     bool
     retireUnresolvable(const std::string& functionName);
     //=============================================================================

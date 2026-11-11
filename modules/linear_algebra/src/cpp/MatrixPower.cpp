@@ -211,7 +211,7 @@ triangularFractionalPower(const ComplexMatrix& matT, T p)
         ComplexMatrix base = integerPart > 0
             ? ComplexMatrix(matT)
             : ComplexMatrix(matT.template triangularView<Eigen::Upper>().solve(
-                ComplexMatrix::Identity(n, n)));
+                  ComplexMatrix::Identity(n, n)));
         auto count = static_cast<long long>(std::abs(integerPart));
         ComplexMatrix integerPower = ComplexMatrix::Identity(n, n);
         while (count > 0) {
@@ -250,8 +250,8 @@ schurFractionalPower(const ArrayOf& A, const ArrayOf& D, double exponent)
     } else {
         Eigen::ComplexSchur<ComplexMatrix> schur(matA);
         const ComplexMatrix& matU = schur.matrixU();
-        ComplexMatrix triangularPower
-            = triangularFractionalPower<T>(ComplexMatrix(schur.matrixT()), static_cast<T>(exponent));
+        ComplexMatrix triangularPower = triangularFractionalPower<T>(
+            ComplexMatrix(schur.matrixT()), static_cast<T>(exponent));
         powered = matU * triangularPower * matU.adjoint();
     }
     indexType count = A.elementCount();

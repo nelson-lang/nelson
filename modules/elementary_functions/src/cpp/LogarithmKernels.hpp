@@ -118,7 +118,8 @@ logarithmDense(const ArrayOf& A, NelsonType realClass, NelsonType complexClass, 
     if (A.dataClass() == realClass) {
         const T* ptrIn = (const T*)A.dataPointer();
         if (!hasNegativeRealValue<T>(ptrIn, elementCount)) {
-            T* ptrOut = (T*)ArrayOf::allocateArrayOf(realClass, elementCount, stringVector(), false);
+            T* ptrOut
+                = (T*)ArrayOf::allocateArrayOf(realClass, elementCount, stringVector(), false);
 #if defined(_NLS_WITH_VML)
             if constexpr (Base == LogarithmBase::E) {
                 Eigen::Map<const Eigen::Array<T, Eigen::Dynamic, 1>> matIn(ptrIn, elementCount);

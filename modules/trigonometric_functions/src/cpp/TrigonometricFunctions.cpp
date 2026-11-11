@@ -933,7 +933,8 @@ Asin(const ArrayOf& A, bool& needToOverload)
             return SparseMapDoubleToDouble(A, [](double v) { return std::asin(v); }, 0.);
         case NLS_DCOMPLEX:
             return SparseMapComplexToComplex(
-                A, [](doublecomplex v) { return asinComplexValue<double>(v); }, doublecomplex(0., 0.));
+                A, [](doublecomplex v) { return asinComplexValue<double>(v); },
+                doublecomplex(0., 0.));
         default:
             needToOverload = true;
             return {};
@@ -1148,8 +1149,8 @@ withInputSignedZeros(std::complex<T> w, std::complex<T> z)
 // value is outside the real domain; complex input gives a real result when it can.
 template <class T, class InDomain, class RealFn, class RealAsComplexFn, class ComplexFn>
 static ArrayOf
-mapUnaryDense(const ArrayOf& A, NelsonType realClass, NelsonType complexClass,
-    InDomain inDomain, RealFn realFn, RealAsComplexFn realAsComplexFn, ComplexFn complexFn)
+mapUnaryDense(const ArrayOf& A, NelsonType realClass, NelsonType complexClass, InDomain inDomain,
+    RealFn realFn, RealAsComplexFn realAsComplexFn, ComplexFn complexFn)
 {
     Dimensions dims = A.dimensions();
     ompIndexType n = (ompIndexType)dims.elementCount();

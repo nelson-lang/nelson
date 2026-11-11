@@ -137,8 +137,8 @@ ArrayOf
 GpuRepeat(GpuArrayObject* a, const std::vector<indexType>& elementCopies,
     const std::vector<indexType>& tileCopies)
 {
-    size_t rank = std::max({ elementCopies.size(), tileCopies.size(),
-        (size_t)a->dimensions().length() });
+    size_t rank
+        = std::max({ elementCopies.size(), tileCopies.size(), (size_t)a->dimensions().length() });
     std::vector<indexType> lengths = lengthsOf(a->dimensions(), rank);
     std::vector<indexType> strides = stridesOf(lengths);
     std::vector<GpuRearrangeAxis> axes(rank);

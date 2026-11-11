@@ -192,6 +192,6 @@ Nelson::LinearAlgebraGateway::bicgstabBuiltin(Evaluator* eval, int nLhs, const A
         return bicgstabTyped<double>(eval, nLhs, argIn, NLS_DOUBLE);
     }
     OverloadRequired("bicgstab");
-    return { };
+    return {};
 }
 //=============================================================================

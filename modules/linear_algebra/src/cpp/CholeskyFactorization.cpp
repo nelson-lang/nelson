@@ -203,7 +203,7 @@ leadingSubmatrix(const ArrayOf& A, indexType order)
     case NLS_SCOMPLEX:
         return leadingSubmatrix<std::complex<single>>(A, order, NLS_SCOMPLEX);
     default:
-        return { };
+        return {};
     }
 }
 //=============================================================================
@@ -241,7 +241,7 @@ leadingFactor(const ArrayOf& A, indexType order, bool lowerTriangle)
     case NLS_SCOMPLEX:
         return leadingFactor<std::complex<single>>(A, order, lowerTriangle, NLS_SCOMPLEX);
     default:
-        return { };
+        return {};
     }
 }
 //=============================================================================
@@ -404,7 +404,7 @@ CholeskyFactorization(
     bool isSupportedTypes = (A.isDoubleClass() || A.isSingleClass()) && !A.isSparse();
     if (!isSupportedTypes) {
         needToOverload = true;
-        return { };
+        return {};
     }
     if (!A.isSquare()) {
         Error("Nelson:linear_algebra:squareMatrixExpected", "%s expected.", "Square matrix");

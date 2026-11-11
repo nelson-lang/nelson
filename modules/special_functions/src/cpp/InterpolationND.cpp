@@ -256,8 +256,7 @@ evaluateNDReal(const std::vector<const T*>& grids, const std::vector<indexType>&
             }
             continue;
         }
-        if (outside
-            && (nanQuery || extrapolation == InterpolationNDExtrapolation::DEFAULT_NAN)) {
+        if (outside && (nanQuery || extrapolation == InterpolationNDExtrapolation::DEFAULT_NAN)) {
             for (indexType page = 0; page < pageCount; page++) {
                 output[qi + totalQueries * page] = numericNaNND<T>();
             }
@@ -349,8 +348,7 @@ evaluateNDComplex(const std::vector<const T*>& grids, const std::vector<indexTyp
             }
             continue;
         }
-        if (outside
-            && (nanQuery || extrapolation == InterpolationNDExtrapolation::DEFAULT_NAN)) {
+        if (outside && (nanQuery || extrapolation == InterpolationNDExtrapolation::DEFAULT_NAN)) {
             for (indexType page = 0; page < pageCount; page++) {
                 indexType outIndex = qi + totalQueries * page;
                 output[2 * outIndex] = numericNaNND<T>();

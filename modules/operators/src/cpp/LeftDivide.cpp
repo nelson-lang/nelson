@@ -57,8 +57,8 @@ extern "C"
         const lapack_int*, const lapack_int*, const std::complex<double>*, const lapack_int*,
         const lapack_int*, std::complex<double>*, const lapack_int*, lapack_int*);
     void LAPACK_GLOBAL(sgbcon, SGBCON)(const char*, const lapack_int*, const lapack_int*,
-        const lapack_int*, const float*, const lapack_int*, const lapack_int*, const float*,
-        float*, float*, lapack_int*, lapack_int*);
+        const lapack_int*, const float*, const lapack_int*, const lapack_int*, const float*, float*,
+        float*, lapack_int*, lapack_int*);
     void LAPACK_GLOBAL(dgbcon, DGBCON)(const char*, const lapack_int*, const lapack_int*,
         const lapack_int*, const double*, const lapack_int*, const lapack_int*, const double*,
         double*, double*, lapack_int*, lapack_int*);
@@ -81,14 +81,14 @@ template <> struct SparseBandSolver<double>
     using Real = double;
     static constexpr char transposeSolve = 'T';
     static void
-    gbtrf(lapack_int n, lapack_int kl, lapack_int ku, double* ab, lapack_int ldab,
-        lapack_int* ipiv, lapack_int* info)
+    gbtrf(lapack_int n, lapack_int kl, lapack_int ku, double* ab, lapack_int ldab, lapack_int* ipiv,
+        lapack_int* info)
     {
         LAPACK_GLOBAL(dgbtrf, DGBTRF)(&n, &n, &kl, &ku, ab, &ldab, ipiv, info);
     }
     static void
-    gbtrs(char trans, lapack_int n, lapack_int kl, lapack_int ku, lapack_int nrhs,
-        const double* ab, lapack_int ldab, const lapack_int* ipiv, double* b, lapack_int* info)
+    gbtrs(char trans, lapack_int n, lapack_int kl, lapack_int ku, lapack_int nrhs, const double* ab,
+        lapack_int ldab, const lapack_int* ipiv, double* b, lapack_int* info)
     {
         LAPACK_GLOBAL(dgbtrs, DGBTRS)
         (&trans, &n, &kl, &ku, &nrhs, ab, &ldab, ipiv, b, &n, info);
@@ -110,14 +110,14 @@ template <> struct SparseBandSolver<single>
     using Real = single;
     static constexpr char transposeSolve = 'T';
     static void
-    gbtrf(lapack_int n, lapack_int kl, lapack_int ku, single* ab, lapack_int ldab,
-        lapack_int* ipiv, lapack_int* info)
+    gbtrf(lapack_int n, lapack_int kl, lapack_int ku, single* ab, lapack_int ldab, lapack_int* ipiv,
+        lapack_int* info)
     {
         LAPACK_GLOBAL(sgbtrf, SGBTRF)(&n, &n, &kl, &ku, ab, &ldab, ipiv, info);
     }
     static void
-    gbtrs(char trans, lapack_int n, lapack_int kl, lapack_int ku, lapack_int nrhs,
-        const single* ab, lapack_int ldab, const lapack_int* ipiv, single* b, lapack_int* info)
+    gbtrs(char trans, lapack_int n, lapack_int kl, lapack_int ku, lapack_int nrhs, const single* ab,
+        lapack_int ldab, const lapack_int* ipiv, single* b, lapack_int* info)
     {
         LAPACK_GLOBAL(sgbtrs, SGBTRS)
         (&trans, &n, &kl, &ku, &nrhs, ab, &ldab, ipiv, b, &n, info);
@@ -862,8 +862,8 @@ leftDivide(const ArrayOf& A, const ArrayOf& B, bool& needToOverload, bool transp
 //=============================================================================
 template <class T>
 static ArrayOf
-sparseLeftDivide(NelsonType dataClass, const ArrayOf& A, const ArrayOf& B, bool& needToOverload,
-    bool transposed)
+sparseLeftDivide(
+    NelsonType dataClass, const ArrayOf& A, const ArrayOf& B, bool& needToOverload, bool transposed)
 {
     needToOverload = false;
     if (A.dataClass() != B.dataClass()) {
@@ -957,8 +957,8 @@ sparseLeftDivide(const ArrayOf& A, const ArrayOf& B, bool& needToOverload, bool 
 }
 //=============================================================================
 static ArrayOf
-promotedSparseLeftDivide(const ArrayOf& A, const ArrayOf& B, NelsonType dataClass,
-    bool& needToOverload, bool transposed)
+promotedSparseLeftDivide(
+    const ArrayOf& A, const ArrayOf& B, NelsonType dataClass, bool& needToOverload, bool transposed)
 {
     ArrayOf AA = A;
     ArrayOf BB = B;

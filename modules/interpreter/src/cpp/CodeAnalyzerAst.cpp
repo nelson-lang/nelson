@@ -1468,7 +1468,8 @@ namespace {
         return nullptr;
     }
     //=============================================================================
-    using SelfReadCandidates = std::vector<std::pair<CodeAnalyzerLineUsage*, AbstractSyntaxTreePtr>>;
+    using SelfReadCandidates
+        = std::vector<std::pair<CodeAnalyzerLineUsage*, AbstractSyntaxTreePtr>>;
     //=============================================================================
     // Plain targets not yet read or assigned on their line, taken before the right side.
     SelfReadCandidates
@@ -1717,8 +1718,7 @@ namespace {
         AstSourceSpan span = firstSourceSpan(target);
         CodeAnalyzerLineUsage* usage = usageAt(*ctx.lineUsages, span.line);
         if (usage == nullptr
-            || std::find(usage->deadAssignments.begin(), usage->deadAssignments.end(),
-                   target->text)
+            || std::find(usage->deadAssignments.begin(), usage->deadAssignments.end(), target->text)
                 != usage->deadAssignments.end()) {
             return;
         }
@@ -1797,12 +1797,12 @@ namespace {
         for (AbstractSyntaxTreePtr part = selector == nullptr ? nullptr : selector->right;
             part != nullptr; part = part->right) {
             if (part->opNum == OP_CASEBLOCK) {
-                for (AbstractSyntaxTreePtr item = part->down; item != nullptr;
-                    item = item->right) {
+                for (AbstractSyntaxTreePtr item = part->down; item != nullptr; item = item->right) {
                     AbstractSyntaxTreePtr value = item->down;
                     AbstractSyntaxTreePtr block = value == nullptr ? nullptr : value->right;
                     unionInto(result, readNames(value, ctx));
-                    unionInto(result, block == nullptr ? after : liveBeforeBlock(block, after, ctx));
+                    unionInto(
+                        result, block == nullptr ? after : liveBeforeBlock(block, after, ctx));
                 }
             } else if (part->opNum == OP_BLOCK) {
                 hasOtherwise = true;
@@ -1845,8 +1845,7 @@ namespace {
         NameSet reads;
         NameSet defined;
         for (AbstractSyntaxTreePtr target : assignmentTargets(node)) {
-            if (ctx.report && live.find(target->text) == live.end()
-                && !hasFieldReference(target)) {
+            if (ctx.report && live.find(target->text) == live.end() && !hasFieldReference(target)) {
                 recordDeadAssignment(ctx, target);
             }
             if (target->down == nullptr) {
@@ -2161,7 +2160,7 @@ namespace {
         case NLS_KEYWORD_WHILE: {
             AbstractSyntaxTreePtr condition = node->down;
             state = definedAfterLoop(condition, condition == nullptr ? nullptr : condition->right,
-                state, ctx, [](DefinedState&) {});
+                state, ctx, [](DefinedState&) { });
         } break;
         case NLS_KEYWORD_IF: {
             DefinedState after = unreachableState();

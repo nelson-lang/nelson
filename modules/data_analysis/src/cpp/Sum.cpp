@@ -170,7 +170,7 @@ SparseSum(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
         Error(L"Nelson:sum:typeNotSupported", msg);
     } break;
     }
-    return { };
+    return {};
 }
 //=============================================================================
 template <class T>
@@ -249,10 +249,10 @@ ComplexSumT(
     const C* csp = reinterpret_cast<const C*>(sp);
     C* cdp = reinterpret_cast<C*>(dp);
     if (withnan) {
-        reduceLinesInOrder(csp, cdp, planes, planesize, linesize, C { },
+        reduceLinesInOrder(csp, cdp, planes, planesize, linesize, C {},
             [](C a, C v) { return C { a.re + v.re, a.im + v.im }; });
     } else {
-        reduceLinesInOrder(csp, cdp, planes, planesize, linesize, C { }, [](C a, C v) {
+        reduceLinesInOrder(csp, cdp, planes, planesize, linesize, C {}, [](C a, C v) {
             return (std::isnan(v.re) || std::isnan(v.im)) ? a : C { a.re + v.re, a.im + v.im };
         });
     }

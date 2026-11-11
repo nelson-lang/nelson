@@ -72,8 +72,8 @@ checkBitwiseOperand(const ArrayOf& X)
 {
     NelsonType cls = X.dataClass();
     if (cls == NLS_DCOMPLEX || cls == NLS_SCOMPLEX) {
-        Error(L"Nelson:operators:invalidBitInput:inputArgumentReal",
-            L"Input argument must be real.");
+        Error(
+            L"Nelson:operators:invalidBitInput:inputArgumentReal", L"Input argument must be real.");
     }
     if (cls == NLS_SINGLE) {
         Error(L"Nelson:operators:invalidBitshiftInput",
@@ -202,8 +202,8 @@ Bitcmp(const ArrayOf& A, const std::wstring& assumedType, bool withAssumedType)
 {
     NelsonType cls = A.dataClass();
     if (cls == NLS_DCOMPLEX || cls == NLS_SCOMPLEX) {
-        Error(L"Nelson:operators:invalidBitInput:inputArgumentReal",
-            L"Input argument must be real.");
+        Error(
+            L"Nelson:operators:invalidBitInput:inputArgumentReal", L"Input argument must be real.");
     }
     bool isDouble = cls == NLS_DOUBLE;
     if ((!isDouble && !IS_INTEGER_TYPE(cls)) || A.isSparse()) {

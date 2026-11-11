@@ -288,6 +288,6 @@ Nelson::LinearAlgebraGateway::lsmrBuiltin(Evaluator* eval, int nLhs, const Array
         return lsmrTyped<double>(eval, nLhs, argIn, NLS_DOUBLE);
     }
     OverloadRequired("lsmr");
-    return { };
+    return {};
 }
 //=============================================================================

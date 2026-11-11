@@ -54,9 +54,14 @@ target_link_libraries(${module_library_name}
 # in place partial writes of v7.3 variables (matfile) use HDF5 directly
 if(HDF5_LIBRARIES AND HDF5_INCLUDE_DIRS)
   target_include_directories(${module_library_name}
-    PRIVATE ${HDF5_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR}/../hdf5/src/include)
+    PRIVATE
+      ${HDF5_INCLUDE_DIRS}
+      ${CMAKE_CURRENT_SOURCE_DIR}/../hdf5/src/include
+  )
   target_link_libraries(${module_library_name} PRIVATE ${HDF5_LIBRARIES})
-  target_compile_definitions(${module_library_name} PRIVATE NLS_MATFILE_WITH_HDF5)
+  target_compile_definitions(${module_library_name}
+    PRIVATE NLS_MATFILE_WITH_HDF5
+  )
 endif()
 # ==============================================================================
 # Builtin library

@@ -29,8 +29,7 @@ solveLeastSquareLapack(NelsonType destinationClass, const ArrayOf& matA, const A
     lapack_int rank = 0;
     lapack_int info = 0;
     double tolerance = 0;
-    ArrayOf res = solveLapackLeastSquares<T>(
-        destinationClass, matA, matB, rank, info, &tolerance);
+    ArrayOf res = solveLapackLeastSquares<T>(destinationClass, matA, matB, rank, info, &tolerance);
     if (info != 0) {
         Error(L"Nelson:operators:solverFailed", L"Linear least squares solver failed.");
     }

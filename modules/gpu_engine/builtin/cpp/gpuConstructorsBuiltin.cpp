@@ -194,7 +194,8 @@ resolveTypeAndDims(const ArrayOfVector& argIn, ArrayOfVector& dimArgs, const std
         underlyingType = AsGpuArrayObject(argIn[end - 1])->underlyingType();
         end -= 1;
     }
-    while (end > 0 && (argIn[end - 1].isRowVectorCharacterArray() || argIn[end - 1].isScalarStringArray())) {
+    while (end > 0
+        && (argIn[end - 1].isRowVectorCharacterArray() || argIn[end - 1].isScalarStringArray())) {
         std::string option = argIn[end - 1].asUtf8String();
         if (option != "gpuArray") {
             underlyingType = (option == "double") ? "single" : option;

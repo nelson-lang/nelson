@@ -91,32 +91,34 @@ buildComplexCompareWgsl(const std::string& expr, bool expand)
 static std::string
 buildComplexUnaryWgsl(const std::string& crExpr, const std::string& ciExpr)
 {
-    return GpuMathHelpersWgsl() + std::string("struct Params { n : u32 };\n"
-                       "@group(0) @binding(0) var<storage, read> a : array<f32>;\n"
-                       "@group(0) @binding(1) var<storage, read_write> c : array<f32>;\n"
-                       "@group(0) @binding(2) var<uniform> params : Params;\n"
-                       "@compute @workgroup_size(256)\n"
-                       "fn main(@builtin(global_invocation_id) gid : vec3<u32>) {\n"
-                       "    let i = gid.x;\n"
-                       "    if (i < params.n) {\n"
-                       "        let ar = a[2u * i]; let ai = a[2u * i + 1u];\n"
-                       "        c[2u * i] = ")
+    return GpuMathHelpersWgsl()
+        + std::string("struct Params { n : u32 };\n"
+                      "@group(0) @binding(0) var<storage, read> a : array<f32>;\n"
+                      "@group(0) @binding(1) var<storage, read_write> c : array<f32>;\n"
+                      "@group(0) @binding(2) var<uniform> params : Params;\n"
+                      "@compute @workgroup_size(256)\n"
+                      "fn main(@builtin(global_invocation_id) gid : vec3<u32>) {\n"
+                      "    let i = gid.x;\n"
+                      "    if (i < params.n) {\n"
+                      "        let ar = a[2u * i]; let ai = a[2u * i + 1u];\n"
+                      "        c[2u * i] = ")
         + crExpr + ";\n        c[2u * i + 1u] = " + ciExpr + ";\n    }\n}\n";
 }
 //=============================================================================
 static std::string
 buildComplexToRealWgsl(const std::string& expr)
 {
-    return GpuMathHelpersWgsl() + std::string("struct Params { n : u32 };\n"
-                       "@group(0) @binding(0) var<storage, read> a : array<f32>;\n"
-                       "@group(0) @binding(1) var<storage, read_write> c : array<f32>;\n"
-                       "@group(0) @binding(2) var<uniform> params : Params;\n"
-                       "@compute @workgroup_size(256)\n"
-                       "fn main(@builtin(global_invocation_id) gid : vec3<u32>) {\n"
-                       "    let i = gid.x;\n"
-                       "    if (i < params.n) {\n"
-                       "        let ar = a[2u * i]; let ai = a[2u * i + 1u];\n"
-                       "        c[i] = ")
+    return GpuMathHelpersWgsl()
+        + std::string("struct Params { n : u32 };\n"
+                      "@group(0) @binding(0) var<storage, read> a : array<f32>;\n"
+                      "@group(0) @binding(1) var<storage, read_write> c : array<f32>;\n"
+                      "@group(0) @binding(2) var<uniform> params : Params;\n"
+                      "@compute @workgroup_size(256)\n"
+                      "fn main(@builtin(global_invocation_id) gid : vec3<u32>) {\n"
+                      "    let i = gid.x;\n"
+                      "    if (i < params.n) {\n"
+                      "        let ar = a[2u * i]; let ai = a[2u * i + 1u];\n"
+                      "        c[i] = ")
         + expr + ";\n    }\n}\n";
 }
 //=============================================================================
@@ -165,14 +167,15 @@ GpuComplexPower(GpuArrayObject* a, GpuArrayObject* b)
 {
     // a ^ b = exp(b * log(a)), all complex
     // a zero base gives 0 for a positive real exponent and 1 for a zero exponent
-    const char* body = "        let l = nlsClog(ar, ai);\n"
-                       "        var p = nlsCexp(br * l.x - bi * l.y, br * l.y + bi * l.x);\n"
-                       "        if (ar == 0.0 && ai == 0.0 && bi == 0.0) {\n"
-                       "            p = select(vec2<f32>(0.0, 0.0), vec2<f32>(1.0, 0.0), br == 0.0);\n"
-                       "            if (br < 0.0) { p = vec2<f32>(nlsInf(), 0.0); }\n"
-                       "        }\n"
-                       "        c[2u * i] = p.x;\n"
-                       "        c[2u * i + 1u] = p.y;";
+    const char* body
+        = "        let l = nlsClog(ar, ai);\n"
+          "        var p = nlsCexp(br * l.x - bi * l.y, br * l.y + bi * l.x);\n"
+          "        if (ar == 0.0 && ai == 0.0 && bi == 0.0) {\n"
+          "            p = select(vec2<f32>(0.0, 0.0), vec2<f32>(1.0, 0.0), br == 0.0);\n"
+          "            if (br < 0.0) { p = vec2<f32>(nlsInf(), 0.0); }\n"
+          "        }\n"
+          "        c[2u * i] = p.x;\n"
+          "        c[2u * i + 1u] = p.y;";
     return complexBinary(a, b, "gpuArray:cpow", body);
 }
 //=============================================================================
@@ -219,8 +222,7 @@ ArrayOf
 GpuComplexSin(GpuArrayObject* a)
 {
     // sin(re + i im) = sin(re) cosh(im) + i cos(re) sinh(im)
-    return complexUnary(
-        a, "gpuArray:csin", "nlsSin(ar) * nlsCosh(ai)", "nlsCos(ar) * nlsSinh(ai)");
+    return complexUnary(a, "gpuArray:csin", "nlsSin(ar) * nlsCosh(ai)", "nlsCos(ar) * nlsSinh(ai)");
 }
 //=============================================================================
 ArrayOf

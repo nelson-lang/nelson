@@ -50,8 +50,7 @@ realVector(const ArrayOf& value, ArrayOf& owner)
     GpuArrayObject* g = AsGpuArrayObject(value);
     if (g != nullptr) {
         bool ok = !g->isComplex() && !g->isRawIntStorage() && GpuIntegerResultType(g, g).empty()
-            && (g->dimensions().isVector() || g->dimensions().isScalar()
-                || g->elementCount() == 0);
+            && (g->dimensions().isVector() || g->dimensions().isScalar() || g->elementCount() == 0);
         return ok ? g : nullptr;
     }
     if (!(value.dataClass() == NLS_DOUBLE || value.dataClass() == NLS_SINGLE) || value.isComplex()
@@ -73,7 +72,8 @@ one(const ArrayOf& value)
 } // namespace
 //=============================================================================
 ArrayOfVector
-Nelson::GpuEngineGateway::gpuArrayIstrilBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::GpuEngineGateway::gpuArrayIstrilBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     GpuStructureInfo info;
     if (!structureOf(argIn, 1, info)) {
@@ -83,7 +83,8 @@ Nelson::GpuEngineGateway::gpuArrayIstrilBuiltin(Evaluator* eval, int nLhs, const
 }
 //=============================================================================
 ArrayOfVector
-Nelson::GpuEngineGateway::gpuArrayIstriuBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::GpuEngineGateway::gpuArrayIstriuBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     GpuStructureInfo info;
     if (!structureOf(argIn, 1, info)) {
@@ -93,7 +94,8 @@ Nelson::GpuEngineGateway::gpuArrayIstriuBuiltin(Evaluator* eval, int nLhs, const
 }
 //=============================================================================
 ArrayOfVector
-Nelson::GpuEngineGateway::gpuArrayIsdiagBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::GpuEngineGateway::gpuArrayIsdiagBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     GpuStructureInfo info;
     if (!structureOf(argIn, 1, info)) {
@@ -194,7 +196,8 @@ Nelson::GpuEngineGateway::gpuArrayToeplitzBuiltin(
     Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOf ownerC, ownerR;
-    GpuArrayObject* c = (argIn.size() == 1 || argIn.size() == 2) ? realVector(argIn[0], ownerC) : nullptr;
+    GpuArrayObject* c
+        = (argIn.size() == 1 || argIn.size() == 2) ? realVector(argIn[0], ownerC) : nullptr;
     GpuArrayObject* r = (argIn.size() == 2) ? realVector(argIn[1], ownerR) : c;
     if (c == nullptr || r == nullptr || nLhs > 1) {
         return host(eval, L"toeplitz", nLhs, argIn);
@@ -204,10 +207,12 @@ Nelson::GpuEngineGateway::gpuArrayToeplitzBuiltin(
 }
 //=============================================================================
 ArrayOfVector
-Nelson::GpuEngineGateway::gpuArrayHankelBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::GpuEngineGateway::gpuArrayHankelBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOf ownerC, ownerR;
-    GpuArrayObject* c = (argIn.size() == 1 || argIn.size() == 2) ? realVector(argIn[0], ownerC) : nullptr;
+    GpuArrayObject* c
+        = (argIn.size() == 1 || argIn.size() == 2) ? realVector(argIn[0], ownerC) : nullptr;
     GpuArrayObject* r = (argIn.size() == 2) ? realVector(argIn[1], ownerR) : nullptr;
     if (c == nullptr || (argIn.size() == 2 && r == nullptr) || nLhs > 1) {
         return host(eval, L"hankel", nLhs, argIn);
@@ -218,7 +223,8 @@ Nelson::GpuEngineGateway::gpuArrayHankelBuiltin(Evaluator* eval, int nLhs, const
 }
 //=============================================================================
 ArrayOfVector
-Nelson::GpuEngineGateway::gpuArrayVanderBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::GpuEngineGateway::gpuArrayVanderBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOf owner;
     GpuArrayObject* v = (argIn.size() == 1) ? realVector(argIn[0], owner) : nullptr;
@@ -262,12 +268,13 @@ Nelson::GpuEngineGateway::gpuArrayDiagBuiltin(Evaluator* eval, int nLhs, const A
     int64_t count = (k >= 0) ? std::min<int64_t>(rows, (int64_t)cols - k)
                              : std::min<int64_t>((int64_t)rows + k, cols);
     count = std::max<int64_t>(count, 0);
-    return one(GpuStructuredMatrix(
-        GpuStructuredKind::Diagonal, a, nullptr, (indexType)count, 1, k, rows));
+    return one(
+        GpuStructuredMatrix(GpuStructuredKind::Diagonal, a, nullptr, (indexType)count, 1, k, rows));
 }
 //=============================================================================
 ArrayOfVector
-Nelson::GpuEngineGateway::gpuArrayCompanBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::GpuEngineGateway::gpuArrayCompanBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOf owner;
     GpuArrayObject* u = (argIn.size() == 1) ? realVector(argIn[0], owner) : nullptr;

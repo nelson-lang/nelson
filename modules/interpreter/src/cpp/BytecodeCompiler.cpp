@@ -3144,8 +3144,7 @@ namespace {
             case OP_OR:
                 // A' \ B and A.' \ B: the solver gets A itself, like the reference
                 if (node->opNum == OP_LDIV && node->down->type == non_terminal
-                    && (node->down->opNum == OP_TRANSPOSE
-                        || node->down->opNum == OP_DOT_TRANSPOSE)
+                    && (node->down->opNum == OP_TRANSPOSE || node->down->opNum == OP_DOT_TRANSPOSE)
                     && node->down->down != nullptr) {
                     compileExpr(node->down->down);
                     compileExpr(node->down->right);

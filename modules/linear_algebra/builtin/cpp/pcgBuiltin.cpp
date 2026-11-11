@@ -172,6 +172,6 @@ Nelson::LinearAlgebraGateway::pcgBuiltin(Evaluator* eval, int nLhs, const ArrayO
         return pcgTyped<double>(eval, nLhs, argIn, NLS_DOUBLE);
     }
     OverloadRequired("pcg");
-    return { };
+    return {};
 }
 //=============================================================================

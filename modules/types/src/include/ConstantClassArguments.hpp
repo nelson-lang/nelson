@@ -40,9 +40,8 @@ parseConstantClassArguments(const ArrayOfVector& argIn, bool integerClasses)
     if (argIn.empty()) {
         return request;
     }
-    auto isText = [](const ArrayOf& a) {
-        return a.isRowVectorCharacterArray() || a.isScalarStringArray();
-    };
+    auto isText
+        = [](const ArrayOf& a) { return a.isRowVectorCharacterArray() || a.isScalarStringArray(); };
     auto isSupported = [integerClasses](const std::wstring& name) {
         return integerClasses ? isConstantIntegerClass(name)
                               : (name == L"double" || name == L"single");
@@ -65,24 +64,46 @@ parseConstantClassArguments(const ArrayOfVector& argIn, bool integerClasses)
         c = towlower(c);
     }
     if (option != L"like") {
-        Error(L"Nelson:constants:firstArgNotLike", L"With two inputs, the first one must be 'like'.");
+        Error(
+            L"Nelson:constants:firstArgNotLike", L"With two inputs, the first one must be 'like'.");
     }
     const ArrayOf& prototype = argIn[1];
     std::wstring name;
     switch (prototype.dataClass()) {
-    case NLS_INT8: name = L"int8"; break;
-    case NLS_UINT8: name = L"uint8"; break;
-    case NLS_INT16: name = L"int16"; break;
-    case NLS_UINT16: name = L"uint16"; break;
-    case NLS_INT32: name = L"int32"; break;
-    case NLS_UINT32: name = L"uint32"; break;
-    case NLS_INT64: name = L"int64"; break;
-    case NLS_UINT64: name = L"uint64"; break;
+    case NLS_INT8:
+        name = L"int8";
+        break;
+    case NLS_UINT8:
+        name = L"uint8";
+        break;
+    case NLS_INT16:
+        name = L"int16";
+        break;
+    case NLS_UINT16:
+        name = L"uint16";
+        break;
+    case NLS_INT32:
+        name = L"int32";
+        break;
+    case NLS_UINT32:
+        name = L"uint32";
+        break;
+    case NLS_INT64:
+        name = L"int64";
+        break;
+    case NLS_UINT64:
+        name = L"uint64";
+        break;
     case NLS_SINGLE:
-    case NLS_SCOMPLEX: name = L"single"; break;
+    case NLS_SCOMPLEX:
+        name = L"single";
+        break;
     case NLS_DOUBLE:
-    case NLS_DCOMPLEX: name = L"double"; break;
-    default: break;
+    case NLS_DCOMPLEX:
+        name = L"double";
+        break;
+    default:
+        break;
     }
     if (!isSupported(name)) {
         if (integerClasses) {
@@ -105,7 +126,7 @@ integerLimitScalar(const std::wstring& name, bool largest)
 #define NLS_INTEGER_LIMIT(NAME, TYPE)                                                              \
     if (name == L## #TYPE) {                                                                       \
         return ArrayOf::NAME##Scalar(                                                              \
-            largest ? std::numeric_limits<TYPE>::max() : std::numeric_limits<TYPE>::min());       \
+            largest ? std::numeric_limits<TYPE>::max() : std::numeric_limits<TYPE>::min());        \
     }
     NLS_INTEGER_LIMIT(int8, int8)
     NLS_INTEGER_LIMIT(uint8, uint8)

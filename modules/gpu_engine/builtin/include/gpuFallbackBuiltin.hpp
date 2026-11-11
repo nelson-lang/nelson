@@ -18,7 +18,8 @@ namespace Nelson::GpuEngineGateway {
 //=============================================================================
 // run the host function `name` on gathered inputs; numeric results go back to the device
 ArrayOfVector
-gpuArrayHostFallback(Evaluator* eval, const std::wstring& name, int nLhs, const ArrayOfVector& argIn);
+gpuArrayHostFallback(
+    Evaluator* eval, const std::wstring& name, int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 // device copy of a real double/single (or logical) argument; owner keeps an upload alive
 GpuArrayObject*

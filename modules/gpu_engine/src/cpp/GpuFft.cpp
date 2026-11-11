@@ -276,8 +276,8 @@ GpuFftAlong(GpuArrayObject* a, indexType length, int dim, bool inverse)
         ArrayOf f1Owner = ArrayOf::handle(f1);
         std::string filterBody = std::string(CHIRP_WGSL) + FILTER_WGSL;
         uint32_t filterParams[3] = { L, n, floatBits(sign) };
-        GpuDispatchKernel(fftPipeline("gpuArray:fft:filter", filterBody.c_str()),
-            { f0->buffer() }, filterParams, 3, groups(L), 1);
+        GpuDispatchKernel(fftPipeline("gpuArray:fft:filter", filterBody.c_str()), { f0->buffer() },
+            filterParams, 3, groups(L), 1);
         WGPUBuffer filter = stockham(f0->buffer(), f1->buffer(), 1, L, -1.0f);
         WGPUBuffer spectrum = stockham(w0->buffer(), w1->buffer(), (uint32_t)lanes, L, -1.0f);
         std::string multiplyBody = std::string(CHIRP_WGSL) + MULTIPLY_WGSL;

@@ -103,8 +103,7 @@ reduceOver(const ArrayOf& input, const ReduceOptions& options, const DimKernel& 
     GpuArrayObject* a = AsGpuArrayObject(input);
     if (options.all) {
         // column view of the same data: no copy
-        ArrayOf column
-            = ArrayOf::handle(GpuArrayObject::view(a, Dimensions(a->elementCount(), 1)));
+        ArrayOf column = ArrayOf::handle(GpuArrayObject::view(a, Dimensions(a->elementCount(), 1)));
         return kernel(AsGpuArrayObject(column), 1);
     }
     if (options.dims.empty()) {
@@ -264,8 +263,8 @@ Nelson::GpuEngineGateway::gpuArrayMeanBuiltin(Evaluator* eval, int nLhs, const A
         nargincheck(argIn, 1);                                                                     \
         nargoutcheck(nLhs, 0, 1);                                                                  \
         GpuArrayObject* a = gpuInput(argIn[0]);                                                    \
-        bool scalarDim = argIn.size() == 2 && !AsGpuArrayObject(argIn[1])                          \
-            && argIn[1].isNumeric() && argIn[1].isScalar();                                        \
+        bool scalarDim = argIn.size() == 2 && !AsGpuArrayObject(argIn[1]) && argIn[1].isNumeric()  \
+            && argIn[1].isScalar();                                                                \
         if (argIn.size() > 2 || (argIn.size() == 2 && !scalarDim)) {                               \
             return hostCall(eval, NAME, nLhs, argIn);                                              \
         }                                                                                          \
@@ -339,10 +338,10 @@ maxMin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, bool isMax)
         ArrayOf ownedA = a ? argIn[0] : CreateGpuArray(argIn[0]);
         ArrayOf ownedB = b ? argIn[1] : CreateGpuArray(argIn[1]);
         ArrayOfVector retval;
-        retval << (isMax ? GpuMaxBinary(AsGpuArrayObject(ownedA), AsGpuArrayObject(ownedB),
-                               flags.includeNan)
-                         : GpuMinBinary(AsGpuArrayObject(ownedA), AsGpuArrayObject(ownedB),
-                               flags.includeNan));
+        retval << (isMax
+                ? GpuMaxBinary(AsGpuArrayObject(ownedA), AsGpuArrayObject(ownedB), flags.includeNan)
+                : GpuMinBinary(
+                      AsGpuArrayObject(ownedA), AsGpuArrayObject(ownedB), flags.includeNan));
         return retval;
     }
     gpuInput(argIn[0]);
@@ -414,8 +413,8 @@ Nelson::GpuEngineGateway::gpuArrayNormBuiltin(Evaluator* eval, int nLhs, const A
     double p = 2.0;
     bool frobenius = false;
     if (a == nullptr || argIn.size() > 2 || nLhs > 1
-        || (argIn.size() == 2 && !normOrder(argIn[1], p, frobenius))
-        || a->isRawIntStorage() || !GpuIntegerResultType(a, a).empty()) {
+        || (argIn.size() == 2 && !normOrder(argIn[1], p, frobenius)) || a->isRawIntStorage()
+        || !GpuIntegerResultType(a, a).empty()) {
         return hostCall(eval, L"norm", nLhs, argIn);
     }
     Dimensions dims = a->dimensions();
@@ -539,13 +538,11 @@ Nelson::GpuEngineGateway::gpuArrayBoundsBuiltin(
     }
     bool includeNan = options.includeNan;
     ArrayOfVector retval;
-    retval << reduceOver(argIn[0], options, [includeNan](GpuArrayObject* g, int dim) {
-        return GpuMinAlong(g, dim, includeNan);
-    });
+    retval << reduceOver(argIn[0], options,
+        [includeNan](GpuArrayObject* g, int dim) { return GpuMinAlong(g, dim, includeNan); });
     if (nLhs > 1) {
-        retval << reduceOver(argIn[0], options, [includeNan](GpuArrayObject* g, int dim) {
-            return GpuMaxAlong(g, dim, includeNan);
-        });
+        retval << reduceOver(argIn[0], options,
+            [includeNan](GpuArrayObject* g, int dim) { return GpuMaxAlong(g, dim, includeNan); });
     }
     return retval;
 }

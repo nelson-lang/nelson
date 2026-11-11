@@ -445,8 +445,7 @@ static ArrayOf
 permutationVector(const std::vector<Index>& order)
 {
     Index count = static_cast<Index>(order.size());
-    double* values
-        = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, count, stringVector(), false);
+    double* values = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, count, stringVector(), false);
     for (Index k = 0; k < count; ++k) {
         values[k] = static_cast<double>(order[k] + 1);
     }

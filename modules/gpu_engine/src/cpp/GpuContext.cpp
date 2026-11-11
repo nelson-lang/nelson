@@ -390,7 +390,7 @@ static std::string
 toStdString(WGPUStringView view)
 {
     if (view.data == nullptr || view.length == 0) {
-        return { };
+        return {};
     }
     return std::string(view.data, view.length);
 }

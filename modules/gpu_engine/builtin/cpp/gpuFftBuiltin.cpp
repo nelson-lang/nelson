@@ -263,7 +263,8 @@ Nelson::GpuEngineGateway::gpuArrayFft2Builtin(Evaluator* eval, int nLhs, const A
 }
 //=============================================================================
 ArrayOfVector
-Nelson::GpuEngineGateway::gpuArrayIfft2Builtin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::GpuEngineGateway::gpuArrayIfft2Builtin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return twoDimensional(eval, nLhs, argIn, true);
 }
@@ -275,7 +276,8 @@ Nelson::GpuEngineGateway::gpuArrayFftnBuiltin(Evaluator* eval, int nLhs, const A
 }
 //=============================================================================
 ArrayOfVector
-Nelson::GpuEngineGateway::gpuArrayIfftnBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::GpuEngineGateway::gpuArrayIfftnBuiltin(
+    Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     return allDimensions(eval, nLhs, argIn, true);
 }

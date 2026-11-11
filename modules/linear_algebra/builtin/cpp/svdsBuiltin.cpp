@@ -55,11 +55,10 @@ Nelson::LinearAlgebraGateway::svdsBuiltin(int nLhs, const ArrayOfVector& argIn)
     indexType limit = A.is2D() ? std::min(A.rows(), A.columns()) : 0;
     bool textOption = argIn.size() < 3 || argIn[2].isRowVectorCharacterArray()
         || argIn[2].isScalarStringArray();
-    bool useSparseSolver = A.isSparse() && textOption && nLhs <= 3
-        && SvdsRequestedK(argIn, limit) < limit;
-    ArrayOfVector retval = useSparseSolver ? SvdsSparseDouble(nLhs, promotedArgIn)
-                                           : SvdsDense(nLhs, promotedArgIn);
-    return isSparseSingleArpackClass(inputClass) ? convertSparseArpackSingleOutput(retval)
-                                                 : retval;
+    bool useSparseSolver
+        = A.isSparse() && textOption && nLhs <= 3 && SvdsRequestedK(argIn, limit) < limit;
+    ArrayOfVector retval
+        = useSparseSolver ? SvdsSparseDouble(nLhs, promotedArgIn) : SvdsDense(nLhs, promotedArgIn);
+    return isSparseSingleArpackClass(inputClass) ? convertSparseArpackSingleOutput(retval) : retval;
 }
 //=============================================================================

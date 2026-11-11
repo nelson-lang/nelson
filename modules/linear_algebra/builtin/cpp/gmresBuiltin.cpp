@@ -208,6 +208,6 @@ Nelson::LinearAlgebraGateway::gmresBuiltin(Evaluator* eval, int nLhs, const Arra
         return gmresTyped<double>(eval, nLhs, argIn, NLS_DOUBLE);
     }
     OverloadRequired("gmres");
-    return { };
+    return {};
 }
 //=============================================================================

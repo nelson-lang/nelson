@@ -320,7 +320,8 @@ DotRightDivide(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
                     L"Complex integer not allowed for arithmetic operator *");
             }
             ArrayOf exact;
-            if (tryInteger64DoubleScalar(A, B, Integer64DoubleOperation::IntegerOverDouble, exact)) {
+            if (tryInteger64DoubleScalar(
+                    A, B, Integer64DoubleOperation::IntegerOverDouble, exact)) {
                 return exact;
             }
             ArrayOf AA = A;
@@ -347,7 +348,8 @@ DotRightDivide(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
                     L"Complex integer not allowed for arithmetic operator *");
             }
             ArrayOf exact;
-            if (tryInteger64DoubleScalar(B, A, Integer64DoubleOperation::DoubleOverInteger, exact)) {
+            if (tryInteger64DoubleScalar(
+                    B, A, Integer64DoubleOperation::DoubleOverInteger, exact)) {
                 return exact;
             }
             ArrayOf BB = B;

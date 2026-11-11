@@ -151,7 +151,17 @@ bitwiseHost(Evaluator* eval, const wchar_t* name, int nLhs, const ArrayOfVector&
     return results;
 }
 //=============================================================================
-#define GPU_BITWISE_BUILTIN(BUILTIN_NAME, KERNEL_FN, NAME, SHIFT)                                      ArrayOfVector Nelson::GpuEngineGateway::BUILTIN_NAME(                                                  Evaluator* eval, int nLhs, const ArrayOfVector& argIn)                                         {                                                                                                      if (argIn.size() != 2 || nLhs > 1 || !bitwiseOnDevice(argIn, SHIFT)) {                                 return bitwiseHost(eval, NAME, nLhs, argIn);                                                   }                                                                                                  ArrayOfVector retval;                                                                              retval << binaryGpuOperator(argIn, KERNEL_FN);                                                     return retval;                                                                                 }
+#define GPU_BITWISE_BUILTIN(BUILTIN_NAME, KERNEL_FN, NAME, SHIFT)                                  \
+    ArrayOfVector Nelson::GpuEngineGateway::BUILTIN_NAME(                                          \
+        Evaluator* eval, int nLhs, const ArrayOfVector& argIn)                                     \
+    {                                                                                              \
+        if (argIn.size() != 2 || nLhs > 1 || !bitwiseOnDevice(argIn, SHIFT)) {                     \
+            return bitwiseHost(eval, NAME, nLhs, argIn);                                           \
+        }                                                                                          \
+        ArrayOfVector retval;                                                                      \
+        retval << binaryGpuOperator(argIn, KERNEL_FN);                                             \
+        return retval;                                                                             \
+    }
 GPU_BITWISE_BUILTIN(gpuArrayBitandBuiltin, GpuBitand, L"bitand", false)
 GPU_BITWISE_BUILTIN(gpuArrayBitorBuiltin, GpuBitor, L"bitor", false)
 GPU_BITWISE_BUILTIN(gpuArrayBitxorBuiltin, GpuBitxor, L"bitxor", false)

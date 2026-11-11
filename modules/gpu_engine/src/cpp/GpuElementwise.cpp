@@ -217,7 +217,8 @@ GpuMaxBinary(GpuArrayObject* a, GpuArrayObject* b, bool includeNan)
         return GpuBinaryElementwise(
             a, b, "gpuArray:maxbin:" + intType, GpuSaturateExpr("max(ai, bi)", intType), intType);
     }
-    return GpuBinaryElementwise(a, b, std::string("gpuArray:maxbin:") + (includeNan ? "nan" : "omit"),
+    return GpuBinaryElementwise(a, b,
+        std::string("gpuArray:maxbin:") + (includeNan ? "nan" : "omit"),
         GpuWgslExtreme("ai", "bi", true, includeNan));
 }
 //=============================================================================
@@ -232,7 +233,8 @@ GpuMinBinary(GpuArrayObject* a, GpuArrayObject* b, bool includeNan)
         return GpuBinaryElementwise(
             a, b, "gpuArray:minbin:" + intType, GpuSaturateExpr("min(ai, bi)", intType), intType);
     }
-    return GpuBinaryElementwise(a, b, std::string("gpuArray:minbin:") + (includeNan ? "nan" : "omit"),
+    return GpuBinaryElementwise(a, b,
+        std::string("gpuArray:minbin:") + (includeNan ? "nan" : "omit"),
         GpuWgslExtreme("ai", "bi", false, includeNan));
 }
 //=============================================================================

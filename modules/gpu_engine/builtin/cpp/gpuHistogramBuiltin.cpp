@@ -103,7 +103,8 @@ Nelson::GpuEngineGateway::gpuArrayAccumarrayBuiltin(
     indexType columns = subs->dimensions().columns();
     std::vector<indexType> outDims;
     if (argIn.size() >= 3 && !argIn[2].isEmpty()) {
-        ArrayOf sz = AsGpuArrayObject(argIn[2]) ? GatherGpuArray(AsGpuArrayObject(argIn[2])) : argIn[2];
+        ArrayOf sz
+            = AsGpuArrayObject(argIn[2]) ? GatherGpuArray(AsGpuArrayObject(argIn[2])) : argIn[2];
         if (!sz.isNumeric() || !sz.isVector()) {
             return host(eval, L"accumarray", nLhs, argIn);
         }
@@ -146,7 +147,8 @@ Nelson::GpuEngineGateway::gpuArrayAccumarrayBuiltin(
         if (!argIn[3].isFunctionHandle()) {
             return host(eval, L"accumarray", nLhs, argIn);
         }
-        FunctionDef* f = reinterpret_cast<FunctionDef*>(argIn[3].asFunctionHandle().anonymousHandle);
+        FunctionDef* f
+            = reinterpret_cast<FunctionDef*>(argIn[3].asFunctionHandle().anonymousHandle);
         std::string name = f ? f->getName() : std::string();
         if (name == "sum") {
             op = 0;

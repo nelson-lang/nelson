@@ -95,8 +95,8 @@ GpuSign(GpuArrayObject* a)
         return GpuUnaryElementwise(a, "gpuArray:sign:" + intType, "sign(ai)", intType);
     }
     // NaN keeps its value (the hardware sign gives 0)
-    return GpuUnaryElementwise(a, "gpuArray:sign",
-        "select(sign(ai), ai, (bitcast<u32>(ai) & 0x7fffffffu) > 0x7f800000u)");
+    return GpuUnaryElementwise(
+        a, "gpuArray:sign", "select(sign(ai), ai, (bitcast<u32>(ai) & 0x7fffffffu) > 0x7f800000u)");
 }
 //=============================================================================
 ArrayOf

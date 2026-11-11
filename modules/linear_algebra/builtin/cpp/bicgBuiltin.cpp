@@ -175,6 +175,6 @@ Nelson::LinearAlgebraGateway::bicgBuiltin(Evaluator* eval, int nLhs, const Array
         return bicgTyped<double>(eval, nLhs, argIn, NLS_DOUBLE);
     }
     OverloadRequired("bicg");
-    return { };
+    return {};
 }
 //=============================================================================

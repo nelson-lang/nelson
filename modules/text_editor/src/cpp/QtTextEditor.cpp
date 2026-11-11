@@ -3240,8 +3240,7 @@ QtTextEditor::reloadFile(const QString filenameModified)
                 filesModifiedMessageDisplayedList.append(filenameModified);
                 // the editor can be destroyed (exit) while the question is open
                 QPointer<QtTextEditor> self(this);
-                const int answer = QMessageBox::question(this,
-                    TR("Nelson"),
+                const int answer = QMessageBox::question(this, TR("Nelson"),
                     TR("File %1 was modified by an external software.\nDo you want to reopen "
                        "it?")
                         .arg(filenameModified),

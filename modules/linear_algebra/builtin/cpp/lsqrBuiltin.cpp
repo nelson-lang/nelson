@@ -235,6 +235,6 @@ Nelson::LinearAlgebraGateway::lsqrBuiltin(Evaluator* eval, int nLhs, const Array
         return lsqrTyped<double>(eval, nLhs, argIn, NLS_DOUBLE);
     }
     OverloadRequired("lsqr");
-    return { };
+    return {};
 }
 //=============================================================================

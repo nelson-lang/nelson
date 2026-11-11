@@ -1108,8 +1108,8 @@ complexHasNaNPart(const std::complex<T>* values, indexType count)
 // A NaN part spreads to both parts when both input parts are nonzero (rare, so done apart).
 template <class T>
 static void
-spreadComplexNaNParts(const std::complex<T>* in, indexType inCount, std::complex<T>* out,
-    indexType outCount)
+spreadComplexNaNParts(
+    const std::complex<T>* in, indexType inCount, std::complex<T>* out, indexType outCount)
 {
     T nan = std::numeric_limits<T>::quiet_NaN();
     for (indexType k = 0; k < outCount; ++k) {

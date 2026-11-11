@@ -173,6 +173,6 @@ Nelson::LinearAlgebraGateway::cgsBuiltin(Evaluator* eval, int nLhs, const ArrayO
         return cgsTyped<double>(eval, nLhs, argIn, NLS_DOUBLE);
     }
     OverloadRequired("cgs");
-    return { };
+    return {};
 }
 //=============================================================================

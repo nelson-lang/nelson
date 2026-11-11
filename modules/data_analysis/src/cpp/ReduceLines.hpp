@@ -272,8 +272,8 @@ constexpr indexType blockLength = 1024;
 //=============================================================================
 template <class T, class Acc, class StepFn>
 static void
-nativeSumLanes(const T* sp, T* dp, indexType planes, indexType planesize, indexType linesize,
-    StepFn step)
+nativeSumLanes(
+    const T* sp, T* dp, indexType planes, indexType planesize, indexType linesize, StepFn step)
 {
     const ompIndexType lineCount = (ompIndexType)(planes * planesize);
     OMP_PARALLEL_FOR_LOOP(lineCount > 1 ? lineCount * (ompIndexType)linesize : 0)
@@ -357,7 +357,7 @@ NativeIntegerReduce(const ArrayOf& A, const Dimensions& dimsRes, indexType plane
 {
     NelsonType classA = A.dataClass();
     if (!A.isIntegerType()) {
-        return { };
+        return {};
     }
     void* ptr = ArrayOf::allocateArrayOf(classA, dimsRes.elementCount(), stringVector(), false);
     const void* sp = A.dataPointer();

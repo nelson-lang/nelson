@@ -142,8 +142,8 @@ GpuMaxAlong(GpuArrayObject* a, int dim, bool includeNan)
         return gpuReduce(
             a, dim, "gpuArray:maxreduce:" + intType, "v", "max(acc, v)", "acc", intType);
     }
-    return gpuReduce(a, dim, std::string("gpuArray:maxreduce:") + (includeNan ? "nan" : "omit"), "v",
-        GpuWgslExtreme("acc", "v", true, includeNan), "acc");
+    return gpuReduce(a, dim, std::string("gpuArray:maxreduce:") + (includeNan ? "nan" : "omit"),
+        "v", GpuWgslExtreme("acc", "v", true, includeNan), "acc");
 }
 //=============================================================================
 ArrayOf
@@ -160,8 +160,8 @@ GpuMinAlong(GpuArrayObject* a, int dim, bool includeNan)
         return gpuReduce(
             a, dim, "gpuArray:minreduce:" + intType, "v", "min(acc, v)", "acc", intType);
     }
-    return gpuReduce(a, dim, std::string("gpuArray:minreduce:") + (includeNan ? "nan" : "omit"), "v",
-        GpuWgslExtreme("acc", "v", false, includeNan), "acc");
+    return gpuReduce(a, dim, std::string("gpuArray:minreduce:") + (includeNan ? "nan" : "omit"),
+        "v", GpuWgslExtreme("acc", "v", false, includeNan), "acc");
 }
 //=============================================================================
 ArrayOf
@@ -280,7 +280,8 @@ GpuVecnorm(GpuArrayObject* a, double p, int dim)
         spec.update = "    if (" + nan + " || " + GpuWgslIsNan("scale")
             + ") { scale = vs + scale; ssq = 1.0; }\n"
               "    else if (vs > 3.4e38 || scale > 3.4e38) { scale = max(vs, scale); ssq = 1.0; }\n"
-              "    else if (vs > scale) { ssq = vq + ssq * (scale / vs) * (scale / vs); scale = vs; }\n"
+              "    else if (vs > scale) { ssq = vq + ssq * (scale / vs) * (scale / vs); scale = "
+              "vs; }\n"
               "    else if (vs > 0.0) { ssq = ssq + vq * (vs / scale) * (vs / scale); }\n";
         spec.store = "    c[o] = scale * sqrt(ssq);\n";
         key = "gpuArray:norm2";
@@ -380,8 +381,8 @@ GpuMedian(GpuArrayObject* a, int dim, bool omitNan)
     GpuArrayObject* s = AsGpuArrayObject(sorted[0]);
     GpuArrayObject* output = AllocateGpuArray(geometry.outputDims, "single", false);
     ArrayOf result = ArrayOf::handle(output);
-    WGPUComputePipeline pipeline = GpuContext::getInstance()->pipelineFor(
-        "gpuArray:medianpick", MEDIAN_PICK_WGSL, "main");
+    WGPUComputePipeline pipeline
+        = GpuContext::getInstance()->pipelineFor("gpuArray:medianpick", MEDIAN_PICK_WGSL, "main");
     if (pipeline == nullptr) {
         Error(L"Nelson:GPU:kernelCompilationFailed", L"Cannot compile GPU kernel.");
     }

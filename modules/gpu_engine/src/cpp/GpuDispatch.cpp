@@ -668,8 +668,8 @@ GpuRunLaneReduce(const std::string& opKey, const GpuLaneSpec& spec, const GpuLan
             params.insert(params.end(), extraParams.begin(), extraParams.end());
             params.push_back(chunks);
             params.push_back(chunkLen);
-            GpuDispatchKernel(pipeline, { input, partial->buffer() }, params.data(),
-                params.size(), lane.laneCount * chunks, 1);
+            GpuDispatchKernel(pipeline, { input, partial->buffer() }, params.data(), params.size(),
+                lane.laneCount * chunks, 1);
             GpuLaneGeometry merged;
             merged.laneCount = lane.laneCount;
             merged.redLen = chunks;

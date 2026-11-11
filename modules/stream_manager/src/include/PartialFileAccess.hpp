@@ -48,20 +48,26 @@ class NLSSTREAM_MANAGER_IMPEXP PartialFileBackend
 public:
     virtual ~PartialFileBackend() = default;
     virtual std::string
-    fileText() const = 0;
+    fileText() const
+        = 0;
     virtual PartialFileVariable
-    describe(const std::string& name) = 0;
+    describe(const std::string& name)
+        = 0;
     virtual ArrayOf
-    readWhole(const std::string& name) = 0;
+    readWhole(const std::string& name)
+        = 0;
     virtual void
-    writeWhole(const std::string& name, const ArrayOf& value) = 0;
+    writeWhole(const std::string& name, const ArrayOf& value)
+        = 0;
     // block access in place; false makes the caller load the whole variable
     virtual bool
     readBlock(const std::string& name, const PartialFileVariable& variable,
-        const PartialFileBlock& block, ArrayOf& result) = 0;
+        const PartialFileBlock& block, ArrayOf& result)
+        = 0;
     virtual bool
     writeBlock(const std::string& name, const PartialFileVariable& variable,
-        const PartialFileBlock& block, const ArrayOf& data) = 0;
+        const PartialFileBlock& block, const ArrayOf& data)
+        = 0;
     // called before a block access falls back to the whole variable
     virtual void
     beforeWholeAccess(const std::string& name);

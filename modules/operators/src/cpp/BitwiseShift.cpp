@@ -131,8 +131,8 @@ checkShiftOperand(const ArrayOf& X)
 {
     NelsonType cls = X.dataClass();
     if (cls == NLS_DCOMPLEX || cls == NLS_SCOMPLEX) {
-        Error(L"Nelson:operators:invalidBitInput:inputArgumentReal",
-            L"Input argument must be real.");
+        Error(
+            L"Nelson:operators:invalidBitInput:inputArgumentReal", L"Input argument must be real.");
     }
     if (cls == NLS_SINGLE) {
         Error(L"Nelson:operators:invalidBitshiftInput",

@@ -116,7 +116,7 @@ overloadNameToAscii(const std::wstring& name, const std::wstring& prefix)
 {
     // an @gpuArray method name: strip the prefix; overload names are ASCII
     if (name.size() <= prefix.size() || name.compare(0, prefix.size(), prefix) != 0) {
-        return { };
+        return {};
     }
     std::string plain;
     plain.reserve(name.size() - prefix.size());

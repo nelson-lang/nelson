@@ -177,6 +177,6 @@ Nelson::LinearAlgebraGateway::minresBuiltin(Evaluator* eval, int nLhs, const Arr
         return minresTyped<double>(eval, nLhs, argIn, NLS_DOUBLE);
     }
     OverloadRequired("minres");
-    return { };
+    return {};
 }
 //=============================================================================

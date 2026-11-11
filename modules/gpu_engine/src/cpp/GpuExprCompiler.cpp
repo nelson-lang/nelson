@@ -44,11 +44,11 @@ namespace {
         = { { "min", "min" }, { "max", "max" }, { "atan2", "atan2" }, { "pow", "pow" } };
     //=============================================================================
     // float kernels call the accurate library instead of the hardware approximations
-    const std::unordered_map<std::string, const char*> accurateFunctions = { { "sin", "nlsSin" },
-        { "cos", "nlsCos" }, { "tan", "nlsTan" }, { "asin", "nlsAsin" }, { "acos", "nlsAcos" },
-        { "atan", "nlsAtan" }, { "sinh", "nlsSinh" }, { "cosh", "nlsCosh" }, { "tanh", "nlsTanh" },
-        { "atan2", "nlsAtan2" }, { "pow", "nlsPower" }, { "round", "nlsRound" },
-        { "sign", "nlsSign" } };
+    const std::unordered_map<std::string, const char*> accurateFunctions
+        = { { "sin", "nlsSin" }, { "cos", "nlsCos" }, { "tan", "nlsTan" }, { "asin", "nlsAsin" },
+              { "acos", "nlsAcos" }, { "atan", "nlsAtan" }, { "sinh", "nlsSinh" },
+              { "cosh", "nlsCosh" }, { "tanh", "nlsTanh" }, { "atan2", "nlsAtan2" },
+              { "pow", "nlsPower" }, { "round", "nlsRound" }, { "sign", "nlsSign" } };
     //=============================================================================
     class ExprCompiler
     {

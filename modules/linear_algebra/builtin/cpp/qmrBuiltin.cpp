@@ -237,6 +237,6 @@ Nelson::LinearAlgebraGateway::qmrBuiltin(Evaluator* eval, int nLhs, const ArrayO
         return qmrTyped<double>(eval, nLhs, argIn, NLS_DOUBLE);
     }
     OverloadRequired("qmr");
-    return { };
+    return {};
 }
 //=============================================================================

@@ -1319,8 +1319,7 @@ namespace bcvm_detail {
             Error(L"Nelson:interpreter:scalarClassdefHandleExpected",
                 L"Scalar classdef handle expected.");
         }
-        void* elements
-            = ArrayOf::allocateArrayOf(NLS_HANDLE, dimensions.elementCount(), { }, false);
+        void* elements = ArrayOf::allocateArrayOf(NLS_HANDLE, dimensions.elementCount(), {}, false);
         for (indexType k = 0; k < dimensions.elementCount(); ++k) {
             ArrayOf object = k == 0 ? firstDefault : evaluateDefaultClassdefObject(eval, className);
             if (!object.isHandle() || !object.isScalar() || ClassName(object) != className) {
@@ -1383,7 +1382,7 @@ namespace bcvm_detail {
             Error(L"Nelson:interpreter:cannotCreateClassdefObject",
                 L"Cannot create default classdef object.");
         }
-        ArrayOfVector result = constructor->evaluateFunction(eval, { }, 1);
+        ArrayOfVector result = constructor->evaluateFunction(eval, {}, 1);
         if (result.empty() || !result[0].isScalar()) {
             Error(L"Nelson:interpreter:cannotCreateClassdefObject",
                 L"Cannot create default classdef object.");
@@ -2976,7 +2975,7 @@ namespace bcvm_detail {
                 "nelson.mixin.util.IndexingContext", contextMember, enumFunctionName)) {
             FunctionDef* enumDef = nullptr;
             if (eval->lookupFunction(enumFunctionName, enumDef)) {
-                ArrayOfVector enumResult = enumDef->evaluateFunction(eval, { }, 1);
+                ArrayOfVector enumResult = enumDef->evaluateFunction(eval, {}, 1);
                 if (!enumResult.empty()) {
                     contextValue = enumResult[0];
                 }
@@ -3097,7 +3096,7 @@ namespace bcvm_detail {
         case OpCode::OP_OR:
             return OR_OPERATOR_STR;
         default:
-            return { };
+            return {};
         }
     }
     //=============================================================================
@@ -3148,7 +3147,7 @@ namespace bcvm_detail {
     bool
     doubleOperatorOverloadMissing(OpCode op)
     {
-        static thread_local std::array<uint64, 6> knownMissing { };
+        static thread_local std::array<uint64, 6> knownMissing {};
         const size_t index = op == OpCode::OP_PLUS ? 0
             : op == OpCode::OP_MINUS               ? 1
             : op == OpCode::OP_TIMES               ? 2
@@ -5174,7 +5173,7 @@ namespace bcvm_detail {
                     if (base.isScalar() && classdefLoadClass(base.classType())
                         && !classdefHasProperty(base.classType(), field)
                         && eval->bytecodeInvokeObjectMethodIfExists(
-                            base, field, { }, 1, methodResult)) {
+                            base, field, {}, 1, methodResult)) {
                         stack.push_back(methodResult.empty() ? ArrayOf::empty() : methodResult[0]);
                         return;
                     }
@@ -5417,7 +5416,7 @@ namespace bcvm_detail {
                 const std::string field = next == std::string::npos
                     ? middlePath.substr(start)
                     : middlePath.substr(start, next - start);
-                ArrayOfVector fieldResult = evaluateDotReference(current, field, { });
+                ArrayOfVector fieldResult = evaluateDotReference(current, field, {});
                 current = fieldResult.empty() ? ArrayOf::empty() : fieldResult[0];
                 if (next == std::string::npos) {
                     break;
@@ -5802,7 +5801,7 @@ namespace bcvm_detail {
                         assignLocalValue(ins.A, std::move(value));
                         break;
                     }
-                    Instruction load { };
+                    Instruction load {};
                     load.op = OpCode::LOAD_LOCAL_DOT;
                     load.A = ins.B;
                     load.B = ins.C;
@@ -5826,7 +5825,7 @@ namespace bcvm_detail {
                         assignLocalValue(ins.A, std::move(value));
                         break;
                     }
-                    Instruction load { };
+                    Instruction load {};
                     load.op = OpCode::LOAD_BRACES_LOCAL;
                     load.A = ins.B;
                     load.B = ins.C;
@@ -6240,7 +6239,7 @@ namespace bcvm_detail {
                         FunctionDef* fdef = nullptr;
                         if (eval->lookupFunction(name, fdef)) {
                             try {
-                                ArrayOfVector result = fdef->evaluateFunction(eval, { }, 1);
+                                ArrayOfVector result = fdef->evaluateFunction(eval, {}, 1);
                                 stack.push_back(result.empty() ? ArrayOf::empty() : result[0]);
                             } catch (const NelsonException& e) {
                                 if (e.identifier() != L"Nelson:tooManyOutputs"
@@ -6251,7 +6250,7 @@ namespace bcvm_detail {
                                             L"Not enough outputs in varargout to satisfy call.")) {
                                     throw;
                                 }
-                                (void)fdef->evaluateFunction(eval, { }, 0);
+                                (void)fdef->evaluateFunction(eval, {}, 0);
                                 stack.push_back(noOutputSentinel());
                             }
                         } else {
@@ -6302,7 +6301,7 @@ namespace bcvm_detail {
                     }
                     if (eval->lookupFunction(name, fdef)) {
                         try {
-                            ArrayOfVector result = fdef->evaluateFunction(eval, { }, 1);
+                            ArrayOfVector result = fdef->evaluateFunction(eval, {}, 1);
                             stack.push_back(result.empty() ? ArrayOf::empty() : result[0]);
                         } catch (const NelsonException& e) {
                             if (e.identifier() != L"Nelson:tooManyOutputs"
@@ -6313,7 +6312,7 @@ namespace bcvm_detail {
                                         L"Not enough outputs in varargout to satisfy call.")) {
                                 throw;
                             }
-                            (void)fdef->evaluateFunction(eval, { }, 0);
+                            (void)fdef->evaluateFunction(eval, {}, 0);
                             stack.push_back(noOutputSentinel());
                         }
                         break;
@@ -7233,7 +7232,7 @@ namespace bcvm_detail {
                                                 L"call.")) {
                                         throw;
                                     }
-                                    result = { };
+                                    result = {};
                                 }
                                 refreshAfterVariableClear(clearEpoch);
                                 if (refreshCallerContext) {
@@ -7586,7 +7585,7 @@ namespace bcvm_detail {
                                             L"Not enough outputs in varargout to satisfy call.")) {
                                     throw;
                                 }
-                                result = { };
+                                result = {};
                             }
                             refreshAfterVariableClear(clearEpoch);
                             if (refreshCallerContext) {
@@ -7761,7 +7760,7 @@ namespace bcvm_detail {
                                 : className.substr(0, headDot);
                             FunctionDef* baseDef = nullptr;
                             if (eval->lookupFunction(headName, baseDef)) {
-                                ArrayOfVector baseResult = baseDef->evaluateFunction(eval, { }, 1);
+                                ArrayOfVector baseResult = baseDef->evaluateFunction(eval, {}, 1);
                                 ArrayOf base
                                     = baseResult.empty() ? ArrayOf::empty() : baseResult[0];
                                 base = applyClassdefMemberMiddlePath(base, className);
@@ -8385,7 +8384,7 @@ namespace bcvm_detail {
                                     && classdefLoadClass(base.classType())
                                     && !classdefHasProperty(base.classType(), field)
                                     && eval->bytecodeInvokeObjectMethodIfExists(
-                                        base, field, { }, 1, methodResult)) {
+                                        base, field, {}, 1, methodResult)) {
                                     result = methodResult;
                                 } else {
                                     result = getClassdefFieldAsList(eval, base, field);
@@ -10123,7 +10122,8 @@ namespace bcvm_detail {
         ~VMFrameDepthGuard() { --vmActiveFrameDepth; }
         VMFrameDepthGuard(const VMFrameDepthGuard&) = delete;
         VMFrameDepthGuard&
-        operator=(const VMFrameDepthGuard&) = delete;
+        operator=(const VMFrameDepthGuard&)
+            = delete;
     };
     //=============================================================================
     ArrayOf

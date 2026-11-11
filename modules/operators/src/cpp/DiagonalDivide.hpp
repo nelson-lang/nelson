@@ -150,12 +150,12 @@ denseDiagonalDivide(const ArrayOf& D, const ArrayOf& B, bool& solved)
     void* x = nullptr;
     switch (dataClass) {
     case NLS_DOUBLE:
-        x = solveWellConditionedDiagonal<double, OnRight>(dataClass,
-            static_cast<const double*>(a), n, static_cast<const double*>(b), rows, cols);
+        x = solveWellConditionedDiagonal<double, OnRight>(
+            dataClass, static_cast<const double*>(a), n, static_cast<const double*>(b), rows, cols);
         break;
     case NLS_SINGLE:
-        x = solveWellConditionedDiagonal<single, OnRight>(dataClass,
-            static_cast<const single*>(a), n, static_cast<const single*>(b), rows, cols);
+        x = solveWellConditionedDiagonal<single, OnRight>(
+            dataClass, static_cast<const single*>(a), n, static_cast<const single*>(b), rows, cols);
         break;
     case NLS_DCOMPLEX:
         x = solveWellConditionedDiagonal<doublecomplex, OnRight>(dataClass,

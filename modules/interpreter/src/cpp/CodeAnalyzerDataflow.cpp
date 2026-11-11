@@ -367,8 +367,7 @@ namespace {
                         for (int k = child->line; k <= child->endLine; ++k) {
                             if (const CodeAnalyzerLineUsage* inner = lineUsageAt(lineUsages, k)) {
                                 usedByNested.insert(inner->used.begin(), inner->used.end());
-                                usedByNested.insert(
-                                    inner->selfRead.begin(), inner->selfRead.end());
+                                usedByNested.insert(inner->selfRead.begin(), inner->selfRead.end());
                                 usedByNested.insert(
                                     inner->callableUsed.begin(), inner->callableUsed.end());
                                 assignedByNested.insert(
@@ -553,8 +552,8 @@ namespace {
                 assignedCount[name]++;
             }
             for (size_t k = 0; k < usage->undefinedReads.size(); ++k) {
-                undefinedReads.emplace(
-                    usage->undefinedReads[k], std::make_pair(lineNumber, usage->undefinedReadColumns[k]));
+                undefinedReads.emplace(usage->undefinedReads[k],
+                    std::make_pair(lineNumber, usage->undefinedReadColumns[k]));
             }
             for (size_t k = 0; k < usage->deadAssignments.size(); ++k) {
                 deadAssignments.push_back(
@@ -607,8 +606,8 @@ namespace {
                     // A builtin such as nargin may be called without parentheses.
                     auto undefinedRead = undefinedReads.find(it.first);
                     if (undefinedRead != undefinedReads.end()
-                        && builtinNames.find(it.first) == builtinNames.end()
-                        && it.first != "nargin" && it.first != "nargout"
+                        && builtinNames.find(it.first) == builtinNames.end() && it.first != "nargin"
+                        && it.first != "nargout"
                         && assignedByNested.find(it.first) == assignedByNested.end()
                         && parentScopeSymbols.find(it.first) == parentScopeSymbols.end()) {
                         useLine = undefinedRead->second.first;
