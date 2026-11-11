@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>preferences</module_name>
+  <chapter>Préférences</chapter>
+  <chapter_description>
+    <p
+    >Le module Préférences conserve des valeurs nommées d'une session Nelson à l'autre. Les valeurs sont rangées par groupes, enregistrées dans le fichier preferences.nh5 du répertoire des préférences (prefdir), et peuvent être lues, modifiées ou supprimées depuis n'importe quelle session. Le module fournit aussi une boîte de dialogue de préférence qui mémorise la réponse de l'utilisateur, et ouvre la fenêtre Préférences du bureau.</p>
+  </chapter_description>
+</xmldoc>

@@ -10,11 +10,12 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::PreferencesGateway {
 //=============================================================================
 ArrayOfVector
-uigetprefBuiltin(int nLhs, const ArrayOfVector& argIn);
+uigetprefBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson::PreferencesGateway
 //=============================================================================

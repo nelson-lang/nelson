@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>ispref</keyword>
+  <short_description
+  >Teste l'existence d'un groupe de préférences ou de préférences.</short_description>
+  <syntax>
+    <syntax_item>tf = ispref(group)</syntax_item>
+    <syntax_item>tf = ispref(group, pref)</syntax_item>
+    <syntax_item>tf = ispref(group, {pref1, ..., prefN})</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>group</param_name>
+      <param_description
+      >un vecteur de caractères ou une chaîne scalaire : le nom du groupe. Ce doit être un nom de variable valide.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>pref</param_name>
+      <param_description
+      >un vecteur de caractères ou une chaîne scalaire : un nom de préférence, ou un tableau de cellules de vecteurs de caractères ou un tableau de chaînes : plusieurs noms de préférences. Chaque nom doit être un nom de variable valide.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>tf</param_name>
+      <param_description
+      >un scalaire logique, ou un tableau logique de même taille que pref lorsque plusieurs noms sont donnés.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p
+    ><b>tf = ispref(group)</b> retourne <b>true</b> si le groupe de préférences existe, et <b>false</b> sinon.</p>
+    <p
+    ><b>tf = ispref(group, pref)</b> retourne <b>true</b> si la préférence existe dans le groupe. Avec plusieurs noms, le résultat est un tableau logique avec un élément par nom. Un groupe absent donne <b>false</b> pour chaque nom, sans lever d'erreur.</p>
+    <p
+    >Une erreur est levée si un nom de groupe ou de préférence n'est pas un nom de variable valide.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Teste un groupe et plusieurs préférences, puis supprime le groupe.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[ispref('myToolboxDemo')
+setpref('myToolboxDemo', 'precision', 4);
+ispref('myToolboxDemo')
+ispref('myToolboxDemo', {'precision', 'units'})
+rmpref('myToolboxDemo');]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${preferences}getpref">getpref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${preferences}setpref">setpref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${preferences}addpref">addpref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${preferences}rmpref">rmpref</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

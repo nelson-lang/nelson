@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>preferences</keyword>
+  <short_description>Opens the Preferences dialog box.</short_description>
+  <syntax>
+    <syntax_item>preferences()</syntax_item>
+    <syntax_item>preferences(page)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>page</param_name>
+      <param_description
+      >a character vector or scalar string: the name of the page to show first, for example 'General', 'Fonts', 'Command Window' or 'Editor'.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p
+    ><b>preferences()</b> opens the Preferences dialog box of the Nelson desktop. It lets you change the theme, the look and feel, the fonts, the Command Window options and the editor settings. The dialog is modal: Nelson waits until it is closed.</p>
+    <p
+    ><b>preferences(page)</b> opens the dialog on the given page. The page name is compared with the page titles shown in the dialog (in the current language), ignoring case, spaces, underscores and hyphens. When no page matches, the first page is shown.</p>
+    <p
+    >These settings are the desktop settings. They are not the values handled by <b>getpref</b> and <b>setpref</b>.</p>
+    <p
+    >The dialog requires the graphical interface. In a build without it, an error is raised; in a Nelson session without a desktop application, the call does nothing.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Open the Preferences dialog on the editor page.</example_item_description>
+      <example_item_data
+        runnable="false"
+      ><![CDATA[preferences('Editor')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${core}prefdir">prefdir</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${gui}lookandfeel">lookandfeel</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${preferences}getpref">getpref</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

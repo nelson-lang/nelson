@@ -32,6 +32,8 @@ extractScalarName(const ArrayOf& value, const std::wstring& argumentName);
 NLSPREFERENCES_IMPEXP ArrayOf
 getAllPreferences();
 NLSPREFERENCES_IMPEXP bool
+getPreferenceGroup(const std::wstring& group, ArrayOf& value);
+NLSPREFERENCES_IMPEXP bool
 hasPreferenceGroup(const std::wstring& group);
 NLSPREFERENCES_IMPEXP std::vector<bool>
 hasPreferences(const std::wstring& group, const PreferenceNames& preferences);

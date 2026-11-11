@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "getprefBuiltin.hpp"
+#include "ErrorID.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "PreferencesBuiltinHelpers.hpp"
 #include "PreferencesStore.hpp"
@@ -25,7 +26,21 @@ getprefBuiltin(int nLhs, const ArrayOfVector& argIn)
         retval << Preferences::getAllPreferences();
         return retval;
     }
-    nargincheck(argIn, 2, 3);
+    if (argIn.size() == 1) {
+        const ArrayOf& groupArg = argIn[0];
+        bool isText = groupArg.isRowVectorCharacterArray() || groupArg.isScalarStringArray()
+            || (groupArg.isCharacterArray() && groupArg.isEmpty());
+        if (!isText) {
+            Error(L"Nelson:preferences:invalidGroupType",
+                L"Group name must be a character vector or a scalar string.");
+        }
+        // A missing group gives an empty double, not an error.
+        ArrayOf groupStruct;
+        retval << (Preferences::getPreferenceGroup(groupArg.asWideString(), groupStruct)
+                ? groupStruct
+                : ArrayOf::empty());
+        return retval;
+    }
     std::wstring group = Preferences::extractScalarName(argIn[0], L"group");
     Preferences::PreferenceNames names
         = Preferences::extractPreferenceNames(argIn[1], L"preference");

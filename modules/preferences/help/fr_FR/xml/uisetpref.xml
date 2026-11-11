@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>uisetpref</keyword>
+  <short_description
+  >Réinitialise les réponses enregistrées par les boîtes de dialogue uigetpref.</short_description>
+  <syntax>
+    <syntax_item>uisetpref('clearall')</syntax_item>
+    <syntax_item>s = uisetpref('clearall')</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>'clearall'</param_name>
+      <param_description
+      >un vecteur de caractères ou une chaîne scalaire : la seule commande prise en charge (sans tenir compte de la casse).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>s</param_name>
+      <param_description
+      >une structure contenant toutes les préférences enregistrées après la réinitialisation, rangées par groupe comme pour getpref().</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p
+    ><b>uisetpref('clearall')</b> remet à <b>'ask'</b> chaque préférence utilisée par une boîte de dialogue <b>uigetpref</b>. Le prochain appel à <b>uigetpref</b> pour ces préférences affiche de nouveau la boîte de dialogue.</p>
+    <p
+    >Les préférences créées uniquement avec <b>setpref</b> ou <b>addpref</b> ne sont pas modifiées. Toute autre commande lève une erreur.</p>
+    <p
+    ><b>uisetpref</b> n'ouvre pas de boîte de dialogue et fonctionne aussi sans interface graphique.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Réinitialise les réponses enregistrées pour que les questions soient de nouveau posées.</example_item_description>
+      <example_item_data
+        runnable="false"
+      ><![CDATA[answer = uigetpref('myToolboxDemo', 'saveOnExit', 'Exit', ...
+  'Save the workspace before exiting?', {'Yes', 'No'})
+uisetpref('clearall');
+getpref('myToolboxDemo', 'saveOnExit')
+rmpref('myToolboxDemo');]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${preferences}uigetpref">uigetpref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${preferences}getpref">getpref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${preferences}setpref">setpref</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -27,7 +27,8 @@ static const nlsGateway gateway[] = {
     { "addpref", (ptrBuiltin)Nelson::PreferencesGateway::addprefBuiltin, 0, 3 },
     { "ispref", (ptrBuiltin)Nelson::PreferencesGateway::isprefBuiltin, 1, 2 },
     { "rmpref", (ptrBuiltin)Nelson::PreferencesGateway::rmprefBuiltin, 0, 2 },
-    { "uigetpref", (ptrBuiltin)Nelson::PreferencesGateway::uigetprefBuiltin, 2, -5 },
+    { "uigetpref", (ptrBuiltin)Nelson::PreferencesGateway::uigetprefBuiltin, 2, -5,
+        CPP_BUILTIN_WITH_EVALUATOR },
     { "uisetpref", (ptrBuiltin)Nelson::PreferencesGateway::uisetprefBuiltin, 1, 1 },
     { "preferences", (ptrBuiltin)Nelson::PreferencesGateway::preferencesBuiltin, 0, 1 },
 };

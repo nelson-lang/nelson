@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>uisetpref</keyword>
+  <short_description
+  >Resets the answers saved by uigetpref dialogs.</short_description>
+  <syntax>
+    <syntax_item>uisetpref('clearall')</syntax_item>
+    <syntax_item>s = uisetpref('clearall')</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>'clearall'</param_name>
+      <param_description
+      >a character vector or scalar string: the only supported command (case insensitive).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>s</param_name>
+      <param_description
+      >a struct with all the stored preferences after the reset, organized by group as returned by getpref().</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p
+    ><b>uisetpref('clearall')</b> sets back to <b>'ask'</b> every preference that has been used by a <b>uigetpref</b> dialog. The next call to <b>uigetpref</b> for these preferences shows the dialog again.</p>
+    <p
+    >Preferences created only with <b>setpref</b> or <b>addpref</b> are not changed. Any other command raises an error.</p>
+    <p
+    ><b>uisetpref</b> does not open a dialog and also works without the graphical interface.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Reset the saved dialog answers so that the questions are asked again.</example_item_description>
+      <example_item_data
+        runnable="false"
+      ><![CDATA[answer = uigetpref('myToolboxDemo', 'saveOnExit', 'Exit', ...
+  'Save the workspace before exiting?', {'Yes', 'No'})
+uisetpref('clearall');
+getpref('myToolboxDemo', 'saveOnExit')
+rmpref('myToolboxDemo');]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${preferences}uigetpref">uigetpref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${preferences}getpref">getpref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${preferences}setpref">setpref</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

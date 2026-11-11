@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>getpref</keyword>
+  <short_description>Lit la valeur de préférences persistantes.</short_description>
+  <syntax>
+    <syntax_item>s = getpref()</syntax_item>
+    <syntax_item>g = getpref(group)</syntax_item>
+    <syntax_item>value = getpref(group, pref)</syntax_item>
+    <syntax_item>value = getpref(group, pref, default)</syntax_item>
+    <syntax_item>values = getpref(group, {pref1, ..., prefN})</syntax_item>
+    <syntax_item>values = getpref(group, {pref1, ..., prefN}, {default1, ..., defaultN})</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>group</param_name>
+      <param_description
+      >un vecteur de caractères ou une chaîne scalaire : le nom du groupe. Ce doit être un nom de variable valide.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>pref</param_name>
+      <param_description
+      >un vecteur de caractères ou une chaîne scalaire : un nom de préférence, ou un tableau de cellules de vecteurs de caractères ou un tableau de chaînes : plusieurs noms de préférences. Chaque nom doit être un nom de variable valide.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>default</param_name>
+      <param_description
+      >n'importe quelle valeur utilisée lorsque la préférence n'existe pas. Avec plusieurs noms, un tableau de cellules contenant une valeur par défaut par nom.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>s</param_name>
+      <param_description
+      >une structure avec un champ par groupe. Chaque champ est une structure avec un champ par préférence de ce groupe.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>g</param_name>
+      <param_description
+      >une structure avec un champ par préférence du groupe <b>group</b>, ou un double vide [] si le groupe n'existe pas.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>value</param_name>
+      <param_description>la valeur de la préférence.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>values</param_name>
+      <param_description
+      >un tableau de cellules de même taille que pref, contenant la valeur de chaque préférence.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p
+    ><b>s = getpref()</b> retourne toutes les préférences enregistrées, rangées par groupe. Elle retourne une structure sans champ lorsqu'aucune préférence n'est enregistrée.</p>
+    <p
+    ><b>g = getpref(group)</b> retourne toutes les préférences du groupe <b>group</b> dans une structure, avec un champ par préférence. Elle retourne un double vide [] (sans erreur) si le groupe n'existe pas.</p>
+    <p
+    ><b>value = getpref(group, pref)</b> retourne la valeur de la préférence <b>pref</b> du groupe <b>group</b>. Une erreur est levée si le groupe ou la préférence n'existe pas. Lorsque <b>pref</b> contient plusieurs noms, les valeurs sont retournées dans un tableau de cellules de même taille que <b>pref</b>.</p>
+    <p
+    ><b>value = getpref(group, pref, default)</b> retourne la valeur enregistrée si la préférence existe. Sinon, la préférence est créée avec <b>default</b> comme valeur (le groupe est aussi créé si besoin) et <b>default</b> est retourné. Avec plusieurs noms, <b>default</b> doit être un tableau de cellules contenant une valeur par nom, et seules les préférences manquantes sont créées.</p>
+    <p
+    >Les préférences sont lues dans le fichier <b>preferences.nh5</b> du répertoire des préférences (voir <b>prefdir</b>).</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Lit des préférences, avec et sans valeur par défaut, puis supprime le groupe.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[setpref('myToolboxDemo', 'theme', 'dark');
+theme = getpref('myToolboxDemo', 'theme')
+fontSize = getpref('myToolboxDemo', 'fontSize', 12)
+ispref('myToolboxDemo', 'fontSize')
+values = getpref('myToolboxDemo', {'theme', 'fontSize', 'margin'}, {'light', 10, 5})
+g = getpref('myToolboxDemo')
+s = getpref();
+s.myToolboxDemo
+rmpref('myToolboxDemo');]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${preferences}setpref">setpref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${preferences}addpref">addpref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${preferences}ispref">ispref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${preferences}rmpref">rmpref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${core}prefdir">prefdir</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -43,8 +43,7 @@ struct GuiDialogRequest
     std::wstring checkboxText;
     bool checkboxVisible = false;
     bool checkboxState = false;
-    std::wstring helpString;
-    std::wstring helpFcn;
+    std::wstring helpString; // preference: help button label, no button when empty
     // kind == "list": choose from a list of items.
     std::vector<std::wstring> items; // list choices
     bool multiSelect = false;
@@ -78,6 +77,7 @@ struct GuiDialogResponse
     bool checkboxChecked = false;
     std::vector<int> selectedIndices; // 1-based selection (kind == list)
     std::wstring path; // chosen path (kind == file)
+    bool helpRequested = false; // help button pressed (kind == preference)
 };
 //=============================================================================
 using GuiDialogProviderFn

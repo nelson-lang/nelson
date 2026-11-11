@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>rmpref</keyword>
+  <short_description>Removes a preference group or preferences.</short_description>
+  <syntax>
+    <syntax_item>rmpref(group)</syntax_item>
+    <syntax_item>rmpref(group, pref)</syntax_item>
+    <syntax_item>rmpref(group, {pref1, ..., prefN})</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>group</param_name>
+      <param_description
+      >a character vector or scalar string: the group name. It must be a valid variable name.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>pref</param_name>
+      <param_description
+      >a character vector or scalar string: one preference name, or a cell array of character vectors or a string array: several preference names. Each name must be a valid variable name.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p
+    ><b>rmpref(group)</b> removes the group and all its preferences.</p>
+    <p
+    ><b>rmpref(group, pref)</b> removes only the given preferences from the group. The group itself is kept, even when it becomes empty.</p>
+    <p
+    >An error is raised when the group does not exist, or when one of the preferences does not exist. In that case nothing is removed. The change is written immediately in the file <b>preferences.nh5</b> of the preferences directory (see <b>prefdir</b>).</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Remove some preferences, then the whole group.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[setpref('myToolboxDemo', {'a', 'b', 'c'}, {1, 2, 3});
+rmpref('myToolboxDemo', {'a', 'b'});
+ispref('myToolboxDemo', {'a', 'b', 'c'})
+rmpref('myToolboxDemo');
+ispref('myToolboxDemo')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${preferences}ispref">ispref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${preferences}setpref">setpref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${preferences}addpref">addpref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${preferences}getpref">getpref</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

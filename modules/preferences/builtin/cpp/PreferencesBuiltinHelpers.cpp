@@ -72,10 +72,8 @@ lowerPreferenceText(const std::wstring& text)
 bool
 isAskPreferenceValue(const ArrayOf& value)
 {
-    if (!(value.isRowVectorCharacterArray() || value.isScalarStringArray())) {
-        return false;
-    }
-    return lowerPreferenceText(value.asWideString()) == L"ask";
+    // Only the exact character vector 'ask' asks again, as in the reference.
+    return value.isRowVectorCharacterArray() && value.asWideString() == L"ask";
 }
 //=============================================================================
 } // namespace Nelson::PreferencesGateway

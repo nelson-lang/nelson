@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>getpref</keyword>
+  <short_description>Gets the value of persistent preferences.</short_description>
+  <syntax>
+    <syntax_item>s = getpref()</syntax_item>
+    <syntax_item>g = getpref(group)</syntax_item>
+    <syntax_item>value = getpref(group, pref)</syntax_item>
+    <syntax_item>value = getpref(group, pref, default)</syntax_item>
+    <syntax_item>values = getpref(group, {pref1, ..., prefN})</syntax_item>
+    <syntax_item>values = getpref(group, {pref1, ..., prefN}, {default1, ..., defaultN})</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>group</param_name>
+      <param_description
+      >a character vector or scalar string: the group name. It must be a valid variable name.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>pref</param_name>
+      <param_description
+      >a character vector or scalar string: one preference name, or a cell array of character vectors or a string array: several preference names. Each name must be a valid variable name.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>default</param_name>
+      <param_description
+      >any value used when the preference does not exist. With several names, a cell array with one default value for each name.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>s</param_name>
+      <param_description
+      >a struct with one field for each group. Each field is a struct with one field for each preference of that group.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>g</param_name>
+      <param_description
+      >a struct with one field for each preference of <b>group</b>, or an empty double [] when the group does not exist.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>value</param_name>
+      <param_description>the value of the preference.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>values</param_name>
+      <param_description
+      >a cell array with the same size as pref, holding the value of each preference.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p
+    ><b>s = getpref()</b> returns all the stored preferences, organized by group. It returns a struct without fields when no preference is stored.</p>
+    <p
+    ><b>g = getpref(group)</b> returns all the preferences of <b>group</b> in a struct, one field for each preference. It returns an empty double [] (no error) when the group does not exist.</p>
+    <p
+    ><b>value = getpref(group, pref)</b> returns the value of the preference <b>pref</b> in <b>group</b>. An error is raised when the group or the preference does not exist. When <b>pref</b> holds several names, the values are returned in a cell array with the same size as <b>pref</b>.</p>
+    <p
+    ><b>value = getpref(group, pref, default)</b> returns the stored value when the preference exists. Otherwise the preference is created with <b>default</b> as value (the group is created too if needed) and <b>default</b> is returned. With several names, <b>default</b> must be a cell array with one value for each name, and only the missing preferences are created.</p>
+    <p
+    >Preferences are read from the file <b>preferences.nh5</b> of the preferences directory (see <b>prefdir</b>).</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Read preferences, with and without default values, then remove the group.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[setpref('myToolboxDemo', 'theme', 'dark');
+theme = getpref('myToolboxDemo', 'theme')
+fontSize = getpref('myToolboxDemo', 'fontSize', 12)
+ispref('myToolboxDemo', 'fontSize')
+values = getpref('myToolboxDemo', {'theme', 'fontSize', 'margin'}, {'light', 10, 5})
+g = getpref('myToolboxDemo')
+s = getpref();
+s.myToolboxDemo
+rmpref('myToolboxDemo');]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${preferences}setpref">setpref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${preferences}addpref">addpref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${preferences}ispref">ispref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${preferences}rmpref">rmpref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${core}prefdir">prefdir</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

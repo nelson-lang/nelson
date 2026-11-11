@@ -286,6 +286,22 @@ getAllPreferences()
 }
 //=============================================================================
 bool
+getPreferenceGroup(const std::wstring& group, ArrayOf& value)
+{
+    // Invalid names cannot be stored, so they are reported as missing groups.
+    if (!IsValidVariableName(group)) {
+        return false;
+    }
+    std::lock_guard<std::mutex> lock(storeMutex);
+    Store store = loadStoreUnlocked();
+    if (!store.values.isField(toFieldName(group))) {
+        return false;
+    }
+    value = groupValue(store.values, group);
+    return true;
+}
+//=============================================================================
+bool
 hasPreferenceGroup(const std::wstring& group)
 {
     validateName(group, L"group");

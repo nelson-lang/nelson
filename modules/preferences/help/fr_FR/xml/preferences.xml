@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>preferences</keyword>
+  <short_description>Ouvre la boîte de dialogue Préférences.</short_description>
+  <syntax>
+    <syntax_item>preferences()</syntax_item>
+    <syntax_item>preferences(page)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>page</param_name>
+      <param_description
+      >un vecteur de caractères ou une chaîne scalaire : le nom de la page à afficher en premier, par exemple 'General', 'Fonts', 'Command Window' ou 'Editor' avec une interface en anglais.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p
+    ><b>preferences()</b> ouvre la boîte de dialogue Préférences du bureau Nelson. Elle permet de modifier le thème, l'apparence, les polices, les options de la fenêtre de commande et les réglages de l'éditeur. La boîte de dialogue est modale : Nelson attend sa fermeture.</p>
+    <p
+    ><b>preferences(page)</b> ouvre la boîte de dialogue sur la page indiquée. Le nom est comparé aux titres des pages affichés dans la boîte de dialogue (dans la langue courante), sans tenir compte de la casse, des espaces, des tirets bas et des traits d'union. Si aucune page ne correspond, la première page est affichée.</p>
+    <p
+    >Ces réglages sont ceux du bureau. Ce ne sont pas les valeurs gérées par <b>getpref</b> et <b>setpref</b>.</p>
+    <p
+    >La boîte de dialogue nécessite l'interface graphique. Dans une version sans interface graphique, une erreur est levée ; dans une session Nelson sans application de bureau, l'appel ne fait rien.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Ouvre la boîte de dialogue Préférences sur la page de l'éditeur.</example_item_description>
+      <example_item_data
+        runnable="false"
+      ><![CDATA[preferences('Editor')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${core}prefdir">prefdir</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${gui}lookandfeel">lookandfeel</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${preferences}getpref">getpref</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

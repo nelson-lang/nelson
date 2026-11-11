@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>uigetpref</keyword>
+  <short_description
+  >Pose une question dans une boîte de dialogue capable de mémoriser la réponse.</short_description>
+  <syntax>
+    <syntax_item>pval = uigetpref(group, pref, title, question, pref_choices)</syntax_item>
+    <syntax_item
+    >pval = uigetpref(group, pref, title, question, pref_choices, Name, Value)</syntax_item>
+    <syntax_item>[pval, tf] = uigetpref(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>group</param_name>
+      <param_description
+      >un vecteur de caractères ou une chaîne scalaire : le nom du groupe. Ce doit être un nom de variable valide.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>pref</param_name>
+      <param_description
+      >un vecteur de caractères ou une chaîne scalaire : le nom de la préférence. Ce doit être un nom de variable valide.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>title</param_name>
+      <param_description
+      >un vecteur de caractères ou une chaîne scalaire : le titre de la boîte de dialogue.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>question</param_name>
+      <param_description
+      >un vecteur de caractères, un tableau de chaînes ou un tableau de cellules de vecteurs de caractères : le texte de la question. Plusieurs éléments sont affichés sur des lignes séparées, et un caractère '|' commence aussi une nouvelle ligne.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>pref_choices</param_name>
+      <param_description
+      >les boutons qui répondent à la question. Soit un tableau de chaînes ou un tableau de cellules de vecteurs de caractères contenant les libellés des boutons, soit un vecteur de caractères avec des libellés séparés par '|' (par exemple 'Yes|No'), soit un tableau de cellules ou de chaînes 2xN dont la première ligne contient les valeurs à enregistrer et la seconde les libellés des boutons associés. Sans seconde ligne, la valeur de chaque bouton est son libellé.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'CheckboxState'</param_name>
+      <param_description
+      >état initial de la case à cocher : un scalaire logique ou numérique, ou 'on'/'off', 'true'/'false'. Par défaut : non cochée.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'CheckboxString'</param_name>
+      <param_description
+      >un vecteur de caractères : le libellé de la case à cocher. Par défaut : 'Do not show this dialog again.' (traduit dans la langue courante).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'ExtraOptions'</param_name>
+      <param_description
+      >un vecteur de caractères, un tableau de chaînes ou un tableau de cellules de vecteurs de caractères : les libellés de boutons supplémentaires. Leur réponse est retournée mais jamais enregistrée.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'DefaultButton'</param_name>
+      <param_description
+      >un vecteur de caractères : le libellé du bouton par défaut, retourné en minuscules si la boîte de dialogue est fermée sans bouton. Par défaut : le libellé du premier bouton.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'HelpString'</param_name>
+      <param_description
+      >un vecteur de caractères : le libellé d'un bouton d'aide. Aucun bouton d'aide n'est affiché s'il est vide (par défaut).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'HelpFcn'</param_name>
+      <param_description
+      >la fonction de rappel du bouton d'aide : un vecteur de caractères évalué comme une commande, un pointeur de fonction appelé sans argument, ou un tableau de cellules {fcn, arg1, ...}. Par défaut : doc sur 'HelpTopic'. Les erreurs de la fonction de rappel sont ignorées.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'HelpTopic'</param_name>
+      <param_description
+      >un vecteur de caractères : le sujet ouvert par la fonction d'aide par défaut. Par défaut : 'uigetpref'.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'DialogProps'</param_name>
+      <param_description
+      >une structure de propriétés de figure pour la boîte de dialogue : acceptée pour compatibilité, non utilisée.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>pval</param_name>
+      <param_description
+      >la réponse en minuscules : la valeur enregistrée de la préférence, la valeur du bouton cliqué, ou le libellé du bouton supplémentaire cliqué. Une valeur enregistrée qui n'est pas du texte est retournée telle quelle.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>tf</param_name>
+      <param_description
+      >un logique : true si la boîte de dialogue a été affichée, false si la valeur enregistrée a été retournée sans poser la question.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p
+    ><b>uigetpref</b> affiche une boîte de dialogue avec une question, des boutons et une case à cocher. Lorsque l'utilisateur clique sur l'un des boutons de <b>pref_choices</b> avec la case cochée, la valeur de ce bouton est enregistrée dans la préférence <b>pref</b> du groupe <b>group</b>. Les appels suivants retournent alors directement cette valeur, sans afficher la boîte de dialogue, et <b>tf</b> vaut <b>false</b>.</p>
+    <p
+    >La valeur est enregistrée telle qu'elle est donnée dans <b>pref_choices</b>, et <b>pval</b> est toujours retourné en minuscules, y compris pour une réponse enregistrée.</p>
+    <p
+    >La boîte de dialogue est affichée si la préférence n'existe pas, ou si sa valeur est exactement le vecteur de caractères <b>'ask'</b> (une autre casse comme <b>'ASK'</b> est retournée comme réponse enregistrée). Une préférence absente est d'abord créée avec la valeur <b>'ask'</b>. Avant l'ouverture, la préférence est enregistrée dans une liste, afin que <b>uisetpref('clearall')</b> puisse la réinitialiser plus tard.</p>
+    <p
+    >Si la boîte de dialogue est fermée sans cliquer sur un bouton, <b>pval</b> est le libellé du bouton par défaut en minuscules, et l'état initial de la case décide s'il est enregistré. Un clic sur un bouton <b>ExtraOptions</b> retourne son libellé en minuscules et n'enregistre rien, même si la case est cochée.</p>
+    <p
+    >Si <b>HelpString</b> n'est pas vide, un bouton d'aide est affiché. Un clic ferme la boîte de dialogue, exécute <b>HelpFcn</b>, puis réaffiche la boîte de dialogue avec le même état de la case.</p>
+    <p
+    >Toutes les entrées sont vérifiées avant la lecture de la réponse enregistrée : un appel invalide lève donc une erreur même si la boîte de dialogue ne serait pas affichée, et ne modifie pas les préférences. Les noms des arguments nom-valeur ne tiennent pas compte de la casse et doivent être donnés par paires. Un nom inconnu lève une erreur.</p>
+    <p
+    >La boîte de dialogue nécessite l'interface graphique. Dans une version sans interface graphique, une erreur est levée lorsque la boîte de dialogue doit être affichée. Utilisez <b>getpref</b> ou <b>setpref</b> pour lire ou modifier la réponse enregistrée sans boîte de dialogue.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Demande une confirmation avant de fermer et permet à l'utilisateur de garder sa réponse.</example_item_description>
+      <example_item_data
+        runnable="false"
+      ><![CDATA[[answer, shown] = uigetpref('myToolboxDemo', 'closeConfirm', ...
+  'Close', {'Do you want to close the session?', 'Unsaved data will be lost.'}, ...
+  {'close', 'keep'; 'Close', 'Keep open'}, ...
+  'DefaultButton', 'Keep open', 'ExtraOptions', 'Cancel', ...
+  'HelpString', 'Help', 'HelpFcn', @() doc('uigetpref'))
+% Ask again on the next call
+setpref('myToolboxDemo', 'closeConfirm', 'ask');
+rmpref('myToolboxDemo');]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${preferences}uisetpref">uisetpref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${preferences}getpref">getpref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${preferences}setpref">setpref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${gui}questdlg">questdlg</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -41,7 +41,6 @@ type DialogRequest = {
   checkboxText?: string;
   checkboxState?: boolean;
   helpString?: string;
-  helpFcn?: string;
   items?: string[];
   multiSelect?: boolean;
   initialSelection?: number[]; // 1-based
@@ -155,6 +154,7 @@ export function DialogHost(): JSX.Element | null {
     checkboxChecked?: boolean;
     selectedIndices?: number[];
     path?: string;
+    help?: boolean;
   }) => {
     void rpc('dialog.reply', { id: dialog.id, ...payload });
     setDialog(null);
@@ -204,6 +204,8 @@ export function DialogHost(): JSX.Element | null {
     });
   const submitExtraButton = (label: string) =>
     reply({ ok: true, button: label, checkboxChecked: checked });
+  // The engine runs the help callback, then shows the dialog again.
+  const submitHelp = () => reply({ ok: true, help: true, checkboxChecked: checked });
 
   const toggleListItem = (i: number) => {
     if (dialog.multiSelect) {
@@ -382,10 +384,7 @@ export function DialogHost(): JSX.Element | null {
                   <button
                     key={`pref-${b}-${i}`}
                     className={
-                      b === dialog.defaultButton ||
-                      ((dialog.buttonValues ?? [])[i] ?? b) === dialog.defaultButton
-                        ? 'dialog-btn dialog-btn--default'
-                        : 'dialog-btn'
+                      b === dialog.defaultButton ? 'dialog-btn dialog-btn--default' : 'dialog-btn'
                     }
                     onClick={() => submitPreferenceButton(b, i)}
                   >
@@ -395,12 +394,19 @@ export function DialogHost(): JSX.Element | null {
                 {(dialog.extraButtons ?? []).map((b) => (
                   <button
                     key={`extra-${b}`}
-                    className="dialog-btn"
+                    className={
+                      b === dialog.defaultButton ? 'dialog-btn dialog-btn--default' : 'dialog-btn'
+                    }
                     onClick={() => submitExtraButton(b)}
                   >
                     {b}
                   </button>
                 ))}
+                {dialog.helpString ? (
+                  <button key="help" className="dialog-btn" onClick={submitHelp}>
+                    {dialog.helpString}
+                  </button>
+                ) : null}
               </>
             ) : dialog.kind === 'question' ? (
               (dialog.buttons.length ? dialog.buttons : ['OK']).map((b) => (

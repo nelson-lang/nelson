@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>setpref</keyword>
+  <short_description>Sets the value of persistent preferences.</short_description>
+  <syntax>
+    <syntax_item>setpref(group, pref, value)</syntax_item>
+    <syntax_item>setpref(group, {pref1, ..., prefN}, {value1, ..., valueN})</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>group</param_name>
+      <param_description
+      >a character vector or scalar string: the group name. It must be a valid variable name.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>pref</param_name>
+      <param_description
+      >a character vector or scalar string: one preference name, or a cell array of character vectors or a string array: several preference names. Each name must be a valid variable name.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>value</param_name>
+      <param_description
+      >any value when pref is a single name, or a cell array with one value for each name when pref holds several names.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p
+    ><b>setpref(group, pref, value)</b> stores <b>value</b> in the preference <b>pref</b> of <b>group</b>. The group and the preference are created when they do not exist, and an existing value is replaced.</p>
+    <p
+    >The value can be of any type that Nelson can save (numeric, logical, text, cell, struct, ...). It is written immediately in the file <b>preferences.nh5</b> of the preferences directory (see <b>prefdir</b>), so it is kept for the next Nelson session.</p>
+    <p
+    >When several names are given, <b>value</b> must be a cell array with the same number of elements, otherwise an error is raised.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Store, replace and read preferences, then remove the group.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[setpref('myToolboxDemo', 'lastFolder', tempdir());
+setpref('myToolboxDemo', 'lastFolder', pwd());
+setpref('myToolboxDemo', ["width", "height"], {640, 480});
+getpref('myToolboxDemo', 'lastFolder')
+getpref('myToolboxDemo', {'width', 'height'})
+rmpref('myToolboxDemo');]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${preferences}addpref">addpref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${preferences}getpref">getpref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${preferences}ispref">ispref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${preferences}rmpref">rmpref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${core}prefdir">prefdir</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

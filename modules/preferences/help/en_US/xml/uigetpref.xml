@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>uigetpref</keyword>
+  <short_description
+  >Asks a question in a dialog box that can remember the answer.</short_description>
+  <syntax>
+    <syntax_item>pval = uigetpref(group, pref, title, question, pref_choices)</syntax_item>
+    <syntax_item
+    >pval = uigetpref(group, pref, title, question, pref_choices, Name, Value)</syntax_item>
+    <syntax_item>[pval, tf] = uigetpref(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>group</param_name>
+      <param_description
+      >a character vector or scalar string: the group name. It must be a valid variable name.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>pref</param_name>
+      <param_description
+      >a character vector or scalar string: the preference name. It must be a valid variable name.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>title</param_name>
+      <param_description
+      >a character vector or scalar string: the title of the dialog box.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>question</param_name>
+      <param_description
+      >a character vector, a string array or a cell array of character vectors: the question text. Several elements are shown on separate lines, and a '|' character also starts a new line.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>pref_choices</param_name>
+      <param_description
+      >the buttons that answer the question. Either a string array or a cell array of character vectors with the button labels, a character vector with labels separated by '|' (for example 'Yes|No'), or a 2-by-N cell or string array whose first row holds the values to store and whose second row holds the matching button labels. Without a second row, the value of each button is its label.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'CheckboxState'</param_name>
+      <param_description
+      >initial state of the check box: a logical or numeric scalar, or 'on'/'off', 'true'/'false'. Default: unchecked.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'CheckboxString'</param_name>
+      <param_description
+      >a character vector: the check box label. Default: 'Do not show this dialog again.'</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'ExtraOptions'</param_name>
+      <param_description
+      >a character vector, string array or cell array of character vectors: labels of additional buttons. Their answer is returned but never saved.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'DefaultButton'</param_name>
+      <param_description
+      >a character vector: the label of the default button, returned in lower case when the dialog is closed without a button. Default: the label of the first button.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'HelpString'</param_name>
+      <param_description
+      >a character vector: label of a help button. No help button is shown when it is empty (default).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'HelpFcn'</param_name>
+      <param_description
+      >the help button callback: a character vector evaluated as a command, a function handle called without input, or a cell array {fcn, arg1, ...}. Default: doc on 'HelpTopic'. Errors of the callback are ignored.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'HelpTopic'</param_name>
+      <param_description
+      >a character vector: the topic opened by the default help callback. Default: 'uigetpref'.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'DialogProps'</param_name>
+      <param_description
+      >a struct of figure properties for the dialog: accepted for compatibility, not used.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>pval</param_name>
+      <param_description
+      >the answer in lower case: the stored preference value, the value of the button clicked, or the label of the extra button clicked. A stored value that is not text is returned as it is.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>tf</param_name>
+      <param_description
+      >a logical: true when the dialog box was shown, false when the stored value was returned without asking.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p
+    ><b>uigetpref</b> shows a question dialog with a set of buttons and a check box. When the user clicks one of the <b>pref_choices</b> buttons with the check box selected, the value of that button is saved in the preference <b>pref</b> of <b>group</b>. The next calls then return this value directly, without showing the dialog, and <b>tf</b> is <b>false</b>.</p>
+    <p
+    >The value is saved as given in <b>pref_choices</b>, and <b>pval</b> is always returned in lower case, also when it comes from a saved answer.</p>
+    <p
+    >The dialog is shown when the preference does not exist, or when its value is exactly the character vector <b>'ask'</b> (another case such as <b>'ASK'</b> is returned as a saved answer). A missing preference is first created with the value <b>'ask'</b>. Before the dialog opens, the preference is registered, so that <b>uisetpref('clearall')</b> can later reset it.</p>
+    <p
+    >When the dialog is closed without clicking a button, <b>pval</b> is the default button label in lower case, and the initial check box state decides whether it is saved. Clicking an <b>ExtraOptions</b> button returns its label in lower case and saves nothing, even with the check box selected.</p>
+    <p
+    >When <b>HelpString</b> is not empty, a help button is shown. Clicking it closes the dialog, runs <b>HelpFcn</b>, then shows the dialog again with the same check box state.</p>
+    <p
+    >All inputs are checked before the saved answer is read, so an invalid call raises an error even when the dialog would not be shown, and leaves the preferences unchanged. Name-value arguments are case insensitive and must be given in pairs. An unknown name raises an error.</p>
+    <p
+    >The dialog requires the graphical interface. In a build without it, an error is raised when the dialog must be shown. Use <b>getpref</b> or <b>setpref</b> to read or change the saved answer without a dialog.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Ask before closing, and let the user keep the answer.</example_item_description>
+      <example_item_data
+        runnable="false"
+      ><![CDATA[[answer, shown] = uigetpref('myToolboxDemo', 'closeConfirm', ...
+  'Close', {'Do you want to close the session?', 'Unsaved data will be lost.'}, ...
+  {'close', 'keep'; 'Close', 'Keep open'}, ...
+  'DefaultButton', 'Keep open', 'ExtraOptions', 'Cancel', ...
+  'HelpString', 'Help', 'HelpFcn', @() doc('uigetpref'))
+% Ask again on the next call
+setpref('myToolboxDemo', 'closeConfirm', 'ask');
+rmpref('myToolboxDemo');]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${preferences}uisetpref">uisetpref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${preferences}getpref">getpref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${preferences}setpref">setpref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${gui}questdlg">questdlg</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

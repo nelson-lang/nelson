@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>addpref</keyword>
+  <short_description>Adds new persistent preferences.</short_description>
+  <syntax>
+    <syntax_item>addpref(group, pref, value)</syntax_item>
+    <syntax_item>addpref(group, {pref1, ..., prefN}, {value1, ..., valueN})</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>group</param_name>
+      <param_description
+      >a character vector or scalar string: the group name. It must be a valid variable name.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>pref</param_name>
+      <param_description
+      >a character vector or scalar string: one preference name, or a cell array of character vectors or a string array: several preference names. Each name must be a valid variable name.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>value</param_name>
+      <param_description
+      >any value when pref is a single name, or a cell array with one value for each name when pref holds several names.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p
+    ><b>addpref(group, pref, value)</b> creates the preference <b>pref</b> in <b>group</b> and stores <b>value</b> in it. The group is created when it does not exist yet.</p>
+    <p
+    >The value can be of any type that Nelson can save (numeric, logical, text, cell, struct, ...). Preferences are written immediately in the file <b>preferences.nh5</b> of the preferences directory (see <b>prefdir</b>), so they are still available in the next Nelson session.</p>
+    <p
+    ><b>addpref</b> does not overwrite: an error is raised when one of the preferences already exists in the group. Use <b>setpref</b> to create or replace a preference.</p>
+    <p
+    >When several names are given, <b>value</b> must be a cell array with the same number of elements, otherwise an error is raised.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Create a group with two preferences, read them back, then remove the group.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[addpref('myToolboxDemo', 'tolerance', 1e-6);
+addpref('myToolboxDemo', {'name', 'verbose'}, {'solver', true});
+values = getpref('myToolboxDemo', {'tolerance', 'name', 'verbose'})
+try
+  addpref('myToolboxDemo', 'tolerance', 1e-3);
+catch err
+  disp(err.message)
+end
+rmpref('myToolboxDemo');]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${preferences}setpref">setpref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${preferences}getpref">getpref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${preferences}ispref">ispref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${preferences}rmpref">rmpref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${core}prefdir">prefdir</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

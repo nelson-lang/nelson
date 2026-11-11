@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>rmpref</keyword>
+  <short_description
+  >Supprime un groupe de préférences ou des préférences.</short_description>
+  <syntax>
+    <syntax_item>rmpref(group)</syntax_item>
+    <syntax_item>rmpref(group, pref)</syntax_item>
+    <syntax_item>rmpref(group, {pref1, ..., prefN})</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>group</param_name>
+      <param_description
+      >un vecteur de caractères ou une chaîne scalaire : le nom du groupe. Ce doit être un nom de variable valide.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>pref</param_name>
+      <param_description
+      >un vecteur de caractères ou une chaîne scalaire : un nom de préférence, ou un tableau de cellules de vecteurs de caractères ou un tableau de chaînes : plusieurs noms de préférences. Chaque nom doit être un nom de variable valide.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p
+    ><b>rmpref(group)</b> supprime le groupe et toutes ses préférences.</p>
+    <p
+    ><b>rmpref(group, pref)</b> supprime seulement les préférences indiquées. Le groupe lui-même est conservé, même s'il devient vide.</p>
+    <p
+    >Une erreur est levée si le groupe n'existe pas, ou si l'une des préférences n'existe pas. Dans ce cas, rien n'est supprimé. La modification est écrite immédiatement dans le fichier <b>preferences.nh5</b> du répertoire des préférences (voir <b>prefdir</b>).</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Supprime quelques préférences, puis le groupe entier.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[setpref('myToolboxDemo', {'a', 'b', 'c'}, {1, 2, 3});
+rmpref('myToolboxDemo', {'a', 'b'});
+ispref('myToolboxDemo', {'a', 'b', 'c'})
+rmpref('myToolboxDemo');
+ispref('myToolboxDemo')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${preferences}ispref">ispref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${preferences}setpref">setpref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${preferences}addpref">addpref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${preferences}getpref">getpref</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

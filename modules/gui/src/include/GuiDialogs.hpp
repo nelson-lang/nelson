@@ -48,7 +48,6 @@ struct UiPreferenceDialogOptions
     std::wstring checkboxText;
     bool checkboxState = false;
     std::wstring helpString;
-    std::wstring helpFcn;
 };
 //=============================================================================
 struct UiPreferenceDialogResult
@@ -56,7 +55,8 @@ struct UiPreferenceDialogResult
     std::wstring value;
     bool dialogOpened = false;
     bool checkboxChecked = false;
-    bool preferenceButton = false;
+    bool buttonClicked = false;
+    bool helpRequested = false;
 };
 //=============================================================================
 NLSGUI_IMPEXP UiPreferenceDialogResult

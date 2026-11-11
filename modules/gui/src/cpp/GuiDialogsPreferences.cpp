@@ -24,17 +24,6 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static bool
-isPreferenceValue(const UiPreferenceDialogOptions& options, const std::wstring& value)
-{
-    for (const std::wstring& buttonValue : options.buttonValues) {
-        if (buttonValue == value) {
-            return true;
-        }
-    }
-    return false;
-}
-//=============================================================================
 UiPreferenceDialogResult
 UiPreferenceDialog(const UiPreferenceDialogOptions& options)
 {
@@ -52,14 +41,14 @@ UiPreferenceDialog(const UiPreferenceDialogOptions& options)
         request.checkboxText = options.checkboxText;
         request.checkboxState = options.checkboxState;
         request.helpString = options.helpString;
-        request.helpFcn = options.helpFcn;
         GuiDialogResponse response;
         if (runGuiDialog(request, response)) {
             UiPreferenceDialogResult result;
             result.dialogOpened = true;
             result.checkboxChecked = response.checkboxChecked;
-            result.value = response.ok ? response.button : options.defaultButton;
-            result.preferenceButton = response.ok && isPreferenceValue(options, result.value);
+            result.helpRequested = response.helpRequested;
+            result.buttonClicked = response.ok && !response.helpRequested;
+            result.value = response.button;
             return result;
         }
     }
@@ -78,13 +67,11 @@ UiPreferenceDialog(const UiPreferenceDialogOptions& options)
     msgBox.setCheckBox(&checkbox);
 
     std::vector<QPushButton*> preferenceButtons;
-    for (const std::wstring& label : options.buttonLabels) {
-        QPushButton* button = msgBox.addButton(wstringToQString(label), QMessageBox::AcceptRole);
+    for (size_t k = 0; k < options.buttonLabels.size(); ++k) {
+        QPushButton* button
+            = msgBox.addButton(wstringToQString(options.buttonLabels[k]), QMessageBox::AcceptRole);
         preferenceButtons.push_back(button);
-        const size_t index = preferenceButtons.size() - 1;
-        if (options.defaultButton == label
-            || (options.buttonValues.size() > index
-                && options.defaultButton == options.buttonValues[index])) {
+        if (options.defaultButton == options.buttonLabels[k]) {
             msgBox.setDefaultButton(button);
         }
     }
@@ -98,6 +85,11 @@ UiPreferenceDialog(const UiPreferenceDialogOptions& options)
         }
     }
 
+    QPushButton* helpButton = nullptr;
+    if (!options.helpString.empty()) {
+        helpButton = msgBox.addButton(wstringToQString(options.helpString), QMessageBox::HelpRole);
+    }
+
     QPushButton* escapeButton = msgBox.addButton(QString(), QMessageBox::RejectRole);
     escapeButton->hide();
     msgBox.setEscapeButton(escapeButton);
@@ -106,19 +98,22 @@ UiPreferenceDialog(const UiPreferenceDialogOptions& options)
     UiPreferenceDialogResult result;
     result.dialogOpened = true;
     result.checkboxChecked = checkbox.isChecked();
-    result.value = options.defaultButton;
 
     QAbstractButton* clicked = msgBox.clickedButton();
+    if (helpButton != nullptr && clicked == helpButton) {
+        result.helpRequested = true;
+        return result;
+    }
     for (size_t k = 0; k < preferenceButtons.size(); ++k) {
         if (clicked == preferenceButtons[k]) {
-            result.preferenceButton = true;
-            result.value = options.buttonValues.size() > k ? options.buttonValues[k]
-                                                           : options.buttonLabels[k];
+            result.buttonClicked = true;
+            result.value = options.buttonValues[k];
             return result;
         }
     }
     for (size_t k = 0; k < extraButtons.size(); ++k) {
         if (clicked == extraButtons[k]) {
+            result.buttonClicked = true;
             result.value = options.extraButtons[k];
             return result;
         }

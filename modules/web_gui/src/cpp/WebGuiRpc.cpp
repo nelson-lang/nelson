@@ -775,7 +775,6 @@ WebGuiRpc::serveDialog(const GuiDialogRequest& request, GuiDialogResponse& respo
     payload["checkboxText"] = toUtf8(request.checkboxText);
     payload["checkboxState"] = request.checkboxState;
     payload["helpString"] = toUtf8(request.helpString);
-    payload["helpFcn"] = toUtf8(request.helpFcn);
     // kind == "list"
     nlohmann::json items = nlohmann::json::array();
     for (const std::wstring& item : request.items) {
@@ -815,6 +814,7 @@ WebGuiRpc::serveDialog(const GuiDialogRequest& request, GuiDialogResponse& respo
     response.ok = reply.value("ok", false);
     response.button = utf8_to_wstring(reply.value("button", std::string()));
     response.checkboxChecked = reply.value("checkboxChecked", false);
+    response.helpRequested = reply.value("help", false);
     response.values.clear();
     if (reply.contains("values") && reply["values"].is_array()) {
         for (const auto& value : reply["values"]) {

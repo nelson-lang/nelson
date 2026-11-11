@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>addpref</keyword>
+  <short_description>Ajoute de nouvelles préférences persistantes.</short_description>
+  <syntax>
+    <syntax_item>addpref(group, pref, value)</syntax_item>
+    <syntax_item>addpref(group, {pref1, ..., prefN}, {value1, ..., valueN})</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>group</param_name>
+      <param_description
+      >un vecteur de caractères ou une chaîne scalaire : le nom du groupe. Ce doit être un nom de variable valide.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>pref</param_name>
+      <param_description
+      >un vecteur de caractères ou une chaîne scalaire : un nom de préférence, ou un tableau de cellules de vecteurs de caractères ou un tableau de chaînes : plusieurs noms de préférences. Chaque nom doit être un nom de variable valide.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>value</param_name>
+      <param_description
+      >n'importe quelle valeur lorsque pref est un seul nom, ou un tableau de cellules contenant une valeur par nom lorsque pref contient plusieurs noms.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p
+    ><b>addpref(group, pref, value)</b> crée la préférence <b>pref</b> dans <b>group</b> et y enregistre <b>value</b>. Le groupe est créé s'il n'existe pas encore.</p>
+    <p
+    >La valeur peut être de tout type que Nelson sait sauvegarder (numérique, logique, texte, cellule, structure, ...). Les préférences sont écrites immédiatement dans le fichier <b>preferences.nh5</b> du répertoire des préférences (voir <b>prefdir</b>) : elles restent donc disponibles lors de la session Nelson suivante.</p>
+    <p
+    ><b>addpref</b> n'écrase rien : une erreur est levée si l'une des préférences existe déjà dans le groupe. Utilisez <b>setpref</b> pour créer ou remplacer une préférence.</p>
+    <p
+    >Lorsque plusieurs noms sont donnés, <b>value</b> doit être un tableau de cellules ayant le même nombre d'éléments, sinon une erreur est levée.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Crée un groupe avec deux préférences, les relit, puis supprime le groupe.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[addpref('myToolboxDemo', 'tolerance', 1e-6);
+addpref('myToolboxDemo', {'name', 'verbose'}, {'solver', true});
+values = getpref('myToolboxDemo', {'tolerance', 'name', 'verbose'})
+try
+  addpref('myToolboxDemo', 'tolerance', 1e-3);
+catch err
+  disp(err.message)
+end
+rmpref('myToolboxDemo');]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${preferences}setpref">setpref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${preferences}getpref">getpref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${preferences}ispref">ispref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${preferences}rmpref">rmpref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${core}prefdir">prefdir</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
