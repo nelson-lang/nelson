@@ -57,8 +57,7 @@ Nelson 2.0 is a major release. Existing scripts run faster, larger projects can 
 #### Interoperability
 
 - `.xlsx` read and write on every platform, and optional NetCDF and Parquet support.
-- `readlines` and `writelines` to read and write text files line by line.
-- `matfile` and `nh5file` load and save parts of variables of a MAT-file or a `.nh5` file without reading the whole file.
+- `readlines`, `writelines`, and partial loading and saving of MAT-files with `matfile`.
 - Python package to drive Nelson from Python, with NumPy and pandas conversion.
 - Built-in MCP server for AI agents.
 - Optional `compiler` module to build standalone applications and installers from `.m` files.
@@ -71,15 +70,12 @@ Nelson 2.0 is a major release. Existing scripts run faster, larger projects can 
 
 ### Changed
 
-- `end` is required to close blocks (breaking change).
-- A file whose name differs from its function name raises an error (breaking change).
-- `patch`, `surf`, `text`, and `plot` accept an `hgtransform` parent.
+- Breaking: `end` is required to close blocks, and a file whose name differs from its function name raises an error.
+- Breaking: `isapprox` compares element by element and takes a tolerance level or `AbsoluteTolerance`/`RelativeTolerance`; the previous behavior is `isapproxnorm`.
+- Linear algebra (`\`, `/`, `lu`, `det`, `chol`) is faster, handles `NaN`/`Inf` and edge cases more consistently, and gives the same results on every platform for small matrices.
+- More options for existing functions: `'like'` for `eps`, `realmax`, `intmax`, ..., `save -struct`, full matrices in `svds`, unsorted points in `interp1` and `spline`, `hgtransform` parents for `plot`, `surf`, `patch`, and `text`.
+- A function file on the path always takes precedence over a built-in of the same name.
 - `filewrite` is about 6 times faster on large text.
-- `\` with a full diagonal matrix is 3 to 30 times faster, and a badly scaled diagonal now warns like a triangular one; `\` with a dense N-D operand raises an error instead of returning a wrong result.
-- `B / A` with a dense square `A` no longer transposes its operands and runs as fast as `A \ B'`.
-- `lu`, `det`, `inv`, `rcond`, `\`, and `/` on small dense matrices (up to 16 by 16 real, 8 by 8 complex) round in a fixed order without fused multiply-add, so they give the same bits on every platform; `det` uses the same LU and is faster.
-- `eps(X)` works element by element on arrays; `eps`, `realmax`, `realmin`, `flintmax`, `intmax`, and `intmin` accept `'like', p`; `randi` accepts `'gpuArray'`.
-- `spline` sorts sample points given in any order and ignores NaN points.
 
 ### Removed
 
