@@ -358,6 +358,8 @@ fn main(@builtin(local_invocation_id) lid : vec3<u32>) {
     let m = params.m;
     let k = params.k;
     let col = k * m;
+    // read before the barriers: thread 0 overwrites it with beta at the end
+    let alpha = a[col + k];
     // scale by the largest entry below the diagonal so the squares stay finite
     var big : f32 = 0.0;
     for (var i = k + 1u + t; i < m; i = i + 256u) { big = max(big, abs(a[col + i])); }
@@ -376,7 +378,6 @@ fn main(@builtin(local_invocation_id) lid : vec3<u32>) {
         }
     }
     let total = workgroupSum(t, sq);
-    let alpha = a[col + k];
     if (scale == 0.0) {
         if (t == 0u) { tau[k] = 0.0; }
         return;
@@ -428,12 +429,15 @@ fn main(@builtin(local_invocation_id) lid : vec3<u32>, @builtin(workgroup_id) wi
     let working = j < params.cols && tau[k] != 0.0;
     let base = j * m;
     var dotPart : f32 = 0.0;
+    // read before the barriers: thread 0 overwrites it at the end
+    var head : f32 = 0.0;
     if (working) {
+        head = getX(k + base);
         for (var i = k + 1u + t; i < m; i = i + 256u) { dotPart = dotPart + vk(i) * getX(i + base); }
     }
     let total = workgroupSum(t, dotPart);
     if (!working) { return; }
-    let w = tau[k] * (getX(k + base) + total);
+    let w = tau[k] * (head + total);
     for (var i = k + 1u + t; i < m; i = i + 256u) { setX(i + base, getX(i + base) - vk(i) * w); }
     if (t == 0u) { setX(k + base, getX(k + base) - w); }
 }
