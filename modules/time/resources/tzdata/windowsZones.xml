@@ -13,6 +13,8 @@
       <mapZone other="China Standard Time" territory="001" type="Asia/Shanghai"/>
       <mapZone other="India Standard Time" territory="001" type="Asia/Kolkata"/>
       <mapZone other="AUS Eastern Standard Time" territory="001" type="Australia/Sydney"/>
+      <mapZone other="Lord Howe Standard Time" territory="001" type="Australia/Lord_Howe"/>
+      <mapZone other="Morocco Standard Time" territory="001" type="Africa/Casablanca"/>
     </mapTimezones>
   </windowsZones>
 </supplementalData>
