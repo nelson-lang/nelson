@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 assert_isequal(num2hex(1), '3ff0000000000000');
 assert_isequal(num2hex(0), '0000000000000000');
 assert_isequal(num2hex(Inf), '7ff0000000000000');

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 asserts.isequal(idivide(int8(-128),int8(-1)), int8(127));
 asserts.isequal(idivide(int8(5),int8(0)), int8(127));
 asserts.isequal(idivide(int8(-5),int8(0)), int8(-128));

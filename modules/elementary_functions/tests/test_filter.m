@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 X = [1 2 4 8 16 32];
 windowSize = 3;
 b = (1 / windowSize) * ones(1, windowSize);

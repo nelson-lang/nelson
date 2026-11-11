@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 A = [3 1; 1 2; 2 3; 1 1];
 asserts.isfalse(issortedrows(A));
 asserts.istrue(issortedrows(sortrows(A)));

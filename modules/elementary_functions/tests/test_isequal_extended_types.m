@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % <--WEIGHT 8-->
 asserts.isequal(isequal(NaN, NaN), false);
 asserts.isequal(isequal(NaN, Inf), false);

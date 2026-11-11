@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % <--WEIGHT 2-->
 asserts.isequal(cat(1, zeros(0, 2), [1 2]), [1 2]);
 asserts.isequal(size(cat(3, [1 2], [3 4])), [1 2 2]);

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % single output: the linear index is returned unchanged (as the expected behavior does),
 % even when it exceeds prod(dims)
 R = ind2sub([2 3], 7);

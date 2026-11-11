@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % non integer number of points: floor(n)
 asserts.isequal(linspace(0, 1, 2.5), [0 1]);
 asserts.isequal(linspace(0, 1, 3.9), [0 0.5 1]);

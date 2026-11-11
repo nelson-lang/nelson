@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % NaN are considered smaller than any value: they come out last
 asserts.isequal(maxk([1 5 3 NaN], 2), [5 3]);
 [v, i] = maxk([1 5 3 NaN], 2);

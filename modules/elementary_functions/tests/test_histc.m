@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 [n, b] = histc([0 1 1.5 2 3 NaN], [0 1 2]);
 asserts.isequal(n, [1 2 1]);
 asserts.isequal(b, [1 2 2 3 0 0]);

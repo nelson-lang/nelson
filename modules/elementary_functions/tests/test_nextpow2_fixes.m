@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 asserts.isequal(nextpow2(true), 0);
 asserts.isequal(nextpow2('a'), 7);
 asserts.isequal(nextpow2(sparse([1 0 3])), sparse([0 0 2]));

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 asserts.isequal(nargin('dec2base'), 3)
 asserts.isequal(nargout('dec2base'), 1)
 %=============================================================================

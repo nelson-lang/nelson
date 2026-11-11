@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 A = [10 20 30; 40 50 60; 70 80 90];
 R = circshift(A, 1);
 REF = [70 80 90; 10 20 30; 40 50 60];

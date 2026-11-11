@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 asserts.checkerror('isequalto()', _('Not enough input arguments.'));
 asserts.checkerror('isequalto(1)', _('Not enough input arguments.'));
 asserts.checkerror('isequalto([1, 1])', _('Not enough input arguments.'));

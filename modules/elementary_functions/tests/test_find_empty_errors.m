@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 E = sparse(zeros(0, 3));
 [findRows, findColumns, findValues] = find(E);
 asserts.isequal(size(find(E)), [0 1]);

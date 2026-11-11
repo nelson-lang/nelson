@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 asserts.isequal(expm1(0), 0);
 asserts.isequal(reallog(1), 0);
 asserts.isequal(realsqrt(4), 2);

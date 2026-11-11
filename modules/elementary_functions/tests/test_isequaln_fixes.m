@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % a missing string equals a missing string, like NaN
 asserts.istrue(isequaln(string(missing), string(missing)));
 asserts.istrue(isequaln([missing, "a"], [missing, "a"]));

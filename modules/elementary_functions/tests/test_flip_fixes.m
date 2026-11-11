@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 asserts.checkerror('flip(1:3,1.5)', _('Dimension argument must be a positive integer scalar.'));
 asserts.checkerror('flip(1:3,''a'')', _('Dimension argument must be a positive integer scalar.'));
 asserts.checkerror('flip(1:3,NaN)', _('Dimension argument must be a positive integer scalar.'));

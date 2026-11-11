@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 asserts.isequal(nthroot([8;27],[3 2]), reshape([2 3 2.8284271247461898 5.196152422706632], [2 2]));
 asserts.isequal(nthroot(8,true), 8);
 asserts.isequal(nthroot([1 2 3],[1;2]), reshape([1 1 2 1.4142135623730949 3 1.7320508075688774], [2 3]));

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % A zero dimension makes the result empty even when another dimension is nonzero.
 % Preserve every remaining dimension and the source class on both copy paths.
 classes = {'double', 'single', 'int8', 'uint8', 'int16', 'uint16', ...

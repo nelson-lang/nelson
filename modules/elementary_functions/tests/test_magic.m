@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 asserts.isequal(nargin('magic'), 1);
 asserts.isequal(nargout('magic'), 1);
 %=============================================================================

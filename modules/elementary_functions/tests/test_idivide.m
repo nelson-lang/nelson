@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 assert_isequal(idivide(int32(7), int32(2)), int32(3));
 %=============================================================================
 assert_isequal(idivide(int32(-7), int32(2)), int32(-3));

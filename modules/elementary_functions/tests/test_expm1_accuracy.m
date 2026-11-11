@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % expm1 must be accurate for small values (Kahan's algorithm)
 R = expm1(1e-15);
 assert(abs(R - 1e-15) / 1e-15 < 1e-10);

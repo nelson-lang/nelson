@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % functions giving an empty result from a complex array give a real array
 z = complex([]);
 asserts.istrue(isreal(conj(z)));

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 asserts.checkerror('repmat(1:3,2.5)', _('Replication factors must be a row vector of integers or integer scalars.'));
 asserts.checkerror('repmat(1:3,NaN)', _('Replication factors must be a row vector of integers or integer scalars.'));
 asserts.checkerror('repmat(1:3,zeros(1,0))', ...

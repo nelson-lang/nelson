@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 A = eye(2, 3);
 B = flipdim(A, 1);
 REF = [0 1 0; 1 0 0];

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % k larger than the number of elements: return all elements sorted
 asserts.isequal(maxk([1 3 2], 5), [3 2 1]);
 asserts.isequal(mink([1 3 2], 5), [1 2 3]);

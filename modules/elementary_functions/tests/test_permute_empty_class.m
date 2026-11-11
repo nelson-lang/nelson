@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % An empty array keeps its class once permuted, without trailing singleton
 % dimensions.
 %=============================================================================

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 A = 'no word, no bond, row on.';
 B = fliplr(A);
 asserts.isequal(B, '.no wor ,dnob on ,drow on');

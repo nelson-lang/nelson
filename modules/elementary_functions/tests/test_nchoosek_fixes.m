@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 asserts.isequal(nchoosek(5,uint8(2)), uint8(10));
 asserts.checkerror('nchoosek(int8(5),uint8(2))', ...
   _('Integers can only be combined with integers of the same class, or scalar doubles.'));

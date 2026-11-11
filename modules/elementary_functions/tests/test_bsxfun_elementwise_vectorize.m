@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % <--WEIGHT 2-->
 % Auto-vectorization fast path of bsxfun: when the anonymous callback body is a
 % provably element-wise AND broadcasting-safe expression, bsxfun evaluates it

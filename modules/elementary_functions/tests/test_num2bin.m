@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % <--WEIGHT 4-->
 asserts.isequal(nargin('num2bin'), 1)
 asserts.isequal(nargout('num2bin'), 1)

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % <--WEIGHT 4-->
 asserts.checkerror('isapprox()', _('Not enough input arguments.'));
 asserts.checkerror('isapprox(1)', _('Not enough input arguments.'));

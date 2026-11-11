@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 R = invhilb(2);
 REF = [4, -6; -6, 12];
 asserts.isequal(R, REF);

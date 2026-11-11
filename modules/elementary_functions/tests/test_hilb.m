@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 R = hilb(2);
 REF = [1, 1 / 2; 1 / 2, 1 / 3];
 asserts.isequal(R, REF)

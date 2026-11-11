@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 A1 = ones(2, 2);
 A2 = 2 * ones(3, 2);
 A3 = 3 * ones(2, 3);

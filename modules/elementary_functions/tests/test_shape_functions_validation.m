@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % repmat: replication factors are real finite integers (negative counts as 0)
 assert_checkerror('repmat(1:3, 1.5)', _('Replication factors must be a row vector of integers or integer scalars.'));
 assert_checkerror('repmat(1:3, NaN)', _('Replication factors must be a row vector of integers or integer scalars.'));

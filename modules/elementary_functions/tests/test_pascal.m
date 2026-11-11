@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 R = pascal(5);
 REF = [1 1 1 1 1;
      1 2 3 4 5;

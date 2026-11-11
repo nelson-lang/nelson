@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 [R1, R2] = deal(2, 1);
 asserts.isequal(R1, 2);
 asserts.isequal(R2, 1);

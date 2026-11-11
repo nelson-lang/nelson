@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % truncating a column vector to a shorter size keeps the leading elements
 y = resize((1:5)', [3 1]);
 assert_isequal(y, [1; 2; 3]);

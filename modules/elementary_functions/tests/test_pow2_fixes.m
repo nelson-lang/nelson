@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 asserts.isequal(pow2(1,1.5), 2);
 asserts.isequal(pow2(1,-1.5), 0.5);
 asserts.isequal(pow2(1e-300,1100), 1.3582985290493859e+31);

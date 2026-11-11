@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 R = substruct('()', {1, 2, 3}, '{}', {':'}, '.', 'field');
 asserts.isequal(size(R), [1 3]);
 asserts.istrue(isstruct(R));

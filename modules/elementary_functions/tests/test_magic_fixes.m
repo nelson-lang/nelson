@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 asserts.checkerror('magic(NaN)', _('Input must be a finite real scalar.'));
 asserts.checkerror('magic(Inf)', _('Input must be a finite real scalar.'));
 asserts.checkerror('magic([2 3])', _('Input must be a finite real scalar.'));

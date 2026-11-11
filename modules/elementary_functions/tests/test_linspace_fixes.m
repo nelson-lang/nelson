@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % huge endpoints do not overflow
 asserts.isequal(linspace(1e308, -1e308, 3), [1e308 0 -1e308]);
 asserts.isequal(linspace(-1e308, 1e308, 5), [-1e308 -5e307 0 5e307 1e308]);

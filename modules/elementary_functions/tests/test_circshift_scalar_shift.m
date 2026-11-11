@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % scalar N applies to the first non-singleton dimension
 asserts.isequal(circshift([1 2 3 4], 1), [4 1 2 3]);
 asserts.isequal(circshift([1 2 3 4], -1), [2 3 4 1]);

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Negative values from signed integer classes are rendered using their
 % two's-complement bit pattern over the type's native bit width.
 %=============================================================================

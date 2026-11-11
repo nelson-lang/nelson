@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 run([modulepath('elementary_functions', 'root'), '/examples/classic_test_matrices.m']);
 assert(isequal(size(hilbertMatrix), [5 5]));
 assert(hilbertInverseError < 1e-9);

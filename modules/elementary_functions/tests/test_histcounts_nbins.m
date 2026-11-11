@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % <--WEIGHT 4-->
 % Specified number of bins: edges are placed on a 'nice' grid that may extend
 % beyond [min, max] while keeping exactly nbins bins (bin picker behaviour).

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 asserts.isequal(factorial(single(34)), single(2.95232823e+38));
 asserts.checkerror('factorial(''a'')', _('Input must be numeric.'));
 asserts.checkerror('factorial(true)', _('Input must be numeric.'));

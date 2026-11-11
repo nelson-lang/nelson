@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % out of range subscript must error
 asserts.checkerror('sub2ind([2 3], 3, 1)', _('Out of range subscript.'));
 asserts.checkerror('sub2ind([2 3], 1, 4)', _('Out of range subscript.'));

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 A = [1, 2, 3; 4, 5, 6];
 R = pinv(A);
 REF = [-0.9444 0.4444;

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % <--WEIGHT 2-->
 % 64 bit integers: exact values, saturation beyond
 asserts.isequal(factorial(uint64(20)), uint64(2432902008176640000));

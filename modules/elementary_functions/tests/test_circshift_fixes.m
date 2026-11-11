@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 asserts.checkerror('circshift(1:5,true)', _('All values of N must be integer values.'));
 asserts.checkerror('circshift(1:5,1,0)', _('DIM must be a positive integer scalar.'));
 asserts.isequal(circshift(1:5,1,3), [1 2 3 4 5]);

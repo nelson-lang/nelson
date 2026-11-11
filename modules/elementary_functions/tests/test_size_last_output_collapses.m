@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % with fewer outputs than dimensions, the last output is the product of the
 % remaining dimensions
 [r, c] = size(zeros(2, 3, 4));
