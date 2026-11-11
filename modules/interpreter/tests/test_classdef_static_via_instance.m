@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % A static method reached through an instance (obj.staticMethod(args)) is
 % dispatched to the static method, without passing the object as an argument.
 path_test = [modulepath('interpreter', 'tests'), '/classdef'];

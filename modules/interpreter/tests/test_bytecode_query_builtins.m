@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % numel, isempty, length, ndims and size(x, d) called in a loop give the
 % builtin results for every builtin class, and a variable of the same name
 % still takes precedence.

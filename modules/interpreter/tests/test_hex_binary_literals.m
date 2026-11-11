@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % <--WEIGHT 4-->
 % Hexadecimal (0x/0X) and binary (0b/0B) integer literals.
 %=============================================================================

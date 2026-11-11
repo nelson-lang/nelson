@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % with fewer subscripts than dimensions, the last 'end' spans the trailing
 % dimensions
 x = reshape(1:24, 2, 3, 4);

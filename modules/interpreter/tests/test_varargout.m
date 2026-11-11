@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 addpath([nelsonroot(), '/modules/interpreter/tests/']);
 nolhs_function()
 asserts.checkerror('a = nolhs_function();', _('Too many output arguments.'));

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % In-place growth of a real double vector through a scalar linear index (fast
 % path) must match the generic result: shape rules, zero fill, copy-on-write
 % and the fallbacks that stay on the generic path.

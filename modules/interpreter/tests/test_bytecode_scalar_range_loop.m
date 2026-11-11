@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 addpath([modulepath('interpreter'), '/tests']);
 [a, b, c, k] = scalar_range_loop_values(1, 1, 5, 0, 1);
 asserts.isequal([a, b, c, k], [5, 8, 8, 5]);

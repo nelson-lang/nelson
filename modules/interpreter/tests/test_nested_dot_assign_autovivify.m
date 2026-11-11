@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Assigning a nested dotted field whose intermediate field does not yet exist
 % must auto-vivify that intermediate as a struct:
 %   s.newParent.child = value   ->   s.newParent == struct('child', value)

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % `if nargin CMP K`, `if ~isa(x, 'cls')` and `if ~isscalar(x)` compile to
 % dedicated conditional jumps; the observable behavior must stay identical
 % to the generic condition evaluation.

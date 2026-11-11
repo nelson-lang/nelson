@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Function handles cannot form nonscalar arrays: empty operands are dropped.
 %=============================================================================
 f = function_handle.empty(0, 3);

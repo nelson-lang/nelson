@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % x = [x y] grows x in place only when nothing else holds its value: the
 % result is the concatenation, and every other copy keeps its old value.
 %=============================================================================

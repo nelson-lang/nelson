@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Regression test: builtin('subsref', obj, S) and builtin('subsasgn', obj, S,
 % val) must perform the DEFAULT structural indexing and must NOT re-dispatch to
 % the object's own overloaded subsref/subsasgn. A class whose overloaded

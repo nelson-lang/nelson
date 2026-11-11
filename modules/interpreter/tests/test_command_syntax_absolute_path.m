@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Command syntax must recognize an absolute-path argument (leading '/'):
 % for a non-variable identifier, whitespace before the
 % '/' and none after it selects command syntax, so the whole path is taken as

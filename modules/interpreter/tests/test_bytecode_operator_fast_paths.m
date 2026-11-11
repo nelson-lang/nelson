@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Scalar fast paths of power, logical operators, colon ranges and && / ||
 % branch conditions must give the generic operator result, class and error.
 %=============================================================================

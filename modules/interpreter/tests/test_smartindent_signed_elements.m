@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % <--WEIGHT 16-->
 % Inside [] and {}, "a -b" (space before the sign, none after) is two elements
 % while "a - b" and "a-b" are one subtraction: the formatter must never turn the

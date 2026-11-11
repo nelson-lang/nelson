@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % the same anonymous function called with one and two outputs, in a loop
 M = ones(2, 3);
 f = @(k) size(M .* k);

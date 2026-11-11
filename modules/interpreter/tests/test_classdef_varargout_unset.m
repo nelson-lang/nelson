@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Regression: a class method whose signature declares 'varargout' must not
 % error when it is called with no outputs requested (nargout == 0) and the
 % body never assigns 'varargout'. The bytecode output path wrongly raised

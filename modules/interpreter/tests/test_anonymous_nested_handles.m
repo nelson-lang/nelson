@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % An anonymous function body holding another anonymous function, followed by
 % more statements on the same line, in a script and in a function file.
 %=============================================================================

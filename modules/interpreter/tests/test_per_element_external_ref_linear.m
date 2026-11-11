@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Regression: calling a function per element in a loop, when that function's
 % body references an external (loadable) builtin, must not force the whole
 % caller workspace to be co-owned by a context-scope snapshot. When it did,

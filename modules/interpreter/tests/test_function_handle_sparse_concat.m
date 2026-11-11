@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % A function handle has no sparse form. The first operand decides the error:
 % any value but a handle or a non-sparse empty would first have to become a
 % handle, then an N-D one cannot become sparse, otherwise a sparse handle.

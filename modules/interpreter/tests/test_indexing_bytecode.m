@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 addpath([nelsonroot(), '/modules/interpreter/tests/']);
 %=============================================================================
 A = [1 4 7 10; 2 5 8 11; 3 6 9 12];

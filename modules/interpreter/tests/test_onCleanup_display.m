@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % The separator lines of an onCleanup display are empty, without any blank.
 % The line after the header stays in compact format.
 %=============================================================================

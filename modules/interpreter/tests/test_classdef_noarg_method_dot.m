@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % a no-argument method of a value class can be called via dot without parens
 path_test = [modulepath('interpreter', 'tests'), '/classdef'];
 addpath(path_test);

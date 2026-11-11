@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % A function called with an object is probed as a class conversion. A file
 % found not to be a classdef is remembered until the function tables change:
 % once rewritten as a classdef and rehashed, the name is a class again.

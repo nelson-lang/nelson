@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % A static method call on a class whose name starts with a lowercase letter
 % must dispatch to the static method, not be mistaken for a constructor call.
 path_test = [modulepath('interpreter', 'tests'), '/classdef'];

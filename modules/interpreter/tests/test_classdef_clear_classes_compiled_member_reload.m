@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % <--WEIGHT 4-->
 % A `ClassName.Member` access is resolved when the enclosing code is compiled.
 % If the class is loaded at that point, the access is lowered to a direct call

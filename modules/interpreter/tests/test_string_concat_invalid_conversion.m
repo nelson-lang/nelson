@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % A function handle, a struct or a sparse array next to a string array has no
 % string form, even when empty: the first one in argument order names the error.
 %=============================================================================

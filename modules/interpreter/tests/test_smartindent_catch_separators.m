@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 folder = tempname(tempdir());
 mkdir(folder);
 cleanup = onCleanup(@() rmdir(folder, 's'));

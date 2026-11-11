@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % cd keeps the function index of the directories it leaves and reuses it on
 % return while the directory did not change. Entries added or removed in the
 % meantime must still be seen when the directory becomes current again.

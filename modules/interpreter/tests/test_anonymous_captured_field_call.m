@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % An anonymous function may call a function handle stored in a field of a
 % captured variable, including when the field name starts with an uppercase
 % letter (which must not be mistaken for a classdef reference).

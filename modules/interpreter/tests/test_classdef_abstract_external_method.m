@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % A subclass whose abstract methods are implemented by external method files
 % (@Class/method.m, not declared in the subclass classdef) is concrete and can
 % be instantiated.

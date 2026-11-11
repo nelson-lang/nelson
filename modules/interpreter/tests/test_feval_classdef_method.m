@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % feval(obj, args) dispatches to the object's feval method, resolved along the
 % inheritance chain, exactly like obj.feval(args).
 path_test = [modulepath('interpreter', 'tests'), '/classdef'];

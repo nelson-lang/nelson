@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Scalar math builtins called inside fused typed windows must give the result
 % of the function call: same values, fallback for complex results and other
 % classes, and a variable of the same name still takes precedence.

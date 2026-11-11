@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % A method named 'get'/'set' must not intercept dot-access to a property that
 % lives in an attributed 'properties (...)' block.
 path_test = [modulepath('interpreter', 'tests'), '/classdef'];

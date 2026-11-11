@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Package functions are called from packageCallHelper(), which is compiled
 % when it is invoked, i.e. after the package folder is on the path. This
 % mirrors real usage where a module (and its package) is loaded before any

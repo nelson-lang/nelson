@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % A{I} = B on a non-empty value that is neither a cell nor a string array
 %=============================================================================
 msg = _('Unable to perform assignment because brace indexing is not supported for variables of this type.');

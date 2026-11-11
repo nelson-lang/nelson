@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % <--WEIGHT 2-->
 % Regression: a one-line classdef method whose last body statement is
 % suppressed with ';' (e.g. "function r = m(); r = 'x'; end") must NOT print

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % a class object used as an index is converted by its subsindex method
 % (zero-based result), defined by its own class or inherited
 path_test = [modulepath('interpreter', 'tests'), '/classdef'];

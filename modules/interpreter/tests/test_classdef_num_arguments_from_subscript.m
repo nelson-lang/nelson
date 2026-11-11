@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % A class that overrides numArgumentsFromSubscript controls how many values a
 % brace indexing produces when expanded as a comma-separated list.
 %=============================================================================

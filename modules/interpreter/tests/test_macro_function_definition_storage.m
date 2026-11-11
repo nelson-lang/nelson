@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 directory = tempname();
 mkdir(directory);
 source = [directory, '/definition_storage_probe.m'];

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % x = m(i, j) on a real double matrix with two scalar subscripts takes a direct
 % path in the generic parens read; it must match the generic result and leave
 % every other case (growth, classes, N-D, non-integral index) to that path.

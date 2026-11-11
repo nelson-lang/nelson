@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Check dimensions, operand order and independent ownership of small sums.
 shapes = {[1, 2], [2, 1], [2, 3], [2, 2, 2], [1, 2, 1, 3]};
 for shapeIndex = 1:numel(shapes)

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Ranges with literal bounds are built once: same values, shapes and class as
 % the colon operator, and a variable holding one is still copied on write.
 %=============================================================================

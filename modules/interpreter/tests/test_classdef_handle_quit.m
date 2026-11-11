@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % <--WEIGHT 8-->
 [nelson_exe, execute_option] = nelson_cli_command_for_test();
 %=============================================================================

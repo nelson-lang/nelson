@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % switch on text or numbers in a loop picks the same case as a single switch:
 % every character compared, numbers compared by value, NaN never matches.
 %=============================================================================

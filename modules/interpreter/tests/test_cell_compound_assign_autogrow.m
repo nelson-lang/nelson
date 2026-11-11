@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % A compound assignment on a cell element beyond the current size auto-grows the
 % cell, filling the intermediate slots with [], exactly like a plain brace
 % assignment a{3} = x. The read half of the get-modify-set must vivify an

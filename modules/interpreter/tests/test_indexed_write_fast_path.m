@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % <--WEIGHT 2-->
 % Direct element writes x(k) = v bypass the generic subset assignment; every
 % case the fast path must refuse has to keep the expected behavior.

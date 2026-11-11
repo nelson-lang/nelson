@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % A + B, A - B, A .* B and A * B on real dense doubles in a loop give the
 % operator results, its errors, and still reach a double overload on the path.
 %=============================================================================

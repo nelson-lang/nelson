@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Indexed assignments in a script must extend variables inherited from the
 % calling workspace, including when the script's first textual assignment to
 % the variable is the indexed assignment itself.

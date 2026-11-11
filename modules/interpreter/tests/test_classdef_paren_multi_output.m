@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Multi-output "()" indexing of a class object must dispatch to subsref with
 % the correct nargout (driven by the number of left-hand-side targets).
 %=============================================================================

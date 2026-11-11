@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % In-place N-dimensional scalar indexed assignment (fast path) must match the
 % generic result and fall back correctly for growth / type promotion.
 %=============================================================================

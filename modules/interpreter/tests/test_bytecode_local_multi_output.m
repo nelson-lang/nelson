@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 addpath([nelsonroot(), '/modules/interpreter/tests/']);
 %=============================================================================
 [a, b, c] = bytecode_local_multi_output(10);

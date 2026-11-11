@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % A missing operand takes the class of the first operand that is not missing:
 % a double or a single holds it as NaN and a string as <missing>, then the
 % concatenation follows its usual rules; any other class cannot hold it.

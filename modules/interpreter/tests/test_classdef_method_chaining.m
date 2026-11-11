@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Chained method/dispatch on an expression result: a method or function that
 % returns an object can be immediately subscripted again, so a fluent API
 % (obj.m(a).m(b), f().m(), obj.m().field) works as a statement, not only when

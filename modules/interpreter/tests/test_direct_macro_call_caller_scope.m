@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % A function called on a direct bytecode path (leaf function, or a function
 % calling itself) runs without a scope of its own. The context scope of the
 % calling function must survive such a call: functions reading it (varlock,

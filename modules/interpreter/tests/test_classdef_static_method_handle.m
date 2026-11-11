@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % A named function handle can target a dotted name, in particular a classdef
 % static method (@Class.staticMethod). The handle keeps the full dotted name and
 % dispatches to the static method when invoked.

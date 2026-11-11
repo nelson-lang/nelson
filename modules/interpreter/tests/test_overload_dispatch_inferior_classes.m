@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Between two classes, a class listed in the other's InferiorClasses loses the
 % dispatch whatever its position; without a relation the leftmost object wins.
 %=============================================================================

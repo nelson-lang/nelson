@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % <--WEIGHT 2-->
 % Fused scalar expression windows (SCALAR_EXPR) must keep exact interpreter
 % semantics, including the fallback when values are not real double scalars.

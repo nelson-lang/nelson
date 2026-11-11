@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % <--WEIGHT 16-->
 % Handle objects still held by the base workspace when the interpreter
 % shuts down run their delete method, in workspace order, before exiting.

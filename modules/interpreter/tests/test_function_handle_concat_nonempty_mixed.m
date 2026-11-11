@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % A nonempty operand of another class next to function handles cannot be
 % converted: the first such operand names the error, before the nonscalar
 % function handle rule.

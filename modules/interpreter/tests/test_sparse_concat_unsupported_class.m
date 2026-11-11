@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % An integer, a char, a struct or a cell has no sparse form. The first operand
 % decides the error (for a struct, after the leading non-sparse 2-D empties):
 % one that cannot become the result class names that conversion, then one

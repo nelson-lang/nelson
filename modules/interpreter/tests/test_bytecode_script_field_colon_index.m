@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Regression test: in a script chunk, a field of a variable that the compiler
 % cannot see statically assigned (created through eval / load / assignin) may
 % be indexed with a whole-array colon `var.field(:)` or an `end` subscript.

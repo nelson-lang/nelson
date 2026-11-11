@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Regression test: an overloaded subsref/subsasgn defined in a SUPERCLASS must
 % be dispatched for dot-access on a SUBCLASS instance, exactly as if the method
 % were defined directly on the class. Nelson routes all out-of-method indexing

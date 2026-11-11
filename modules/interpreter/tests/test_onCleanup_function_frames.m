@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % onCleanup attaches to the frame that creates it: its task runs when that
 % frame exits, whatever kind of function the frame belongs to.
 addpath([modulepath('interpreter', 'tests'), '/onCleanup']);

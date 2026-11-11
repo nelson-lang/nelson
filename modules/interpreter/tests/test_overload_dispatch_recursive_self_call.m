@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % A function calling itself with a class object in a later argument dispatches
 % to the class method like any other call.
 %=============================================================================

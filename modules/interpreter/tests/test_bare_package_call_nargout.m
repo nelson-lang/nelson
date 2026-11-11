@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % A package call written as a statement asks for no output, the way an
 % unqualified call statement does. It used to ask for one, because a dotted
 % chain was taken for an expression to display; a function that only acts when

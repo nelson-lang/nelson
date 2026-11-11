@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Empty operands of any class next to function handles: the result keeps the
 % size of the plain empty concatenation, a dimension above 1 is an error.
 %=============================================================================

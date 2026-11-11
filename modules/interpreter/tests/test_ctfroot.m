@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 asserts.isequal(nargin('ctfroot'), 0);
 asserts.isequal(nargout('ctfroot'), 1);
 assert_rejected(@() ctfroot());

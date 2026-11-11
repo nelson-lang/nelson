@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % A class overloading subsref/subsasgn: a single-level dot access from outside
 % its methods calls the overloads, also when the name matches a declared
 % property (Hidden or public, in any letter case). Inside the methods of the

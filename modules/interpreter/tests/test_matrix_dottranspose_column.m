@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Inside a matrix, a whitespace after a '.' (non-conjugate) transpose separates
 % columns, exactly like it does after a ''' (conjugate) transpose.
 a = [1 2 3];

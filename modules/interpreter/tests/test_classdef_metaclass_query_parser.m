@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % <--WEIGHT 2-->
 path_test = [modulepath('interpreter', 'tests'), '/classdef'];
 addpath(path_test);

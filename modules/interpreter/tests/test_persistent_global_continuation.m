@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % A 'persistent' or 'global' declaration may be split over several physical
 % lines with a '...' line continuation. Before the fix the '...' was taken as
 % a literal command argument and raised 'Valid variable name expected.'.

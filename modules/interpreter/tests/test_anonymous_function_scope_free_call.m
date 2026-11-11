@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % An anonymous function only captures the variables its body refers to. A
 % handle without captures is called without a scope of its own; that call
 % must leave the caller's workspace untouched.

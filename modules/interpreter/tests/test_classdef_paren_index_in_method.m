@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Parenthesis indexing on an object of the defining class, performed inside a
 % method of that class (here inside subsref itself), uses built-in indexing and
 % does not re-enter the overloaded subsref.

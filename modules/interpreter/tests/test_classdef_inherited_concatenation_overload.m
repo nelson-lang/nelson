@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % horzcat / vertcat / cat methods defined by a superclass (@folder files or the
 % classdef methods block) are dispatched for a subclass instance by the
 % concatenation brackets and by the function forms

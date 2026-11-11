@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Two or more consecutive comment-only lines inside a matrix '[' or cell '{'
 % literal must act as a single row break. A single comment
 % line has always worked; the runs of two/three (leading, interspersed and

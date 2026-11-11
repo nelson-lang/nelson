@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 addpath([modulepath('interpreter', 'tests'), '/classdef']);
 %=============================================================================
 t = ClassdefTemplateImpl();

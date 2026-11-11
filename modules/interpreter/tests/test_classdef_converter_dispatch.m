@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % TargetClass(obj) dispatches to obj's TargetClass converter method, not the
 % TargetClass constructor.
 path_test = [modulepath('interpreter', 'tests'), '/classdef'];

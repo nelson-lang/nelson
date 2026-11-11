@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % A cached builtin must never hide a path file of the same name.
 %=============================================================================
 previousDir = pwd();

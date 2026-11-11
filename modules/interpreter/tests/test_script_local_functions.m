@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % <--WEIGHT 4-->
 mixed_script = sprintf(['mixedValue = mixedLocalHelper(41);\n', ...
   'function y = mixedLocalHelper(x)\n', ...

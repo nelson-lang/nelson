@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 addpath([nelsonroot(), '/modules/interpreter/tests/']);
 %=============================================================================
 % The filename is the callable name even when the primary function is

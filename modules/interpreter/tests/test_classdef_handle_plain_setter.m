@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 addpath([modulepath('interpreter', 'tests'), '/classdef']);
 %=============================================================================
 % set.X(obj, v) form runs once and its inner write stores the value

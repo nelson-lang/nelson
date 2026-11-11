@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Member names (properties, methods, enumerations) are case-sensitive, so
 % members whose names differ only in letter case are distinct and a classdef
 % that declares them must load successfully.

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % <--WEIGHT 16-->
 % The delete method of a handle class runs exactly once, when the last
 % reference to the object goes away (clear, reassignment, scope exit, a

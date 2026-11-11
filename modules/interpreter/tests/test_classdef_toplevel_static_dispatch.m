@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % ClassName.staticMethod(...) at script top level / immediate (-e) mode must
 % dispatch to the static method, exactly as it does inside a compiled function
 % body. When the class directory is put on the path by an earlier statement in

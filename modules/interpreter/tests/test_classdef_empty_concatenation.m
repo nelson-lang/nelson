@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % The first object class decides a concatenation, even from an empty object:
 % the class constructor converts every other nonempty operand. Next to a
 % nonempty operand, horzcat and vertcat drop every 2-D empty operand whatever

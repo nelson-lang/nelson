@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % A user handle class object in a later argument selects its method; native
 % handles and the accessors generated for every handle class do not.
 %=============================================================================

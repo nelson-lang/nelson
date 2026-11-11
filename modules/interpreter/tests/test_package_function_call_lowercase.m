@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % <--WEIGHT 4-->
 % Top-level package-qualified calls with a lowercase package name. This file
 % is compiled before its own addpath() runs, so every inline call below is

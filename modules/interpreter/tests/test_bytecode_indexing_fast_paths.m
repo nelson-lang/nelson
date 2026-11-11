@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Direct and fused indexing paths must give the generic result: two-subscript
 % reads and writes through local indices, `end` in any subscript position,
 % cell appends, struct array element fields and c(k) = {x}.

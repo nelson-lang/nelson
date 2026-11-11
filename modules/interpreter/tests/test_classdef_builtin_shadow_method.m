@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Inside a classdef method whose name shadows a builtin, an unqualified call to
 % that name with a non-class argument dispatches to the builtin (it must not
 % recurse into the method).

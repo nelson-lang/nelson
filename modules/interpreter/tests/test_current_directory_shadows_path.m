@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % A function in the current directory shadows a function of the same name
 % found on the path, and a call re-resolves when the current directory changes
 % to another one carrying its own file of that name. The call must agree with

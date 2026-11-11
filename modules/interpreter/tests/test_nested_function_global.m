@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % A nested function must see variables declared 'global' in its parent and
 % update the shared global, including through indexed assignment. Before the
 % fix this raised 'Undefined variable'.

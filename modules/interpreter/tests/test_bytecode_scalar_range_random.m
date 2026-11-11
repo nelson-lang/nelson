@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 previousRng = rng();
 cleanupRng = onCleanup(@() rng(previousRng));
 rng(9341);

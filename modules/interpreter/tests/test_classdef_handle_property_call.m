@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Calling a function-handle stored in a property, obj.Prop(args), reads the
 % property and calls the handle -- even when a method whose name differs only in
 % case exists. obj.method() still dispatches to the method (case-sensitive).

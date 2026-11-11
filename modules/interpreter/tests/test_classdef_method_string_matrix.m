@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % A classdef method building a matrix that mixes string literals and function
 % calls separated by whitespace must not break class registration: the space
 % before a quote is a matrix-element separator, not a transpose operator.

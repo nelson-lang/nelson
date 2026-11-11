@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % y = a * b, a + b, a - b and a .* b in a loop, y already holding a double
 % array of the result shape, give the bits a new result has, and leave the
 % values shared with y or overloads untouched.

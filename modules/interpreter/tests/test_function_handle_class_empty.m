@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % `@TypeName.empty` is a handle to the static empty-array constructor.
 %=============================================================================
 g = @double.empty;

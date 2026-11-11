@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % A scalar right-hand side expands to fill a multi-subscript range even when the
 % assignment grows a previously undefined (empty) variable, e.g. A(1:3,1:3) = 7.
 clear A

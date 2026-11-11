@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % A struct concatenation drops the empty operands of any class; the first
 % other operand that is not a struct cannot be converted (three or more
 % operands used to crash).

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Functions whose body only computes on its locals are called directly with
 % any number of inputs and outputs: same results, same errors, and errors
 % raised in them name the called function.

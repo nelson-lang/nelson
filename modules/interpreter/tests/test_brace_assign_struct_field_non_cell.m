@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % s.f{I} = B where s is a struct and s.f is neither a cell nor a string array:
 % the brace level is the one that fails, not the field assignment.
 %=============================================================================

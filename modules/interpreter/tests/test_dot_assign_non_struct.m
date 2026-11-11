@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % A.f = B, A.f.g = B, A.f{I} = B, A(I).f = B on a non-empty value that is
 % neither a struct, an object nor a handle
 %=============================================================================

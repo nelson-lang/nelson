@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Regression test: a variable whose name collides with a path-command
 % shortcut ('ls', 'cd', 'dir') must be treated as an assignment, not as a
 % command, whatever the spacing around '='. Previously "dir = c{1}" was

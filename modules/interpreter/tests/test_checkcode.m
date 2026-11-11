@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 filename = [tempname(), '.m'];
 filewrite(filename, ['function y = nelson_checkcode_direct(x, unused)', newline(), ...
   'y = x;', newline(), ...

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % operator methods defined in the superclass @folder are dispatched for a
 % subclass instance by every operator and its function form
 path_test = [modulepath('interpreter', 'tests'), '/classdef'];

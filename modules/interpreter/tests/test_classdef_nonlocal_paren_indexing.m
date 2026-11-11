@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % "()" indexing of a class object held in a non-local (global) variable must
 % dispatch to subsref, for single and multiple outputs alike.
 %=============================================================================

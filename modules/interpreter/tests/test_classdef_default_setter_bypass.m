@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % A property set method must not be called when a value-class property is
 % initialized to its default (explicit or the implicit []) during construction.
 path_test = [modulepath('interpreter', 'tests'), '/classdef'];

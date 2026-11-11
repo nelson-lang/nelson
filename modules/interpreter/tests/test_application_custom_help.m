@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 manifest = struct();
 asserts.isfalse(__nelsonc_application_help__(manifest, {'--help'}));
 manifest.helpText = 'CUSTOM_HELP 100% %s';

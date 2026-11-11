@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Command syntax must keep a parenthesised argument such as f(x, y) as a
 % single literal character array. Separators (spaces, commas, semicolons)
 % inside the parentheses no longer split the argument, while separators at

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Regression test: an anonymous function created in a script executed through
 % run() may capture that script's local functions by reference. Because run()
 % shares the caller workspace, such a handle (an onCleanup task, or a returned

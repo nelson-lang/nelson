@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % A sparse concatenation converts a missing operand to the class of the first
 % operand that is not missing (only a double, a single or a string holds it),
 % a single next to a sparse operand gives a sparse single, and an N-D operand

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % A package member referenced without parentheses (e.g. `Pkg.util.inner`)
 % must resolve like the parenthesised call `Pkg.util.inner()`, at any package
 % nesting depth. Regression guard for the "Undefined variable: <head>" bug on

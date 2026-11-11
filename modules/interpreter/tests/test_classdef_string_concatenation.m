@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Next to a string array, the object class decides the concatenation (value
 % or handle class, even an empty object): the class constructor converts each
 % string operand, even an empty one, and a failure of the constructor names

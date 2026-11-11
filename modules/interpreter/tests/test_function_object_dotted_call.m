@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % fn.Member.Method(args): a dotted call whose head is a zero-argument function
 % returning an object must evaluate the head and apply the member chain, even
 % when a segment starts with an uppercase letter (the lexical hint for a class

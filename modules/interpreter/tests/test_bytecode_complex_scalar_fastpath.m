@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % Parity checks for the bytecode VM complex-scalar binary arithmetic fast path.
 % Values are hard-coded expected results (not a comparison against another
 % engine): the fast path must match the documented general-path behaviour for

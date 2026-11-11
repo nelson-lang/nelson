@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % <--WEIGHT 32-->
 %=============================================================================
 % `keyboard` enters the debug prompt (K>>) and reads its commands from the

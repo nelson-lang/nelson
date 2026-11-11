@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 path_test = [tempdir(), createGUID()];
 mkdir(path_test);
 script_file = [path_test, '/script_with_utf8_bom.m'];

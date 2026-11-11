@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 % strcmp and strcmpi in a loop give the builtin results, every character
 % compared, and a char overload found on the path is still called.
 %=============================================================================
