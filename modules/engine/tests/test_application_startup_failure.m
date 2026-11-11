@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 16-->
 skip_testsuite((strcmp(getenv('NELSON_PORTABLE_TEST_RUN'), '1') || iswasm()) || isempty(which('getdynlibext')), ...
   'Native dynamic-library application startup test is not available.');
 gateway = fullfile(modulepath('nelson', 'builtin'), ['libnlsCompiler_builtin', getdynlibext()]);

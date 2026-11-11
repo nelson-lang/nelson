@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% <--WEIGHT 16-->
+% <--WEIGHT 8-->
 % An error left uncaught by the -e command ends the session with exit code 1;
 % a command that completes (or catches its errors) still exits with 0, and an
 % explicit exit(code) keeps its own code.

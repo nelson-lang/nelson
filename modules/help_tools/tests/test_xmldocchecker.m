@@ -7,7 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% <--WEIGHT 2-->
 have_xmldoc = isfile([modulepath('help_tools'), '/help/en_US/xml/chapter.xml']);
 skip_testsuite(~have_xmldoc, 'Help XML sources are not available in this build')
 %=============================================================================

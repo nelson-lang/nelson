@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 2-->
 % <--ADV-CLI MODE-->
 %=============================================================================
 skip_testsuite(~findcmake(), 'C toolchain (cmake) not available')

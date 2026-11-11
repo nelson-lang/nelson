@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 2-->
 % <link linkend="..."> is resolved from the keyword index: pages in chapter
 % sub-directories and pages whose file name differs from their keyword are
 % reached at their real path, in the current module and across modules.

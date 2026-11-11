@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 2-->
 % The merged help summary lives at the root of the help tree: links of chapter
 % descriptions must be resolved to "./module/page.html" from the keyword index,
 % including pages stored in chapter sub-directories and aliases.

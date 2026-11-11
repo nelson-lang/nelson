@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% <--WEIGHT 8-->
+% <--WEIGHT 2-->
 % "-e=command" runs the command itself, not "=command".
 binpath = modulepath('nelson', 'bin');
 nelson_cli = [binpath, '/nelson-cli'];

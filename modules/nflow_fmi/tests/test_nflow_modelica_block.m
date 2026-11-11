@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% <--WEIGHT 2-->
+% <--WEIGHT 4-->
 % OpenModelica bridge: a `modelica` block in a model is expanded
 % by sim() into an `fmu` block (compiled with OpenModelica) and simulated.
 % Where OpenModelica is capable this runs a first-order model to e^{-t}; where

@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 16-->
 % <--ADV-CLI MODE-->
 %=============================================================================
 % Every bundled FMU demo diagram must simulate to completion.

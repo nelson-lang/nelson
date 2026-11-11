@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% <--WEIGHT 4-->
+% <--WEIGHT 8-->
 % <--TIMEOUT 600-->
 % The FMU cache under tempdir() is shared by every Nelson process on the
 % machine and is keyed by a hash of the model, so processes compiling the same

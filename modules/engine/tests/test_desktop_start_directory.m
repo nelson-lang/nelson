@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 4-->
 binpath = modulepath('nelson', 'bin');
 nelson_web = [binpath, '/nelson-webview'];
 if ispc()

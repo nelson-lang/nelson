@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 2-->
 % --timeout must be a hard limit: the process must terminate even if the
 % interpreter is stuck in a busy loop and cannot cooperate with cleanup.
 %=============================================================================

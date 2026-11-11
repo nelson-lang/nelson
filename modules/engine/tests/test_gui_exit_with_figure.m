@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 4-->
 % A desktop session that quits with a figure window open must end: a stuck
 % exit leaves a windowless nelson-gui process holding every DLL of bin/.
 %=============================================================================

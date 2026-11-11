@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% <--WEIGHT 8-->
+% <--WEIGHT 2-->
 % <--ENGLISH IMPOSED-->
 %=============================================================================
 help_json = [modulepath('help_tools'), '/help/nelson_help_', getlanguage(), '.json'];

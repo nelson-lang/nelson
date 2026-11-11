@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 16-->
 % nelson-gui and nelson-webview are windowed binaries without a console: they
 % must run --execute and honour exit(code) exactly like nelson-adv-cli, and
 % never stay alive waiting for a startup dialog nobody can close.

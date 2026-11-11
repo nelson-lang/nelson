@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 2-->
 % Non-regression: the advanced CLI terminal must terminate a warning message
 % with a newline, like the basic terminal. Otherwise the next output sticks to
 % the warning text (for example "WTOKEN" immediately followed by "ATOKEN").

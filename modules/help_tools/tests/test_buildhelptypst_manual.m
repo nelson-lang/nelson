@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% <--WEIGHT 2-->
+% <--WEIGHT 64-->
 % <--TIMEOUT 300-->
 % buildhelptypst(dest) builds the whole manual: home page, getting started,
 % every module, changelogs and licenses, assembled by <dest>/<lang>/main.typ.

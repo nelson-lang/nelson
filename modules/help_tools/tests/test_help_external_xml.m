@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 8-->
 % XML help belongs to the currently loaded module, not the global JSON index.
 initialLanguage = getlanguage();
 moduleName = ['help_xml_', strrep(createGUID(), '-', '_')];

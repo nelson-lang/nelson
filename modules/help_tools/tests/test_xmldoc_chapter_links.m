@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 2-->
 % Chapter description links must survive both summary renderers.
 fixture = tempname();
 source = [fixture, '/source'];
