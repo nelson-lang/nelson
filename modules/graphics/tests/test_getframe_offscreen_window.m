@@ -42,9 +42,11 @@ assert_istrue(max(frame.cdata(:)) > min(frame.cdata(:)));
 assert_istrue(elapsedPerCapture < 0.2);
 %=============================================================================
 % A figure created Visible 'off' is captured the same bounded way.
+% Its capture is a CPU render (peaks() takes 0.1 s, 0.3 s on a busy host): a small grid
+% keeps it far below the 1 s per capture of the old render sync wait.
 f = figure('Visible', 'off', 'Position', [100 100 400 300]);
 ax = axes('Parent', f);
-surf(ax, peaks());
+surf(ax, peaks(20));
 t = tic();
 for k = 1:captures
   frame = getframe(f);
