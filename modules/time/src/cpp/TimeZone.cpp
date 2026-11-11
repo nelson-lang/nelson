@@ -232,7 +232,7 @@ namespace {
     {
         // the C library resolves the system time zone from a UTC instant.
         time_t unixTime = serialToUnixTime(serialDateNumber);
-        std::tm localTm { };
+        std::tm localTm {};
 #ifdef _MSC_VER
         if (localtime_s(&localTm, &unixTime) != 0) {
             return false;
@@ -250,7 +250,7 @@ namespace {
             // the shift is the gap to the standard offset of 1 Jan or 1 Jul.
             int year = localTm.tm_year;
             for (int month : { 0, 6 }) {
-                std::tm probe { };
+                std::tm probe {};
                 probe.tm_year = year;
                 probe.tm_mon = month;
                 probe.tm_mday = 1;
@@ -399,7 +399,7 @@ namespace {
         if (name.rfind("Etc/", 0) != 0) {
             return name;
         }
-        date::sys_info info = zone.get_info(date::sys_seconds { });
+        date::sys_info info = zone.get_info(date::sys_seconds {});
         long long total = static_cast<long long>(info.offset.count());
         char sign = total < 0 ? '-' : '+';
         total = total < 0 ? -total : total;

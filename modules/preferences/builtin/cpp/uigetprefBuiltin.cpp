@@ -60,7 +60,7 @@ namespace {
         }
         Error(L"Nelson:uigetpref:textListExpected",
             L"%s must be text, a string array or a cell array of character vectors.", name);
-        return { };
+        return {};
     }
     //=============================================================================
     wstringVector
@@ -339,7 +339,7 @@ uigetprefBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 #else
     Error(L"Nelson:preferences:dialogNotAvailable",
         L"Preferences dialog is not available in this build.");
-    return { };
+    return {};
 #endif
 }
 //=============================================================================
