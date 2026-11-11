@@ -18,7 +18,7 @@
     <param_input_item>
       <param_name>A</param_name>
       <param_description
-      >une matrice, carrée ou non : finie, simple ou double précision, réelle ou complexe, pleine ou creuse.</param_description>
+      >une matrice, carrée ou non : simple ou double précision, réelle ou complexe, pleine ou creuse.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>outputForm</param_name>
@@ -74,6 +74,9 @@
     <p><b>thresh</b> règle le choix du pivot pour les matrices creuses. Avec trois sorties ou moins, la ligne courante reste le pivot si son module vaut au moins <b>thresh</b> fois le plus grand candidat ; 1 donne le pivot partiel. Avec quatre ou cinq sorties, <b>thresh(1)</b> est la tolérance de pivot entre les lignes et <b>thresh(2)</b> la tolérance pour garder un pivot diagonal. Des valeurs faibles favorisent le creux au détriment de la stabilité numérique.</p>
     <p>Avec <b>outputForm</b> égal à <b>'vector'</b>, <b>Q</b> est aussi retourné sous la forme d'un vecteur ligne <b>q</b> tel que <b>S(p, q) = L * U</b>.</p>
     <p>Pour une matrice creuse, une colonne sans pivot utilisable donne un zéro sur la diagonale de <b>U</b> ; aucune erreur n'est levée.</p>
+    <p>Les valeurs <b>NaN</b> et <b>Inf</b> sont acceptées et se propagent dans les facteurs. Le pivot est le premier élément de plus grand module de sa colonne : un <b>NaN</b> ne devient pivot que s'il est le premier candidat.</p>
+    <p>Pour une matrice <b>A</b> creuse avec trois sorties ou moins, un candidat <b>NaN</b> est toujours choisi comme pivot, celui de plus petit indice de ligne en premier. Avec quatre ou cinq sorties, un <b>NaN</b> dans la colonne fait échouer le test de seuil pour toutes les lignes, et le pivot est l'élément diagonal ou la ligne qui a le moins d'éléments.</p>
+    <p>Les matrices pleines d'au plus 16 lignes et colonnes (8 pour des données complexes) sont factorisées par un algorithme non bloqué qui arrondit chaque opération dans un ordre fixe, sans multiplication-addition fusionnée : les facteurs sont les mêmes sur toutes les plateformes. Les matrices plus grandes utilisent LAPACK.</p>
   </description>
   <used_function
   >LAPACK dgetrf, LAPACK sgetrf, LAPACK zgetrf, LAPACK cgetrf</used_function>

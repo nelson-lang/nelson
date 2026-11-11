@@ -26,7 +26,6 @@
 #include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "Eye.hpp"
-#include "LinearAlgebraHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -558,16 +557,13 @@ identityPermutation(int nrows, NelsonType cls, bool asVector)
 //=============================================================================
 /**
  * LU factorization of A. nLhs <= 1 returns the factored matrix, nLhs == 2 returns L and U,
- * nLhs == 3 also returns the permutation (matrix, or row vector if asVector). NaN or Inf in A is an error.
+ * nLhs == 3 also returns the permutation (matrix, or row vector if asVector).
  */
 ArrayOfVector
 LUMatrixFactorizationDoubleReal(const ArrayOf& A, int nLhs, bool asVector)
 {
     ArrayOfVector retval;
 
-    if (!isAllFinite<double>(A)) {
-        Error("Nelson:lu:matrixWithNaNInf", "%s must not contain NaN or Inf.", "Input to LU");
-    }
     int nrows = (int)A.rows();
     int ncols = (int)A.columns();
     int p = std::min(nrows, ncols);
@@ -626,14 +622,11 @@ LUMatrixFactorizationDoubleReal(const ArrayOf& A, int nLhs, bool asVector)
 //=============================================================================
 /**
  * LU factorization of A. nLhs <= 1 returns the factored matrix, nLhs == 2 returns L and U,
- * nLhs == 3 also returns the permutation (matrix, or row vector if asVector). NaN or Inf in A is an error.
+ * nLhs == 3 also returns the permutation (matrix, or row vector if asVector).
  */
 ArrayOfVector
 LUMatrixFactorizationSingleReal(const ArrayOf& A, int nLhs, bool asVector)
 {
-    if (!isAllFinite<single>(A)) {
-        Error("Nelson:lu:matrixWithNaNInf", "%s must not contain NaN or Inf.", "Input to LU");
-    }
     ArrayOfVector retval;
 
     int nrows = (int)A.rows();
@@ -694,15 +687,12 @@ LUMatrixFactorizationSingleReal(const ArrayOf& A, int nLhs, bool asVector)
 //=============================================================================
 /**
  * LU factorization of A. nLhs <= 1 returns the factored matrix, nLhs == 2 returns L and U,
- * nLhs == 3 also returns the permutation (matrix, or row vector if asVector). NaN or Inf in A is an error.
+ * nLhs == 3 also returns the permutation (matrix, or row vector if asVector).
  */
 ArrayOfVector
 LUMatrixFactorizationDoubleComplex(const ArrayOf& A, int nLhs, bool asVector)
 {
     ArrayOfVector retval;
-    if (!isAllFinite<double>(A)) {
-        Error("Nelson:lu:matrixWithNaNInf", "%s must not contain NaN or Inf.", "Input to LU");
-    }
     int nrows = (int)A.rows();
     int ncols = (int)A.columns();
     int p = std::min(nrows, ncols);
@@ -766,15 +756,12 @@ LUMatrixFactorizationDoubleComplex(const ArrayOf& A, int nLhs, bool asVector)
 //=============================================================================
 /**
  * LU factorization of A. nLhs <= 1 returns the factored matrix, nLhs == 2 returns L and U,
- * nLhs == 3 also returns the permutation (matrix, or row vector if asVector). NaN or Inf in A is an error.
+ * nLhs == 3 also returns the permutation (matrix, or row vector if asVector).
  */
 ArrayOfVector
 LUMatrixFactorizationSingleComplex(const ArrayOf& A, int nLhs, bool asVector)
 {
     ArrayOfVector retval;
-    if (!isAllFinite<single>(A)) {
-        Error("Nelson:lu:matrixWithNaNInf", "%s must not contain NaN or Inf.", "Input to LU");
-    }
     int nrows = (int)A.rows();
     int ncols = (int)A.columns();
     int p = std::min(nrows, ncols);

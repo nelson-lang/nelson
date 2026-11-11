@@ -10,6 +10,7 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
+#include "nlsLinear_algebra_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -18,6 +19,12 @@ EigsSparseDenseFallback(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 ArrayOfVector
 SvdsSparseDenseFallback(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
+NLSLINEAR_ALGEBRA_IMPEXP ArrayOfVector
+SvdsDense(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
+NLSLINEAR_ALGEBRA_IMPEXP indexType
+SvdsRequestedK(const ArrayOfVector& argIn, indexType limit);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

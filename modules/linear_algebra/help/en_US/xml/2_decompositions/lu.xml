@@ -18,7 +18,7 @@
     <param_input_item>
       <param_name>A</param_name>
       <param_description
-      >a matrix (square or rectangular): finite single or double, real or complex, dense or sparse.</param_description>
+      >a matrix (square or rectangular): single or double, real or complex, dense or sparse.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>outputForm</param_name>
@@ -72,6 +72,9 @@
     <p><b>thresh</b> controls pivoting for sparse matrices. With three outputs or fewer, the current row stays as pivot when its magnitude is at least <b>thresh</b> times the largest candidate; 1 gives partial pivoting. With four or five outputs, <b>thresh(1)</b> is the pivot tolerance among rows and <b>thresh(2)</b> the tolerance used to keep a diagonal pivot. Lower values favour sparsity over numerical stability.</p>
     <p>With <b>outputForm</b> set to <b>'vector'</b>, <b>Q</b> is also returned as a row vector <b>q</b> such that <b>S(p, q) = L * U</b>.</p>
     <p>For a sparse matrix, a column without a usable pivot gives a zero on the diagonal of <b>U</b>; no error is raised.</p>
+    <p><b>NaN</b> and <b>Inf</b> values are accepted and spread through the factors. The pivot is the first entry of largest magnitude in its column, so a <b>NaN</b> becomes a pivot only when it is the first candidate.</p>
+    <p>For a sparse <b>A</b> with three outputs or fewer, a <b>NaN</b> candidate is always the pivot, the one with the lowest row index first. With four or five outputs, a <b>NaN</b> in the column makes the pivot threshold test fail for every row, and the pivot is the diagonal entry or the row with the fewest entries.</p>
+    <p>Dense matrices with at most 16 rows and columns (8 for complex data) are factored by an unblocked algorithm that rounds every operation in a fixed order, without fused multiply-add, so the factors are the same on every platform. Larger matrices use LAPACK.</p>
   </description>
   <used_function
   >LAPACK dgetrf, LAPACK sgetrf, LAPACK zgetrf, LAPACK cgetrf</used_function>

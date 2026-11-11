@@ -357,23 +357,67 @@ EigsSparseDenseFallback(int nLhs, const ArrayOfVector& argIn)
     return retval;
 }
 //=============================================================================
-ArrayOfVector
-SvdsSparseDenseFallback(int nLhs, const ArrayOfVector& argIn)
+static ArrayOf
+makeDenseResult(const Eigen::MatrixXd& mat)
 {
-    ArrayOf A(argIn[0]);
-    if (A.dataClass() != NLS_DOUBLE && A.dataClass() != NLS_DCOMPLEX) {
-        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
-            L"sparse double matrix");
+    return makeDoubleDenseMatrix(mat);
+}
+//=============================================================================
+static ArrayOf
+makeDenseResult(const Eigen::MatrixXcd& mat)
+{
+    if (mat.size() == 0) {
+        return makeDoubleDenseMatrix(Eigen::MatrixXd(mat.rows(), mat.cols()));
     }
-    if (!A.is2D()) {
-        Error(L"Nelson:linear_algebra:matrix2DExpected", L"%s expected.", L"Vector or matrix 2D");
+    return makeComplexDenseMatrix(mat);
+}
+//=============================================================================
+// k values of an svds call: none means min(6, limit), larger values are clipped
+indexType
+SvdsRequestedK(const ArrayOfVector& argIn, indexType limit)
+{
+    indexType k = std::min<indexType>(6, limit);
+    if (argIn.size() > 1) {
+        const ArrayOf& value = argIn[1];
+        double requested = (value.isNumeric() && value.isScalar() && !value.isComplex())
+            ? value.asDoubleScalar()
+            : -1.0;
+        if (!(requested >= 0.0) || std::floor(requested) != requested || std::isinf(requested)) {
+            Error(L"Nelson:svds:invalidK", L"K must be a nonnegative integer scalar.");
+        }
+        k = std::min<indexType>((indexType)requested, limit);
     }
-    indexType k = getK(argIn, std::min(A.rows(), A.columns()));
-    std::string which = getSingularWhich(argIn);
-    checkFallbackSize(A);
-    Eigen::MatrixXcd dense = sparseToComplexDense(A);
-    // The computation-options constructor is deprecated in Eigen >= 3.4.90 in favour of
-    // a template parameter, which does not exist in the 3.3/3.4 releases we still support.
+    return k;
+}
+//=============================================================================
+// position of the k singular values to keep, in decreasing order
+static std::vector<Eigen::Index>
+selectSingularValues(const Eigen::VectorXd& s, indexType k, const ArrayOfVector& argIn)
+{
+    Eigen::Index n = s.size();
+    std::vector<Eigen::Index> order((size_t)n);
+    std::iota(order.begin(), order.end(), 0);
+    if (argIn.size() > 2 && !argIn[2].isRowVectorCharacterArray()
+        && !argIn[2].isScalarStringArray()) {
+        if (!argIn[2].isNumeric() || !argIn[2].isScalar() || argIn[2].isComplex()) {
+            Error(L"Nelson:eigs:invalidSigma", L"%s must be a finite real scalar.", L"SIGMA");
+        }
+        double sigma = argIn[2].asDoubleScalar();
+        std::stable_sort(order.begin(), order.end(), [&s, sigma](Eigen::Index a, Eigen::Index b) {
+            return std::abs(s(a) - sigma) < std::abs(s(b) - sigma);
+        });
+    } else if (getSingularWhich(argIn) == "sm") {
+        std::reverse(order.begin(), order.end());
+    }
+    order.resize((size_t)k);
+    std::sort(order.begin(), order.end());
+    return order;
+}
+//=============================================================================
+template <class MatrixType>
+static ArrayOfVector
+svdsOfDense(int nLhs, const MatrixType& dense, const ArrayOfVector& argIn, indexType k)
+{
 #ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable : 4996)
@@ -381,42 +425,90 @@ SvdsSparseDenseFallback(int nLhs, const ArrayOfVector& argIn)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 #endif
-    Eigen::BDCSVD<Eigen::MatrixXcd> solver(dense, Eigen::ComputeThinU | Eigen::ComputeThinV);
+    Eigen::BDCSVD<MatrixType> solver(
+        dense, nLhs > 1 ? (Eigen::ComputeThinU | Eigen::ComputeThinV) : 0);
 #ifdef _MSC_VER
 #pragma warning(pop)
 #else
 #pragma GCC diagnostic pop
 #endif
-    if (solver.info() != Eigen::Success) {
-        Error(L"Nelson:eigs:solverFailed", L"%s failed.", L"ARPACK eigensolver");
-    }
-    std::vector<size_t> order((size_t)solver.singularValues().size());
-    std::iota(order.begin(), order.end(), 0);
-    std::sort(order.begin(), order.end(), [&solver, &which](size_t a, size_t b) {
-        if (which == "sm") {
-            return solver.singularValues()((Eigen::Index)a)
-                < solver.singularValues()((Eigen::Index)b);
-        }
-        return solver.singularValues()((Eigen::Index)a) > solver.singularValues()((Eigen::Index)b);
-    });
-    std::vector<double> values((size_t)k);
-    Eigen::MatrixXcd U(dense.rows(), (Eigen::Index)k);
-    Eigen::MatrixXcd V(dense.cols(), (Eigen::Index)k);
-    for (indexType i = 0; i < k; ++i) {
-        size_t src = which == "sm" ? order[(size_t)(k - 1 - i)] : order[(size_t)i];
-        values[(size_t)i] = solver.singularValues()((Eigen::Index)src);
-        U.col((Eigen::Index)i) = solver.matrixU().col((Eigen::Index)src);
-        V.col((Eigen::Index)i) = solver.matrixV().col((Eigen::Index)src);
+    Eigen::VectorXd s = solver.singularValues();
+    std::vector<Eigen::Index> keep = selectSingularValues(s, k, argIn);
+    std::vector<double> values(keep.size());
+    for (size_t i = 0; i < keep.size(); ++i) {
+        values[i] = s(keep[i]);
     }
     ArrayOfVector retval;
     if (nLhs <= 1) {
         retval << makeDoubleColumn(values);
-    } else {
-        retval << makeComplexDenseMatrix(U);
-        retval << makeDoubleDiagonal(values);
-        retval << makeComplexDenseMatrix(V);
+        return retval;
+    }
+    MatrixType U(dense.rows(), (Eigen::Index)keep.size());
+    MatrixType V(dense.cols(), (Eigen::Index)keep.size());
+    for (size_t i = 0; i < keep.size(); ++i) {
+        U.col((Eigen::Index)i) = solver.matrixU().col(keep[i]);
+        V.col((Eigen::Index)i) = solver.matrixV().col(keep[i]);
+    }
+    retval << makeDenseResult(U);
+    retval << makeDoubleDiagonal(values);
+    retval << makeDenseResult(V);
+    if (nLhs > 3) {
+        retval << ArrayOf::doubleScalar(0.0);
     }
     return retval;
+}
+//=============================================================================
+ArrayOfVector
+SvdsDense(int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOf A(argIn[0]);
+    if (A.dataClass() != NLS_DOUBLE && A.dataClass() != NLS_DCOMPLEX) {
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+            L"double matrix");
+    }
+    if (!A.is2D()) {
+        Error(L"Nelson:linear_algebra:matrix2DExpected", L"%s expected.", L"Vector or matrix 2D");
+    }
+    if (A.isSparse()) {
+        checkFallbackSize(A);
+        A.makeDense();
+    }
+    indexType k = SvdsRequestedK(argIn, std::min(A.rows(), A.columns()));
+    if (A.isEmpty()) {
+        // no singular values: empty factors with the input row and column counts
+        ArrayOfVector retval;
+        retval << makeDoubleColumn(std::vector<double>());
+        if (nLhs > 1) {
+            retval[0] = makeDoubleDenseMatrix(Eigen::MatrixXd(A.rows(), 0));
+            retval << makeDoubleDiagonal(std::vector<double>());
+            retval << makeDoubleDenseMatrix(Eigen::MatrixXd(A.columns(), 0));
+        }
+        if (nLhs > 3) {
+            retval << ArrayOf::doubleScalar(0.0);
+        }
+        return retval;
+    }
+    if (A.dataClass() == NLS_DCOMPLEX) {
+        Eigen::Map<const Eigen::MatrixXcd> dense(
+            (const doublecomplex*)A.dataPointer(), A.rows(), A.columns());
+        if (!dense.allFinite()) {
+            Error(L"Nelson:linear_algebra:inputMustBeFinite", L"%s must not contain NaN or Inf.",
+                L"Input argument");
+        }
+        return svdsOfDense<Eigen::MatrixXcd>(nLhs, dense, argIn, k);
+    }
+    Eigen::Map<const Eigen::MatrixXd> dense((const double*)A.dataPointer(), A.rows(), A.columns());
+    if (!dense.allFinite()) {
+        Error(L"Nelson:linear_algebra:inputMustBeFinite", L"%s must not contain NaN or Inf.",
+            L"Input argument");
+    }
+    return svdsOfDense<Eigen::MatrixXd>(nLhs, dense, argIn, k);
+}
+//=============================================================================
+ArrayOfVector
+SvdsSparseDenseFallback(int nLhs, const ArrayOfVector& argIn)
+{
+    return SvdsDense(nLhs, argIn);
 }
 //=============================================================================
 } // namespace Nelson

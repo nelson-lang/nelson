@@ -8,21 +8,26 @@
     <syntax_item>s = svds(A)</syntax_item>
     <syntax_item>s = svds(A, k)</syntax_item>
     <syntax_item>s = svds(A, k, which)</syntax_item>
-    <syntax_item>[U, S, V] = svds(...)</syntax_item>
+    <syntax_item>s = svds(A, k, sigma)</syntax_item>
+    <syntax_item>[U, S, V, flag] = svds(...)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>A</param_name>
-      <param_description>a sparse double, single, complex double, or complex single matrix.</param_description>
+      <param_description>a full or sparse double, single, complex double, or complex single matrix.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>k</param_name>
-      <param_description>a positive integer smaller than the smaller matrix dimension. Default is 6.</param_description>
+      <param_description>a nonnegative integer. Default is min(6, min(size(A))); larger values are reduced to min(size(A)).</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>which</param_name>
       <param_description
       >a string: &apos;largest&apos; or &apos;lm&apos; for largest singular values, &apos;smallest&apos; or &apos;sm&apos; for smallest singular values.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>sigma</param_name>
+      <param_description>a real scalar: the singular values closest to <b>sigma</b> are returned.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -42,6 +47,10 @@
       <param_name>V</param_name>
       <param_description>dense matrix whose columns are the selected right singular vectors.</param_description>
     </param_output_item>
+    <param_output_item>
+      <param_name>flag</param_name>
+      <param_description>0 when the singular values converged.</param_description>
+    </param_output_item>
   </param_output>
   <description>
     <p>
@@ -54,6 +63,8 @@
       When the optional ARPACK backend is not available, <b>svds</b> uses a dense fallback for small sparse matrices. Larger sparse matrices still require ARPACK to avoid excessive memory use.</p>
     <p>
       Sparse single and sparse single-complex inputs are accepted. The selected singular-value problem is computed through the double-precision sparse backend, and dense outputs are converted back to single or single-complex when applicable.</p>
+    <p>Full matrices are decomposed directly. Sparse matrices use the iterative solver when <b>k</b> is smaller than the smaller dimension, and the dense decomposition otherwise.</p>
+    <p>With &apos;smallest&apos; or a numeric <b>sigma</b>, the selected singular values are still returned in decreasing order.</p>
   </description>
   <used_function />
   <bibliography />
@@ -103,6 +114,10 @@ s = svds(A, 2)
     <history_item>
       <history_version>2.0.0</history_version>
       <history_description>sparse single and sparse single-complex inputs supported through the sparse double-precision backend.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>full matrices, numeric sigma, flag output and k up to min(size(A)) supported.</history_description>
     </history_item>
   </history>
   <authors>

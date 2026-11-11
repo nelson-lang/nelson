@@ -30,7 +30,8 @@
     <p>
       <b>F = chol(A)</b> factorizes symmetric positive definite matrix<b>A</b> into an upper triangular F that satisfies <b>A = F&apos; * F</b>.</p>
     <p>Sparse double, single, complex double, and complex single matrices are supported. Sparse factors keep sparse storage and keep the input numeric class where applicable.</p>
-    <p>When the two-output form is used, the second output reports the failure index for non-positive-definite sparse matrices.</p>
+    <p><b>[F, p] = chol(A)</b> does not raise an error when the factorization fails: <b>p</b> is the index of the first failing pivot (0 on success) and <b>F</b> holds the factor of the first <b>p</b> - 1 rows and columns. For a sparse <b>A</b>, <b>F</b> keeps all its columns: it has <b>p</b> - 1 rows (columns with 'lower'), except a real tridiagonal matrix with all its sub and super diagonal entries, whose factor stays square with zero rows from <b>p</b> on.</p>
+    <p>A diagonal entry of a complex <b>A</b> with a nonzero imaginary part fails like a non positive pivot.</p>
     <p><b>F = chol(A, 'lower')</b> uses the lower triangle of <b>A</b> and returns a lower triangular F that satisfies <b>A = F * F&apos;</b>.</p>
   </description>
   <used_function />

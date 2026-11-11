@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <cmath>
 #include <complex>
+#include <limits>
 #include <utility>
 #include "LapackPrototypes.hpp"
 //=============================================================================
@@ -150,8 +151,9 @@ template <class T>
 inline T
 luOverZero(T part)
 {
-    return (part == T(0) || std::isnan(part)) ? std::numeric_limits<T>::quiet_NaN()
-                                              : std::copysign(std::numeric_limits<T>::infinity(), part);
+    return (part == T(0) || std::isnan(part))
+        ? std::numeric_limits<T>::quiet_NaN()
+        : std::copysign(std::numeric_limits<T>::infinity(), part);
 }
 //=============================================================================
 // Complex division by Smith's method.

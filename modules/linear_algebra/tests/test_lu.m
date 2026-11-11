@@ -199,7 +199,9 @@ asserts.isequal(L, []);
 asserts.isequal(U, []);
 asserts.isequal(P, []);
 %=============================================================================
-asserts.checkerror('[L, U] = lu([1, NaN])', sprintf(_('%s must not contain NaN or Inf.'), 'Input to LU'));
+[L, U] = lu([1, NaN]);
+asserts.isequal(L, 1);
+asserts.istrue(isequaln(U, [1, NaN]));
 %=============================================================================
 B = [1 2; 3 4];
 [luL, luU, luP] = lu(B);
@@ -208,7 +210,7 @@ asserts.isapprox(luP * B, luL * luU, 1e-12);
 asserts.isequal(emptyL, []);
 asserts.isequal(emptyU, []);
 asserts.isequal(emptyP, []);
-asserts.checkerror('lu([1, NaN])', sprintf(_('%s must not contain NaN or Inf.'), 'Input to LU'));
+asserts.istrue(isequaln(lu([1, NaN]), [1, NaN]));
 %=============================================================================
 S = sparse([2 1; 4 3]);
 LUs = lu(S);

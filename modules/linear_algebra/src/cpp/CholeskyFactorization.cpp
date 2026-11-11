@@ -20,6 +20,7 @@
 #include <complex>
 #include <cstring>
 #include "LapackPrototypes.hpp"
+#include <Eigen/Sparse>
 #include "CholeskyFactorization.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
@@ -128,6 +129,51 @@ firstNonFiniteMinor(const ArrayOf& A, bool lowerTriangle)
 }
 //=============================================================================
 template <class T>
+static int
+firstNonRealDiagonalDense(const std::complex<T>* values, indexType order)
+{
+    for (indexType k = 0; k < order; ++k) {
+        if (values[k + k * order].imag() != T(0)) {
+            return static_cast<int>(k + 1);
+        }
+    }
+    return 0;
+}
+//=============================================================================
+template <class T>
+static int
+firstNonRealDiagonalSparse(const void* sparseData, indexType order)
+{
+    using SparseMatrix = Eigen::SparseMatrix<std::complex<T>, 0, signedIndexType>;
+    const auto* matrix = static_cast<const SparseMatrix*>(sparseData);
+    for (indexType k = 0; k < order; ++k) {
+        if (matrix->coeff(k, k).imag() != T(0)) {
+            return static_cast<int>(k + 1);
+        }
+    }
+    return 0;
+}
+//=============================================================================
+int
+firstNonRealDiagonal(const ArrayOf& A)
+{
+    if (!A.isComplex() || !A.isSquare()) {
+        return 0;
+    }
+    indexType order = A.columns();
+    if (A.isSparse()) {
+        return A.isDoubleClass() ? firstNonRealDiagonalSparse<double>(A.sparseDataPointer(), order)
+                                 : firstNonRealDiagonalSparse<single>(A.sparseDataPointer(), order);
+    }
+    if (A.isDoubleClass()) {
+        return firstNonRealDiagonalDense(
+            reinterpret_cast<const std::complex<double>*>(A.dataPointer()), order);
+    }
+    return firstNonRealDiagonalDense(
+        reinterpret_cast<const std::complex<single>*>(A.dataPointer()), order);
+}
+//=============================================================================
+template <class T>
 static ArrayOf
 leadingSubmatrix(const ArrayOf& A, indexType order, NelsonType dataClass)
 {
@@ -157,7 +203,7 @@ leadingSubmatrix(const ArrayOf& A, indexType order)
     case NLS_SCOMPLEX:
         return leadingSubmatrix<std::complex<single>>(A, order, NLS_SCOMPLEX);
     default:
-        return {};
+        return { };
     }
 }
 //=============================================================================
@@ -195,7 +241,7 @@ leadingFactor(const ArrayOf& A, indexType order, bool lowerTriangle)
     case NLS_SCOMPLEX:
         return leadingFactor<std::complex<single>>(A, order, lowerTriangle, NLS_SCOMPLEX);
     default:
-        return {};
+        return { };
     }
 }
 //=============================================================================
@@ -349,14 +395,16 @@ factorizedLeadingSubmatrix(const ArrayOf& A, indexType order, bool lowerTriangle
 }
 //=============================================================================
 ArrayOf
-CholeskyFactorization(const ArrayOf& A, bool lowerTriangle, bool& needToOverload, int& info)
+CholeskyFactorization(
+    const ArrayOf& A, bool lowerTriangle, bool& needToOverload, int& info, bool& nonRealDiagonal)
 {
     needToOverload = false;
+    nonRealDiagonal = false;
     info = 0;
     bool isSupportedTypes = (A.isDoubleClass() || A.isSingleClass()) && !A.isSparse();
     if (!isSupportedTypes) {
         needToOverload = true;
-        return {};
+        return { };
     }
     if (!A.isSquare()) {
         Error("Nelson:linear_algebra:squareMatrixExpected", "%s expected.", "Square matrix");
@@ -369,6 +417,12 @@ CholeskyFactorization(const ArrayOf& A, bool lowerTriangle, bool& needToOverload
         return res;
     }
     info = firstNonFiniteMinor(A, lowerTriangle);
+    // a diagonal entry with a nonzero imaginary part fails like a non positive pivot
+    int nonReal = firstNonRealDiagonal(A);
+    nonRealDiagonal = nonReal != 0;
+    if (nonReal != 0 && (info == 0 || nonReal < info)) {
+        info = nonReal;
+    }
     ArrayOf R = info == 0 ? A : leadingSubmatrix(A, info - 1);
     if (R.isEmpty()) {
         return R;
@@ -380,9 +434,6 @@ CholeskyFactorization(const ArrayOf& A, bool lowerTriangle, bool& needToOverload
     if (factorizationInfo > 0) {
         info = factorizationInfo;
         return factorizedLeadingSubmatrix(A, info - 1, lowerTriangle);
-    }
-    if (info != 0) {
-        return R;
     }
     return R;
 }

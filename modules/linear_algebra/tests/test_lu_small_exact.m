@@ -74,6 +74,23 @@ asserts.isequal(id, 'Nelson:singularMatrix');
 asserts.istrue(all(isnan(X(:))));
 warning('on', 'Nelson:singularMatrix');
 %=============================================================================
+% complex triangular and diagonal divisors use the same complex division as ./
+dc = [2+1i, 3-1i, 0.5i];
+Bc = [1, 1i, 2-1i; 1-1i, 3, 1i];
+asserts.isequal(Bc / diag(dc), Bc ./ dc);
+asserts.isequal(diag(dc) \ Bc.', Bc.' ./ dc.');
+T = [2+1i 0 0; 1i 3-1i 0; 1 2 0.5i];
+REF = [0.40000000000000002-0.20000000000000001i, -0.12+0.16i, -2.2400000000000002-3.6800000000000002i];
+asserts.isequal(Bc(1, :) / T.', REF);
+asserts.isequal(T \ Bc(1, :).', REF.');
+%=============================================================================
+% a singular system keeps 0/0 in the substitution
+warning('off', 'Nelson:singularMatrix');
+asserts.istrue(isequaln([1 2; 2 4] \ [1; 2], [NaN; NaN]));
+asserts.istrue(isequaln([1 0; Inf 1] \ [0; 1], [0; NaN]));
+asserts.istrue(isequaln([0 1] / [1 0; Inf 1], [-Inf 1]));
+warning('on', 'Nelson:singularMatrix');
+%=============================================================================
 % larger matrices keep LAPACK: results still solve the system
 rng(1);
 B = rand(40) + 40 * eye(40);

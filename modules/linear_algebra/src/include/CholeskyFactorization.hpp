@@ -14,7 +14,12 @@
 //=============================================================================
 namespace Nelson {
 NLSLINEAR_ALGEBRA_IMPEXP ArrayOf
-CholeskyFactorization(const ArrayOf& A, bool lowerTriangle, bool& needToOverload, int& info);
+CholeskyFactorization(
+    const ArrayOf& A, bool lowerTriangle, bool& needToOverload, int& info, bool& nonRealDiagonal);
+//=============================================================================
+// 1-based index of the first diagonal entry with a nonzero imaginary part, 0 if none
+NLSLINEAR_ALGEBRA_IMPEXP int
+firstNonRealDiagonal(const ArrayOf& A);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

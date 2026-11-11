@@ -19,6 +19,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cwctype>
+#include <limits>
 #include <numeric>
 #include <type_traits>
 #include <vector>
@@ -78,6 +79,19 @@ scaleMagnitude(const T& value)
     } else {
         return std::abs(value);
     }
+}
+//=============================================================================
+// A real-valued complex pivot divides each part on its own, so NaN stays in one part.
+template <class T>
+inline T
+divideByPivot(const T& value, const T& pivot)
+{
+    if constexpr (Eigen::NumTraits<T>::IsComplex) {
+        if (pivot.imag() == 0) {
+            return T(value.real() / pivot.real(), value.imag() / pivot.real());
+        }
+    }
+    return value / pivot;
 }
 //=============================================================================
 template <class T>
@@ -163,7 +177,7 @@ sparseLU(const Eigen::SparseMatrix<T, 0, Index>& input, SparsePivotRule rule)
             result.rowScale[A.innerIndexPtr()[p]] += scaleMagnitude(A.valuePtr()[p]);
         }
         for (Index i = 0; i < m; ++i) {
-            if (result.rowScale[i] == Real(0)) {
+            if (result.rowScale[i] == Real(0) || std::isnan(result.rowScale[i])) {
                 result.rowScale[i] = Real(1);
             }
         }
@@ -173,10 +187,17 @@ sparseLU(const Eigen::SparseMatrix<T, 0, Index>& input, SparsePivotRule rule)
     }
 
     std::vector<Index> rowCount;
+    std::vector<Index> frontRows;
+    std::vector<Index> frontSlot;
     if (rule.reorder) {
         rule.symmetric = isMostlySymmetric<T>(A);
         result.colOrder = fillReducingColumnOrder(A, rule.symmetric);
         rowCount.assign(m, 0);
+        // rows still to pivot, the last one fills the slot of each pivot row
+        frontRows.resize(m);
+        frontSlot.resize(m);
+        std::iota(frontRows.begin(), frontRows.end(), 0);
+        std::iota(frontSlot.begin(), frontSlot.end(), 0);
         for (Index p = 0; p < A.nonZeros(); ++p) {
             rowCount[A.innerIndexPtr()[p]]++;
         }
@@ -192,6 +213,8 @@ sparseLU(const Eigen::SparseMatrix<T, 0, Index>& input, SparsePivotRule rule)
     std::iota(rowOrder.begin(), rowOrder.end(), 0);
     std::iota(rowPosition.begin(), rowPosition.end(), 0);
     std::vector<Index> pivotStep(m, -1);
+    // steps whose L column holds NaN or Inf, where a zero still propagates
+    std::vector<char> nonFiniteColumn;
     std::vector<Index> visited(m, -1);
     std::vector<T> x(m, T(0));
     std::vector<Index> postOrder;
@@ -263,7 +286,7 @@ sparseLU(const Eigen::SparseMatrix<T, 0, Index>& input, SparsePivotRule rule)
                 continue;
             }
             T value = x[*it];
-            if (value == T(0)) {
+            if (value == T(0) && !nonFiniteColumn[step]) {
                 continue;
             }
             for (Index q = lStart[step] + 1; q < lStart[step + 1]; ++q) {
@@ -271,6 +294,7 @@ sparseLU(const Eigen::SparseMatrix<T, 0, Index>& input, SparsePivotRule rule)
             }
         }
         Real maxMagnitude = Real(0);
+        bool hasNaN = false;
         for (Index node : postOrder) {
             if (pivotStep[node] >= 0) {
                 if (x[node] != T(0)) {
@@ -278,15 +302,27 @@ sparseLU(const Eigen::SparseMatrix<T, 0, Index>& input, SparsePivotRule rule)
                 }
                 x[node] = T(0);
             } else {
-                maxMagnitude = std::max(maxMagnitude, entryMagnitude(x[node]));
+                Real magnitude = entryMagnitude(x[node]);
+                hasNaN = hasNaN || std::isnan(magnitude);
+                maxMagnitude = std::max(maxMagnitude, magnitude);
             }
         }
         if (k >= m) {
             continue;
         }
         Index pivotRow = rowOrder[k];
-        if (maxMagnitude > Real(0)) {
-            if (!rule.reorder) {
+        if (!rule.reorder) {
+            if (hasNaN) {
+                // the NaN candidate with the lowest row index wins the partial pivot search
+                Index best = -1;
+                for (Index node : postOrder) {
+                    if (pivotStep[node] < 0 && std::isnan(entryMagnitude(x[node]))
+                        && (best < 0 || node < best)) {
+                        best = node;
+                    }
+                }
+                pivotRow = best;
+            } else if (maxMagnitude > Real(0)) {
                 Real current = visited[pivotRow] == k ? entryMagnitude(x[pivotRow]) : Real(0);
                 if (!(current > Real(0) && current >= rule.pivotTolerance * maxMagnitude)) {
                     Index best = -1;
@@ -298,39 +334,55 @@ sparseLU(const Eigen::SparseMatrix<T, 0, Index>& input, SparsePivotRule rule)
                     }
                     pivotRow = best;
                 }
+            }
+        } else if (maxMagnitude > Real(0) || hasNaN) {
+            // a NaN in the column makes every threshold test fail
+            Real reference = hasNaN ? std::numeric_limits<Real>::quiet_NaN() : maxMagnitude;
+            Index diagonalRow = column < m ? column : -1;
+            bool diagonalCandidate
+                = diagonalRow >= 0 && visited[diagonalRow] == k && pivotStep[diagonalRow] < 0;
+            Real diagonal = diagonalCandidate ? entryMagnitude(x[diagonalRow]) : Real(0);
+            if (rule.symmetric && diagonal > Real(0)
+                && diagonal >= rule.diagonalTolerance * reference) {
+                pivotRow = diagonalRow;
             } else {
-                Index diagonalRow = column < m ? column : -1;
-                Real diagonal = (diagonalRow >= 0 && visited[diagonalRow] == k
-                                    && pivotStep[diagonalRow] < 0)
-                    ? entryMagnitude(x[diagonalRow])
-                    : Real(0);
-                if (rule.symmetric && diagonal > Real(0)
-                    && diagonal >= rule.diagonalTolerance * maxMagnitude) {
-                    pivotRow = diagonalRow;
-                } else {
-                    Index best = -1;
-                    Real bestMagnitude = Real(0);
-                    Real threshold = static_cast<Real>(rule.pivotTolerance) * maxMagnitude;
-                    for (Index node : postOrder) {
-                        if (pivotStep[node] >= 0) {
-                            continue;
-                        }
-                        Real magnitude = entryMagnitude(x[node]);
-                        if (magnitude == Real(0) || magnitude < threshold) {
-                            continue;
-                        }
-                        bool better = best < 0 || rowCount[node] < rowCount[best]
-                            || (rowCount[node] == rowCount[best]
-                                && (magnitude > bestMagnitude
-                                    || (magnitude == bestMagnitude
-                                        && rowPosition[node] < rowPosition[best])));
-                        if (better) {
-                            best = node;
-                            bestMagnitude = magnitude;
+                Index best = -1;
+                Real bestMagnitude = Real(0);
+                Real threshold = static_cast<Real>(rule.pivotTolerance) * reference;
+                for (Index node : postOrder) {
+                    if (pivotStep[node] >= 0) {
+                        continue;
+                    }
+                    Real magnitude = entryMagnitude(x[node]);
+                    if (magnitude == Real(0) || !(magnitude >= threshold)) {
+                        continue;
+                    }
+                    bool better = best < 0 || rowCount[node] < rowCount[best]
+                        || (rowCount[node] == rowCount[best]
+                            && (magnitude > bestMagnitude
+                                || (magnitude == bestMagnitude
+                                    && rowPosition[node] < rowPosition[best])));
+                    if (better) {
+                        best = node;
+                        bestMagnitude = magnitude;
+                    }
+                }
+                if (best < 0) {
+                    // no row passed: the stored diagonal when symmetric, else the sparsest row
+                    if (rule.symmetric && diagonalCandidate) {
+                        best = diagonalRow;
+                    } else {
+                        for (Index node : postOrder) {
+                            if (pivotStep[node] < 0 && x[node] != T(0)
+                                && (best < 0 || rowCount[node] < rowCount[best]
+                                    || (rowCount[node] == rowCount[best]
+                                        && frontSlot[node] < frontSlot[best]))) {
+                                best = node;
+                            }
                         }
                     }
-                    pivotRow = best;
                 }
+                pivotRow = best;
             }
         }
         T pivot = visited[pivotRow] == k ? x[pivotRow] : T(0);
@@ -339,10 +391,15 @@ sparseLU(const Eigen::SparseMatrix<T, 0, Index>& input, SparsePivotRule rule)
         for (Index node : postOrder) {
             if (pivotStep[node] < 0 && node != pivotRow && x[node] != T(0)) {
                 lRows.push_back(node);
-                lValues.push_back(x[node] / pivot);
+                lValues.push_back(divideByPivot(x[node], pivot));
             }
         }
         lStart.push_back(static_cast<Index>(lRows.size()));
+        bool nonFinite = false;
+        for (Index q = lStart[k] + 1; q < lStart[k + 1] && !nonFinite; ++q) {
+            nonFinite = !std::isfinite(entryMagnitude(lValues[q]));
+        }
+        nonFiniteColumn.push_back(nonFinite ? 1 : 0);
         if (rule.reorder) {
             // rows below the pivot may gain the pivot row's remaining entries
             Index remaining = n - k - 1;
@@ -358,6 +415,12 @@ sparseLU(const Eigen::SparseMatrix<T, 0, Index>& input, SparsePivotRule rule)
             x[node] = T(0);
         }
         pivotStep[pivotRow] = k;
+        if (rule.reorder) {
+            Index slot = frontSlot[pivotRow];
+            Index last = frontRows[m - 1 - k];
+            frontRows[slot] = last;
+            frontSlot[last] = slot;
+        }
         Index from = rowPosition[pivotRow];
         Index displaced = rowOrder[k];
         rowOrder[k] = pivotRow;
