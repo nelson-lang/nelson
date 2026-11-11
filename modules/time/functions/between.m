@@ -24,14 +24,27 @@ function c = between(t1, t2, components)
     last(nat) = datetime(2000, 1, 1, 'TimeZone', last.TimeZone);
   end
   forward = last >= first;
+  % each component starts where the previous one stopped
+  anchor = first;
   monthsValue = zeros(size(first));
-  for u = [12 3 1; units.years units.quarters units.months]
-    if u(2)
-      monthsValue = monthsValue + u(1) .* wholeMonthUnits(first, last, monthsValue, u(1), forward);
-    end
+  if units.years
+    k = 12 .* wholeMonthUnits(anchor, last, 12, forward);
+    anchor = anchor + calmonths(k);
+    monthsValue = monthsValue + k;
+  end
+  if units.quarters
+    % whole months are walked and the extra months walked back, so a month-end day can move
+    m = wholeMonthUnits(anchor, last, 1, forward);
+    k = 3 .* fix(m ./ 3);
+    anchor = anchor + calmonths(m) - calmonths(m - k);
+    monthsValue = monthsValue + k;
+  end
+  if units.months
+    k = wholeMonthUnits(anchor, last, 1, forward);
+    anchor = anchor + calmonths(k);
+    monthsValue = monthsValue + k;
   end
   daysValue = zeros(size(first));
-  anchor = first + calmonths(monthsValue);
   for u = [7 1; units.weeks units.days]
     if u(2)
       reached = datenum(anchor + caldays(daysValue));
@@ -48,14 +61,14 @@ function c = between(t1, t2, components)
   c = calendarDuration.fromParts(monthsValue, daysValue, secondsValue, units.format);
 end
 %=============================================================================
-function k = wholeMonthUnits(t1, t2, monthsValue, unitMonths, forward)
-  % most whole units of unitMonths months after t1 + monthsValue not past t2
+function k = wholeMonthUnits(t1, t2, unitMonths, forward)
+  % most whole units of unitMonths months after t1 not past t2
   v1 = datevec(t1);
   v2 = datevec(t2);
-  remaining = (v2(:, 1) - v1(:, 1)) .* 12 + (v2(:, 2) - v1(:, 2)) - monthsValue(:);
+  remaining = (v2(:, 1) - v1(:, 1)) .* 12 + (v2(:, 2) - v1(:, 2));
   k = reshape(fix(remaining ./ unitMonths), size(t1));
   % the calendar month count may be one too many when the day or time is not reached
-  reached = t1 + calmonths(monthsValue + k .* unitMonths);
+  reached = t1 + calmonths(k .* unitMonths);
   overshoot = (forward & reached > t2) | (~forward & reached < t2);
   k(overshoot) = k(overshoot) - sign(k(overshoot));
 end

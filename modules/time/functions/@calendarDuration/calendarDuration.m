@@ -16,7 +16,7 @@ classdef calendarDuration
     MonthsValue = 0
     DaysValue = 0
     SecondsValue = 0
-    FormatValue = 'ymd'
+    FormatValue = 'ymdt'
   end
 
   methods
@@ -73,7 +73,7 @@ classdef calendarDuration
     end
 
     function obj = set.Format(obj, value)
-      obj.FormatValue = calendarDuration.validateTextScalar(value, 'Format');
+      obj.FormatValue = calendarDuration.normalizeFormat(value);
     end
 
     function n = numel(obj, varargin)
@@ -209,7 +209,8 @@ classdef calendarDuration
         [am, bm] = calendarDuration.expandPair(calendarDuration.rawMonths(a), calendarDuration.rawMonths(b));
         [ad, bd] = calendarDuration.expandPair(calendarDuration.rawDays(a), calendarDuration.rawDays(b));
         [as, bs] = calendarDuration.expandPair(calendarDuration.rawSeconds(a), calendarDuration.rawSeconds(b));
-        out = calendarDuration.fromParts(am + bm, ad + bd, as + bs, a.FormatValue);
+        out = calendarDuration.fromParts(am + bm, ad + bd, as + bs, ...
+          calendarDuration.mergeFormats(a.FormatValue, b.FormatValue));
         return
       end
       if isa(a, 'datetime') && isa(b, 'calendarDuration')
@@ -520,33 +521,33 @@ classdef calendarDuration
       months = cell(1, nargin - 1);
       daysValue = cell(1, nargin - 1);
       secondsValue = cell(1, nargin - 1);
-      fmt = 'ymd';
+      % the result shows every unit used by a calendarDuration operand
+      fmt = '';
       for k = 1:numel(varargin)
         v = varargin{k};
-        if ~isa(v, 'calendarDuration')
+        if isa(v, 'calendarDuration')
+          fmt = calendarDuration.mergeFormats(fmt, v.FormatValue);
+        else
           v = calendarDuration(v);
-        end
-        if k == 1
-          fmt = v.FormatValue;
         end
         months{k} = calendarDuration.rawMonths(v);
         daysValue{k} = calendarDuration.rawDays(v);
         secondsValue{k} = calendarDuration.rawSeconds(v);
       end
       out = calendarDuration.fromParts(cat(dim, months{:}), cat(dim, daysValue{:}), ...
-        cat(dim, secondsValue{:}), fmt);
+        cat(dim, secondsValue{:}), calendarDuration.mergeFormats(fmt, 'mdt'));
     end
 
     function [args, fmt] = parseInputs(values)
       args = {};
-      fmt = 'ymd';
+      fmt = 'ymdt';
       k = 1;
       while k <= numel(values)
         if calendarDuration.isTextScalar(values{k}) && strcmpi(char(values{k}), 'Format')
           if k == numel(values)
             error('Nelson:time:missingValueNameValueArgument', 'Missing value for name-value argument.');
           end
-          fmt = calendarDuration.validateTextScalar(values{k + 1}, 'Format');
+          fmt = calendarDuration.normalizeFormat(values{k + 1});
           k = k + 2;
         else
           args{end + 1} = values{k};
@@ -569,6 +570,36 @@ classdef calendarDuration
       if ~ischar(value)
         error('Nelson:validators:mustBeTextScalar', '%s must be a character vector or string scalar.', name);
       end
+    end
+
+    function value = normalizeFormat(value)
+      % letters from 'yqmwdt' in that order; missing m, d or t are added with a warning
+      value = calendarDuration.validateTextScalar(value, 'Format');
+      letters = 'yqmwdt';
+      [found, pos] = ismember(value, letters);
+      if isempty(value) || ~isrow(value) || ~all(found)
+        error('Nelson:time:unrecognizedCalendarDurationFormat', ...
+          'Format ''%s'' is not supported: use only letters from ''yqmwdt''.', value);
+      end
+      if numel(unique(pos)) ~= numel(pos)
+        error('Nelson:time:duplicateCalendarDurationFormat', 'Format ''%s'' repeats a letter.', value);
+      end
+      if any(diff(pos) < 0)
+        error('Nelson:time:calendarDurationFormatOrder', ...
+          'Letters of format ''%s'' are out of order: use ''%s''.', value, letters(sort(pos)));
+      end
+      if ~all(ismember('mdt', value))
+        fixed = calendarDuration.mergeFormats(value, 'mdt');
+        warning('Nelson:time:calendarDurationFormatIncomplete', ...
+          'Format ''%s'' must contain ''m'', ''d'' and ''t'': ''%s'' is used instead.', value, fixed);
+        value = fixed;
+      end
+    end
+
+    function fmt = mergeFormats(a, b)
+      % union of two formats in 'yqmwdt' order
+      letters = 'yqmwdt';
+      fmt = letters(ismember(letters, [a, b]));
     end
 
     function [a, b, c, d, e, f] = expandInputs(a, b, c, d, e, f)

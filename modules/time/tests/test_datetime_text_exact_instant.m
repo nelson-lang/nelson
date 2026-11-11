@@ -27,9 +27,10 @@ assert_isequal(C < A, [true; true; false; false]);
 T = datetime({'2020-01-01 02:00:00', 'NaT'; '2021-06-15 23:59:59', '2020-01-01'});
 R = datetime([2020, 2020; 2021, 2020], [1, 1; 6, 1], [1, 1; 15, 1], [2, 0; 23, 0], [0, 0; 59, 0], [0, 0; 59, 0]);
 D = milliseconds(T - R);
-assert_isequal(D([1 2 4]), [0, 0, 0]);
-assert_istrue(isnan(D(3)));
-assert_isequal(T == R, [true, false; true, true]);
+assert_isequal(D([1 2]), [0, 0]);
+% the layout of the first text is used for all: a date without time is NaT
+assert_istrue(all(isnan(D([3 4]))));
+assert_isequal(T == R, [true, false; true, false]);
 %=============================================================================
 S = datetime(["2020-01-01 02:00:00"; "2020-01-01 03:00:00"]);
 assert_isequal(S == C(3:4), [true; true]);

@@ -66,3 +66,31 @@ asserts.isequal(char(between(NaT, datetime(2024, 1, 1))), 'NaN');
 c = between(datetime(2024, 1, 1), datetime(2024, [2 3], 1));
 asserts.isequal(split(c, 'months'), [1 2]);
 %=============================================================================
+% leftover months of a quarter are walked back, which can move a month-end day
+jan31 = datetime(2024, 1, 31);
+feb29 = datetime(2024, 2, 29);
+mar31 = datetime(2024, 3, 31);
+mar30 = datetime(2024, 3, 30);
+asserts.isequal(char(between(jan31, feb29, {'quarters', 'time'})), '744h 0m 0s');
+asserts.isequal(char(between(jan31, feb29, 'time')), '696h 0m 0s');
+asserts.isequal(char(between(mar31, feb29, {'quarters', 'time'})), '-696h 0m 0s');
+asserts.isequal(char(between(mar31, feb29, 'time')), '-744h 0m 0s');
+asserts.isequal(char(between(jan31, mar30, {'quarters', 'days'})), '61d');
+asserts.isequal(char(between(jan31, mar30, {'quarters', 'months', 'time'})), '2mo 24h 0m 0s');
+asserts.isequal(char(between(jan31, mar30, {'months', 'time'})), '1mo 720h 0m 0s');
+asserts.isequal(char(between(mar31, datetime(2024, 2, 1), {'quarters', 'months', 'days'})), '-1mo -28d');
+asserts.isequal(char(between(datetime(2024, 10, 31), datetime(2025, 2, 28), {'quarters', 'days'})), '1q 31d');
+c = between(datetime(2024, 1, 31, 6, 0, 0), datetime(2024, 2, 29, 8, 0, 0), {'quarters', 'weeks', 'days'});
+asserts.isequal(char(c), '4w 3d');
+jan31y = datetime(2023, 1, 31);
+asserts.isequal(char(between(jan31y, feb29, {'years', 'quarters', 'time'})), '1y 744h 0m 0s');
+asserts.isequal(char(between(jan31y, feb29, {'years', 'time'})), '1y 696h 0m 0s');
+%=============================================================================
+% each component starts where the previous one stopped
+mar28 = datetime(2025, 3, 28);
+asserts.isequal(char(between(feb29, mar28, {'years', 'months', 'time'})), '1y 1mo');
+asserts.isequal(char(between(feb29, mar28, {'months', 'time'})), '12mo 672h 0m 0s');
+may30 = datetime(2024, 5, 30);
+asserts.isequal(char(between(jan31, may30, {'quarters', 'months', 'time'})), '1q 1mo');
+asserts.isequal(char(between(jan31, may30, {'months', 'time'})), '3mo 720h 0m 0s');
+%=============================================================================

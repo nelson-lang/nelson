@@ -869,31 +869,14 @@ classdef datetime
       % Compile the InputFormat once and capture the fallback year once, so
       % every text reuses them instead of rebuilding the regex and reading the
       % clock per element (which made this loop linear with a large constant).
-      if isfield(options, 'InputFormat') && ~isempty(options.InputFormat)
-        try
-          options.CompiledFormat = datetime.compileInputFormat(options.InputFormat);
-          baseDv = datevec(now());
-          options.BaseYear = baseDv(1);
-        catch
-          options.CompiledFormat = [];
-        end
-      end
-      if isfield(options, 'CompiledFormat') && ~isempty(options.CompiledFormat)
+      [options, detected] = datetime.textFormatOptions(rows, options);
+      if ~isempty(options.CompiledFormat)
         % Match every text with a single vectorized regexp (the pattern is
         % compiled once for the whole array), then resolve the fields per text.
         % A per-text regexp call is ~10x slower than one call over the array.
-        fields = options.CompiledFormat.fields;
-        baseYear = options.BaseYear;
         allTokens = regexp(strtrim(rows), options.CompiledFormat.pattern, 'tokens', 'once');
         for k = 1:numel(rows)
-          tok = allTokens{k};
-          if isempty(tok)
-            % No match: a keyword ('now', 'NaT', ...) or a value for the
-            % datenum fallback. Resolve it with the per-text parser.
-            [serial(k), millis(k)] = datetime.parseOneText(rows{k}, options);
-          else
-            [serial(k), millis(k)] = datetime.applyFormatTokens(tok, fields, baseYear);
-          end
+          [serial(k), millis(k)] = datetime.resolveTextTokens(allTokens{k}, rows{k}, options, detected);
         end
       else
         for k = 1:numel(rows)
@@ -902,6 +885,98 @@ classdef datetime
       end
       serial = reshape(serial, outSize);
       millis = reshape(millis, outSize);
+    end
+
+    function [options, detected] = textFormatOptions(rows, options)
+      % compiled InputFormat, or the format detected from the first date text
+      detected = false;
+      if ~isempty(options.InputFormat)
+        try
+          options.CompiledFormat = datetime.compileInputFormat(options.InputFormat);
+        catch
+          options.CompiledFormat = [];
+        end
+      else
+        options.CompiledFormat = datetime.detectTextFormat(rows);
+        detected = ~isempty(options.CompiledFormat);
+      end
+      baseDv = datevec(now());
+      options.BaseYear = baseDv(1);
+    end
+
+    function [serial, millis] = resolveTextTokens(tok, row, options, detected)
+      % one text matched (or not) against the compiled format
+      fields = options.CompiledFormat.fields;
+      if detected && (isempty(tok) || ~datetime.validDateTokens(tok, fields))
+        % a text that does not follow the detected format is NaT
+        [serial, millis] = datetime.keywordOrNaT(row, options);
+      elseif isempty(tok)
+        % no match: a keyword ('now', 'NaT', ...) or a value for the datenum fallback
+        [serial, millis] = datetime.parseOneText(row, options);
+      else
+        [serial, millis] = datetime.applyFormatTokens(tok, fields, options.BaseYear);
+      end
+    end
+
+    function spec = detectTextFormat(rows)
+      % Compiled format of the first date text among the usual layouts (ISO,
+      % dd-MMM-yyyy, US then day-first slashes), or [] when none fits it.
+      spec = [];
+      sample = '';
+      for k = 1:numel(rows)
+        text = strtrim(char(rows{k}));
+        if ~isempty(text) && ~any(strcmpi(text, {'now', 'today', 'tomorrow', 'yesterday', 'nat'}))
+          sample = text;
+          break
+        end
+      end
+      if isempty(sample)
+        return
+      end
+      candidates = {'yyyy-MM-dd HH:mm:ss.S', 'yyyy-MM-dd HH:mm:ss', 'yyyy-MM-dd HH:mm', ...
+        'yyyy-MM-dd hh:mm:ss a', 'yyyy-MM-dd hh:mm a', 'yyyy-MM-dd''T''HH:mm:ss.S', ...
+        'yyyy-MM-dd''T''HH:mm:ss', 'yyyy-MM-dd', ...
+        'dd-MMM-yyyy HH:mm:ss.S', 'dd-MMM-yyyy HH:mm:ss', 'dd-MMM-yyyy HH:mm', ...
+        'dd-MMM-yyyy hh:mm:ss a', 'dd-MMM-yyyy hh:mm a', 'dd-MMM-yyyy', ...
+        'MM/dd/yyyy HH:mm:ss', 'MM/dd/yyyy HH:mm', 'MM/dd/yyyy hh:mm a', 'MM/dd/yyyy', ...
+        'dd/MM/yyyy HH:mm:ss', 'dd/MM/yyyy HH:mm', 'dd/MM/yyyy', 'MMM d, yyyy'};
+      for k = 1:numel(candidates)
+        candidate = datetime.compileInputFormat(candidates{k});
+        tok = regexp(sample, candidate.pattern, 'tokens', 'once');
+        if ~isempty(tok) && datetime.validDateTokens(tok, candidate.fields)
+          spec = candidate;
+          return
+        end
+      end
+    end
+
+    function tf = validDateTokens(tokens, fields)
+      % true when the matched fields form a real date and time of day
+      names = {'year', 'month', 'day', 'hour', 'minute', 'second'};
+      v = [2000, 1, 1, 0, 0, 0];
+      for k = 1:numel(fields)
+        idx = find(strcmp(names, fields{k}));
+        if strcmp(fields{k}, 'monthname')
+          v(2) = datetime.monthNameToNumber(tokens{k});
+        elseif ~isempty(idx)
+          v(idx) = str2double(tokens{k});
+        end
+      end
+      % hours are 1-12 with AM/PM, 0-23 otherwise
+      twelve = any(strcmp(fields, 'ampm'));
+      low = [-Inf, 1, 1, twelve, 0, 0];
+      high = [Inf, 12, 31, 23 - 11 * twelve, 59, 59];
+      tf = all(v >= low & v <= high) && v(3) <= eomday(v(1), v(2));
+    end
+
+    function [serial, millis] = keywordOrNaT(value, options)
+      % 'now', 'today', 'NaT', ... keep their meaning, any other text is NaT
+      if any(strcmpi(strtrim(char(value)), {'now', 'today', 'tomorrow', 'yesterday'}))
+        [serial, millis] = datetime.parseOneText(value, options);
+      else
+        serial = NaN;
+        millis = NaN;
+      end
     end
 
     function [serial, millis] = parseOneText(value, options)

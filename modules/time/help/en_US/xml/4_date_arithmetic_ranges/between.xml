@@ -22,7 +22,7 @@
   </param_output>
   <description>
     <p>Return calendar durations between two datetime values.</p>
-    <p>components is one name or a cell of names among 'years', 'quarters', 'months', 'weeks', 'days' and 'time' (default: years, months, days and time). Only those components are used, from the largest to the smallest: each one takes the most whole units that do not go past <b>t2</b>, the rest goes to the next one. So <b>t1 + c</b> is <b>t2</b> when 'time' is asked. When the time of day of <b>t2</b> is earlier than the one of <b>t1</b>, the last day is not counted and the time part holds the hours left.</p>
+    <p>components is one name or a cell of names among 'years', 'quarters', 'months', 'weeks', 'days' and 'time' (default: years, months, days and time). Only those components are used, from the largest to the smallest: each one takes the most whole units that do not go past <b>t2</b>, the rest goes to the next one. So <b>t1 + c</b> is <b>t2</b> when 'time' is asked, except with 'quarters' when some whole months are left over: those months are added then removed again, which can move a month-end day (31 January becomes 29 January in 2024), and the next components start from that day. When the time of day of <b>t2</b> is earlier than the one of <b>t1</b>, the last day is not counted and the time part holds the hours left.</p>
     <p>The Format of the result follows the components: 'ymdt' by default, 'mdt' without years, with 'q' for quarters and 'w' for weeks. The time part of zoned datetimes is the elapsed time. A NaT gives NaN.</p>
     <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
   </description>
@@ -37,6 +37,16 @@ split(c, 'months')
 split(c, 'days')
 between(datetime(2024, 1, 31, 12, 0, 0), datetime(2024, 4, 1, 6, 0, 0))
 between(datetime(2024, 1, 31, 12, 0, 0), datetime(2024, 4, 1, 6, 0, 0), {'weeks', 'days'})
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Quarters: the months left over are stepped back, so a month-end start day can move.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[t1 = datetime(2024, 1, 31);
+t2 = datetime(2024, 2, 29);
+between(t1, t2, 'time')
+between(t1, t2, {'quarters', 'time'})
+between(t1, datetime(2024, 5, 30), {'quarters', 'months', 'time'})
 ]]></example_item_data>
     </example_item>
   </examples>

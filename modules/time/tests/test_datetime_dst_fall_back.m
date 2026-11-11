@@ -24,7 +24,7 @@ asserts.isequal(seconds(t(4) - t(3)), 3600);
 asserts.isfalse(isequal(t(3), t(4)));
 asserts.isfalse(ismember(t(4), t(3)));
 asserts.isequal(numel(unique([t(4) t(3) t(4)])), 2);
-asserts.isequal(between(t(3), t(4)), calendarDuration(0, 0, 0, 1, 0, 0));
+asserts.isequal(char(between(t(3), t(4))), '1h 0m 0s');
 %=============================================================================
 % elapsed arithmetic from either occurrence
 asserts.isequal(hours(tzoffset(t(3) + minutes(30))), 1);

@@ -12,7 +12,7 @@ function c = calweeks(x)
   if isa(x, 'calendarDuration')
     c = fix(calendarDuration.rawDays(x) / 7);
   else
-    c = calendarDuration(0, 0, double(x) .* 7);
+    c = calendarDuration(0, 0, double(x) .* 7, 'Format', 'ymwdt');
   end
 end
 %=============================================================================

@@ -49,8 +49,8 @@ assert_isequal(split(a, 'days'), [0; 0; 0; 5]);
 a(1) = [];
 assert_isequal(size(a), [3 1]);
 assert_isequal(calmonths(a), [12; 3; 0]);
-a.Format = 'md';
-assert_isequal(a.Format, 'md');
+a.Format = 'mdt';
+assert_isequal(a.Format, 'mdt');
 %=============================================================================
 % transpose and reshape
 assert_isequal(size(calmonths([1; 2])'), [1 2]);

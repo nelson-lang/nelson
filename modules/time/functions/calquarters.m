@@ -12,7 +12,7 @@ function c = calquarters(x)
   if isa(x, 'calendarDuration')
     c = fix(calendarDuration.rawMonths(x) / 3);
   else
-    c = calendarDuration(0, double(x) .* 3, 0);
+    c = calendarDuration(0, double(x) .* 3, 0, 'Format', 'qmdt');
   end
 end
 %=============================================================================
