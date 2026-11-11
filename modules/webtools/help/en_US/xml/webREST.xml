@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>webREST</keyword>
+  <short_description
+  >Low-level HTTP request used by webread, webwrite and websave.</short_description>
+  <syntax>
+    <syntax_item
+    >fullname = webREST(url, data, filename, params, options)</syntax_item>
+    <syntax_item
+    >[fullname, contentType] = webREST(url, data, filename, params, options)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>url</param_name>
+      <param_description>a string: address of the web service.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>data</param_name>
+      <param_description
+      >a string: body of the request, or [] (empty) for a request without body.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description
+      >a string: file where the response body is written.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>params</param_name>
+      <param_description
+      >a scalar struct: name-value parameters of the request. Field values must be char, string, numeric or logical, and not sparse.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>options</param_name>
+      <param_description
+      >a weboptions object: request method, timeout, credentials, headers and certificate settings.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>fullname</param_name>
+      <param_description
+      >a character vector: absolute path of the file that holds the response.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>contentType</param_name>
+      <param_description
+      >a character vector: Content-Type header of the response, or an empty char when the server sends none.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>webREST</b> sends one HTTP request and saves the response body in <b>filename</b>. It is the internal building block of <b>webread</b>, <b>webwrite</b> and <b>websave</b>, which check the arguments, choose the file and decode the response. Scripts should use these functions instead.</p>
+    <p
+    >When <b>data</b> is empty, the fields of <b>params</b> are added to <b>url</b> as an encoded query string. When <b>data</b> is not empty, it is sent as the body of the request and <b>url</b> is used as is; the special value '__WEBWRITE__' sends the fields of <b>params</b> as a form-encoded body instead.</p>
+    <p
+    >The <b>RequestMethod</b> of <b>options</b> selects the HTTP method: 'get', 'post', 'put', 'delete' or 'patch'. With 'auto', a request with a body uses POST and a request without body uses GET. The <b>Timeout</b> of <b>options</b> limits the time to connect and the time the transfer may stall, not the length of the whole download. When the <b>MediaType</b> of <b>options</b> is 'auto', the request is sent with the Content-Type 'application/x-www-form-urlencoded'.</p>
+    <p
+    >An HTTP error status deletes <b>filename</b> and raises the error <b>Nelson:webREST:httpError</b>. A network failure raises <b>Nelson:webREST:curlError</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Request that needs a network connection.</example_item_description>
+      <example_item_data
+        runnable="false"
+      ><![CDATA[filename = [tempdir(), 'webREST_example.json'];
+params = struct('name', 'Nelson');
+[fullname, contentType] = webREST('https://httpbin.org/get', [], filename, params, weboptions())
+fileread(fullname)
+delete(fullname);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${webtools}webread">webread</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${webtools}webwrite">webwrite</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${webtools}websave">websave</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${webtools}weboptions">weboptions</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

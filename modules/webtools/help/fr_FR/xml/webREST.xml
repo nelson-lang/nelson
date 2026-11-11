@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>webREST</keyword>
+  <short_description
+  >Requête HTTP de bas niveau utilisée par webread, webwrite et websave.</short_description>
+  <syntax>
+    <syntax_item
+    >fullname = webREST(url, data, filename, params, options)</syntax_item>
+    <syntax_item
+    >[fullname, contentType] = webREST(url, data, filename, params, options)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>url</param_name>
+      <param_description>une chaîne : adresse du service web.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>data</param_name>
+      <param_description
+      >une chaîne : corps de la requête, ou [] (vide) pour une requête sans corps.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description
+      >une chaîne : fichier dans lequel le corps de la réponse est écrit.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>params</param_name>
+      <param_description
+      >une structure scalaire : paramètres nom-valeur de la requête. Les valeurs des champs doivent être de type char, string, numérique ou logique, et non creuses.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>options</param_name>
+      <param_description
+      >un objet weboptions : méthode de requête, délai d'attente, identifiants, en-têtes et réglages de certificat.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>fullname</param_name>
+      <param_description
+      >un vecteur de caractères : chemin absolu du fichier qui contient la réponse.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>contentType</param_name>
+      <param_description
+      >un vecteur de caractères : en-tête Content-Type de la réponse, ou un char vide si le serveur n'en envoie pas.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>webREST</b> envoie une requête HTTP et enregistre le corps de la réponse dans <b>filename</b>. C'est la brique interne de <b>webread</b>, <b>webwrite</b> et <b>websave</b>, qui vérifient les arguments, choisissent le fichier et décodent la réponse. Les scripts devraient utiliser ces fonctions à la place.</p>
+    <p
+    >Lorsque <b>data</b> est vide, les champs de <b>params</b> sont ajoutés à <b>url</b> sous forme de chaîne de requête encodée. Lorsque <b>data</b> n'est pas vide, il est envoyé comme corps de la requête et <b>url</b> est utilisée telle quelle ; la valeur spéciale '__WEBWRITE__' envoie à la place les champs de <b>params</b> sous forme de corps encodé comme un formulaire.</p>
+    <p
+    >La propriété <b>RequestMethod</b> de <b>options</b> choisit la méthode HTTP : 'get', 'post', 'put', 'delete' ou 'patch'. Avec 'auto', une requête avec corps utilise POST et une requête sans corps utilise GET. La propriété <b>Timeout</b> de <b>options</b> limite le temps de connexion et la durée pendant laquelle le transfert peut rester bloqué, et non la durée du téléchargement complet. Lorsque la propriété <b>MediaType</b> de <b>options</b> vaut 'auto', la requête est envoyée avec le Content-Type 'application/x-www-form-urlencoded'.</p>
+    <p
+    >Un code d'erreur HTTP supprime <b>filename</b> et provoque l'erreur <b>Nelson:webREST:httpError</b>. Une défaillance réseau provoque l'erreur <b>Nelson:webREST:curlError</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Requête qui nécessite une connexion réseau.</example_item_description>
+      <example_item_data
+        runnable="false"
+      ><![CDATA[filename = [tempdir(), 'webREST_example.json'];
+params = struct('name', 'Nelson');
+[fullname, contentType] = webREST('https://httpbin.org/get', [], filename, params, weboptions())
+fileread(fullname)
+delete(fullname);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${webtools}webread">webread</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${webtools}webwrite">webwrite</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${webtools}websave">websave</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${webtools}weboptions">weboptions</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
