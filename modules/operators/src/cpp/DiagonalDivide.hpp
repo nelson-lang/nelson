@@ -9,6 +9,8 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "lapack_eigen_config.hpp"
+#include "LapackPrototypes.hpp"
 #include <Eigen/Core>
 #include <algorithm>
 #include <cmath>
@@ -17,6 +19,7 @@
 #include <limits>
 #include <type_traits>
 #include "ArrayOf.hpp"
+#include "LuFactorization.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -53,6 +56,36 @@ hasZeroOffDiagonal(const T* a, indexType n)
     return true;
 }
 //=============================================================================
+// True when the smallest over largest diagonal entry is at least eps for the triangular solver.
+template <class T>
+inline bool
+hasDiagonalRatioOfAtLeastEps(const T* a, indexType n)
+{
+    using Real = typename Eigen::NumTraits<T>::Real;
+    constexpr Real eps = std::numeric_limits<Real>::epsilon();
+    if constexpr (Eigen::NumTraits<T>::IsComplex) {
+        // complex sizes are measured in several ways, all within 2x of max(|re|, |im|)
+        Real minBound = std::numeric_limits<Real>::infinity();
+        Real maxBound = 0;
+        for (indexType k = 0; k < n; ++k) {
+            const T& d = a[k + k * n];
+            Real value = std::max(std::abs(d.real()), std::abs(d.imag()));
+            minBound = std::min(minBound, value);
+            maxBound = std::max(maxBound, value);
+        }
+        return minBound / maxBound >= 2 * eps;
+    } else {
+        Real minDiagonal = std::numeric_limits<Real>::infinity();
+        Real maxDiagonal = 0;
+        for (indexType k = 0; k < n; ++k) {
+            Real value = std::abs(a[k + k * n]);
+            minDiagonal = std::min(minDiagonal, value);
+            maxDiagonal = std::max(maxDiagonal, value);
+        }
+        return minDiagonal / maxDiagonal >= eps;
+    }
+}
+//=============================================================================
 // Solves D \ B (OnRight false, B is n x cols) or B / D (OnRight true, B is rows x n) for a
 // diagonal D with a diagonal ratio of at least eps and finite quotients; else nullptr.
 // Other cases go to the triangular solver, which gives the warnings and Inf/NaN spreading.
@@ -65,15 +98,7 @@ solveWellConditionedDiagonal(
     if (!hasZeroOffDiagonal<T>(a, n)) {
         return nullptr;
     }
-    // same ratio as the triangular solver
-    Real minDiagonal = std::numeric_limits<Real>::infinity();
-    Real maxDiagonal = 0;
-    for (indexType k = 0; k < n; ++k) {
-        Real value = static_cast<Real>(std::abs(a[k + k * n]));
-        minDiagonal = std::min(minDiagonal, value);
-        maxDiagonal = std::max(maxDiagonal, value);
-    }
-    if (!(minDiagonal / maxDiagonal >= std::numeric_limits<Real>::epsilon())) {
+    if (!hasDiagonalRatioOfAtLeastEps<T>(a, n)) {
         return nullptr;
     }
     T* x = static_cast<T*>(ArrayOf::allocateArrayOf(dataClass, rows * cols));
@@ -86,11 +111,11 @@ solveWellConditionedDiagonal(
         if constexpr (OnRight) {
             const T d = a[col + col * n];
             for (indexType k = 0; k < rows; ++k) {
-                xc[k] = bc[k] / d;
+                xc[k] = luDivide(bc[k], d);
             }
         } else {
             for (indexType k = 0; k < rows; ++k) {
-                xc[k] = bc[k] / a[k + k * n];
+                xc[k] = luDivide(bc[k], a[k + k * n]);
             }
         }
         const Real* xp = parts + col * rows * partCount;

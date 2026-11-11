@@ -82,6 +82,10 @@ public:
     bool
     ensureBytecodeCompiled(int nLhs);
     //=============================================================================
+    // compiles with the output count already parsed, for checks that do not depend on it
+    bool
+    ensureBytecodeCompiledAnyLhs();
+    //=============================================================================
     /**
      * Return the compiled scope-free chunk when this anonymous function can be
      * executed directly by the VM for `inputCount` inputs (no captured

@@ -8,6 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <cstring>
+#include <cstdint>
+#include <type_traits>
 #include <algorithm>
 #include <complex>
 #include <cmath>
@@ -87,9 +89,8 @@ template <> struct DenseSolverTraits<double>
         LAPACK_dgetrs(&trans, n, nrhs, a, n, ipiv, b, n, info);
     }
     static void
-    gecon(lapack_int* n, const double* a, Real anorm, Real* rcond, lapack_int* info)
+    gecon(char norm, lapack_int* n, const double* a, Real anorm, Real* rcond, lapack_int* info)
     {
-        char norm = '1';
         std::vector<double> work((size_t)4 * (size_t)*n);
         std::vector<lapack_int> iwork((size_t)*n);
         LAPACK_dgecon(&norm, n, a, n, &anorm, rcond, work.data(), iwork.data(), info);
@@ -134,9 +135,8 @@ template <> struct DenseSolverTraits<single>
         LAPACK_sgetrs(&trans, n, nrhs, a, n, ipiv, b, n, info);
     }
     static void
-    gecon(lapack_int* n, const single* a, Real anorm, Real* rcond, lapack_int* info)
+    gecon(char norm, lapack_int* n, const single* a, Real anorm, Real* rcond, lapack_int* info)
     {
-        char norm = '1';
         std::vector<single> work((size_t)4 * (size_t)*n);
         std::vector<lapack_int> iwork((size_t)*n);
         LAPACK_sgecon(&norm, n, a, n, &anorm, rcond, work.data(), iwork.data(), info);
@@ -182,9 +182,8 @@ template <> struct DenseSolverTraits<std::complex<double>>
         LAPACK_zgetrs(&trans, n, nrhs, a, n, ipiv, b, n, info);
     }
     static void
-    gecon(lapack_int* n, const Z* a, Real anorm, Real* rcond, lapack_int* info)
+    gecon(char norm, lapack_int* n, const Z* a, Real anorm, Real* rcond, lapack_int* info)
     {
-        char norm = '1';
         std::vector<Z> work((size_t)2 * (size_t)*n);
         std::vector<double> rwork((size_t)2 * (size_t)*n);
         LAPACK_zgecon(&norm, n, a, n, &anorm, rcond, work.data(), rwork.data(), info);
@@ -230,9 +229,8 @@ template <> struct DenseSolverTraits<std::complex<single>>
         LAPACK_cgetrs(&trans, n, nrhs, a, n, ipiv, b, n, info);
     }
     static void
-    gecon(lapack_int* n, const Z* a, Real anorm, Real* rcond, lapack_int* info)
+    gecon(char norm, lapack_int* n, const Z* a, Real anorm, Real* rcond, lapack_int* info)
     {
-        char norm = '1';
         std::vector<Z> work((size_t)2 * (size_t)*n);
         std::vector<single> rwork((size_t)2 * (size_t)*n);
         LAPACK_cgecon(&norm, n, a, n, &anorm, rcond, work.data(), rwork.data(), info);
@@ -260,15 +258,31 @@ template <> struct DenseSolverTraits<std::complex<single>>
     }
 };
 //=============================================================================
+// True when the count entries at p are zero; bit test without the sign bit, so -0 is zero and NaN is not.
+template <class T>
+static bool
+isZeroRange(const T* p, indexType count)
+{
+    using Real = typename Eigen::NumTraits<T>::Real;
+    using Bits = std::conditional_t<sizeof(Real) == 8, uint64_t, uint32_t>;
+    const auto* bytes = reinterpret_cast<const unsigned char*>(p);
+    const indexType parts = count * (sizeof(T) / sizeof(Real));
+    Bits nonZero = 0;
+    for (indexType k = 0; k < parts; ++k) {
+        Bits value;
+        std::memcpy(&value, bytes + k * sizeof(Bits), sizeof(Bits));
+        nonZero |= value << 1;
+    }
+    return nonZero == 0;
+}
+//=============================================================================
 template <class T>
 static bool
 isLowerTriangularMatrix(const T* a, indexType n)
 {
     for (indexType col = 1; col < n; ++col) {
-        for (indexType row = 0; row < col; ++row) {
-            if (a[row + col * n] != T(0)) {
-                return false;
-            }
+        if (!isZeroRange<T>(a + col * n, col)) {
+            return false;
         }
     }
     return true;
@@ -279,42 +293,70 @@ static bool
 isUpperTriangularMatrix(const T* a, indexType n)
 {
     for (indexType col = 0; col + 1 < n; ++col) {
-        for (indexType row = col + 1; row < n; ++row) {
-            if (a[row + col * n] != T(0)) {
-                return false;
-            }
+        if (!isZeroRange<T>(a + col * n + col + 1, n - col - 1)) {
+            return false;
         }
     }
     return true;
 }
 //=============================================================================
-// Substitution with triangular A, or with A' when adjoint is set.
+// Substitution with triangular A, or with A' when adjoint is set; A is read by columns.
 template <class T>
 static void
 substituteTriangular(const T* a, indexType n, bool upper, bool adjoint, T* x, indexType nrhs)
 {
-    auto at = [&](indexType row, indexType col) {
-        return adjoint ? luConj(a[col + row * n]) : a[row + col * n];
-    };
-    bool backward = upper != adjoint;
     for (indexType col = 0; col < nrhs; ++col) {
         T* b = x + col * n;
-        if (backward) {
+        if (adjoint) {
+            // x(j) = (b(j) - sum of x(i) * conj(A(i, j))) / conj(A(j, j)), same order as an update
+            if (upper) {
+                for (indexType j = 0; j < n; ++j) {
+                    const T* column = a + j * n;
+                    T sum = b[j];
+                    for (indexType i = 0; i < j; ++i) {
+                        sum -= b[i] * luConj(column[i]);
+                    }
+                    b[j] = luDivide(sum, luConj(column[j]));
+                }
+            } else {
+                for (indexType j = n; j-- > 0;) {
+                    const T* column = a + j * n;
+                    T sum = b[j];
+                    for (indexType i = n; --i > j;) {
+                        sum -= b[i] * luConj(column[i]);
+                    }
+                    b[j] = luDivide(sum, luConj(column[j]));
+                }
+            }
+        } else if (upper) {
             for (indexType k = n; k-- > 0;) {
-                b[k] = luDivide(b[k], at(k, k));
+                const T* column = a + k * n;
+                const T xk = luDivide(b[k], column[k]);
+                b[k] = xk;
                 for (indexType i = 0; i < k; ++i) {
-                    b[i] -= b[k] * at(i, k);
+                    b[i] -= xk * column[i];
                 }
             }
         } else {
             for (indexType k = 0; k < n; ++k) {
-                b[k] = luDivide(b[k], at(k, k));
+                const T* column = a + k * n;
+                const T xk = luDivide(b[k], column[k]);
+                b[k] = xk;
                 for (indexType i = k + 1; i < n; ++i) {
-                    b[i] -= b[k] * at(i, k);
+                    b[i] -= xk * column[i];
                 }
             }
         }
     }
+}
+//=============================================================================
+// One right-hand side on a matrix larger than the cache: substitution beats the library solve.
+template <class T>
+static bool
+preferSubstitution(indexType n, indexType nrhs, bool adjoint)
+{
+    const double bytes = static_cast<double>(n) * static_cast<double>(n) * sizeof(T);
+    return nrhs == 1 && bytes >= (adjoint ? 5.0e6 : 2.8e6);
 }
 //=============================================================================
 // Solves with an LU factor that has a zero pivot, where getrs would stop.
@@ -425,9 +467,16 @@ matrixOneNorm(const T* a, indexType n, bool transposed)
     using Real = typename DenseSolverTraits<T>::Real;
     using Matrix = Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>;
     Eigen::Map<const Matrix> A(a, (Eigen::Index)n, (Eigen::Index)n);
-    Eigen::Matrix<Real, Eigen::Dynamic, 1> sums = transposed
-        ? Eigen::Matrix<Real, Eigen::Dynamic, 1>(A.cwiseAbs().rowwise().sum())
-        : Eigen::Matrix<Real, Eigen::Dynamic, 1>(A.cwiseAbs().colwise().sum().transpose());
+    Eigen::Matrix<Real, Eigen::Dynamic, 1> sums;
+    if (transposed) {
+        // row sums accumulated column by column, so the matrix is read in storage order
+        sums = Eigen::Matrix<Real, Eigen::Dynamic, 1>::Zero((Eigen::Index)n);
+        for (Eigen::Index col = 0; col < (Eigen::Index)n; ++col) {
+            sums += A.col(col).cwiseAbs();
+        }
+    } else {
+        sums = A.cwiseAbs().colwise().sum().transpose();
+    }
     Real norm = 0;
     for (Eigen::Index k = 0; k < sums.size(); ++k) {
         if (std::isnan(sums[k]) || sums[k] > norm) {
@@ -649,10 +698,11 @@ estimateInverseOneNorm(indexType n, Apply apply)
 }
 //=============================================================================
 // RCOND of ?gecon / ?pocon; LAPACK recomputes it only near eps or after an overflow.
+// infinityNorm estimates in the infinity norm, the 1-norm of the adjoint system.
 template <class T>
 static typename DenseSolverTraits<T>::Real
-reciprocalCondition(
-    const T* factor, indexType n, typename DenseSolverTraits<T>::Real anorm, bool cholesky)
+reciprocalCondition(const T* factor, indexType n, typename DenseSolverTraits<T>::Real anorm,
+    bool cholesky, bool infinityNorm = false)
 {
     using Traits = DenseSolverTraits<T>;
     using Real = typename Traits::Real;
@@ -660,6 +710,7 @@ reciprocalCondition(
         return Real(0);
     }
     auto apply = [&](T* x, bool adjoint) {
+        adjoint = adjoint != infinityNorm;
         if (cholesky) {
             solveUpperAdjoint<T>(factor, n, x);
             solveUpper<T>(factor, n, x);
@@ -682,7 +733,7 @@ reciprocalCondition(
     if (cholesky) {
         Traits::pocon(&N, factor, anorm, &rcond, &info);
     } else {
-        Traits::gecon(&N, factor, anorm, &rcond, &info);
+        Traits::gecon(infinityNorm ? 'I' : '1', &N, factor, anorm, &rcond, &info);
     }
     return rcond;
 }
@@ -704,7 +755,7 @@ isHermitianMatrix(const T* data, indexType n)
     return true;
 }
 //=============================================================================
-// Hermitian A: Cholesky, left to LU when it fails or its RCOND is below eps.
+// Large Hermitian A: Cholesky, left to LU when it fails or its RCOND is below eps.
 template <class T>
 static T*
 solvePositiveDefinite(const SquareSystem<T>& sys)
@@ -713,10 +764,11 @@ solvePositiveDefinite(const SquareSystem<T>& sys)
     using Real = typename Traits::Real;
     indexType m = sys.n;
     const T* A = sys.A;
-    if (!isHermitianMatrix<T>(A, m)) {
+    lapack_int N = (lapack_int)m;
+    // small systems go to the small LU solves, like the reference
+    if (isSmallLu<T>(N, N) || !isHermitianMatrix<T>(A, m)) {
         return nullptr;
     }
-    lapack_int N = (lapack_int)m;
     Real anorm = matrixOneNorm<T>(A, m, false);
     if (!std::isfinite(anorm)) {
         return nullptr;
@@ -778,11 +830,11 @@ solveTriangular(const SquareSystem<T>& sys, std::wstring& warningId, std::string
     if (zeroDiagonal) {
         substituteTriangular<T>(A, m, upper, adjoint, x, nrhs);
     } else {
-        // Triangular RCOND is the diagonal ratio min|d| / max|d|.
+        // Triangular RCOND is the diagonal ratio, sizes are |re| + |im| for complex.
         Real minDiagonal = std::numeric_limits<Real>::infinity();
         Real maxDiagonal = 0;
         for (indexType k = 0; k < m; ++k) {
-            Real value = static_cast<Real>(std::abs(A[k + k * m]));
+            Real value = static_cast<Real>(luModulus(A[k + k * m]));
             if (std::isnan(value)) {
                 minDiagonal = value;
                 break;
@@ -798,6 +850,8 @@ solveTriangular(const SquareSystem<T>& sys, std::wstring& warningId, std::string
             } else {
                 smallTriangularSolve<T>(A, N, upper, x, NRHS);
             }
+        } else if (preferSubstitution<T>(m, nrhs, adjoint)) {
+            substituteTriangular<T>(A, m, upper, adjoint, x, nrhs);
         } else {
             Traits::trtrs(
                 upper ? 'U' : 'L', adjoint ? Traits::conjTrans : 'N', &N, &NRHS, A, x, &info);
@@ -850,13 +904,14 @@ solveGeneralLu(const SquareSystem<T>& sys, std::wstring& warningId, std::string&
         rcond = 0;
     } else {
         // RCOND is always estimated, so balanced pivots do not hide a bad condition.
-        Real anorm = matrixOneNorm<T>(A, m, storedAdjoint);
+        // D' * x = b uses the infinity norm of D, the 1-norm of the system matrix D'.
+        Real anorm = matrixOneNorm<T>(A, m, sys.form == SolveForm::Right);
         if (std::isnan(anorm)) {
             rcond = std::numeric_limits<Real>::quiet_NaN();
         } else if (std::isinf(anorm)) {
             rcond = 0;
         } else {
-            rcond = reciprocalCondition<T>(factor.data(), m, anorm, false);
+            rcond = reciprocalCondition<T>(factor.data(), m, anorm, false, adjoint);
         }
     }
     // small systems keep the substitution order of the unblocked factor

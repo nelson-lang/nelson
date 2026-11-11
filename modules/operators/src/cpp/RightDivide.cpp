@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "lapack_eigen_config.hpp"
+#include "LapackPrototypes.hpp"
 #include <Eigen/Dense>
 #include "RightDivide.hpp"
 #include "DotRightDivide.hpp"
@@ -20,6 +21,7 @@
 #include "Decomplexify.hpp"
 #include "LinearEquationSolver.hpp"
 #include "Warning.hpp"
+#include "DiagonalDivide.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -51,6 +53,12 @@ rightDivideDense(const ArrayOf& A, const ArrayOf& B, ArrayOf& R)
     if (!dimsA.is2D() || !dimsB.is2D() || dimsB.rows() != dimsB.columns()
         || dimsA.columns() != dimsB.rows()) {
         return false;
+    }
+    bool diagonalSolved = false;
+    R = denseDiagonalDivide<true>(B, A, diagonalSolved);
+    if (diagonalSolved) {
+        R = decomplexify(R);
+        return true;
     }
     std::wstring warningId;
     std::string warningMessage;

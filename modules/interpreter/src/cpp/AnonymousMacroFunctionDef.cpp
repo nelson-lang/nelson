@@ -593,6 +593,14 @@ AnonymousMacroFunctionDef::ensureBytecodeCompiled(int nLhs)
     return bytecodeChunk != nullptr;
 }
 //=============================================================================
+bool
+AnonymousMacroFunctionDef::ensureBytecodeCompiledAnyLhs()
+{
+    std::lock_guard<std::recursive_mutex> lock(functionMutex);
+    // keeps the current parse: switching nLhs re-parses and recompiles
+    return ensureBytecodeCompiled((code != nullptr && previousLhs >= 0) ? previousLhs : 1);
+}
+//=============================================================================
 std::string
 AnonymousMacroFunctionDef::convertToStandardFunction(int nLhs)
 {

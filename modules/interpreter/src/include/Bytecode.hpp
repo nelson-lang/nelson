@@ -247,6 +247,8 @@ enum class OpCode : uint8_t
     ASSIGN_LOCAL_FIELD,
     // locals[A] = locals[B]{locals[C]}: one cell content assigned without the stack trip
     ASSIGN_LOCAL_CONTENT,
+    // A' \ B (A = 0) or A.' \ B (A = 1), with A itself below B on the stack
+    OP_MLDIV_TRANSPOSED,
     OPCODE_COUNT
 };
 //=============================================================================
@@ -290,6 +292,7 @@ isDirectLeafMacroOpcode(OpCode op)
     case OpCode::OP_MRDIV:
     case OpCode::OP_RDIV:
     case OpCode::OP_MLDIV:
+    case OpCode::OP_MLDIV_TRANSPOSED:
     case OpCode::OP_LDIV:
     case OpCode::OP_MPOWER:
     case OpCode::OP_POWER:

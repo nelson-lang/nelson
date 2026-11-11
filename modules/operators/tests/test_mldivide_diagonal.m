@@ -147,3 +147,32 @@ asserts.isequal(R, [Inf 1]);
 [W, ID] = lastwarn();
 asserts.isequal(ID, '');
 %=============================================================================
+% dense N-D operands are rejected
+msg = sprintf(_('%s must be 2-D.'), 'Input arguments');
+D3 = zeros(4, 4, 2);
+D3(:, :, 1) = eye(4);
+asserts.checkerror('D3 \ ones(4, 1)', msg);
+asserts.checkerror('eye(4) \ ones(4, 1, 2)', msg);
+asserts.checkerror('ones(4, 4, 2) \ ones(4, 1)', msg);
+% a scalar divisor still divides an N-D array element-wise
+asserts.isequal(2 \ ones(2, 2, 2), 0.5 * ones(2, 2, 2));
+%=============================================================================
+% complex diagonal near the eps ratio: the triangular solver decides the warning
+lastwarn('');
+R = [1 1] / diag([1, 2.3e-16 * (1 + 1i)]);
+[W, ID] = lastwarn();
+asserts.isequal(ID, '');
+asserts.isequal(R, [1, 1 / (2.3e-16 * (1 + 1i))]);
+lastwarn('');
+R = [1 1] / diag([1, 1e-16 * (1 + 1i)]);
+[W, ID] = lastwarn();
+asserts.isequal(ID, 'Nelson:nearlySingularMatrix');
+lastwarn('');
+R = [1 1] / diag([1, 2e-16i]);
+[W, ID] = lastwarn();
+asserts.isequal(ID, 'Nelson:nearlySingularMatrix');
+lastwarn('');
+R = diag([1, 2e-16i]) \ [1; 1];
+[W, ID] = lastwarn();
+asserts.isequal(ID, 'Nelson:nearlySingularMatrix');
+%=============================================================================

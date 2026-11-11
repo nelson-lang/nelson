@@ -602,6 +602,10 @@ public:
     ArrayOf
     leftDivideOperator(const ArrayOfVector& args);
 
+    // A' \ B, or A.' \ B when conjugate is false, without forming the transpose when possible.
+    ArrayOf
+    transposedLeftDivideOperator(const ArrayOf& A, const ArrayOf& B, bool conjugate);
+
     ArrayOf
     dotRightDivideOperator(const ArrayOfVector& args);
 

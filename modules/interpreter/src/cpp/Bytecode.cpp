@@ -334,6 +334,8 @@ opCodeName(OpCode op)
         return "ASSIGN_LOCAL_FIELD";
     case OpCode::ASSIGN_LOCAL_CONTENT:
         return "ASSIGN_LOCAL_CONTENT";
+    case OpCode::OP_MLDIV_TRANSPOSED:
+        return "OP_MLDIV_TRANSPOSED";
     case OpCode::OPCODE_COUNT:
         return "OPCODE_COUNT";
     }

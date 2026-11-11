@@ -17,7 +17,7 @@
 //=============================================================================
 namespace Nelson::BytecodeIO {
 constexpr size_t maxArtifactBytes = 256 * 1024 * 1024;
-constexpr uint32_t formatVersion = 6;
+constexpr uint32_t formatVersion = 7;
 inline void
 require(bool valid, const char* message = "Invalid or truncated bytecode artifact.")
 {

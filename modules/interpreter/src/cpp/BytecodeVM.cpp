@@ -2550,7 +2550,7 @@ namespace bcvm_detail {
             if (!visiting.insert(funcDef).second) {
                 return false;
             }
-            anonymousDef->ensureBytecodeCompiled(1);
+            anonymousDef->ensureBytecodeCompiledAnyLhs();
             if (anonymousDef->bytecodeChunk == nullptr) {
                 return true;
             }
@@ -3059,6 +3059,7 @@ namespace bcvm_detail {
         case OpCode::OP_RDIV:
             return RDIVIDE_OPERATOR_STR;
         case OpCode::OP_MLDIV:
+        case OpCode::OP_MLDIV_TRANSPOSED:
             return MLDIVIDE_OPERATOR_STR;
         case OpCode::OP_LDIV:
             return LDIVIDE_OPERATOR_STR;
@@ -6938,6 +6939,12 @@ namespace bcvm_detail {
                         }
                     }
                     stack.push_back(binaryOperator(eval, ins.op, a, b));
+                } break;
+                case OpCode::OP_MLDIV_TRANSPOSED: {
+                    ArrayOf b = pop();
+                    ArrayOf a = pop();
+                    stack.push_back(profiledArrayOperation(eval, MLDIVIDE_OPERATOR_STR,
+                        [&]() { return eval->transposedLeftDivideOperator(a, b, ins.A == 0); }));
                 } break;
                 case OpCode::OP_COLON_UNIT: {
                     if (tryReadRangeAtColon(stack, chunk, frame, pc)) {
