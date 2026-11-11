@@ -2273,7 +2273,7 @@ editorFileStamp(const std::filesystem::path& file)
     const auto size = std::filesystem::file_size(file, ec);
     const auto written = std::filesystem::last_write_time(file, ec);
     const std::string version
-        = std::to_string(written.time_since_epoch().count()) + ":" + std::to_string(size);
+        = std::to_string(static_cast<long long>(written.time_since_epoch().count())) + ":" + std::to_string(size);
     return { { "exists", true }, { "version", version }, { "size", size } };
 }
 //=============================================================================
