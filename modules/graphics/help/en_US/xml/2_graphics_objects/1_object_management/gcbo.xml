@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>gcbo</keyword>
+  <short_description
+  >Graphics object whose callback is running.</short_description>
+  <syntax>
+    <syntax_item>h = gcbo()</syntax_item>
+    <syntax_item>[h, fig] = gcbo()</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description
+      >a graphics object: the object whose callback is running, or [] when no callback is running.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>fig</param_name>
+      <param_description
+      >a graphics object: the figure that contains h, or [] when no callback is running.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>h = gcbo()</b> returns the graphics object that owns the callback being executed, for example the push button whose <b>Callback</b> or <b>CreateFcn</b> is running.</p>
+    <p
+    >When callbacks are nested, the object of the innermost one is returned.</p>
+    <p
+    >Outside a callback, or when the object has been deleted in the meantime, <b>h</b> and <b>fig</b> are both empty ([]).</p>
+    <p>
+      <b>[h, fig] = gcbo()</b> also returns the figure that contains the object. When the object is a figure, <b>fig</b> is that figure. When the object is not inside a figure, <b>fig</b> is the current figure (a figure is created if none exists).</p>
+    <p
+    >It is useful when the same callback function is shared by several objects and must know which one triggered it.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >The callback reads the object that called it.</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure('Visible', 'off');
+b = uicontrol(f, 'Style', 'pushbutton', 'String', 'OK', ...
+  'CreateFcn', 'disp(gcbo().Style)');
+isempty(gcbo())]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >One callback shared by two buttons (click a button).</example_item_description>
+      <example_item_data
+        runnable="false"
+      ><![CDATA[f = figure();
+cb = 'disp(gcbo().String)';
+uicontrol(f, 'Style', 'pushbutton', 'String', 'Left', 'Position', [20 20 80 30], 'Callback', cb);
+uicontrol(f, 'Style', 'pushbutton', 'String', 'Right', 'Position', [120 20 80 30], 'Callback', cb);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/gcbf">gcbf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/gco">gco</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/gcf">gcf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/3_ui_controls/uicontrol">uicontrol</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

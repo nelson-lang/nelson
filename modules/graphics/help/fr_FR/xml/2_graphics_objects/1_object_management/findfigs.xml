@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>findfigs</keyword>
+  <short_description
+  >Trouve les figures visibles placées hors de l'écran.</short_description>
+  <syntax>
+    <syntax_item>h = findfigs()</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description
+      >un vecteur colonne d'objets figure, vide (0 x 1) s'il n'y en a aucune.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>h = findfigs()</b> retourne les figures qui sont visibles mais que l'on ne peut pas voir, car elles se trouvent entièrement en dehors de l'écran.</p>
+    <p
+    >Une figure est retenue lorsque sa propriété <b>Visible</b> vaut 'on' et que le rectangle de sa propriété <b>Position</b> ne recouvre pas le rectangle <b>ScreenSize</b> de l'objet racine. Les figures masquées ne sont jamais retenues.</p>
+    <p>
+      <b>findfigs</b> se contente de signaler ces figures : elle ne les déplace pas. Modifiez leur propriété <b>Position</b> pour les ramener à l'écran.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure('Visible', 'off', 'Position', [-2000 -2000 300 200]);
+isempty(findfigs())
+f.Visible = 'on';
+h = findfigs();
+any(h == f)
+f.Position = [100 100 300 200];
+isempty(findfigs())]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/figure">figure</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/groot">groot</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/findall">findall</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

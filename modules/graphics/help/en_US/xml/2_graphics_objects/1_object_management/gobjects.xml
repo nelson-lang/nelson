@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>gobjects</keyword>
+  <short_description
+  >Create an array of graphics placeholders.</short_description>
+  <syntax>
+    <syntax_item>h = gobjects()</syntax_item>
+    <syntax_item>h = gobjects(n)</syntax_item>
+    <syntax_item>h = gobjects(sz)</syntax_item>
+    <syntax_item>h = gobjects(sz1, ..., szN)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>n</param_name>
+      <param_description
+      >a nonnegative integer: gives an n-by-n array.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>sz</param_name>
+      <param_description
+      >a row vector of nonnegative integers: the size of the array. An empty value gives a 0-by-0 array.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>sz1, ..., szN</param_name>
+      <param_description
+      >nonnegative integer scalars: the size of each dimension.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description
+      >an array of class nelson.graphics.GraphicsPlaceholder.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>h = gobjects(...)</b> returns an array filled with placeholder graphics objects. It is the graphics counterpart of <b>zeros</b>: use it to preallocate an array that will later receive graphics objects, for example in a loop.</p>
+    <p>
+      <b>gobjects()</b> returns a 1-by-1 array. The sizes follow the same rules as <b>zeros</b>.</p>
+    <p
+    >A placeholder is not a valid graphics object: <b>isgraphics</b> and <b>ishandle</b> return false for it. Once real graphics objects are stored in the array, its class changes to the common class of its elements.</p>
+    <p>A size that is negative or not an integer, or a size argument that is not a row vector, raises the error <b>Nelson:gobjects:invalidDimensions</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure('Visible', 'off');
+h = gobjects(1, 3);
+class(h)
+isgraphics(h)
+for k = 1:3
+  h(k) = text(0.2, 0.25 * k, sprintf('line %d', k));
+end
+class(h)
+isgraphics(h)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/isgraphics">isgraphics</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${types}ishandle">ishandle</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${constructors_functions}zeros">zeros</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

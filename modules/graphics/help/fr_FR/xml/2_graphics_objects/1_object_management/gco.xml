@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>gco</keyword>
+  <short_description>Objet courant de la figure courante.</short_description>
+  <syntax>
+    <syntax_item>h = gco()</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description
+      >un objet graphique : l'objet courant, ou [] s'il n'y en a pas.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>h = gco()</b> retourne la propriété <b>CurrentObject</b> de la figure courante, c'est-à-dire le dernier objet sur lequel l'utilisateur a cliqué dans cette figure.</p>
+    <p
+    >Créer un objet n'en fait pas l'objet courant. La propriété peut aussi être modifiée directement, par exemple <b>f.CurrentObject = h</b>.</p>
+    <p>
+      <b>gco</b> ne crée jamais de figure. Elle retourne une matrice vide ([]) lorsqu'aucune figure n'existe, lorsque la figure courante n'a pas d'objet courant, lorsque cet objet a été supprimé ou lorsque sa propriété <b>HandleVisibility</b> ne vaut pas 'on'.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure('Visible', 'off');
+ax = axes(f);
+l = plot(ax, 1:10);
+isempty(gco())
+f.CurrentObject = l;
+isequal(gco(), l)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/gcf">gcf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/gca">gca</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/gcbo">gcbo</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.figure.properties">propriétés de figure</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

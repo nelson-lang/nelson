@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>gcbf</keyword>
+  <short_description
+  >Figure that contains the object whose callback is running.</short_description>
+  <syntax>
+    <syntax_item>fig = gcbf()</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>fig</param_name>
+      <param_description
+      >a graphics object: a figure, or [] when no callback is running.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>fig = gcbf()</b> returns the figure that holds the object whose callback is being executed. It is the same as the second output of <b>gcbo</b>.</p>
+    <p
+    >When the object of the callback is itself a figure, that figure is returned. When it is not inside a figure, the current figure is returned (a figure is created if none exists).</p>
+    <p
+    >Outside a callback, or when the object of the callback no longer exists, <b>gcbf</b> returns an empty matrix ([]).</p>
+    <p
+    >Unlike <b>gcf</b>, the result does not depend on which figure is current: a callback can safely find its own figure even if another figure was made current meanwhile.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >The callback reads the name of its figure.</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure('Visible', 'off', 'Name', 'Settings');
+b = uicontrol(f, 'Style', 'pushbutton', 'CreateFcn', 'disp(gcbf().Name)');
+isempty(gcbf())]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >A button that closes its own figure (click the button).</example_item_description>
+      <example_item_data
+        runnable="false"
+      ><![CDATA[f = figure('Name', 'Dialog');
+uicontrol(f, 'Style', 'pushbutton', 'String', 'Close', 'Callback', 'close(gcbf())');]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/gcbo">gcbo</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/gcf">gcf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/3_ui_controls/uicontrol">uicontrol</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

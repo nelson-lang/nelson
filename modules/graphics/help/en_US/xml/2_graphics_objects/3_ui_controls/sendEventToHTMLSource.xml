@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>sendEventToHTMLSource</keyword>
+  <short_description
+  >Send an event to the page of an HTML UI component.</short_description>
+  <syntax>
+    <syntax_item>sendEventToHTMLSource(h, eventName)</syntax_item>
+    <syntax_item>sendEventToHTMLSource(h, eventName, eventData)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>h</param_name>
+      <param_description
+      >a scalar uihtml object.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>eventName</param_name>
+      <param_description
+      >a nonempty character vector or scalar string: the name of the event.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>eventData</param_name>
+      <param_description
+      >any value that can be encoded as JSON (default: []).</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p>
+      <b>sendEventToHTMLSource(h, eventName, eventData)</b> sends a named event from Nelson to the page displayed by the uihtml component <b>h</b>.</p>
+    <p>In the page, the event is received by a listener registered with <b>addEventListener(eventName, ...)</b> on the object passed to the <b>setup</b> function. The data is available in the <b>Data</b> field of the event received by the listener.</p>
+    <p
+    >The function returns at once: the event is queued and delivered when the page is next updated. Events are delivered in the order they were sent.</p>
+    <p>
+      <b>eventData</b> travels as JSON, with the same conversions as <b>jsonencode</b>.</p>
+    <p>
+      <b>h</b> must be a single uihtml object, otherwise the error <b>Nelson:sendEventToHTMLSource:invalidHandle</b> is raised. An event name that is not a nonempty text raises <b>Nelson:sendEventToHTMLSource:invalidEventName</b>.</p>
+    <p
+    >Like uihtml, this function is only useful in the WebView desktop.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >The page shows the value of each 'tick' event.</example_item_description>
+      <example_item_data
+        runnable="false"
+      ><![CDATA[f = uifigure();
+page = ['<html><body><p id="out">waiting</p><script>', ...
+  'function setup(h) {', ...
+  '  h.addEventListener("tick", function (evt) {', ...
+  '    document.getElementById("out").textContent = evt.Data.count;', ...
+  '  });', ...
+  '}</script></body></html>'];
+h = uihtml(f, 'Position', [10 10 300 100], 'HTMLSource', page);
+for k = 1:5
+  sendEventToHTMLSource(h, 'tick', struct('count', k));
+  pause(0.5);
+end]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/3_ui_controls/uihtml">uihtml</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${gui}uifigure">uifigure</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${json}jsonencode">jsonencode</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
