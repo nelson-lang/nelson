@@ -12,36 +12,35 @@ function c = between(t1, t2, components)
   % largest first: each takes the most whole units that do not go past t2.
   narginchk(2, 3);
   if nargin < 3
-    components = {'years', 'months', 'days', 'time'};
+    units = parseComponents({'years', 'months', 'days', 'time'});
+  else
+    units = parseComponents(components);
   end
-  units = parseComponents(components);
-  t1 = asDatetime(t1);
-  t2 = asDatetime(t2);
-  [t1, t2] = expandPair(t1, t2);
-  nat = isnat(t1) | isnat(t2);
+  [first, last] = expandPair(asDatetime(t1), asDatetime(t2));
+  nat = isnat(first) | isnat(last);
   if any(nat(:))
     % pairs with a NaT are computed on a valid date, then set to NaN
-    t1(nat) = datetime(2000, 1, 1, 'TimeZone', t1.TimeZone);
-    t2(nat) = datetime(2000, 1, 1, 'TimeZone', t2.TimeZone);
+    first(nat) = datetime(2000, 1, 1, 'TimeZone', first.TimeZone);
+    last(nat) = datetime(2000, 1, 1, 'TimeZone', last.TimeZone);
   end
-  forward = t2 >= t1;
-  monthsValue = zeros(size(t1));
+  forward = last >= first;
+  monthsValue = zeros(size(first));
   for u = [12 3 1; units.years units.quarters units.months]
     if u(2)
-      monthsValue = monthsValue + u(1) .* wholeMonthUnits(t1, t2, monthsValue, u(1), forward);
+      monthsValue = monthsValue + u(1) .* wholeMonthUnits(first, last, monthsValue, u(1), forward);
     end
   end
-  daysValue = zeros(size(t1));
-  anchor = t1 + calmonths(monthsValue);
+  daysValue = zeros(size(first));
+  anchor = first + calmonths(monthsValue);
   for u = [7 1; units.weeks units.days]
     if u(2)
       reached = datenum(anchor + caldays(daysValue));
-      daysValue = daysValue + u(1) .* fix((datenum(t2) - reached) ./ u(1));
+      daysValue = daysValue + u(1) .* fix((datenum(last) - reached) ./ u(1));
     end
   end
-  secondsValue = zeros(size(t1));
+  secondsValue = zeros(size(first));
   if units.time
-    secondsValue = seconds(t2 - (anchor + caldays(daysValue)));
+    secondsValue = seconds(last - (anchor + caldays(daysValue)));
   end
   monthsValue(nat) = NaN;
   daysValue(nat) = NaN;
@@ -63,16 +62,17 @@ end
 %=============================================================================
 function units = parseComponents(components)
   % requested components and the display format they give
-  if ischar(components) || isstring(components)
-    components = cellstr(components);
+  list = components;
+  if ischar(list) || isstring(list)
+    list = cellstr(list);
   end
-  if ~iscellstr(components) || isempty(components)
+  if ~iscellstr(list) || isempty(list)
     error('Nelson:time:invalidBetweenComponents', 'Invalid %s.', 'calendar components');
   end
   names = {'years', 'quarters', 'months', 'weeks', 'days', 'time'};
   units = struct('years', false, 'quarters', false, 'months', false, 'weeks', false, 'days', false, 'time', false);
-  for k = 1:numel(components)
-    name = lower(components{k});
+  for k = 1:numel(list)
+    name = lower(list{k});
     match = strcmp(names, name) | strcmp(names, [name, 's']);
     if ~any(match)
       error('Nelson:time:invalidBetweenComponents', 'Invalid %s.', 'calendar components');

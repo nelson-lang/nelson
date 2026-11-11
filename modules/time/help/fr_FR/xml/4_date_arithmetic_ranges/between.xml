@@ -22,7 +22,8 @@
   </param_output>
   <description>
     <p>Renvoie des durees calendaires entre deux valeurs datetime.</p>
-    <p>between exprime l intervalle avec des composants calendaires entiers et des restes jours/temps. La fonction supporte l expansion scalaire entre les bornes.</p>
+    <p>components est un nom ou une cellule de noms parmi 'years', 'quarters', 'months', 'weeks', 'days' et 'time' (par défaut : years, months, days et time). Seuls ces composants sont utilisés, du plus grand au plus petit : chacun prend le plus grand nombre d'unités entières qui ne dépasse pas <b>t2</b>, le reste passe au suivant. Ainsi <b>t1 + c</b> vaut <b>t2</b> lorsque 'time' est demandé. Lorsque l'heure de <b>t2</b> est antérieure à celle de <b>t1</b>, le dernier jour n'est pas compté et la partie horaire contient les heures restantes.</p>
+    <p>Le Format du résultat suit les composants : 'ymdt' par défaut, 'mdt' sans les années, avec 'q' pour les trimestres et 'w' pour les semaines. La partie horaire de datetimes avec fuseau est le temps écoulé. Un NaT donne NaN.</p>
     <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
   </description>
   <used_function />
@@ -34,6 +35,8 @@
       <example_item_data runnable="cli"><![CDATA[c = between(datetime(2024, 1, 15), datetime(2024, 3, 20))
 split(c, 'months')
 split(c, 'days')
+between(datetime(2024, 1, 31, 12, 0, 0), datetime(2024, 4, 1, 6, 0, 0))
+between(datetime(2024, 1, 31, 12, 0, 0), datetime(2024, 4, 1, 6, 0, 0), {'weeks', 'days'})
 ]]></example_item_data>
     </example_item>
   </examples>

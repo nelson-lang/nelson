@@ -357,19 +357,23 @@ classdef calendarDuration
       % four possible parts is one compose() over the whole array and the
       % present parts are joined with a single separator, so there is no
       % per-element string accumulation and the cost is linear.
+      % years, quarters and weeks are shown only when the Format has y, q or w
       months = calendarDuration.rawMonths(obj);
       daysValue = calendarDuration.rawDays(obj);
       secondsValue = calendarDuration.rawSeconds(obj);
-      y = fix(months(:) ./ 12);
-      mo = months(:) - y .* 12;
-      d = daysValue(:);
+      fmt = obj.FormatValue;
+      y = fix(months(:) ./ 12) .* any(fmt == 'y');
+      q = fix((months(:) - y .* 12) ./ 3) .* any(fmt == 'q');
+      mo = months(:) - y .* 12 - q .* 3;
+      w = fix(daysValue(:) ./ 7) .* any(fmt == 'w');
+      d = daysValue(:) - w .* 7;
       s = secondsValue(:);
       h = fix(s ./ 3600);
       mi = fix((s - h .* 3600) ./ 60);
       sec = s - h .* 3600 - mi .* 60;
-      masks = {y ~= 0, mo ~= 0, d ~= 0, s ~= 0};
-      texts = {compose('%gy', y), compose('%gmo', mo), ...
-        compose('%gd', d), compose('%gh %gm %gs', [h, mi, sec])};
+      masks = {y ~= 0, q ~= 0, mo ~= 0, w ~= 0, d ~= 0, s ~= 0};
+      texts = {compose('%gy', y), compose('%gq', q), compose('%gmo', mo), ...
+        compose('%gw', w), compose('%gd', d), compose('%gh %gm %gs', [h, mi, sec])};
       values = strings(numel(y), 1);
       for p = 1:numel(masks)
         mask = masks{p};
@@ -379,6 +383,7 @@ classdef calendarDuration
         values(mask) = values(mask) + part(mask);
       end
       values(strlength(values) == 0) = "0d";
+      values(isnan(months(:)) | isnan(daysValue(:)) | isnan(s)) = "NaN";
       out = reshape(values, size(months));
     end
 
