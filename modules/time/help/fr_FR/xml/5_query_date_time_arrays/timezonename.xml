@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>timezonename</keyword>
+  <short_description>Forme canonique d'un nom de fuseau horaire.</short_description>
+  <syntax>
+    <syntax_item>name = timezonename(tz)</syntax_item>
+    <syntax_item>name = timezonename(tz, dataPath)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>tz</param_name>
+      <param_description
+      >une chaîne : nom de fuseau horaire, 'local', 'UTC', 'GMT', 'Z' ou un décalage comme '+2', 'UTC+0530' ou '-03:00'.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dataPath</param_name>
+      <param_description
+      >une chaîne : dossier de la base de fuseaux horaires à utiliser. Une valeur vide conserve le réglage courant.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>name</param_name>
+      <param_description
+      >un vecteur de caractères : le nom canonique du fuseau horaire.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>timezonename</b> vérifie un nom de fuseau horaire et retourne la forme stockée dans la propriété <b>TimeZone</b> d'un datetime. C'est une fonction de bas niveau utilisée par <b>datetime</b>.</p>
+    <p>Les règles sont les suivantes :</p>
+    <ul>
+      <li>'UTC' et 'GMT' (sans tenir compte de la casse) donnent 'UTC' ; 'Z' donne '+00:00'.</li>
+      <li
+      >un décalage écrit '+H', '+HH', '+HHMM' ou '+HH:MM', avec un préfixe 'UTC' ou 'GMT' facultatif, donne '+HH:MM' (de même pour '-').</li>
+      <li
+      >'local' donne le nom du fuseau horaire du système d'exploitation lorsqu'une base est définie, 'local' sinon.</li>
+      <li
+      >un nom de la base est retourné tel quel ; les fuseaux à décalage fixe de la famille 'Etc/' s'écrivent '+HH:MM' (par exemple 'Etc/GMT+5' donne '-05:00').</li>
+      <li>un nom vide est retourné vide.</li>
+    </ul>
+    <p
+    >Sans base, seule une courte liste de fuseaux courants est connue. Un nom inconnu provoque l'erreur <b>Nelson:datetime:UnknownTimeZone</b>.</p>
+    <p
+    >Lorsque <b>dataPath</b> est fourni, il devient le dossier de la base de toutes les fonctions de fuseau horaire pour le reste de la session.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[dataPath = [modulepath('time'), '/resources/tzdata'];
+timezonename('gmt')
+timezonename('UTC+2')
+timezonename('Europe/Paris', dataPath)
+timezonename('Etc/GMT+5', dataPath)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}datetime">datetime</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}timezones">timezones</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}timezoneoffset">timezoneoffset</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

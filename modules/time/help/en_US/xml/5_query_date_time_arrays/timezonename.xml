@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>timezonename</keyword>
+  <short_description>Canonical form of a time zone name.</short_description>
+  <syntax>
+    <syntax_item>name = timezonename(tz)</syntax_item>
+    <syntax_item>name = timezonename(tz, dataPath)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>tz</param_name>
+      <param_description
+      >a string: time zone name, 'local', 'UTC', 'GMT', 'Z' or an offset such as '+2', 'UTC+0530' or '-03:00'.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dataPath</param_name>
+      <param_description
+      >a string: folder of the time zone database to use. An empty value keeps the current setting.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>name</param_name>
+      <param_description
+      >a character vector: the canonical time zone name.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>timezonename</b> checks a time zone name and returns the form stored in the <b>TimeZone</b> property of a datetime. It is a low-level function used by <b>datetime</b>.</p>
+    <p>The rules are:</p>
+    <ul>
+      <li>'UTC' and 'GMT' (any case) give 'UTC'; 'Z' gives '+00:00'.</li>
+      <li
+      >an offset written '+H', '+HH', '+HHMM' or '+HH:MM', with an optional 'UTC' or 'GMT' prefix, gives '+HH:MM' (same for '-').</li>
+      <li
+      >'local' gives the name of the operating system time zone when a database is set, 'local' otherwise.</li>
+      <li
+      >a database name is returned as is; fixed offset zones of the 'Etc/' family are written as '+HH:MM' (for example 'Etc/GMT+5' gives '-05:00').</li>
+      <li>an empty name is returned empty.</li>
+    </ul>
+    <p
+    >Without a database, only a short list of common zones is known. An unknown name raises the error <b>Nelson:datetime:UnknownTimeZone</b>.</p>
+    <p
+    >When <b>dataPath</b> is given, it becomes the database folder of all the time zone functions for the rest of the session.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[dataPath = [modulepath('time'), '/resources/tzdata'];
+timezonename('gmt')
+timezonename('UTC+2')
+timezonename('Europe/Paris', dataPath)
+timezonename('Etc/GMT+5', dataPath)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}datetime">datetime</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}timezones">timezones</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}timezoneoffset">timezoneoffset</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

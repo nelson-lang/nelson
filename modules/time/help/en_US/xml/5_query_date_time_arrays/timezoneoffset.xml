@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>timezoneoffset</keyword>
+  <short_description
+  >Offset from UTC, in seconds, of a time zone at given serial date numbers.</short_description>
+  <syntax>
+    <syntax_item>offset = timezoneoffset(dn, tz)</syntax_item>
+    <syntax_item>offset = timezoneoffset(dn, tz, dataPath)</syntax_item>
+    <syntax_item>offset = timezoneoffset(dn, tz, dataPath, reference)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>dn</param_name>
+      <param_description
+      >a numeric array: serial date numbers (see datenum).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tz</param_name>
+      <param_description
+      >a string: time zone name (for example 'Europe/Paris', 'UTC', 'local', '+05:30' or a POSIX TZ rule).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dataPath</param_name>
+      <param_description
+      >a string: folder of the time zone database to use. An empty value keeps the current setting.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>reference</param_name>
+      <param_description
+      >a string: 'local' (default) when dn holds wall-clock times of tz, 'utc' when dn holds UTC instants.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>offset</param_name>
+      <param_description
+      >a double array of the same size as dn: offset from UTC in seconds, daylight saving time included.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>timezoneoffset</b> returns, for each serial date number of <b>dn</b>, the offset in seconds between the time zone <b>tz</b> and UTC at that date. The offset includes daylight saving time when it applies.</p>
+    <p
+    >It is a low-level function used by <b>datetime</b>, <b>tzoffset</b> and the time zone conversions. Most scripts should use <b>tzoffset</b> on a datetime instead.</p>
+    <p
+    >The names 'UTC', 'GMT' and 'Z' (any case) mean UTC, 'local' means the time zone of the operating system, and a fixed offset can be given as '+HH:MM' or '-HH:MM'. Other names are searched in the time zone database. When no database is set, a short list of common zones and POSIX TZ rules such as 'EST5EDT,M3.2.0/2,M11.1.0/2' are still accepted.</p>
+    <p
+    >When <b>dataPath</b> is given, it becomes the database folder of all the time zone functions for the rest of the session. Nelson ships a database in <b>[modulepath('time'), '/resources/tzdata']</b>.</p>
+    <p
+    >Non-finite values of <b>dn</b> (NaN, Inf) give an offset of 0. An unknown time zone raises an error.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Offsets of Paris in winter and in summer.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[dataPath = [modulepath('time'), '/resources/tzdata'];
+dn = datenum(2024, [1 7], 15, 12, 0, 0);
+offset = timezoneoffset(dn, 'Europe/Paris', dataPath)
+offset_utc = timezoneoffset(dn, 'Europe/Paris', dataPath, 'utc')
+timezoneoffset(dn, '+05:30')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}tzoffset">tzoffset</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}timezonedst">timezonedst</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}timezonename">timezonename</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}timezones">timezones</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}datenum">datenum</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>timezonedst</keyword>
+  <short_description
+  >Indique si l'heure d'été est en vigueur dans un fuseau horaire à des dates numériques données.</short_description>
+  <syntax>
+    <syntax_item>tf = timezonedst(dn, tz)</syntax_item>
+    <syntax_item>[tf, shift] = timezonedst(dn, tz)</syntax_item>
+    <syntax_item>tf = timezonedst(dn, tz, dataPath)</syntax_item>
+    <syntax_item>[tf, shift] = timezonedst(dn, tz, dataPath)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>dn</param_name>
+      <param_description
+      >un tableau numérique : dates numériques (voir datenum), lues comme des heures locales de tz.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tz</param_name>
+      <param_description
+      >une chaîne : nom du fuseau horaire (par exemple 'Europe/Paris', 'UTC', 'local', '+05:30' ou une règle TZ POSIX).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dataPath</param_name>
+      <param_description
+      >une chaîne : dossier de la base de fuseaux horaires à utiliser. Une valeur vide conserve le réglage courant.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>tf</param_name>
+      <param_description
+      >un tableau logique de même taille que dn : vrai là où l'heure d'été s'applique.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>shift</param_name>
+      <param_description>un tableau double de même taille que dn : décalage d'heure d'été en secondes inclus dans le décalage UTC (0 en heure standard).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>timezonedst</b> retourne vrai pour chaque date numérique de <b>dn</b> à laquelle le fuseau horaire <b>tz</b> applique l'heure d'été.</p>
+    <p
+    >C'est une fonction de bas niveau utilisée par <b>isdst</b>. Dans la plupart des scripts, il vaut mieux appeler <b>isdst</b> sur un datetime.</p>
+    <p
+    >Les noms de fuseaux horaires sont interprétés comme dans <b>timezoneoffset</b>. UTC et les décalages fixes comme '+05:30' n'ont jamais d'heure d'été. Les valeurs non finies de <b>dn</b> donnent faux.</p>
+    <p
+    >Lorsque <b>dataPath</b> est fourni, il devient le dossier de la base de toutes les fonctions de fuseau horaire pour le reste de la session. Un fuseau horaire inconnu provoque une erreur.</p>
+    <p>La seconde sortie <b>shift</b> donne le décalage réel, par exemple 1800 pour une règle de 30 minutes. Les valeurs non finies de <b>dn</b> donnent 0.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Heure d'été à New York en hiver et en été.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[dataPath = [modulepath('time'), '/resources/tzdata'];
+dn = datenum(2024, [1 7], 15, 12, 0, 0);
+tf = timezonedst(dn, 'America/New_York', dataPath)
+timezonedst(dn, 'UTC')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}isdst">isdst</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}timezoneoffset">timezoneoffset</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}timezonename">timezonename</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}datenum">datenum</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

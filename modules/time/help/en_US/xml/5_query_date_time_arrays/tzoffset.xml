@@ -6,22 +6,28 @@
   <short_description>Return UTC offsets for timezone-aware datetime values.</short_description>
   <syntax>
     <syntax_item>d = tzoffset(t)</syntax_item>
+    <syntax_item>[d, dst] = tzoffset(t)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
-      <param_name>inputs</param_name>
+      <param_name>t</param_name>
       <param_description>A datetime array whose TimeZone property is empty, a fixed offset, local, or a supported timezone name.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
-      <param_name>output</param_name>
-      <param_description>A duration array containing offsets from UTC.</param_description>
+      <param_name>d</param_name>
+      <param_description>A duration array containing offsets from UTC, with Format 'hh:mm'.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>dst</param_name>
+      <param_description>A duration array containing the daylight saving time shift included in d, with Format 'hh:mm'.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>Return UTC offsets for timezone-aware datetime values.</p>
     <p>Named timezone offsets are read from the embedded timezone data. Fixed offsets such as +02:30 are parsed directly.</p>
+    <p>Elements that are NaT, or datetime arrays without time zone, give NaN offsets.</p>
     <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
   </description>
   <used_function />
@@ -32,6 +38,7 @@
       <example_item_description>Basic usage.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[tzoffset(datetime(2024, 7, 1, 'TimeZone', 'Europe/Paris'))
 tzoffset(datetime(2024, 1, 1, 'TimeZone', '+02:30'))
+[d, dst] = tzoffset(datetime(2024, [1 7], 1, 'TimeZone', 'America/New_York'))
 ]]></example_item_data>
     </example_item>
   </examples>

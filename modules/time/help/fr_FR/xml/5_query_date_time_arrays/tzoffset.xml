@@ -6,22 +6,28 @@
   <short_description>Renvoie les decalages UTC pour des valeurs datetime avec fuseau horaire.</short_description>
   <syntax>
     <syntax_item>d = tzoffset(t)</syntax_item>
+    <syntax_item>[d, dst] = tzoffset(t)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
-      <param_name>inputs</param_name>
+      <param_name>t</param_name>
       <param_description>Un tableau datetime dont TimeZone est vide, un decalage fixe, local ou un nom de fuseau supporte.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
-      <param_name>output</param_name>
-      <param_description>Un tableau duration contenant les decalages par rapport a UTC.</param_description>
+      <param_name>d</param_name>
+      <param_description>Un tableau duration contenant les décalages par rapport à UTC, au format 'hh:mm'.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>dst</param_name>
+      <param_description>Un tableau duration contenant le décalage d'heure d'été inclus dans d, au format 'hh:mm'.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>Renvoie les decalages UTC pour des valeurs datetime avec fuseau horaire.</p>
     <p>Les decalages de fuseaux nommes sont lus depuis la base timezone embarquee. Les decalages fixes comme +02:30 sont analyses directement.</p>
+    <p>Les éléments NaT, ou les tableaux datetime sans fuseau horaire, donnent des décalages NaN.</p>
     <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
   </description>
   <used_function />
@@ -32,6 +38,7 @@
       <example_item_description>Utilisation de base.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[tzoffset(datetime(2024, 7, 1, 'TimeZone', 'Europe/Paris'))
 tzoffset(datetime(2024, 1, 1, 'TimeZone', '+02:30'))
+[d, dst] = tzoffset(datetime(2024, [1 7], 1, 'TimeZone', 'America/New_York'))
 ]]></example_item_data>
     </example_item>
   </examples>

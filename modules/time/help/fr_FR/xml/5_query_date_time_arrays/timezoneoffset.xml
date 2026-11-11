@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>timezoneoffset</keyword>
+  <short_description
+  >Décalage par rapport à UTC, en secondes, d'un fuseau horaire à des dates numériques données.</short_description>
+  <syntax>
+    <syntax_item>offset = timezoneoffset(dn, tz)</syntax_item>
+    <syntax_item>offset = timezoneoffset(dn, tz, dataPath)</syntax_item>
+    <syntax_item>offset = timezoneoffset(dn, tz, dataPath, reference)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>dn</param_name>
+      <param_description
+      >un tableau numérique : dates numériques (voir datenum).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tz</param_name>
+      <param_description
+      >une chaîne : nom du fuseau horaire (par exemple 'Europe/Paris', 'UTC', 'local', '+05:30' ou une règle TZ POSIX).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dataPath</param_name>
+      <param_description
+      >une chaîne : dossier de la base de fuseaux horaires à utiliser. Une valeur vide conserve le réglage courant.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>reference</param_name>
+      <param_description
+      >une chaîne : 'local' (par défaut) lorsque dn contient des heures locales de tz, 'utc' lorsque dn contient des instants UTC.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>offset</param_name>
+      <param_description
+      >un tableau de doubles de même taille que dn : décalage par rapport à UTC en secondes, heure d'été comprise.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>timezoneoffset</b> retourne, pour chaque date numérique de <b>dn</b>, le décalage en secondes entre le fuseau horaire <b>tz</b> et UTC à cette date. Le décalage inclut l'heure d'été lorsqu'elle s'applique.</p>
+    <p
+    >C'est une fonction de bas niveau utilisée par <b>datetime</b>, <b>tzoffset</b> et les conversions de fuseau horaire. Dans la plupart des scripts, il vaut mieux appeler <b>tzoffset</b> sur un datetime.</p>
+    <p
+    >Les noms 'UTC', 'GMT' et 'Z' (sans tenir compte de la casse) désignent UTC, 'local' désigne le fuseau horaire du système d'exploitation, et un décalage fixe s'écrit '+HH:MM' ou '-HH:MM'. Les autres noms sont recherchés dans la base de fuseaux horaires. Sans base définie, une courte liste de fuseaux courants ainsi que les règles TZ POSIX comme 'EST5EDT,M3.2.0/2,M11.1.0/2' restent acceptées.</p>
+    <p
+    >Lorsque <b>dataPath</b> est fourni, il devient le dossier de la base de toutes les fonctions de fuseau horaire pour le reste de la session. Nelson fournit une base dans <b>[modulepath('time'), '/resources/tzdata']</b>.</p>
+    <p
+    >Les valeurs non finies de <b>dn</b> (NaN, Inf) donnent un décalage de 0. Un fuseau horaire inconnu provoque une erreur.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Décalages de Paris en hiver et en été.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[dataPath = [modulepath('time'), '/resources/tzdata'];
+dn = datenum(2024, [1 7], 15, 12, 0, 0);
+offset = timezoneoffset(dn, 'Europe/Paris', dataPath)
+offset_utc = timezoneoffset(dn, 'Europe/Paris', dataPath, 'utc')
+timezoneoffset(dn, '+05:30')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}tzoffset">tzoffset</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}timezonedst">timezonedst</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}timezonename">timezonename</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}timezones">timezones</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}datenum">datenum</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

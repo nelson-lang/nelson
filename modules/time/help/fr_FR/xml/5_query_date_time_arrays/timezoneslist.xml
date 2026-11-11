@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>timezoneslist</keyword>
+  <short_description
+  >Liste les noms de fuseaux horaires d'une base de fuseaux horaires.</short_description>
+  <syntax>
+    <syntax_item>zones = timezoneslist()</syntax_item>
+    <syntax_item>zones = timezoneslist(dataPath)</syntax_item>
+    <syntax_item>[zones, version] = timezoneslist(dataPath)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>dataPath</param_name>
+      <param_description
+      >une chaîne : dossier de la base de fuseaux horaires à utiliser. Une valeur vide conserve le réglage courant.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>zones</param_name>
+      <param_description
+      >un tableau string colonne : noms de fuseaux et d'alias triés, 'local' compris.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>version</param_name>
+      <param_description
+      >une chaîne : version de la base.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>timezoneslist</b> retourne les noms des fuseaux horaires connus des fonctions de fuseau horaire. C'est la fonction de bas niveau utilisée par <b>timezones</b>, qui lui passe la base fournie avec Nelson.</p>
+    <p
+    >Lorsqu'une base est définie, la liste contient ses fuseaux et alias ainsi que la pseudo-zone 'local', et <b>version</b> est la version de la base. Sans base, la liste contient 'local' et une courte liste de fuseaux courants, et <b>version</b> vaut 'date-3.0.4-posix'.</p>
+    <p
+    >Lorsque <b>dataPath</b> est fourni, il devient le dossier de la base de toutes les fonctions de fuseau horaire pour le reste de la session.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[dataPath = [modulepath('time'), '/resources/tzdata'];
+[zones, version] = timezoneslist(dataPath);
+version
+zones(1:5)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}timezones">timezones</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}timezonename">timezonename</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>timezonedst</keyword>
+  <short_description
+  >Tells if daylight saving time is in effect in a time zone at given serial date numbers.</short_description>
+  <syntax>
+    <syntax_item>tf = timezonedst(dn, tz)</syntax_item>
+    <syntax_item>[tf, shift] = timezonedst(dn, tz)</syntax_item>
+    <syntax_item>tf = timezonedst(dn, tz, dataPath)</syntax_item>
+    <syntax_item>[tf, shift] = timezonedst(dn, tz, dataPath)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>dn</param_name>
+      <param_description
+      >a numeric array: serial date numbers (see datenum), read as wall-clock times of tz.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tz</param_name>
+      <param_description
+      >a string: time zone name (for example 'Europe/Paris', 'UTC', 'local', '+05:30' or a POSIX TZ rule).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dataPath</param_name>
+      <param_description
+      >a string: folder of the time zone database to use. An empty value keeps the current setting.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>tf</param_name>
+      <param_description
+      >a logical array of the same size as dn: true where daylight saving time applies.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>shift</param_name>
+      <param_description>a double array of the same size as dn: daylight saving shift in seconds included in the UTC offset (0 in standard time).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>timezonedst</b> returns true for each serial date number of <b>dn</b> at which the time zone <b>tz</b> observes daylight saving time.</p>
+    <p
+    >It is a low-level function used by <b>isdst</b>. Most scripts should call <b>isdst</b> on a datetime instead.</p>
+    <p
+    >Time zone names are read as in <b>timezoneoffset</b>. UTC and fixed offsets such as '+05:30' never observe daylight saving time. Non-finite values of <b>dn</b> give false.</p>
+    <p
+    >When <b>dataPath</b> is given, it becomes the database folder of all the time zone functions for the rest of the session. An unknown time zone raises an error.</p>
+    <p>The second output <b>shift</b> gives the real shift, for example 1800 for a 30 minute rule. Non-finite values of <b>dn</b> give 0.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Daylight saving time in New York in winter and in summer.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[dataPath = [modulepath('time'), '/resources/tzdata'];
+dn = datenum(2024, [1 7], 15, 12, 0, 0);
+tf = timezonedst(dn, 'America/New_York', dataPath)
+timezonedst(dn, 'UTC')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}isdst">isdst</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}timezoneoffset">timezoneoffset</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}timezonename">timezonename</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}datenum">datenum</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
