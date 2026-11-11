@@ -42,9 +42,6 @@ function out = websave(varargin)
   if strcmp(options.RequestMethod, 'auto')
     options.RequestMethod = 'get';
   end
-  if strcmp(options.MediaType, 'auto') == 1
-    options.MediaType = 'application/x-www-form-urlencoded';
-  end
   out = webREST(url, [], filename, st, options);
 end
 %=============================================================================

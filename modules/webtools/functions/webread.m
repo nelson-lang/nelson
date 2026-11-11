@@ -42,9 +42,6 @@ function varargout = webread(varargin)
     st.(varargin{k}) = varargin{k + 1};
   end
   tmpfile = buildTempFilename(url);
-  if strcmp(options.MediaType, 'auto') == 1
-    options.MediaType = 'application/x-www-form-urlencoded';
-  end
   [tmpfile, responseContentType] = webREST(url, [], tmpfile, st, options);
   if isa(options.ContentReader, 'function_handle')
     reader = options.ContentReader;

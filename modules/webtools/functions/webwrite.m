@@ -66,9 +66,6 @@ function varargout = webwrite(varargin)
     if strcmp(options.RequestMethod, 'auto')
       options.RequestMethod = 'post';
     end
-    if strcmp(options.MediaType, 'auto') == 1
-      options.MediaType = 'application/x-www-form-urlencoded';
-    end
     tmpfile = webREST(url, data, tmpfile, st, options);
     res = convertContentType(tmpfile, options.ContentType, options.CharacterEncoding);
     if isfile(tmpfile)

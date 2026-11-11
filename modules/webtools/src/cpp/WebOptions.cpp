@@ -79,6 +79,10 @@ WebOptions::WebOptions(ArrayOf& webOptionsArrayOf)
 
     res = getWebOptionField(webOptionsArrayOf, "MediaType");
     _mediaType = res.asWideString();
+    // 'auto' is not a valid Content-Type: every request sends form data by default.
+    if (_mediaType == L"auto") {
+        _mediaType = L"application/x-www-form-urlencoded";
+    }
 
     res = getWebOptionField(webOptionsArrayOf, "RequestMethod");
     _requestMethod = res.asWideString();
