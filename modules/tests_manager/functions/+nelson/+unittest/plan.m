@@ -7,9 +7,16 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function testPlan = plan(suite, varargin)
+function testPlan = plan(targets, varargin)
   options = plan_parsePlanOptions(varargin);
   plan_validateShard(options.ShardIndex, options.ShardCount);
+  suite = targets;
+  if ~run_isModernInput(targets)
+    % Module names, files or folders: discover them as nelson.unittest.run does.
+    suite = nelson.unittest.discover(targets);
+  elseif strcmp(targets.type, 'TestPlan')
+    error('Nelson:tests_manager:testSuiteExpected', 'A test suite or test targets are expected.');
+  end
   cases = suite.cases;
   if options.Shuffle
     rng(options.Seed);

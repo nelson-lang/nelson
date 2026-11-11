@@ -12,7 +12,8 @@
     <param_input_item>
       <param_name>suite</param_name>
       <param_description>TestSuite retournee par nelson.unittest.discover ou
-        nelson.unittest.select.</param_description>
+        nelson.unittest.select, ou cibles acceptees par nelson.unittest.discover (nom de module,
+        fichier, dossier ou tableau de cellules de ceux-ci).</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Name, Value</param_name>

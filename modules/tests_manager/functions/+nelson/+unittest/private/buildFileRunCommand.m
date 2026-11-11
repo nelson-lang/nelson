@@ -18,9 +18,8 @@ function [cmd, command_filename, outputfile, redirect_err] = buildFileRunCommand
   % Resolve the name and root together, including nested tests, versioned
   % packages and temporary package-manager staging directories.
   [moduleName, moduleRootPath] = discover_moduleNameFromFile(testfile);
-  content = {['current_runfile_path = path();'];
-    ['cleanup_runfile_path = onCleanup(@() path(current_runfile_path));'];
-    ['setenv(''NELSON_UNITTEST_RUNFILE_WORKER'', ''TRUE'');'];
+  % The script ends with exit: no path restore is needed.
+  content = {['setenv(''NELSON_UNITTEST_RUNFILE_WORKER'', ''TRUE'');'];
     ['addpath(', nelsonStringLiteral(private_dir), ');'];
     ['encode_runfile_payload(struct(''r'', 0, ''msg'', '''', ''stdout'', '''', ''timing'', 0));']};
   if ~isempty(moduleName)
