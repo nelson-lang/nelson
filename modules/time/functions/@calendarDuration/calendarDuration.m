@@ -213,11 +213,11 @@ classdef calendarDuration
         return
       end
       if isa(a, 'datetime') && isa(b, 'calendarDuration')
-        out = calendarDuration.addToDatetime(a, b, 1);
+        out = plus(a, b);
         return
       end
       if isa(a, 'calendarDuration') && isa(b, 'datetime')
-        out = calendarDuration.addToDatetime(b, a, 1);
+        out = plus(b, a);
         return
       end
       error('Nelson:time:additionDefinedTheseOperands', '%s is not defined for these operands.', 'Addition');
@@ -229,7 +229,7 @@ classdef calendarDuration
         return
       end
       if isa(a, 'datetime') && isa(b, 'calendarDuration')
-        out = calendarDuration.addToDatetime(a, b, -1);
+        out = minus(a, b);
         return
       end
       error('Nelson:time:subtractionDefinedTheseOperands', '%s is not defined for these operands.', 'Subtraction');

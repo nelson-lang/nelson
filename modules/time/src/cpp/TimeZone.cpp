@@ -55,6 +55,9 @@ namespace {
             { "Europe/Berlin", "CET-1CEST,M3.5.0/2,M10.5.0/3" },
             { "Europe/Madrid", "CET-1CEST,M3.5.0/2,M10.5.0/3" },
             { "Europe/Rome", "CET-1CEST,M3.5.0/2,M10.5.0/3" },
+            { "Europe/Dublin", "GMT0IST,M3.5.0/1,M10.5.0/2" },
+            // POSIX cannot express the Ramadan breaks: keep the usual +01 offset.
+            { "Africa/Casablanca", "<+01>-1" },
             { "America/New_York", "EST5EDT,M3.2.0/2,M11.1.0/2" },
             { "America/Chicago", "CST6CDT,M3.2.0/2,M11.1.0/2" },
             { "America/Denver", "MST7MDT,M3.2.0/2,M11.1.0/2" },
@@ -64,6 +67,8 @@ namespace {
             { "Asia/Shanghai", "CST-8" },
             { "Asia/Kolkata", "IST-5:30" },
             { "Australia/Sydney", "AEST-10AEDT,M10.1.0/2,M4.1.0/3" },
+            { "Australia/Lord_Howe", "<+1030>-10:30<+11>-11,M10.1.0,M4.1.0" },
+            { "Antarctica/Troll", "<+00>0<+02>-2,M3.5.0/1,M10.5.0/3" },
         };
         return rules;
     }
@@ -167,26 +172,47 @@ namespace {
         return date::sys_seconds { std::chrono::seconds { serialToUnixTime(serialDateNumber) } };
     }
     //=============================================================================
+    // how a serial date number is read: wall clock (ambiguous time = later or
+    // first occurrence) or UTC instant.
+    enum class TimeReference
+    {
+        WallLater,
+        WallFirst,
+        Utc
+    };
+    //=============================================================================
     template <class Zone>
     void
-    offsetOf(const Zone& zone, double serialDateNumber, bool atUtc, int& offsetSeconds, bool& isDst)
+    offsetOf(const Zone& zone, double serialDateNumber, TimeReference reference, int& offsetSeconds,
+        int& dstSeconds, bool& repeated)
     {
+        // repeated: for a wall clock, the time is ambiguous; for a UTC instant,
+        // its wall time comes again after the next DST end (first occurrence).
         date::sys_info info;
-        if (atUtc) {
-            info = zone.get_info(serialToSysSeconds(serialDateNumber));
+        repeated = false;
+        if (reference == TimeReference::Utc) {
+            date::sys_seconds instant = serialToSysSeconds(serialDateNumber);
+            info = zone.get_info(instant);
+            if (info.end - std::chrono::hours { 24 } <= instant) {
+                date::sys_info next = zone.get_info(info.end);
+                repeated = next.offset < info.offset
+                    && info.end - (info.offset - next.offset) <= instant;
+            }
         } else {
             // a time skipped by a DST gap takes the offset before the gap, an
-            // ambiguous time the later occurrence (standard time).
+            // ambiguous time the later occurrence unless the first is asked.
             date::local_info local = zone.get_info(serialToLocalSeconds(serialDateNumber));
-            info = local.result == date::local_info::ambiguous ? local.second : local.first;
+            repeated = local.result == date::local_info::ambiguous;
+            bool later = repeated && reference != TimeReference::WallFirst;
+            info = later ? local.second : local.first;
         }
         offsetSeconds = static_cast<int>(info.offset.count());
-        isDst = info.save != std::chrono::minutes { 0 };
+        dstSeconds = static_cast<int>(std::chrono::seconds { info.save }.count());
     }
     //=============================================================================
     bool
-    tzdbInfo(double serialDateNumber, const std::string& zoneName, bool atUtc, int& offsetSeconds,
-        bool& isDst)
+    tzdbInfo(double serialDateNumber, const std::string& zoneName, TimeReference reference,
+        int& offsetSeconds, int& dstSeconds, bool& repeated)
     {
         const date::tzdb* db = nullptr;
         if (!tryGetTzdb(db)) {
@@ -194,7 +220,7 @@ namespace {
         }
         try {
             const date::time_zone* zone = db->locate_zone(zoneName);
-            offsetOf(*zone, serialDateNumber, atUtc, offsetSeconds, isDst);
+            offsetOf(*zone, serialDateNumber, reference, offsetSeconds, dstSeconds, repeated);
             return true;
         } catch (const std::exception&) {
             return false;
@@ -202,11 +228,11 @@ namespace {
     }
     //=============================================================================
     bool
-    localTimeInfo(double serialDateNumber, int& offsetSeconds, bool& isDst)
+    localTimeInfo(double serialDateNumber, int& offsetSeconds, int& dstSeconds)
     {
         // the C library resolves the system time zone from a UTC instant.
         time_t unixTime = serialToUnixTime(serialDateNumber);
-        std::tm localTm {};
+        std::tm localTm { };
 #ifdef _MSC_VER
         if (localtime_s(&localTm, &unixTime) != 0) {
             return false;
@@ -219,7 +245,39 @@ namespace {
         time_t localAsUtc = timegm(&localTm);
 #endif
         offsetSeconds = static_cast<int>(localAsUtc - unixTime);
-        isDst = localTm.tm_isdst > 0;
+        dstSeconds = 0;
+        if (localTm.tm_isdst > 0) {
+            // the shift is the gap to the standard offset of 1 Jan or 1 Jul.
+            int year = localTm.tm_year;
+            for (int month : { 0, 6 }) {
+                std::tm probe { };
+                probe.tm_year = year;
+                probe.tm_mon = month;
+                probe.tm_mday = 1;
+                probe.tm_hour = 12;
+                probe.tm_isdst = -1;
+#ifdef _MSC_VER
+                __time64_t probeTime = _mkgmtime64(&probe);
+                if (localtime_s(&probe, &probeTime) != 0) {
+                    continue;
+                }
+                __time64_t probeAsUtc = _mkgmtime64(&probe);
+#else
+                time_t probeTime = timegm(&probe);
+                if (localtime_r(&probeTime, &probe) == nullptr) {
+                    continue;
+                }
+                time_t probeAsUtc = timegm(&probe);
+#endif
+                if (probe.tm_isdst == 0) {
+                    dstSeconds = offsetSeconds - static_cast<int>(probeAsUtc - probeTime);
+                    break;
+                }
+            }
+            if (dstSeconds == 0) {
+                dstSeconds = 3600;
+            }
+        }
         return true;
     }
     //=============================================================================
@@ -235,12 +293,12 @@ namespace {
     }
     //=============================================================================
     bool
-    posixInfo(
-        double serialDateNumber, const char* rule, bool atUtc, int& offsetSeconds, bool& isDst)
+    posixInfo(double serialDateNumber, const char* rule, TimeReference reference,
+        int& offsetSeconds, int& dstSeconds, bool& repeated)
     {
         try {
             Posix::time_zone zone { std::string(rule) };
-            offsetOf(zone, serialDateNumber, atUtc, offsetSeconds, isDst);
+            offsetOf(zone, serialDateNumber, reference, offsetSeconds, dstSeconds, repeated);
             return true;
         } catch (const std::exception&) {
             return false;
@@ -248,45 +306,49 @@ namespace {
     }
     //=============================================================================
     bool
-    zoneInfo(double serialDateNumber, const std::string& zoneName, bool atUtc, int& offsetSeconds,
-        bool& isDst)
+    zoneInfo(double serialDateNumber, const std::string& zoneName, TimeReference reference,
+        int& offsetSeconds, int& dstSeconds, bool& repeated)
     {
+        repeated = false;
         if (!IsFinite(serialDateNumber)) {
             offsetSeconds = 0;
-            isDst = false;
+            dstSeconds = 0;
             return false;
         }
         std::string normalized = normalizeZoneName(zoneName);
         if (normalized.empty()) {
             offsetSeconds = 0;
-            isDst = false;
+            dstSeconds = 0;
             return true;
         }
         if (normalized == "local") {
-            return localTimeInfo(serialDateNumber, offsetSeconds, isDst);
+            return localTimeInfo(serialDateNumber, offsetSeconds, dstSeconds);
         }
         if (parseFixedOffset(normalized, offsetSeconds)) {
-            isDst = false;
+            dstSeconds = 0;
             return true;
         }
-        if (tzdbInfo(serialDateNumber, normalized, atUtc, offsetSeconds, isDst)) {
+        if (tzdbInfo(
+                serialDateNumber, normalized, reference, offsetSeconds, dstSeconds, repeated)) {
             return true;
         }
         const char* rule = findPosixRule(normalized);
         if (rule != nullptr) {
-            return posixInfo(serialDateNumber, rule, atUtc, offsetSeconds, isDst);
+            return posixInfo(
+                serialDateNumber, rule, reference, offsetSeconds, dstSeconds, repeated);
         }
-        return posixInfo(serialDateNumber, normalized.c_str(), atUtc, offsetSeconds, isDst);
+        return posixInfo(
+            serialDateNumber, normalized.c_str(), reference, offsetSeconds, dstSeconds, repeated);
     }
     //=============================================================================
     void
-    checkedZoneInfo(double serialDateNumber, const std::string& zoneName, bool atUtc,
-        int& offsetSeconds, bool& isDst)
+    checkedZoneInfo(double serialDateNumber, const std::string& zoneName, TimeReference reference,
+        int& offsetSeconds, int& dstSeconds, bool& repeated)
     {
-        if (!zoneInfo(serialDateNumber, zoneName, atUtc, offsetSeconds, isDst)) {
+        if (!zoneInfo(serialDateNumber, zoneName, reference, offsetSeconds, dstSeconds, repeated)) {
             if (!IsFinite(serialDateNumber)) {
                 offsetSeconds = 0;
-                isDst = false;
+                dstSeconds = 0;
                 return;
             }
             throw std::invalid_argument("Invalid time zone.");
@@ -337,7 +399,7 @@ namespace {
         if (name.rfind("Etc/", 0) != 0) {
             return name;
         }
-        date::sys_info info = zone.get_info(date::sys_seconds {});
+        date::sys_info info = zone.get_info(date::sys_seconds { });
         long long total = static_cast<long long>(info.offset.count());
         char sign = total < 0 ? '-' : '+';
         total = total < 0 ? -total : total;
@@ -373,30 +435,52 @@ TimeZoneSetDataPath(const std::string& dataPath)
 }
 //=============================================================================
 int
-TimeZoneOffsetSeconds(double serialDateNumber, const std::string& timeZoneName)
+TimeZoneOffsetSeconds(
+    double serialDateNumber, const std::string& timeZoneName, bool firstOccurrence, bool* ambiguous)
 {
     int offsetSeconds = 0;
-    bool isDst = false;
-    checkedZoneInfo(serialDateNumber, timeZoneName, false, offsetSeconds, isDst);
+    int dstSeconds = 0;
+    bool repeated = false;
+    checkedZoneInfo(serialDateNumber, timeZoneName,
+        firstOccurrence ? TimeReference::WallFirst : TimeReference::WallLater, offsetSeconds,
+        dstSeconds, repeated);
+    if (ambiguous != nullptr) {
+        *ambiguous = repeated;
+    }
     return offsetSeconds;
 }
 //=============================================================================
 int
-TimeZoneOffsetSecondsAtUtc(double utcSerialDateNumber, const std::string& timeZoneName)
+TimeZoneOffsetSecondsAtUtc(
+    double utcSerialDateNumber, const std::string& timeZoneName, bool* firstOccurrence)
 {
     int offsetSeconds = 0;
-    bool isDst = false;
-    checkedZoneInfo(utcSerialDateNumber, timeZoneName, true, offsetSeconds, isDst);
+    int dstSeconds = 0;
+    bool repeated = false;
+    checkedZoneInfo(
+        utcSerialDateNumber, timeZoneName, TimeReference::Utc, offsetSeconds, dstSeconds, repeated);
+    if (firstOccurrence != nullptr) {
+        *firstOccurrence = repeated;
+    }
     return offsetSeconds;
 }
 //=============================================================================
 bool
 TimeZoneIsDst(double serialDateNumber, const std::string& timeZoneName)
 {
+    return TimeZoneDstSeconds(serialDateNumber, timeZoneName) != 0;
+}
+//=============================================================================
+int
+TimeZoneDstSeconds(double serialDateNumber, const std::string& timeZoneName, bool firstOccurrence)
+{
     int offsetSeconds = 0;
-    bool isDst = false;
-    checkedZoneInfo(serialDateNumber, timeZoneName, false, offsetSeconds, isDst);
-    return isDst;
+    int dstSeconds = 0;
+    bool repeated = false;
+    checkedZoneInfo(serialDateNumber, timeZoneName,
+        firstOccurrence ? TimeReference::WallFirst : TimeReference::WallLater, offsetSeconds,
+        dstSeconds, repeated);
+    return dstSeconds;
 }
 //=============================================================================
 std::string

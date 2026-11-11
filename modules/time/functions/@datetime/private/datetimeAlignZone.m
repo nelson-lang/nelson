@@ -23,7 +23,8 @@ function b = datetimeAlignZone(b, zone, isConcatenation)
   if strcmp(zone, bZone)
     return
   end
-  [serial, millis] = datetimeConvertZone(datetime.rawSerial(b), datetime.storedMillis(b), bZone, zone);
-  b = datetime.fromSerial(serial, b.FormatValue, zone, millis);
+  [serial, millis, fold] = datetimeConvertZone(datetime.rawSerial(b), datetime.storedMillis(b), ...
+    bZone, zone, datetime.storedFold(b));
+  b = datetime.fromSerial(serial, b.FormatValue, zone, millis, fold);
 end
 %=============================================================================

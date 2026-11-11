@@ -39,9 +39,24 @@ function c = between(t1, t2, components)
       anchor = addMonths(serial1(:), monthsValue);
       daysValue = floor(serial2(:)) - floor(anchor);
   end
-  secondsValue = (serial2(:) - floor(serial2(:)) - (serial1(:) - floor(serial1(:)))) .* 86400;
+  secondsValue = timePart(t1, t2, serial1, serial2, monthsValue, daysValue, components);
   c = calendarDuration.fromParts(reshape(monthsValue, size(serial1)), ...
     reshape(daysValue, size(serial1)), reshape(secondsValue, size(serial1)), 'ymd');
+end
+%=============================================================================
+function secondsValue = timePart(t1, t2, serial1, serial2, monthsValue, daysValue, components)
+  % time-of-day difference; zoned dates take the time elapsed after the
+  % calendar part (UTC offsets may differ)
+  zoned = isa(t1, 'datetime') && ~isempty(t1.TimeZone) ...
+    && ~any(strcmp(components, {'years', 'year', 'y', 'quarters', 'quarter', 'q', 'days', 'day', 'd'}));
+  if zoned
+    sz = size(serial1);
+    anchor = t1 + calmonths(reshape(monthsValue, sz)) + caldays(reshape(daysValue, sz));
+    secondsValue = seconds(t2 - anchor);
+    secondsValue = secondsValue(:);
+  else
+    secondsValue = (serial2(:) - floor(serial2(:)) - (serial1(:) - floor(serial1(:)))) .* 86400;
+  end
 end
 %=============================================================================
 function m = wholeMonths(v1, v2)

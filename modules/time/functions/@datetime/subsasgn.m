@@ -21,8 +21,10 @@ end
 %=============================================================================
 function obj = localAssignDatetimeElements(obj, S, value)
   serial = datenum(obj);
+  fold = datetime.foldOrFalse(obj);
   if isa(value, 'missing')
     serial(S(1).subs{:}) = NaN(size(value));
+    fold(S(1).subs{:}) = false;
   else
     if isa(value, 'datetime')
       % assigned instants take the time zone of the array
@@ -31,13 +33,20 @@ function obj = localAssignDatetimeElements(obj, S, value)
       value = datetime(value);
     end
     serial(S(1).subs{:}) = datenum(value);
+    fold(S(1).subs{:}) = datetime.foldOrFalse(value);
   end
   % Elements created by growing the array are NaT, not serial day zero.
   assigned = true(size(datenum(obj)));
   assigned(S(1).subs{:}) = true;
   serial(~assigned) = NaN;
+  fold(~assigned) = false;
   obj.SerialValue = serial;
   obj.TimeMillis = [];
+  if any(fold(:)) && ~isempty(obj.TimeZoneValue)
+    obj.FoldValue = fold;
+  else
+    obj.FoldValue = [];
+  end
 end
 %=============================================================================
 function obj = localAssignDatetimeProperty(obj, name, value)

@@ -13,6 +13,12 @@ function tf = isdst(t)
     error('Nelson:time:datetimeInputExpected', '%s expected.', 'Datetime input');
   end
   timezoneDataPath = [modulepath('time'), '/resources/tzdata'];
-  tf = timezonedst(datenum(t), t.TimeZone, timezoneDataPath);
+  serials = datenum(t);
+  tf = timezonedst(serials, t.TimeZone, timezoneDataPath);
+  % first occurrences of ambiguous times (DST end) are daylight saving time
+  first = datetime.foldOrFalse(t);
+  if any(first(:))
+    tf(first) = timezonedst(serials(first), t.TimeZone, timezoneDataPath, 'first');
+  end
 end
 %=============================================================================

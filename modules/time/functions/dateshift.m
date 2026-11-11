@@ -30,7 +30,8 @@ function t2 = dateshift(t, mode, unitOrDay, rule)
     otherwise
       error('Nelson:time:invalidDateshiftMode', 'Invalid %s.', 'dateshift mode');
   end
-  t2 = datetime(shifted, 'ConvertFrom', 'datenum', 'Format', struct(t).FormatValue, 'TimeZone', t.TimeZone);
+  % an ambiguous result keeps the UTC offset of its source when it can
+  t2 = datetime.shiftedWallClock(t, shifted);
 end
 %=============================================================================
 function shifted = shiftUnit(serial, mode, unit, rule)

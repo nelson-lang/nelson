@@ -13,7 +13,8 @@ function obj = datetimeZoneNormalized(obj)
   if isempty(zone)
     return
   end
-  [serial, millis] = datetimeConvertZone(datetime.rawSerial(obj), datetime.storedMillis(obj), zone, zone);
-  obj = datetime.fromSerial(serial, obj.FormatValue, zone, millis);
+  [serial, millis, fold] = datetimeConvertZone(datetime.rawSerial(obj), datetime.storedMillis(obj), ...
+    zone, zone, datetime.storedFold(obj));
+  obj = datetime.fromSerial(serial, obj.FormatValue, zone, millis, fold);
 end
 %=============================================================================

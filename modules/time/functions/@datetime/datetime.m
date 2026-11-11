@@ -34,6 +34,9 @@ classdef datetime
     % either empty (the instant is reconstructed from SerialValue on demand) or
     % an array matching SerialValue in size.
     TimeMillis = []
+    % true where an ambiguous wall time (DST end) is its first occurrence;
+    % empty when no element is, else an array matching SerialValue in size.
+    FoldValue = []
   end
 
   methods
@@ -107,7 +110,7 @@ classdef datetime
         error('Nelson:time:invalidDatetimeInputArguments', 'Invalid %s.', 'datetime input arguments');
       end
       if ~isempty(obj.TimeZoneValue)
-        [obj.SerialValue, obj.TimeMillis] = datetimeConvertZone(obj.SerialValue, ...
+        [obj.SerialValue, obj.TimeMillis, obj.FoldValue] = datetimeConvertZone(obj.SerialValue, ...
           obj.TimeMillis, sourceZone, obj.TimeZoneValue);
       end
     end
@@ -125,10 +128,11 @@ classdef datetime
     end
 
     function obj = set.TimeZone(obj, value)
-      [serial, millis, zone] = datetimeZoneChange(obj, value);
+      [serial, millis, zone, fold] = datetimeZoneChange(obj, value);
       obj.SerialValue = serial;
       obj.TimeMillis = millis;
       obj.TimeZoneValue = zone;
+      obj.FoldValue = fold;
     end
 
     function value = get.Year(obj)
@@ -192,7 +196,11 @@ classdef datetime
       if ~isempty(millis)
         millis = millis.';
       end
-      out = datetime.fromSerial(obj.SerialValue.', obj.FormatValue, obj.TimeZoneValue, millis);
+      fold = datetime.storedFold(obj);
+      if ~isempty(fold)
+        fold = fold.';
+      end
+      out = datetime.fromSerial(obj.SerialValue.', obj.FormatValue, obj.TimeZoneValue, millis, fold);
     end
 
     function out = ctranspose(obj)
@@ -204,8 +212,12 @@ classdef datetime
       if ~isempty(millis)
         millis = reshape(millis, varargin{:});
       end
+      fold = datetime.storedFold(obj);
+      if ~isempty(fold)
+        fold = reshape(fold, varargin{:});
+      end
       out = datetime.fromSerial(reshape(obj.SerialValue, varargin{:}), ...
-        obj.FormatValue, obj.TimeZoneValue, millis);
+        obj.FormatValue, obj.TimeZoneValue, millis, fold);
     end
 
     function tf = isnan(obj)
@@ -221,6 +233,12 @@ classdef datetime
     end
 
     function [out, index] = sort(obj, varargin)
+      if datetime.useInstants(obj)
+        % instants order an array holding a repeated wall time (DST end)
+        [values, index] = sort(datetime.posixSecondsOf(obj), varargin{:});
+        out = datetime.fromPosix(values, obj.FormatValue, obj.TimeZoneValue);
+        return
+      end
       [values, index] = sort(datenum(obj), varargin{:});
       millis = datetime.storedMillis(obj);
       if ~isempty(millis)
@@ -233,27 +251,26 @@ classdef datetime
       % Set operations delegate to the serial-day representation, mirroring
       % sort/min/max, then rebuild the result as a datetime with the same
       % Format/TimeZone. Each NaT is a NaN serial, which unique keeps distinct.
-      serialValues = datenum(obj);
+      useInstants = datetime.useInstants(obj);
+      serialValues = datetime.serialOf(obj, useInstants);
       [values, ia, ic] = unique(serialValues, varargin{:});
-      C = datetime.rebuildLike(obj, values, ia);
+      C = datetime.rebuildLike(obj, values, ia, useInstants);
     end
 
     function [tf, loc] = ismember(a, b, varargin)
       b = datetimeAlignOperand(a, b);
-      leftSerial = datetime.serialOf(a);
-      rightSerial = datetime.serialOf(b);
+      [leftSerial, rightSerial] = datetime.setOperationKeys(a, b);
       [tf, loc] = ismember(leftSerial, rightSerial, varargin{:});
     end
 
     function [C, ia, ib] = intersect(a, b, varargin)
       b = datetimeAlignOperand(a, b);
-      leftSerial = datetime.serialOf(a);
-      rightSerial = datetime.serialOf(b);
+      [leftSerial, rightSerial, useInstants] = datetime.setOperationKeys(a, b);
       [values, ia, ib] = intersect(leftSerial, rightSerial, varargin{:});
       if isa(a, 'datetime')
-        C = datetime.rebuildLike(a, values, ia);
+        C = datetime.rebuildLike(a, values, ia, useInstants);
       else
-        C = datetime.rebuildLike(b, values, ib);
+        C = datetime.rebuildLike(b, values, ib, useInstants);
       end
     end
 
@@ -261,26 +278,24 @@ classdef datetime
       % The result mixes elements from both inputs, so it is rebuilt from the
       % serial values (Format/TimeZone taken from the datetime operand).
       b = datetimeAlignOperand(a, b);
-      leftSerial = datetime.serialOf(a);
-      rightSerial = datetime.serialOf(b);
+      [leftSerial, rightSerial, useInstants] = datetime.setOperationKeys(a, b);
       [values, ia, ib] = union(leftSerial, rightSerial, varargin{:});
       if isa(a, 'datetime')
         ref = a;
       else
         ref = b;
       end
-      C = datetime.fromSerial(values, ref.FormatValue, ref.TimeZoneValue);
+      C = datetime.rebuildLike(ref, values, [], useInstants);
     end
 
     function [C, ia] = setdiff(a, b, varargin)
       b = datetimeAlignOperand(a, b);
-      leftSerial = datetime.serialOf(a);
-      rightSerial = datetime.serialOf(b);
+      [leftSerial, rightSerial, useInstants] = datetime.setOperationKeys(a, b);
       [values, ia] = setdiff(leftSerial, rightSerial, varargin{:});
       if isa(a, 'datetime')
-        C = datetime.rebuildLike(a, values, ia);
+        C = datetime.rebuildLike(a, values, ia, useInstants);
       else
-        C = datetime.fromSerial(values, b.FormatValue, b.TimeZoneValue);
+        C = datetime.rebuildLike(b, values, [], useInstants);
       end
     end
 
@@ -288,36 +303,48 @@ classdef datetime
       index = [];
       if nargin >= 2 && isa(b, 'datetime')
         b = datetimeAlignOperand(a, b);
-        values = min(datenum(a), datenum(b));
-      elseif nargin == 1
-        [values, index] = min(datenum(a));
+        useInstants = datetime.useInstants(a, b);
+        values = min(datetime.serialOf(a, useInstants), datetime.serialOf(b, useInstants));
       else
-        [values, index] = min(datenum(a), b, varargin{:});
+        useInstants = datetime.useInstants(a);
+        if nargin == 1
+          [values, index] = min(datetime.serialOf(a, useInstants));
+        else
+          [values, index] = min(datetime.serialOf(a, useInstants), b, varargin{:});
+        end
       end
-      out = datetime.fromSerial(values, a.FormatValue, a.TimeZoneValue);
+      out = datetime.rebuildLike(a, values, [], useInstants);
     end
 
     function [out, index] = max(a, b, varargin)
       index = [];
       if nargin >= 2 && isa(b, 'datetime')
         b = datetimeAlignOperand(a, b);
-        values = max(datenum(a), datenum(b));
-      elseif nargin == 1
-        [values, index] = max(datenum(a));
+        useInstants = datetime.useInstants(a, b);
+        values = max(datetime.serialOf(a, useInstants), datetime.serialOf(b, useInstants));
       else
-        [values, index] = max(datenum(a), b, varargin{:});
+        useInstants = datetime.useInstants(a);
+        if nargin == 1
+          [values, index] = max(datetime.serialOf(a, useInstants));
+        else
+          [values, index] = max(datetime.serialOf(a, useInstants), b, varargin{:});
+        end
       end
-      out = datetime.fromSerial(values, a.FormatValue, a.TimeZoneValue);
+      out = datetime.rebuildLike(a, values, [], useInstants);
     end
 
     function out = mean(obj, varargin)
-      values = mean(datenum(obj), varargin{:});
-      out = datetime.fromSerial(values, obj.FormatValue, obj.TimeZoneValue);
+      % instants of a zoned array (its UTC offset may change)
+      useInstants = ~isempty(obj.TimeZoneValue);
+      values = mean(datetime.serialOf(obj, useInstants), varargin{:});
+      out = datetime.rebuildLike(obj, values, [], useInstants);
     end
 
     function out = median(obj, varargin)
-      values = median(datenum(obj), varargin{:});
-      out = datetime.fromSerial(values, obj.FormatValue, obj.TimeZoneValue);
+      % instants of a zoned array (its UTC offset may change)
+      useInstants = ~isempty(obj.TimeZoneValue);
+      values = median(datetime.serialOf(obj, useInstants), varargin{:});
+      out = datetime.rebuildLike(obj, values, [], useInstants);
     end
 
     function tf = isequal(obj, varargin)
@@ -326,8 +353,12 @@ classdef datetime
         other = varargin{k};
         % datetimes of two time zones are equal at the same instants
         if ~isa(other, 'datetime') || ~isequal(size(obj), size(other)) ...
-            || xor(isempty(obj.TimeZoneValue), isempty(other.TimeZoneValue)) ...
-            || ~isequal(datenum(obj), datenum(datetimeAlignZone(other, obj.TimeZoneValue)))
+            || xor(isempty(obj.TimeZoneValue), isempty(other.TimeZoneValue))
+          tf = false;
+          return
+        end
+        [left, right] = datetime.instantKeys(obj, datetimeAlignZone(other, obj.TimeZoneValue));
+        if ~isequal(left, right)
           tf = false;
           return
         end
@@ -344,8 +375,12 @@ classdef datetime
         other = varargin{k};
         % datetimes of two time zones are equal at the same instants
         if ~isa(other, 'datetime') || ~isequal(size(obj), size(other)) ...
-            || xor(isempty(obj.TimeZoneValue), isempty(other.TimeZoneValue)) ...
-            || ~isequaln(datenum(obj), datenum(datetimeAlignZone(other, obj.TimeZoneValue)))
+            || xor(isempty(obj.TimeZoneValue), isempty(other.TimeZoneValue))
+          tf = false;
+          return
+        end
+        [left, right] = datetime.instantKeys(obj, datetimeAlignZone(other, obj.TimeZoneValue));
+        if ~isequaln(left, right)
           tf = false;
           return
         end
@@ -354,12 +389,12 @@ classdef datetime
 
     function out = plus(a, b)
       if isa(a, 'datetime') && isa(b, 'duration')
-        [serial, millis] = datetimeAddSeconds(a, b.SecondsValue, 1);
-        out = datetime.fromSerial(serial, a.FormatValue, a.TimeZoneValue, millis);
+        [serial, millis, fold] = datetimeAddSeconds(a, b.SecondsValue, 1);
+        out = datetime.fromSerial(serial, a.FormatValue, a.TimeZoneValue, millis, fold);
         return
       end
       if isa(a, 'datetime') && isa(b, 'calendarDuration')
-        out = datetimeZoneNormalized(calendarDuration.addToDatetime(a, b, 1));
+        out = datetimeAddCalendar(a, b, 1);
         return
       end
       if isa(a, 'duration') && isa(b, 'datetime')
@@ -367,8 +402,8 @@ classdef datetime
         return
       end
       if isa(a, 'datetime') && isnumeric(b) && ~isempty(a.TimeZoneValue)
-        [serial, millis] = datetimeAddSeconds(a, double(b) .* 86400, 1);
-        out = datetime.fromSerial(serial, a.FormatValue, a.TimeZoneValue, millis);
+        [serial, millis, fold] = datetimeAddSeconds(a, double(b) .* 86400, 1);
+        out = datetime.fromSerial(serial, a.FormatValue, a.TimeZoneValue, millis, fold);
         return
       end
       if isa(a, 'datetime') && isnumeric(b)
@@ -385,12 +420,12 @@ classdef datetime
 
     function out = minus(a, b)
       if isa(a, 'datetime') && isa(b, 'duration')
-        [serial, millis] = datetimeAddSeconds(a, b.SecondsValue, -1);
-        out = datetime.fromSerial(serial, a.FormatValue, a.TimeZoneValue, millis);
+        [serial, millis, fold] = datetimeAddSeconds(a, b.SecondsValue, -1);
+        out = datetime.fromSerial(serial, a.FormatValue, a.TimeZoneValue, millis, fold);
         return
       end
       if isa(a, 'datetime') && isa(b, 'calendarDuration')
-        out = datetimeZoneNormalized(calendarDuration.addToDatetime(a, b, -1));
+        out = datetimeAddCalendar(a, b, -1);
         return
       end
       if isa(a, 'datetime') && isa(b, 'datetime')
@@ -403,8 +438,8 @@ classdef datetime
         return
       end
       if isa(a, 'datetime') && isnumeric(b) && ~isempty(a.TimeZoneValue)
-        [serial, millis] = datetimeAddSeconds(a, double(b) .* 86400, -1);
-        out = datetime.fromSerial(serial, a.FormatValue, a.TimeZoneValue, millis);
+        [serial, millis, fold] = datetimeAddSeconds(a, double(b) .* 86400, -1);
+        out = datetime.fromSerial(serial, a.FormatValue, a.TimeZoneValue, millis, fold);
         return
       end
       if isa(a, 'datetime') && isnumeric(b)
@@ -492,8 +527,8 @@ classdef datetime
       if ~isfinite(count)
         count = -1;
       end
-      [serial, millis] = datetimeAddSeconds(first, (0:count) .* stepSeconds, 1);
-      out = datetime.fromSerial(serial, first.FormatValue, first.TimeZoneValue, millis);
+      [serial, millis, fold] = datetimeAddSeconds(first, (0:count) .* stepSeconds, 1);
+      out = datetime.fromSerial(serial, first.FormatValue, first.TimeZoneValue, millis, fold);
     end
 
     function value = datenum(obj)
@@ -537,7 +572,7 @@ classdef datetime
       obj.SerialValue = double.empty(varargin{:});
     end
 
-    function obj = fromSerial(serial, formatValue, timeZoneValue, timeMillis)
+    function obj = fromSerial(serial, formatValue, timeZoneValue, timeMillis, fold)
       obj = datetime();
       obj.SerialValue = double(serial);
       if nargin > 1
@@ -551,6 +586,80 @@ classdef datetime
         % size is ignored later (storedMillis), so a bad value is never unsafe.
         obj.TimeMillis = timeMillis;
       end
+      if nargin > 4 && ~isempty(timeZoneValue) && any(fold(:))
+        obj.FoldValue = fold;
+      end
+    end
+
+    function obj = fromPosix(values, formatValue, timeZoneValue)
+      % datetime of the given instants (seconds since 1970-01-01 UTC) in a zone.
+      obj = datetime(values, 'ConvertFrom', 'posixtime', 'TimeZone', timeZoneValue);
+      obj.FormatValue = formatValue;
+    end
+
+    function fold = foldOrFalse(obj)
+      % first-occurrence flags of every element (false when none)
+      fold = datetime.storedFold(obj);
+      if isempty(fold)
+        fold = false(size(datetime.rawSerial(obj)));
+      end
+    end
+
+    function fold = storedFold(obj)
+      % First-occurrence flags of ambiguous wall times, or [] when none.
+      state = builtin('struct', obj);
+      fold = [];
+      if isfield(state, 'FoldValue')
+        candidate = state.FoldValue;
+        if ~isempty(candidate) && isequal(size(candidate), size(state.SerialValue))
+          fold = logical(candidate);
+        end
+      end
+    end
+
+    function out = shiftedWallClock(t, serial)
+      % datetime of t's zone at new wall-clock serial dates: an ambiguous time
+      % keeps the UTC offset of t when it can.
+      zone = t.TimeZoneValue;
+      sourceOffset = [];
+      if ~isempty(zone)
+        sourceOffset = datetimeWallOffset(datetime.rawSerial(t), zone, datetime.storedFold(t));
+      end
+      [wall, millis, fold] = datetimeResolveWallClock(serial, [], zone, sourceOffset);
+      out = datetime.fromSerial(wall, t.FormatValue, zone, millis, fold);
+    end
+
+    function [left, right, useInstants] = setOperationKeys(a, b)
+      % comparable keys of two set-operation operands (a numeric operand is a
+      % serial date read in the time zone of the datetime one)
+      if isa(a, 'datetime')
+        ref = a;
+      else
+        ref = b;
+      end
+      useInstants = datetime.useInstants(a, b);
+      left = datetime.serialOf(a, useInstants, ref);
+      right = datetime.serialOf(b, useInstants, ref);
+    end
+
+    function [left, right] = instantKeys(a, b)
+      % comparable keys of two datetimes of one time zone
+      useInstants = datetime.useInstants(a, b);
+      left = datetime.serialOf(a, useInstants);
+      right = datetime.serialOf(b, useInstants);
+    end
+
+    function tf = useInstants(varargin)
+      % Wall clocks of one zone order like instants unless one is the first
+      % occurrence of a repeated time (DST end): compare instants then.
+      tf = false;
+      for k = 1:nargin
+        x = varargin{k};
+        if isa(x, 'datetime') && ~isempty(x.TimeZoneValue) && ~isempty(datetime.storedFold(x))
+          tf = true;
+          return
+        end
+      end
     end
 
     function serial = rawSerial(obj)
@@ -558,22 +667,34 @@ classdef datetime
       serial = state.SerialValue;
     end
 
-    function serial = serialOf(x)
-      % Serial-day values of a set-operation operand: a datetime yields its
-      % serial value, a numeric operand is taken as already being a serial value.
-      if isa(x, 'datetime')
-        serial = datenum(x);
-      else
+    function serial = serialOf(x, useInstants, ref)
+      % Comparable values of an operand: serial days, or posix seconds when
+      % useInstants is true for a zoned datetime. A numeric operand is a serial
+      % date read in the time zone of the datetime ref.
+      instants = nargin > 1 && useInstants;
+      if ~isa(x, 'datetime')
         serial = double(x);
+        if instants && nargin > 2 && ~isempty(ref.TimeZoneValue)
+          serial = datetime.posixSecondsOf(datetime(serial, 'ConvertFrom', 'datenum', ...
+            'TimeZone', ref.TimeZoneValue));
+        end
+      elseif instants && ~isempty(x.TimeZoneValue)
+        serial = datetime.posixSecondsOf(x);
+      else
+        serial = datenum(x);
       end
     end
 
-    function out = rebuildLike(obj, values, idx)
-      % Rebuild a datetime holding the given serial values from a set operation,
-      % carrying the source Format/TimeZone. When the source has a precise time
-      % of day and the indices line up one-to-one with the values, that precise
-      % time is reindexed too; otherwise (e.g. the 'rows' option) it is dropped
-      % and the instant is reconstructed from the serial value.
+    function out = rebuildLike(obj, values, idx, useInstants)
+      % Rebuild a datetime holding the given values (see serialOf) from a set
+      % operation, carrying the source Format/TimeZone. When the source has a
+      % precise time of day and the indices line up one-to-one with the values,
+      % that precise time is reindexed too; otherwise (e.g. the 'rows' option) it
+      % is dropped and the instant is reconstructed from the serial value.
+      if nargin > 3 && useInstants && ~isempty(obj.TimeZoneValue)
+        out = datetime.fromPosix(values, obj.FormatValue, obj.TimeZoneValue);
+        return
+      end
       millis = datetime.storedMillis(obj);
       if ~isempty(millis) && numel(idx) == numel(values)
         millis = reshape(millis(idx), size(values));
@@ -638,10 +759,10 @@ classdef datetime
       else
         dayNumber = round(serial - millis ./ 86400000);
       end
-      offset = datetime.timeZoneOffsetSeconds(serial, obj.TimeZoneValue);
+      offset = datetime.timeZoneOffsetSeconds(serial, obj.TimeZoneValue, datetime.storedFold(obj));
     end
 
-    function offset = timeZoneOffsetSeconds(serial, timeZoneValue)
+    function offset = timeZoneOffsetSeconds(serial, timeZoneValue, fold)
       % UTC offset in seconds applied to the wall-clock serial values of a zoned
       % datetime (UTC = wall-clock - offset). Unzoned datetimes have no offset,
       % so the fast path returns zeros without consulting the time zone
@@ -652,9 +773,11 @@ classdef datetime
         offset = zeros(size(serial));
         return
       end
-      timezoneDataPath = [modulepath('time'), '/resources/tzdata'];
-      offset = timezoneoffset(serial, timeZoneValue, timezoneDataPath);
-      offset = reshape(offset, size(serial));
+      if nargin < 3
+        offset = datetimeWallOffset(serial, timeZoneValue, []);
+      else
+        offset = datetimeWallOffset(serial, timeZoneValue, fold);
+      end
     end
 
     function fmt = resolveDisplayFormat(fmt, serial)
@@ -674,6 +797,7 @@ classdef datetime
     function out = concat(dim, varargin)
       values = cell(1, nargin - 1);
       millisParts = cell(1, nargin - 1);
+      foldParts = cell(1, nargin - 1);
       haveMillis = true;
       fmt = 'default';
       % the first datetime operand gives the time zone; text reads in it
@@ -699,6 +823,7 @@ classdef datetime
           haveMillis = false;
         end
         millisParts{k} = part;
+        foldParts{k} = datetime.foldOrFalse(v);
       end
       if ~haveMillis
         % At least one part lacks a precise time of day; reconstruct the whole
@@ -707,7 +832,7 @@ classdef datetime
       else
         millis = cat(dim, millisParts{:});
       end
-      out = datetime.fromSerial(cat(dim, values{:}), fmt, tz, millis);
+      out = datetime.fromSerial(cat(dim, values{:}), fmt, tz, millis, cat(dim, foldParts{:}));
     end
 
     function tf = isTextScalar(value)
@@ -1238,6 +1363,7 @@ classdef datetime
       millis(nanRows) = NaN;
       obj.SerialValue = reshape(serial, size(serialCurrent));
       obj.TimeMillis = reshape(millis, size(serialCurrent));
+      obj.FoldValue = [];
       obj = datetimeZoneNormalized(obj);
     end
 

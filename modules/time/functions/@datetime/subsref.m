@@ -10,11 +10,9 @@
 function varargout = subsref(obj, S)
   if strcmp(S(1).type, '()')
     serial = datenum(obj);
-    millis = datetime.storedMillis(obj);
-    if ~isempty(millis)
-      millis = millis(S(1).subs{:});
-    end
-    out = datetime.fromSerial(serial(S(1).subs{:}), obj.FormatValue, obj.TimeZoneValue, millis);
+    millis = indexedPart(datetime.storedMillis(obj), S(1).subs);
+    fold = indexedPart(datetime.storedFold(obj), S(1).subs);
+    out = datetime.fromSerial(serial(S(1).subs{:}), obj.FormatValue, obj.TimeZoneValue, millis, fold);
     if numel(S) > 1
       varargout{1} = subsref(out, S(2:end));
     else
@@ -31,6 +29,13 @@ function varargout = subsref(obj, S)
     return
   end
   error('Nelson:time:invalidDatetimeIndexing', 'Invalid %s.', 'datetime indexing');
+end
+%=============================================================================
+function part = indexedPart(part, subs)
+  % indexed companion values (empty stays empty)
+  if ~isempty(part)
+    part = part(subs{:});
+  end
 end
 %=============================================================================
 function value = localDatetimeReference(obj, name)
