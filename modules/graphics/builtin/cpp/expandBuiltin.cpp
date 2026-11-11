@@ -21,10 +21,7 @@ expandBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 1, 2);
     nargoutcheck(nLhs, 0, 0);
-    if (!argIn[0].isGraphicsObject()) {
-        Error(L"Nelson:uicomponent:expectedTree", L"Tree or TreeNode graphics object expected.");
-    }
-    UITreeExpand(argIn[0].asGraphicsObjectScalar(), true);
+    UITreeExpand(argIn, true);
     return {};
 }
 //=============================================================================

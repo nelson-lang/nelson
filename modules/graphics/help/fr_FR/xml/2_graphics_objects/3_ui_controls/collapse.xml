@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>collapse</keyword>
+  <short_description>Replie les nœuds d'un arbre.</short_description>
+  <syntax>
+    <syntax_item>collapse(t)</syntax_item>
+    <syntax_item>collapse(t, 'all')</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>t</param_name>
+      <param_description
+      >un objet arbre (créé par uitree) ou un objet nœud d'arbre (créé par uitreenode).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'all'</param_name>
+      <param_description
+      >replie aussi tous les nœuds descendants (insensible à la casse, peut être abrégé).</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>collapse(t)</b> replie les nœuds de premier niveau de l'arbre <b>t</b>. Lorsque <b>t</b> est un nœud, seul ce nœud est replié.</p>
+    <p><b>collapse(t, 'all')</b> replie <b>t</b> et tous les nœuds situés en dessous, à tous les niveaux.</p>
+    <p>Sans 'all', les descendants gardent leur état : ils réapparaissent tels quels lorsque leur parent est déplié.</p>
+    <p>L'appel à <b>collapse</b> n'exécute pas le callback <b>NodeCollapsedFcn</b> de l'arbre.</p>
+    <p>Une première entrée qui n'est ni un arbre ni un nœud lève l'erreur <b>Nelson:uicomponent:expectedTree</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = uifigure();
+t = uitree(f, 'Position', [20 20 200 200]);
+n1 = uitreenode(t, 'Text', 'Fruits');
+n11 = uitreenode(n1, 'Text', 'Apples');
+uitreenode(n11, 'Text', 'Gala');
+uitreenode(n1, 'Text', 'Banana');
+expand(t, 'all');
+collapse(n11);
+collapse(t, 'all');]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/3_ui_controls/expand">expand</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/3_ui_controls/uitree">uitree</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/3_ui_controls/uitreenode">uitreenode</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -417,6 +417,8 @@ export interface UIControl {
 export interface TreeNode {
   text: string;
   handle?: number;
+  // nodes start collapsed; set by expand/collapse
+  expanded?: boolean;
   children?: TreeNode[];
 }
 //=============================================================================

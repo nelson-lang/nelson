@@ -47,6 +47,8 @@
 #include "GOUITable.h"
 #include "GOUITab.h"
 #include "GOUITabGroup.h"
+#include "GOUITree.h"
+#include "GOUITreeNode.h"
 #include "characters_encoding.hpp"
 #include <nlohmann/json.hpp>
 //=============================================================================
@@ -524,12 +526,14 @@ uiTreeChildrenJson(GraphicsObject* object)
     }
     for (int64 handle : childProperty->data()) {
         GraphicsObject* child = findGraphicsObject(handle, false);
-        if (child == nullptr || child->getType() != GO_PROPERTY_VALUE_UITREENODE_STR) {
+        auto* treeNode = dynamic_cast<GOUITreeNode*>(child);
+        if (treeNode == nullptr) {
             continue;
         }
         nlohmann::json node;
         node["text"] = wstring_to_utf8(child->findStringProperty(GO_TEXT_PROPERTY_NAME_STR));
         node["handle"] = static_cast<long long>(handle);
+        node["expanded"] = treeNode->isExpanded();
         nlohmann::json grandChildren = uiTreeChildrenJson(child);
         if (!grandChildren.empty()) {
             node["children"] = grandChildren;
@@ -1101,6 +1105,29 @@ GOUIComponent::applyWebAction(double value, const std::string& text)
         ArrayOf now = uiComponentMakeDatetime(uiComponentIsoToSerial(text));
         setProp(GO_VALUE_PROPERTY_NAME_STR, now);
         emitValueChanged(now, previous);
+        return true;
+    }
+    if ((type == GO_PROPERTY_VALUE_UITREE_STR || type == GO_PROPERTY_VALUE_UICHECKBOXTREE_STR)
+        && (value == 1 || value == -1)) {
+        // value 1/-1: the user expanded/collapsed the uitreenode whose handle is text
+        int64 nodeHandle = -1;
+        try {
+            nodeHandle = static_cast<int64>(std::stoll(text));
+        } catch (...) {
+            nodeHandle = -1;
+        }
+        auto* node = dynamic_cast<GOUITreeNode*>(findGraphicsObject(nodeHandle, false));
+        const bool expand = value > 0;
+        if (node != nullptr && node->getOwningTree() == this && node->isExpanded() != expand) {
+            node->setExpanded(expand);
+            static_cast<GOUITree*>(this)->syncExpandedState();
+            ArrayOfVector fieldValues;
+            fieldValues.push_back(graphicsObjectHandle(nodeHandle));
+            emitCallbackEvent(expand ? GO_NODE_EXPANDED_FCN_PROPERTY_NAME_STR
+                                     : GO_NODE_COLLAPSED_FCN_PROPERTY_NAME_STR,
+                expand ? L"NodeExpandedData" : L"NodeCollapsedData",
+                expand ? L"NodeExpanded" : L"NodeCollapsed", { L"Node" }, fieldValues);
+        }
         return true;
     }
     if (type == GO_PROPERTY_VALUE_UITREE_STR) {

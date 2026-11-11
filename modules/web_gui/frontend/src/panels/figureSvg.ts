@@ -652,17 +652,17 @@ export function controlToSvg(c: UIControl): string {
           const nx = x + 6 + depth * indent;
           const ncy = rowY + rowHeight / 2;
           if (node.children && node.children.length) {
-            out.push(
-              `<polygon points="${nx},${ncy - 3} ${nx + 8},${ncy - 3} ${nx + 4},${ncy + 3}" ` +
-                `fill="rgb(90,90,90)"/>`
-            );
+            const arrow = node.expanded
+              ? `${nx},${ncy - 3} ${nx + 8},${ncy - 3} ${nx + 4},${ncy + 3}`
+              : `${nx + 1},${ncy - 4} ${nx + 1},${ncy + 4} ${nx + 7},${ncy}`;
+            out.push(`<polygon points="${arrow}" fill="rgb(90,90,90)"/>`);
           }
           out.push(
             `<text x="${nx + 14}" y="${ncy + fs * 0.35}" font-size="${fs}" ` +
               `font-family="sans-serif" fill="${fg}">${escapeXml(node.text)}</text>`
           );
           row++;
-          walk(node.children, depth + 1);
+          if (node.expanded) walk(node.children, depth + 1);
         }
       };
       walk(c.data?.nodes, 0);

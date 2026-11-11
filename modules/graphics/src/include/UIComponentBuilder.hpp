@@ -119,9 +119,10 @@ UITreeBuilder(const ArrayOfVector& argIn);
 NLSGRAPHICS_IMPEXP go_handle
 UITreeNodeBuilder(const ArrayOfVector& argIn);
 //=============================================================================
-// expand/collapse the tree owning the given tree or tree node handle
+// expand/collapse (parent [, 'all']): top-level nodes of a tree or one node;
+// 'all' also applies to every descendant
 NLSGRAPHICS_IMPEXP void
-UITreeExpand(go_handle handle, bool expand);
+UITreeExpand(const ArrayOfVector& argIn, bool expand);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

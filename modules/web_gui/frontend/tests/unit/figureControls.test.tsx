@@ -255,3 +255,37 @@ describe('FigureControls tab groups', () => {
   });
 });
 //=============================================================================
+describe('FigureControls uitree', () => {
+  const tree = (expanded: boolean): UIControl =>
+    control({
+      handle: 7,
+      style: 'tree',
+      text: '',
+      w: 160,
+      h: 120,
+      data: { nodes: [{ text: 'Fruits', handle: 5, expanded, children: [{ text: 'Apple' }] }] },
+    });
+  const toggle = (details: HTMLDetailsElement, open: boolean): void => {
+    act(() => {
+      details.open = open;
+      details.dispatchEvent(new Event('toggle'));
+    });
+  };
+
+  it('follows the node expanded state and reports user toggles', () => {
+    const { host, update, onAction } = renderControls([tree(false)]);
+    const details = host.querySelector('details') as HTMLDetailsElement;
+    expect(details.open).toBe(false);
+    toggle(details, true);
+    expect(onAction).toHaveBeenCalledTimes(1);
+    expect(onAction.mock.calls[0].slice(1)).toEqual([1, '5']);
+    // engine echo: the model now matches, no new action
+    update([tree(true)]);
+    expect(details.open).toBe(true);
+    toggle(details, true);
+    expect(onAction).toHaveBeenCalledTimes(1);
+    toggle(details, false);
+    expect(onAction.mock.calls[1].slice(1)).toEqual([-1, '5']);
+  });
+});
+//=============================================================================

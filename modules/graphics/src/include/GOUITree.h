@@ -20,9 +20,8 @@ namespace Nelson {
 class NLSGRAPHICS_IMPEXP GOUITree : public GOUIContainer
 {
     bool checkboxStyle;
-    // pending expandAll request applied by the widget binding while
-    // applyState runs: 1 expand, -1 collapse, 0 none
-    int pendingExpandCollapse = 0;
+    // true while applyState pushes the node expanded states to the widget
+    bool pendingExpandSync = false;
 
 public:
     //=============================================================================
@@ -46,13 +45,14 @@ public:
     void
     rebuildTree();
     //=============================================================================
+    // push the node expanded states to the widget and repaint the figure
     void
-    expandAll(bool expand);
+    syncExpandedState();
     //=============================================================================
-    int
-    getPendingExpandCollapse() const
+    bool
+    isExpandSyncPending() const
     {
-        return pendingExpandCollapse;
+        return pendingExpandSync;
     }
     //=============================================================================
 private:

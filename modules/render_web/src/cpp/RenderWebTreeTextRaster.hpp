@@ -60,6 +60,7 @@ struct TreeRasterRow
     int depth = 0;
     std::string text;
     bool hasChildren = false;
+    bool expanded = false;
 };
 //=============================================================================
 // Flatten an array of {text, children} tree nodes (pre-order) into rows carrying
@@ -110,6 +111,9 @@ parseTreeNodeArray(
             skipJsonSpaces(json, pos);
             if (key == "text" && pos < json.size() && json[pos] == '"') {
                 parseJsonString(json, pos, row.text);
+            } else if (key == "expanded") {
+                row.expanded = json.compare(pos, 4, "true") == 0;
+                skipJsonValue(json, pos);
             } else if (key == "children") {
                 row.hasChildren = true;
                 childrenPos = pos;
@@ -123,7 +127,7 @@ parseTreeNodeArray(
             }
         }
         rows.push_back(row);
-        if (childrenPos != std::string::npos) {
+        if (childrenPos != std::string::npos && row.expanded) {
             size_t childPos = childrenPos;
             parseTreeNodeArray(json, childPos, depth + 1, rows);
         }
@@ -157,7 +161,11 @@ rasterizeTreeControl(RasterCanvas& canvas, const WebUIControl& control, double f
         const double x = control.x + 6.0 + rows[i].depth * indentWidth;
         const double cy = rowY + rowHeight / 2.0;
         if (rows[i].hasChildren) {
-            rasterizeArrow(canvas, x + 4.0, cy, 4.0, 3.0, 'd', triangle, supersample);
+            if (rows[i].expanded) {
+                rasterizeArrow(canvas, x + 4.0, cy, 4.0, 3.0, 'd', triangle, supersample);
+            } else {
+                rasterizeArrow(canvas, x + 4.0, cy, 3.0, 4.0, 'r', triangle, supersample);
+            }
         }
         rasterizeControlLabel(
             canvas, control, x + 14.0, cy + fontSize * 0.35, "left", rows[i].text, fg);

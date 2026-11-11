@@ -19,10 +19,12 @@ function TreeNodes({
   nodes,
   selected,
   onSelect,
+  onToggle,
 }: {
   nodes: TreeNode[];
   selected: number | null;
   onSelect: (handle: number) => void;
+  onToggle: (handle: number, expanded: boolean) => void;
 }): JSX.Element {
   const label = (n: TreeNode): JSX.Element => (
     <span
@@ -45,9 +47,21 @@ function TreeNodes({
       {nodes.map((n, i) => (
         <li key={i}>
           {n.children && n.children.length > 0 ? (
-            <details open>
+            <details
+              open={n.expanded === true}
+              onToggle={(e) => {
+                // report user toggles only: an engine update already matches the model
+                const open = e.currentTarget.open;
+                if (n.handle != null && open !== (n.expanded === true)) onToggle(n.handle, open);
+              }}
+            >
               <summary style={{ cursor: 'pointer' }}>{label(n)}</summary>
-              <TreeNodes nodes={n.children} selected={selected} onSelect={onSelect} />
+              <TreeNodes
+                nodes={n.children}
+                selected={selected}
+                onSelect={onSelect}
+                onToggle={onToggle}
+              />
             </details>
           ) : (
             label(n)
@@ -83,6 +97,7 @@ function TreeControl({
           setSelected(handle);
           onAction(c, 0, String(handle));
         }}
+        onToggle={(handle, expanded) => onAction(c, expanded ? 1 : -1, String(handle))}
       />
     </div>
   );

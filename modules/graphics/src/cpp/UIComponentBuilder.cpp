@@ -637,21 +637,63 @@ UITreeNodeBuilder(const ArrayOfVector& argIn)
     return nodeHandle;
 }
 //=============================================================================
-void
-UITreeExpand(go_handle handle, bool expand)
+static void
+setChildNodesExpanded(GraphicsObject* object, bool expand, bool recursive)
 {
-    GraphicsObject* object = findGraphicsObject(handle, false);
-    GOUITree* tree = dynamic_cast<GOUITree*>(object);
-    if (!tree) {
-        GOUITreeNode* node = dynamic_cast<GOUITreeNode*>(object);
-        if (node) {
-            tree = node->getOwningTree();
+    GOGObjectsProperty* childrenProperty = static_cast<GOGObjectsProperty*>(
+        object->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false));
+    if (!childrenProperty) {
+        return;
+    }
+    for (int64 childHandle : childrenProperty->data()) {
+        GOUITreeNode* child = dynamic_cast<GOUITreeNode*>(findGraphicsObject(childHandle, false));
+        if (child) {
+            child->setExpanded(expand);
+            if (recursive) {
+                setChildNodesExpanded(child, expand, true);
+            }
         }
     }
-    if (!tree) {
+}
+//=============================================================================
+void
+UITreeExpand(const ArrayOfVector& argIn, bool expand)
+{
+    if (argIn.empty() || !argIn[0].isGraphicsObject() || !argIn[0].isScalar()) {
         Error(L"Nelson:uicomponent:expectedTree", L"Tree or TreeNode graphics object expected.");
     }
-    tree->expandAll(expand);
+    bool all = false;
+    if (argIn.size() > 1) {
+        // case-insensitive, partial match allowed ('a', 'Al', 'ALL')
+        const ArrayOf& option = argIn[1];
+        std::wstring text;
+        if (option.isRowVectorCharacterArray() || option.isScalarStringArray()) {
+            text = option.asWideString();
+        }
+        if (text.empty() || text.size() > 3
+            || !StringHelpers::iequals(text, std::wstring(L"all").substr(0, text.size()))) {
+            Error(L"Nelson:uicomponent:expectedAllOption", L"Second argument must be 'all'.");
+        }
+        all = true;
+    }
+    GraphicsObject* object = findGraphicsObject(argIn[0].asGraphicsObjectScalar(), false);
+    GOUITree* tree = dynamic_cast<GOUITree*>(object);
+    GOUITreeNode* node = tree ? nullptr : dynamic_cast<GOUITreeNode*>(object);
+    if (!tree && !node) {
+        Error(L"Nelson:uicomponent:expectedTree", L"Tree or TreeNode graphics object expected.");
+    }
+    if (tree) {
+        setChildNodesExpanded(tree, expand, all);
+    } else {
+        node->setExpanded(expand);
+        if (all) {
+            setChildNodesExpanded(node, expand, true);
+        }
+        tree = node->getOwningTree();
+    }
+    if (tree) {
+        tree->syncExpandedState();
+    }
 }
 //=============================================================================
 } // namespace Nelson

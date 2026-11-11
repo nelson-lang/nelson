@@ -61,6 +61,27 @@ namespace {
         }
     }
     //=============================================================================
+    static GOUITreeNode*
+    itemNode(QTreeWidgetItem* item)
+    {
+        return dynamic_cast<GOUITreeNode*>(
+            findGraphicsObject((int64)item->data(0, Qt::UserRole).toLongLong(), false));
+    }
+    //=============================================================================
+    // mirror each node expanded state on its tree item
+    static void
+    applyExpandedStates(QTreeWidget* tree)
+    {
+        std::vector<QTreeWidgetItem*> items;
+        for (int k = 0; k < tree->topLevelItemCount(); ++k) {
+            collectItems(tree->topLevelItem(k), items);
+        }
+        for (QTreeWidgetItem* item : items) {
+            GOUITreeNode* node = itemNode(item);
+            item->setExpanded(node && node->isExpanded());
+        }
+    }
+    //=============================================================================
     class UITreeBinding : public QtUIComponentBinding
     {
     public:
@@ -115,11 +136,9 @@ namespace {
                         ? QAbstractItemView::ExtendedSelection
                         : QAbstractItemView::SingleSelection);
             }
-            int expandRequest = goTree->getPendingExpandCollapse();
-            if (expandRequest > 0) {
-                tree->expandAll();
-            } else if (expandRequest < 0) {
-                tree->collapseAll();
+            if (goTree->isExpandSyncPending()) {
+                GOUIComponent::ProgrammaticGuard guard(model);
+                applyExpandedStates(tree);
             }
         }
         //=============================================================================
@@ -145,7 +164,7 @@ namespace {
             tree->clear();
             appendNodeItems(
                 goTree, tree, nullptr, goTree, goTree->isCheckboxTree(), checkedHandles);
-            tree->expandAll();
+            applyExpandedStates(tree);
         }
         //=============================================================================
         void
@@ -175,13 +194,17 @@ namespace {
                 L"SelectedNodesChangedData", L"SelectionChanged", fieldNames, fieldValues);
         }
         //=============================================================================
-        // Fires NodeExpandedFcn / NodeCollapsedFcn with the node that toggled.
+        // Records the node state, then fires NodeExpandedFcn / NodeCollapsedFcn.
         void
         onNodeExpandCollapse(QTreeWidgetItem* item, const std::wstring& callbackName,
             const std::wstring& eventDataClassName, const std::wstring& eventName)
         {
             if (!item || model->isProgrammaticChange()) {
                 return;
+            }
+            GOUITreeNode* node = itemNode(item);
+            if (node) {
+                node->setExpanded(item->isExpanded());
             }
             int64 nodeHandle = (int64)item->data(0, Qt::UserRole).toLongLong();
             wstringVector fieldNames = { L"Node" };

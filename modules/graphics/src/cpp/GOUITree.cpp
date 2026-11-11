@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "GOUITree.h"
+#include "GOFigure.hpp"
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
 #include "GOCallbackProperty.hpp"
@@ -77,12 +78,19 @@ GOUITree::rebuildTree()
 }
 //=============================================================================
 void
-GOUITree::expandAll(bool expand)
+GOUITree::syncExpandedState()
 {
     if (binding && binding->exists()) {
-        pendingExpandCollapse = expand ? 1 : -1;
+        pendingExpandSync = true;
         binding->applyState(false);
-        pendingExpandCollapse = 0;
+        pendingExpandSync = false;
+    }
+    GOFigure* fig = getParentFigure();
+    if (fig) {
+        fig->setRenderingStateInvalid(true);
+        if (!fig->isDrawLater()) {
+            fig->repaint();
+        }
     }
 }
 //=============================================================================

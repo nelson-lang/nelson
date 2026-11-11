@@ -294,12 +294,35 @@ describe('displayListToSvg: uicontrols', () => {
         style: 'tree',
         w: 150,
         h: 120,
-        data: { nodes: [{ text: 'Fruits', children: [{ text: 'Apple' }, { text: 'Banana' }] }] },
+        data: {
+          nodes: [
+            {
+              text: 'Fruits',
+              expanded: true,
+              children: [{ text: 'Apple', children: [{ text: 'Gala' }] }, { text: 'Banana' }],
+            },
+          ],
+        },
       }),
     ]);
     expect(svg).toContain('>Fruits<');
     expect(svg).toContain('>Apple<');
     expect(svg).toContain('>Banana<');
+    // Apple is collapsed: its child row is hidden
+    expect(svg).not.toContain('>Gala<');
+  });
+
+  it('tree: a collapsed node hides its children', () => {
+    const svg = displayListToSvg([], 200, 200, [
+      control({
+        style: 'tree',
+        w: 150,
+        h: 120,
+        data: { nodes: [{ text: 'Fruits', children: [{ text: 'Apple' }] }] },
+      }),
+    ]);
+    expect(svg).toContain('>Fruits<');
+    expect(svg).not.toContain('>Apple<');
   });
 
   it('edit: a multi-line value lays out on separate lines', () => {

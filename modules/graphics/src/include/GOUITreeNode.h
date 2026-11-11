@@ -20,6 +20,9 @@ class GOUITree;
 // owning uitree QTreeWidget)
 class NLSGRAPHICS_IMPEXP GOUITreeNode : public GraphicsObject
 {
+    // expanded state (nodes start collapsed), set by expand/collapse and the user
+    bool expanded = false;
+
 public:
     //=============================================================================
     GOUITreeNode();
@@ -42,6 +45,18 @@ public:
     // owning tree (walks the parent chain)
     GOUITree*
     getOwningTree();
+    //=============================================================================
+    bool
+    isExpanded() const
+    {
+        return expanded;
+    }
+    //=============================================================================
+    void
+    setExpanded(bool value)
+    {
+        expanded = value;
+    }
     //=============================================================================
 };
 //=============================================================================
