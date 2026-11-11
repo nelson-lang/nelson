@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>dltarget</keyword>
+  <short_description
+  >Retourne l'architecture ciblée par les outils de liaison dynamique.</short_description>
+  <syntax>
+    <syntax_item>arch = dltarget()</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>arch</param_name>
+      <param_description
+      >une chaîne : l'architecture en cours d'exécution (voir computer('arch')), ou 'wasm32' pour une compilation croisée.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>dltarget()</b> retourne l'architecture pour laquelle <b>dlgeneratemake</b>, <b>dlmake</b> et <b>getdynlibext</b> construisent.</p>
+    <p
+    >Par défaut, il s'agit de l'architecture en cours d'exécution. Lorsque la variable d'environnement <b>NELSON_DL_TARGET</b> vaut <b>wasm32</b>, les outils de liaison dynamique décrivent un module secondaire Emscripten pour le moteur WebAssembly au lieu d'une bibliothèque native : <b>dlgeneratemake</b> génère un projet CMake qui inclut les paramètres de compilation et d'édition de liens partagés du moteur (<b>NELSON_WASM_BUILD_DIR/generated/wasm-runtime/side-module.cmake</b>, par défaut <b>temp/build-wasm</b>), <b>dlmake</b> le configure avec la chaîne d'outils Emscripten trouvée via <b>EMSDK</b>, et <b>getdynlibext</b> retourne <b>.so</b> quel que soit le système hôte. Un script de construction de toolbox basé sur ces fonctions n'a donc besoin d'aucune modification pour être empaqueté pour le navigateur avec <b>nmm('pack', ..., '-target', 'wasm32')</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[dltarget()
+setenv('NELSON_DL_TARGET', 'wasm32');
+dltarget()
+getdynlibext()
+setenv('NELSON_DL_TARGET', '');]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${dynamic_link}dlgeneratemake">dlgeneratemake</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${dynamic_link}dlmake">dlmake</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${dynamic_link}getdynlibext">getdynlibext</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
