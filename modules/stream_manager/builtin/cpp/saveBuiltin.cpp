@@ -16,6 +16,8 @@
 #include "PathFunctionIndexerManager.hpp"
 #include "FileSystemWrapper.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "Context.hpp"
+#include "characters_encoding.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -47,11 +49,22 @@ Nelson::StreamGateway::saveBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     bool nocompression = false;
     bool append = false;
     std::wstring version;
+    std::wstring structName;
     for (size_t k = 1; k < argIn.size(); k++) {
         ArrayOf paramK = argIn[k];
         std::wstring param = paramK.asWideString();
         if (isOption(param)) {
-            if (param == L"-mat" && !forceAsNh5) {
+            if (param == L"-struct") {
+                if (!structName.empty()) {
+                    Error(L"Nelson:save:structSourcesExclusive",
+                        L"Only one structure can be saved with -struct.");
+                }
+                if (k + 1 >= argIn.size()) {
+                    Error(L"Nelson:save:missingStructArg",
+                        L"-struct must be followed by the name of a scalar structure variable.");
+                }
+                structName = argIn[++k].asWideString();
+            } else if (param == L"-mat" && !forceAsNh5) {
                 forceAsMat = true;
             } else if (param == L"-nh5" && !forceAsMat) {
                 forceAsNh5 = true;
@@ -107,6 +120,30 @@ Nelson::StreamGateway::saveBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
         }
     }
 
+    // with -struct, the listed names are fields saved as variables from a temporary scope
+    ArrayOfVector structFields;
+    if (!structName.empty()) {
+        ArrayOf source;
+        Context* context = eval->getContext();
+        if (!context->getCurrentScope()->lookupVariable(wstring_to_utf8(structName), source)
+            || !source.isStruct() || source.isClassType() || !source.isScalar()) {
+            Error(L"Nelson:save:structArgNotScalarStruct",
+                L"-struct expects the name of a scalar structure variable.");
+        }
+        if (names.empty()) {
+            for (const std::string& field : source.fieldNames()) {
+                names.push_back(utf8_to_wstring(field));
+            }
+        }
+        for (const std::wstring& name : names) {
+            if (!source.isField(wstring_to_utf8(name))) {
+                Error(L"Nelson:save:fieldNotFoundInStruct",
+                    L"Variable '%s' has no field named '%s'.", structName, name);
+            }
+            structFields.push_back(source.fieldAsList(wstring_to_utf8(name))[0]);
+        }
+    }
+
     ArrayOfVector inputArguments;
     inputArguments.push_back(ArrayOf::characterArray(paramFilename));
     for (const std::wstring& name : names) {
@@ -121,6 +158,22 @@ Nelson::StreamGateway::saveBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     if (nocompression) {
         inputArguments.push_back(ArrayOf::characterArray("-nocompression"));
     }
-    return funcDef->evaluateFunction(eval, inputArguments, nLhs);
+    if (structName.empty()) {
+        return funcDef->evaluateFunction(eval, inputArguments, nLhs);
+    }
+    Context* context = eval->getContext();
+    context->pushScope("save");
+    for (size_t k = 0; k < names.size(); ++k) {
+        context->insertVariable(wstring_to_utf8(names[k]), structFields[k]);
+    }
+    ArrayOfVector retval;
+    try {
+        retval = funcDef->evaluateFunction(eval, inputArguments, nLhs);
+    } catch (...) {
+        context->popScope();
+        throw;
+    }
+    context->popScope();
+    return retval;
 }
 //=============================================================================

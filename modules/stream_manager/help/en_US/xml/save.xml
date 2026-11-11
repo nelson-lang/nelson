@@ -12,6 +12,7 @@
     <syntax_item>save(filename, &apos;-mat&apos;, ...)</syntax_item>
     <syntax_item>save(filename, &apos;-nh5&apos;, ...)</syntax_item>
     <syntax_item>save(filename, &apos;-nocompression&apos;, ...)</syntax_item>
+    <syntax_item>save(filename, &apos;-struct&apos;, s, field1, ..., fieldN)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -62,6 +63,7 @@
     <p>
       <b>save</b> save workspace variables to .nh5 or .mat file.</p>
     <p>Classdef value objects and classdef handle objects can be saved when their class definition is available on the path when the file is loaded.</p>
+    <p><b>save(filename, '-struct', s, field1, ..., fieldN)</b> saves the fields of the scalar structure variable <b>s</b> as separate variables; without field names, every field is saved. Variable names given with <b>-struct</b> are field names.</p>
   </description>
   <used_function />
   <bibliography />
@@ -159,6 +161,10 @@ coordinates = [loaded.point.X, loaded.point.Y]]]></example_item_data>
     <history_item>
       <history_version>2.0.0</history_version>
       <history_description>classdef object save behavior documented</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>'-struct' option added.</history_description>
     </history_item>
   </history>
   <authors>
