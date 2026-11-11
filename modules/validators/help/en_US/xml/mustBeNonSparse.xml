@@ -7,6 +7,8 @@
   <syntax>
     <syntax_item>mustBeNonSparse(var)</syntax_item>
     <syntax_item>mustBeNonSparse(var, argPosition)</syntax_item>
+    <syntax_item>mustBeNonsparse(var)</syntax_item>
+    <syntax_item>mustBeNonsparse(var, argPosition)</syntax_item>
     <syntax_item
     >C++: void mustBeNonSparse(const ArrayOfVector&amp; args, int argPosition)</syntax_item>
   </syntax>
@@ -25,6 +27,8 @@
   <description>
     <p>
       <b>mustBeNonSparse</b> checks that value is not sparse or raise an error.</p>
+    <p>
+      <b>mustBeNonsparse</b> is another spelling of <b>mustBeNonSparse</b>: both names call the same function and raise the same error.</p>
   </description>
   <used_function />
   <bibliography />
@@ -49,6 +53,10 @@ mustBeNonSparse(sparse(3))
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>lower case spelling mustBeNonsparse added</history_description>
     </history_item>
   </history>
   <authors>
