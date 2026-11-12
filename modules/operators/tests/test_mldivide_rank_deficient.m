@@ -62,7 +62,8 @@ asserts.isequal(msg, sprintf(_('Matrix is rank deficient, rank = %d, tol = %e.')
 lastwarn('', '');
 X = [1 2i; 2 4i; 3 6i] \ [1; 1; 1];
 [msg, id] = lastwarn();
-asserts.isapprox(X, [0; -0.21428571428571433i], 1e-15);
+% the zero real part may keep a rounding residue on some CPUs, hence the absolute tolerance
+asserts.isapprox(X, [0; -0.21428571428571433i], 1e-15, 1e-15);
 asserts.isequal(msg, sprintf(_('Matrix is rank deficient, rank = %d, tol = %e.'), 1, 4.984889e-14));
 lastwarn('', '');
 X = single([1 2i; 2 4i; 3 6i]) \ single([1; 1; 1]);

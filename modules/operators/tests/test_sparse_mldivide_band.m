@@ -10,18 +10,21 @@
 % Sparse divisors with a dense band use a band LU, singular or not.
 M = [1 2 3; 4 5 6; 7 8 9];
 %=============================================================================
+% M is singular: which exact solution comes out depends on FMA in the BLAS kernels.
 lastwarn('', '');
 X = sparse(M) \ [1; 2; 3];
 [msg, id] = lastwarn();
 asserts.isequal(id, 'Nelson:nearlySingularMatrix');
-asserts.isapprox(X, [-7 / 30; 7 / 15; 0.1], 1e-12);
+asserts.istrue(all(isfinite(X)));
+asserts.istrue(norm(M * X - [1; 2; 3]) < 1e-12);
 %=============================================================================
 lastwarn('', '');
 X = sparse(M) \ sparse([1; 2; 3]);
 [msg, id] = lastwarn();
 asserts.istrue(issparse(X));
 asserts.isequal(id, 'Nelson:nearlySingularMatrix');
-asserts.isapprox(full(X), [-7 / 30; 7 / 15; 0.1], 1e-12);
+asserts.istrue(all(isfinite(full(X))));
+asserts.istrue(norm(M * full(X) - [1; 2; 3]) < 1e-12);
 %=============================================================================
 % '/' factors the divisor itself and solves with its transpose.
 lastwarn('', '');
