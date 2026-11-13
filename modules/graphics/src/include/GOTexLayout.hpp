@@ -46,6 +46,7 @@ struct TexBlockLayout
     double totalWidth = 0.0;
     double topAbove = 0.0;
     double botBelow = 0.0;
+    bool measuredByRenderer = false;
 };
 //=============================================================================
 inline FontSpec
@@ -117,15 +118,40 @@ buildTexBlockLayout(const std::vector<TexRun>& parsed, const FontSpec& baseFont)
     return layout;
 }
 //=============================================================================
+// Re-advances the runs by the renderer's own measure: the layout measure may use
+// another DPI than the drawn font (e.g. 96 vs 72 on macOS), leaving gaps.
+inline void
+remeasureTexBlockLayout(RenderInterface& gc, TexBlockLayout& layout)
+{
+    if (layout.measuredByRenderer) {
+        return;
+    }
+    double x = 0.0;
+    for (TexRunLayout& run : layout.runs) {
+        int w = 0, h = 0, xo = 0, yo = 0;
+        gc.measureText(
+            run.text, run.font, RenderInterface::Min, RenderInterface::Min, w, h, xo, yo);
+        if (w > 0) {
+            run.width = w;
+        }
+        run.x = x;
+        x += run.width;
+    }
+    layout.totalWidth = x;
+    layout.measuredByRenderer = true;
+}
+//=============================================================================
 // Every run is emitted with (Min, Min) so putText places its baseline-left origin. The
 // per-run offset (Xloc, Yloc) is relative to the anchor and rotated like putText does, so
 // rotated labels still lay out correctly. putText adds the run's own descent for
 // (Min, Min), so it is pre-subtracted here.
 inline void
-drawTexBlockLayout(RenderInterface& gc, double x, double y, const TexBlockLayout& blockLayout,
+drawTexBlockLayout(RenderInterface& gc, double x, double y, const TexBlockLayout& layout,
     const std::vector<double>& color, RenderInterface::AlignmentFlag xalign,
     RenderInterface::AlignmentFlag yalign, double rotation)
 {
+    TexBlockLayout blockLayout = layout;
+    remeasureTexBlockLayout(gc, blockLayout);
     double B; // baseline of the base-level text, as a local offset (up +).
     if (yalign == RenderInterface::Max) {
         B = -blockLayout.topAbove;
@@ -134,11 +160,12 @@ drawTexBlockLayout(RenderInterface& gc, double x, double y, const TexBlockLayout
     } else {
         B = blockLayout.botBelow;
     }
+    const double totalWidth = blockLayout.totalWidth;
     double startX;
     if (xalign == RenderInterface::Mean) {
-        startX = -blockLayout.totalWidth / 2.0;
+        startX = -totalWidth / 2.0;
     } else if (xalign == RenderInterface::Max) {
-        startX = -blockLayout.totalWidth;
+        startX = -totalWidth;
     } else {
         startX = 0.0;
     }

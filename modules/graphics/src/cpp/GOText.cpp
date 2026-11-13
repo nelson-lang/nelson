@@ -655,6 +655,7 @@ GOText::paintMe(RenderInterface& gc)
         // the total block extent, like measureText's alignment model, so it hugs the
         // runs for every alignment.
         blockLayout = buildTexBlockLayout(texToRuns(text), paintFont);
+        remeasureTexBlockLayout(gc, blockLayout);
         textwidth = static_cast<int>(std::lround(blockLayout.totalWidth));
         textheight = static_cast<int>(std::lround(blockLayout.topAbove + blockLayout.botBelow));
         textxoffset = 0;
