@@ -13,6 +13,7 @@
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
 #include "GOLineSeries.hpp"
+#include "GOLimitsInRange.hpp"
 #include "GOList.hpp"
 #include "GraphicsObject.hpp"
 #include "GOAxis.hpp"
@@ -427,27 +428,32 @@ GOLineSeries::getLimits()
     std::vector<double> ys(findVectorDoubleProperty(GO_Y_DATA_PROPERTY_NAME_STR));
     std::vector<double> zs(findVectorDoubleProperty(GO_Z_DATA_PROPERTY_NAME_STR));
     buildPolarLineData(this, xs, ys);
-    if (zs.size() == 0) {
-        zs.resize(ys.size());
-        OMP_PARALLEL_FOR_LOOP(ys.size())
-        for (ompIndexType i = 0; i < (ompIndexType)ys.size(); i++) {
-            zs[i] = 0.0;
-        }
-    }
     limits.resize(0);
     limits.reserve(12);
-    limits.push_back(findVectorMin(xs));
-    limits.push_back(findVectorMax(xs));
-    limits.push_back(findVectorMin(ys));
-    limits.push_back(findVectorMax(ys));
-    limits.push_back(findVectorMin(zs));
-    limits.push_back(findVectorMax(zs));
+    appendPointsExtent(limits, xs, ys, zs);
     limits.push_back(0);
     limits.push_back(0);
     limits.push_back(0);
     limits.push_back(0);
     limitsDirty = false;
     return limits;
+}
+//=============================================================================
+std::vector<double>
+GOLineSeries::getLimitsInRange(const std::vector<double>& box, const std::array<bool, 3>& logScale)
+{
+    std::vector<double> full(getLimits());
+    if (full.empty()) {
+        return full;
+    }
+    std::vector<double> xs(findVectorDoubleProperty(GO_X_DATA_PROPERTY_NAME_STR));
+    std::vector<double> ys(findVectorDoubleProperty(GO_Y_DATA_PROPERTY_NAME_STR));
+    std::vector<double> zs(findVectorDoubleProperty(GO_Z_DATA_PROPERTY_NAME_STR));
+    buildPolarLineData(this, xs, ys);
+    LimitsRange range(box, logScale);
+    LimitsInRangeAccumulator visible(range);
+    visible.addPolyline(xs, ys, zs);
+    return visible.result(full);
 }
 //=============================================================================
 } // namespace Nelson

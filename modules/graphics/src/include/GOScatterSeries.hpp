@@ -39,11 +39,11 @@ public:
     paintMe(RenderInterface& gc) override;
     std::vector<double>
     getLimits() override;
+    std::vector<double>
+    getLimitsInRange(
+        const std::vector<double>& box, const std::array<bool, 3>& logScale) override;
 
 private:
-    mutable bool cDataDirty = true;
-    mutable double cachedMinC = 0.0;
-    mutable double cachedMaxC = 1.0;
 
     std::vector<double> limits;
     mutable bool limitsDirty = true;

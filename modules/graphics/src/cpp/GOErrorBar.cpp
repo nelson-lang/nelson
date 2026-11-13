@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "GOErrorBar.hpp"
+#include "GOLimitsInRange.hpp"
 #include "GOChartDecorators.hpp"
 #include "GOArrayOfProperty.hpp"
 #include "GOAutoFlatColorProperty.hpp"
@@ -483,6 +484,61 @@ GOErrorBar::getLimits()
     limits = { *xMin, *xMax, *yMin, *yMax, 0., 0., 0., 0., 0., 0. };
     limitsDirty = false;
     return limits;
+}
+//=============================================================================
+std::vector<double>
+GOErrorBar::getLimitsInRange(const std::vector<double>& box, const std::array<bool, 3>& logScale)
+{
+    // A point inside the range brings its error bar ends with it.
+    std::vector<double> full(getLimits());
+    if (full.empty()) {
+        return full;
+    }
+    std::vector<double> x = findVectorDoubleProperty(GO_X_DATA_PROPERTY_NAME_STR);
+    std::vector<double> y = findVectorDoubleProperty(GO_Y_DATA_PROPERTY_NAME_STR);
+    size_t count = y.size();
+    std::vector<double> xNeg
+        = expandedDelta(findVectorDoubleProperty(GO_X_NEGATIVE_DELTA_PROPERTY_NAME_STR), count,
+            GO_X_NEGATIVE_DELTA_PROPERTY_NAME_STR);
+    std::vector<double> xPos
+        = expandedDelta(findVectorDoubleProperty(GO_X_POSITIVE_DELTA_PROPERTY_NAME_STR), count,
+            GO_X_POSITIVE_DELTA_PROPERTY_NAME_STR);
+    std::vector<double> yNeg
+        = expandedDelta(findVectorDoubleProperty(GO_Y_NEGATIVE_DELTA_PROPERTY_NAME_STR), count,
+            GO_Y_NEGATIVE_DELTA_PROPERTY_NAME_STR);
+    std::vector<double> yPos
+        = expandedDelta(findVectorDoubleProperty(GO_Y_POSITIVE_DELTA_PROPERTY_NAME_STR), count,
+            GO_Y_POSITIVE_DELTA_PROPERTY_NAME_STR);
+    LimitsRange range(box, logScale);
+    std::vector<double> xs;
+    std::vector<double> ys;
+    for (size_t k = 0; k < x.size() && k < y.size(); ++k) {
+        std::array<double, 3> center = range.toClip(x[k], y[k], 0.);
+        if (std::isnan(center[0]) || std::isnan(center[1]) || !range.contains(center)) {
+            continue;
+        }
+        xs.push_back(x[k]);
+        ys.push_back(y[k]);
+        if (!xNeg.empty()) {
+            xs.push_back(x[k] - xNeg[k]);
+            ys.push_back(y[k]);
+        }
+        if (!xPos.empty()) {
+            xs.push_back(x[k] + xPos[k]);
+            ys.push_back(y[k]);
+        }
+        if (!yNeg.empty()) {
+            xs.push_back(x[k]);
+            ys.push_back(y[k] - yNeg[k]);
+        }
+        if (!yPos.empty()) {
+            xs.push_back(x[k]);
+            ys.push_back(y[k] + yPos[k]);
+        }
+    }
+    LimitsInRangeAccumulator visible(range);
+    visible.addPoints(xs, ys, {});
+    return visible.result(full);
 }
 //=============================================================================
 } // namespace Nelson

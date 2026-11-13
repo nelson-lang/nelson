@@ -72,28 +72,20 @@ function applyAxisOption(ax, mode)
 end
 %=============================================================================
 function axisOnMode(ax)
-  if polarIsAxes(ax)
-    polarSetGridVisible(ax, 'on');
-    return
-  end
   ax.Visible = 'on';
 end
 %=============================================================================
 function axisOffMode(ax)
-  if polarIsAxes(ax)
-    polarSetGridVisible(ax, 'off');
+  if ~polarIsAxes(ax)
+    ax.Visible = 'off';
     return
   end
+  % 'axis off' hides the polar disc, grid and labels but keeps the title and subtitle.
+  titleVisible = ax.Title.Visible;
+  subtitleVisible = ax.Subtitle.Visible;
   ax.Visible = 'off';
-end
-%=============================================================================
-function polarSetGridVisible(ax, visible)
-  % On a polar axes the ruler is a set of grid-line and label children plus the
-  % background disc, not the cartesian box. 'axis off'/'on' toggles their
-  % visibility; the flag is kept on the axes so a later refresh honours it.
-  state = polarGetState(ax, true);
-  state.GridVisible = visible;
-  polarSetStateAndRefresh(ax, state);
+  ax.Title.Visible = titleVisible;
+  ax.Subtitle.Visible = subtitleVisible;
 end
 %=============================================================================
 function axis3DMode(ax)

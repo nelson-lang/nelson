@@ -43,6 +43,9 @@ public:
     paintMe(RenderInterface& gc) override;
     std::vector<double>
     getLimits() override;
+    std::vector<double>
+    getLimitsInRange(
+        const std::vector<double>& box, const std::array<bool, 3>& logScale) override;
 
 private:
     std::vector<double> limits;

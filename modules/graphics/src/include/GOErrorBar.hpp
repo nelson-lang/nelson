@@ -36,6 +36,9 @@ public:
     updateState() override;
     std::vector<double>
     getLimits() override;
+    std::vector<double>
+    getLimitsInRange(
+        const std::vector<double>& box, const std::array<bool, 3>& logScale) override;
 };
 //=============================================================================
 } // namespace Nelson

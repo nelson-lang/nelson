@@ -470,12 +470,7 @@ GOAnimatedLine::getLimits()
     }
     m_limits.resize(0);
     m_limits.reserve(10);
-    m_limits.push_back(findVectorMin(m_xData));
-    m_limits.push_back(findVectorMax(m_xData));
-    m_limits.push_back(findVectorMin(m_yData));
-    m_limits.push_back(findVectorMax(m_yData));
-    m_limits.push_back(findVectorMin(m_zData));
-    m_limits.push_back(findVectorMax(m_zData));
+    appendPointsExtent(m_limits, m_xData, m_yData, m_zData);
     m_limits.push_back(0);
     m_limits.push_back(0);
     m_limits.push_back(0);

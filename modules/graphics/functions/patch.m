@@ -32,7 +32,6 @@ function varargout = patch(varargin)
 
   args = parsePatchArguments(inputArguments);
   h = renderPatch(args);
-  updatePatchLimits(struct(args{:}));
 
   if (nargout > 0)
     varargout{1} = h;
@@ -253,45 +252,6 @@ function tf = isFastPatchPropertyName(value)
       'specularexponent', 'specularstrength', 'tag', 'type', 'userdata', 'visible'};
   end
   tf = any(strcmpi(value, propertyNames));
-end
-%=============================================================================
-function updatePatchLimits(st)
-  if ~isfield(st, 'Parent') || ~isgraphics(st.Parent, 'axes')
-    return
-  end
-  if ~isfield(st, 'Vertices') || isempty(st.Vertices)
-    return
-  end
-  ax = st.Parent;
-  vertices = st.Vertices;
-  expandLimits(ax, vertices(:, 1), 'X');
-  expandLimits(ax, vertices(:, 2), 'Y');
-  if size(vertices, 2) >= 3 && any(vertices(:, 3) ~= vertices(1, 3))
-    expandLimits(ax, vertices(:, 3), 'Z');
-  end
-end
-%=============================================================================
-function expandLimits(ax, values, axisName)
-  % When the axis limit mode is 'auto', the axis already recomputes padded
-  % limits from all of its children. Overwriting the limits here would freeze
-  % the mode to 'manual' and drop that padding, making the plotted data fill
-  % the whole box (appearing larger than expected). Only adjust the limits
-  % when the user has already fixed them ('manual'), so newly added data stays
-  % visible without discarding an auto (padded) range.
-  if strcmp(ax.([axisName, 'LimMode']), 'auto')
-    return
-  end
-  values = values(isfinite(values));
-  if isempty(values)
-    return
-  end
-  dataRange = [min(values), max(values)];
-  if dataRange(1) == dataRange(2)
-    dataRange(2) = dataRange(1) + 1;
-  end
-  currentRange = ax.([axisName, 'Lim']);
-  dataRange = [min(currentRange(1), dataRange(1)), max(currentRange(2), dataRange(2))];
-  ax.([axisName, 'Lim']) = dataRange;
 end
 %=============================================================================
 function h = renderPatch(args)

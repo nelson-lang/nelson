@@ -26,6 +26,9 @@ public:
     {
         return GO_CLASS_NAME_AREA_STR;
     }
+    std::vector<double>
+    getLimitsInRange(
+        const std::vector<double>& box, const std::array<bool, 3>& logScale) override;
 };
 //=============================================================================
 } // namespace Nelson

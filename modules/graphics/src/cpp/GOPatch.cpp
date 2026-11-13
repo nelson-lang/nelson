@@ -9,6 +9,7 @@
 //=============================================================================
 #include <utility>
 #include "GOPatch.hpp"
+#include "GOLimitsInRange.hpp"
 #include "GOAxis.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
@@ -211,44 +212,18 @@ GOPatch::getLimits()
     ArrayOf vertices(findArrayOfProperty(GO_VERTICES_PROPERTY_NAME_STR));
     vertices.promoteType(NLS_DOUBLE);
     indexType nRows = vertices.rows();
+    const double* pVertices = (const double*)vertices.dataPointer();
 
-    const double* pVerticesDataX = (const double*)vertices.dataPointer();
-    const double* pVerticesDataY = nullptr;
-    if (pVerticesDataX) {
-        pVerticesDataY = pVerticesDataX + nRows;
-    }
-    const double* pVertDataZ = nullptr;
-    if (pVerticesDataY) {
-        pVertDataZ = pVerticesDataY + nRows;
-    }
-    double Xmax = 1;
-    double Xmin = 1;
-    double Ymax = 1;
-    double Ymin = 1;
-    double Zmax = 1;
-    double Zmin = 1;
-
-    if (nRows > 0) {
-        Xmax = *pVerticesDataX;
-        Xmin = Xmax;
-        Ymax = *pVerticesDataY;
-        Ymin = Ymax;
-        if (pVertDataZ) {
-            Zmax = *pVertDataZ;
-        }
-        Zmin = Zmax;
-
+    if (nRows > 0 && pVertices && vertices.columns() >= 2) {
+        // Only vertices with all coordinates finite count.
+        PointsExtent extent;
+        bool hasZ = vertices.columns() >= 3;
         for (indexType i = 0; i < nRows; i++) {
-            Xmax = std::max(Xmax, *pVerticesDataX);
-            Xmin = std::min(Xmin, *pVerticesDataX);
-            Ymax = std::max(Ymax, *pVerticesDataY);
-            Ymin = std::min(Ymin, *pVerticesDataY);
-            Zmax = std::max(Zmax, *pVertDataZ);
-            Zmin = std::min(Zmin, *pVertDataZ);
-            ++pVerticesDataX;
-            ++pVerticesDataY;
-            ++pVertDataZ;
+            extent.add(pVertices[i], pVertices[i + nRows], hasZ ? pVertices[i + 2 * nRows] : 0.0);
         }
+        extent.appendTo(limits);
+    } else {
+        limits.insert(limits.end(), 6, 1.);
     }
 
     ArrayOf faceVertexCData(findArrayOfProperty(GO_FACE_VERTEX_C_DATA_PROPERTY_NAME_STR));
@@ -257,18 +232,59 @@ GOPatch::getLimits()
     double CLimMin = ArrayOfMin(faceVertexCData);
     double CLimMax = ArrayOfMax(faceVertexCData);
 
-    limits.push_back(Xmin);
-    limits.push_back(Xmax);
-    limits.push_back(Ymin);
-    limits.push_back(Ymax);
-    limits.push_back(Zmin);
-    limits.push_back(Zmax);
     limits.push_back(CLimMin);
     limits.push_back(CLimMax);
     limits.push_back(1.);
     limits.push_back(1.);
     limitsDirty = false;
     return limits;
+}
+//=============================================================================
+std::vector<double>
+GOPatch::getLimitsInRange(const std::vector<double>& box, const std::array<bool, 3>& logScale)
+{
+    std::vector<double> full(getLimits());
+    if (full.empty()) {
+        return full;
+    }
+    ArrayOf vertices(findArrayOfProperty(GO_VERTICES_PROPERTY_NAME_STR));
+    vertices.promoteType(NLS_DOUBLE);
+    ArrayOf faces(findArrayOfProperty(GO_FACES_PROPERTY_NAME_STR));
+    faces.promoteType(NLS_DOUBLE);
+    indexType nVertices = vertices.rows();
+    indexType nDims = vertices.isEmpty() ? 0 : vertices.columns();
+    const double* pVertices = (const double*)vertices.dataPointer();
+    auto vertexAt = [&](indexType v) -> std::array<double, 3> {
+        return { pVertices[v], nDims > 1 ? pVertices[v + nVertices] : 0.,
+            nDims > 2 ? pVertices[v + 2 * nVertices] : 0. };
+    };
+    LimitsRange range(box, logScale);
+    LimitsInRangeAccumulator visible(range);
+    indexType nFaces = faces.rows();
+    if (nVertices == 0 || pVertices == nullptr) {
+        return {};
+    }
+    if (faces.isEmpty()) {
+        // No faces: the vertices themselves are the data.
+        for (indexType v = 0; v < nVertices; ++v) {
+            visible.addPolygon({ vertexAt(v) });
+        }
+        return visible.result(full);
+    }
+    indexType faceSize = faces.columns();
+    const double* pFaces = (const double*)faces.dataPointer();
+    std::vector<std::array<double, 3>> polygon;
+    for (indexType f = 0; f < nFaces; ++f) {
+        polygon.clear();
+        for (indexType j = 0; j < faceSize; ++j) {
+            double index = pFaces[f + j * nFaces];
+            if (std::isfinite(index) && index >= 1. && index <= (double)nVertices) {
+                polygon.push_back(vertexAt((indexType)index - 1));
+            }
+        }
+        visible.addPolygon(polygon);
+    }
+    return visible.result(full);
 }
 //=============================================================================
 void

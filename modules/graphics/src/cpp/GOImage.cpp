@@ -38,6 +38,9 @@ imageCoordinatesOrDefault(const std::vector<double>& coordinates, indexType coun
 static void
 setImageCoordinates(GOGenericProperty* property, const std::vector<double>& coordinates);
 //=============================================================================
+static std::vector<double>
+imageAlphaValues(GraphicsObject* image);
+//=============================================================================
 namespace {
     std::atomic<uint64_t> nextImageResourceKey { 1 };
     //=============================================================================
@@ -86,7 +89,7 @@ GOImage::constructProperties()
     registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
     registerProperty(new GOBusyActionProperty, GO_BUSY_ACTION_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_INTERRUPTIBLE_PROPERTY_NAME_STR);
-    registerProperty(new GOVectorProperty, GO_ALPHA_DATA_PROPERTY_NAME_STR);
+    registerProperty(new GOArrayOfProperty, GO_ALPHA_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOArrayOfProperty, GO_C_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOMappingModeProperty, GO_ALPHA_DATA_MAPPING_PROPERTY_NAME_STR);
     registerProperty(new GODataMappingModeProperty, GO_C_DATA_MAPPING_PROPERTY_NAME_STR);
@@ -106,10 +109,8 @@ void
 GOImage::setupDefaults()
 {
     setRestrictedStringDefault(GO_BEING_DELETED_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
-    GOVectorProperty* hp = (GOVectorProperty*)findProperty(GO_ALPHA_DATA_PROPERTY_NAME_STR);
-    std::vector<double> gp;
-    gp.push_back(1.0);
-    hp->data(gp);
+    static_cast<GOArrayOfProperty*>(findProperty(GO_ALPHA_DATA_PROPERTY_NAME_STR))
+        ->data(ArrayOf::doubleScalar(1.0));
     setRestrictedStringDefault(GO_ALPHA_DATA_MAPPING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NONE_STR);
     setRestrictedStringDefault(GO_C_DATA_MAPPING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_DIRECT_STR);
     setStringDefault(GO_TYPE_PROPERTY_NAME_STR, getType());
@@ -162,7 +163,7 @@ GOImage::getLimits()
         limits.push_back(0);
         limits.push_back(1);
     }
-    std::vector<double> alphadata(findVectorDoubleProperty(GO_ALPHA_DATA_PROPERTY_NAME_STR));
+    std::vector<double> alphadata(imageAlphaValues(this));
     limits.push_back(findVectorMin(alphadata));
     limits.push_back(findVectorMax(alphadata));
     return limits;
@@ -215,13 +216,17 @@ GOImage::updateState()
     GOAxis* ax = getParentAxis();
     GOFigure* fig = getParentFigure();
     bool updateImage = hasChanged(GO_C_DATA_PROPERTY_NAME_STR)
-        || hasChanged(GO_C_DATA_MAPPING_PROPERTY_NAME_STR);
+        || hasChanged(GO_C_DATA_MAPPING_PROPERTY_NAME_STR)
+        || hasChanged(GO_ALPHA_DATA_PROPERTY_NAME_STR)
+        || hasChanged(GO_ALPHA_DATA_MAPPING_PROPERTY_NAME_STR);
     if (ax) {
         updateImage = updateImage || ax->hasChanged(GO_C_LIM_PROPERTY_NAME_STR)
-            || ax->hasChanged(GO_COLOR_MAP_PROPERTY_NAME_STR);
+            || ax->hasChanged(GO_COLOR_MAP_PROPERTY_NAME_STR)
+            || ax->hasChanged(GO_A_LIM_PROPERTY_NAME_STR);
     }
     if (fig) {
-        updateImage = updateImage || fig->hasChanged(GO_COLOR_MAP_PROPERTY_NAME_STR);
+        updateImage = updateImage || fig->hasChanged(GO_COLOR_MAP_PROPERTY_NAME_STR)
+            || fig->hasChanged(GO_ALPHA_MAP_PROPERTY_NAME_STR);
     }
     if (updateImage) {
         updateCAlphadata();
@@ -290,11 +295,7 @@ GOImage::paintMe(RenderInterface& gc)
 std::vector<double>
 GOImage::getAlphaMap(indexType rows, indexType cols)
 {
-    GOVectorProperty* hp = (GOVectorProperty*)findProperty(GO_ALPHA_DATA_PROPERTY_NAME_STR);
-    if (!hp) {
-        return std::vector<double>(rows * cols, 1.0);
-    }
-    std::vector<double> alphain(hp->data());
+    std::vector<double> alphain(imageAlphaValues(this));
     std::vector<double> alphaout;
     alphaout.reserve(rows * cols);
     GOFigure* fig = getParentFigure();
@@ -364,11 +365,7 @@ GOImage::getAlphaMap(indexType rows, indexType cols)
 bool
 GOImage::usesUnitAlpha()
 {
-    GOVectorProperty* hp = (GOVectorProperty*)findProperty(GO_ALPHA_DATA_PROPERTY_NAME_STR);
-    if (!hp) {
-        return true;
-    }
-    const std::vector<double>& alpha = hp->data();
+    const std::vector<double> alpha = imageAlphaValues(this);
     return alpha.size() == 1 && std::fabs(alpha[0] - 1.0) < std::numeric_limits<double>::epsilon()
         && stringCheck(GO_ALPHA_DATA_MAPPING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NONE_STR);
 }
@@ -585,6 +582,27 @@ setImageCoordinates(GOGenericProperty* property, const std::vector<double>& coor
         return;
     }
     hp->data(coordinates);
+}
+//=============================================================================
+// Image AlphaData is an array, surface AlphaData (GOSurface derives from GOImage) a vector.
+static std::vector<double>
+imageAlphaValues(GraphicsObject* image)
+{
+    GOGenericProperty* property = image->findProperty(GO_ALPHA_DATA_PROPERTY_NAME_STR);
+    if (auto* vectorProperty = dynamic_cast<GOVectorProperty*>(property)) {
+        return vectorProperty->data();
+    }
+    auto* arrayProperty = dynamic_cast<GOArrayOfProperty*>(property);
+    if (arrayProperty == nullptr) {
+        return {};
+    }
+    ArrayOf alpha(arrayProperty->data());
+    if (alpha.isEmpty() || alpha.isComplex() || !(alpha.isNumeric() || alpha.isLogical())) {
+        return {};
+    }
+    alpha.promoteType(NLS_DOUBLE);
+    const double* values = static_cast<const double*>(alpha.dataPointer());
+    return std::vector<double>(values, values + alpha.elementCount());
 }
 //=============================================================================
 } // namespace Nelson

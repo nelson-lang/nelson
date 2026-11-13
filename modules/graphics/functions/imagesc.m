@@ -45,8 +45,7 @@ function varargout = imagesc(varargin)
     return
   end
   if (ischar(varargin{1}) || isStringScalar(varargin{1}))
-    % Property/value syntax: imagesc('CData', C, 'XData', x, ...)
-    ax.YDir = 'reverse';
+    % Property/value syntax is low-level: the axes setup is left untouched.
     if isempty(imageHandle)
       handle = __image__('Parent', ax, varargin{:}, 'CDataMapping', 'scaled');
     else
@@ -56,8 +55,6 @@ function varargout = imagesc(varargin)
       handle = imageHandle;
       set(handle, varargin{:}, 'CDataMapping', 'scaled');
     end
-    axis(ax, 'tight');
-    ax.Box = 'on';
     if (nargout > 0)
       varargout{1} = handle;
     end
@@ -81,7 +78,11 @@ function varargout = imagesc(varargin)
       end
     end
   end
-  ax.YDir = 'reverse';
+  % Under hold (NextPlot not 'replace') the axes setup is left untouched.
+  isHeld = ~strcmpi(ax.NextPlot, 'replace');
+  if ~isHeld
+    ax.YDir = 'reverse';
+  end
   if ((length(varargin) == 1) || ((length(varargin) > 1) && ischar(varargin{2})))
     C = varargin{1};
     if isempty(imageHandle)
@@ -95,8 +96,7 @@ function varargout = imagesc(varargin)
       set(handle, 'CData', C, 'XData', [], 'YData', [], ...
         varargin{2:end}, 'CDataMapping', 'scaled');
     end
-    axis(ax, 'tight');
-    ax.Box = 'on';
+    setupImageAxes(ax, isHeld);
   elseif (length(varargin) >= 3)
     x = varargin{1};
     y = varargin{2};
@@ -112,8 +112,7 @@ function varargout = imagesc(varargin)
       set(handle, 'XData', x, 'YData', y, 'CData', C, varargin{4:end}, ...
         'CDataMapping', 'scaled');
     end
-    axis(ax, 'tight');
-    ax.Box = 'on';
+    setupImageAxes(ax, isHeld);
   else
     handle = image(ax, varargin{:}, 'CDataMapping', 'scaled');
   end

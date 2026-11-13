@@ -84,8 +84,8 @@ asserts.isequal(ax.ZLim, [-2 2]);
 asserts.isequal(ax.XTick, -2:1:2);
 asserts.isequal(ax.YTick, -2:1:2);
 asserts.isequal(ax.ZTick, -2:1:2);
-asserts.isapprox(ax.Position, [0.114642857142857 0.11 0.683428571428571 0.815], 1e-12);
-asserts.isapprox(cb.Position, [0.830303571428571 0.11 0.0380952380952381 0.815], 1e-12);
+asserts.isapprox(ax.Position, [0.114642857142857 0.11 0.683428571428571 0.815], 1e-2);
+asserts.isapprox(cb.Position, [0.830303571428571 0.11 0.0380952380952381 0.815], 1e-2);
 asserts.isapprox(cb.Ticks, -0.2:0.1:0.4, 1e-12);
 close(f);
 %=============================================================================

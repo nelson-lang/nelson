@@ -44,12 +44,15 @@ function varargout = image(varargin)
     end
     return
   end
-  ax.YDir = 'reverse';
+  % Under hold (NextPlot not 'replace') the axes setup is left untouched.
+  isHeld = ~strcmpi(ax.NextPlot, 'replace');
+  if ~isHeld
+    ax.YDir = 'reverse';
+  end
   if ((length(inputArguments) == 1) || ((length(inputArguments) > 1) && (ischar(inputArguments{2}))))
     C = inputArguments{1};
     im = __image__('Parent', parent, 'CData', C, 'XData', [], 'YData', [], inputArguments{2:end});
-    axis(ax, 'tight');
-    ax.Box = 'on';
+    setupImageAxes(ax, isHeld);
   elseif (numel(inputArguments) == 2)
     C = inputArguments{1};
     axis('maximal');
@@ -63,8 +66,7 @@ function varargout = image(varargin)
     C = inputArguments{3};
     inputArguments(1:3) = [];
     im = __image__('Parent', parent, 'XData', x, 'YData', y, 'CData', C, inputArguments{:});
-    axis(ax, 'tight');
-    ax.Box = 'on';
+    setupImageAxes(ax, isHeld);
   else
     error('Nelson:graphics:invalidInputArguments', 'Invalid input arguments.');
   end

@@ -15,11 +15,9 @@ function h = barBase(orientation, varargin)
   mode = effectiveStringProperty(properties, 'BarLayout', mode);
   width = effectiveNumericProperty(properties, 'BarWidth', width);
   baseValue = effectiveScalarProperty(properties, 'BaseValue', 0);
-  updatePositionLimits = isBarAxesLimitAuto(target, orientation);
-  updateValueLimits = isBarValueAxisLimitAuto(target, orientation);
+  isHeld = isBarParentHeld(target);
   h = createBars(target, orientation, x, y, displayNames, width, mode, color, baseValue, properties);
-  applyBarAxesState(target, orientation, x, y, labels, width, mode, size(y, 2), baseValue, ...
-    updatePositionLimits, updateValueLimits, isCategoricalAxis);
+  applyBarAxesState(target, orientation, x, labels, isHeld, isCategoricalAxis);
   if isDate
     % The bar positions are serial date numbers; switch the position axis
     % ('x' for vertical bars, 'y' for horizontal ones) into date mode.
@@ -347,14 +345,14 @@ function validatePositiveFiniteScalar(value, msg)
   end
 end
 %=============================================================================
-function applyBarAxesState(parent, orientation, x, y, labels, width, mode, nSeries, baseValue, ...
-  updatePositionLimits, updateValueLimits, isCategoricalAxis)
+function applyBarAxesState(parent, orientation, x, labels, isHeld, isCategoricalAxis)
+  % Limits stay automatic; a new plot gets one tick per bar when there are few integer positions.
   ax = barAxes(parent);
   if isempty(ax)
     return
   end
   ax.Box = 'on';
-  useBarTicks = ~isempty(labels) || shouldUseBarTicks(x);
+  useBarTicks = ~isempty(labels) || (~isHeld && shouldUseBarTicks(x));
   if strcmp(orientation, 'horizontal')
     if useBarTicks
       ax.YTick = x;
@@ -370,30 +368,6 @@ function applyBarAxesState(parent, orientation, x, y, labels, width, mode, nSeri
       ax.XTickLabel = labels;
     end
   end
-  if updatePositionLimits
-    limits = barPositionLimits(x, width, mode, nSeries, labels);
-    if strcmp(orientation, 'horizontal')
-      ax.YLim = limits;
-    else
-      ax.XLim = limits;
-    end
-  end
-
-
-  if updateValueLimits
-    [limits, ticks] = barValueLimits(y, mode, baseValue);
-    if strcmp(orientation, 'horizontal')
-      ax.XLim = limits;
-      if strcmp(ax.XTickMode, 'auto')
-        ax.XTick = ticks;
-      end
-    else
-      ax.YLim = limits;
-      if strcmp(ax.YTickMode, 'auto')
-        ax.YTick = ticks;
-      end
-    end
-  end
   if isCategoricalAxis && ~isempty(labels)
     if strcmp(orientation, 'horizontal')
       __axis_categorical__(ax, 'y', labels);
@@ -403,106 +377,16 @@ function applyBarAxesState(parent, orientation, x, y, labels, width, mode, nSeri
   end
 end
 %=============================================================================
-function limits = barPositionLimits(x, width, mode, nSeries, labels)
-  x = x(:);
-  x = x(isfinite(x));
-  if isempty(x)
-    limits = [0 1];
-    return
-  end
-  step = minPositiveStep(x);
-  if strcmp(mode, 'grouped') && nSeries > 1 && ~isempty(labels)
-    pad = 0.75 * step;
-  elseif strcmp(mode, 'grouped') && nSeries > 1
-    groupWidth = min(width, nSeries / (nSeries + 1.5));
-    pad = (groupWidth / 2 + max(0, 1 - width)) * step;
-  else
-    pad = (0.8 + width / 2) * step;
-  end
-  limits = [min(x) - pad, max(x) + pad];
-end
-%=============================================================================
-function [limits, ticks] = barValueLimits(y, mode, baseValue)
-  if strcmp(mode, 'stacked')
-    positiveBases = baseValue * ones(size(y, 1), 1);
-    negativeBases = baseValue * ones(size(y, 1), 1);
-    values = [0; baseValue];
-    for seriesIndex = 1:size(y, 2)
-      for rowIndex = 1:size(y, 1)
-        value = y(rowIndex, seriesIndex);
-        if value >= 0
-          endpoint = positiveBases(rowIndex) + value;
-          positiveBases(rowIndex) = endpoint;
-        else
-          endpoint = negativeBases(rowIndex) + value;
-          negativeBases(rowIndex) = endpoint;
-        end
-        values = [values; endpoint];
-      end
-    end
-  else
-    values = [0; baseValue; y(:)];
-  end
-  values = values(isfinite(values));
-  if isempty(values)
-    limits = [0 1];
-    ticks = [0 1];
-    return
-  end
-  lo = min(values);
-  hi = max(values);
-  if lo == hi
-    limits = [lo - 0.5, hi + 0.5];
-    ticks = limits;
-    return
-  end
-  % The data extent [lo, hi] always brackets the bar baseline; snap it outward
-  % onto a nice grid so the frozen value limits and ticks match what an
-  % automatic axis would settle on for the same range.
-  [limits, ticks] = graphicsNiceAxisLimits(lo, hi, 10);
-end
-%=============================================================================
 function tf = shouldUseBarTicks(x)
   x = x(:);
   x = x(isfinite(x));
-  tf = ~isempty(x) && all(abs(x - round(x)) < 1e-12);
+  tf = ~isempty(x) && numel(x) <= 15 && all(abs(x - round(x)) < 1e-12);
 end
 %=============================================================================
-function value = minPositiveStep(x)
-  values = sort(unique(x(:)));
-  if numel(values) < 2
-    value = 1;
-    return
-  end
-  dx = diff(values);
-  dx = dx(dx > 0 & isfinite(dx));
-  if isempty(dx)
-    value = 1;
-  else
-    value = min(dx);
-  end
-end
-%=============================================================================
-function res = isBarAxesLimitAuto(parent, orientation)
+function tf = isBarParentHeld(parent)
+  % Content left after newplot means the bars are added to a held axes.
   ax = barAxes(parent);
-  if isempty(ax)
-    res = false;
-  elseif strcmp(orientation, 'horizontal')
-    res = strcmp(ax.YLimMode, 'auto');
-  else
-    res = strcmp(ax.XLimMode, 'auto');
-  end
-end
-%=============================================================================
-function res = isBarValueAxisLimitAuto(parent, orientation)
-  ax = barAxes(parent);
-  if isempty(ax)
-    res = false;
-  elseif strcmp(orientation, 'horizontal')
-    res = strcmp(ax.XLimMode, 'auto');
-  else
-    res = strcmp(ax.YLimMode, 'auto');
-  end
+  tf = isempty(ax) || ~isempty(ax.Children) || ~isgraphics(parent, 'axes');
 end
 %=============================================================================
 function ax = barAxes(parent)

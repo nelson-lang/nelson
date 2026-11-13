@@ -168,8 +168,13 @@ function varargout = imshow(varargin)
   if isValidGraphicsProperty('figure', 'View')
     parent.View = [0, 90];
   end
+  % Under hold (NextPlot not 'replace') the limits and layer are left untouched.
+  isHeld = ~strcmpi(parent.NextPlot, 'replace');
   parent.YDir = 'reverse';
-  parent.Layer = 'top';
+  if ~isHeld
+    parent.Layer = 'top';
+    parent.Box = 'on';
+  end
 
   % When imshow owns a fresh, default-positioned axes (no explicit 'Parent',
   % no subplot, InitialMagnification not 'fit'), the expected behavior is to
@@ -189,7 +194,11 @@ function varargout = imshow(varargin)
     fitFigureToImage(parent, size(im, 1), size(im, 2), magFraction, borderTight);
   end
 
-  axis(parent, 'image');
+  if isHeld
+    parent.DataAspectRatio = [1 1 1];
+  else
+    pinImageAxesLimits(parent, 'image');
+  end
   parent.Visible = 'off';
   if (nargout > 0)
     varargout{1} = h;

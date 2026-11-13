@@ -46,80 +46,6 @@ namespace {
         return { 0, 0.4470, 0.7410 };
     }
     //=============================================================================
-    bool
-    isTrueColorCData(const ArrayOf& cdata, size_t pointCount)
-    {
-        return cdata.is2D() && cdata.columns() == 3
-            && cdata.rows() >= static_cast<indexType>(pointCount);
-    }
-    //=============================================================================
-    std::vector<double>
-    trueColorAt(const double* ptrCData, indexType rows, size_t pointIndex)
-    {
-        return { ptrCData[pointIndex], ptrCData[pointIndex + rows],
-            ptrCData[pointIndex + 2 * rows] };
-    }
-    //=============================================================================
-    void
-    refreshCDataRange(
-        const double* ptrCData, indexType elementCount, bool& dirty, double& minC, double& maxC)
-    {
-        if (!dirty) {
-            return;
-        }
-        if (elementCount <= 0) {
-            minC = 0.;
-            maxC = 1.;
-        } else {
-            auto range = std::minmax_element(ptrCData, ptrCData + elementCount);
-            minC = *range.first;
-            maxC = *range.second;
-        }
-        dirty = false;
-    }
-    //=============================================================================
-    std::vector<double>
-    mappedCDataColor(const double* ptrCData, indexType elementCount, size_t pointIndex,
-        const std::vector<double>& colorMapData, bool& dirty, double& minC, double& maxC)
-    {
-        if (colorMapData.empty() || elementCount <= 0) {
-            return defaultBubbleColor();
-        }
-        refreshCDataRange(ptrCData, elementCount, dirty, minC, maxC);
-        int colormapSize = static_cast<int>(colorMapData.size() / 3);
-        if (colormapSize <= 0) {
-            return defaultBubbleColor();
-        }
-        size_t scalarIndex = std::min(pointIndex, static_cast<size_t>(elementCount - 1));
-        int colorIndex = 0;
-        if (maxC > minC) {
-            colorIndex = static_cast<int>(
-                std::round((ptrCData[scalarIndex] - minC) / (maxC - minC) * (colormapSize - 1)));
-        }
-        colorIndex = std::clamp(colorIndex, 0, colormapSize - 1);
-        size_t offset = static_cast<size_t>(colorIndex) * 3;
-        return { colorMapData[offset], colorMapData[offset + 1], colorMapData[offset + 2] };
-    }
-    //=============================================================================
-    std::vector<double>
-    cDataColorAt(const ArrayOf& cdata, const double* ptrCData, size_t pointCount, size_t pointIndex,
-        const std::vector<double>& colorMapData, bool& dirty, double& minC, double& maxC)
-    {
-        if (cdata.isEmpty() || !ptrCData) {
-            return defaultBubbleColor();
-        }
-        if (isTrueColorCData(cdata, pointCount)) {
-            return trueColorAt(ptrCData, cdata.rows(), pointIndex);
-        }
-        // A shared RGB triplet is a 1x3 row. A column with one scalar per point (CData
-        // [1; 2; 3]) also has three elements but is colormapped data, not a triplet.
-        if (cdata.rows() == 1 && cdata.columns() == 3) {
-            return { ptrCData[0], ptrCData[1], ptrCData[2] };
-        }
-        return mappedCDataColor(
-            ptrCData, cdata.elementCount(), pointIndex, colorMapData, dirty, minC, maxC);
-    }
-    //=============================================================================
     double
     sizeDataAt(const std::vector<double>& sizeData, size_t pointIndex)
     {
@@ -479,7 +405,6 @@ GOBubbleChart::updateState()
         // uses the color-order color.
         toManual(GO_C_DATA_MODE_PROPERTY_NAME_STR);
         clearChanged(GO_C_DATA_PROPERTY_NAME_STR);
-        cDataDirty = true;
     }
     if (hasChanged(GO_X_DATA_PROPERTY_NAME_STR) || hasChanged(GO_Y_DATA_PROPERTY_NAME_STR)
         || hasChanged(GO_Z_DATA_PROPERTY_NAME_STR) || hasChanged(GO_THETA_DATA_PROPERTY_NAME_STR)
@@ -516,7 +441,6 @@ GOBubbleChart::paintMe(RenderInterface& gc)
 
     ArrayOf cdata(findArrayOfProperty(GO_C_DATA_PROPERTY_NAME_STR));
     cdata.promoteType(NLS_DOUBLE);
-    const double* ptrCData = static_cast<const double*>(cdata.dataPointer());
 
     std::vector<double> xs(findVectorDoubleProperty(GO_X_DATA_PROPERTY_NAME_STR));
     std::vector<double> ys(findVectorDoubleProperty(GO_Y_DATA_PROPERTY_NAME_STR));
@@ -557,6 +481,7 @@ GOBubbleChart::paintMe(RenderInterface& gc)
     if (colorMap) {
         colorMapData = colorMap->data();
     }
+    std::vector<double> clim(parent->findVectorDoubleProperty(GO_C_LIM_PROPERTY_NAME_STR));
     bool clippingOn = stringCheck(GO_CLIPPING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     std::vector<double> clipBox = clippingOn
         ? parent->getPropertyVectorAsPixels(gc, GO_POSITION_PROPERTY_NAME_STR)
@@ -589,8 +514,8 @@ GOBubbleChart::paintMe(RenderInterface& gc)
         double markerSize = bubbleDiameter(
             sizeDataAt(sizeData, pointIndex), minSize, maxSize, diameterRange[0], diameterRange[1]);
         markerSize *= BUBBLE_RENDER_DIAMETER_SCALE;
-        std::vector<double> cdataColor = cDataColorAt(cdata, ptrCData, mxs.size(), pointIndex,
-            colorMapData, cDataDirty, cachedMinC, cachedMaxC);
+        std::vector<double> cdataColor
+            = MarkerCDataColor(cdata, mxs.size(), pointIndex, colorMapData, clim);
         std::vector<double> edgeColor
             = ec->isEqual(GO_PROPERTY_VALUE_FLAT_STR) ? cdataColor : ec->colorSpec();
         std::vector<double> faceColor

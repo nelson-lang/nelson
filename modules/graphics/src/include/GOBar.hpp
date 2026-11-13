@@ -19,6 +19,9 @@ class NLSGRAPHICS_IMPEXP GOBar : public GraphicsObject
 private:
     std::vector<double> limits;
     bool limitsDirty = true;
+    // Bar limits; with a range, only bars visible in it (empty when none).
+    std::vector<double>
+    barLimits(const class LimitsRange* range);
 
 public:
     GOBar();
@@ -36,6 +39,9 @@ public:
     updateState() override;
     std::vector<double>
     getLimits() override;
+    std::vector<double>
+    getLimitsInRange(
+        const std::vector<double>& box, const std::array<bool, 3>& logScale) override;
 };
 //=============================================================================
 } // namespace Nelson

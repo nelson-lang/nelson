@@ -13,6 +13,7 @@
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
 #include "GOScatterSeries.hpp"
+#include "GOLimitsInRange.hpp"
 #include "GOList.hpp"
 #include "GraphicsObject.hpp"
 #include "GOAxis.hpp"
@@ -43,91 +44,19 @@ namespace {
         return { 0, 0.4470, 0.7410 };
     }
     //=============================================================================
-    static bool
-    isTrueColorCData(const ArrayOf& cdata, size_t pointCount)
-    {
-        return cdata.is2D() && cdata.columns() == 3
-            && cdata.rows() >= static_cast<indexType>(pointCount);
-    }
-    //=============================================================================
-    static std::vector<double>
-    trueColorAt(const double* ptrCData, indexType rows, size_t pointIndex)
-    {
-        return { ptrCData[pointIndex], ptrCData[pointIndex + rows],
-            ptrCData[pointIndex + 2 * rows] };
-    }
-    //=============================================================================
     // Reports the CData range when the scatter is color-mapped (per-point scalar CData).
-    // Follows the rendering decision in cDataColorAt so CLim matches what is drawn: an
+    // Follows the rendering decision in MarkerCDataColor so CLim matches what is drawn: an
     // empty CData, an Nx3 RGB list or a single RGB row are true-color and do not drive CLim.
     // Returns false and leaves cmin/cmax untouched in those cases.
     static bool
     mappedCDataRange(const ArrayOf& cdata, size_t pointCount, double& cmin, double& cmax)
     {
-        if (cdata.isEmpty() || isTrueColorCData(cdata, pointCount) || cdata.elementCount() == 3) {
+        if (cdata.isEmpty() || IsMarkerRGBCData(cdata, pointCount)) {
             return false;
         }
         cmin = ArrayOfMin(cdata);
         cmax = ArrayOfMax(cdata);
         return true;
-    }
-    //=============================================================================
-    static void
-    refreshCDataRange(
-        const double* ptrCData, indexType elementCount, bool& dirty, double& minC, double& maxC)
-    {
-        if (!dirty) {
-            return;
-        }
-        if (elementCount <= 0) {
-            minC = 0.;
-            maxC = 1.;
-        } else {
-            auto range = std::minmax_element(ptrCData, ptrCData + elementCount);
-            minC = *range.first;
-            maxC = *range.second;
-        }
-        dirty = false;
-    }
-    //=============================================================================
-    static std::vector<double>
-    mappedCDataColor(const double* ptrCData, indexType elementCount, size_t pointIndex,
-        const std::vector<double>& colorMapData, bool& dirty, double& minC, double& maxC)
-    {
-        if (colorMapData.empty() || elementCount <= 0) {
-            return defaultScatterColor();
-        }
-        refreshCDataRange(ptrCData, elementCount, dirty, minC, maxC);
-        int colormapSize = static_cast<int>(colorMapData.size() / 3);
-        if (colormapSize <= 0) {
-            return defaultScatterColor();
-        }
-        size_t scalarIndex = std::min(pointIndex, static_cast<size_t>(elementCount - 1));
-        int colorIndex = 0;
-        if (maxC > minC) {
-            colorIndex = static_cast<int>(
-                std::round((ptrCData[scalarIndex] - minC) / (maxC - minC) * (colormapSize - 1)));
-        }
-        colorIndex = std::clamp(colorIndex, 0, colormapSize - 1);
-        size_t offset = static_cast<size_t>(colorIndex) * 3;
-        return { colorMapData[offset], colorMapData[offset + 1], colorMapData[offset + 2] };
-    }
-    //=============================================================================
-    static std::vector<double>
-    cDataColorAt(const ArrayOf& cdata, const double* ptrCData, size_t pointCount, size_t pointIndex,
-        const std::vector<double>& colorMapData, bool& dirty, double& minC, double& maxC)
-    {
-        if (cdata.isEmpty() || !ptrCData) {
-            return defaultScatterColor();
-        }
-        if (isTrueColorCData(cdata, pointCount)) {
-            return trueColorAt(ptrCData, cdata.rows(), pointIndex);
-        }
-        if (cdata.elementCount() == 3) {
-            return { ptrCData[0], ptrCData[1], ptrCData[2] };
-        }
-        return mappedCDataColor(
-            ptrCData, cdata.elementCount(), pointIndex, colorMapData, dirty, minC, maxC);
     }
     //=============================================================================
     static double
@@ -414,7 +343,6 @@ GOScatterSeries::updateState()
         // uses the color-order color.
         toManual(GO_C_DATA_MODE_PROPERTY_NAME_STR);
         clearChanged(GO_C_DATA_PROPERTY_NAME_STR);
-        cDataDirty = true;
         limitsDirty = true;
     }
 
@@ -468,7 +396,6 @@ GOScatterSeries::paintMe(RenderInterface& gc)
 
     ArrayOf cdata(findArrayOfProperty(GO_C_DATA_PROPERTY_NAME_STR));
     cdata.promoteType(NLS_DOUBLE);
-    const double* ptrCData = static_cast<const double*>(cdata.dataPointer());
 
     std::vector<double> xs(findVectorDoubleProperty(GO_X_DATA_PROPERTY_NAME_STR));
     std::vector<double> ys(findVectorDoubleProperty(GO_Y_DATA_PROPERTY_NAME_STR));
@@ -543,6 +470,7 @@ GOScatterSeries::paintMe(RenderInterface& gc)
         if (colorMap) {
             colorMapData = colorMap->data();
         }
+        std::vector<double> clim(parent->findVectorDoubleProperty(GO_C_LIM_PROPERTY_NAME_STR));
 
         std::vector<std::vector<double>> edgeColors;
         std::vector<std::vector<double>> faceColors;
@@ -556,8 +484,8 @@ GOScatterSeries::paintMe(RenderInterface& gc)
             markerSizes.push_back(std::sqrt(std::max(0., sze)));
             std::vector<double> edgeColor = ec->colorSpec();
             std::vector<double> faceColor = fc->colorSpec();
-            std::vector<double> CdataVector = cDataColorAt(cdata, ptrCData, mxs.size(), pointIndex,
-                colorMapData, cDataDirty, cachedMinC, cachedMaxC);
+            std::vector<double> CdataVector
+                = MarkerCDataColor(cdata, mxs.size(), pointIndex, colorMapData, clim);
 
             if (ec->isEqual(GO_PROPERTY_VALUE_FLAT_STR)) {
                 edgeColor = CdataVector;
@@ -624,17 +552,7 @@ GOScatterSeries::getLimits()
     std::vector<double> zs(findVectorDoubleProperty(GO_Z_DATA_PROPERTY_NAME_STR));
     limits.resize(0);
     limits.reserve(12);
-    limits.push_back(findVectorMin(xs));
-    limits.push_back(findVectorMax(xs));
-    limits.push_back(findVectorMin(ys));
-    limits.push_back(findVectorMax(ys));
-    if (zs.empty()) {
-        limits.push_back(0);
-        limits.push_back(0);
-    } else {
-        limits.push_back(findVectorMin(zs));
-        limits.push_back(findVectorMax(zs));
-    }
+    appendPointsExtent(limits, xs, ys, zs);
     // A color-mapped scatter drives CLim like surface/patch CData. True-color CData does not.
     ArrayOf cdata(findArrayOfProperty(GO_C_DATA_PROPERTY_NAME_STR));
     double cmin = 0.;
@@ -646,6 +564,22 @@ GOScatterSeries::getLimits()
     limits.push_back(0);
     limitsDirty = false;
     return limits;
+}
+//=============================================================================
+std::vector<double>
+GOScatterSeries::getLimitsInRange(const std::vector<double>& box, const std::array<bool, 3>& logScale)
+{
+    std::vector<double> full(getLimits());
+    if (full.empty()) {
+        return full;
+    }
+    std::vector<double> xs(findVectorDoubleProperty(GO_X_DATA_PROPERTY_NAME_STR));
+    std::vector<double> ys(findVectorDoubleProperty(GO_Y_DATA_PROPERTY_NAME_STR));
+    std::vector<double> zs(findVectorDoubleProperty(GO_Z_DATA_PROPERTY_NAME_STR));
+    LimitsRange range(box, logScale);
+    LimitsInRangeAccumulator visible(range);
+    visible.addPoints(xs, ys, zs);
+    return visible.result(full);
 }
 //=============================================================================
 } // namespace Nelson

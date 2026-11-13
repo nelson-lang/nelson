@@ -22,14 +22,15 @@ function varargout = cla(varargin)
   else
     ax = args{1};
   end
-  if (doReset)
-    % 'reset' restores the axes to defaults, which also removes a second y-axis.
-    reset(ax);
-  end
   % Clearing the axes does not pick anything: CurrentObject reports what the
   % user last clicked. Deleting the children drops it only when it pointed at
   % one of them.
   ax.Children = [];
+  if (doReset)
+    % Reset after the clear so the default limits are not refit to the old children.
+    reset(ax);
+    resetAxesTextObjects(ax);
+  end
   % With two y-axes, each side starts cycling from its own ruler colour: the
   % left side from the first ColorOrder entry, the right side from the second.
   baseColorIndex = 1;

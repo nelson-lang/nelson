@@ -8,6 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <cmath>
+#include <algorithm>
+#include <limits>
 #include "nlsBuildConfig.h"
 #include "MinMaxHelpers.hpp"
 //=============================================================================
@@ -109,6 +111,49 @@ ArrayOfMax(const ArrayOf& a)
         }
     }
     return max;
+}
+//=============================================================================
+void
+PointsExtent::add(double x, double y, double z)
+{
+    if (!std::isfinite(x) || !std::isfinite(y) || !std::isfinite(z)) {
+        return;
+    }
+    if (empty) {
+        box[0] = box[1] = x;
+        box[2] = box[3] = y;
+        box[4] = box[5] = z;
+        empty = false;
+        return;
+    }
+    box[0] = std::min(box[0], x);
+    box[1] = std::max(box[1], x);
+    box[2] = std::min(box[2], y);
+    box[3] = std::max(box[3], y);
+    box[4] = std::min(box[4], z);
+    box[5] = std::max(box[5], z);
+}
+//=============================================================================
+void
+PointsExtent::appendTo(std::vector<double>& limits) const
+{
+    const double inf = std::numeric_limits<double>::infinity();
+    for (int k = 0; k < 6; k += 2) {
+        limits.push_back(empty ? inf : box[k]);
+        limits.push_back(empty ? -inf : box[k + 1]);
+    }
+}
+//=============================================================================
+void
+appendPointsExtent(std::vector<double>& limits, const std::vector<double>& xs,
+    const std::vector<double>& ys, const std::vector<double>& zs)
+{
+    PointsExtent extent;
+    size_t n = std::min(xs.size(), ys.size());
+    for (size_t i = 0; i < n; i++) {
+        extent.add(xs[i], ys[i], i < zs.size() ? zs[i] : 0.0);
+    }
+    extent.appendTo(limits);
 }
 //=============================================================================
 } // namespace Nelson

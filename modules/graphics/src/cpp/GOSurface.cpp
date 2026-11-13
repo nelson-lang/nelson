@@ -44,6 +44,10 @@ namespace Nelson {
 //=============================================================================
 static std::atomic<uint64_t> nextSurfaceGeometryToken { 1 };
 //=============================================================================
+static void
+appendSurfaceExtent(std::vector<double>& limits, const ArrayOf& xdata, const ArrayOf& ydata,
+    const ArrayOf& zdata);
+//=============================================================================
 namespace {
     struct SurfaceRgba
     {
@@ -1162,12 +1166,7 @@ GOSurface::getLimits()
     ArrayOf ydata(findArrayOfProperty(GO_Y_DATA_PROPERTY_NAME_STR));
     ArrayOf zdata(findArrayOfProperty(GO_Z_DATA_PROPERTY_NAME_STR));
     ArrayOf cdata(findArrayOfProperty(GO_C_DATA_PROPERTY_NAME_STR));
-    limits.push_back(ArrayOfMin(xdata));
-    limits.push_back(ArrayOfMax(xdata));
-    limits.push_back(ArrayOfMin(ydata));
-    limits.push_back(ArrayOfMax(ydata));
-    limits.push_back(ArrayOfMin(zdata));
-    limits.push_back(ArrayOfMax(zdata));
+    appendSurfaceExtent(limits, xdata, ydata, zdata);
     limits.push_back(ArrayOfMin(cdata));
     limits.push_back(ArrayOfMax(cdata));
     std::vector<double> alphadata(findVectorDoubleProperty(GO_ALPHA_DATA_PROPERTY_NAME_STR));
@@ -1212,6 +1211,47 @@ GOSurface::autoXMode()
     }
     GOArrayOfProperty* hp = (GOArrayOfProperty*)findProperty(GO_X_DATA_PROPERTY_NAME_STR);
     hp->data(xdata);
+}
+//=============================================================================
+void
+appendSurfaceExtent(
+    std::vector<double>& limits, const ArrayOf& xdata, const ArrayOf& ydata, const ArrayOf& zdata)
+{
+    ArrayOf x(xdata);
+    ArrayOf y(ydata);
+    ArrayOf z(zdata);
+    x.promoteType(NLS_DOUBLE);
+    y.promoteType(NLS_DOUBLE);
+    z.promoteType(NLS_DOUBLE);
+    indexType rows = z.rows();
+    indexType cols = z.isEmpty() ? 0 : z.elementCount() / rows;
+    indexType nz = z.elementCount();
+    bool xGrid = x.elementCount() == nz;
+    bool yGrid = y.elementCount() == nz;
+    bool xFits = xGrid || x.elementCount() == cols;
+    bool yFits = yGrid || y.elementCount() == rows;
+    if (nz == 0 || !xFits || !yFits) {
+        // Data not shaped as a grid yet: bound each axis on its own.
+        limits.push_back(ArrayOfMin(xdata));
+        limits.push_back(ArrayOfMax(xdata));
+        limits.push_back(ArrayOfMin(ydata));
+        limits.push_back(ArrayOfMax(ydata));
+        limits.push_back(ArrayOfMin(zdata));
+        limits.push_back(ArrayOfMax(zdata));
+        return;
+    }
+    const double* px = (const double*)x.dataPointer();
+    const double* py = (const double*)y.dataPointer();
+    const double* pz = (const double*)z.dataPointer();
+    // Only grid points with finite X, Y and Z count.
+    PointsExtent extent;
+    for (indexType j = 0; j < cols; j++) {
+        for (indexType i = 0; i < rows; i++) {
+            indexType k = i + j * rows;
+            extent.add(px[xGrid ? k : j], py[yGrid ? k : i], pz[k]);
+        }
+    }
+    extent.appendTo(limits);
 }
 //=============================================================================
 } // namespace Nelson

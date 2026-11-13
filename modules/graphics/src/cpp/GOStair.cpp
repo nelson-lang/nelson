@@ -10,6 +10,7 @@
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
 #include "GOStair.hpp"
+#include "GOLimitsInRange.hpp"
 #include "GOChartDecorators.hpp"
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
@@ -271,21 +272,30 @@ GOStair::getLimits()
     }
     std::vector<double> xs(findVectorDoubleProperty(GO_X_DATA_PROPERTY_NAME_STR));
     std::vector<double> ys(findVectorDoubleProperty(GO_Y_DATA_PROPERTY_NAME_STR));
-    std::vector<double> zs(ys.size(), 0.0);
     limits.resize(0);
     limits.reserve(12);
-    limits.push_back(findVectorMin(xs));
-    limits.push_back(findVectorMax(xs));
-    limits.push_back(findVectorMin(ys));
-    limits.push_back(findVectorMax(ys));
-    limits.push_back(findVectorMin(zs));
-    limits.push_back(findVectorMax(zs));
+    appendPointsExtent(limits, xs, ys, {});
     limits.push_back(0);
     limits.push_back(0);
     limits.push_back(0);
     limits.push_back(0);
     limitsDirty = false;
     return limits;
+}
+//=============================================================================
+std::vector<double>
+GOStair::getLimitsInRange(const std::vector<double>& box, const std::array<bool, 3>& logScale)
+{
+    std::vector<double> full(getLimits());
+    if (full.empty()) {
+        return full;
+    }
+    std::vector<double> xs(findVectorDoubleProperty(GO_X_DATA_PROPERTY_NAME_STR));
+    std::vector<double> ys(findVectorDoubleProperty(GO_Y_DATA_PROPERTY_NAME_STR));
+    LimitsRange range(box, logScale);
+    LimitsInRangeAccumulator visible(range);
+    visible.addPoints(xs, ys, {});
+    return visible.result(full);
 }
 //=============================================================================
 } // namespace Nelson

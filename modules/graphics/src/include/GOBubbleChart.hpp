@@ -17,9 +17,6 @@ namespace Nelson {
 class NLSGRAPHICS_IMPEXP GOBubbleChart : public GraphicsObject
 {
 private:
-    mutable bool cDataDirty = true;
-    mutable double cachedMinC = 0.0;
-    mutable double cachedMaxC = 1.0;
     std::vector<double> limits;
     mutable bool limitsDirty = true;
 

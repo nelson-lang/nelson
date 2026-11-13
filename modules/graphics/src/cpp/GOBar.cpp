@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "GOBar.hpp"
+#include "GOLimitsInRange.hpp"
 #include "GOChartDecorators.hpp"
 #include "GOFontSpecHelpers.hpp"
 #include "GOArrayOfProperty.hpp"
@@ -190,7 +191,8 @@ namespace {
         if (stacked || peers <= 1) {
             return barWidth;
         }
-        return std::min(barWidth, static_cast<double>(peers) / (static_cast<double>(peers) + 1.5));
+        // Grouped bars share at most 0.8 of the step, whatever the bar width.
+        return std::min(0.8, static_cast<double>(peers) / (static_cast<double>(peers) + 1.5));
     }
     //=============================================================================
     static int
@@ -208,6 +210,27 @@ namespace {
     barEndPoint(double base, double value, bool stacked)
     {
         return stacked ? base + value : value;
+    }
+    //=============================================================================
+    // A bar is visible when its position is in the range and its span meets it.
+    static bool
+    barVisible(const LimitsRange& range, double position, double base, double top, bool horizontal)
+    {
+        int pos = horizontal ? 1 : 0;
+        int val = horizontal ? 0 : 1;
+        std::array<double, 3> a = horizontal ? range.toClip(base, position, 0.)
+                                             : range.toClip(position, base, 0.);
+        std::array<double, 3> b
+            = horizontal ? range.toClip(top, position, 0.) : range.toClip(position, top, 0.);
+        if (!(a[pos] >= range.lower[pos] && a[pos] <= range.upper[pos])) {
+            return false;
+        }
+        double lo = std::min(a[val], b[val]);
+        double hi = std::max(a[val], b[val]);
+        if (std::isnan(lo) || std::isnan(hi)) {
+            return false;
+        }
+        return hi >= range.lower[val] && lo <= range.upper[val];
     }
     //=============================================================================
     static void
@@ -642,12 +665,29 @@ GOBar::getLimits()
         return limits;
     }
     updateState();
+    limits = barLimits(nullptr);
+    limitsDirty = false;
+    return limits;
+}
+//=============================================================================
+std::vector<double>
+GOBar::getLimitsInRange(const std::vector<double>& box, const std::array<bool, 3>& logScale)
+{
+    getLimits();
+    LimitsRange range(box, logScale);
+    return barLimits(&range);
+}
+//=============================================================================
+std::vector<double>
+GOBar::barLimits(const LimitsRange* range)
+{
     std::vector<double> x = numericVector(findArrayOfProperty(GO_X_DATA_PROPERTY_NAME_STR));
     std::vector<double> y = numericVector(findArrayOfProperty(GO_Y_DATA_PROPERTY_NAME_STR));
     if (x.empty() || y.empty()) {
-        limits = { 0., 1., 0., 1., 0., 0., 0., 1., 1., 1. };
-        limitsDirty = false;
-        return limits;
+        if (range) {
+            return {};
+        }
+        return { 0., 1., 0., 1., 0., 0., 0., 1., 1., 1. };
     }
     size_t n = std::min(x.size(), y.size());
     x.resize(n);
@@ -658,12 +698,21 @@ GOBar::getLimits()
         base.assign(n, findScalarDoubleProperty(GO_BASE_VALUE_PROPERTY_NAME_STR));
     }
     bool stacked = findStringProperty(GO_BAR_LAYOUT_PROPERTY_NAME_STR) == L"stacked";
+    bool horizontal = stringCheck(GO_HORIZONTAL_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
+    bool anyVisible = false;
     double step = minPositiveStep(x);
     double posMin = std::numeric_limits<double>::infinity();
     double posMax = -std::numeric_limits<double>::infinity();
-    double valueMin = std::min(0., findScalarDoubleProperty(GO_BASE_VALUE_PROPERTY_NAME_STR));
-    double valueMax = std::max(0., findScalarDoubleProperty(GO_BASE_VALUE_PROPERTY_NAME_STR));
+    // The value range starts at the baseline, not at zero.
+    double baseValue = findScalarDoubleProperty(GO_BASE_VALUE_PROPERTY_NAME_STR);
+    double valueMin = std::isfinite(baseValue) ? baseValue : 0.;
+    double valueMax = valueMin;
     for (size_t k = 0; k < n; ++k) {
+        if (range && !barVisible(*range, x[k], base[k], barEndPoint(base[k], y[k], stacked),
+                horizontal)) {
+            continue;
+        }
+        anyVisible = true;
         if (std::isfinite(x[k])) {
             posMin = std::min(posMin, x[k]);
             posMax = std::max(posMax, x[k]);
@@ -685,19 +734,23 @@ GOBar::getLimits()
             static_cast<int>(std::round(findScalarDoubleProperty(GO_NUM_PEERS_PROPERTY_NAME_STR))));
         double pad = (0.8 + barWidth / 2.) * step;
         if (grouped && peers > 1) {
-            pad = (groupWidth / 2. + std::max(0., 1. - barWidth)) * step;
+            // Outer bar edge of the group plus a 0.8 group-width share of margin.
+            double n = static_cast<double>(peers);
+            pad = (groupWidth * (n - 1.) / (2. * n) + groupWidth * barWidth / (2. * n)
+                      + 0.8 * groupWidth / n)
+                * step;
         }
         posMin -= pad;
         posMax += pad;
     }
-    bool horizontal = stringCheck(GO_HORIZONTAL_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
-    if (horizontal) {
-        limits = { valueMin, valueMax, posMin, posMax, 0., 0., 0., 1., 1., 1. };
-    } else {
-        limits = { posMin, posMax, valueMin, valueMax, 0., 0., 0., 1., 1., 1. };
+    if (range && !anyVisible) {
+        return {};
     }
-    limitsDirty = false;
-    return limits;
+    if (horizontal) {
+        return { valueMin, valueMax, posMin, posMax, 0., 0., 0., 1., 1., 1. };
+    } else {
+        return { posMin, posMax, valueMin, valueMax, 0., 0., 0., 1., 1., 1. };
+    }
 }
 //=============================================================================
 } // namespace Nelson

@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "GOArea.hpp"
+#include "GOLimitsInRange.hpp"
 #include "GOChartDecorators.hpp"
 #include "GOArrayOfProperty.hpp"
 #include "GOGObjectsProperty.hpp"
@@ -56,6 +57,35 @@ std::wstring
 GOArea::getType()
 {
     return GO_PROPERTY_VALUE_AREA_STR;
+}
+//=============================================================================
+std::vector<double>
+GOArea::getLimitsInRange(const std::vector<double>& box, const std::array<bool, 3>& logScale)
+{
+    // Area vertices (data and baseline) count when inside the range, without clipping.
+    std::vector<double> full(getLimits());
+    if (full.empty()) {
+        return full;
+    }
+    ArrayOf vertices(findArrayOfProperty(GO_VERTICES_PROPERTY_NAME_STR));
+    vertices.promoteType(NLS_DOUBLE);
+    indexType n = vertices.rows();
+    if (n == 0 || vertices.dataPointer() == nullptr) {
+        return {};
+    }
+    indexType nDims = vertices.columns();
+    const double* p = (const double*)vertices.dataPointer();
+    std::vector<double> xs(p, p + n);
+    std::vector<double> ys = (nDims > 1) ? std::vector<double>(p + n, p + 2 * n)
+                                         : std::vector<double>(n, 0.);
+    std::vector<double> zs;
+    if (nDims > 2) {
+        zs.assign(p + 2 * n, p + 3 * n);
+    }
+    LimitsRange range(box, logScale);
+    LimitsInRangeAccumulator visible(range);
+    visible.addPoints(xs, ys, zs);
+    return visible.result(full);
 }
 //=============================================================================
 } // namespace Nelson
