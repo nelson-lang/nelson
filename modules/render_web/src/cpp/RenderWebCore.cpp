@@ -78,6 +78,9 @@ namespace {
             hashValue(hash, control.minimum);
             hashValue(hash, control.maximum);
             hashValue(hash, control.fontSize);
+            hashString(hash, control.fontFamily);
+            hashValue(hash, control.bold);
+            hashValue(hash, control.italic);
             hashValue(hash, control.enabled);
             hashString(hash, control.horizontalAlignment);
             hashString(hash, control.verticalAlignment);
@@ -196,10 +199,24 @@ RenderWeb::currentWebGlTransform(WebGlMesh& mesh) const
 {
     for (int i = 0; i < 16; ++i) {
         mesh.model[i] = model[i];
-        mesh.projection[i] = proj[i];
     }
+    copyWebGlProjection(mesh.projection);
     for (int i = 0; i < 4; ++i) {
         mesh.viewport[i] = viewp[i];
+    }
+}
+//=============================================================================
+void
+RenderWeb::copyWebGlProjection(std::array<double, 16>& projection) const
+{
+    // 2D geometry sits exactly on a Z limit (a patch without ZData is at z = 1): in float32 the
+    // GPU may clip it on the near plane, so the clip-space depth row is shrunk slightly
+    constexpr double depthShrink = 1.0 - 1e-5;
+    for (int i = 0; i < 16; ++i) {
+        projection[i] = proj[i];
+    }
+    for (int column = 0; column < 4; ++column) {
+        projection[column * 4 + 2] *= depthShrink;
     }
 }
 //=============================================================================

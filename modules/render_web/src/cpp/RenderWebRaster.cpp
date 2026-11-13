@@ -34,6 +34,9 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+static std::string
+genericFontFamily(const std::string& cssFamily);
+//=============================================================================
 // Qt-free software rasterizer for the web display list. It replays the primitives
 // FigureCanvas draws (scanline polygons, lines as quads, stb_image rasters,
 // stb_truetype text) at 2x and box-filters down for anti-aliasing. getframe and
@@ -481,7 +484,9 @@ rasterizeControlLabel(RasterCanvas& canvas, const WebUIControl& control, double 
         + std::to_string(static_cast<int>(color.g)) + ","
         + std::to_string(static_cast<int>(color.b)) + ")";
     p.size = control.fontSize > 0 ? control.fontSize : 12.0;
-    p.fontFamily = "sans-serif";
+    p.fontBold = control.bold;
+    p.fontItalic = control.italic;
+    p.fontFamily = genericFontFamily(control.fontFamily);
     rasterizeText(canvas, p, 2);
 }
 //=============================================================================
@@ -599,7 +604,13 @@ rasterizeControl(RasterCanvas& canvas, const WebUIControl& control, int supersam
         if (!control.background.empty()) {
             canvas.fillRect(x, y, w, h, bg);
         }
-        rasterizeControlLabel(canvas, control, control.x + 2.0, baseline, "left", labelText, fg);
+        // String sits at the top, placed by HorizontalAlignment like the native label
+        const std::string& hAlign = control.horizontalAlignment;
+        const double labelX = hAlign == "left" ? control.x + 2.0
+            : hAlign == "right"                ? control.x + control.w - 2.0
+                                               : control.x + control.w / 2.0;
+        rasterizeControlLabel(
+            canvas, control, labelX, control.y + fontSize * 0.95, hAlign, labelText, fg);
     } else if (control.style == "pushbutton" || control.style == "togglebutton") {
         const bool pressed = control.style == "togglebutton" && control.value >= control.maximum;
         rasterizeControlBox(
@@ -906,6 +917,20 @@ rasterizeWebPrimitivesAndControlsToPngBase64(const std::vector<WebDrawPrimitive>
         return false;
     }
     return renderWebRgbToPngBase64(rgb.data(), width, height, width * 3, base64Out);
+}
+//=============================================================================
+// The rasterizer only knows CSS generics: keep the one ending the uicontrol family list
+static std::string
+genericFontFamily(const std::string& cssFamily)
+{
+    for (const char* generic : { "monospace", "sans-serif", "serif" }) {
+        const std::string tail = std::string(", ") + generic;
+        if (cssFamily.size() >= tail.size()
+            && cssFamily.compare(cssFamily.size() - tail.size(), tail.size(), tail) == 0) {
+            return generic;
+        }
+    }
+    return "sans-serif";
 }
 //=============================================================================
 } // namespace Nelson

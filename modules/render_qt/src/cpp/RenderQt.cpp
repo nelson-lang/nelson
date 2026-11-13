@@ -420,8 +420,8 @@ RenderQt::map(double x, double y, double z)
 {
     double a, b;
     toPixels(x, y, z, a, b);
-    b = m_height - 1 - b;
-    return { rint(a), rint(b) };
+    b = m_height - b;
+    return { a, b };
 }
 //=============================================================================
 QVector<QPointF>
@@ -451,7 +451,18 @@ RenderQt::rect(double x1, double y1, double x2, double y2)
 void
 RenderQt::rectFill(double x1, double y1, double x2, double y2)
 {
+    if (collectBspPrimitives) {
+        quad(x1, y1, 0, x2, y1, 0, x2, y2, 0, x1, y2, 0);
+        return;
+    }
+    // A fill only: the current pen (maybe a wide line from another object) must not stroke it.
+    QPen pen(pnt->pen());
+    QBrush brush(pnt->brush());
+    pnt->setPen(Qt::NoPen);
+    pnt->setBrush(QBrush(pen.color(), Qt::SolidPattern));
     quad(x1, y1, 0, x2, y1, 0, x2, y2, 0, x1, y2, 0);
+    pnt->setBrush(brush);
+    pnt->setPen(pen);
 }
 //=============================================================================
 void
@@ -1086,13 +1097,13 @@ RenderQt::markerOccluded(double px, double py, double z) const
         return false;
     }
     // Direct-draw pixel coordinates reach the painter like map(): x unchanged, y flipped
-    // against the current frame height, both rounded to the pixel the marker lands on.
-    const double painterY = m_height - 1 - py;
+    // against the current frame height; the pixel is the one holding that point.
+    const double painterY = m_height - py;
     if (!std::isfinite(px) || !std::isfinite(painterY)) {
         return false;
     }
-    const long ix = std::lround(px);
-    const long iy = std::lround(painterY);
+    const long ix = static_cast<long>(std::floor(px));
+    const long iy = static_cast<long>(std::floor(painterY));
     if (ix < 0 || iy < 0 || ix >= m_depthW || iy >= m_depthH) {
         return false;
     }
@@ -1132,7 +1143,7 @@ RenderQt::mapQuadsFacesOnly(
                     anyclipped = true;
                 }
                 qx.pts[k].x = a;
-                qx.pts[k].y = m_height - 1 - b;
+                qx.pts[k].y = m_height - b;
                 qx.pts[k].z = c;
                 zmean += c;
                 qx.r = cpt.r;
@@ -1177,7 +1188,7 @@ RenderQt::mapQuadsFacesOnly(
                     anyclipped = true;
                 }
                 qx.pts[k].x = a;
-                qx.pts[k].y = m_height - 1 - b;
+                qx.pts[k].y = m_height - b;
                 qx.pts[k].z = c;
                 zmean += c;
                 qx.r = cpt.r;
@@ -1256,7 +1267,7 @@ RenderQt::mapQuads(const std::vector<std::vector<coloredPoint>>& faces,
                     anyclipped = true;
                 }
                 qx.pts[k].x = a;
-                qx.pts[k].y = m_height - 1 - b;
+                qx.pts[k].y = m_height - b;
                 qx.pts[k].z = c;
                 zmean += c;
                 qx.r = cpt.r;
@@ -1306,7 +1317,7 @@ RenderQt::mapQuadsEdgesOnly(const std::vector<std::vector<coloredPoint>>& edges)
                     anyclipped = true;
                 }
                 qx.pts[k].x = a;
-                qx.pts[k].y = m_height - 1 - b;
+                qx.pts[k].y = m_height - b;
                 qx.pts[k].z = c;
                 zmean += c;
                 qx.r = cpt.r;

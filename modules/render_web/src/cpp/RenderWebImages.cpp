@@ -618,6 +618,19 @@ namespace {
         return point(n.x / norm, n.y / norm, n.z / norm);
     }
     //=============================================================================
+    //=============================================================================
+    template <typename Point>
+    bool
+    finiteOrigin(const Point& p, double& ox, double& oy, double& oz)
+    {
+        if (!std::isfinite(p.x) || !std::isfinite(p.y) || !std::isfinite(p.z)) {
+            return false;
+        }
+        ox = p.x;
+        oy = p.y;
+        oz = p.z;
+        return true;
+    }
 } // namespace
 //=============================================================================
 void
@@ -1003,8 +1016,17 @@ RenderWeb::tryPushWebGlPatch(const FaceList& faces, const PatchRenderOptions& op
         static_cast<float>(edge.b), static_cast<float>(edge.a) };
     mesh.lineWidth = options.lineWidth;
     std::copy(model, model + 16, mesh.model.begin());
-    std::copy(proj, proj + 16, mesh.projection.begin());
+    copyWebGlProjection(mesh.projection);
     std::copy(viewp, viewp + 4, mesh.viewport.begin());
+    double ox = 0, oy = 0, oz = 0;
+    for (const Face& face : faces) {
+        if (std::any_of(face.vertices.begin(), face.vertices.end(),
+                [&](const point& v) { return finiteOrigin(v, ox, oy, oz); })) {
+            break;
+        }
+    }
+    mesh.origin = { ox, oy, oz };
+    translateWebGlModel(mesh.model, mesh.origin);
 
     // Lit colors are baked per vertex and depend on the view. GOPatch does not
     // re-token on view change, so its geometry cache (which stores colors) is
@@ -1116,8 +1138,9 @@ RenderWeb::tryPushWebGlPatch(const FaceList& faces, const PatchRenderOptions& op
                 a = static_cast<float>(color.a);
             }
             const uint32_t index
-                = appendWebGlVertex(mesh, vertexMap, drawFaces, static_cast<float>(vertex.x),
-                    static_cast<float>(vertex.y), static_cast<float>(vertex.z), r, g, b, a);
+                = appendWebGlVertex(mesh, vertexMap, drawFaces,
+                    static_cast<float>(vertex.x - ox), static_cast<float>(vertex.y - oy),
+                    static_cast<float>(vertex.z - oz), r, g, b, a);
             run.push_back(index);
         }
         flushRun(run);
@@ -1190,8 +1213,17 @@ RenderWeb::tryPushWebGlSurface(const std::vector<std::vector<coloredPoint>>& fac
     mesh.lineColor = { static_cast<float>(edgeColor.r), static_cast<float>(edgeColor.g),
         static_cast<float>(edgeColor.b), static_cast<float>(edgeColor.a) };
     std::copy(model, model + 16, mesh.model.begin());
-    std::copy(proj, proj + 16, mesh.projection.begin());
+    copyWebGlProjection(mesh.projection);
     std::copy(viewp, viewp + 4, mesh.viewport.begin());
+    double ox = 0, oy = 0, oz = 0;
+    for (const auto& strip : faces) {
+        if (std::any_of(strip.begin(), strip.end(),
+                [&](const coloredPoint& p) { return finiteOrigin(p, ox, oy, oz); })) {
+            break;
+        }
+    }
+    mesh.origin = { ox, oy, oz };
+    translateWebGlModel(mesh.model, mesh.origin);
 
     // The cached geometry is unclipped; when an axes clip box is active the mesh
     // depends on the current limits, so bypass the geometry cache entirely.
@@ -1237,8 +1269,9 @@ RenderWeb::tryPushWebGlSurface(const std::vector<std::vector<coloredPoint>>& fac
         mesh.lineIndices.reserve(quadCount * edgeIndexCount);
     }
     auto addFanVertex = [&](const coloredPoint& point) -> uint32_t {
-        return appendWebGlVertex(mesh, vertexMap, true, static_cast<float>(point.x),
-            static_cast<float>(point.y), static_cast<float>(point.z), static_cast<float>(point.r),
+        return appendWebGlVertex(mesh, vertexMap, true, static_cast<float>(point.x - ox),
+            static_cast<float>(point.y - oy), static_cast<float>(point.z - oz),
+            static_cast<float>(point.r),
             static_cast<float>(point.g), static_cast<float>(point.b), static_cast<float>(point.a));
     };
     auto addClippedQuad = [&](const coloredPoint& p0, const coloredPoint& p1,
@@ -1286,8 +1319,8 @@ RenderWeb::tryPushWebGlSurface(const std::vector<std::vector<coloredPoint>>& fac
             const coloredPoint& point = points[pointIndex];
             const coloredPoint& color = flatfaces ? flatColor : point;
             indices[pointIndex]
-                = appendWebGlVertex(mesh, vertexMap, true, static_cast<float>(point.x),
-                    static_cast<float>(point.y), static_cast<float>(point.z),
+                = appendWebGlVertex(mesh, vertexMap, true, static_cast<float>(point.x - ox),
+                    static_cast<float>(point.y - oy), static_cast<float>(point.z - oz),
                     static_cast<float>(color.r), static_cast<float>(color.g),
                     static_cast<float>(color.b), static_cast<float>(color.a));
         }

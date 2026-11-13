@@ -538,7 +538,7 @@ RenderQt::bspVertex(double x, double y, double z, bool& clipped)
     double a = viewp[0] + (1 + xclip) / 2.0 * viewp[2];
     double b = viewp[1] + (1 + yclip) / 2.0 * viewp[3];
     vertex.clip = point(xclip, yclip, zclip);
-    vertex.pixel = QPointF(a, m_height - 1 - b);
+    vertex.pixel = QPointF(a, m_height - b);
     mapPoint(x, y, z, vertex.eye.x, vertex.eye.y, vertex.eye.z);
     return vertex;
 }

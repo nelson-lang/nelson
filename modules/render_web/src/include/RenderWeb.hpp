@@ -94,7 +94,18 @@ struct WebGlMesh
     double lineWidth = 1.0;
     bool drawFaces = false;
     uint64_t revision = 0;
+    // positions are relative to this data point, kept in double for float32 precision
+    std::array<double, 3> origin {};
 };
+//=============================================================================
+// Model matrix of a mesh whose positions are relative to origin.
+inline void
+translateWebGlModel(std::array<double, 16>& model, const std::array<double, 3>& origin)
+{
+    for (int r = 0; r < 4; ++r) {
+        model[12 + r] += model[r] * origin[0] + model[4 + r] * origin[1] + model[8 + r] * origin[2];
+    }
+}
 //=============================================================================
 // A uicontrol as the web frontend builds it: a real HTML control, not a snapshot
 // of the Qt widget.
@@ -111,7 +122,10 @@ struct WebUIControl
     std::string units;
     double x = 0, y = 0, w = 0, h = 0; // screen pixels, top-left origin
     double value = 0, minimum = 0, maximum = 1;
-    double fontSize = 12.0;
+    double fontSize = 12.0; // pixels
+    std::string fontFamily; // CSS font-family list, empty keeps the page font
+    bool bold = false;
+    bool italic = false;
     bool enabled = true;
     // Enable == 'inactive': the control renders normally (not greyed) but does
     // not react to user input, while ButtonDownFcn still fires. When true,
@@ -217,6 +231,9 @@ public:
     layoutSignature() const;
     void
     currentWebGlTransform(WebGlMesh& mesh) const;
+    // GPU projection: near/far pushed out a hair so geometry on a Z limit is kept
+    void
+    copyWebGlProjection(std::array<double, 16>& projection) const;
     const double*
     bounds() const
     {
