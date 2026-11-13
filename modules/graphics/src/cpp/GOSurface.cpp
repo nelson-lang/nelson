@@ -45,8 +45,8 @@ namespace Nelson {
 static std::atomic<uint64_t> nextSurfaceGeometryToken { 1 };
 //=============================================================================
 static void
-appendSurfaceExtent(std::vector<double>& limits, const ArrayOf& xdata, const ArrayOf& ydata,
-    const ArrayOf& zdata);
+appendSurfaceExtent(
+    std::vector<double>& limits, const ArrayOf& xdata, const ArrayOf& ydata, const ArrayOf& zdata);
 //=============================================================================
 namespace {
     struct SurfaceRgba

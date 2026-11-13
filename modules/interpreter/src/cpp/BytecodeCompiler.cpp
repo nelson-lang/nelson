@@ -535,9 +535,8 @@ namespace {
                 || sub->right->opNum != OP_PARENS) {
                 return false;
             }
-            return variablesKnownAtCompile()
-                ? containsEndOutsideKnownVariables(sub->right->down)
-                : containsEndKeywordThisLevel(sub->right->down);
+            return variablesKnownAtCompile() ? containsEndOutsideKnownVariables(sub->right->down)
+                                             : containsEndKeywordThisLevel(sub->right->down);
         }
 
         // `end` reachable without crossing an indexed known variable

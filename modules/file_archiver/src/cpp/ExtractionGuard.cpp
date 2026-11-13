@@ -23,8 +23,8 @@ static constexpr uint64_t ratioGrace = 1024 * 1024;
 static uint64_t
 availableSpace(const std::wstring& destination);
 //=============================================================================
-ExtractionGuard::ExtractionGuard(const ExtractionLimits& extractionLimits,
-    const std::wstring& destination)
+ExtractionGuard::ExtractionGuard(
+    const ExtractionLimits& extractionLimits, const std::wstring& destination)
     : limits(extractionLimits)
 {
     if (!destination.empty()) {
@@ -94,8 +94,8 @@ raiseExtractionLimitError(const ExtractionLimitError& error)
     case ExtractionLimitKind::Ratio:
     default:
         Error(L"Nelson:file_archiver:compressionRatioLimit",
-            L"%s exceeds MaxCompressionRatio: %s bytes from %s compressed bytes.", subject,
-            needed, allowed);
+            L"%s exceeds MaxCompressionRatio: %s bytes from %s compressed bytes.", subject, needed,
+            allowed);
         break;
     }
     throw error;

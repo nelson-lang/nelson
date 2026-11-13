@@ -62,9 +62,11 @@ public:
     virtual ~StreamDecoder();
     // Up to capacity bytes, 0 at the end of the data.
     virtual size_t
-    read(uint8_t* buffer, size_t capacity) = 0;
+    read(uint8_t* buffer, size_t capacity)
+        = 0;
     virtual void
-    reset() = 0;
+    reset()
+        = 0;
 };
 //=============================================================================
 // Pushes data to compress; finish() ends the stream.
@@ -73,9 +75,11 @@ class NLSFILE_ARCHIVER_IMPEXP StreamEncoder
 public:
     virtual ~StreamEncoder();
     virtual void
-    write(const uint8_t* data, size_t size) = 0;
+    write(const uint8_t* data, size_t size)
+        = 0;
     virtual void
-    finish() = 0;
+    finish()
+        = 0;
 };
 //=============================================================================
 // Memory to reserve for an entry announced as declared bytes: archives can lie about sizes,

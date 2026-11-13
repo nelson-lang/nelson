@@ -43,6 +43,6 @@ Nelson::FileArchiverGateway::zipRewriteBuiltin(int nLhs, const ArrayOfVector& ar
         }
         raiseZipError(error);
     }
-    return { };
+    return {};
 }
 //=============================================================================

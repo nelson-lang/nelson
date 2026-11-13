@@ -133,7 +133,7 @@ close(uint64_t id)
         std::lock_guard<std::mutex> lock(sessionsMutex);
         auto it = sessions.find(id);
         if (it == sessions.end()) {
-            return { };
+            return {};
         }
         it->second->requireNoEntryBeingWritten();
         archive = std::move(it->second);

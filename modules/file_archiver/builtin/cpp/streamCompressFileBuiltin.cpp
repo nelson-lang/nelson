@@ -41,6 +41,6 @@ Nelson::FileArchiverGateway::streamCompressFileBuiltin(int nLhs, const ArrayOfVe
         raiseStreamError(error, codec,
             error.code() == ArchiveStreams::StreamErrorCode::ReadFailed ? source : destination);
     }
-    return { };
+    return {};
 }
 //=============================================================================

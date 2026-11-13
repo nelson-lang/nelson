@@ -184,8 +184,7 @@ graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
     nelson_handle* gobjects = (nelson_handle*)(argIn[0].dataPointer());
     indexType nbElements = argIn[0].elementCount();
     // Struct and name/value cell forms expand to one name/value list per handle.
-    const std::vector<ArrayOfVector> pairsPerHandle
-        = expandNameValueArguments(argIn, nbElements);
+    const std::vector<ArrayOfVector> pairsPerHandle = expandNameValueArguments(argIn, nbElements);
     for (indexType k = 0; k < nbElements; k++) {
         const ArrayOfVector& pairs = pairsPerHandle[k];
         GraphicsObject* fp = nullptr;
@@ -438,20 +437,19 @@ graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
 static bool
 isPolarGridProperty(const std::wstring& propname)
 {
-    static const wstringVector names
-        = { GO_THETA_ZERO_LOCATION_PROPERTY_NAME_STR, GO_THETA_DIR_PROPERTY_NAME_STR,
-              GO_R_COLOR_PROPERTY_NAME_STR, GO_THETA_COLOR_PROPERTY_NAME_STR,
-              GO_R_GRID_PROPERTY_NAME_STR, GO_THETA_GRID_PROPERTY_NAME_STR,
-              GO_R_MINOR_GRID_PROPERTY_NAME_STR, GO_THETA_MINOR_GRID_PROPERTY_NAME_STR,
-              GO_R_DIR_PROPERTY_NAME_STR, GO_R_AXIS_LOCATION_PROPERTY_NAME_STR,
-              GO_R_AXIS_LOCATION_MODE_PROPERTY_NAME_STR, GO_R_MINOR_TICK_PROPERTY_NAME_STR,
-              GO_THETA_MINOR_TICK_PROPERTY_NAME_STR, GO_R_LIM_PROPERTY_NAME_STR,
-              GO_R_LIM_MODE_PROPERTY_NAME_STR, GO_R_TICK_PROPERTY_NAME_STR,
-              GO_R_TICK_MODE_PROPERTY_NAME_STR, GO_R_TICK_LABEL_PROPERTY_NAME_STR,
-              GO_R_TICK_LABEL_MODE_PROPERTY_NAME_STR, GO_THETA_AXIS_UNITS_PROPERTY_NAME_STR,
-              GO_THETA_LIM_PROPERTY_NAME_STR, GO_THETA_LIM_MODE_PROPERTY_NAME_STR,
-              GO_THETA_TICK_PROPERTY_NAME_STR, GO_THETA_TICK_MODE_PROPERTY_NAME_STR,
-              GO_THETA_TICK_LABEL_PROPERTY_NAME_STR, GO_THETA_TICK_LABEL_MODE_PROPERTY_NAME_STR };
+    static const wstringVector names = { GO_THETA_ZERO_LOCATION_PROPERTY_NAME_STR,
+        GO_THETA_DIR_PROPERTY_NAME_STR, GO_R_COLOR_PROPERTY_NAME_STR,
+        GO_THETA_COLOR_PROPERTY_NAME_STR, GO_R_GRID_PROPERTY_NAME_STR,
+        GO_THETA_GRID_PROPERTY_NAME_STR, GO_R_MINOR_GRID_PROPERTY_NAME_STR,
+        GO_THETA_MINOR_GRID_PROPERTY_NAME_STR, GO_R_DIR_PROPERTY_NAME_STR,
+        GO_R_AXIS_LOCATION_PROPERTY_NAME_STR, GO_R_AXIS_LOCATION_MODE_PROPERTY_NAME_STR,
+        GO_R_MINOR_TICK_PROPERTY_NAME_STR, GO_THETA_MINOR_TICK_PROPERTY_NAME_STR,
+        GO_R_LIM_PROPERTY_NAME_STR, GO_R_LIM_MODE_PROPERTY_NAME_STR, GO_R_TICK_PROPERTY_NAME_STR,
+        GO_R_TICK_MODE_PROPERTY_NAME_STR, GO_R_TICK_LABEL_PROPERTY_NAME_STR,
+        GO_R_TICK_LABEL_MODE_PROPERTY_NAME_STR, GO_THETA_AXIS_UNITS_PROPERTY_NAME_STR,
+        GO_THETA_LIM_PROPERTY_NAME_STR, GO_THETA_LIM_MODE_PROPERTY_NAME_STR,
+        GO_THETA_TICK_PROPERTY_NAME_STR, GO_THETA_TICK_MODE_PROPERTY_NAME_STR,
+        GO_THETA_TICK_LABEL_PROPERTY_NAME_STR, GO_THETA_TICK_LABEL_MODE_PROPERTY_NAME_STR };
     return std::find(names.begin(), names.end(), propname) != names.end();
 }
 //=============================================================================
@@ -1257,14 +1255,12 @@ expandNameValueArguments(const ArrayOfVector& argIn, indexType nbHandles)
         }
         if (isNameCell) {
             if (!argIn[ptr + 1].isCell()) {
-                Error(
-                    L"Nelson:set:invalidPairs", L"Property names and values must come in pairs.");
+                Error(L"Nelson:set:invalidPairs", L"Property names and values must come in pairs.");
             }
             appendCellPairs(current, argIn[ptr + 1], pairsPerHandle);
         } else {
             if (!isTextArgument(current)) {
-                Error(
-                    L"Nelson:set:invalidPairs", L"Property names and values must come in pairs.");
+                Error(L"Nelson:set:invalidPairs", L"Property names and values must come in pairs.");
             }
             for (ArrayOfVector& pairs : pairsPerHandle) {
                 pairs.push_back(current);

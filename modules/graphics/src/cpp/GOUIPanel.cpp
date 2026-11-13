@@ -108,8 +108,8 @@ GOUIPanel::paintChrome(RenderInterface& gc)
         }
         FontSpec font = chromeFont();
         font.pixelSize = titleBandHeight();
-        gc.putText(x, height - top / 2.0, title, textColor, alignment, RenderInterface::Mean, font,
-            0);
+        gc.putText(
+            x, height - top / 2.0, title, textColor, alignment, RenderInterface::Mean, font, 0);
     }
     if (borderWidth > 0) {
         auto* borderColor = dynamic_cast<GOColorProperty*>(

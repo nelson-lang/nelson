@@ -368,8 +368,7 @@ if(EXISTS "${NELSON_WINDOWS_THIRDPARTY_ROOT}/zstd/include/zstd.h")
 endif()
 # libarchive is required on Windows.
 if(NOT EXISTS "${NELSON_WINDOWS_THIRDPARTY_ROOT}/libarchive/include/archive.h")
-  message(
-    FATAL_ERROR
+  message(FATAL_ERROR
     "libarchive not found: ${NELSON_WINDOWS_THIRDPARTY_ROOT}/libarchive"
   )
 endif()

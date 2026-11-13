@@ -1137,10 +1137,9 @@ RenderWeb::tryPushWebGlPatch(const FaceList& faces, const PatchRenderOptions& op
                 b = static_cast<float>(color.b);
                 a = static_cast<float>(color.a);
             }
-            const uint32_t index
-                = appendWebGlVertex(mesh, vertexMap, drawFaces,
-                    static_cast<float>(vertex.x - ox), static_cast<float>(vertex.y - oy),
-                    static_cast<float>(vertex.z - oz), r, g, b, a);
+            const uint32_t index = appendWebGlVertex(mesh, vertexMap, drawFaces,
+                static_cast<float>(vertex.x - ox), static_cast<float>(vertex.y - oy),
+                static_cast<float>(vertex.z - oz), r, g, b, a);
             run.push_back(index);
         }
         flushRun(run);
@@ -1271,8 +1270,8 @@ RenderWeb::tryPushWebGlSurface(const std::vector<std::vector<coloredPoint>>& fac
     auto addFanVertex = [&](const coloredPoint& point) -> uint32_t {
         return appendWebGlVertex(mesh, vertexMap, true, static_cast<float>(point.x - ox),
             static_cast<float>(point.y - oy), static_cast<float>(point.z - oz),
-            static_cast<float>(point.r),
-            static_cast<float>(point.g), static_cast<float>(point.b), static_cast<float>(point.a));
+            static_cast<float>(point.r), static_cast<float>(point.g), static_cast<float>(point.b),
+            static_cast<float>(point.a));
     };
     auto addClippedQuad = [&](const coloredPoint& p0, const coloredPoint& p1,
                               const coloredPoint& p2, const coloredPoint& p3) {

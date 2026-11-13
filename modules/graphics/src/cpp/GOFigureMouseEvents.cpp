@@ -51,8 +51,8 @@ static void
 pushObjectCallback(
     GraphicsObject* object, const std::wstring& propertyName, const std::wstring& eventType);
 static bool
-containerContentPoint(GOUIContainer* container, double width, double height,
-    std::vector<double>& point);
+containerContentPoint(
+    GOUIContainer* container, double width, double height, std::vector<double>& point);
 static bool
 visitDecorations(GraphicsObject* parent, double x, double y, double width, double height,
     const std::function<bool(GraphicsObject*, int64, double, double, double, double)>& visit);

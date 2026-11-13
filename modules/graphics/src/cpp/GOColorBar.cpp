@@ -415,8 +415,7 @@ GOColorBar::applyLocationToPeerAxes()
     convertPositionPixelOrigin(GO_PROPERTY_VALUE_NORMALIZED_STR,
         findStringProperty(GO_UNITS_PROPERTY_NAME_STR), cbPos, figureWidth, figureHeight);
     if (!isSameColorBarPosition(findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR), cbPos)) {
-        setFourVectorDefault(
-            GO_POSITION_PROPERTY_NAME_STR, cbPos[0], cbPos[1], cbPos[2], cbPos[3]);
+        setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, cbPos[0], cbPos[1], cbPos[2], cbPos[3]);
     }
     clearChanged(GO_POSITION_PROPERTY_NAME_STR);
     m_autoLayoutPosition = cbPos;

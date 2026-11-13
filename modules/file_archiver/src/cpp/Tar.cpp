@@ -117,8 +117,7 @@ ExtractTar(TarArchive& archive, const std::wstring& rootpath, wstringVector& fil
                 continue;
             }
         } else if (entry.isDirectory) {
-            writeOrRaise(destination,
-                [&] { disk.folder(onDisk, entry.modified, 0755); });
+            writeOrRaise(destination, [&] { disk.folder(onDisk, entry.modified, 0755); });
         } else {
             extractTarFile(archive, i, disk, onDisk, destination);
         }
@@ -146,8 +145,7 @@ extractTarFile(TarArchive& archive, size_t index, ArchiveDiskWriter& disk,
     } catch (const ZipArchiveError& error) {
         disk.abandonFile();
         if (error.code() == ZipErrorCode::WriteFailed) {
-            Error(L"Nelson:untar:cannotWriteFile", L"Cannot write extracted file: %s",
-                destination);
+            Error(L"Nelson:untar:cannotWriteFile", L"Cannot write extracted file: %s", destination);
         }
         Error(L"Nelson:untar:cannotReadData", L"Cannot read data.");
     }
@@ -167,8 +165,7 @@ restoreLink(ArchiveDiskWriter& disk, const TarEntryInfo& entry, const std::wstri
     if (entry.isHardlink || !linkStaysInside(entry.name, entry.linkName)) {
         return false;
     }
-    writeOrRaise(onDisk,
-        [&] { disk.link(onDisk, entry.linkName, entry.modified); });
+    writeOrRaise(onDisk, [&] { disk.link(onDisk, entry.linkName, entry.modified); });
     return true;
 #endif
 }

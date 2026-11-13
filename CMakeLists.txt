@@ -722,7 +722,10 @@ endif()
 # ==============================================================================
 # -- zstd (file archiver, optional: Zstandard ZIP entries)
 set(ZSTD_FOUND FALSE)
-if(NOT WITHOUT_FILE_ARCHIVER_MODULE AND NOT WITHOUT_ZSTD AND NOT NELSON_WASM_BUILD)
+if(NOT WITHOUT_FILE_ARCHIVER_MODULE
+  AND NOT WITHOUT_ZSTD
+  AND NOT NELSON_WASM_BUILD
+)
   find_package(PkgConfig QUIET)
   if(PKG_CONFIG_FOUND)
     pkg_check_modules(PC_ZSTD QUIET libzstd)
@@ -739,7 +742,9 @@ endif()
 # ==============================================================================
 # -- libarchive (file archiver: zip and tar archives)
 if(NOT WITHOUT_FILE_ARCHIVER_MODULE AND NELSON_WASM_BUILD)
-  if(NOT NELSON_WASM_LIBARCHIVE_LIBRARY OR NOT NELSON_WASM_LIBARCHIVE_INCLUDE_DIR)
+  if(NOT NELSON_WASM_LIBARCHIVE_LIBRARY
+    OR NOT NELSON_WASM_LIBARCHIVE_INCLUDE_DIR
+  )
     message(FATAL_ERROR
       "The file archiver requires the Emscripten libarchive archive. "
       "Run tools/wasm/build-libarchive.sh, or set NELSON_WASM_LIBARCHIVE_INCLUDE_DIR "
@@ -754,15 +759,18 @@ elseif(NOT WITHOUT_FILE_ARCHIVER_MODULE)
     execute_process(
       COMMAND brew --prefix libarchive
       OUTPUT_VARIABLE _nelson_libarchive_prefix
-      OUTPUT_STRIP_TRAILING_WHITESPACE
-      ERROR_QUIET
+      OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_QUIET
     )
-    if(_nelson_libarchive_prefix AND IS_DIRECTORY "${_nelson_libarchive_prefix}")
+    if(_nelson_libarchive_prefix
+      AND IS_DIRECTORY "${_nelson_libarchive_prefix}"
+    )
       list(PREPEND CMAKE_PREFIX_PATH "${_nelson_libarchive_prefix}")
     endif()
   endif()
   find_package(LibArchive 3.6 REQUIRED)
-  message(STATUS "libarchive found: ${LibArchive_VERSION} (${LibArchive_LIBRARIES})")
+  message(STATUS
+    "libarchive found: ${LibArchive_VERSION} (${LibArchive_LIBRARIES})"
+  )
 endif()
 # ==============================================================================
 # -- curl / libgit2 (webtools)

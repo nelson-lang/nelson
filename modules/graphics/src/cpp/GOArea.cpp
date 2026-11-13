@@ -76,8 +76,8 @@ GOArea::getLimitsInRange(const std::vector<double>& box, const std::array<bool, 
     indexType nDims = vertices.columns();
     const double* p = (const double*)vertices.dataPointer();
     std::vector<double> xs(p, p + n);
-    std::vector<double> ys = (nDims > 1) ? std::vector<double>(p + n, p + 2 * n)
-                                         : std::vector<double>(n, 0.);
+    std::vector<double> ys
+        = (nDims > 1) ? std::vector<double>(p + n, p + 2 * n) : std::vector<double>(n, 0.);
     std::vector<double> zs;
     if (nDims > 2) {
         zs.assign(p + 2 * n, p + 3 * n);

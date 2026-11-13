@@ -92,8 +92,8 @@ UnZip(const std::wstring& zipFilename, const std::wstring& rootpath, wstringVect
         } else {
             const std::wstring destination = std::filesystem::path(safeEntryPath).generic_wstring();
             filenames.push_back(destination);
-            extractFileEntry(archive, i, disk, diskPath(canonicalRoot, fullRootPath, destination),
-                destination);
+            extractFileEntry(
+                archive, i, disk, diskPath(canonicalRoot, fullRootPath, destination), destination);
         }
     }
     try {

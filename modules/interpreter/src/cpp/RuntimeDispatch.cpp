@@ -122,10 +122,10 @@ pumpGuiEventsBlocking(int maxTimeMs)
 }
 //=============================================================================
 namespace {
-std::mutex guiWorkMutex;
-std::condition_variable guiWorkCondition;
-bool guiWorkPending = false;
-std::deque<RuntimeDispatchTask> guiDirectTasks;
+    std::mutex guiWorkMutex;
+    std::condition_variable guiWorkCondition;
+    bool guiWorkPending = false;
+    std::deque<RuntimeDispatchTask> guiDirectTasks;
 }
 //=============================================================================
 void

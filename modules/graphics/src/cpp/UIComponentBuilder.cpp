@@ -691,7 +691,8 @@ UITreeExpand(const ArrayOfVector& argIn, bool expand)
     }
 }
 //=============================================================================
-// Panels, button groups, tab groups and tabs of a figure fill their parent; a uifigure keeps pixels.
+// Panels, button groups, tab groups and tabs of a figure fill their parent; a uifigure keeps
+// pixels.
 static void
 applyFigureContainerDefaults(GOUIComponent* component, const ResolvedUIParent& parent)
 {

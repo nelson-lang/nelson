@@ -17,8 +17,7 @@ if(APPLE)
   execute_process(
     COMMAND brew --prefix libarchive
     OUTPUT_VARIABLE _libarchive_prefix
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    ERROR_QUIET
+    OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_QUIET
   )
   if(_libarchive_prefix AND IS_DIRECTORY "${_libarchive_prefix}")
     list(PREPEND CMAKE_PREFIX_PATH "${_libarchive_prefix}")
@@ -31,7 +30,11 @@ if(NELSON_FUZZ)
     set(_fuzz_flags /fsanitize=fuzzer /fsanitize=address /Zi)
     set(_fuzz_link_flags /DEBUG)
   else()
-    set(_fuzz_flags -fsanitize=fuzzer,address,undefined -fno-omit-frame-pointer -g)
+    set(_fuzz_flags
+      -fsanitize=fuzzer,address,undefined
+      -fno-omit-frame-pointer
+      -g
+    )
     set(_fuzz_link_flags -fsanitize=fuzzer,address,undefined)
   endif()
 endif()
@@ -61,11 +64,13 @@ function(nelson_add_fuzzer name)
   endif()
 endfunction()
 
-nelson_add_fuzzer(zip_central_directory_fuzzer
+nelson_add_fuzzer(
+  zip_central_directory_fuzzer
   "${FILE_ARCHIVER_DIR}/src/cpp/ZipCentralDirectory.cpp"
   "${FILE_ARCHIVER_DIR}/src/cpp/ArchivePath.cpp"
 )
-nelson_add_fuzzer(zip_archive_fuzzer
+nelson_add_fuzzer(
+  zip_archive_fuzzer
   "${FILE_ARCHIVER_DIR}/src/cpp/ZipCentralDirectory.cpp"
   "${FILE_ARCHIVER_DIR}/src/cpp/ZipArchive.cpp"
   "${FILE_ARCHIVER_DIR}/src/cpp/ArchivePath.cpp"

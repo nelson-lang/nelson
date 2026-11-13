@@ -31,7 +31,8 @@ public:
     ~Scope();
     Scope(const Scope&) = delete;
     Scope&
-    operator=(const Scope&) = delete;
+    operator=(const Scope&)
+        = delete;
 
 private:
     std::function<bool()> previous;

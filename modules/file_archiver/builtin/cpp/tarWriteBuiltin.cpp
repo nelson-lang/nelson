@@ -30,6 +30,6 @@ Nelson::FileArchiverGateway::tarWriteBuiltin(int nLhs, const ArrayOfVector& argI
     } catch (const ZipArchiveError& error) {
         raiseTarError(error);
     }
-    return { };
+    return {};
 }
 //=============================================================================

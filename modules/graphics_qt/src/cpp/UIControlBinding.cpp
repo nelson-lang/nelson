@@ -1060,7 +1060,8 @@ namespace {
         void
         onPopupMenuChanged(bool newWidget)
         {
-            // Items come from onStringChangedPopupMenu: rebuilding them on every update reset an open list.
+            // Items come from onStringChangedPopupMenu: rebuilding them on every update reset an
+            // open list.
             if (model->stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_POPUPMENU_STR)
                 && (newWidget || model->hasChanged(GO_VALUE_PROPERTY_NAME_STR))) {
                 QComboBox* comboBox = (QComboBox*)widget.data();
@@ -1270,7 +1271,8 @@ static void
 applyTextAlignment(GOUIControl* control, QWidget* widget)
 {
     Qt::Alignment horizontal = Qt::AlignHCenter;
-    if (control->stringCheck(GO_HORIZONTAL_ALIGNMENT_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_LEFT_STR)) {
+    if (control->stringCheck(
+            GO_HORIZONTAL_ALIGNMENT_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_LEFT_STR)) {
         horizontal = Qt::AlignLeft;
     } else if (control->stringCheck(
                    GO_HORIZONTAL_ALIGNMENT_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_RIGHT_STR)) {

@@ -29,7 +29,7 @@ libarchiveReadErrorCode(struct archive* handle)
     }
     if (message.find("assphrase") != std::string::npos) {
         return message.find("required") != std::string::npos ? ZipErrorCode::EncryptedEntry
-                                                           : ZipErrorCode::WrongPassword;
+                                                             : ZipErrorCode::WrongPassword;
     }
     if (message.find("CRC") != std::string::npos
         || message.find("uthentication") != std::string::npos) {

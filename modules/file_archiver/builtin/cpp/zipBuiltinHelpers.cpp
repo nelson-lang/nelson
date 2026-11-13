@@ -90,7 +90,7 @@ byteVector(const ArrayOf& value)
         return std::vector<uint8_t>(data, data + value.elementCount());
     }
     if (value.isEmpty()) {
-        return { };
+        return {};
     }
     const std::string text = value.asUtf8String();
     return std::vector<uint8_t>(text.begin(), text.end());

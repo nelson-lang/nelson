@@ -59,7 +59,9 @@ if(NOT WITHOUT_FILE_ARCHIVER_MODULE)
   )
   if(ZSTD_FOUND)
     target_compile_definitions(${module_library_name} PRIVATE HAVE_ZSTD)
-    target_include_directories(${module_library_name} PRIVATE ${ZSTD_INCLUDE_DIR})
+    target_include_directories(${module_library_name}
+      PRIVATE ${ZSTD_INCLUDE_DIR}
+    )
     target_link_libraries(${module_library_name} PRIVATE ${ZSTD_LIBRARY})
   endif()
 else()
@@ -72,7 +74,10 @@ endif()
 # ==============================================================================
 nelson_install_library(${module_library_name})
 if(WIN32 AND ZSTD_FOUND AND ZSTD_RUNTIME_DIR)
-  install(FILES "${ZSTD_RUNTIME_DIR}/zstd.dll" DESTINATION ${CMAKE_INSTALL_BINDIR})
+  install(
+    FILES "${ZSTD_RUNTIME_DIR}/zstd.dll"
+    DESTINATION ${CMAKE_INSTALL_BINDIR}
+  )
 endif()
 if(WIN32 AND NOT WITHOUT_FILE_ARCHIVER_MODULE AND LIBARCHIVE_RUNTIME_DIR)
   file(GLOB _nelson_libarchive_dlls "${LIBARCHIVE_RUNTIME_DIR}/*.dll")

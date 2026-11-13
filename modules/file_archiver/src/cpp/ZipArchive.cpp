@@ -100,7 +100,8 @@ struct ZipArchive::Impl
         }
         if (writing != forWriting) {
             fail(ZipErrorCode::InvalidState,
-                forWriting ? "ZIP archive is open for reading." : "ZIP archive is open for writing.");
+                forWriting ? "ZIP archive is open for reading."
+                           : "ZIP archive is open for writing.");
         }
     }
 
@@ -352,9 +353,8 @@ struct ZipArchive::Impl
             }
             writeHeader(info, static_cast<int64_t>(info.size));
             if (!info.isDirectory) {
-                source->readEntry(k, [&](const uint8_t* data, size_t size) {
-                    writeData(data, size, info.name);
-                });
+                source->readEntry(
+                    k, [&](const uint8_t* data, size_t size) { writeData(data, size, info.name); });
             }
             finishEntry(info.name);
         }
@@ -367,7 +367,8 @@ ZipArchive::ZipArchive(std::unique_ptr<Impl> impl) : pImpl(std::move(impl)) { }
 ZipArchive::ZipArchive(ZipArchive&& other) noexcept = default;
 //=============================================================================
 ZipArchive&
-ZipArchive::operator=(ZipArchive&& other) noexcept = default;
+ZipArchive::operator=(ZipArchive&& other) noexcept
+    = default;
 //=============================================================================
 ZipArchive::~ZipArchive() = default;
 //=============================================================================
@@ -591,8 +592,8 @@ ZipArchive::readEntryData(void* buffer, size_t capacity)
     size_t count = 0;
     if (pImpl->peekedOffset < pImpl->peeked.size()) {
         count = std::min(capacity, pImpl->peeked.size() - pImpl->peekedOffset);
-        std::copy_n(pImpl->peeked.data() + pImpl->peekedOffset, count,
-            static_cast<uint8_t*>(buffer));
+        std::copy_n(
+            pImpl->peeked.data() + pImpl->peekedOffset, count, static_cast<uint8_t*>(buffer));
         pImpl->peekedOffset += count;
     } else {
         count = pImpl->readData(buffer, capacity);
@@ -856,7 +857,8 @@ ZipArchive::copyEntry(ZipArchive& source, size_t index, const std::string& name)
     options.sizeHint = static_cast<int64_t>(entry.size);
     beginEntry(name, options);
     if (!entry.isDirectory) {
-        source.readEntry(index, [&](const uint8_t* data, size_t size) { writeEntryData(data, size); });
+        source.readEntry(
+            index, [&](const uint8_t* data, size_t size) { writeEntryData(data, size); });
     }
     endEntry();
 }

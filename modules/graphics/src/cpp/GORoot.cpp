@@ -877,10 +877,10 @@ std::wstring
 resolveRootFontName(const std::wstring& fontName)
 {
     // Windows bitmap-only fonts look jagged when scaled: draw a scalable family instead
-    static const wchar_t* sansBitmapFonts[] = { L"Helvetica", L"MS Sans Serif", L"System",
-        L"Small Fonts" };
-    static const wchar_t* fixedBitmapFonts[] = { L"FixedWidth", L"Courier", L"Fixedsys",
-        L"Terminal" };
+    static const wchar_t* sansBitmapFonts[]
+        = { L"Helvetica", L"MS Sans Serif", L"System", L"Small Fonts" };
+    static const wchar_t* fixedBitmapFonts[]
+        = { L"FixedWidth", L"Courier", L"Fixedsys", L"Terminal" };
     for (const wchar_t* name : sansBitmapFonts) {
         if (StringHelpers::iequals(fontName, name)) {
             return helveticaSubstituteFontName();

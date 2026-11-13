@@ -145,8 +145,9 @@ decorationHostSizeInPixels(GraphicsObject* object, double& width, double& height
     std::vector<double> defaultPosition = defaultFigurePosition();
     width = fig ? fig->getWidth() : defaultPosition[2];
     height = fig ? fig->getHeight() : defaultPosition[3];
-    std::vector<double> figurePosition
-        = fig ? fig->findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR) : std::vector<double>();
+    std::vector<double> figurePosition = fig
+        ? fig->findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR)
+        : std::vector<double>();
     if (figurePosition.size() >= 4 && figurePosition[2] > 0.0 && figurePosition[3] > 0.0) {
         width = figurePosition[2];
         height = figurePosition[3];

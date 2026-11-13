@@ -87,7 +87,7 @@ struct Decoder::Impl
 {
     Input input;
     uint64_t maxSize = noSizeLimit;
-    z_stream stream = { };
+    z_stream stream = {};
     std::vector<uint8_t> inputBuffer;
     uint64_t produced = 0;
     bool anyInput = false;
@@ -173,7 +173,7 @@ Decoder::reset()
 struct Encoder::Impl
 {
     Output output;
-    z_stream stream = { };
+    z_stream stream = {};
     std::vector<uint8_t> outputBuffer;
     bool finished = false;
 

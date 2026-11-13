@@ -567,7 +567,8 @@ GOScatterSeries::getLimits()
 }
 //=============================================================================
 std::vector<double>
-GOScatterSeries::getLimitsInRange(const std::vector<double>& box, const std::array<bool, 3>& logScale)
+GOScatterSeries::getLimitsInRange(
+    const std::vector<double>& box, const std::array<bool, 3>& logScale)
 {
     std::vector<double> full(getLimits());
     if (full.empty()) {

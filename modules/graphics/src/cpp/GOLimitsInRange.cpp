@@ -19,16 +19,16 @@ hasNonFinite(const std::array<double, 3>& p);
 static bool
 clipSegment(const LimitsRange& range, std::array<double, 3>& a, std::array<double, 3>& b);
 static std::vector<std::array<double, 3>>
-clipPolygonPlane(const std::vector<std::array<double, 3>>& polygon, int dim, double bound,
-    bool keepAbove);
+clipPolygonPlane(
+    const std::vector<std::array<double, 3>>& polygon, int dim, double bound, bool keepAbove);
 //=============================================================================
 LimitsRange::LimitsRange(const std::vector<double>& box, const std::array<bool, 3>& logScale)
 {
     for (int k = 0; k < 3; ++k) {
         log[k] = logScale[k];
         double lo = (box.size() > 2 * k) ? box[2 * k] : -std::numeric_limits<double>::infinity();
-        double hi = (box.size() > 2 * k + 1) ? box[2 * k + 1]
-                                             : std::numeric_limits<double>::infinity();
+        double hi
+            = (box.size() > 2 * k + 1) ? box[2 * k + 1] : std::numeric_limits<double>::infinity();
         if (std::isnan(lo)) {
             lo = -std::numeric_limits<double>::infinity();
         }

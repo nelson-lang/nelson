@@ -5055,8 +5055,8 @@ namespace bcvm_detail {
             ArrayOf variable;
             if (tryGetAssignedLocalByNameIndex(endIns.A, variable)
                 || context->lookupVariable(chunk.names[endIns.A], variable)) {
-                frame.endContexts.push_back(EndContext { variable,
-                    static_cast<indexType>(endIns.B), static_cast<size_t>(endIns.C) });
+                frame.endContexts.push_back(EndContext {
+                    variable, static_cast<indexType>(endIns.B), static_cast<size_t>(endIns.C) });
             } else if (!frame.endContexts.empty()) {
                 EndContext enclosing { ArrayOf::empty(), 0, 0 };
                 enclosing.delegate = static_cast<std::ptrdiff_t>(frame.endContexts.size() - 1);
@@ -6576,7 +6576,8 @@ namespace bcvm_detail {
                     if (!frame.endContexts.empty() && !frame.endContexts.back().illegal
                         && frame.endContexts.back().delegate < 0) {
                         EndContext& lazy = frame.endContexts.back();
-                        const std::string& field = std::get<std::string>(chunk.constants.get(ins.A));
+                        const std::string& field
+                            = std::get<std::string>(chunk.constants.get(ins.A));
                         // B - 1: depth of base on the stack; C: base is named, args start below
                         std::ptrdiff_t slot = -1;
                         if (ins.B != 0) {
@@ -7804,7 +7805,8 @@ namespace bcvm_detail {
                         }
                         ArrayOf resolvedField;
                         if (hasVariable && !frame.resolvedDotReads.empty() && className == headName
-                            && takeResolvedDotRead(frame, stack.size(), memberName, resolvedField)) {
+                            && takeResolvedDotRead(
+                                frame, stack.size(), memberName, resolvedField)) {
                             // `end` in the arguments already read variable.member: index it
                             pushParenSubset(resolvedField, args, INST_FLAG_INDEX_ONLY, 0);
                             ArrayOf value = pop();

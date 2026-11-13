@@ -29,7 +29,8 @@ class NLSSTREAM_MANAGER_IMPEXP FileBackend
 public:
     FileBackend(const FileBackend&) = delete;
     FileBackend&
-    operator=(const FileBackend&) = delete;
+    operator=(const FileBackend&)
+        = delete;
     virtual ~FileBackend();
 
     bool
@@ -64,15 +65,19 @@ protected:
     explicit FileBackend(bool writable);
     // Next decompressed bytes, 0 at the end of the stream.
     virtual size_t
-    produce(uint8_t* buffer, size_t capacity) = 0;
+    produce(uint8_t* buffer, size_t capacity)
+        = 0;
     // Starts the stream again from its first byte.
     virtual void
-    restart() = 0;
+    restart()
+        = 0;
     virtual void
-    consume(const uint8_t* data, size_t size) = 0;
+    consume(const uint8_t* data, size_t size)
+        = 0;
     // Called once by close() for writers.
     virtual void
-    finish() = 0;
+    finish()
+        = 0;
     // Size known without reading, -1 otherwise.
     virtual int64
     knownSize() const;

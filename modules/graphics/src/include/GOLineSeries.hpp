@@ -42,8 +42,7 @@ public:
     std::vector<double>
     getLimits() override;
     std::vector<double>
-    getLimitsInRange(
-        const std::vector<double>& box, const std::array<bool, 3>& logScale) override;
+    getLimitsInRange(const std::vector<double>& box, const std::array<bool, 3>& logScale) override;
 
 private:
     std::vector<double> limits;

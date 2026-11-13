@@ -27,7 +27,8 @@ public:
     ~ArchiveDiskWriter();
     ArchiveDiskWriter(const ArchiveDiskWriter&) = delete;
     ArchiveDiskWriter&
-    operator=(const ArchiveDiskWriter&) = delete;
+    operator=(const ArchiveDiskWriter&)
+        = delete;
 
     void
     folder(const std::wstring& path, time_t modified, uint32_t mode);

@@ -256,7 +256,7 @@ inline std::complex<T>
 complexQuotient(std::complex<T> n, std::complex<T> z)
 {
     return complexQuotientIsSpecial<T>(n, z) ? complexQuotientSpecial<T>(n, z)
-                                              : complexQuotientSmith<T>(n, z);
+                                             : complexQuotientSmith<T>(n, z);
 }
 //=============================================================================
 // Element quotient for real or complex values (complex ones follow complexQuotient).

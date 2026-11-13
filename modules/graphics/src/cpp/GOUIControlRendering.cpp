@@ -225,13 +225,14 @@ webFontFamily(GOUIControl* control)
     if (family.empty()) {
         return {};
     }
-    const std::wstring fixedWidth = getGraphicsRootObject()->findStringProperty(
-        GO_FIXED_WIDTH_FONT_NAME_PROPERTY_NAME_STR);
+    const std::wstring fixedWidth
+        = getGraphicsRootObject()->findStringProperty(GO_FIXED_WIDTH_FONT_NAME_PROPERTY_NAME_STR);
     const bool monospace = StringHelpers::iequals(family, fixedWidth)
         || StringHelpers::icontains(family, L"courier") || StringHelpers::icontains(family, L"mono")
         || StringHelpers::icontains(family, L"consol");
     const bool serif = StringHelpers::icontains(family, L"times")
-        || (StringHelpers::icontains(family, L"serif") && !StringHelpers::icontains(family, L"sans"));
+        || (StringHelpers::icontains(family, L"serif")
+            && !StringHelpers::icontains(family, L"sans"));
     const char* generic = monospace ? "monospace" : (serif ? "serif" : "sans-serif");
     return "\"" + wstring_to_utf8(family) + "\", " + generic;
 }

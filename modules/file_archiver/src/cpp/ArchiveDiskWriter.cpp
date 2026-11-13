@@ -23,8 +23,8 @@ ArchiveDiskWriter::ArchiveDiskWriter()
     if (disk == nullptr) {
         throw ZipArchiveError(ZipErrorCode::WriteFailed, "Cannot allocate disk writer.");
     }
-    int flags = ARCHIVE_EXTRACT_TIME | ARCHIVE_EXTRACT_SECURE_NODOTDOT
-        | ARCHIVE_EXTRACT_SECURE_SYMLINKS;
+    int flags
+        = ARCHIVE_EXTRACT_TIME | ARCHIVE_EXTRACT_SECURE_NODOTDOT | ARCHIVE_EXTRACT_SECURE_SYMLINKS;
     archive_write_disk_set_options(disk, flags);
 }
 //=============================================================================
@@ -46,7 +46,8 @@ ArchiveDiskWriter::folder(const std::wstring& path, time_t modified, uint32_t mo
 }
 //=============================================================================
 void
-ArchiveDiskWriter::beginFile(const std::wstring& path, uint64_t size, time_t modified, uint32_t mode)
+ArchiveDiskWriter::beginFile(
+    const std::wstring& path, uint64_t size, time_t modified, uint32_t mode)
 {
     writeHeader(path, AE_IFREG, size, modified, mode == 0 ? 0644 : mode, "");
     currentFile = path;

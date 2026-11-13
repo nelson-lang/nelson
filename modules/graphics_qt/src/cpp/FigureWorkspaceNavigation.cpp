@@ -562,8 +562,8 @@ axisWindowRect(QWidget* canvas, QWidget* window, GOAxis* axis)
     }
     QWidget* surface = canvas;
     double ratio = canvas->devicePixelRatioF();
-    auto* parent = dynamic_cast<GOGObjectsProperty*>(
-        axis->findProperty(GO_PARENT_PROPERTY_NAME_STR, false));
+    auto* parent
+        = dynamic_cast<GOGObjectsProperty*>(axis->findProperty(GO_PARENT_PROPERTY_NAME_STR, false));
     auto* container = parent && !parent->data().empty()
         ? dynamic_cast<GOUIComponent*>(findGraphicsObject(parent->data()[0], false))
         : nullptr;

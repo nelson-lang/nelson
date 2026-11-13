@@ -35,8 +35,8 @@ Nelson::StreamGateway::fcloseBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (fm->isOpened(iValue)) {
             File* file = fm->getFile(iValue);
             // only a file opened for writing can have changed a function file
-            const std::wstring closedFilename = file != nullptr
-                    && file->getFileMode().find_first_of(L"wa+") != std::wstring::npos
+            const std::wstring closedFilename
+                = file != nullptr && file->getFileMode().find_first_of(L"wa+") != std::wstring::npos
                 ? file->getFileName()
                 : std::wstring();
             if (FileClose(fm, iValue)) {

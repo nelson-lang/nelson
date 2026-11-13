@@ -585,20 +585,20 @@ GOLegend::updateTitleDefaults()
     }
     // Font values follow the legend only while the title mode is auto.
     bool written = false;
-    auto followString = [&](const std::wstring& name, const std::wstring& modeName,
-                            bool restricted) {
-        std::wstring value = findStringProperty(name);
-        if (!title->isAuto(modeName) || title->findStringProperty(name) == value) {
-            return;
-        }
-        if (restricted) {
-            title->setRestrictedStringDefault(name, value);
-        } else {
-            title->setStringDefault(name, value);
-        }
-        markTextFontWrittenAuto(title, name, modeName);
-        written = true;
-    };
+    auto followString
+        = [&](const std::wstring& name, const std::wstring& modeName, bool restricted) {
+              std::wstring value = findStringProperty(name);
+              if (!title->isAuto(modeName) || title->findStringProperty(name) == value) {
+                  return;
+              }
+              if (restricted) {
+                  title->setRestrictedStringDefault(name, value);
+              } else {
+                  title->setStringDefault(name, value);
+              }
+              markTextFontWrittenAuto(title, name, modeName);
+              written = true;
+          };
     followString(GO_FONT_NAME_PROPERTY_NAME_STR, GO_FONT_NAME_MODE_PROPERTY_NAME_STR, false);
     followString(GO_FONT_ANGLE_PROPERTY_NAME_STR, GO_FONT_ANGLE_MODE_PROPERTY_NAME_STR, true);
     followString(GO_FONT_WEIGHT_PROPERTY_NAME_STR, GO_FONT_WEIGHT_MODE_PROPERTY_NAME_STR, true);

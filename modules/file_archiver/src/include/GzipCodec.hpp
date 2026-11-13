@@ -51,7 +51,8 @@ public:
     ~Decoder() override;
     Decoder(const Decoder&) = delete;
     Decoder&
-    operator=(const Decoder&) = delete;
+    operator=(const Decoder&)
+        = delete;
     size_t
     read(uint8_t* buffer, size_t capacity) override;
     void
@@ -70,7 +71,8 @@ public:
     ~Encoder() override;
     Encoder(const Encoder&) = delete;
     Encoder&
-    operator=(const Encoder&) = delete;
+    operator=(const Encoder&)
+        = delete;
     void
     write(const uint8_t* data, size_t size) override;
     void

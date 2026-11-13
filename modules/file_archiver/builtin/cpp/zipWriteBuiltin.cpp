@@ -38,6 +38,6 @@ Nelson::FileArchiverGateway::zipWriteBuiltin(int nLhs, const ArrayOfVector& argI
     } catch (const ZipArchiveError& error) {
         raiseZipError(error);
     }
-    return { };
+    return {};
 }
 //=============================================================================

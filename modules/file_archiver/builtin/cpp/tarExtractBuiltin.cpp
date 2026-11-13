@@ -29,8 +29,8 @@ Nelson::FileArchiverGateway::tarExtractBuiltin(int nLhs, const ArrayOfVector& ar
     const ExtractionLimits limits = extractionLimits(argIn[2], argIn[3]);
     wstringVector filenames;
     try {
-        ExtractTar(TarArchiveSessions::get(archiveId(argIn[0])), argIn[1].asWideString(),
-            filenames, limits);
+        ExtractTar(TarArchiveSessions::get(archiveId(argIn[0])), argIn[1].asWideString(), filenames,
+            limits);
     } catch (const ZipArchiveError& error) {
         raiseTarError(error);
     }

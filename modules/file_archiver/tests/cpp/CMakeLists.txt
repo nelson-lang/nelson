@@ -14,8 +14,7 @@ if(APPLE)
   execute_process(
     COMMAND brew --prefix libarchive
     OUTPUT_VARIABLE _libarchive_prefix
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    ERROR_QUIET
+    OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_QUIET
   )
   if(_libarchive_prefix AND IS_DIRECTORY "${_libarchive_prefix}")
     list(PREPEND CMAKE_PREFIX_PATH "${_libarchive_prefix}")

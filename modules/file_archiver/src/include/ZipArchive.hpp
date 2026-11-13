@@ -150,7 +150,8 @@ public:
     operator=(ZipArchive&& other) noexcept;
     ZipArchive(const ZipArchive&) = delete;
     ZipArchive&
-    operator=(const ZipArchive&) = delete;
+    operator=(const ZipArchive&)
+        = delete;
     ~ZipArchive();
 
     static bool

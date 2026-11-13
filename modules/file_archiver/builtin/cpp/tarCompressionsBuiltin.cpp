@@ -26,8 +26,7 @@ Nelson::FileArchiverGateway::tarCompressionsBuiltin(int nLhs, const ArrayOfVecto
     nargoutcheck(nLhs, 0, 1);
     wstringVector names;
     for (TarCompression method : TarArchive::availableCompressions()) {
-        names.push_back(
-            utf8_to_wstring(TarArchive::compressionName(method)));
+        names.push_back(utf8_to_wstring(TarArchive::compressionName(method)));
     }
     ArrayOfVector retval;
     Dimensions row(1, names.size());

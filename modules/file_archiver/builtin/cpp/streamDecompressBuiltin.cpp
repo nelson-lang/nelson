@@ -32,8 +32,7 @@ Nelson::FileArchiverGateway::streamDecompressBuiltin(int nLhs, const ArrayOfVect
     const uint64_t maxSize = sizeLimit(argIn[2]);
     // No disk involved: only the ratio is checked here, MaxSize by the decoder.
     ExtractionGuard guard(
-        extractionLimits(
-            ArrayOf::doubleScalar(std::numeric_limits<double>::infinity()), argIn[3]),
+        extractionLimits(ArrayOf::doubleScalar(std::numeric_limits<double>::infinity()), argIn[3]),
         L"");
     guard.setSource(argIn[1].elementCount(), "data");
     std::vector<uint8> result;

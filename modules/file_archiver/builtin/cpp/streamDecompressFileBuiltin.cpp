@@ -32,8 +32,8 @@ Nelson::FileArchiverGateway::streamDecompressFileBuiltin(int nLhs, const ArrayOf
     const std::wstring destination = argIn[2].asWideString();
     const uint64_t maxSize = sizeLimit(argIn[3]);
     // MaxSize is checked by the decoder; the guard adds the ratio and the free disk space.
-    const ExtractionLimits limits = extractionLimits(ArrayOf::doubleScalar(
-        std::numeric_limits<double>::infinity()), argIn[4]);
+    const ExtractionLimits limits = extractionLimits(
+        ArrayOf::doubleScalar(std::numeric_limits<double>::infinity()), argIn[4]);
     ExtractionGuard guard(limits, destination);
     std::error_code ec;
     const auto sourceSize = std::filesystem::file_size(toNativePath(source), ec);
@@ -53,6 +53,6 @@ Nelson::FileArchiverGateway::streamDecompressFileBuiltin(int nLhs, const ArrayOf
     } catch (const ExtractionLimitError& error) {
         raiseExtractionLimitError(error);
     }
-    return { };
+    return {};
 }
 //=============================================================================

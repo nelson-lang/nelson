@@ -78,7 +78,8 @@ public:
     operator=(TarArchive&& other) noexcept;
     TarArchive(const TarArchive&) = delete;
     TarArchive&
-    operator=(const TarArchive&) = delete;
+    operator=(const TarArchive&)
+        = delete;
     ~TarArchive();
 
     // "none", "gzip", "zstd", "xz", "bzip2", "lz4", "lzma" or "other".

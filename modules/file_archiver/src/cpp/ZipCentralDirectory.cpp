@@ -123,8 +123,8 @@ readZipCentralDirectory(const ZipReadAt& readAt, uint64_t archiveSize)
         readExtraFields(record + centralRecordSize + nameLength, extraLength, compressed32, size32,
             offset32, entry, hasNtfsTime, hasUnixTime);
         if (!hasNtfsTime && !hasUnixTime) {
-            info.modified
-                = dosTime(static_cast<uint16_t>(le(record + 12, 2)), static_cast<uint16_t>(le(record + 14, 2)));
+            info.modified = dosTime(static_cast<uint16_t>(le(record + 12, 2)),
+                static_cast<uint16_t>(le(record + 14, 2)));
         }
         entry.localOffset += location.shift;
         const uint32_t unixMode = info.externalAttributes >> 16;
@@ -262,14 +262,13 @@ rejectOverlappingEntries(const std::vector<ZipDirectoryEntry>& entries)
     for (size_t k = 0; k < order.size(); ++k) {
         order[k] = k;
     }
-    std::sort(order.begin(), order.end(), [&](size_t a, size_t b) {
-        return entries[a].localOffset < entries[b].localOffset;
-    });
+    std::sort(order.begin(), order.end(),
+        [&](size_t a, size_t b) { return entries[a].localOffset < entries[b].localOffset; });
     for (size_t k = 1; k < order.size(); ++k) {
         const ZipDirectoryEntry& previous = entries[order[k - 1]];
         // Shortest local header: 30 bytes plus the name.
-        const uint64_t previousEnd = previous.localOffset + localHeaderSize
-            + previous.nameLength + previous.info.compressedSize;
+        const uint64_t previousEnd = previous.localOffset + localHeaderSize + previous.nameLength
+            + previous.info.compressedSize;
         if (entries[order[k]].localOffset < previousEnd) {
             throw ZipArchiveError(ZipErrorCode::OverlappingEntries,
                 "ZIP entries share the same data.", entries[order[k]].info.name);
@@ -298,7 +297,7 @@ le(const uint8_t* bytes, size_t length)
 static time_t
 dosTime(uint16_t time, uint16_t date)
 {
-    std::tm parts = { };
+    std::tm parts = {};
     parts.tm_year = ((date >> 9) & 0x7F) + 80;
     parts.tm_mon = ((date >> 5) & 0x0F) - 1;
     parts.tm_mday = date & 0x1F;

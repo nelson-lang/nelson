@@ -29,27 +29,27 @@ static const double COLORBAR_THICKNESS_POINTS = 16.0;
 static const double COLORBAR_LABELS_POINTS = 20.0;
 //=============================================================================
 namespace {
-// Peer geometry before the first slot was taken, in the peer's own Units.
-struct AxesLayoutBase
-{
-    std::vector<double> position;
-    std::vector<double> outerPosition;
-    bool outerDriven = false;
-};
-// Room one decoration takes on one side of the peer.
-struct DecorationSlot
-{
-    GraphicsObject* decoration = nullptr;
-    AxesLayoutSide side = AxesLayoutSide::None;
-    double pixels = 0.0;
-    bool colorBar = false;
-};
-// Decorations of one peer in arrival order, all reserved from one base geometry.
-struct DecorationStack
-{
-    AxesLayoutBase base;
-    std::vector<DecorationSlot> slots;
-};
+    // Peer geometry before the first slot was taken, in the peer's own Units.
+    struct AxesLayoutBase
+    {
+        std::vector<double> position;
+        std::vector<double> outerPosition;
+        bool outerDriven = false;
+    };
+    // Room one decoration takes on one side of the peer.
+    struct DecorationSlot
+    {
+        GraphicsObject* decoration = nullptr;
+        AxesLayoutSide side = AxesLayoutSide::None;
+        double pixels = 0.0;
+        bool colorBar = false;
+    };
+    // Decorations of one peer in arrival order, all reserved from one base geometry.
+    struct DecorationStack
+    {
+        AxesLayoutBase base;
+        std::vector<DecorationSlot> slots;
+    };
 } // namespace
 //=============================================================================
 static GOAxis*
@@ -86,8 +86,8 @@ sideInsetPixels(GraphicsObject* peer, AxesLayoutSide side);
 static double
 colorBarThicknessPixels(double axesExtentPixels);
 static double
-slotOffsetPixels(GraphicsObject* peer, GraphicsObject* decoration, AxesLayoutSide side,
-    double axesExtentPixels);
+slotOffsetPixels(
+    GraphicsObject* peer, GraphicsObject* decoration, AxesLayoutSide side, double axesExtentPixels);
 static void
 relayoutOtherDecorations(GraphicsObject* peer, GraphicsObject* decoration);
 //=============================================================================
@@ -246,10 +246,9 @@ forgetAxesLayoutDecoration(GraphicsObject* decoration)
     auto& stacks = decorationStacks();
     for (auto it = stacks.begin(); it != stacks.end();) {
         std::vector<DecorationSlot>& slots = it->second.slots;
-        slots.erase(std::remove_if(slots.begin(), slots.end(),
-                        [decoration](const DecorationSlot& slot) {
-                            return slot.decoration == decoration;
-                        }),
+        slots.erase(
+            std::remove_if(slots.begin(), slots.end(),
+                [decoration](const DecorationSlot& slot) { return slot.decoration == decoration; }),
             slots.end());
         it = slots.empty() ? stacks.erase(it) : std::next(it);
     }
@@ -377,8 +376,8 @@ layoutColorBarAroundAxes(GraphicsObject* peer, GraphicsObject* decoration,
     }
     const double extent = horizontal ? box[2] * figW : box[3] * figH;
     const double thickness = colorBarThicknessPixels(extent);
-    const double distance = sideInsetPixels(peer, side) + gap
-        + slotOffsetPixels(peer, decoration, side, extent);
+    const double distance
+        = sideInsetPixels(peer, side) + gap + slotOffsetPixels(peer, decoration, side, extent);
     // The bar spans the box the peer really draws.
     std::vector<double> drawn = axesDrawnBox(peer, box, figW, figH);
     switch (side) {
@@ -701,8 +700,8 @@ colorBarThicknessPixels(double axesExtentPixels)
 //=============================================================================
 // Room taken by the decorations stacked before this one on the same side.
 static double
-slotOffsetPixels(GraphicsObject* peer, GraphicsObject* decoration, AxesLayoutSide side,
-    double axesExtentPixels)
+slotOffsetPixels(
+    GraphicsObject* peer, GraphicsObject* decoration, AxesLayoutSide side, double axesExtentPixels)
 {
     auto& stacks = decorationStacks();
     auto it = stacks.find(peer);

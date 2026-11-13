@@ -167,7 +167,8 @@ public:
     bool
     reloadChangedFiles(bool withClassdefs);
 
-    // A file or folder Nelson has just written: a loaded function file there reloads at its next call.
+    // A file or folder Nelson has just written: a loaded function file there reloads at its next
+    // call.
     void
     notifyFileWritten(const std::wstring& filename);
 

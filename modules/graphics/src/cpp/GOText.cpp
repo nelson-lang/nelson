@@ -964,8 +964,8 @@ convertFontSizeOnUserUnitsChange(GOText* text)
     if (from.empty() || size->getSetOrder() > units->getSetOrder()) {
         return;
     }
-    size->data(convertFontSizeUnits(
-        size->data(), from, units->data(), fontUnitsReferenceHeight(text)));
+    size->data(
+        convertFontSizeUnits(size->data(), from, units->data(), fontUnitsReferenceHeight(text)));
 }
 //=============================================================================
 } // namespace Nelson

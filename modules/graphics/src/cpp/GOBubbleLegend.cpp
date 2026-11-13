@@ -766,8 +766,7 @@ GOBubbleLegend::updateState()
 {
     bool fontSizeFollowed = followPeerAxesFontSize(this, m_peerAxesHandle);
     if (fontSizeFollowed || hasChanged(GO_FONT_NAME_PROPERTY_NAME_STR)
-        || hasChanged(GO_FONT_SIZE_PROPERTY_NAME_STR)
-        || hasChanged(GO_FONT_ANGLE_PROPERTY_NAME_STR)
+        || hasChanged(GO_FONT_SIZE_PROPERTY_NAME_STR) || hasChanged(GO_FONT_ANGLE_PROPERTY_NAME_STR)
         || hasChanged(GO_FONT_WEIGHT_PROPERTY_NAME_STR)) {
         updateFont();
     }

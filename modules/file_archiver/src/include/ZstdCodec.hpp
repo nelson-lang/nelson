@@ -79,7 +79,8 @@ public:
     ~Decoder() override;
     Decoder(const Decoder&) = delete;
     Decoder&
-    operator=(const Decoder&) = delete;
+    operator=(const Decoder&)
+        = delete;
     // Up to capacity bytes, 0 at the end of the data.
     size_t
     read(uint8_t* buffer, size_t capacity) override;
@@ -101,7 +102,8 @@ public:
     ~Encoder() override;
     Encoder(const Encoder&) = delete;
     Encoder&
-    operator=(const Encoder&) = delete;
+    operator=(const Encoder&)
+        = delete;
     void
     write(const uint8_t* data, size_t size) override;
     // Ends the frame; the encoder accepts no more data.

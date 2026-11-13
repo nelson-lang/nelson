@@ -141,8 +141,8 @@ struct TarArchive::Impl
     }
 
     void
-    writeHeader(const std::string& name, uint64_t size, time_t modified, uint32_t mode,
-        bool isDirectory)
+    writeHeader(
+        const std::string& name, uint64_t size, time_t modified, uint32_t mode, bool isDirectory)
     {
         if (!writing || !open) {
             fail(ZipErrorCode::InvalidState, "The tar archive is not open for writing.");
@@ -193,7 +193,8 @@ TarArchive::TarArchive(std::unique_ptr<Impl> impl) : pImpl(std::move(impl)) { }
 TarArchive::TarArchive(TarArchive&& other) noexcept = default;
 //=============================================================================
 TarArchive&
-TarArchive::operator=(TarArchive&& other) noexcept = default;
+TarArchive::operator=(TarArchive&& other) noexcept
+    = default;
 //=============================================================================
 TarArchive::~TarArchive() = default;
 //=============================================================================
@@ -279,9 +280,9 @@ TarArchive::compressionFromName(const std::string& name, TarCompression& compres
     std::string lower = name;
     std::transform(lower.begin(), lower.end(), lower.begin(),
         [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
-    for (TarCompression value : { TarCompression::None, TarCompression::Gzip,
-             TarCompression::Zstd, TarCompression::Xz, TarCompression::Bzip2, TarCompression::Lz4,
-             TarCompression::Lzma }) {
+    for (TarCompression value :
+        { TarCompression::None, TarCompression::Gzip, TarCompression::Zstd, TarCompression::Xz,
+            TarCompression::Bzip2, TarCompression::Lz4, TarCompression::Lzma }) {
         if (lower == compressionName(value)) {
             compression = value;
             return true;
@@ -300,14 +301,13 @@ TarArchive::compressionFromFilename(const std::wstring& filename)
         return lower.size() >= suffix.size()
             && lower.compare(lower.size() - suffix.size(), suffix.size(), suffix) == 0;
     };
-    static const std::pair<const wchar_t*, TarCompression> suffixes[] = {
-        { L".tar.gz", TarCompression::Gzip }, { L".tgz", TarCompression::Gzip },
-        { L".tar.zst", TarCompression::Zstd }, { L".tzst", TarCompression::Zstd },
-        { L".tar.xz", TarCompression::Xz }, { L".txz", TarCompression::Xz },
-        { L".tar.bz2", TarCompression::Bzip2 }, { L".tbz2", TarCompression::Bzip2 },
-        { L".tbz", TarCompression::Bzip2 }, { L".tar.lz4", TarCompression::Lz4 },
-        { L".tar.lzma", TarCompression::Lzma }, { L".tlz", TarCompression::Lzma }
-    };
+    static const std::pair<const wchar_t*, TarCompression> suffixes[]
+        = { { L".tar.gz", TarCompression::Gzip }, { L".tgz", TarCompression::Gzip },
+              { L".tar.zst", TarCompression::Zstd }, { L".tzst", TarCompression::Zstd },
+              { L".tar.xz", TarCompression::Xz }, { L".txz", TarCompression::Xz },
+              { L".tar.bz2", TarCompression::Bzip2 }, { L".tbz2", TarCompression::Bzip2 },
+              { L".tbz", TarCompression::Bzip2 }, { L".tar.lz4", TarCompression::Lz4 },
+              { L".tar.lzma", TarCompression::Lzma }, { L".tlz", TarCompression::Lzma } };
     for (const auto& [suffix, compression] : suffixes) {
         if (endsWith(suffix)) {
             return compression;
@@ -322,9 +322,8 @@ TarArchive::availableCompressions()
     static const std::vector<TarCompression> compressions = []() {
         std::vector<TarCompression> found;
         for (TarCompression candidate :
-            { TarCompression::None, TarCompression::Gzip, TarCompression::Zstd,
-                TarCompression::Xz, TarCompression::Bzip2, TarCompression::Lz4,
-                TarCompression::Lzma }) {
+            { TarCompression::None, TarCompression::Gzip, TarCompression::Zstd, TarCompression::Xz,
+                TarCompression::Bzip2, TarCompression::Lz4, TarCompression::Lzma }) {
             struct archive* probe = archive_write_new();
             if (addFilter(probe, candidate) == ARCHIVE_OK) {
                 found.push_back(candidate);

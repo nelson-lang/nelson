@@ -487,12 +487,10 @@ testInterruption()
     bool interrupted = false;
     try {
         std::vector<uint8_t> output;
-        ArchiveStreams::encodeAll(ArchiveStreams::memoryInput(
-                                      reinterpret_cast<const uint8_t*>(text.data()), text.size()),
-            *std::unique_ptr<ArchiveStreams::StreamEncoder>(
-                new GzipCodec::Encoder([&](const uint8_t* d, size_t n) {
-                    output.insert(output.end(), d, d + n);
-                }, 6)));
+        ArchiveStreams::encodeAll(
+            ArchiveStreams::memoryInput(reinterpret_cast<const uint8_t*>(text.data()), text.size()),
+            *std::unique_ptr<ArchiveStreams::StreamEncoder>(new GzipCodec::Encoder(
+                [&](const uint8_t* d, size_t n) { output.insert(output.end(), d, d + n); }, 6)));
     } catch (const ArchiveInterruption::Interrupted&) {
         interrupted = true;
     }

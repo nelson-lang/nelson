@@ -149,8 +149,8 @@ TarLibarchiveReader::openEntry(const TarEntryInfo& entry)
         struct archive_entry* item = nullptr;
         const int status = archive_read_next_header(handle, &item);
         if (status < ARCHIVE_WARN || status == ARCHIVE_EOF) {
-            fail(ZipErrorCode::EntryTruncated,
-                libarchiveErrorText(handle, "Truncated tar data."), entry.name);
+            fail(ZipErrorCode::EntryTruncated, libarchiveErrorText(handle, "Truncated tar data."),
+                entry.name);
         }
         ++headersRead;
     }

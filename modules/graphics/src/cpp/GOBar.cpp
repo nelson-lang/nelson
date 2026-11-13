@@ -218,8 +218,8 @@ namespace {
     {
         int pos = horizontal ? 1 : 0;
         int val = horizontal ? 0 : 1;
-        std::array<double, 3> a = horizontal ? range.toClip(base, position, 0.)
-                                             : range.toClip(position, base, 0.);
+        std::array<double, 3> a
+            = horizontal ? range.toClip(base, position, 0.) : range.toClip(position, base, 0.);
         std::array<double, 3> b
             = horizontal ? range.toClip(top, position, 0.) : range.toClip(position, top, 0.);
         if (!(a[pos] >= range.lower[pos] && a[pos] <= range.upper[pos])) {
@@ -708,8 +708,9 @@ GOBar::barLimits(const LimitsRange* range)
     double valueMin = std::isfinite(baseValue) ? baseValue : 0.;
     double valueMax = valueMin;
     for (size_t k = 0; k < n; ++k) {
-        if (range && !barVisible(*range, x[k], base[k], barEndPoint(base[k], y[k], stacked),
-                horizontal)) {
+        if (range
+            && !barVisible(
+                *range, x[k], base[k], barEndPoint(base[k], y[k], stacked), horizontal)) {
             continue;
         }
         anyVisible = true;

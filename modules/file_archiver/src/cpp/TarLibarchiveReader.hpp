@@ -30,7 +30,8 @@ public:
     ~TarLibarchiveReader();
     TarLibarchiveReader(const TarLibarchiveReader&) = delete;
     TarLibarchiveReader&
-    operator=(const TarLibarchiveReader&) = delete;
+    operator=(const TarLibarchiveReader&)
+        = delete;
     // Lists files, folders and links; compression and format are the ones found.
     void
     scan(std::vector<TarEntryInfo>& entries, TarCompression& compression, std::string& format);

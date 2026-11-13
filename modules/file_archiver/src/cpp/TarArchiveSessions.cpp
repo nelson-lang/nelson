@@ -53,9 +53,8 @@ openMemory(std::vector<uint8_t> bytes, const TarReadOptions& options)
 uint64_t
 create(const std::wstring& filename, TarCompression compression, int level, int threads)
 {
-    return store(filename.empty()
-            ? TarArchive::createInMemory(compression, level, threads)
-            : TarArchive::createFile(filename, compression, level, threads));
+    return store(filename.empty() ? TarArchive::createInMemory(compression, level, threads)
+                                  : TarArchive::createFile(filename, compression, level, threads));
 }
 //=============================================================================
 TarArchive&
@@ -123,7 +122,7 @@ close(uint64_t id)
         std::lock_guard<std::mutex> lock(sessionsMutex);
         auto it = sessions.find(id);
         if (it == sessions.end()) {
-            return { };
+            return {};
         }
         if (!it->second.pending.empty()) {
             throw ZipArchiveError(ZipErrorCode::EntryStillOpen,

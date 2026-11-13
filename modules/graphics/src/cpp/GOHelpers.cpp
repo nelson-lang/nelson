@@ -86,9 +86,10 @@ deleteDecorationsForPeer(int64 peerHandle, GraphicsObject* peer)
     int64 holderHandle = HANDLE_UNASSIGNED_OBJECT;
     holders.push_back(axesDecorationHolder(peer, holderHandle));
     for (GraphicsObject* holder : holders) {
-        GOGObjectsProperty* children = holder ? static_cast<GOGObjectsProperty*>(
-                                           holder->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false))
-                                              : nullptr;
+        GOGObjectsProperty* children = holder
+            ? static_cast<GOGObjectsProperty*>(
+                  holder->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false))
+            : nullptr;
         if (!children) {
             continue;
         }
@@ -699,8 +700,8 @@ followPeerAxesFontSize(GraphicsObject* decoration, int64 peerHandle)
     if (!peer || !peer->haveProperty(GO_FONT_SIZE_PROPERTY_NAME_STR)) {
         return false;
     }
-    double fontSize
-        = DECORATION_FONT_SIZE_RATIO * peer->findScalarDoubleProperty(GO_FONT_SIZE_PROPERTY_NAME_STR);
+    double fontSize = DECORATION_FONT_SIZE_RATIO
+        * peer->findScalarDoubleProperty(GO_FONT_SIZE_PROPERTY_NAME_STR);
     if (!std::isfinite(fontSize) || fontSize <= 0
         || fontSize == decoration->findScalarDoubleProperty(GO_FONT_SIZE_PROPERTY_NAME_STR)) {
         return false;
@@ -714,9 +715,9 @@ followAxesFontSizeInDecorations(GraphicsObject* axes)
 {
     int64 holderHandle = HANDLE_UNASSIGNED_OBJECT;
     GraphicsObject* holder = axesDecorationHolder(axes, holderHandle);
-    GOGObjectsProperty* children = holder
-        ? static_cast<GOGObjectsProperty*>(holder->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false))
-        : nullptr;
+    GOGObjectsProperty* children = holder ? static_cast<GOGObjectsProperty*>(holder->findProperty(
+                                                GO_CHILDREN_PROPERTY_NAME_STR, false))
+                                          : nullptr;
     if (!children) {
         return;
     }
@@ -730,7 +731,8 @@ followAxesFontSizeInDecorations(GraphicsObject* axes)
 }
 //=============================================================================
 void
-markTextFontWrittenAuto(GraphicsObject* text, const std::wstring& name, const std::wstring& modeName)
+markTextFontWrittenAuto(
+    GraphicsObject* text, const std::wstring& name, const std::wstring& modeName)
 {
     GOGenericProperty* property = text->findProperty(name, false);
     if (property) {

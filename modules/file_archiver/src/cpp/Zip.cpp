@@ -349,7 +349,7 @@ prepareFilesToZip(const wstringVector& names, const std::wstring& rootpath,
 static time_t
 earliestZipTime()
 {
-    struct tm earliest = { };
+    struct tm earliest = {};
     earliest.tm_year = 80;
     earliest.tm_mday = 1;
     earliest.tm_isdst = -1;
