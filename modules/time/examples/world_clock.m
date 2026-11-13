@@ -24,9 +24,14 @@ if ~exist('worldClockAnimationContinuous', 'var')
   worldClockAnimationContinuous = strcmp(worldClockFigureVisible, 'on');
 end
 
-% Each clock is a label and an offset in hours from the local machine time.
-worldClockNames = {'Local', 'London +0', 'Tokyo +9', 'New York -5'};
-worldClockOffsets = [0 0 9 -5];
+% Each city is a UTC offset in hours (standard time, daylight saving ignored);
+% the local offset is measured once so every clock is shifted from local time.
+localUtcOffset = round((datenum(clock()) - ...
+  datenum(datevec(datetime('now', 'TimeZone', 'UTC')))) * 96) / 4;
+cityUtcOffsets = [0 9 -5];
+worldClockNames = {sprintf('Local (UTC%+g)', localUtcOffset), 'London UTC+0', ...
+  'Tokyo UTC+9', 'New York UTC-5'};
+worldClockOffsets = [0, cityUtcOffsets - localUtcOffset];
 worldClockCount = numel(worldClockNames);
 
 worldClockFigure = figure('Name', 'World clock', 'NumberTitle', 'off', ...
