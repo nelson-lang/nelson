@@ -65,6 +65,11 @@ try
     asserts.istrue(h.Visible);
     asserts.isequal(h.getBackend(), 'webview');
     close(h);
+    % Clearing the returned handle leaves the window open.
+    [~, hKept] = web('text://<html><body>kept</body></html>');
+    openIds = find(arrayfun(@(k) __webview__('isOpen', k), 1:64));
+    clear hKept
+    asserts.isequal(find(arrayfun(@(k) __webview__('isOpen', k), 1:64)), openIds);
     htmlDir = tempname();
     mkdir(htmlDir);
     htmlFile = [htmlDir, '/nelson_web_local.html'];

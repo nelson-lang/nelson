@@ -965,10 +965,9 @@ bool _webui_macos_wv_set_size(int index, int width, int height) {
     dispatch_async(dispatch_get_main_queue(), ^{
         NSWindow *window = [delegate windowAtIndex:index];
         if (window) {
-            NSRect frame = [window frame];
-            frame.size.width = width;
-            frame.size.height = height;
-            [window setFrame:frame display:YES];
+            // NELSON PATCH: size the content area, as GTK does; setFrame counted the
+            // title bar and left every client one title bar short.
+            [window setContentSize:NSMakeSize(width, height)];
             success = true;
         }
         else {

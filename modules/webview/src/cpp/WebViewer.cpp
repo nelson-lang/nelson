@@ -19,8 +19,10 @@ extern "C"
 #include <algorithm>
 #include <cctype>
 #include <filesystem>
+#include <fstream>
 #include <map>
 #include <mutex>
+#include <sstream>
 #include <string>
 #include <vector>
 #include "ErrorID.hpp"
@@ -218,6 +220,25 @@ showContent(ViewerState& state, const std::string& content)
         const std::string parent = candidate.parent_path().string();
         if (!parent.empty()) {
             webui_set_root_folder(state.window, parent.c_str());
+        }
+        std::string extension = candidate.extension().string();
+        std::transform(extension.begin(), extension.end(), extension.begin(),
+            [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+        // A page without webui.js never connects and WebUI closes its window:
+        // serve it with the bridge, its sibling files still come from the root folder.
+        std::ifstream file;
+        if (extension == ".html" || extension == ".htm") {
+            file.open(candidate, std::ios::binary);
+        }
+        std::ostringstream body;
+        if (file.is_open() && (body << file.rdbuf())) {
+            {
+                std::lock_guard<std::mutex> lock(servedHtmlMutex());
+                servedHtmlByWindow()[state.window]
+                    = htmlHttpResponse(injectWebuiBridge(body.str()));
+            }
+            webui_set_file_handler_window(state.window, webViewerFileHandler);
+            return webui_show_wv(state.window, "index.html");
         }
         return webui_show_wv(state.window, candidate.filename().string().c_str());
     }

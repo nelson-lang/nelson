@@ -31,6 +31,7 @@ function varargout = web(varargin)
       viewer = nelson.htmlviewer.htmlviewer.create(location, options.NewWindow, ...
         options.ShowToolbar, options.ShowAddressBox);
       currentUrl = viewer.Input;
+      keepViewerOpen(viewer);
     catch ex
       if nargout == 0
         viewer = nelson.htmlviewer.htmlviewer.createFallback(location); %#ok<NLS0004>
@@ -50,6 +51,23 @@ function varargout = web(varargin)
   if nargout > 2
     varargout{3} = currentUrl;
   end
+end
+%=============================================================================
+function keepViewerOpen(viewer)
+  % Clearing the returned handle does not close the window: close(h) does.
+  persistent openViewers
+  if isempty(openViewers)
+    openViewers = {};
+  end
+  isOpen = true(1, numel(openViewers));
+  for k = 1:numel(openViewers)
+    try
+      getBackend(openViewers{k});
+    catch
+      isOpen(k) = false;
+    end
+  end
+  openViewers = [openViewers(isOpen), {viewer}];
 end
 %=============================================================================
 function [location, hasLocation, options] = parseInputs(varargin)
