@@ -582,7 +582,7 @@ GOUIComponent::describeForWeb(RenderWeb& renderer, const std::vector<double>& po
         return;
     }
     const std::wstring type = getType();
-    GOFigure* figure = parentGoWindow ? parentGoWindow->hostFigure() : nullptr;
+    GOFigure* figure = parentGoWindow ? parentGoWindow->hostFigure() : getParentFigure();
     double layoutHeight = renderer.height();
     if (figure != nullptr) {
         std::vector<double> figurePosition

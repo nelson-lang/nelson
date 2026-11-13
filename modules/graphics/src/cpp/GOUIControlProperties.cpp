@@ -37,6 +37,25 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+// '|' separates entries only for popupmenu and listbox; in any other
+// style it is a literal character of the label.
+class GOUIControlStringProperty : public GOStringVectorProperty
+{
+    GraphicsObject* _owner;
+
+public:
+    explicit GOUIControlStringProperty(GraphicsObject* owner) : _owner(owner) { }
+    void
+    set(ArrayOf arg) override
+    {
+        GOGenericProperty* style = _owner->findProperty(GO_STYLE_PROPERTY_NAME_STR, false);
+        _pipeDelimited = style
+            && (_owner->stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_POPUPMENU_STR)
+                || _owner->stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_LISTBOX_STR));
+        GOStringVectorProperty::set(arg);
+    }
+};
+//=============================================================================
 void
 GOUIControl::constructProperties()
 {
@@ -52,7 +71,7 @@ GOUIControl::constructProperties()
     registerProperty(new GOGObjectsProperty, GO_CHILDREN_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_PARENT_PROPERTY_NAME_STR);
     registerProperty(new GOPixelOriginPositionProperty(this), GO_POSITION_PROPERTY_NAME_STR);
-    auto* stringProperty = new GOStringVectorProperty;
+    auto* stringProperty = new GOUIControlStringProperty(this);
     stringProperty->setEmptyReturnsChar(true);
     registerProperty(stringProperty, GO_STRING_PROPERTY_NAME_STR);
     registerProperty(new GOControlStyleProperty, GO_STYLE_PROPERTY_NAME_STR);
@@ -135,7 +154,7 @@ GOUIControl::onUnitsChanged(bool newWidget)
         std::wstring previousUnits = unitsProperty->getPreviousUnits();
         std::wstring currentUnits = unitsProperty->data();
 
-        GOFigure* figure = parentGoWindow ? parentGoWindow->hostFigure() : nullptr;
+        GOFigure* figure = parentGoWindow ? parentGoWindow->hostFigure() : getParentFigure();
         double width = figure ? figure->getLayoutWidth() : 0;
         double height = figure ? figure->getLayoutHeight() : 0;
         if ((width <= 0 || height <= 0) && parentGoWindow) {

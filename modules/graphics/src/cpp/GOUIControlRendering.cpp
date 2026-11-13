@@ -56,7 +56,7 @@ GOUIControl::describeForWeb(RenderWeb& renderer, const std::vector<double>& posi
     // Nelson positions controls from the bottom-left; the page uses top-left.
     double layoutHeight = renderer.height();
     if (control.units == "pixels") {
-        GOFigure* figure = parentGoWindow ? parentGoWindow->hostFigure() : nullptr;
+        GOFigure* figure = parentGoWindow ? parentGoWindow->hostFigure() : getParentFigure();
         if (figure != nullptr) {
             std::vector<double> figurePosition
                 = figure->findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR);
@@ -85,7 +85,23 @@ GOUIControl::describeForWeb(RenderWeb& renderer, const std::vector<double>& posi
     GOStringVectorProperty* stringProp
         = dynamic_cast<GOStringVectorProperty*>(findProperty(GO_STRING_PROPERTY_NAME_STR, false));
     if (stringProp != nullptr) {
-        const wstringVector& lines = stringProp->data();
+        wstringVector lines = stringProp->data();
+        const std::wstring menuStyle = findStringProperty(GO_STYLE_PROPERTY_NAME_STR);
+        if (lines.size() == 1
+            && (menuStyle == GO_PROPERTY_VALUE_POPUPMENU_STR
+                || menuStyle == GO_PROPERTY_VALUE_LISTBOX_STR)
+            && lines[0].find(L'|') != std::wstring::npos) {
+            // String set before Style became a menu keeps its '|' separators.
+            const std::wstring joined = lines[0];
+            lines.clear();
+            size_t start = 0;
+            size_t bar;
+            while ((bar = joined.find(L'|', start)) != std::wstring::npos) {
+                lines.push_back(joined.substr(start, bar - start));
+                start = bar + 1;
+            }
+            lines.push_back(joined.substr(start));
+        }
         if (lines.size() > 1) {
             for (const std::wstring& item : lines) {
                 control.items.push_back(wstring_to_utf8(item));

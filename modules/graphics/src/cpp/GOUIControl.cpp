@@ -99,6 +99,8 @@ GOUIControl::updateState()
         binding = uiControlBindingFactory(this);
     }
     if (!binding) {
+        // No widget (web host): convert Position on a Units change, as GOUIComponent does.
+        onUnitsChanged(false);
         clearAllChanged();
         return;
     }
