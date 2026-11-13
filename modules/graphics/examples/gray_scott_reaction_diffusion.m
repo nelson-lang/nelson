@@ -12,15 +12,15 @@ rng(42);
 gridSize = 100;
 u = ones(gridSize);
 v = zeros(gridSize);
-patch = 43:58;
-u(patch, patch) = 0.50 + 0.04 * rand(length(patch));
-v(patch, patch) = 0.25 + 0.04 * rand(length(patch));
-diffusionU = 0.16;
-diffusionV = 0.08;
-feedRate = 0.060;
+seedRange = 43:58;
+u(seedRange, seedRange) = 0.50 + 0.04 * rand(length(seedRange));
+v(seedRange, seedRange) = 0.25 + 0.04 * rand(length(seedRange));
+% Coral-growth regime of the classic 9-point scheme (weights sum to zero).
+diffusionU = 1.0;
+diffusionV = 0.5;
+feedRate = 0.055;
 killRate = 0.062;
 timeStep = 1;
-laplacianKernel = [0 0.20 0; 0.20 -1 0.20; 0 0.20 0];
 
 figureHandle = figure('SelectionHighlight', 'off', 'ToolBar', 'none', 'Name', 'Gray-Scott reaction diffusion', ...
   'NumberTitle', 'off');
@@ -33,13 +33,14 @@ axis(axesHandle, 'image');
 axis(axesHandle, 'off');
 colormap(axesHandle, parula(256));
 
-for frameIndex = 1:65
+stepsPerFrame = 20;
+for frameIndex = 1:150
   if ~isgraphics(figureHandle) || ~isgraphics(imageHandle)
     break
   end
-  for simulationStep = 1:8
-    laplacianU = conv2(u, laplacianKernel, 'same');
-    laplacianV = conv2(v, laplacianKernel, 'same');
+  for simulationStep = 1:stepsPerFrame
+    laplacianU = grayScottLaplacian(u);
+    laplacianV = grayScottLaplacian(v);
     reaction = u .* v .^ 2;
     u = u + (diffusionU * laplacianU - reaction + feedRate * (1 - u)) * timeStep;
     v = v + (diffusionV * laplacianV + reaction - ...
@@ -48,7 +49,14 @@ for frameIndex = 1:65
     v = min(max(v, 0), 1);
   end
   set(imageHandle, 'CData', v);
-  title(axesHandle, sprintf('Gray-Scott model - step %d', frameIndex * 8));
+  title(axesHandle, sprintf('Gray-Scott model - step %d', frameIndex * stepsPerFrame));
   drawnow();
+end
+%=============================================================================
+function L = grayScottLaplacian(X)
+  % 9-point stencil on a periodic grid: 0.2 per edge neighbour, 0.05 per corner.
+  L = 0.2 * (circshift(X, 1, 1) + circshift(X, -1, 1) + circshift(X, 1, 2) + circshift(X, -1, 2)) ...
+    + 0.05 * (circshift(X, [1 1]) + circshift(X, [1 -1]) + circshift(X, [-1 1]) + circshift(X, [-1 -1])) ...
+    - X;
 end
 %=============================================================================

@@ -9,8 +9,17 @@
 %=============================================================================
 % Portable plotting demo shared by native and WebAssembly builds.
 x = linspace(0, 2 * pi, 160);
-figure;
-plot(x, sin(x));
+figure('Name', 'Portable sine curve', 'NumberTitle', 'off');
+plot(x, sin(x), 'LineWidth', 1.5);
+grid on;
+xlim([0, 2 * pi]);
+title('y = sin(x)');
+xlabel('x (rad)');
+ylabel('y');
 
-figure;
+figure('Name', 'Portable peaks surface', 'NumberTitle', 'off');
 surf(peaks(49));
+title('peaks(49) surface - drag to rotate');
+xlabel('column');
+ylabel('row');
+zlabel('height');

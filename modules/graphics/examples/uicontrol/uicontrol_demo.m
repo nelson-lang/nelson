@@ -38,12 +38,14 @@ btn = uicontrol('Style', 'pushbutton', 'String', 'Reset Plot', 'Position', [50, 
 sld = uicontrol('Style', 'slider', 'Min', 1, 'Max', 10, ...
   'Value', initialValue, 'Position', [200, 50, 300, 30], ...
   'Callback', @updatePlot);
+% Controls follow the window size.
+set(findobj(get(sld, 'Parent'), 'Type', 'uicontrol'), 'Units', 'normalized');
 
 % Generate X data for the plot, ranging from 0 to 2*pi with 100 points
 x = linspace(0, 2 * pi, 100);
 
-% Compute the sine of the X data to generate Y data
-y = sin(x);
+% Scale the sine by the slider's initial value, as the title states
+y = initialValue * sin(x);
 
 % Plot the X and Y data on the axes
 p = plot(ax, x, y);

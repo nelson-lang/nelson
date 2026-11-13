@@ -45,8 +45,8 @@
         "fr_FR": "Dessiner un cube en trois dimensions"
       },
       "description": {
-        "en_US": "Build and render a simple polygonal object.",
-        "fr_FR": "Construire et afficher un objet polygonal simple."
+        "en_US": "Spin a wireframe cube filled with random coloured segments.",
+        "fr_FR": "Faire tourner un cube en fil de fer rempli de segments colorés aléatoires."
       },
       "tags": [
         "3d",

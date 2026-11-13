@@ -30,7 +30,7 @@ edges = [
     7 8
 ];
 
-numLines = 1000;
+numLines = 300;
 randLines = -1 + 2 * rand(numLines, 6);
 colorCount = 64;
 colors = rand(colorCount, 3);
@@ -46,12 +46,6 @@ grid on;
 view(3);
 hold on;
 
-edgeCount = size(edges, 1);
-edgeX = [vertices(edges(:, 1), 1), vertices(edges(:, 2), 1), nan(edgeCount, 1)]';
-edgeY = [vertices(edges(:, 1), 2), vertices(edges(:, 2), 2), nan(edgeCount, 1)]';
-edgeZ = [vertices(edges(:, 1), 3), vertices(edges(:, 2), 3), nan(edgeCount, 1)]';
-plot3(edgeX(:), edgeY(:), edgeZ(:), 'k', 'LineWidth', 1);
-
 for colorIndex = 1:colorCount
   selected = lineGroups == colorIndex;
   groupCount = sum(selected);
@@ -60,6 +54,13 @@ for colorIndex = 1:colorCount
   lineZ = [randLines(selected, 3), randLines(selected, 6), nan(groupCount, 1)]';
   plot3(lineX(:), lineY(:), lineZ(:), 'Color', colors(colorIndex, :), 'LineWidth', 0.5);
 end
+
+% Draw the cube edges last so they stay on top of the random segments.
+edgeCount = size(edges, 1);
+edgeX = [vertices(edges(:, 1), 1), vertices(edges(:, 2), 1), nan(edgeCount, 1)]';
+edgeY = [vertices(edges(:, 1), 2), vertices(edges(:, 2), 2), nan(edgeCount, 1)]';
+edgeZ = [vertices(edges(:, 1), 3), vertices(edges(:, 2), 3), nan(edgeCount, 1)]';
+plot3(edgeX(:), edgeY(:), edgeZ(:), 'k', 'LineWidth', 2.5);
 
 % Equal data units with fixed symmetric limits that contain the whole cube.
 % Setting DataAspectRatio (instead of calling 'axis equal' on the empty axes,

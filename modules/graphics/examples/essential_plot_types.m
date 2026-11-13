@@ -42,12 +42,11 @@ set(barAxes, 'XLim', [0.511111111111111 4.48888888888889], ...
 title(barAxes, 'Grouped bars');
 
 distributionValues = [...
-  -1.8 - 1.4 - 1.2 - 0.9 - 0.8 - 0.6 - 0.5 - 0.3 - 0.2 - 0.1 ...
-  0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.8 0.9 1.1 1.4 1.7];
+  -1.8, -1.4, -1.2, -0.9, -0.8, -0.6, -0.5, -0.3, -0.2, -0.1, ...
+  0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.8, 0.9, 1.1, 1.4, 1.7];
 histogramAxes = subplot(2, 3, 4, 'Parent', figureHandle);
 histogram(histogramAxes, distributionValues, 8);
-set(histogramAxes, 'XLim', [-8.52 2.92], 'YLim', [0 10], ...
-  'ZLim', [-1 1], 'XTick', -8:2:2, 'YTick', 0:2:10, 'ZTick', [-1 0 1]);
+set(histogramAxes, 'XLim', [-2 2], 'XTick', -2:1:2);
 title(histogramAxes, 'Histogram');
 
 [surfaceX, surfaceY] = meshgrid(linspace(-2.5, 2.5, 45));
@@ -68,4 +67,40 @@ set(surfaceAxes, 'XLim', [-2.5 2.5], 'YLim', [-2.5 2.5], ...
 grid(surfaceAxes, 'on');
 title(surfaceAxes, 'Surface');
 colormap(figureHandle, parula(128));
+%=============================================================================
+% Reflow the six panels to the window shape: 3x2 when wide, 2x3, then 1x6 when narrow.
+essentialAxes = [lineAxes, errorAxes, barAxes, histogramAxes, contourAxes, surfaceAxes];
+set(figureHandle, 'SizeChangedFcn', @(src, evt) essentialPlotsLayout(src, essentialAxes, evt));
+essentialPlotsLayout(figureHandle, essentialAxes, []);
+%=============================================================================
+function essentialPlotsLayout(figureHandle, axesHandles, event)
+  if ~all(isgraphics(axesHandles))
+    return
+  end
+  % The web desktop reports its panel size in the event; Position keeps the script value.
+  try
+    sizePixels = [event.Width, event.Height];
+  catch
+    units = get(figureHandle, 'Units');
+    set(figureHandle, 'Units', 'pixels');
+    position = get(figureHandle, 'Position');
+    set(figureHandle, 'Units', units);
+    sizePixels = position(3:4);
+  end
+  aspect = sizePixels(1) / max(sizePixels(2), 1);
+  if aspect >= 1.15
+    columns = 3;
+  elseif aspect >= 0.45
+    columns = 2;
+  else
+    columns = 1;
+  end
+  rows = ceil(numel(axesHandles) / columns);
+  for k = 1:numel(axesHandles)
+    column = mod(k - 1, columns);
+    row = floor((k - 1) / columns);
+    set(axesHandles(k), 'OuterPosition', ...
+      [column / columns, 1 - (row + 1) / rows, 1 / columns, 1 / rows]);
+  end
+end
 %=============================================================================

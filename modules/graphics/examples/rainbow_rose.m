@@ -8,9 +8,9 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % Render a parametric rose surface.
-pointCount = 80;
-radialCoordinates = linspace(0, 1, pointCount);
-angularCoordinates = linspace(-2, 20 * pi, pointCount);
+% The petals oscillate 3.6 times per turn over ten turns: sample the angle finely.
+radialCoordinates = linspace(0, 1, 30);
+angularCoordinates = linspace(-2, 20 * pi, 1200);
 [radiusGrid, angleGrid] = meshgrid(radialCoordinates, angularCoordinates);
 
 petalShape = 1 - 0.5 * ((5 / 4) * ...
@@ -30,10 +30,11 @@ z = petalShape .* ...
 
 figureHandle = figure('SelectionHighlight', 'off', 'Name', 'Parametric rainbow rose', 'NumberTitle', 'off');
 axesHandle = axes('Parent', figureHandle);
-surf(axesHandle, x, y, z, angleGrid, 'LineStyle', 'none');
+surf(axesHandle, x, y, z, angleGrid, 'LineStyle', 'none', 'FaceLighting', 'gouraud');
 axis(axesHandle, 'equal');
 axis(axesHandle, 'off');
 colormap(axesHandle, jet(128));
 view(axesHandle, 3);
+light(axesHandle, 'Position', [-2 -2 4]);
 title(axesHandle, 'Parametric rainbow rose', 'Visible', 'on');
 %=============================================================================
