@@ -901,6 +901,23 @@ syncAxisLabelText(GOAxis* axis, const std::wstring& propertyName, bool syncFont)
     }
 }
 //=============================================================================
+// Setting X/Y/ZColor also colors the matching axis label.
+static void
+syncAxisLabelColor(GOAxis* axis, const std::wstring& labelName, const std::wstring& colorName)
+{
+    GOText* text = axisTextObject(axis, labelName);
+    GOColorProperty* color = static_cast<GOColorProperty*>(axis->findProperty(colorName, false));
+    if (!text || !color || color->isNone()) {
+        return;
+    }
+    std::vector<double> rgb = color->data();
+    if (rgb.size() < 3) {
+        return;
+    }
+    text->setThreeVectorDefault(GO_COLOR_PROPERTY_NAME_STR, rgb[0], rgb[1], rgb[2]);
+    markTextFontChanged(text, GO_COLOR_PROPERTY_NAME_STR);
+}
+//=============================================================================
 static void
 syncAxisLabelTexts(GOAxis* axis, bool syncFont)
 {
@@ -7057,12 +7074,15 @@ GOAxis::updateState()
     }
     if (hasChanged(GO_X_COLOR_PROPERTY_NAME_STR)) {
         toManual(GO_X_COLOR_MODE_PROPERTY_NAME_STR);
+        syncAxisLabelColor(this, GO_X_LABEL_PROPERTY_NAME_STR, GO_X_COLOR_PROPERTY_NAME_STR);
     }
     if (hasChanged(GO_Y_COLOR_PROPERTY_NAME_STR)) {
         toManual(GO_Y_COLOR_MODE_PROPERTY_NAME_STR);
+        syncAxisLabelColor(this, GO_Y_LABEL_PROPERTY_NAME_STR, GO_Y_COLOR_PROPERTY_NAME_STR);
     }
     if (hasChanged(GO_Z_COLOR_PROPERTY_NAME_STR)) {
         toManual(GO_Z_COLOR_MODE_PROPERTY_NAME_STR);
+        syncAxisLabelColor(this, GO_Z_LABEL_PROPERTY_NAME_STR, GO_Z_COLOR_PROPERTY_NAME_STR);
     }
     if (hasChanged(GO_X_TICK_LABEL_ROTATION_PROPERTY_NAME_STR)) {
         toManual(GO_X_TICK_LABEL_ROTATION_MODE_PROPERTY_NAME_STR);
@@ -7641,7 +7661,7 @@ GOAxis::setupProjection(RenderInterface& gc, bool updateLimits)
     // aspect-ratio rerange below rewrites zmin/zmax to fit the plot box. The
     // perspective near/far planes must bound the actual geometry: the reranged
     // span can fall short of it (clipping away the far half of a near object),
-    // which the orthographic path tolerates but a frustum does not.
+    // so both projections widen their depth range to it.
     double zMappedMinRaw = zmin;
     double zMappedMaxRaw = zmax;
     std::vector<double> position(getPropertyVectorAsPixels(gc, GO_POSITION_PROPERTY_NAME_STR));
@@ -7676,8 +7696,12 @@ GOAxis::setupProjection(RenderInterface& gc, bool updateLimits)
     if (!renderedAs2D()) {
         expandProjectionRange(xmin, xmax);
         expandProjectionRange(ymin, ymax);
-        expandDepthProjectionRange(zmin, zmax);
     }
+    // The depth range must still hold the whole data box: the aspect rerange above may
+    // shrink it, cutting a 2D patch drawn at ZLim(2) out of the view.
+    zmin = std::min(zmin, zMappedMinRaw);
+    zmax = std::max(zmax, zMappedMaxRaw);
+    expandDepthProjectionRange(zmin, zmax);
     setupOrthographicProjection(gc, scale, position, { xmin, xmax, ymin, ymax, zmin, zmax },
         DEFAULT_CAMERA_VIEW_ANGLE, angleSpansWidth);
 }
