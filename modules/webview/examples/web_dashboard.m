@@ -13,7 +13,8 @@ if ~exist('webDashboardSampleCount', 'var')
 end
 
 % Compute a data series in Nelson, then hand it to the browser to animate.
-webDashboardTime = linspace(0, 4 * pi, webDashboardSampleCount);
+% Whole periods without the endpoint, so the scrolling loop wraps seamlessly.
+webDashboardTime = (0:webDashboardSampleCount - 1) * (4 * pi / webDashboardSampleCount);
 webDashboardSeries = sin(webDashboardTime) + 0.4 * sin(3 * webDashboardTime);
 webDashboardData = sprintf('%.4f,', webDashboardSeries);
 webDashboardData = webDashboardData(1:end - 1);
