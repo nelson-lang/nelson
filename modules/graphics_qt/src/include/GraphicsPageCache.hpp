@@ -13,6 +13,7 @@
 #include <QtGui/QImage>
 #include <QtGui/QPainter>
 #include <QtGui/QPaintEvent>
+#include <QtGui/QRegion>
 #include <QtWidgets/QWidget>
 //=============================================================================
 namespace Nelson {
@@ -30,7 +31,10 @@ public:
         if (pixels.isEmpty()) {
             return;
         }
-        const bool fullPage = event == nullptr || event->rect().contains(page->rect());
+        // A page partly outside its parent only gets clipped events: compare with its visible part.
+        const QRegion visible = page->visibleRegion();
+        const bool fullPage = event == nullptr || event->rect().contains(page->rect())
+            || (!visible.isEmpty() && (visible - event->region()).isEmpty());
         if (fullPage || image.size() != pixels || image.devicePixelRatio() != ratio) {
             image = QImage(pixels, QImage::Format_ARGB32_Premultiplied);
             image.setDevicePixelRatio(ratio);

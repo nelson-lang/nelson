@@ -482,6 +482,10 @@ void
 FigureWorkspaceQt::hover(const QPointF& position)
 {
     auto* axis = axisAt(position);
+    // No frame on axes without a gesture: default interactivity off and no toolbar mode.
+    if (axis && window->mouseMode == MOUSE_MODE::NONE && !defaultInteractivityEnabled(axis)) {
+        axis = nullptr;
+    }
     hoverAxis = axis ? findGraphicsObjectHandle(axis) : 0;
     if (dragAxis || hoverAxis) {
         showIndicator(dragAxis ? dragAxis : hoverAxis);

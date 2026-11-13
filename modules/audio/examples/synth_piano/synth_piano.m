@@ -216,6 +216,8 @@ end
 %=============================================================================
 function ax = synthScreenAxes(parent, th, position, xl, yl)
   ax = uiaxes(parent, 'Position', position);
+  % Prevent accidental pan or zoom from disturbing the live displays.
+  disableDefaultInteractivity(ax);
   set(ax, 'Color', th.screen, 'XColor', [0.16 0.20 0.32], 'YColor', [0.16 0.20 0.32], ...
     'XLim', xl, 'YLim', yl, 'XTick', [], 'YTick', [], 'Box', 'on');
   hold(ax, 'on');
@@ -297,6 +299,8 @@ function app = synthBuildKeyboard(fig, app)
   board = uipanel(fig, 'Position', [0 0 1180 246], 'BorderType', 'none', ...
     'BackgroundColor', th.background);
   app.keyAxes = uiaxes(board, 'Position', [x0 - 11, -3, width + 15, 251]);
+  % Mouse drags play glissandi: no pan or zoom on the keys.
+  disableDefaultInteractivity(app.keyAxes);
   set(app.keyAxes, 'XLim', [0 width], 'YLim', [0 216], 'Color', th.background);
   axis(app.keyAxes, 'off');
   hold(app.keyAxes, 'on');
