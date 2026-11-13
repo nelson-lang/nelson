@@ -249,6 +249,12 @@ enum class OpCode : uint8_t
     ASSIGN_LOCAL_CONTENT,
     // A' \ B (A = 0) or A.' \ B (A = 1), with A itself below B on the stack
     OP_MLDIV_TRANSPOSED,
+    // end context of name A (index B of C): the variable when A is one at run time, else the
+    // enclosing context, so `v(3:end)` and `round(end/2)` both work when A is unknown at compile
+    PUSH_END_CTX_NAMED,
+    // the top end context measures base.<constant A> (dotted path), read only when `end` is read;
+    // B != 0: base at stack depth B - 1; C != 0: base is the named head of a member call
+    END_CTX_FIELD,
     OPCODE_COUNT
 };
 //=============================================================================

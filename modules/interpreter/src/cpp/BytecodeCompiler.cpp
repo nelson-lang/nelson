@@ -275,6 +275,14 @@ namespace {
         // Names declared 'global' in an enclosing function are global here too, so a nested
         // function reads and writes the shared global, not an unseeded local. Call before
         // compileBlock.
+        // A body calling eval, load or similar may create variables at run time: resolve its
+        // `end` as a script does. Call before compileBlock.
+        void
+        scanRuntimeVariableCreators(AbstractSyntaxTreePtr body)
+        {
+            runtimeVariables_ = !chunk_.isScript && callsRuntimeVariableCreator(body);
+        }
+
         void
         seedInheritedGlobals(const stringVector& names)
         {
@@ -306,6 +314,8 @@ namespace {
         std::vector<uint16_t> activeLoopLocalSlots_;
         std::unordered_set<std::string> declaredGlobalNames_;
         std::unordered_set<std::string> declaredPersistentNames_;
+        // the body calls eval, load or similar (see scanRuntimeVariableCreators)
+        bool runtimeVariables_ = false;
 
         bool
         isDeclaredGlobalName(const std::string& name) const
@@ -490,11 +500,78 @@ namespace {
             return false;
         }
 
-        static bool
-        dotParensIndexUsesEnd(AbstractSyntaxTreePtr sub)
+        // A function body knows all its variables (an unknown name is a function); a script,
+        // eval text or prompt line may read variables that exist only at run time.
+        bool
+        variablesKnownAtCompile() const
         {
-            return sub != nullptr && sub->opNum == OP_DOT && sub->right != nullptr
-                && sub->right->opNum == OP_PARENS && containsEndKeyword(sub->right->down);
+            return !chunk_.isScript && !runtimeVariables_;
+        }
+
+        static bool
+        callsRuntimeVariableCreator(AbstractSyntaxTreePtr node)
+        {
+            while (node != nullptr) {
+                if (node->type == id_node
+                    && (node->text == "eval" || node->text == "evalc" || node->text == "evalin"
+                        || node->text == "load" || node->text == "assignin")) {
+                    return true;
+                }
+                if (callsRuntimeVariableCreator(node->down)) {
+                    return true;
+                }
+                node = node->right;
+            }
+            return false;
+        }
+
+        // True when `end` in the arguments of `.name(...)` belongs to `.name` itself. An indexed
+        // variable owns its `end`, so `o.f(v(3:end))` stays a call. Where variables are not all
+        // known, an `end` under a nested `g(...)` is settled at run time (END_CTX_FIELD).
+        bool
+        dotParensIndexUsesEnd(AbstractSyntaxTreePtr sub) const
+        {
+            if (sub == nullptr || sub->opNum != OP_DOT || sub->right == nullptr
+                || sub->right->opNum != OP_PARENS) {
+                return false;
+            }
+            return variablesKnownAtCompile()
+                ? containsEndOutsideKnownVariables(sub->right->down)
+                : containsEndKeywordThisLevel(sub->right->down);
+        }
+
+        // `end` reachable without crossing an indexed known variable
+        bool
+        containsEndOutsideKnownVariables(AbstractSyntaxTreePtr node) const
+        {
+            while (node != nullptr) {
+                if (node->type == reserved_node && node->tokenNumber == NLS_KEYWORD_END) {
+                    return true;
+                }
+                bool ownsEnd = node->type == id_node && node->down != nullptr
+                    && isKnownVariableName(node->text);
+                if (!ownsEnd && containsEndOutsideKnownVariables(node->down)) {
+                    return true;
+                }
+                node = node->right;
+            }
+            return false;
+        }
+
+        bool
+        isKnownVariableName(const std::string& name) const
+        {
+            auto slot = slots_.peek(name);
+            return (slot.has_value() && (slot->kind == SlotKind::Global || slot->everAssigned))
+                || isDeclaredGlobalName(name) || isDeclaredPersistentName(name)
+                || isCapturedName(name);
+        }
+
+        bool
+        isCapturedName(const std::string& name) const
+        {
+            return std::find(chunk_.capturedNames.begin(), chunk_.capturedNames.end(), name)
+                != chunk_.capturedNames.end();
         }
 
         static bool
@@ -3240,7 +3317,8 @@ namespace {
                     uint16_t nargs = 0;
                     AbstractSyntaxTreePtr arg = sub->right->down;
                     while (arg != nullptr) {
-                        compileIndexExpr(arg, nargs, nargs, countPeers(sub->right->down));
+                        compileIndexExpr(arg, nargs, nargs, countPeers(sub->right->down),
+                            variablesKnownAtCompile() ? std::string() : sub->down->text);
                         ++nargs;
                         arg = arg->right;
                     }
@@ -3302,6 +3380,29 @@ namespace {
                 && node->down->down == nullptr) {
                 emit(OpCode::SET_NAME, 0, nameIndex(node->down->text));
             }
+        }
+
+        // Arguments of name(...): where name may be a variable known only at run time, an argument
+        // using `end` measures that variable, or the enclosing array when name is a function.
+        uint16_t
+        compileNamedCallArguments(const std::string& name, AbstractSyntaxTreePtr firstArg)
+        {
+            const uint16_t total = static_cast<uint16_t>(countPeers(firstArg));
+            // a captured variable is read from the closure, so it has no slot either
+            const bool runtimeName = !variablesKnownAtCompile() || isCapturedName(name);
+            uint16_t nargs = 0;
+            for (AbstractSyntaxTreePtr arg = firstArg; arg != nullptr; arg = arg->right) {
+                const bool usesEnd = runtimeName && indexArgContainsEnd(arg);
+                if (usesEnd) {
+                    emit(OpCode::PUSH_END_CTX_NAMED, 0, nameIndex(name), nargs, total);
+                }
+                compileCallArgument(arg);
+                if (usesEnd) {
+                    emit(OpCode::POP_END_CTX);
+                }
+                ++nargs;
+            }
+            return nargs;
         }
 
         bool
@@ -3537,6 +3638,10 @@ namespace {
                     } else if (outputOptional) {
                         flags = INST_FLAG_PRINT;
                     }
+                } else if (nout == 0 && chainContinuation == nullptr
+                    && (sub->opNum == OP_PARENS || dotParensSubindex)) {
+                    // the last call of a statement chain (c{k}(x);) asks for no output
+                    flags = INST_FLAG_QUIET;
                 }
                 if (commaList && sub->right == nullptr
                     && (sub->opNum == OP_BRACES || sub->opNum == OP_DOT
@@ -3554,7 +3659,8 @@ namespace {
                     uint16_t nargs = 0;
                     AbstractSyntaxTreePtr arg = sub->right->down;
                     while (arg != nullptr) {
-                        compileIndexExpr(arg, nargs, nargs, countPeers(sub->right->down));
+                        compileIndexExpr(arg, nargs, nargs, countPeers(sub->right->down),
+                            variablesKnownAtCompile() ? std::string() : sub->down->text);
                         ++nargs;
                         arg = arg->right;
                     }
@@ -3581,16 +3687,28 @@ namespace {
 
         void
         compileResolvedCallAndTail(OpCode op, uint16_t calleeIndex, AbstractSyntaxTreePtr callSub,
-            int nout, bool outputOptional, bool commaList, uint8_t extraFlags = 0)
+            int nout, bool outputOptional, bool commaList, uint8_t extraFlags = 0,
+            const std::string& endHead = std::string(), const std::string& endPath = std::string())
         {
             if (callSub == nullptr || callSub->opNum != OP_PARENS) {
                 unsupported(callSub, "resolved call");
             }
             const bool hasTail = hasNonNullRight(callSub);
+            const uint16_t total = countPeers(callSub->down);
             uint16_t nargs = 0;
             AbstractSyntaxTreePtr arg = callSub->down;
             while (arg != nullptr) {
+                // head.path(args) with head a variable at run time: `end` measures head.path
+                const bool lazyEnd = !endHead.empty() && indexArgContainsEnd(arg);
+                if (lazyEnd) {
+                    emit(OpCode::PUSH_END_CTX_NAMED, 0, nameIndex(endHead), nargs, total);
+                    // C: head is named, so a read value is kept for the call below
+                    emit(OpCode::END_CTX_FIELD, 0, chunk_.constants.addName(endPath), 0, 1);
+                }
                 compileCallArgument(arg);
+                if (lazyEnd) {
+                    emit(OpCode::POP_END_CTX);
+                }
                 ++nargs;
                 arg = arg->right;
             }
@@ -3639,7 +3757,7 @@ namespace {
             // `end` or `:` inside the argument list only makes sense with the
             // variable interpretation; keep the plain chain lowering there.
             if (callSub == nullptr || containsAllIndex(callSub->down)
-                || containsDirectEndKeyword(callSub->down)) {
+                || containsEndKeywordThisLevel(callSub->down)) {
                 return false;
             }
             const uint16_t entryDepth = stackDepth_;
@@ -3776,6 +3894,8 @@ namespace {
                 uint16_t indexSlot = 0;
                 uint16_t offsetSlot = 0;
                 double offset = 0.;
+                // a statement call on a handle (f(k);) asks for no output
+                const uint8_t loadFlags = nout == 0 ? INST_FLAG_QUIET : 0;
                 if (localSlotWithConstantOffset(sub->down, indexSlot, offset)) {
                     const bool collectChain
                         = sub->right != nullptr && nout <= 1 && chainIsCollectCapable(sub);
@@ -3783,9 +3903,9 @@ namespace {
                         emit(OpCode::CHAIN_BEGIN, 0, slot->index, 0);
                     }
                     if (offset == 0.) {
-                        emit(OpCode::LOAD_PARENS_LOCAL, 0, slot->index, indexSlot);
+                        emit(OpCode::LOAD_PARENS_LOCAL, loadFlags, slot->index, indexSlot);
                     } else {
-                        emit(OpCode::LOAD_PARENS_LOCAL_OFFSET, 0, slot->index, indexSlot,
+                        emit(OpCode::LOAD_PARENS_LOCAL_OFFSET, loadFlags, slot->index, indexSlot,
                             chunk_.constants.addDouble(offset));
                     }
                     push();
@@ -3803,7 +3923,7 @@ namespace {
                     if (collectChain) {
                         emit(OpCode::CHAIN_BEGIN, 0, slot->index, 0);
                     }
-                    emit(OpCode::LOAD_PARENS_LOCAL_MINUS_LOCAL, 0, slot->index, indexSlot,
+                    emit(OpCode::LOAD_PARENS_LOCAL_MINUS_LOCAL, loadFlags, slot->index, indexSlot,
                         offsetSlot);
                     push();
                     if (sub->right != nullptr) {
@@ -3825,8 +3945,8 @@ namespace {
                     if (collectChain) {
                         emit(OpCode::CHAIN_BEGIN, 0, slot->index, 0);
                     }
-                    emit(
-                        OpCode::LOAD_PARENS2_LOCAL, 0, slot->index, rowSlot->index, colSlot->index);
+                    emit(OpCode::LOAD_PARENS2_LOCAL, nout == 0 ? INST_FLAG_QUIET : 0, slot->index,
+                        rowSlot->index, colSlot->index);
                     push();
                     if (sub->right != nullptr) {
                         compileSubindexChain(sub->right, nout, outputOptional, commaList, false);
@@ -3863,13 +3983,7 @@ namespace {
             if (sub->opNum == OP_PARENS && sub->right == nullptr
                 && (!definitelyLocal || explicitArgumentCountCall) && !containsAllIndex(sub->down)
                 && (!endForcesVariableIndex || allowsDirectEndAsFunctionArgument(ident->text))) {
-                uint16_t nargs = 0;
-                AbstractSyntaxTreePtr arg = sub->down;
-                while (arg != nullptr) {
-                    compileCallArgument(arg);
-                    ++nargs;
-                    arg = arg->right;
-                }
+                uint16_t nargs = compileNamedCallArguments(ident->text, sub->down);
                 emit(OpCode::CALL_NAMED, outputOptional ? INST_FLAG_PRINT : 0,
                     nameIndex(ident->text), nargs, static_cast<uint16_t>(nout));
                 pop(nargs);
@@ -3890,13 +4004,7 @@ namespace {
             if (sub->opNum == OP_PARENS && sub->right != nullptr && !definitelyLocal
                 && !containsAllIndex(sub->down)
                 && (!endForcesVariableIndex || allowsDirectEndAsFunctionArgument(ident->text))) {
-                uint16_t nargs = 0;
-                AbstractSyntaxTreePtr arg = sub->down;
-                while (arg != nullptr) {
-                    compileCallArgument(arg);
-                    ++nargs;
-                    arg = arg->right;
-                }
+                uint16_t nargs = compileNamedCallArguments(ident->text, sub->down);
                 emit(OpCode::CALL_NAMED, 0, nameIndex(ident->text), nargs, 1);
                 pop(nargs);
                 push();
@@ -4066,7 +4174,7 @@ namespace {
                 }
                 if (sub->right != nullptr && sub->right->opNum == OP_PARENS
                     && !containsAllIndex(sub->right->down)
-                    && !containsDirectEndKeyword(sub->right->down)
+                    && !containsEndKeywordThisLevel(sub->right->down)
                     && deferClassdefMemberToRuntime(ident->text)) {
                     // A whole-array colon `head.member(:)` or an `end` inside the parentheses is
                     // field indexing, never a member call: CALL_CLASSDEF_MEMBER would evaluate the
@@ -4075,7 +4183,7 @@ namespace {
                     // same guards.
                     compileResolvedCallAndTail(OpCode::CALL_CLASSDEF_MEMBER,
                         chunk_.constants.addName(ident->text + "." + memberName), sub->right, nout,
-                        outputOptional, commaList, INST_FLAG_INDEX_ONLY);
+                        outputOptional, commaList, INST_FLAG_INDEX_ONLY, ident->text, memberName);
                     return;
                 }
                 if (!hasNonNullRight(sub) && nout > 0) {
@@ -4105,7 +4213,7 @@ namespace {
                 // Lower it as a variable + subindex chain (see the guard above).
                 if (collectDottedCall(ident, dottedName, dottedCallSub)
                     && !containsAllIndex(dottedCallSub->down)
-                    && !containsDirectEndKeyword(dottedCallSub->down)) {
+                    && !containsEndKeywordThisLevel(dottedCallSub->down)) {
                     // A dotted name that is only class-like (uppercase segment)
                     // and not resolvable when compiled may also be a member chain
                     // on the object returned by the head function, e.g.
@@ -4289,7 +4397,7 @@ namespace {
 
         void
         compileIndexExpr(AbstractSyntaxTreePtr expr, uint16_t baseDepth, uint16_t indexPosition,
-            uint16_t indexCount)
+            uint16_t indexCount, const std::string& lazyField = std::string())
         {
             {
                 uint16_t baseSlot = 0;
@@ -4307,6 +4415,11 @@ namespace {
             const bool needsEndContext = indexArgContainsEnd(expr);
             if (needsEndContext) {
                 emit(OpCode::PUSH_END_CTX, 0, baseDepth, indexPosition, indexCount);
+                if (!lazyField.empty()) {
+                    // B - 1: base depth, so a read value can replace base on the stack
+                    emit(OpCode::END_CTX_FIELD, 0, chunk_.constants.addName(lazyField),
+                        static_cast<uint16_t>(baseDepth + 1));
+                }
             }
             if (expr != nullptr && expr->type == non_terminal && expr->opNum == OP_ALL) {
                 emit(OpCode::LOAD_CONST, 0, chunk_.constants.addString(":"));
@@ -4406,7 +4519,7 @@ namespace {
                     // arguments means the head is being indexed, not called.
                     return !hasNonNullRight(current->right)
                         && !containsAllIndex(current->right->down)
-                        && !containsDirectEndKeyword(current->right->down)
+                        && !containsEndKeywordThisLevel(current->right->down)
                         && isKnownDottedFunction(dottedName);
                 }
                 current = current->right;
@@ -4660,6 +4773,7 @@ namespace {
             slots.addArg(chunk.argNames[k], static_cast<uint16_t>(k));
         }
         CompilerContext compiler(chunk, slots);
+        compiler.scanRuntimeVariableCreators(body);
         compiler.seedInheritedGlobals(inheritedGlobals);
         compiler.compileBlock(body);
         chunk.retSlots.clear();

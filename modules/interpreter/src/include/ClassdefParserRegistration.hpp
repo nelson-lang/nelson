@@ -23,6 +23,9 @@ void
 unregisterGeneratedFunction(const std::string& key);
 void
 unregisterClassdefGeneratedFunctions(const ClassdefDefinition& definition);
+// Like unregisterClassdefGeneratedFunctions, but a running method stays alive (deferred destroy).
+void
+retireClassdefGeneratedFunctions(const ClassdefDefinition& definition);
 void
 registerConstantProperties(const ClassdefDefinition& definition, const std::wstring& filename);
 void

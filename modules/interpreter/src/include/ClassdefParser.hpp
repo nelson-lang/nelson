@@ -86,6 +86,9 @@ classdefCanonicalDefinitionDumpFromDefinition(const ClassdefDefinition& definiti
 //=============================================================================
 NLSINTERPRETER_IMPEXP void
 classdefClear();
+// Forgets the classes defined in that file and their subclasses; running code keeps the old ones.
+NLSINTERPRETER_IMPEXP bool
+classdefForgetClassFile(const std::wstring& filename);
 NLSINTERPRETER_IMPEXP void
 classdefRegisterBuiltinClass(const std::string& className, const stringVector& properties,
     const stringVector& methods, const stringVector& staticMethods, bool readOnlyProperties = false,

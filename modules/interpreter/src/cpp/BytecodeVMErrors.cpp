@@ -159,7 +159,8 @@ readTablePropertiesIndexTarget(Evaluator* eval, const BytecodeChunk& chunk,
             OpCode op = chunk.code[pc].op;
             if (op == OpCode::POP_END_CTX) {
                 ++depth;
-            } else if (op == OpCode::PUSH_END_CTX || op == OpCode::PUSH_END_CTX_LOCAL) {
+            } else if (op == OpCode::PUSH_END_CTX || op == OpCode::PUSH_END_CTX_LOCAL
+                || op == OpCode::PUSH_END_CTX_NAMED) {
                 --depth;
             }
         } while (depth > 0 && pc-- > 0);

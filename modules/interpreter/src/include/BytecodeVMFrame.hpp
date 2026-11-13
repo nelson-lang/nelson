@@ -75,6 +75,7 @@ releaseFrameBuffer(FrameBuffer* buffer)
     frame.rangeLoops.clear();
     frame.exceptionFrames.clear();
     frame.endContexts.clear();
+    frame.resolvedDotReads.clear();
     buffer->inUse = false;
 }
 //=============================================================================

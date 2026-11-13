@@ -29,6 +29,23 @@ struct EndContext
     ArrayOf base;
     indexType index = 0;
     size_t count = 0;
+    // no array to measure: `end` read here is an error
+    bool illegal = false;
+    // >= 0: `end` read here measures that enclosing context instead
+    std::ptrdiff_t delegate = -1;
+    // dotted path read from base only when `end` is read (base.a.b)
+    std::string field;
+    // stack slot the reader of base.field uses (see ResolvedDotRead), -1 when none
+    std::ptrdiff_t readSlot = -1;
+};
+//=============================================================================
+// base.field read for an `end`, kept for the SUBIDX_DOT or CALL_CLASSDEF_MEMBER that reads it
+// again: slot is its base slot or first argument slot on the stack
+struct ResolvedDotRead
+{
+    size_t slot = 0;
+    std::string field;
+    ArrayOf value;
 };
 //=============================================================================
 // Whole-chain indexing accumulation. Activated by CHAIN_BEGIN only when the
@@ -57,6 +74,7 @@ struct NLSINTERPRETER_IMPEXP VMCallFrame
     std::vector<RangeLoopState> rangeLoops;
     std::vector<ExceptionFrame> exceptionFrames;
     std::vector<EndContext> endContexts;
+    std::vector<ResolvedDotRead> resolvedDotReads;
     ChainCollectState chainCollect;
     uint64 profTic = 0;
     std::vector<ArrayOf> captured;

@@ -326,6 +326,75 @@ namespace bcvm_detail {
         return eval->bytecodeGetOrInvokeHandle(base, field, params);
     }
     //=============================================================================
+    // obj.field with no parentheses: a subsref overload, a property, or a no-argument method
+    ArrayOfVector
+    readClassdefDotValue(
+        Evaluator* eval, const ArrayOf& base, const std::string& field, int requestedOutputs)
+    {
+        stringVector subtypes;
+        subtypes.push_back(".");
+        ArrayOfVector subsindices;
+        subsindices.push_back(ArrayOf::characterArray(field));
+        bool haveFunction = false;
+        ArrayOfVector result = eval->bytecodeExtractClass(
+            base, subtypes, subsindices, haveFunction, requestedOutputs);
+        if (haveFunction) {
+            return result;
+        }
+        // a no-argument method on an instance is invoked, not read as a property
+        ArrayOfVector methodResult;
+        if (base.isScalar() && base.isClassType() && classdefLoadClass(base.classType())
+            && !classdefHasProperty(base.classType(), field)
+            && eval->bytecodeInvokeObjectMethodIfExists(base, field, {}, 1, methodResult)) {
+            return methodResult;
+        }
+        return getClassdefFieldAsList(eval, base, field);
+    }
+    //=============================================================================
+    // base.a.b read for an `end` that measures it: property, struct field or handle property
+    ArrayOf
+    readDottedPathForEnd(Evaluator* eval, const ArrayOf& base, const std::string& path)
+    {
+        ArrayOf value = base;
+        size_t start = 0;
+        while (start <= path.size()) {
+            size_t stop = path.find('.', start);
+            std::string field = path.substr(start, stop == std::string::npos ? stop : stop - start);
+            ArrayOf tableVariable;
+            ArrayOfVector values;
+            if (tryFastTableDotVariable(eval, value, field, tableVariable)) {
+                values << tableVariable;
+            } else if (value.isClassType()) {
+                values = readClassdefDotValue(eval, value, field, 1);
+            } else if (value.isHandle() || value.isGraphicsObject()) {
+                values = getOrInvokeHandle(eval, value, field, ArrayOfVector());
+            } else if (value.isStruct()) {
+                values = value.fieldAsList(field);
+            } else {
+                Error(L"Nelson:interpreter:invalidIndexing", L"Invalid indexing.");
+            }
+            value = values.empty() ? ArrayOf::empty() : values[0];
+            if (stop == std::string::npos) {
+                break;
+            }
+            start = stop + 1;
+        }
+        return value;
+    }
+    //=============================================================================
+    // Takes the base.field value an `end` read for the reader whose base or first argument is slot
+    bool
+    takeResolvedDotRead(VMCallFrame& frame, size_t slot, const std::string& field, ArrayOf& value)
+    {
+        if (frame.resolvedDotReads.empty() || frame.resolvedDotReads.back().slot != slot
+            || frame.resolvedDotReads.back().field != field) {
+            return false;
+        }
+        value = std::move(frame.resolvedDotReads.back().value);
+        frame.resolvedDotReads.pop_back();
+        return true;
+    }
+    //=============================================================================
     // a device array as a for-loop range loops over its gathered columns
     ArrayOf
     loopRangeValues(Evaluator* eval, const ArrayOf& range)
@@ -4977,6 +5046,25 @@ namespace bcvm_detail {
                     static_cast<indexType>(endIns.B), static_cast<size_t>(endIns.C) });
             }
         };
+        // A variable named A owns the `end` of its arguments; a function leaves the enclosing one.
+        auto executePushEndCtxNamed = [&](const Instruction& endIns) {
+            if (endIns.A >= chunk.names.size()) {
+                Error(L"Nelson:bytecode:nameIndexOutOfRange",
+                    L"BytecodeVM: name index out of range.");
+            }
+            ArrayOf variable;
+            if (tryGetAssignedLocalByNameIndex(endIns.A, variable)
+                || context->lookupVariable(chunk.names[endIns.A], variable)) {
+                frame.endContexts.push_back(EndContext { variable,
+                    static_cast<indexType>(endIns.B), static_cast<size_t>(endIns.C) });
+            } else if (!frame.endContexts.empty()) {
+                EndContext enclosing { ArrayOf::empty(), 0, 0 };
+                enclosing.delegate = static_cast<std::ptrdiff_t>(frame.endContexts.size() - 1);
+                frame.endContexts.push_back(enclosing);
+            } else {
+                frame.endContexts.push_back(EndContext { ArrayOf::empty(), 0, 0, true });
+            }
+        };
         // Ordinal read by v(k), v(k + c) or v(k - j) when it is a positive integer.
         auto localReadOrdinal = [&](const Instruction& loadIns, indexType& ordinal) -> bool {
             if (loadIns.B >= frame.locals.size() || !isRuntimeAssignedLocalSlot(frame, loadIns.B)) {
@@ -5158,27 +5246,7 @@ namespace bcvm_detail {
                     stack.push_back(directValue);
                     return;
                 }
-                stringVector subtypes;
-                ArrayOfVector subsindices;
-                subtypes.push_back(".");
-                subsindices.push_back(ArrayOf::characterArray(field));
-                bool haveFunction = false;
-                ArrayOfVector result
-                    = eval->bytecodeExtractClass(base, subtypes, subsindices, haveFunction, 1);
-                if (!haveFunction) {
-                    // a no-argument method accessed without parentheses on an
-                    // instance held in a variable (obj.method) is invoked, not
-                    // read as a property.
-                    ArrayOfVector methodResult;
-                    if (base.isScalar() && classdefLoadClass(base.classType())
-                        && !classdefHasProperty(base.classType(), field)
-                        && eval->bytecodeInvokeObjectMethodIfExists(
-                            base, field, {}, 1, methodResult)) {
-                        stack.push_back(methodResult.empty() ? ArrayOf::empty() : methodResult[0]);
-                        return;
-                    }
-                    result = getClassdefFieldAsList(eval, base, field);
-                }
+                ArrayOfVector result = readClassdefDotValue(eval, base, field, 1);
                 stack.push_back(result.empty() ? ArrayOf::empty() : result[0]);
                 return;
             }
@@ -6501,11 +6569,56 @@ namespace bcvm_detail {
                         frame.endContexts.pop_back();
                     }
                     break;
+                case OpCode::PUSH_END_CTX_NAMED:
+                    executePushEndCtxNamed(ins);
+                    break;
+                case OpCode::END_CTX_FIELD:
+                    if (!frame.endContexts.empty() && !frame.endContexts.back().illegal
+                        && frame.endContexts.back().delegate < 0) {
+                        EndContext& lazy = frame.endContexts.back();
+                        const std::string& field = std::get<std::string>(chunk.constants.get(ins.A));
+                        // B - 1: depth of base on the stack; C: base is named, args start below
+                        std::ptrdiff_t slot = -1;
+                        if (ins.B != 0) {
+                            slot = static_cast<std::ptrdiff_t>(stack.size()) - ins.B;
+                        } else if (ins.C != 0) {
+                            slot = static_cast<std::ptrdiff_t>(stack.size())
+                                - static_cast<std::ptrdiff_t>(lazy.index);
+                        }
+                        if (slot >= 0 && !frame.resolvedDotReads.empty()
+                            && frame.resolvedDotReads.back().slot == static_cast<size_t>(slot)
+                            && frame.resolvedDotReads.back().field == field) {
+                            // an earlier argument already read base.field
+                            lazy.base = frame.resolvedDotReads.back().value;
+                        } else {
+                            lazy.field = field;
+                            lazy.readSlot = slot;
+                        }
+                    }
+                    break;
                 case OpCode::LOAD_END: {
                     if (frame.endContexts.empty()) {
                         Error(L"Nelson:interpreter:illegalEnd", L"END keyword illegal!");
                     }
-                    const EndContext& endContext = frame.endContexts.back();
+                    size_t endAt = frame.endContexts.size() - 1;
+                    while (frame.endContexts[endAt].delegate >= 0) {
+                        endAt = static_cast<size_t>(frame.endContexts[endAt].delegate);
+                    }
+                    if (frame.endContexts[endAt].illegal) {
+                        Error(L"Nelson:interpreter:illegalEnd", L"END keyword illegal!");
+                    }
+                    if (!frame.endContexts[endAt].field.empty()) {
+                        EndContext& lazy = frame.endContexts[endAt];
+                        lazy.base = readDottedPathForEnd(eval, lazy.base, lazy.field);
+                        if (lazy.readSlot >= 0) {
+                            // the instruction reading base.field(args) indexes this value instead
+                            frame.resolvedDotReads.push_back(ResolvedDotRead {
+                                static_cast<size_t>(lazy.readSlot), lazy.field, lazy.base });
+                            lazy.readSlot = -1;
+                        }
+                        lazy.field.clear();
+                    }
+                    const EndContext& endContext = frame.endContexts[endAt];
                     // only a class or a handle may overload end
                     if (!endContext.base.isClassType() && !endContext.base.isHandle()) {
                         stack.push_back(ArrayOf::doubleScalar(Evaluator::endSubscriptValue(
@@ -7689,6 +7802,17 @@ namespace bcvm_detail {
                         if (!hasVariable) {
                             hasVariable = context->lookupVariable(headName, variable);
                         }
+                        ArrayOf resolvedField;
+                        if (hasVariable && !frame.resolvedDotReads.empty() && className == headName
+                            && takeResolvedDotRead(frame, stack.size(), memberName, resolvedField)) {
+                            // `end` in the arguments already read variable.member: index it
+                            pushParenSubset(resolvedField, args, INST_FLAG_INDEX_ONLY, 0);
+                            ArrayOf value = pop();
+                            for (uint16_t k = 0; k < ins.C; ++k) {
+                                stack.push_back(k == 0 ? value : ArrayOf::empty());
+                            }
+                            break;
+                        }
                         if (hasVariable) {
                             ArrayOf current = applyClassdefMemberMiddlePath(variable, className);
                             ArrayOfVector result;
@@ -8281,6 +8405,18 @@ namespace bcvm_detail {
                     ArrayOfVector params = expandCommaLists(popVector(ins.A));
                     ArrayOf base = pop();
                     const auto& field = std::get<std::string>(chunk.constants.get(ins.B));
+                    ArrayOf resolvedField;
+                    if (!frame.resolvedDotReads.empty()
+                        && takeResolvedDotRead(frame, stack.size(), field, resolvedField)) {
+                        // `end` in the arguments already read base.field: index that value
+                        pushParenSubset(resolvedField, params, ins.flags & ~INST_FLAG_LIST, 0);
+                        if ((ins.flags & INST_FLAG_LIST) != 0) {
+                            ArrayOfVector single;
+                            single.push_back(pop());
+                            stack.push_back(commaListSentinel(single));
+                        }
+                        break;
+                    }
                     ArrayOf tableVariable;
                     if (params.empty() && ins.C == 0
                         && tryFastTableDotVariable(eval, base, field, tableVariable)) {
@@ -8320,15 +8456,6 @@ namespace bcvm_detail {
                                 break;
                             }
                         }
-                        stringVector subtypes;
-                        ArrayOfVector subsindices;
-                        subtypes.push_back(".");
-                        subsindices.push_back(ArrayOf::characterArray(field));
-                        if (ins.C != 0) {
-                            subtypes.push_back("()");
-                            subsindices.push_back(classIndexCell(params));
-                        }
-                        bool haveFunction = false;
                         // A bare statement (INST_FLAG_QUIET) requests no output: `obj.m(args);`
                         // whose body never assigns its declared varargout must run like `m(obj)`,
                         // not with nargout 1. ins.C also means parens-present and is never 0 at
@@ -8336,24 +8463,33 @@ namespace bcvm_detail {
                         int requestedOutputs = (ins.flags & INST_FLAG_QUIET) != 0
                             ? 0
                             : (((ins.flags & INST_FLAG_LIST) != 0 && ins.C != 0) ? ins.C : 1);
-                        if (ins.C != 0) {
+                        ArrayOfVector result;
+                        if (ins.C == 0) {
+                            result = readClassdefDotValue(eval, base, field, requestedOutputs);
+                        } else {
                             ArrayOf propertyValue;
                             if (tryReadClassdefPlainProperty(eval, base, field, propertyValue)
                                 && propertyValue.isFunctionHandle()) {
-                                ArrayOfVector result = invokeFunctionHandleValue(
+                                ArrayOfVector handleResult = invokeFunctionHandleValue(
                                     propertyValue, params, requestedOutputs);
                                 if (ins.flags & INST_FLAG_LIST) {
-                                    stack.push_back(commaListSentinel(result));
+                                    stack.push_back(commaListSentinel(handleResult));
                                     break;
                                 }
-                                stack.push_back(result.empty() ? ArrayOf::empty() : result[0]);
+                                stack.push_back(
+                                    handleResult.empty() ? ArrayOf::empty() : handleResult[0]);
                                 break;
                             }
-                        }
-                        ArrayOfVector result = eval->bytecodeExtractClass(
-                            base, subtypes, subsindices, haveFunction, requestedOutputs);
-                        if (!haveFunction) {
-                            if (ins.C != 0) {
+                            stringVector subtypes;
+                            subtypes.push_back(".");
+                            subtypes.push_back("()");
+                            ArrayOfVector subsindices;
+                            subsindices.push_back(ArrayOf::characterArray(field));
+                            subsindices.push_back(classIndexCell(params));
+                            bool haveFunction = false;
+                            result = eval->bytecodeExtractClass(
+                                base, subtypes, subsindices, haveFunction, requestedOutputs);
+                            if (!haveFunction) {
                                 ArrayOfVector methodResult;
                                 // A property accessed with arguments (obj.prop(args)) is a field
                                 // access followed by an index/call, not a method call, even if a
@@ -8374,20 +8510,6 @@ namespace bcvm_detail {
                                     ArrayOfVector fieldValues
                                         = getClassdefFieldAsList(eval, base, field);
                                     result = indexFirstValue(fieldValues, params);
-                                }
-                            } else {
-                                // a no-argument method accessed without parentheses
-                                // (obj.method) on an instance is invoked, not read
-                                // as a property.
-                                ArrayOfVector methodResult;
-                                if (base.isScalar() && base.isClassType()
-                                    && classdefLoadClass(base.classType())
-                                    && !classdefHasProperty(base.classType(), field)
-                                    && eval->bytecodeInvokeObjectMethodIfExists(
-                                        base, field, {}, 1, methodResult)) {
-                                    result = methodResult;
-                                } else {
-                                    result = getClassdefFieldAsList(eval, base, field);
                                 }
                             }
                         }
@@ -9916,6 +10038,7 @@ namespace bcvm_detail {
                 eval->resetState();
                 stack.clear();
                 frame.endContexts.clear();
+                frame.resolvedDotReads.clear();
                 clearStatementContext();
                 pc = exceptionFrame.catchPC;
             }
@@ -9977,6 +10100,10 @@ namespace bcvm_detail {
         Evaluator* eval, const BytecodeChunk& chunk, const VMCallFrame& frame, int nLhs)
     {
         ArrayOfVector outputs;
+        // exit or abort stopped the body: no output check, the request must reach the top level
+        if (eval->getState() == NLS_STATE_ABORT || eval->isQuitOrForceQuitState()) {
+            return outputs;
+        }
         bool hasVarargout = !chunk.retNames.empty() && chunk.retNames.back() == "varargout";
         if (!hasVarargout) {
             if (nLhs > static_cast<int>(chunk.retNames.size())) {

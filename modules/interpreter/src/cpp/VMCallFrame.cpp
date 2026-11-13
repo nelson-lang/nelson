@@ -39,6 +39,7 @@ VMCallFrame::init(const BytecodeChunk& ch, int requestedLhs)
     }
     exceptionFrames.clear();
     endContexts.clear();
+    resolvedDotReads.clear();
     profTic = 0;
     nArgIn = -1;
     skipDebugStatements = false;

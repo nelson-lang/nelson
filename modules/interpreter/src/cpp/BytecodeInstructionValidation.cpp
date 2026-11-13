@@ -199,6 +199,8 @@ namespace {
         { OpCode::ASSIGN_LOCAL_FIELD, Operand::Local, Operand::Local, Operand::Text },
         { OpCode::ASSIGN_LOCAL_CONTENT, Operand::Local, Operand::Local, Operand::Local },
         { OpCode::OP_MLDIV_TRANSPOSED, Operand::Value, Operand::Zero, Operand::Zero },
+        { OpCode::PUSH_END_CTX_NAMED, Operand::Name, Operand::Value, Operand::Value },
+        { OpCode::END_CTX_FIELD, Operand::Text, Operand::Value, Operand::Value },
     };
     //=============================================================================
     static_assert(std::size(rules) == static_cast<size_t>(OpCode::OPCODE_COUNT));

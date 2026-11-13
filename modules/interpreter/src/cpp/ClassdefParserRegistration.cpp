@@ -33,6 +33,8 @@ namespace Nelson::classdef_detail {
 static bool
 definesStaticEmpty(const ClassdefDefinition& definition);
 //=============================================================================
+static bool retireGeneratedFunctions = false;
+//=============================================================================
 void
 registerGeneratedFunction(const std::string& key, MacroFunctionDef* macro)
 {
@@ -47,7 +49,24 @@ registerGeneratedFunction(const std::string& key, MacroFunctionDef* macro)
 void
 unregisterGeneratedFunction(const std::string& key)
 {
-    FunctionsInMemory::getInstance()->deleteMFunction(key);
+    if (retireGeneratedFunctions) {
+        FunctionsInMemory::getInstance()->retireUnresolvable(key);
+    } else {
+        FunctionsInMemory::getInstance()->deleteMFunction(key);
+    }
+}
+//=============================================================================
+void
+retireClassdefGeneratedFunctions(const ClassdefDefinition& definition)
+{
+    retireGeneratedFunctions = true;
+    try {
+        unregisterClassdefGeneratedFunctions(definition);
+    } catch (...) {
+        retireGeneratedFunctions = false;
+        throw;
+    }
+    retireGeneratedFunctions = false;
 }
 //=============================================================================
 void

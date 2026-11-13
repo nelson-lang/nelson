@@ -107,6 +107,8 @@ bool
 Context::lookupFunctionWithoutImports(const std::string& funcName, FunctionDefPtr& val)
 {
     bool found = false;
+    // one relaxed load unless a class file changed on disk
+    PathFunctionIndexerManager::applyPendingClassFileChanges();
     if (FunctionsInMemory::getInstance()->find(funcName, val)) {
         if (val->type() != NLS_MACRO_FUNCTION && val->type() != NLS_MEX_FUNCTION) {
             return true;

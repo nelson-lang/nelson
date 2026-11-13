@@ -336,6 +336,10 @@ opCodeName(OpCode op)
         return "ASSIGN_LOCAL_CONTENT";
     case OpCode::OP_MLDIV_TRANSPOSED:
         return "OP_MLDIV_TRANSPOSED";
+    case OpCode::PUSH_END_CTX_NAMED:
+        return "PUSH_END_CTX_NAMED";
+    case OpCode::END_CTX_FIELD:
+        return "END_CTX_FIELD";
     case OpCode::OPCODE_COUNT:
         return "OPCODE_COUNT";
     }
