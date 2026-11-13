@@ -7,12 +7,15 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <algorithm>
 #include <QtGui/QGuiApplication>
 #include <QtGui/QMoveEvent>
 #include <QtGui/QScreen>
 #include <QtWidgets/QLayout>
 #include "GOWindow.hpp"
 #include "BaseFigureQt.hpp"
+#include "GOPropertyNames.hpp"
+#include "GOPropertyValues.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -59,14 +62,30 @@ GOWindow::setFigureGeometryFromInnerPosition(int x, int y, int width, int height
             chromeTop = drawingArea->y();
         }
     }
+    // Keep the window inside the available screen area: a window the OS shrinks to fit
+    // never reaches the requested drawing size, and the canvas then stays unpainted.
+    QScreen* targetScreen = screen() ? screen() : QGuiApplication::primaryScreen();
+    if (targetScreen && goFig
+        && goFig->stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR)) {
+        const QRect available = targetScreen->availableGeometry();
+        // Before the first show the frame is not measured yet: assume a title bar.
+        int frameExtra = frameGeometry().height() - geometry().height();
+        if (frameExtra <= 0) {
+            frameExtra = 32;
+        }
+        width = std::max(1, std::min(width, available.width() - chromeWidth));
+        height = std::max(1, std::min(height, available.height() - chromeHeight - frameExtra));
+    }
     int windowTop = screenHeight - height - y - chromeTop;
     if (windowTop < 0) {
         windowTop = 0;
     }
-    setGeometry(x, windowTop, width + chromeWidth, height + chromeHeight);
+    // Record the request first: setGeometry resizes the drawing area synchronously and
+    // its resizeEvent refits the window to requestedInner*, which must not be stale.
     requestedInnerWidth = width;
     requestedInnerHeight = height;
     drawingAreaRefitDone = false;
+    setGeometry(x, windowTop, width + chromeWidth, height + chromeHeight);
     // the drawing area reported the size during setGeometry on most platforms: when it has
     // not (Cocoa resizes later), the size is applied now and the report must still run the
     // SizeChangedFcn
