@@ -2296,14 +2296,16 @@ loadFunctionsFmi1(fmuHandle* fmu)
         return false;
     }
 #else
-    char cmd[FILENAME_MAX] = { 0 };
-    strcat(cmd, "chmod +x ");
-    strcat(cmd, dllPath);
-    system(cmd);
+    // An FMU may ship no binary for this platform (description only): fail quietly.
+    struct stat dllStat;
+    if (stat(dllPath, &dllStat) != 0) {
+        return false;
+    }
+    chmod(dllPath, dllStat.st_mode | S_IXUSR | S_IXGRP | S_IXOTH);
 
     void* dll = dlopen(dllPath, RTLD_NOW | RTLD_LOCAL);
     if (NULL == dll) {
-        printf("Loading shared object failed: %s (%s)\n", dllPath, dlerror());
+        fprintf(stderr, "Loading shared object failed: %s (%s)\n", dllPath, dlerror());
         return false;
     }
 #endif
@@ -2482,14 +2484,16 @@ loadFunctionsFmi2(fmuHandle* fmu, fmi2Type fmuType)
         return false;
     }
 #else
-    char cmd[FILENAME_MAX] = { 0 };
-    strcat(cmd, "chmod +x ");
-    strcat(cmd, dllPath);
-    system(cmd);
+    // An FMU may ship no binary for this platform (description only): fail quietly.
+    struct stat dllStat;
+    if (stat(dllPath, &dllStat) != 0) {
+        return false;
+    }
+    chmod(dllPath, dllStat.st_mode | S_IXUSR | S_IXGRP | S_IXOTH);
 
     void* dll = dlopen(dllPath, RTLD_NOW | RTLD_LOCAL);
     if (NULL == dll) {
-        printf("Loading shared object failed: %s (%s)\n", dllPath, dlerror());
+        fprintf(stderr, "Loading shared object failed: %s (%s)\n", dllPath, dlerror());
         return false;
     }
 #endif
@@ -2655,14 +2659,16 @@ loadFunctionsFmi3(fmuHandle* fmu, fmi3Type fmuType)
         return false;
     }
 #else
-    char cmd[FILENAME_MAX] = { 0 };
-    strcat(cmd, "chmod +x ");
-    strcat(cmd, dllPath);
-    system(cmd);
+    // An FMU may ship no binary for this platform (description only): fail quietly.
+    struct stat dllStat;
+    if (stat(dllPath, &dllStat) != 0) {
+        return false;
+    }
+    chmod(dllPath, dllStat.st_mode | S_IXUSR | S_IXGRP | S_IXOTH);
 
     void* dll = dlopen(dllPath, RTLD_NOW | RTLD_LOCAL);
     if (NULL == dll) {
-        printf("Loading shared object fejlade: %s (%s)\n", dllPath, dlerror());
+        fprintf(stderr, "Loading shared object failed: %s (%s)\n", dllPath, dlerror());
         return false;
     }
 #endif
