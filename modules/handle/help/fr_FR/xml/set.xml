@@ -7,6 +7,8 @@
   >Définit la valeur d&apos;une propriété d&apos;un objet handle.</short_description>
   <syntax>
     <syntax_item>R = set(h, property_name, value)</syntax_item>
+    <syntax_item>set(h, s)</syntax_item>
+    <syntax_item>set(h, names, values)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -21,6 +23,21 @@
       <param_name>value</param_name>
       <param_description>une variable.</param_description>
     </param_input_item>
+    <param_input_item>
+      <param_name>s</param_name>
+      <param_description
+      >une structure : les noms de champs sont des noms de propriétés, les valeurs des champs sont les valeurs.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>names</param_name>
+      <param_description
+      >un tableau de cellules de N noms de propriétés (vecteurs de caractères ou chaînes scalaires).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>values</param_name>
+      <param_description
+      >un tableau de cellules 1xN de valeurs pour tous les objets, ou MxN avec la ligne k pour le k-ième des M objets graphiques.</param_description>
+    </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
@@ -32,6 +49,14 @@
   <description>
     <p
     >Cette routine peut être utilisée pour modifier la valeur d&apos;une propriété spécifiée d&apos;un objet handle.</p>
+    <p
+    >Pour les objets graphiques, set(h, s) affecte chaque champ de la structure s comme propriété. Avec un tableau de structures, chaque élément est appliqué tour à tour.</p>
+    <p
+    >set(h, names, values) affecte les propriétés listées dans le tableau de cellules names avec les valeurs correspondantes.</p>
+    <p
+    >Les propriétés sont appliquées dans l'ordre donné : Position donnée avant Units est convertie dans les nouvelles unités.</p>
+    <p
+    >Les formes structure, cellules et nom/valeur peuvent être combinées dans un même appel.</p>
   </description>
   <used_function />
   <bibliography />
@@ -50,6 +75,10 @@
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>set(h, s) et set(h, names, values) pour les objets graphiques.</history_description>
     </history_item>
   </history>
   <authors>

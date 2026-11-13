@@ -59,8 +59,11 @@ setTiledLayoutProperty(GraphicsObject* fp, const std::wstring& propname, ArrayOf
 static void
 updateParentTiledLayoutIfNeeded(GraphicsObject* fp);
 //=============================================================================
-static void
+static bool
 setObjectReferenceProperty(GraphicsObject* fp, const std::wstring& propname, ArrayOf value);
+//=============================================================================
+static bool
+sameObjectReferences(const std::vector<int64>& handles, const ArrayOf& value);
 //=============================================================================
 static void
 setContextMenuProperty(GraphicsObject* fp, ArrayOf value);
@@ -129,6 +132,8 @@ isPolarGridProperty(const std::wstring& propname);
 //=============================================================================
 static void
 refreshPolarGrid(GraphicsObject* axisObject);
+static bool
+isPolarStateSync(const std::wstring& propname, const ArrayOf& value);
 //=============================================================================
 static bool
 isHeatmapChartProperty(const std::wstring& propname);
@@ -144,6 +149,19 @@ refreshWordCloudChart(GraphicsObject* chartObject);
 //=============================================================================
 static ArrayOf
 choicesCellFromProperty(GraphicsObject* fp, const std::wstring& propname);
+//=============================================================================
+static std::vector<ArrayOfVector>
+expandNameValueArguments(const ArrayOfVector& argIn, indexType nbHandles);
+//=============================================================================
+static void
+appendStructPairs(const ArrayOf& value, std::vector<ArrayOfVector>& pairsPerHandle);
+//=============================================================================
+static void
+appendCellPairs(
+    const ArrayOf& names, const ArrayOf& values, std::vector<ArrayOfVector>& pairsPerHandle);
+//=============================================================================
+static bool
+isTextArgument(const ArrayOf& value);
 //=============================================================================
 ArrayOfVector
 graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
@@ -165,7 +183,11 @@ graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
     nelson_handle* gobjects = (nelson_handle*)(argIn[0].dataPointer());
     indexType nbElements = argIn[0].elementCount();
+    // Struct and name/value cell forms expand to one name/value list per handle.
+    const std::vector<ArrayOfVector> pairsPerHandle
+        = expandNameValueArguments(argIn, nbElements);
     for (indexType k = 0; k < nbElements; k++) {
+        const ArrayOfVector& pairs = pairsPerHandle[k];
         GraphicsObject* fp = nullptr;
         if (gobjects[k] == HANDLE_ROOT_OBJECT) {
             fp = getGraphicsRootObject();
@@ -178,13 +200,13 @@ graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
             Error(L"Nelson:graphics:invalidHandle", L"Invalid handle.");
         }
         // UserData and the color/line-style cycling indexes never affect the object state.
-        const std::wstring singlePropertyName = argIn.size() == 3
-            ? canonicalObjectPropertyName(fp, argIn[1].asWideString())
+        const std::wstring singlePropertyName = pairs.size() == 2
+            ? canonicalObjectPropertyName(fp, pairs[0].asWideString())
             : std::wstring();
         const bool userDataOnlyUpdate = singlePropertyName == GO_USER_DATA_PROPERTY_NAME_STR
             || singlePropertyName == GO_COLOR_ORDER_INDEX_PROPERTY_NAME_STR
             || singlePropertyName == GO_LINE_STYLE_ORDER_INDEX_PROPERTY_NAME_STR;
-        int ptr = 1;
+        size_t ptr = 0;
         bool objectChanged = false;
         std::vector<std::pair<GOGenericProperty*, ArrayOf>> savedPropertyValues;
         // A child edit can move the automatic limits of its axes.
@@ -192,36 +214,37 @@ graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
         bool limitsAffected = false;
         bool autoLimitsRequested = false;
         bool polarGridRefreshNeeded = false;
+        bool polarStateSync = false;
         bool heatmapRefreshNeeded = false;
         bool wordcloudRefreshNeeded = false;
         std::vector<std::wstring> namesSetInCall;
         std::vector<std::wstring> gridModesForcedAuto;
-        while (argIn.size() >= (ptr + 2)) {
-            std::wstring propname = argIn[ptr].asWideString();
+        while (ptr + 1 < pairs.size()) {
+            std::wstring propname = pairs[ptr].asWideString();
             if (fp->isType(GO_PROPERTY_VALUE_ROOT_STR)
                 && static_cast<GORoot*>(fp)->isDefaultPropertyName(propname)) {
-                static_cast<GORoot*>(fp)->setDefaultProperty(propname, argIn[ptr + 1]);
+                static_cast<GORoot*>(fp)->setDefaultProperty(propname, pairs[ptr + 1]);
                 objectChanged = true;
             } else {
                 propname = canonicalObjectPropertyName(fp, propname);
                 if (fp->isType(GO_PROPERTY_VALUE_ROOT_STR)
                     && propname == GO_CURRENT_FIGURE_PROPERTY_NAME_STR) {
-                    static_cast<GORoot*>(fp)->setCurrentFigureProperty(argIn[ptr + 1]);
+                    static_cast<GORoot*>(fp)->setCurrentFigureProperty(pairs[ptr + 1]);
                     objectChanged = true;
                 } else if (fp->isType(GO_PROPERTY_VALUE_ROOT_STR)
                     && propname == GO_PARENT_PROPERTY_NAME_STR) {
-                    if (!argIn[ptr + 1].isEmpty()) {
+                    if (!pairs[ptr + 1].isEmpty()) {
                         Error(L"Nelson:set:invalidRootParent", L"Invalid root parent.");
                     }
                 } else if (propname == GO_CHILDREN_PROPERTY_NAME_STR) {
-                    setChildren(fp, argIn[ptr + 1]);
+                    setChildren(fp, pairs[ptr + 1]);
                     objectChanged = true;
                 } else if (propname == GO_PARENT_PROPERTY_NAME_STR) {
-                    setParent(fp, argIn[ptr + 1]);
+                    setParent(fp, pairs[ptr + 1]);
                     objectChanged = true;
                 } else if (fp->getType() == GO_PROPERTY_VALUE_TILED_LAYOUT_STR) {
                     objectChanged
-                        = setTiledLayoutProperty(fp, propname, argIn[ptr + 1]) || objectChanged;
+                        = setTiledLayoutProperty(fp, propname, pairs[ptr + 1]) || objectChanged;
                 } else {
                     try {
                         checkPropertyAppliesToObject(fp, propname);
@@ -231,22 +254,31 @@ graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
                             if (fp->isType(GO_PROPERTY_VALUE_FIGURE_STR)
                                 && propname == GO_THEME_PROPERTY_NAME_STR) {
                                 static_cast<GOFigure*>(fp)->setTheme(
-                                    themeNameFromValue(argIn[ptr + 1]), true);
+                                    themeNameFromValue(pairs[ptr + 1]), true);
                             } else if (fp->isType(GO_PROPERTY_VALUE_FIGURE_STR)
                                 && propname == GO_THEME_MODE_PROPERTY_NAME_STR) {
                                 static_cast<GOFigure*>(fp)->setThemeMode(
-                                    argIn[ptr + 1].asWideString());
+                                    pairs[ptr + 1].asWideString());
                             } else if (!fp->isWritable(propname) && fp->haveProperty(propname)) {
+                                // A nested assignment such as l.Title.String = 'x' writes the
+                                // same handle back; that is not a change.
+                                auto* handles = dynamic_cast<GOGObjectsProperty*>(hp);
+                                if (handles
+                                    && sameObjectReferences(handles->data(), pairs[ptr + 1])) {
+                                    ptr += 2;
+                                    continue;
+                                }
                                 Error(L"Nelson:graphics:readOnlyProperty",
                                     L"Property is read-only: %s", propname);
                             }
                             if (propname == GO_CONTEXT_MENU_PROPERTY_NAME_STR) {
-                                setContextMenuProperty(fp, argIn[ptr + 1]);
+                                setContextMenuProperty(fp, pairs[ptr + 1]);
                                 objectChanged = true;
                             } else if (isReplaceableTextReferenceProperty(propname)
                                 && dynamic_cast<GOGObjectsProperty*>(hp)) {
-                                setObjectReferenceProperty(fp, propname, argIn[ptr + 1]);
-                                objectChanged = true;
+                                objectChanged
+                                    = setObjectReferenceProperty(fp, propname, pairs[ptr + 1])
+                                    || objectChanged;
                             } else if (!(fp->isType(GO_PROPERTY_VALUE_FIGURE_STR)
                                            && (propname == GO_THEME_PROPERTY_NAME_STR
                                                || propname == GO_THEME_MODE_PROPERTY_NAME_STR))) {
@@ -254,29 +286,40 @@ graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
                                 // <Name>Mode property from auto to manual, even
                                 // when the stored value does not change.
                                 if (isGridModeSetAfterValue(
-                                        propname, argIn[ptr + 1], namesSetInCall)) {
+                                        propname, pairs[ptr + 1], namesSetInCall)) {
                                     gridModesForcedAuto.push_back(propname);
                                 }
                                 namesSetInCall.push_back(propname);
+                                if (isPolarStateSync(propname, pairs[ptr + 1])) {
+                                    polarStateSync = true;
+                                }
                                 std::wstring modePropertyName = propname + L"Mode";
                                 bool flipsAutoMode = fp->haveProperty(modePropertyName)
                                     && fp->isAuto(modePropertyName);
                                 const bool valueAlreadySet
-                                    = propertyValueAlreadySet(hp, argIn[ptr + 1]);
+                                    = propertyValueAlreadySet(hp, pairs[ptr + 1]);
                                 const bool refreshesTitleLayout
                                     = propname == GO_TITLE_HORIZONTAL_ALIGNMENT_PROPERTY_NAME_STR;
                                 if (valueAlreadySet
-                                    && isAutoLimitModeRequest(fp, propname, argIn[ptr + 1])) {
+                                    && isAutoLimitModeRequest(fp, propname, pairs[ptr + 1])) {
                                     autoLimitsRequested = true;
                                 }
                                 if (!valueAlreadySet || flipsAutoMode || refreshesTitleLayout) {
                                     savedPropertyValues.emplace_back(hp, hp->get());
-                                    hp->set(argIn[ptr + 1]);
+                                    hp->set(pairs[ptr + 1]);
+                                    if (flipsAutoMode) {
+                                        // An equal enumerated value is not flagged by set().
+                                        hp->setModified(true);
+                                    }
                                     objectChanged = true;
                                     limitsAffected = limitsAffected
                                         || (limitsOwner && canMoveAutoLimits(propname));
                                     if (isPolarGridProperty(propname)) {
                                         polarGridRefreshNeeded = true;
+                                    }
+                                    if (propname == GO_VISIBLE_PROPERTY_NAME_STR
+                                        && dynamic_cast<GOAxis*>(fp)) {
+                                        static_cast<GOAxis*>(fp)->syncPolarTitleVisibility();
                                     }
                                     if (fp->isType(GO_PROPERTY_VALUE_HEATMAP_STR)
                                         && isHeatmapChartProperty(propname)) {
@@ -348,7 +391,8 @@ graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
             }
             // Rebuild the polar grid before the figure repaints, so the grid and
             // the plotted data share the new orientation and styling.
-            if (polarGridRefreshNeeded) {
+            // The polar .m code writing its own state rebuilds the grid itself.
+            if (polarGridRefreshNeeded && !polarStateSync) {
                 refreshPolarGrid(fp);
             }
             // Rebuild the heatmap's internal primitives so a changed property
@@ -400,8 +444,23 @@ isPolarGridProperty(const std::wstring& propname)
               GO_R_GRID_PROPERTY_NAME_STR, GO_THETA_GRID_PROPERTY_NAME_STR,
               GO_R_MINOR_GRID_PROPERTY_NAME_STR, GO_THETA_MINOR_GRID_PROPERTY_NAME_STR,
               GO_R_DIR_PROPERTY_NAME_STR, GO_R_AXIS_LOCATION_PROPERTY_NAME_STR,
-              GO_R_MINOR_TICK_PROPERTY_NAME_STR, GO_THETA_MINOR_TICK_PROPERTY_NAME_STR };
+              GO_R_AXIS_LOCATION_MODE_PROPERTY_NAME_STR, GO_R_MINOR_TICK_PROPERTY_NAME_STR,
+              GO_THETA_MINOR_TICK_PROPERTY_NAME_STR, GO_R_LIM_PROPERTY_NAME_STR,
+              GO_R_LIM_MODE_PROPERTY_NAME_STR, GO_R_TICK_PROPERTY_NAME_STR,
+              GO_R_TICK_MODE_PROPERTY_NAME_STR, GO_R_TICK_LABEL_PROPERTY_NAME_STR,
+              GO_R_TICK_LABEL_MODE_PROPERTY_NAME_STR, GO_THETA_AXIS_UNITS_PROPERTY_NAME_STR,
+              GO_THETA_LIM_PROPERTY_NAME_STR, GO_THETA_LIM_MODE_PROPERTY_NAME_STR,
+              GO_THETA_TICK_PROPERTY_NAME_STR, GO_THETA_TICK_MODE_PROPERTY_NAME_STR,
+              GO_THETA_TICK_LABEL_PROPERTY_NAME_STR, GO_THETA_TICK_LABEL_MODE_PROPERTY_NAME_STR };
     return std::find(names.begin(), names.end(), propname) != names.end();
+}
+//=============================================================================
+// A set carrying the polar state struct in UserData comes from the polar .m code.
+static bool
+isPolarStateSync(const std::wstring& propname, const ArrayOf& value)
+{
+    return propname == GO_USER_DATA_PROPERTY_NAME_STR && value.isStruct() && value.isScalar()
+        && value.isField("PolarAxes");
 }
 //=============================================================================
 // Grid lines and labels of a polar axes are static .m handles built once by
@@ -808,12 +867,16 @@ isReplaceableTextReferenceProperty(const std::wstring& propname)
         || propname == GO_Z_LABEL_PROPERTY_NAME_STR || propname == GO_LABEL_PROPERTY_NAME_STR;
 }
 //=============================================================================
-static void
+static bool
 setObjectReferenceProperty(GraphicsObject* fp, const std::wstring& propname, ArrayOf value)
 {
     GOGObjectsProperty* hp = static_cast<GOGObjectsProperty*>(fp->findProperty(propname));
     std::vector<int64> oldHandles(hp->data());
-    hp->set(value);
+    // Re-assigning the same text object does not flag it, so its fonts are not resynced.
+    const bool changed = !sameObjectReferences(oldHandles, value);
+    if (changed) {
+        hp->set(value);
+    }
     std::vector<int64> newHandles(hp->data());
     std::vector<int64> childHandles;
     GOGObjectsProperty* children
@@ -856,6 +919,7 @@ setObjectReferenceProperty(GraphicsObject* fp, const std::wstring& propname, Arr
             }
         }
     }
+    return changed;
 }
 //=============================================================================
 static void
@@ -1157,6 +1221,143 @@ setChildren(GraphicsObject* fp, ArrayOf childrenToAdd)
         return;
     }
     hp->set(childrenToAdd);
+}
+//=============================================================================
+static bool
+isTextArgument(const ArrayOf& value)
+{
+    return value.isRowVectorCharacterArray() || value.isScalarStringArray();
+}
+//=============================================================================
+static std::vector<ArrayOfVector>
+expandNameValueArguments(const ArrayOfVector& argIn, indexType nbHandles)
+{
+    std::vector<ArrayOfVector> pairsPerHandle(static_cast<size_t>(nbHandles));
+    size_t ptr = 1;
+    while (ptr < argIn.size()) {
+        const ArrayOf& current = argIn[ptr];
+        if (current.isStruct()) {
+            appendStructPairs(current, pairsPerHandle);
+            ptr++;
+            continue;
+        }
+        const bool isNameCell = current.isCell();
+        if (!isNameCell && !isTextArgument(current) && argIn.size() == 2) {
+            Error(L"Nelson:set:invalidArgument",
+                L"Expected property name/value pairs, a struct or a cell array of property "
+                L"names.");
+        }
+        if (ptr + 1 >= argIn.size()) {
+            if (isNameCell && argIn.size() == 2) {
+                Error(L"Nelson:set:invalidArgument",
+                    L"Expected property name/value pairs, a struct or a cell array of property "
+                    L"names.");
+            }
+            Error(L"Nelson:set:invalidPairs", L"Property names and values must come in pairs.");
+        }
+        if (isNameCell) {
+            if (!argIn[ptr + 1].isCell()) {
+                Error(
+                    L"Nelson:set:invalidPairs", L"Property names and values must come in pairs.");
+            }
+            appendCellPairs(current, argIn[ptr + 1], pairsPerHandle);
+        } else {
+            if (!isTextArgument(current)) {
+                Error(
+                    L"Nelson:set:invalidPairs", L"Property names and values must come in pairs.");
+            }
+            for (ArrayOfVector& pairs : pairsPerHandle) {
+                pairs.push_back(current);
+                pairs.push_back(argIn[ptr + 1]);
+            }
+        }
+        ptr += 2;
+    }
+    return pairsPerHandle;
+}
+//=============================================================================
+// Each struct element applies its fields in order, to every handle.
+static void
+appendStructPairs(const ArrayOf& value, std::vector<ArrayOfVector>& pairsPerHandle)
+{
+    const stringVector names = value.fieldNames();
+    std::vector<ArrayOfVector> fieldValues;
+    fieldValues.reserve(names.size());
+    for (const std::string& name : names) {
+        fieldValues.push_back(value.fieldAsList(name));
+    }
+    const indexType nbStructElements = value.elementCount();
+    for (indexType e = 0; e < nbStructElements; e++) {
+        for (size_t f = 0; f < names.size(); f++) {
+            const ArrayOf nameValue = ArrayOf::characterArray(names[f]);
+            for (ArrayOfVector& pairs : pairsPerHandle) {
+                pairs.push_back(nameValue);
+                pairs.push_back(fieldValues[f][e]);
+            }
+        }
+    }
+}
+//=============================================================================
+// Value cell is 1-by-N (shared) or M-by-N (row k for handle k), N names.
+static void
+appendCellPairs(
+    const ArrayOf& names, const ArrayOf& values, std::vector<ArrayOfVector>& pairsPerHandle)
+{
+    const indexType nbNames = names.elementCount();
+    const ArrayOf* nameElements = static_cast<const ArrayOf*>(names.dataPointer());
+    for (indexType n = 0; n < nbNames; n++) {
+        const ArrayOf& name = nameElements[n];
+        if (!(name.isCharacterArray() || name.isScalarStringArray())
+            || name.asWideString().empty()) {
+            Error(L"Nelson:set:invalidNameCell",
+                L"Property names in a cell array must be non-empty character vectors or string "
+                L"scalars.");
+        }
+    }
+    const indexType nbHandles = static_cast<indexType>(pairsPerHandle.size());
+    const indexType nbValues = values.elementCount();
+    const indexType nbRows = values.dimensions().rows();
+    const indexType nbColumns = nbRows == 0 ? 0 : nbValues / nbRows;
+    if (nbColumns != nbNames && !(nbRows == 0 && values.dimensions().columns() == nbNames)) {
+        if (nbValues != nbNames) {
+            Error(L"Nelson:set:nameValueCellMismatch",
+                L"Value cell array size does not match the property name cell array.");
+        }
+        if (nbRows == nbHandles) {
+            Error(L"Nelson:set:valueCellPerProperty",
+                L"Value cell array must hold one value per property for each handle.");
+        }
+        Error(L"Nelson:set:valueCellRows",
+            L"Value cell array must have one row, or one row per handle.");
+    }
+    if (nbNames == 0) {
+        return;
+    }
+    if (nbRows != 1 && nbRows != nbHandles) {
+        Error(L"Nelson:set:valueCellRows",
+            L"Value cell array must have one row, or one row per handle.");
+    }
+    const ArrayOf* valueElements = static_cast<const ArrayOf*>(values.dataPointer());
+    for (indexType h = 0; h < nbHandles; h++) {
+        const indexType row = nbRows == 1 ? 0 : h;
+        for (indexType n = 0; n < nbNames; n++) {
+            pairsPerHandle[h].push_back(ArrayOf::characterArray(nameElements[n].asWideString()));
+            pairsPerHandle[h].push_back(valueElements[row + n * nbRows]);
+        }
+    }
+}
+//=============================================================================
+static bool
+sameObjectReferences(const std::vector<int64>& handles, const ArrayOf& value)
+{
+    if (value.isEmpty()) {
+        return handles.empty();
+    }
+    if (!value.isGraphicsObject() || value.elementCount() != handles.size()) {
+        return false;
+    }
+    const int64* dp = static_cast<const int64*>(value.dataPointer());
+    return std::equal(handles.begin(), handles.end(), dp);
 }
 //=============================================================================
 } // namespace Nelson::GraphicsGateway

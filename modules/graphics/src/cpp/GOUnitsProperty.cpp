@@ -29,15 +29,34 @@ GOUnitsProperty::set(ArrayOf arg)
     // (e.g. 'n' -> 'normalized'). Record the unit in effect before the change for conversions.
     std::wstring before = data();
     GORestrictedStringProperty::set(arg);
-    if (data() != before) {
-        previousUnits = before;
-    }
+    previousUnits = before;
+    setOrder = nextUnitsPositionSetOrder();
 }
 //=============================================================================
 std::wstring
 GOUnitsProperty::getPreviousUnits()
 {
     return previousUnits;
+}
+//=============================================================================
+void
+GOUnitsProperty::resetUnits(const std::wstring& units)
+{
+    data(units);
+    previousUnits = units;
+}
+//=============================================================================
+uint64_t
+GOUnitsProperty::getSetOrder()
+{
+    return setOrder;
+}
+//=============================================================================
+uint64_t
+nextUnitsPositionSetOrder()
+{
+    static uint64_t order = 0;
+    return ++order;
 }
 //=============================================================================
 } // namespace Nelson

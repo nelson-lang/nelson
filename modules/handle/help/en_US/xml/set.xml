@@ -7,6 +7,8 @@
   >Set a property value of an handle object.</short_description>
   <syntax>
     <syntax_item>R = set(h, property_name, value)</syntax_item>
+    <syntax_item>set(h, s)</syntax_item>
+    <syntax_item>set(h, names, values)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -21,6 +23,21 @@
       <param_name>value</param_name>
       <param_description>a variable.</param_description>
     </param_input_item>
+    <param_input_item>
+      <param_name>s</param_name>
+      <param_description
+      >a struct: field names are property names, field values are property values.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>names</param_name>
+      <param_description
+      >a cell array of N property names (character vectors or string scalars).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>values</param_name>
+      <param_description
+      >a 1-by-N cell array of values for every object, or an M-by-N cell array with row k for the k-th of M graphics objects.</param_description>
+    </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
@@ -32,6 +49,14 @@
   <description>
     <p
     >This routine can be used to modify the value of a specified property from an handle object.</p>
+    <p
+    >For graphics objects, set(h, s) sets each field of the struct s as a property. With a struct array, each element is applied in turn.</p>
+    <p
+    >set(h, names, values) sets the properties listed in the cell array names to the matching values.</p>
+    <p
+    >Properties are applied in the given order: Position given before Units is converted to the new units.</p>
+    <p
+    >Struct, cell and name/value forms can be combined in one call.</p>
   </description>
   <used_function />
   <bibliography />
@@ -50,6 +75,10 @@
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>set(h, s) and set(h, names, values) for graphics objects.</history_description>
     </history_item>
   </history>
   <authors>

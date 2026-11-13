@@ -25,6 +25,9 @@ NLSGRAPHICS_IMPEXP bool
 syncOuterDrivenPositionTriplet(GraphicsObject* object);
 NLSGRAPHICS_IMPEXP bool
 setPositionConstraintIfPresent(GraphicsObject* object, const std::wstring& value);
+// True when the named position was set after Units (it is then in the new units).
+NLSGRAPHICS_IMPEXP bool
+positionSetAfterUnits(GraphicsObject* object, const std::wstring& name);
 NLSGRAPHICS_IMPEXP bool
 syncPositionUnitsTriplet(GraphicsObject* object, const std::wstring& previousUnits,
     const std::wstring& currentUnits, double width, double height, bool pixelOrigin = false);

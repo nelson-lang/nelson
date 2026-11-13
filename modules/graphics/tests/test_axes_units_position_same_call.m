@@ -9,8 +9,8 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
-% an explicit Position is interpreted in the Units given in the same call,
-% whatever the name/value order
+% properties apply in argument order: a Position given after Units is in
+% those units, a Position given before Units is converted
 f = figure('Visible', 'off', 'Position', [100 100 400 300]);
 ax = axes(f, 'Units', 'pixels', 'Position', [50 50 300 200]);
 asserts.isequal(ax.Units, 'pixels');
@@ -19,7 +19,7 @@ asserts.isequal(ax.InnerPosition, [50 50 300 200]);
 %=============================================================================
 ax2 = axes(f, 'Position', [50 50 300 200], 'Units', 'pixels');
 asserts.isequal(ax2.Units, 'pixels');
-asserts.isequal(ax2.Position, [50 50 300 200]);
+asserts.isapprox(ax2.Position, [20001 15001 120000 60000], 1e-9);
 %=============================================================================
 p = uipanel(f, 'Units', 'pixels', 'Position', [20 20 360 260]);
 ax3 = axes('Parent', p, 'Units', 'pixels', 'Position', [30 30 300 200]);

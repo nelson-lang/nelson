@@ -161,9 +161,8 @@ syncPositionUnitsTriplet(GraphicsObject* object, const std::wstring& previousUni
         return false;
     }
     bool converted = false;
-    bool unitsDiffer = previousUnits != currentUnits;
-    if (unitsDiffer) {
-        reconcilePositionPixelOrigin(object);
+    if (previousUnits == currentUnits) {
+        return false;
     }
     const std::wstring names[] = { GO_POSITION_PROPERTY_NAME_STR,
         GO_INNER_POSITION_PROPERTY_NAME_STR, GO_OUTER_POSITION_PROPERTY_NAME_STR };
@@ -171,25 +170,52 @@ syncPositionUnitsTriplet(GraphicsObject* object, const std::wstring& previousUni
         if (!object->haveProperty(name)) {
             continue;
         }
-        // A position set in the same call as new Units is already expressed
-        // in those units, whatever the name/value order: keep it and its
-        // change flag so the position triplet sync still propagates it.
-        if (unitsDiffer && object->hasChanged(name)) {
+        auto* shifted
+            = dynamic_cast<GOPixelOriginPositionProperty*>(object->findProperty(name, false));
+        // properties apply in argument order: a position given after Units is in the new units.
+        if (positionSetAfterUnits(object, name)) {
+            if (shifted) {
+                shifted->reconcileUnits();
+            }
             continue;
         }
         std::vector<double> position = object->findVectorDoubleProperty(name);
         if (!isFourVector(position)) {
             continue;
         }
+        bool wasChanged = object->hasChanged(name);
         if (pixelOrigin) {
             convertPositionPixelOrigin(previousUnits, currentUnits, position, width, height);
         } else {
             convertPosition(previousUnits, currentUnits, position, width, height);
         }
         setFourIfPresent(object, name, position);
+        if (shifted) {
+            shifted->adoptOwnerUnits();
+        }
+        // keep the flag so the position triplet sync still propagates it.
+        if (wasChanged) {
+            object->findProperty(name, false)->setModified(true);
+        }
         converted = true;
     }
     return converted;
+}
+//=============================================================================
+bool
+positionSetAfterUnits(GraphicsObject* object, const std::wstring& name)
+{
+    if (object == nullptr || !object->haveProperty(name) || !object->hasChanged(name)
+        || !object->haveProperty(GO_UNITS_PROPERTY_NAME_STR)) {
+        return false;
+    }
+    auto* position = dynamic_cast<GOFourVectorProperty*>(object->findProperty(name, false));
+    auto* units
+        = dynamic_cast<GOUnitsProperty*>(object->findProperty(GO_UNITS_PROPERTY_NAME_STR, false));
+    if (position == nullptr || units == nullptr) {
+        return false;
+    }
+    return position->getSetOrder() > units->getSetOrder();
 }
 //=============================================================================
 void

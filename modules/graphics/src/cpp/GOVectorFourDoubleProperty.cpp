@@ -31,6 +31,19 @@ GOFourVectorProperty::toWideString()
         + std::to_wstring((at(2))) + L" " + std::to_wstring((at(3))) + L"]";
 }
 //=============================================================================
+void
+GOFourVectorProperty::set(ArrayOf value)
+{
+    GOFixedVectorProperty::set(value);
+    m_setOrder = nextUnitsPositionSetOrder();
+}
+//=============================================================================
+uint64_t
+GOFourVectorProperty::getSetOrder()
+{
+    return m_setOrder;
+}
+//=============================================================================
 bool
 GOPixelOriginPositionProperty::ownerUsesPixels()
 {
@@ -77,6 +90,12 @@ GOPixelOriginPositionProperty::reconcileUnits()
     at(0) += shift;
     at(1) += shift;
     m_shiftedForPixels = pixels;
+}
+//=============================================================================
+void
+GOPixelOriginPositionProperty::adoptOwnerUnits()
+{
+    m_shiftedForPixels = ownerUsesPixels();
 }
 //=============================================================================
 std::wstring

@@ -10,6 +10,7 @@
 #pragma once
 //=============================================================================
 #include "GOFixedVectorProperty.hpp"
+#include <cstdint>
 //=============================================================================
 namespace Nelson {
 class GraphicsObject;
@@ -23,6 +24,13 @@ public:
     value(double x, double y, double z, double w);
     std::wstring
     toWideString() override;
+    void set(ArrayOf) override;
+    // Rank of the last set, compared with the Units rank to know the given order.
+    uint64_t
+    getSetOrder();
+
+private:
+    uint64_t m_setOrder = 0;
 };
 //=============================================================================
 // Position kept zero-based in pixels, seen one-based through get and set.
@@ -39,6 +47,9 @@ public:
     // Re-applies the origin when Units changed after the value was set in the same call.
     void
     reconcileUnits();
+    // Marks the stored value as matching the owner units after a conversion.
+    void
+    adoptOwnerUnits();
 
 private:
     bool
