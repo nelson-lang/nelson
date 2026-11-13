@@ -173,11 +173,66 @@ export function shouldUseSvgMathFallback(userAgent = globalThis.navigator?.userA
   return isWebKit && !isChromium;
 }
 //=============================================================================
+// TeX commands rendered as a single Unicode glyph by the WebKit SVG fallback.
+const TEX_SYMBOLS: Record<string, string> = {
+  ge: '≥',
+  geq: '≥',
+  le: '≤',
+  leq: '≤',
+  ne: '≠',
+  neq: '≠',
+  times: '×',
+  cdot: '·',
+  int: '∫',
+  sum: 'Σ',
+  prod: 'Π',
+  infty: '∞',
+  pm: '±',
+  partial: '∂',
+  to: '→',
+  rightarrow: '→',
+  leftarrow: '←',
+  approx: '≈',
+  degree: '°',
+  alpha: 'α',
+  beta: 'β',
+  gamma: 'γ',
+  delta: 'δ',
+  epsilon: 'ε',
+  zeta: 'ζ',
+  eta: 'η',
+  theta: 'θ',
+  kappa: 'κ',
+  lambda: 'λ',
+  mu: 'μ',
+  nu: 'ν',
+  xi: 'ξ',
+  pi: 'π',
+  rho: 'ρ',
+  sigma: 'σ',
+  tau: 'τ',
+  phi: 'φ',
+  chi: 'χ',
+  psi: 'ψ',
+  omega: 'ω',
+  Gamma: 'Γ',
+  Delta: 'Δ',
+  Theta: 'Θ',
+  Lambda: 'Λ',
+  Pi: 'Π',
+  Sigma: 'Σ',
+  Phi: 'Φ',
+  Omega: 'Ω',
+};
+//=============================================================================
 export function texToSvgText(tex: string): string {
   let text = String(tex || '')
-    .replace(/\\(?:left|right|scriptsize|small|displaystyle|textstyle)/g, '')
+    .replace(/\\(?:left|right|scriptsize|small|displaystyle|textstyle)(?![A-Za-z])/g, '')
     .replace(/\\!/g, '')
-    .replace(/\\(?:mathsf|mathrm|mathbf|text|operatorname)\{([^{}]*)\}/g, '$1')
+    .replace(
+      /\\(?:mathsf|mathrm|mathbf|mathtt|mathit|mathcal|boldsymbol|text|texttt|operatorname)\{([^{}]*)\}/g,
+      '$1'
+    )
     .replace(/\^\{([^{}]*)\}/g, '^$1')
     .replace(/_\{([^{}]*)\}/g, '_$1');
   for (let pass = 0; pass < 4; pass += 1) {
@@ -187,12 +242,7 @@ export function texToSvgText(tex: string): string {
   }
   return text
     .replace(/\\sqrt\{([^{}]*)\}/g, '√($1)')
-    .replace(/\\(?:ge|geq)/g, '≥')
-    .replace(/\\(?:le|leq)/g, '≤')
-    .replace(/\\ne/g, '≠')
-    .replace(/\\times/g, '×')
-    .replace(/\\cdot/g, '·')
-    .replace(/\\pi/g, 'π')
+    .replace(/\\([A-Za-z]+)(?![A-Za-z])/g, (match, name: string) => TEX_SYMBOLS[name] ?? match)
     .replace(/\\_/g, '_')
     .replace(/\\([A-Za-z]+)/g, '$1')
     .replace(/[{}]/g, '')
@@ -209,6 +259,7 @@ function svgMathFontSize(group: Element): number {
 
   const classes = group.getAttribute('class') || '';
   if (/subsystem-port-label/.test(classes)) return 13;
+  if (/(?:^|\s)label-(?:source-)?math(?:\s|$)/.test(classes)) return 16;
   if (/nf-label-sink-formula/.test(classes)) return 16;
   if (/(?:^|\s)nf-(?:and|or|xor|not)-formula(?:\s|$)/.test(classes)) return 16;
   if (/(?:ss|dss)-math/.test(classes)) return 20;

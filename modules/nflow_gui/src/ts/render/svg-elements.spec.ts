@@ -94,6 +94,18 @@ describe('svg-elements', () => {
     expect(se.texToSvgText('z^{-1}')).toBe('z⁻¹');
   });
 
+  test('maps TeX symbols to glyphs without eating longer command names', () => {
+    expect(se.texToSvgText('\\displaystyle\\int')).toBe('∫');
+    expect(se.texToSvgText('u \\leq 1')).toBe('u ≤ 1');
+    expect(se.texToSvgText('u \\geq 1')).toBe('u ≥ 1');
+    expect(se.texToSvgText('u \\neq 1')).toBe('u ≠ 1');
+    expect(se.texToSvgText('\\omega \\Delta t')).toBe('ω Δ t');
+    expect(se.texToSvgText('\\mathtt{w}')).toBe('w');
+    expect(se.texToSvgText('\\mathtt{Temp}')).toBe('Temp');
+    expect(se.texToSvgText('x \\leftarrow y \\rightarrow z')).toBe('x ← y → z');
+    expect(se.texToSvgText('\\left( x \\right)')).toBe('( x )');
+  });
+
   test('splits a top-level fraction while preserving nested groups', () => {
     expect(se.splitTexFraction('\\frac{1}{s^{2} + 1}')).toEqual({
       numerator: '1',
@@ -138,6 +150,28 @@ describe('svg-elements', () => {
       const text = group.querySelector('.svg-math-text');
       expect(text?.textContent).toBe('AND');
       expect(text?.getAttribute('font-size')).toBe('16');
+    } finally {
+      Object.defineProperty(window.navigator, 'userAgent', {
+        value: originalUserAgent,
+        configurable: true,
+      });
+    }
+  });
+
+  test('uses the label font size for signal labels in the macOS WebKit fallback', () => {
+    const originalUserAgent = window.navigator.userAgent;
+    Object.defineProperty(window.navigator, 'userAgent', {
+      value: 'Mozilla/5.0 (Macintosh) AppleWebKit/605.1.15 Safari/605.1.15',
+      configurable: true,
+    });
+    try {
+      for (const className of ['label-math', 'label-source-math']) {
+        const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        group.setAttribute('class', className);
+        se.renderTeXMath(group, '\\mathsf{pid\\_plant\\_out}', 120, 40);
+
+        expect(group.querySelector('.svg-math-text')?.getAttribute('font-size')).toBe('16');
+      }
     } finally {
       Object.defineProperty(window.navigator, 'userAgent', {
         value: originalUserAgent,

@@ -61,10 +61,10 @@
 
 .control-group-inline input[type="number"] {
   flex: 0 0 64px;
-  background-color: #141414;
-  border: 1px solid #3d3d3d;
+  background-color: var(--nflow-input-background);
+  border: 1px solid var(--nflow-input-border);
   border-radius: 2px;
-  color: #cccccc;
+  color: var(--nflow-input-foreground);
   font-family: 'Courier New', monospace;
   font-size: 11px;
   padding: 3px 6px;
