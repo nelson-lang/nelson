@@ -15,4 +15,5 @@ filename = [tempname(), '.csv'];
 dlmwrite(filename, A);
 R = dlmread(filename);
 asserts.isapprox(A, R, 1e-4);
+delete(filename);
 %=============================================================================

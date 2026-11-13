@@ -14,3 +14,4 @@ tic();writematrix(A, filename);toc()
 options = detectImportOptions(filename);
 tic();B = readmatrix(filename,options);toc()
 all(isapprox(A, B, 'AbsoluteTolerance', 1e-3), 'all')
+delete(filename);
