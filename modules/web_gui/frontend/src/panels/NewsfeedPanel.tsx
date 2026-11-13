@@ -11,12 +11,7 @@ import { useEffect, useState } from 'react';
 import { rpc } from '../rpc/client';
 import type { NewsfeedListResult, NewsfeedItem } from '../rpc/types';
 import { t, tf } from '../i18n';
-//=============================================================================
-const DEFAULT_FEEDS = [
-  'https://github.com/nelson-lang/nelson/releases.atom',
-  'https://hnrss.org/frontpage',
-  'https://feeds.bbci.co.uk/news/rss.xml',
-];
+import { DEFAULT_FEEDS } from '../newsfeedFeeds';
 //=============================================================================
 // Strip markup from a feed summary: feeds carry untrusted HTML, so the web
 // panel shows plain text rather than injecting it into the app origin.

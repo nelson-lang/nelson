@@ -8,8 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 import type { NewsfeedFeed, NewsfeedItem, NewsfeedListResult } from '../rpc/types';
+import { DEFAULT_FEED, RELEASES_FEED } from '../newsfeedFeeds';
 //=============================================================================
-const DEFAULT_FEED = 'https://github.com/nelson-lang/nelson/releases.atom';
 const RELEASES_API = 'https://api.github.com/repos/nelson-lang/nelson/releases?per_page=30';
 const MAX_FEED_BYTES = 4 * 1024 * 1024;
 type Fetch = (input: RequestInfo | URL, init?: RequestInit) => Promise<Response>;
@@ -99,7 +99,7 @@ export class WasmNewsfeedService {
   constructor(private readonly fetchImpl: Fetch = globalThis.fetch.bind(globalThis)) {}
   async list(value: unknown): Promise<NewsfeedListResult> {
     const url = text(value).trim() || DEFAULT_FEED;
-    if (url === DEFAULT_FEED) return this.githubReleases(url);
+    if (url === RELEASES_FEED) return this.githubReleases(url);
     if (!/^https?:\/\//i.test(url)) throw new Error('Feed URL must use HTTP or HTTPS');
     try {
       const response = await this.fetchImpl(url, {

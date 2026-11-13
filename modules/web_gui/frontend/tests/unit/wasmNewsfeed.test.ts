@@ -11,7 +11,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { WasmNewsfeedService } from '../../src/wasm/wasmNewsfeed';
 //=============================================================================
 describe('WebAssembly newsfeed service', () => {
-  it('loads the default Nelson feed through the CORS-enabled releases API', async () => {
+  it('routes the releases feed through the CORS-enabled releases API', async () => {
     const fetch = vi.fn<typeof globalThis.fetch>().mockResolvedValue(
       new Response(
         JSON.stringify([
@@ -28,7 +28,9 @@ describe('WebAssembly newsfeed service', () => {
     );
     const service = new WasmNewsfeedService(fetch);
 
-    await expect(service.list('')).resolves.toEqual({
+    await expect(
+      service.list('https://github.com/nelson-lang/nelson/releases.atom')
+    ).resolves.toEqual({
       feed: {
         title: 'Nelson releases',
         link: 'https://github.com/nelson-lang/nelson/releases',

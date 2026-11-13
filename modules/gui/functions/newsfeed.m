@@ -11,7 +11,7 @@ function varargout = newsfeed(url, varargin)
   narginchk(0, 2);
   nargoutchk(0, 2);
   if nargin < 1 || isempty(url)
-    url = 'https://github.com/nelson-lang/nelson/releases.atom';
+    url = 'https://nelson-lang.github.io/nelson-website/feed.xml';
   end
   tohtml = any(strcmpi(varargin, '-tohtml'));
   tostruct = any(strcmpi(varargin, '-tostruct'));

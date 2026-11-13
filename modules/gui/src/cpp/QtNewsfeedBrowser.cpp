@@ -22,8 +22,9 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-// A few feeds offered by default in the address combo.
-static const char* DEFAULT_FEED = "https://github.com/nelson-lang/nelson/releases.atom";
+// Feeds offered by default in the address combo.
+static const char* DEFAULT_FEED = "https://nelson-lang.github.io/nelson-website/feed.xml";
+static const char* RELEASES_FEED = "https://github.com/nelson-lang/nelson/releases.atom";
 //=============================================================================
 static QString
 resourcePath(const QString& name)
@@ -102,8 +103,7 @@ QtNewsfeedBrowser::setupUi()
     m_urlEdit->setInsertPolicy(QComboBox::NoInsert);
     m_urlEdit->setMinimumWidth(220);
     m_urlEdit->addItem(QString::fromLatin1(DEFAULT_FEED));
-    m_urlEdit->addItem("https://hnrss.org/frontpage");
-    m_urlEdit->addItem("https://feeds.bbci.co.uk/news/rss.xml");
+    m_urlEdit->addItem(QString::fromLatin1(RELEASES_FEED));
     m_urlEdit->setCurrentIndex(0);
     connect(m_urlEdit->lineEdit(), &QLineEdit::returnPressed, this, &QtNewsfeedBrowser::refresh);
     m_toolBar->addWidget(m_urlEdit);
