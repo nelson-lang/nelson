@@ -16,7 +16,7 @@ F = fopen(filename, 'rt', 'n', 'windows-1251');
 [R, S] = fread(F, '*char');
 fclose(F);
 asserts.isequal(S, 29106);
-P = strfind(R, 'P.S. Когато преглеждах първата');
+P = strfind(R', 'P.S. Когато преглеждах първата');
 asserts.isequal(P, 14964);
 end
 %=============================================================================

@@ -61,6 +61,7 @@
       <b>fopen</b> opens a file in Nelson.</p>
     <p
     >functions fprintf, fgetl, fgets, fread, and fwrite use character encoding for subsequent read and write operations.</p>
+    <p>File identifiers on ZIP entries, tar entries, gzip data and Zstandard data come from <b>nelson.io.zip.fopen</b>, <b>nelson.io.tar.fopen</b> (or the <b>fopen</b> method of <b>nelson.io.TarArchive</b>), <b>nelson.io.gzip.fopen</b> and <b>nelson.io.zstd.fopen</b>; the same file functions apply to them.</p>
   </description>
   <used_function />
   <bibliography />
@@ -92,7 +93,7 @@ F = fopen(filename, 'wt', 'n', 'windows-1251');
 W = fwrite(F, TEXT_REF, 'char')
 fclose(F);
 F = fopen(filename, 'rt', 'n', 'windows-1251');
-TXT_READ = fread(F, '*char')
+TXT_READ = fread(F, '*char')'
 fclose(F);]]></example_item_data>
     </example_item>
   </examples>
@@ -103,11 +104,27 @@ fclose(F);]]></example_item_data>
     <see_also_item>
       <link linkend="${stream_manager}feof">feof</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}nelson.io.zip">nelson.io.zip</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}nelson.io.zstd">nelson.io.zstd</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}nelson.io.gzip">nelson.io.gzip</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}nelson.io.tar">nelson.io.tar</link>
+    </see_also_item>
   </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>file identifiers on ZIP entries, tar entries, gzip and Zstandard data</history_description>
     </history_item>
   </history>
   <authors>

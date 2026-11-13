@@ -35,7 +35,8 @@ freadBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
 {
     bool bIsLittleEndian = true;
     size_t skipSize = 0;
-    NelsonType classDest = NLS_UINT8;
+    NelsonType classSource = NLS_UINT8;
+    NelsonType classDest = NLS_DOUBLE;
     ArrayOfVector retval;
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
@@ -54,10 +55,7 @@ freadBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
     }
     skipSize = static_cast<size_t>(param4.asScalarIndex());
     if (param3.isRowVectorCharacterArray()) {
-        std::wstring precisionStr = param3.asWideString();
-        bool bOK = false;
-        classDest = precisionFromString(precisionStr, bOK);
-        if (!bOK) {
+        if (!freadPrecision(param3.asWideString(), classSource, classDest)) {
             Error(L"Nelson:stream_manager:unsupportedPrecision",
                 L"Wrong value for #%d argument: not supported precision.", 3);
         }
@@ -115,9 +113,18 @@ freadBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
             File* f = fm->getFile(iValue);
             int sizeReallyRead = -1;
             ArrayOf toRead
-                = FileRead(f, isize, classDest, skipSize, bIsLittleEndian, sizeReallyRead);
+                = FileRead(f, isize, classSource, skipSize, bIsLittleEndian, sizeReallyRead);
             if (sizeReallyRead != -1) {
-                if (bSizeIs2D) {
+                // Values in the output class, as a column unless a 2-D size was given.
+                if (classDest != classSource) {
+                    toRead.promoteType(classDest);
+                }
+                sizeReallyRead = static_cast<int>(toRead.elementCount());
+                // Nothing read gives a 0-by-0 array.
+                Dimensions column(static_cast<indexType>(sizeReallyRead),
+                    static_cast<indexType>(sizeReallyRead == 0 ? 0 : 1));
+                toRead.reshape(column);
+                if (bSizeIs2D && sizeReallyRead > 0) {
                     Dimensions dim;
                     if (isize == -1) {
                         // n is inf
@@ -234,8 +241,16 @@ ArrayOfVector
 Nelson::StreamGateway::freadBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     nargoutcheck(nLhs, 0, 2);
-    nargincheck(argIn, 2, 5);
+    nargincheck(argIn, 1, 5);
     switch (argIn.size()) {
+    case 1:
+        // fread(fid): every byte, returned as double.
+        {
+            ArrayOfVector allBytes;
+            allBytes << argIn[0];
+            allBytes << ArrayOf::doubleScalar(std::numeric_limits<double>::infinity());
+            return freadBuiltinTwoRhs(nLhs, allBytes);
+        }
     case 2:
         return freadBuiltinTwoRhs(nLhs, argIn);
     case 3:

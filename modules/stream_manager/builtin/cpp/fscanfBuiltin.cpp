@@ -87,14 +87,12 @@ Nelson::StreamGateway::fscanfBuiltin(int nLhs, const ArrayOfVector& argIn)
         Error(L"Nelson:stream_manager:notImplementedForStandardStream",
             L"Not implemented for 'stdout', 'stderr' or 'stdin'.");
     }
-    std::string encoding = wstring_to_utf8(f->getEncoding());
-    FILE* filepointer = static_cast<FILE*>(f->getFilePointer());
-    if (!filepointer) {
+    if (f->getFilePointer() == nullptr && f->getBackend() == nullptr) {
         Error(L"Nelson:stream_manager:invalidFileIdentifierArgument",
             L"Wrong value for #%d argument: a valid file ID expected.", 1);
     }
     indexType count = 0;
-    ArrayOf value = FscanF(filepointer, format, encoding, m, n, haveThirdArgument, count, false);
+    ArrayOf value = FileScanF(f, format, m, n, haveThirdArgument, count);
     retval << value;
     if (nLhs > 1) {
         retval << ArrayOf::doubleScalar((double)count);

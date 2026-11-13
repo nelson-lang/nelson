@@ -13,6 +13,7 @@
 //=============================================================================
 #include <cstring>
 #include "FileError.hpp"
+#include "FileBackend.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -24,6 +25,12 @@ FileError(FilesManager* fm, int no, bool withClear, int& errorCode, std::string&
         if (fm->isStdStream(no)) {
             errorCode = 0;
             errorMessage = "";
+            return true;
+        }
+        File* file = fm->getFile(no);
+        if (file != nullptr && file->getBackend() != nullptr) {
+            // Backends raise their errors at once: nothing is pending.
+            errorCode = 0;
             return true;
         }
         FILE* fptr = static_cast<FILE*>(fm->getFilePointer(no));

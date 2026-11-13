@@ -14,6 +14,7 @@
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "PathFunctionIndexerManager.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -53,6 +54,8 @@ Nelson::StreamGateway::writelinesBuiltin(int nLhs, const ArrayOfVector& argIn)
         setOption(options, argIn[k].asWideString(), argIn[k + 1]);
     }
     WriteLines(lines, filename, options);
+    // a loaded function file just rewritten reloads at its next call
+    PathFunctionIndexerManager::getInstance()->notifyFileWritten(filename);
     return {};
 }
 //=============================================================================

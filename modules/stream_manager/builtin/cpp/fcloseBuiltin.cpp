@@ -15,6 +15,7 @@
 #include "FilesManager.hpp"
 #include "NelsonConfiguration.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "PathFunctionIndexerManager.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -32,7 +33,15 @@ Nelson::StreamGateway::fcloseBuiltin(int nLhs, const ArrayOfVector& argIn)
         nargoutcheck(nLhs, 0, 1);
         auto iValue = static_cast<int32>(param1.asDoubleScalar());
         if (fm->isOpened(iValue)) {
+            File* file = fm->getFile(iValue);
+            // only a file opened for writing can have changed a function file
+            const std::wstring closedFilename = file != nullptr
+                    && file->getFileMode().find_first_of(L"wa+") != std::wstring::npos
+                ? file->getFileName()
+                : std::wstring();
             if (FileClose(fm, iValue)) {
+                // a loaded function file just rewritten reloads at its next call
+                PathFunctionIndexerManager::getInstance()->notifyFileWritten(closedFilename);
                 retval << ArrayOf::doubleScalar(0.);
             } else {
                 retval << ArrayOf::doubleScalar(-1.);

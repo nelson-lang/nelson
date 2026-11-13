@@ -22,7 +22,7 @@ asserts.isequal(W, 11);
 F = fopen(filename, 'rt', 'n', 'windows-1251');
 [R, S] = fread(F, '*char');
 fclose(F);
-asserts.isequal(R, TEXT_REF);
+asserts.isequal(R', TEXT_REF);
 rmfile(filename);
 %=============================================================================
 [R1, R2] = fwrite(stdout(), '和製漢字');

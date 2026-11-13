@@ -60,6 +60,7 @@
     <p>
       <b>fopen</b> ouvre un fichier dans Nelson.</p>
     <p>Les fonctions <b>fprintf</b>, <b>fgetl</b>, <b>fgets</b>,<b>fread</b> et<b>fwrite</b> utilisent l&apos;encodage des caractères défini pour les opérations de lecture/écriture suivantes.</p>
+    <p>Des identificateurs de fichier sur des entrées ZIP, des entrées tar, des données gzip et des données Zstandard sont fournis par <b>nelson.io.zip.fopen</b>, <b>nelson.io.tar.fopen</b> (ou la méthode <b>fopen</b> de <b>nelson.io.TarArchive</b>), <b>nelson.io.gzip.fopen</b> et <b>nelson.io.zstd.fopen</b> ; les mêmes fonctions de fichier s'y appliquent.</p>
   </description>
   <used_function />
   <bibliography />
@@ -91,7 +92,7 @@ F = fopen(filename, 'wt', 'n', 'windows-1251');
 W = fwrite(F, TEXT_REF, 'char')
 fclose(F);
 F = fopen(filename, 'rt', 'n', 'windows-1251');
-TXT_READ = fread(F, '*char')
+TXT_READ = fread(F, '*char')'
 fclose(F);]]></example_item_data>
     </example_item>
   </examples>
@@ -102,11 +103,27 @@ fclose(F);]]></example_item_data>
     <see_also_item>
       <link linkend="${stream_manager}feof">feof</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}nelson.io.zip">nelson.io.zip</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}nelson.io.zstd">nelson.io.zstd</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}nelson.io.gzip">nelson.io.gzip</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}nelson.io.tar">nelson.io.tar</link>
+    </see_also_item>
   </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>identificateurs de fichier sur des entrées ZIP, des entrées tar, des données gzip et Zstandard</history_description>
     </history_item>
   </history>
   <authors>

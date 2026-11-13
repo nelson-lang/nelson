@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "FileSize.hpp"
+#include "FileBackend.hpp"
 #include "FileSeek.hpp"
 #include "FileTell.hpp"
 //=============================================================================
@@ -18,6 +19,9 @@ FileSize(File* fp)
 {
     int64 sz = -1L;
     if (fp) {
+        if (FileBackend* backend = fp->getBackend()) {
+            return backend->size();
+        }
         if (fp->isInterfaceMethod()) {
             return sz;
         }

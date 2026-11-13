@@ -12,6 +12,7 @@
 #include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "FilesManager.hpp"
+#include "FileBackend.hpp"
 #include "NelsonConfiguration.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -32,6 +33,11 @@ Nelson::StreamGateway::feofBuiltin(int nLhs, const ArrayOfVector& argIn)
     int32 iValue = static_cast<int32>(param1.asDoubleScalar(false));
     if (!fm->isOpened(iValue)) {
         Error(L"Nelson:stream_manager:invalidFileIdentifier", L"Invalid file identifier.");
+    }
+    File* file = fm->getFile(iValue);
+    if (FileBackend* backend = file->getBackend()) {
+        retval << ArrayOf::doubleScalar(backend->eof() ? 1. : 0.);
+        return retval;
     }
     FILE* fileptr = static_cast<FILE*>(fm->getFilePointer(iValue));
     retval << ArrayOf::doubleScalar(feof(fileptr));

@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "FileClose.hpp"
+#include "FileBackend.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -15,6 +16,16 @@ bool
 FileClose(FilesManager* fm, int no)
 {
     if (fm) {
+        File* file = fm->getFile(no);
+        if (file != nullptr && file->getBackend() != nullptr) {
+            // A backend finishes its data here; the identifier is released even on error.
+            try {
+                file->getBackend()->close();
+            } catch (...) {
+                fm->removeFile(no);
+                throw;
+            }
+        }
         return fm->removeFile(no);
     }
     return false;

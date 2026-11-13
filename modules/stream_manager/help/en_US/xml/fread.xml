@@ -26,7 +26,8 @@
     </param_input_item>
     <param_input_item>
       <param_name>precision</param_name>
-      <param_description>class of values to read</param_description>
+      <param_description
+      >class read and class returned: 'source=>output', '*source' (same class) or 'source' (returns double). Default: 'uint8' (double values).</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>skip</param_name>
@@ -42,11 +43,11 @@
     <param_output_item>
       <param_name>res</param_name>
       <param_description
-      >a vector of floating point or integer type numbers</param_description>
+      >values in the output class: a column vector, or an m-by-n array when sz is [m,n] or [m, Inf].</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>count</param_name>
-      <param_description>number of characters reads into res</param_description>
+      <param_description>number of elements read into res.</param_description>
     </param_output_item>
   </param_output>
   <description>
@@ -60,6 +61,8 @@
     <p>
       <b>ieee-le</b>, <b>l</b>: IEEE little endian.</p>
     <p>characters encoding uses <b>fopen</b> parameter.</p>
+    <p
+    >Without '=>' or '*', values are returned as double: fread(fid, 'int16') reads 2-byte integers and returns doubles, fread(fid, 'char') returns character codes. Use '*char', 'char=>char' or 'uint8=>char' to get characters.</p>
   </description>
   <used_function />
   <bibliography />
@@ -111,6 +114,11 @@ fclose(fileID);
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description
+      >'source=>output' reads the source class, 'source' alone returns double, results are columns.</history_description>
     </history_item>
   </history>
   <authors>

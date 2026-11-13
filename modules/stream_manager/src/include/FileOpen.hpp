@@ -29,6 +29,10 @@ enum FOPEN_ERROR_TYPE
 NLSSTREAM_MANAGER_IMPEXP FOPEN_ERROR_TYPE
 FileOpen(FilesManager* fm, const std::wstring& filename, const std::wstring& filemode,
     const std::wstring& machineFormat, const std::wstring& encoding, int& fileposition);
+// Registers a backend (ownership taken) under a new identifier; -1 when it cannot be added.
+NLSSTREAM_MANAGER_IMPEXP int
+FileOpenBackend(FilesManager* fm, FileBackend* backend, const std::wstring& name,
+    const std::wstring& mode, const std::wstring& encoding);
 //=============================================================================
 }; // namespace Nelson
 //=============================================================================

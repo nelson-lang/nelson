@@ -18,8 +18,17 @@
 #include "FileSeek.hpp"
 #include "FileTell.hpp"
 #include "characters_encoding.hpp"
+#include "FileBackend.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+static ArrayOf
+readFromBackend(File* fp, FileBackend* backend, int64 sizeToRead, NelsonType classPrecision,
+    size_t skip, bool bIsLittleEndian, int& sizeReallyRead);
+static ArrayOf
+charactersFromBytes(const std::string& raw, const std::wstring& encoding);
+static size_t
+precisionSize(NelsonType classPrecision);
 //=============================================================================
 ArrayOf
 FileRead(File* fp, int64 sizeToRead, NelsonType classPrecision, size_t skip, bool bIsLittleEndian,
@@ -29,6 +38,10 @@ FileRead(File* fp, int64 sizeToRead, NelsonType classPrecision, size_t skip, boo
     sizeReallyRead = -1;
     if (!fp) {
         return toRead;
+    }
+    if (FileBackend* backend = fp->getBackend()) {
+        return readFromBackend(
+            fp, backend, sizeToRead, classPrecision, skip, bIsLittleEndian, sizeReallyRead);
     }
     if (fp->isInterfaceMethod()) {
         return toRead;
@@ -104,7 +117,6 @@ FileRead(File* fp, int64 sizeToRead, NelsonType classPrecision, size_t skip, boo
         }
     }
     if (classPrecision == NLS_CHAR) {
-        std::string encoding = wstring_to_utf8(fp->getEncoding());
         char* buffer = nullptr;
         try {
             buffer = new char[static_cast<indexType>(sizeToRead + 1)];
@@ -150,17 +162,7 @@ FileRead(File* fp, int64 sizeToRead, NelsonType classPrecision, size_t skip, boo
                 raw.assign(buffer, validLength);
             }
             delete[] buffer;
-            std::string utf8Data;
-            if (encoding != "UTF-8") {
-                bool converted = charsetToUtf8Converter(raw, encoding, utf8Data);
-                if (!converted) {
-                    Error("Nelson:stream_manager:invalidEncoding", "Cannot use encoding: %s",
-                        encoding);
-                }
-            } else {
-                utf8Data = raw;
-            }
-            toRead = ArrayOf::characterArray(utf8Data);
+            toRead = charactersFromBytes(raw, fp->getEncoding());
             if (!feof(fileptr)) {
                 if (skip) {
                     NLSFSEEK(fileptr, skip, SEEK_CUR);
@@ -197,6 +199,79 @@ FileRead(File* fp, int64 sizeToRead, NelsonType classPrecision, size_t skip, boo
         }
     }
     return toRead;
+}
+//=============================================================================
+// Same results as the C file path, for bytes produced by a backend.
+static ArrayOf
+readFromBackend(File* fp, FileBackend* backend, int64 sizeToRead, NelsonType classPrecision,
+    size_t skip, bool bIsLittleEndian, int& sizeReallyRead)
+{
+    const size_t elementSize = precisionSize(classPrecision);
+    std::string raw;
+    if (sizeToRead < 0) {
+        char chunk[64 * 1024];
+        for (size_t count = backend->read(chunk, sizeof(chunk)); count > 0;
+            count = backend->read(chunk, sizeof(chunk))) {
+            raw.append(chunk, count);
+        }
+    } else {
+        raw.resize(static_cast<size_t>(sizeToRead) * elementSize);
+        raw.resize(backend->read(raw.data(), raw.size()));
+    }
+    const size_t count = raw.size() / elementSize;
+    sizeReallyRead = static_cast<int>(count);
+    ArrayOf result;
+    if (classPrecision == NLS_CHAR) {
+        result = charactersFromBytes(raw, fp->getEncoding());
+    } else {
+        void* ptr = ArrayOf::allocateArrayOf(
+            classPrecision, static_cast<indexType>(count), stringVector(), false);
+        std::memcpy(ptr, raw.data(), count * elementSize);
+        result = ArrayOf(classPrecision, Dimensions(static_cast<indexType>(count), 1), ptr);
+        if (bIsLittleEndian != isLittleEndianFormat()) {
+            BITSWAP(result.readWriteDataPointer(), count, classPrecision);
+        }
+    }
+    if (skip && !backend->eof()) {
+        backend->seek(backend->tell() + static_cast<int64>(skip));
+    }
+    return result;
+}
+//=============================================================================
+static ArrayOf
+charactersFromBytes(const std::string& raw, const std::wstring& encoding)
+{
+    const std::string charset = wstring_to_utf8(encoding);
+    if (charset == "UTF-8") {
+        return ArrayOf::characterArray(raw);
+    }
+    std::string utf8Data;
+    if (!charsetToUtf8Converter(raw, charset, utf8Data)) {
+        Error("Nelson:stream_manager:invalidEncoding", "Cannot use encoding: %s", charset);
+    }
+    return ArrayOf::characterArray(utf8Data);
+}
+//=============================================================================
+static size_t
+precisionSize(NelsonType classPrecision)
+{
+    switch (classPrecision) {
+    case NLS_LOGICAL:
+        return sizeof(logical);
+    case NLS_UINT16:
+    case NLS_INT16:
+        return sizeof(uint16);
+    case NLS_UINT32:
+    case NLS_INT32:
+    case NLS_SINGLE:
+        return sizeof(uint32);
+    case NLS_UINT64:
+    case NLS_INT64:
+    case NLS_DOUBLE:
+        return sizeof(uint64);
+    default:
+        return sizeof(uint8);
+    }
 }
 //=============================================================================
 } // namespace Nelson

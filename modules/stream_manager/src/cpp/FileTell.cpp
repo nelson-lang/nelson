@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "FileTell.hpp"
+#include "FileBackend.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -16,6 +17,9 @@ FileTell(File* fp)
 {
     int64 pos = -1L;
     if (fp) {
+        if (FileBackend* backend = fp->getBackend()) {
+            return backend->tell();
+        }
         if (fp->isInterfaceMethod()) {
             return pos;
         }

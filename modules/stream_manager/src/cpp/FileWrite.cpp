@@ -20,6 +20,7 @@
 #include <cstdio>
 #include <cwchar>
 #include "FileWrite.hpp"
+#include "FileBackend.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
 #include "characters_encoding.hpp"
@@ -36,13 +37,15 @@ static FWRITE_ERROR_TYPE
 writeToFile(File* fp, ArrayOf& toWrite, NelsonType destClass, size_t skip, bool bIsLittleEndian,
     int& sizeWritten, int& sizeByteWritten);
 static bool
-writeSkipBytes(FILE* filepointer, size_t skip);
+writeSkipBytes(File* fp, size_t skip);
 static FWRITE_ERROR_TYPE
 writeCharData(
     File* fp, ArrayOf& toWrite, bool bIsLittleEndian, int& sizeWritten, int& sizeByteWritten);
 static FWRITE_ERROR_TYPE
-writeBinaryData(FILE* filepointer, ArrayOf& toWrite, NelsonType destClass, bool bIsLittleEndian,
+writeBinaryData(File* fp, ArrayOf& toWrite, NelsonType destClass, bool bIsLittleEndian,
     int& sizeWritten, int& sizeByteWritten);
+static size_t
+writeBytes(File* fp, const void* data, size_t elementSize, size_t count);
 static int
 computeApproxCharCount(size_t writtenBytes, size_t totalBytes, size_t totalChars);
 //=============================================================================
@@ -199,14 +202,13 @@ FWRITE_ERROR_TYPE
 writeToFile(File* fp, ArrayOf& toWrite, NelsonType destClass, size_t skip, bool bIsLittleEndian,
     int& sizeWritten, int& sizeByteWritten)
 {
-    FILE* filepointer = static_cast<FILE*>(fp->getFilePointer());
-    if (!filepointer) {
+    if (fp->getBackend() == nullptr && fp->getFilePointer() == nullptr) {
         sizeWritten = -1;
         return FWRITE_INVALID_FILE;
     }
 
     if (skip > 0) {
-        if (!writeSkipBytes(filepointer, skip)) {
+        if (!writeSkipBytes(fp, skip)) {
             sizeWritten = -1;
             // writeSkipBytes already raised the error; the result stays a success.
             return FWRITE_NO_ERROR;
@@ -216,16 +218,16 @@ writeToFile(File* fp, ArrayOf& toWrite, NelsonType destClass, size_t skip, bool 
         return writeCharData(fp, toWrite, bIsLittleEndian, sizeWritten, sizeByteWritten);
     } else {
         return writeBinaryData(
-            filepointer, toWrite, destClass, bIsLittleEndian, sizeWritten, sizeByteWritten);
+            fp, toWrite, destClass, bIsLittleEndian, sizeWritten, sizeByteWritten);
     }
 }
 //=============================================================================
 bool
-writeSkipBytes(FILE* filepointer, size_t skip)
+writeSkipBytes(File* fp, size_t skip)
 {
     try {
         std::vector<char> buf(skip, 0);
-        size_t wrote = std::fwrite(buf.data(), sizeof(char), skip, filepointer);
+        size_t wrote = writeBytes(fp, buf.data(), sizeof(char), skip);
         // A partial skip write is not fatal.
         (void)wrote;
         return true;
@@ -239,12 +241,6 @@ FWRITE_ERROR_TYPE
 writeCharData(
     File* fp, ArrayOf& toWrite, bool bIsLittleEndian, int& sizeWritten, int& sizeByteWritten)
 {
-    FILE* filepointer = static_cast<FILE*>(fp->getFilePointer());
-    if (!filepointer) {
-        sizeWritten = -1;
-        return FWRITE_INVALID_FILE;
-    }
-
     std::string str = toWrite.asUtf8String();
 
     if (bIsLittleEndian != isLittleEndianFormat()) {
@@ -262,13 +258,13 @@ writeCharData(
             return FWRITE_ERROR_ENCODING;
         }
 
-        sizeByteWritten = (int)std::fwrite(data.c_str(), sizeof(char), data.size(), filepointer);
+        sizeByteWritten = (int)writeBytes(fp, data.c_str(), sizeof(char), data.size());
 
         std::wstring wstr = toWrite.asWideString();
         sizeWritten = computeApproxCharCount(sizeByteWritten, data.size(), wstr.size());
 
     } else {
-        sizeByteWritten = (int)std::fwrite(str.c_str(), sizeof(char), str.size(), filepointer);
+        sizeByteWritten = (int)writeBytes(fp, str.c_str(), sizeof(char), str.size());
         if (sizeByteWritten == str.size()) {
             std::wstring wstr = toWrite.asWideString();
             sizeWritten = static_cast<int>(wstr.size());
@@ -280,7 +276,7 @@ writeCharData(
 }
 //=============================================================================
 FWRITE_ERROR_TYPE
-writeBinaryData(FILE* filepointer, ArrayOf& toWrite, NelsonType destClass, bool bIsLittleEndian,
+writeBinaryData(File* fp, ArrayOf& toWrite, NelsonType destClass, bool bIsLittleEndian,
     int& sizeWritten, int& sizeByteWritten)
 {
     void* dp = toWrite.readWriteDataPointer();
@@ -291,7 +287,7 @@ writeBinaryData(FILE* filepointer, ArrayOf& toWrite, NelsonType destClass, bool 
         BITSWAP(dp, count, destClass);
     }
 
-    size_t written = std::fwrite(dp, elsize, count, filepointer);
+    size_t written = writeBytes(fp, dp, elsize, count);
     sizeWritten = static_cast<int>(written);
     sizeByteWritten = sizeWritten;
     return FWRITE_NO_ERROR;
@@ -366,6 +362,16 @@ writeFile(const std::wstring& filename, const std::vector<TextSpan>& lines, cons
             L"Nelson:stream_manager:writeFailed", L"Unable to write all data to the file.");
         return false;
     }
+}
+//=============================================================================
+// C files keep std::fwrite; backends get whole elements only.
+static size_t
+writeBytes(File* fp, const void* data, size_t elementSize, size_t count)
+{
+    if (FileBackend* backend = fp->getBackend()) {
+        return backend->write(data, elementSize * count) / elementSize;
+    }
+    return std::fwrite(data, elementSize, count, static_cast<FILE*>(fp->getFilePointer()));
 }
 //=============================================================================
 } // namespace Nelson

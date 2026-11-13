@@ -17,6 +17,10 @@
 #include <cstring>
 #include "Fscanf_helpers.hpp"
 #include "FscanFunction.hpp"
+#include "FileBackend.hpp"
+#include "FileSeek.hpp"
+#include "FileTell.hpp"
+#include "characters_encoding.hpp"
 #include "characters_encoding.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
@@ -429,6 +433,33 @@ FscanF(FILE* filepointer, const std::string& format, const std::string& encoding
     } break;
     default: {
     } break;
+    }
+    return value;
+}
+//=============================================================================
+ArrayOf
+FileScanF(File* file, const std::string& format, double m, double n, bool haveThirdArgument,
+    indexType& count)
+{
+    const std::string encoding = wstring_to_utf8(file->getEncoding());
+    FileBackend* backend = file->getBackend();
+    if (backend == nullptr) {
+        return FscanF(static_cast<FILE*>(file->getFilePointer()), format, encoding, m, n,
+            haveThirdArgument, count, false);
+    }
+    // The cache file of the stream holds the rest of it, read in place by fscanf.
+    int64 copyStart = 0;
+    FILE* copy = backend->scanCopy(backend->tell(), copyStart);
+    if (copy == nullptr) {
+        count = 0;
+        return ArrayOf::empty();
+    }
+    ArrayOf value = FscanF(copy, format, encoding, m, n, haveThirdArgument, count, false);
+    const bool atEnd = feof(copy) != 0;
+    backend->seek(copyStart + static_cast<int64>(NLSFTELL(copy)));
+    if (atEnd) {
+        char probe;
+        backend->read(&probe, 1);
     }
     return value;
 }

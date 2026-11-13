@@ -13,6 +13,7 @@
 #include "i18n.hpp"
 #include "File.hpp"
 #include "FilesManager.hpp"
+#include "FileBackend.hpp"
 #include "Interface.hpp"
 #include "PrintfFunction.hpp"
 #include "AnsiSgr.hpp"
@@ -82,24 +83,17 @@ Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
             }
         } else {
             FILE* filepointer = static_cast<FILE*>(f->getFilePointer());
-            if (filepointer) {
+            FileBackend* backend = f->getBackend();
+            if (filepointer || backend) {
                 std::wstring encoding = f->getEncoding();
                 std::string data = wstring_to_utf8(result);
-                if (encoding == L"UTF-8") {
-                    size_t written = fwrite(data.c_str(), 1, data.size(), filepointer);
-                    len = (size_t)written;
-                } else {
-                    std::string converted = data;
-                    if (utf8ToCharsetConverter(converted, converted, wstring_to_utf8(encoding))) {
-                        size_t written
-                            = fwrite(converted.c_str(), 1, converted.size(), filepointer);
-                        len = (size_t)written;
-                    } else {
-                        Error(L"Nelson:stream_manager:invalidEncoding", L"Cannot use encoding: %s",
-                            encoding);
-                    }
+                if (encoding != L"UTF-8"
+                    && !utf8ToCharsetConverter(data, data, wstring_to_utf8(encoding))) {
+                    Error(L"Nelson:stream_manager:invalidEncoding", L"Cannot use encoding: %s",
+                        encoding);
                 }
-
+                len = backend ? backend->write(data.c_str(), data.size())
+                              : fwrite(data.c_str(), 1, data.size(), filepointer);
             } else {
                 Error(L"Nelson:fprintf:idNotSupported", L"ID not supported.");
             }

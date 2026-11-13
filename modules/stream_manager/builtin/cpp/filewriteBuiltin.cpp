@@ -15,6 +15,7 @@
 #include "InputOutputArgumentsCheckers.hpp"
 #include "FileWrite.hpp"
 #include "WriteLines.hpp"
+#include "PathFunctionIndexerManager.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -58,6 +59,8 @@ Nelson::StreamGateway::filewriteBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (!writeFile(filename, lines, eol, encoding, errorMessage)) {
         Error(L"Nelson:filewrite:writeFailed", errorMessage);
     }
+    // a loaded function file just rewritten reloads at its next call
+    PathFunctionIndexerManager::getInstance()->notifyFileWritten(filename);
     return retval;
 }
 //=============================================================================

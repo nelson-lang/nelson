@@ -21,6 +21,7 @@
 #include "FileSeek.hpp"
 #include "FileTell.hpp"
 #include "characters_encoding.hpp"
+#include "FileBackend.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -63,26 +64,33 @@ FileGetLine(File* fp, int nchar, bool bWithNewLine, std::wstring& result)
     if (!fp) {
         return false;
     }
-    if (fp->isInterfaceMethod()) {
-        return false;
-    }
-    FILE* fileptr = static_cast<FILE*>(fp->getFilePointer());
-    if (!fileptr) {
-        return false;
-    }
-    if (feof(fileptr) || ferror(fileptr)) {
-        return false;
-    }
     std::string readline;
     bool isCRLF = false;
+    bool gotLine = false;
+    if (FileBackend* backend = fp->getBackend()) {
+        // Backends keep the bytes as stored: CR LF stays in the line.
+        gotLine = !backend->eof() && backend->readLine(readline);
+    } else {
+        if (fp->isInterfaceMethod()) {
+            return false;
+        }
+        FILE* fileptr = static_cast<FILE*>(fp->getFilePointer());
+        if (!fileptr) {
+            return false;
+        }
+        if (feof(fileptr) || ferror(fileptr)) {
+            return false;
+        }
 #ifdef _MSC_VER
-    if (nchar != -1) {
-        // CRT bug: fseek/ftell fail in text mode on Unix-style text, so buffering is off.
-        // https://developercommunity.visualstudio.com/content/problem/425878/fseek-ftell-fail-in-text-mode-for-unix-style-text.html
-        setvbuf(fileptr, nullptr, _IONBF, 0);
-    }
+        if (nchar != -1) {
+            // CRT bug: fseek/ftell fail in text mode on Unix-style text, so buffering is off.
+            // https://developercommunity.visualstudio.com/content/problem/425878/fseek-ftell-fail-in-text-mode-for-unix-style-text.html
+            setvbuf(fileptr, nullptr, _IONBF, 0);
+        }
 #endif
-    if (!getline(readline, fileptr, isCRLF)) {
+        gotLine = getline(readline, fileptr, isCRLF);
+    }
+    if (!gotLine) {
         bOK = false;
     } else {
         if (!bWithNewLine) {

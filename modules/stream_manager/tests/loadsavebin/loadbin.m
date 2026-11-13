@@ -80,10 +80,10 @@ function res = load_data_complex(fr, typestr)
   end
   isReal = fread(fr, 1, 'logical', 'l');
   if (isReal)
-    res = fread(fr, prod, typestr, 'l');
+    res = fread(fr, prod, ['*', typestr], 'l');
   else
-    resReal = fread(fr, prod, typestr, 'l');
-    resImag = fread(fr, prod, typestr, 'l');
+    resReal = fread(fr, prod, ['*', typestr], 'l');
+    resImag = fread(fr, prod, ['*', typestr], 'l');
     res = complex(resReal, resImag);
   end
   res = reshape(res, dim);
@@ -239,7 +239,7 @@ function res = load_data_generic_notcomplex(fr, typestr)
   for k = 1:lendim
     prod = prod * dim(k);
   end
-  res = fread(fr, prod, typestr, 'l');
+  res = fread(fr, prod, ['*', typestr], 'l');
   res = reshape(res, dim);
 end
 %=============================================================================

@@ -14,9 +14,9 @@ filewrite(filename, 'abcdef');
 %=============================================================================
 fid = fopen(filename, 'rt');
 asserts.isequal(fseek(fid, 2, 'bof'), 0);
-asserts.isequal(fread(fid, 1, 'char'), 'c');
+asserts.isequal(fread(fid, 1, '*char'), 'c');
 asserts.isequal(fseek(fid, -1, 'eof'), 0);
-asserts.isequal(fread(fid, 1, 'char'), 'f');
+asserts.isequal(fread(fid, 1, '*char'), 'f');
 fclose(fid);
 %=============================================================================
 rmfile(filename);

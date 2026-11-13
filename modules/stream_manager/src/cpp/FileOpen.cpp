@@ -15,6 +15,7 @@
 #include <vector>
 #include "FileOpen.hpp"
 #include "File.hpp"
+#include "FileBackend.hpp"
 #include "characters_encoding.hpp"
 #include "FileSystemWrapper.hpp"
 #include "StringHelpers.hpp"
@@ -164,6 +165,22 @@ FileOpen(FilesManager* fm, const std::wstring& filename, const std::wstring& fil
     fileposition = pos;
 
     return fopenError;
+}
+int
+FileOpenBackend(FilesManager* fm, FileBackend* backend, const std::wstring& name,
+    const std::wstring& mode, const std::wstring& encoding)
+{
+    File* file = new File();
+    file->setBackend(backend);
+    file->setFileName(name);
+    file->setFileMode(mode);
+    file->setEncoding(encoding);
+    file->setMachineFormat(L"native");
+    const int pos = fm != nullptr ? fm->addFile(file) : -1;
+    if (pos == -1) {
+        delete file;
+    }
+    return pos;
 }
 //=============================================================================
 } // namespace Nelson

@@ -18,6 +18,11 @@ namespace Nelson {
 NelsonType
 precisionFromString(const std::wstring& str, bool& bOK);
 //=============================================================================
+// fread precision: class read from the file and class returned ('src=>dst', '*src' keeps
+// src, 'src' alone returns double).
+bool
+freadPrecision(const std::wstring& text, NelsonType& source, NelsonType& output);
+//=============================================================================
 // Character row vector or string scalar.
 bool
 isTextScalar(const ArrayOf& value);

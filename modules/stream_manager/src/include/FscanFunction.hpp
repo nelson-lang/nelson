@@ -14,11 +14,16 @@
 #include "nlsStream_manager_exports.h"
 #include "ArrayOf.hpp"
 //=============================================================================
+#include "File.hpp"
 namespace Nelson {
 //=============================================================================
 NLSSTREAM_MANAGER_IMPEXP ArrayOf
 FscanF(FILE* filepointer, const std::string& format, const std::string& encoding, double m,
     double n, bool haveThirdArgument, indexType& count, bool asSscanf);
 //=============================================================================
+// fscanf on a file identifier: C files directly, backends through a temporary copy.
+NLSSTREAM_MANAGER_IMPEXP ArrayOf
+FileScanF(File* file, const std::string& format, double m, double n, bool haveThirdArgument,
+    indexType& count);
 } // namespace Nelson
 //=============================================================================

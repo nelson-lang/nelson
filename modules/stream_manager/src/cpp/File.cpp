@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "File.hpp"
+#include "FileBackend.hpp"
 //=============================================================================
 #ifdef _MSC_VER
 #define fileno _fileno
@@ -25,6 +26,8 @@ File::File(bool bIsFilePointer)
 //=============================================================================
 File::~File()
 {
+    delete this->backend;
+    this->backend = nullptr;
     if (this->bIsFilePointer) {
         if (this->stream) {
             FILE* fp = static_cast<FILE*>(this->stream);
@@ -101,6 +104,19 @@ void
 File::setEncoding(const std::wstring& _encoding)
 {
     this->encoding = _encoding;
+}
+//=============================================================================
+void
+File::setBackend(FileBackend* _backend)
+{
+    delete this->backend;
+    this->backend = _backend;
+}
+//=============================================================================
+FileBackend*
+File::getBackend()
+{
+    return this->backend;
 }
 //=============================================================================
 } // namespace Nelson

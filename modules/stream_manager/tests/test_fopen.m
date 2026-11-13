@@ -145,9 +145,11 @@ asserts.isequal(fclose(fid), 0);
 fid = fopen(binaryFile, 'rb');
 [bytes, readCount] = fread(fid, 'uint8');
 asserts.isequal(readCount, 3);
-asserts.isequal(bytes, uint8([0; 127; 255]));
+asserts.isequal(bytes, [0; 127; 255]);
 asserts.isequal(fseek(fid, 1, 'bof'), 0);
-asserts.isequal(fread(fid, 1, 'uint8'), uint8(127));
+asserts.isequal(fread(fid, 1, 'uint8'), 127);
+asserts.isequal(fseek(fid, 1, 'bof'), 0);
+asserts.isequal(fread(fid, 1, '*uint8'), uint8(127));
 asserts.isequal(fclose(fid), 0);
 %=============================================================================
 dataFile = fullfile(rootTemp, 'data.mat');

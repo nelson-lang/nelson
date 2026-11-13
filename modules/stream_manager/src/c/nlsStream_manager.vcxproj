@@ -199,6 +199,7 @@
     <ClInclude Include="..\include\File.hpp" />
     <ClInclude Include="..\include\FileRewind.hpp" />
     <ClInclude Include="..\include\FileSeek.hpp" />
+    <ClInclude Include="..\include\FileBackend.hpp" />
     <ClInclude Include="..\include\FileSize.hpp" />
     <ClInclude Include="..\include\FilesManager.hpp" />
     <ClInclude Include="..\include\FileStream.hpp" />
@@ -228,6 +229,7 @@
     <ClCompile Include="..\cpp\File.cpp" />
     <ClCompile Include="..\cpp\FileRewind.cpp" />
     <ClCompile Include="..\cpp\FileSeek.cpp" />
+    <ClCompile Include="..\cpp\FileBackend.cpp" />
     <ClCompile Include="..\cpp\FileSize.cpp" />
     <ClCompile Include="..\cpp\FilesManager.cpp" />
     <ClCompile Include="..\cpp\FileStream.cpp" />

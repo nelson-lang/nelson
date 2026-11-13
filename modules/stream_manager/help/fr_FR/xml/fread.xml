@@ -26,7 +26,8 @@
     </param_input_item>
     <param_input_item>
       <param_name>precision</param_name>
-      <param_description>classe des valeurs à lire</param_description>
+      <param_description
+      >classe lue et classe renvoyée : 'source=>sortie', '*source' (même classe) ou 'source' (renvoie des double). Par défaut : 'uint8' (valeurs double).</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>skip</param_name>
@@ -42,7 +43,7 @@
     <param_output_item>
       <param_name>res</param_name>
       <param_description
-      >un vecteur de nombres en virgule flottante ou entiers</param_description>
+      >valeurs dans la classe de sortie : un vecteur colonne, ou un tableau m par n quand sz vaut [m,n] ou [m, Inf].</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>count</param_name>
@@ -60,6 +61,8 @@
     <p>
       <b>ieee-le</b>, <b>l</b> : IEEE little endian.</p>
     <p>L&apos;encodage des caractères utilise le paramètre <b>fopen</b>.</p>
+    <p
+    >Sans '=>' ni '*', les valeurs sont renvoyées en double : fread(fid, 'int16') lit des entiers de 2 octets et renvoie des double, fread(fid, 'char') renvoie les codes des caractères. Utilisez '*char', 'char=>char' ou 'uint8=>char' pour obtenir des caractères.</p>
   </description>
   <used_function />
   <bibliography />
@@ -111,6 +114,11 @@ fclose(fileID);
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description
+      >'source=>sortie' lit la classe source, 'source' seule renvoie des double, les résultats sont des colonnes.</history_description>
     </history_item>
   </history>
   <authors>

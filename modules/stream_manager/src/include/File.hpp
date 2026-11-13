@@ -18,6 +18,8 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+class FileBackend;
+//=============================================================================
 class NLSSTREAM_MANAGER_IMPEXP File
 {
 private:
@@ -27,6 +29,7 @@ private:
     std::wstring machineFormat;
     std::wstring encoding;
     bool bIsFilePointer;
+    FileBackend* backend = nullptr;
 
 public:
     File(bool bIsFilePointer = true);
@@ -53,6 +56,12 @@ public:
     getEncoding();
     void
     setEncoding(const std::wstring& _encoding);
+    // Takes ownership: the identifier then reads or writes through this backend.
+    void
+    setBackend(FileBackend* _backend);
+    // nullptr for C files and standard streams.
+    FileBackend*
+    getBackend();
 };
 //=============================================================================
 }; // namespace Nelson

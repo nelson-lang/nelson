@@ -171,5 +171,23 @@ precisionFromString(const std::wstring& str, bool& bOK)
     return NLS_UINT8;
 }
 //=============================================================================
+bool
+freadPrecision(const std::wstring& text, NelsonType& source, NelsonType& output)
+{
+    bool bOK = false;
+    const size_t arrow = text.find(L"=>");
+    if (arrow != std::wstring::npos) {
+        source = precisionFromString(text.substr(0, arrow), bOK);
+        if (!bOK) {
+            return false;
+        }
+        output = precisionFromString(text.substr(arrow + 2), bOK);
+        return bOK;
+    }
+    source = precisionFromString(text, bOK);
+    output = (!text.empty() && text[0] == L'*') ? source : NLS_DOUBLE;
+    return bOK;
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================
