@@ -61,7 +61,7 @@ fi
 
 # Install libraries and dependencies by category
 print_status "Installing core libraries"
-install_packages libffi icu zlib curl libgit2 pcre2
+install_packages libffi icu zlib zstd libarchive curl libgit2 pcre2
 
 # Install Qt dependencies
 print_status "Installing Qt dependencies"

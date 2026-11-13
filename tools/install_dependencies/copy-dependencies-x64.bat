@@ -293,6 +293,25 @@ robocopy "%SRC%" "%BIN_DIR%" *.dll /NJH /NJS /NFL /NDL >nul 2>&1
 set rc=%ERRORLEVEL%
 if %rc% GEQ 8 ( echo ERROR: Failed to copy zlib DLLs (robocopy rc=%rc%) & exit /b 1 )
 
+rem zstd is optional: without it, ZIP Zstandard entries are not supported.
+set "SRC=%THIRD_PARTY__DIR%\zstd\bin"
+if exist "%SRC%\" (
+    robocopy "%SRC%" "%BIN_DIR%" *.dll /NJH /NJS /NFL /NDL >nul 2>&1
+    if errorlevel 8 ( echo ERROR: Failed to copy zstd DLLs & exit /b 1 )
+) else (
+    echo WARNING: zstd folder not found, ZIP Zstandard entries disabled: "%SRC%"
+)
+
+rem libarchive: copied after arrow and tiff so its newer liblzma and lz4 win.
+set "SRC=%THIRD_PARTY__DIR%\libarchive\bin"
+if not exist "%SRC%\" (
+    echo ERROR: Source folder not found: "%SRC%"
+    exit /b 1
+)
+robocopy "%SRC%" "%BIN_DIR%" *.dll /NJH /NJS /NFL /NDL >nul 2>&1
+set rc=%ERRORLEVEL%
+if %rc% GEQ 8 ( echo ERROR: Failed to copy libarchive DLLs (robocopy rc=%rc%) & exit /b 1 )
+
 rem MS-MPI redistributable installer - shipped next to the binaries and run by the
 rem installer (tools/innosetup/run.iss) to deploy the MS-MPI runtime. The exe lives
 rem directly in the mpi third-party folder, not in a bin subdirectory.

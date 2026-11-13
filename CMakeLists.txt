@@ -137,6 +137,10 @@ option(WITHOUT_LIBCURL
   "Disable libcurl"
   OFF
 )
+option(WITHOUT_ZSTD
+  "Disable Zstandard compression in ZIP archives"
+  OFF
+)
 option(WITHOUT_FILEWATCHER
   "Disable File watcher"
   OFF
@@ -714,6 +718,51 @@ endif()
 # -- zlib (file archiver)
 if(NOT WITHOUT_FILE_ARCHIVER_MODULE)
   find_package(ZLIB REQUIRED)
+endif()
+# ==============================================================================
+# -- zstd (file archiver, optional: Zstandard ZIP entries)
+set(ZSTD_FOUND FALSE)
+if(NOT WITHOUT_FILE_ARCHIVER_MODULE AND NOT WITHOUT_ZSTD AND NOT NELSON_WASM_BUILD)
+  find_package(PkgConfig QUIET)
+  if(PKG_CONFIG_FOUND)
+    pkg_check_modules(PC_ZSTD QUIET libzstd)
+  endif()
+  find_path(ZSTD_INCLUDE_DIR zstd.h HINTS ${PC_ZSTD_INCLUDE_DIRS})
+  find_library(ZSTD_LIBRARY NAMES zstd libzstd HINTS ${PC_ZSTD_LIBRARY_DIRS})
+  if(ZSTD_INCLUDE_DIR AND ZSTD_LIBRARY)
+    set(ZSTD_FOUND TRUE)
+    message(STATUS "zstd found: ${ZSTD_LIBRARY}")
+  else()
+    message(STATUS "zstd not found: Zstandard ZIP entries disabled.")
+  endif()
+endif()
+# ==============================================================================
+# -- libarchive (file archiver: zip and tar archives)
+if(NOT WITHOUT_FILE_ARCHIVER_MODULE AND NELSON_WASM_BUILD)
+  if(NOT NELSON_WASM_LIBARCHIVE_LIBRARY OR NOT NELSON_WASM_LIBARCHIVE_INCLUDE_DIR)
+    message(FATAL_ERROR
+      "The file archiver requires the Emscripten libarchive archive. "
+      "Run tools/wasm/build-libarchive.sh, or set NELSON_WASM_LIBARCHIVE_INCLUDE_DIR "
+      "and NELSON_WASM_LIBARCHIVE_LIBRARY."
+    )
+  endif()
+  set(LibArchive_INCLUDE_DIRS "${NELSON_WASM_LIBARCHIVE_INCLUDE_DIR}")
+  set(LibArchive_LIBRARIES "${NELSON_WASM_LIBARCHIVE_LIBRARY}")
+elseif(NOT WITHOUT_FILE_ARCHIVER_MODULE)
+  if(APPLE)
+    # Homebrew keeps libarchive out of the default prefix (keg-only).
+    execute_process(
+      COMMAND brew --prefix libarchive
+      OUTPUT_VARIABLE _nelson_libarchive_prefix
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      ERROR_QUIET
+    )
+    if(_nelson_libarchive_prefix AND IS_DIRECTORY "${_nelson_libarchive_prefix}")
+      list(PREPEND CMAKE_PREFIX_PATH "${_nelson_libarchive_prefix}")
+    endif()
+  endif()
+  find_package(LibArchive 3.6 REQUIRED)
+  message(STATUS "libarchive found: ${LibArchive_VERSION} (${LibArchive_LIBRARIES})")
 endif()
 # ==============================================================================
 # -- curl / libgit2 (webtools)

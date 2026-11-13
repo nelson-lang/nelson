@@ -107,6 +107,7 @@ parts:
       - libgl-dev
       # system libraries
       - zlib1g-dev
+      - libzstd-dev
       - libffi-dev
       - libicu-dev
       - libxml2-dev
@@ -183,6 +184,7 @@ parts:
       - libegl1
       # system libraries
       - zlib1g
+      - libzstd1
       - libffi8
       - libicu78
       - libxml2-16

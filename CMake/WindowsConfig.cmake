@@ -135,6 +135,8 @@ list(PREPEND CMAKE_PREFIX_PATH
   "${NELSON_WINDOWS_THIRDPARTY_ROOT}/taglib"
   "${NELSON_WINDOWS_THIRDPARTY_ROOT}/tiff"
   "${NELSON_WINDOWS_THIRDPARTY_ROOT}/zlib"
+  "${NELSON_WINDOWS_THIRDPARTY_ROOT}/zstd"
+  "${NELSON_WINDOWS_THIRDPARTY_ROOT}/libarchive"
 )
 
 list(PREPEND CMAKE_INCLUDE_PATH
@@ -345,6 +347,50 @@ set(
     "zlib library"
   FORCE
 )
+if(EXISTS "${NELSON_WINDOWS_THIRDPARTY_ROOT}/zstd/include/zstd.h")
+  set(
+    ZSTD_INCLUDE_DIR
+    "${NELSON_WINDOWS_THIRDPARTY_ROOT}/zstd/include"
+    CACHE
+      PATH
+      "zstd include directory"
+    FORCE
+  )
+  set(
+    ZSTD_LIBRARY
+    "${NELSON_WINDOWS_THIRDPARTY_ROOT}/zstd/lib/zstd.lib"
+    CACHE
+      FILEPATH
+      "zstd library"
+    FORCE
+  )
+  set(ZSTD_RUNTIME_DIR "${NELSON_WINDOWS_THIRDPARTY_ROOT}/zstd/bin")
+endif()
+# libarchive is required on Windows.
+if(NOT EXISTS "${NELSON_WINDOWS_THIRDPARTY_ROOT}/libarchive/include/archive.h")
+  message(
+    FATAL_ERROR
+    "libarchive not found: ${NELSON_WINDOWS_THIRDPARTY_ROOT}/libarchive"
+  )
+endif()
+set(
+  LibArchive_INCLUDE_DIR
+  "${NELSON_WINDOWS_THIRDPARTY_ROOT}/libarchive/include"
+  CACHE
+    PATH
+    "libarchive include directory"
+  FORCE
+)
+set(
+  LibArchive_LIBRARY
+  "${NELSON_WINDOWS_THIRDPARTY_ROOT}/libarchive/lib/archive.lib"
+  CACHE
+    FILEPATH
+    "libarchive library"
+  FORCE
+)
+# archive.dll with its bzip2, liblzma and lz4 dependencies.
+set(LIBARCHIVE_RUNTIME_DIR "${NELSON_WINDOWS_THIRDPARTY_ROOT}/libarchive/bin")
 set(
   LIBXML2_INCLUDE_DIR
   "${NELSON_WINDOWS_THIRDPARTY_ROOT}/libxml2/include"

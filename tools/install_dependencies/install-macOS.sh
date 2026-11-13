@@ -31,6 +31,8 @@ brew cleanup
 dependencies=(
     coreutils
     zlib
+    zstd
+    libarchive
     libtool
     automake
     libffi

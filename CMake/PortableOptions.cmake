@@ -255,6 +255,20 @@ set(
     "Static zlib library compiled with Emscripten"
 )
 set(
+  NELSON_WASM_LIBARCHIVE_INCLUDE_DIR
+  ""
+  CACHE
+    PATH
+    "Directory containing archive.h for the Emscripten libarchive build"
+)
+set(
+  NELSON_WASM_LIBARCHIVE_LIBRARY
+  ""
+  CACHE
+    FILEPATH
+    "Static libarchive library compiled with Emscripten"
+)
+set(
   NELSON_WASM_HDF5_INCLUDE_DIR
   ""
   CACHE
@@ -491,6 +505,7 @@ if(NELSON_WASM_BUILD)
     set(_nelson_wasm_qhull_dir "${_nelson_wasm_qhull_dir}-wasm-exceptions")
   endif()
   set(_nelson_wasm_zlib_dir "zlib${_nelson_wasm_dependency_suffix}")
+  set(_nelson_wasm_libarchive_dir "libarchive${_nelson_wasm_dependency_suffix}")
   set(_nelson_wasm_hdf5_dir "hdf5${_nelson_wasm_dependency_suffix}")
   set(_nelson_wasm_netcdf_dir "netcdf${_nelson_wasm_dependency_suffix}")
   set(_nelson_wasm_matio_dir "matio${_nelson_wasm_dependency_suffix}")
@@ -589,6 +604,32 @@ if(NELSON_WASM_BUILD)
       CACHE
         FILEPATH
         "Static zlib library compiled with Emscripten"
+      FORCE
+    )
+  endif()
+  if(NOT NELSON_WASM_LIBARCHIVE_INCLUDE_DIR
+    AND EXISTS
+      "${_nelson_wasm_dependency_root}/${_nelson_wasm_libarchive_dir}/include/archive.h"
+  )
+    set(
+      NELSON_WASM_LIBARCHIVE_INCLUDE_DIR
+      "${_nelson_wasm_dependency_root}/${_nelson_wasm_libarchive_dir}/include"
+      CACHE
+        PATH
+        "Directory containing archive.h for the Emscripten libarchive build"
+      FORCE
+    )
+  endif()
+  if(NOT NELSON_WASM_LIBARCHIVE_LIBRARY
+    AND EXISTS
+      "${_nelson_wasm_dependency_root}/${_nelson_wasm_libarchive_dir}/lib/libarchive.a"
+  )
+    set(
+      NELSON_WASM_LIBARCHIVE_LIBRARY
+      "${_nelson_wasm_dependency_root}/${_nelson_wasm_libarchive_dir}/lib/libarchive.a"
+      CACHE
+        FILEPATH
+        "Static libarchive library compiled with Emscripten"
       FORCE
     )
   endif()

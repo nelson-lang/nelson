@@ -18,5 +18,4 @@ exclude:
   - /modules/types/src/include/.*
   - /modules/types/src/cpp/.*
   - /modules/random/src/include/.*
-  - /modules/file_archiver/src/c/minizip/.*
   - /modules/help_tools/src/c/hoedown/.*

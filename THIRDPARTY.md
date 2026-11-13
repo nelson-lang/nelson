@@ -176,13 +176,21 @@ A Massively Spiffy Yet Delicately Unobtrusive Compression Library
 
 > <http://www.zlib.net/zlib_license.html>
 
-- minizip2
+- zstd
 
-Fork of the popular zip manipulation library found in the zlib distribution.
+Zstandard, a fast lossless compression algorithm (Zstandard ZIP entries).
 
-> <https://github.com/nmoinvaz/minizip>
+> <https://github.com/facebook/zstd>
 
-> <https://github.com/nmoinvaz/minizip/blob/master/LICENSE>
+> <https://github.com/facebook/zstd/blob/dev/LICENSE>
+
+- libarchive (3.8.9)
+
+Multi-format archive and compression library: reads and writes ZIP and tar archives (file archiver). The Windows build ships it with bzip2, liblzma and lz4.
+
+> <https://github.com/libarchive/libarchive>
+
+> <https://github.com/libarchive/libarchive/blob/master/COPYING>
 
 - Cmark
 

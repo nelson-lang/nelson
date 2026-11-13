@@ -22,12 +22,12 @@ jobs:
           sudo apt-get update
           # libqt6svg6-dev brings the SVG image plugin the tinted desktop icons are rendered with
           # libopenmpi-dev provides the mpi.h the MPI-enabled SUNDIALS headers include
-          sudo apt-get install -y cmake ninja-build qt6-base-dev libqt6svg6-dev libgl-dev libsundials-dev libopenmpi-dev
+          sudo apt-get install -y cmake ninja-build qt6-base-dev libqt6svg6-dev libgl-dev libsundials-dev libopenmpi-dev zlib1g-dev libzstd-dev libarchive-dev
 
       - name: Build and run the suites
         run: |
           set -e
-          suites="graphics_qt gui interpreter ipc nflow_blocks nflow_engine nflow_gui ode_solvers web_gui webview"
+          suites="file_archiver graphics_qt gui interpreter ipc nflow_blocks nflow_engine nflow_gui ode_solvers web_gui webview"
           for suite in $suites; do
             echo "::group::$suite"
             cmake -S "modules/$suite/tests/cpp" -B "build/$suite" -G Ninja \
@@ -36,3 +36,45 @@ jobs:
             ctest --test-dir "build/$suite" --output-on-failure
             echo "::endgroup::"
           done
+
+  fuzz_archives:
+    name: "Fuzzing (libFuzzer) - ZIP reader - Ubuntu"
+    runs-on: ubuntu-26.04
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build clang libarchive-dev
+
+      # the seed corpus and the saved crashes run once as regression tests
+      - name: Replay the corpus
+        run: |
+          cmake -S modules/file_archiver/tests/fuzz -B build/fuzz-replay -G Ninja -DCMAKE_BUILD_TYPE=Release
+          cmake --build build/fuzz-replay
+          ctest --test-dir build/fuzz-replay --output-on-failure
+
+      - name: Fuzz
+        run: |
+          set -e
+          cmake -S modules/file_archiver/tests/fuzz -B build/fuzz -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+            -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DNELSON_FUZZ=ON
+          cmake --build build/fuzz
+          mkdir -p crashes
+          for target in zip_central_directory_fuzzer zip_archive_fuzzer; do
+            echo "::group::$target"
+            cp -r modules/file_archiver/tests/fuzz/corpus/zip "corpus-$target"
+            (cd crashes && "../build/fuzz/$target" "../corpus-$target" -max_total_time=120 -timeout=10 -rss_limit_mb=2048)
+            echo "::endgroup::"
+          done
+
+      - name: Keep the crashing inputs
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: fuzz-crashes
+          path: crashes/

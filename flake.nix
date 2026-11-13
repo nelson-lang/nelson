@@ -44,6 +44,8 @@
             # system libraries
             icu
             zlib
+            zstd
+            libarchive
             openssl
             curl
             libgit2

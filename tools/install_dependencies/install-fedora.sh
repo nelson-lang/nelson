@@ -102,7 +102,7 @@ optional_libs=(
 # --- Other Libraries ---
 other_libs=(
     libffi-devel libicu-devel libxml2-devel libxslt-devel
-    zlib-devel curl-devel libgit2-devel pcre2-devel
+    zlib-devel libzstd-devel libarchive-devel curl-devel libgit2-devel pcre2-devel
 )
 
 # Install all groups

@@ -6,6 +6,7 @@ extend-exclude = [
     "locale/",
     "modules/*/help/fr_FR/",
     "modules/spreadsheet/src/xlnt/third-party/",
+    "modules/file_archiver/src/c/minizip/",
     "tools/cmake/",
     "tools/cmake-fmt/",
     "tools/innosetup/",

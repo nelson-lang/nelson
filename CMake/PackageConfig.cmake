@@ -384,6 +384,9 @@ if(UNIX)
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, zlib1g (>= 1:1.1.4)"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libzstd1"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqhull-r8.0"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
@@ -522,6 +525,9 @@ if(UNIX)
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, zlib1g (>= 1:1.3)"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libzstd1"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qt6-declarative-dev (>= 6.4.2)"

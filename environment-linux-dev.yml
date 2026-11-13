@@ -42,6 +42,8 @@ dependencies:
   - icu
   - libffi
   - libzlib
+  - zstd
+  - libarchive
   # Images
   - giflib
   - libtiff
