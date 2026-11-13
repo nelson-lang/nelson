@@ -20,7 +20,7 @@ cleanupDirectory = onCleanup(@() cd(previousDirectory));
 cd(destinationdir);
 mex('-client', 'engine', 'mex_engine_demo_1.c');
 generated_executable = [destinationdir, 'mex_engine_demo_1'];
-disp('Open an Terminal')
+disp('Open a terminal.')
 disp('Set environment variables to find Nelson (see doc mex).')
 disp('Go to:')
 disp(destinationdir)
