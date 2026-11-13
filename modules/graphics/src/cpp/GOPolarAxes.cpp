@@ -7,6 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#define _USE_MATH_DEFINES
+#include <cmath>
 #include "GOPolarAxes.hpp"
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
@@ -35,6 +37,11 @@ static const wchar_t* THETA_ZERO_LOCATION_DICT[] = { GO_PROPERTY_VALUE_RIGHT_STR
 //=============================================================================
 static const wchar_t* TITLE_HORIZONTAL_ALIGNMENT_DICT[] = { GO_PROPERTY_VALUE_CENTER_STR,
     GO_PROPERTY_VALUE_LEFT_STR, GO_PROPERTY_VALUE_RIGHT_STR, nullptr };
+//=============================================================================
+static double
+thetaZeroDegrees(GOPolarAxes* axis);
+static double
+wrapDegrees(double degrees);
 //=============================================================================
 GOPolarAxes::GOPolarAxes()
 {
@@ -113,6 +120,26 @@ GOPolarAxes::ensurePolarRuler(const wchar_t* propName)
 void
 GOPolarAxes::updateState()
 {
+    // RAxisLocation is a theta value; its screen angle survives orientation changes.
+    const bool radians
+        = stringCheck(GO_THETA_AXIS_UNITS_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_RADIANS_STR);
+    const double toDegrees = radians ? 180. / M_PI : 1.;
+    const double zeroDegrees = thetaZeroDegrees(this);
+    const double dirSign
+        = stringCheck(GO_THETA_DIR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_CLOCKWISE_STR) ? -1. : 1.;
+    const bool locationSet = hasChanged(GO_R_AXIS_LOCATION_PROPERTY_NAME_STR);
+    if (locationSet && !hasChanged(GO_R_AXIS_LOCATION_MODE_PROPERTY_NAME_STR)) {
+        toManual(GO_R_AXIS_LOCATION_MODE_PROPERTY_NAME_STR);
+    }
+    if (isAuto(GO_R_AXIS_LOCATION_MODE_PROPERTY_NAME_STR)) {
+        m_rAxisScreenAngle = 80.;
+    } else if (locationSet) {
+        double location
+            = findScalarDoubleProperty(GO_R_AXIS_LOCATION_PROPERTY_NAME_STR) * toDegrees;
+        m_rAxisScreenAngle = wrapDegrees(zeroDegrees + dirSign * wrapDegrees(location));
+    }
+    double locationDegrees = wrapDegrees(dirSign * (m_rAxisScreenAngle - zeroDegrees));
+    setScalarDoubleDefault(GO_R_AXIS_LOCATION_PROPERTY_NAME_STR, locationDegrees / toDegrees);
     GOAxis::updateState();
     ensurePolarRuler(GO_R_AXIS_PROPERTY_NAME_STR);
     ensurePolarRuler(GO_THETA_AXIS_PROPERTY_NAME_STR);
@@ -172,6 +199,29 @@ GOPolarAxes::setupPolarDefaults()
 
     setRestrictedStringDefault(
         GO_TITLE_HORIZONTAL_ALIGNMENT_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_CENTER_STR);
+}
+//=============================================================================
+// Screen angle (degrees) of theta 0 for ThetaZeroLocation.
+static double
+thetaZeroDegrees(GOPolarAxes* axis)
+{
+    if (axis->stringCheck(GO_THETA_ZERO_LOCATION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_TOP_STR)) {
+        return 90.;
+    }
+    if (axis->stringCheck(GO_THETA_ZERO_LOCATION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_LEFT_STR)) {
+        return 180.;
+    }
+    if (axis->stringCheck(GO_THETA_ZERO_LOCATION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_BOTTOM_STR)) {
+        return 270.;
+    }
+    return 0.;
+}
+//=============================================================================
+static double
+wrapDegrees(double degrees)
+{
+    double wrapped = std::fmod(degrees, 360.);
+    return wrapped < 0 ? wrapped + 360. : wrapped;
 }
 //=============================================================================
 } // namespace Nelson

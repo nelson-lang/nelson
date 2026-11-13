@@ -55,7 +55,7 @@ function polarRefresh(ax, state, manageDrawLater)
       discColor = [1 1 1];
     end
     set(ax, 'XLim', xLimits, 'YLim', yLimits, ...
-      'PolarAxes', 'on', 'Visible', 'off', 'Box', 'off', 'Color', discColor, ...
+      'PolarAxes', 'on', 'Box', 'off', 'Color', discColor, ...
       'XTick', [], 'YTick', [], 'DataAspectRatio', [1 1 1], ...
       'PlotBoxAspectRatio', [1 1 1]);
     [state.GridHandles, gridLines, gridLabels] = drawPolarGrid(ax, state, maxRadius, gridVisible);
@@ -280,6 +280,7 @@ function handles = drawThetaLabels(ax, state, maxRadius, color, gridVisible)
   handles = gobjects(min(numel(state.ThetaTick), numel(state.ThetaTickLabel)), 1);
   count = 0;
   labels = state.ThetaTickLabel;
+  % Any radius outside the disc: the axes sets the pixel gap and alignment when drawn.
   radius = maxRadius * 1.06;
   for k = 1:min(numel(state.ThetaTick), numel(labels))
     value = state.ThetaTick(k);
@@ -426,7 +427,7 @@ function angle = polarRAxisLocationAngle(state)
   angle = deg2radLocal(80);
   if isfield(state, 'RAxisLocation') && isscalar(state.RAxisLocation) ...
       && isfinite(state.RAxisLocation)
-    angle = deg2radLocal(state.RAxisLocation);
+    angle = thetaValueToRadians(state.RAxisLocation, state.ThetaAxisUnits);
   end
 end
 %=============================================================================

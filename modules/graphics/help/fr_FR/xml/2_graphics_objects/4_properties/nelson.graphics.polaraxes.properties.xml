@@ -204,7 +204,7 @@
       </tr>
       <tr>
         <td><b>FontSizeMode</b></td>
-        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>'auto' (defaut): FontSize vaut la taille par defaut, reduite pour une petite zone de trace (jusqu'a 80%, par demi-points, si la largeur est sous 300 pixels ou la hauteur sous 240 pixels); le titre et les libelles suivent. 'manual' (fixe en affectant FontSize) conserve la valeur affectee.</td>
         <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
       </tr>
       <tr>

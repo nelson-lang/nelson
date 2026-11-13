@@ -18,7 +18,7 @@ asserts.isequal(h.Type, 'bubblechart');
 asserts.isequal(h.Parent.Type, 'polaraxes');
 asserts.isequal(numel(f.Children), 1);
 asserts.isequal(f.Children.Type, 'polaraxes');
-asserts.isequal(char(f.Children.Visible), 'off');
+asserts.isequal(char(f.Children.Visible), 'on');
 asserts.isequal(numel(f.Children.XTick), 0);
 asserts.isequal(numel(f.Children.YTick), 0);
 asserts.isequal(h.ThetaData, theta);

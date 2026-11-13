@@ -19,7 +19,7 @@ asserts.isequal(thetaticks(), 0:30:360);
 thetaLabels = thetaticklabels();
 asserts.isequal(thetaLabels{end}, ['330', char(176)]);
 asserts.isfalse(any(strcmp(thetaLabels, ['360', char(176)])));
-asserts.isequal(char(ax.Visible), 'off');
+asserts.isequal(char(ax.Visible), 'on');
 asserts.isequal(char(ax.Box), 'off');
 asserts.isequal(ax.Color, [1 1 1]);
 asserts.istrue(isempty(ax.XTick));

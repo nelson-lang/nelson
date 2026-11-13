@@ -204,7 +204,7 @@
       </tr>
       <tr>
         <td><b>FontSizeMode</b></td>
-        <td>'auto' lets Nelson recompute the paired property; 'manual' preserves the assigned value.</td>
+        <td>'auto' (default): FontSize is the default size, reduced on a small plot box (down to 80%, by half points, from the box width under 300 pixels or its height under 240 pixels); title and labels follow. 'manual' (set by assigning FontSize) keeps the assigned value.</td>
         <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
       </tr>
       <tr>
