@@ -1133,8 +1133,7 @@ WebGuiServer::setFigureWindowClientSize(long long handle, int clientWidth, int c
             win = it->second;
         }
         // Windows: grow the outer window by its chrome. Elsewhere webui_set_size
-        // already sizes the client area natively (GTK gtk_window_resize, macOS
-        // setContentSize).
+        // sizes the client area (GTK resize, macOS setContentSize).
 #ifdef _WIN32
         matchFigureWindowClientSize(win, clientWidth, clientHeight);
 #else

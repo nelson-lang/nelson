@@ -9,7 +9,7 @@
 //=============================================================================
 import { openFigurePrintPreview } from './figurePrint';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { onPush, rpc } from '../rpc/client';
+import { hydrateFigureImages, onPush, rpc } from '../rpc/client';
 import { webPrompt } from '../components/PromptHost';
 import type { FigureDisplayListResult, UIControl } from '../rpc/types';
 import { FigureCanvas } from './FigureCanvas';
@@ -111,6 +111,9 @@ export function FigurePanel({
   const displayListRef = useRef<FigureDisplayListResult | null>(null);
   const acceptDisplayListRef = useRef<((next: FigureDisplayListResult) => void) | null>(null);
   const ordered = useRef(createResponseOrder()).current;
+  // Counts pushed frames: a fetched display list older than the latest pushed
+  // frame must not overwrite it (an animation may push no frame afterwards).
+  const pushedFrameSeqRef = useRef(0);
   const animationFrameQueueRef = useRef(
     createLatestAnimationFrameQueue<FigureDisplayListResult>((next) =>
       acceptDisplayListRef.current?.(next)
@@ -145,6 +148,10 @@ export function FigurePanel({
   // resize feedback below is suppressed, so the transient too-small opening size
   // cannot overwrite the Position.
   const targetDrawSize = useRef<{ handle: number; w: number; h: number } | null>(null);
+  // Host client size when the window last matched the figure: tells a user resize
+  // (host changed) from a layout-only canvas change (host unchanged).
+  const hostSizeWhenSized = useRef<{ w: number; h: number } | null>(null);
+  const lastWindowRequestAt = useRef(0);
   const windowSized = useRef(false);
   const windowSizeAttempts = useRef(0);
   const interactiveRefreshTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -340,9 +347,11 @@ export function FigurePanel({
   };
 
   const refresh = () => {
+    const pushedFrameSeqAtIssue = pushedFrameSeqRef.current;
     fetchDisplayList(displayListParams())
       .then(
-        ordered((next) => {
+        ordered((next: FigureDisplayListResult) => {
+          if (pushedFrameSeqRef.current !== pushedFrameSeqAtIssue) return;
           acceptDisplayList(next);
           // All figure refresh paths (cell runs, stale-cell runs, controls and
           // native figure updates) share this callback. Keep the inline stage
@@ -544,11 +553,35 @@ export function FigurePanel({
     const offUpdated = onPush('figure.updated', (p) => {
       if ((p as { handle?: number }).handle === handle) refresh();
     });
+    // A frame named pixels this page never received (pushed before it connected):
+    // fetch the full display list, at most once a second.
+    let lastPayloadRefresh = 0;
+    const offPayloadMissing = onPush('figure.payloadMissing', (p) => {
+      if ((p as { handle?: number }).handle !== handle) return;
+      const now = Date.now();
+      if (now - lastPayloadRefresh < 1000) return;
+      lastPayloadRefresh = now;
+      const pushedFrameSeqAtIssue = pushedFrameSeqRef.current;
+      // The fetch stores the pixels in the image cache. A newer pushed frame keeps
+      // priority: re-apply it, now hydrated from that cache.
+      fetchDisplayList(displayListParams())
+        .then((next) => {
+          if (!active) return;
+          const latest = displayListRef.current;
+          if (pushedFrameSeqRef.current === pushedFrameSeqAtIssue || !latest) {
+            acceptDisplayList(next);
+          } else {
+            acceptDisplayList(hydrateFigureImages(latest));
+          }
+        })
+        .catch(() => undefined);
+    });
     // drawnow frames arrive already rendered: apply them directly, since a
     // re-fetch would block until the script yields.
     const offFrame = onPush('figure.frame', (p) => {
       const f = p as { handle?: number; displayList?: FigureDisplayListResult };
       if (f.handle !== handle || !f.displayList) return;
+      pushedFrameSeqRef.current += 1;
       const frame = retainFigureDisplayListWebGlGeometry(
         f.displayList,
         retainedWebGlGeometryRef.current
@@ -580,6 +613,7 @@ export function FigurePanel({
       active = false;
       animationFrameQueueRef.current.cancel();
       offUpdated();
+      offPayloadMissing();
       offFrame();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -657,6 +691,13 @@ export function FigurePanel({
     if (w <= 10 || h <= 10) return;
     setBox({ w, h });
     if (scaleToFit) return;
+    // A standalone window still being sized keeps the figure size: refetch the list at it.
+    const sizing =
+      standalone && (!windowSized.current || Date.now() - lastWindowRequestAt.current < 1500);
+    if (sizing && dl) {
+      setSize(dl.width, dl.height, force);
+      return;
+    }
     setSize(w, h, force);
   };
   // uihtml pages live in iframes owned by uihtmlHost, outside React's control
@@ -720,6 +761,27 @@ export function FigurePanel({
     if (figureWindowNeedsResize(current.width, current.height, canvasWidth, canvasHeight)) {
       windowSized.current = false;
       windowSizeAttempts.current = 0;
+      // The engine now asks for a new size (script Position): drop a canvas size
+      // still waiting to be pushed back, or it would undo that request.
+      if (sizeDebounce.current) {
+        clearTimeout(sizeDebounce.current);
+        sizeDebounce.current = null;
+      }
+      if (resizeFrame.current !== null) {
+        window.cancelAnimationFrame(resizeFrame.current);
+        resizeFrame.current = null;
+      }
+      // A script Position change leaves the canvas untouched, so the ResizeObserver
+      // never fires: request the first host resize here, the observer converges it.
+      if (!window.opener) {
+        const dpr = window.devicePixelRatio || 1;
+        const chromeW = Math.max(0, window.innerWidth - canvasWidth);
+        const chromeH = Math.max(0, window.innerHeight - canvasHeight);
+        const width = Math.round((current.width + chromeW) * dpr);
+        const height = Math.round((current.height + chromeH) * dpr);
+        lastWindowRequestAt.current = Date.now();
+        void rpc('figure.setWindowSize', { handle, width, height }).catch(() => undefined);
+      }
     } else {
       windowSized.current = true;
     }
@@ -748,11 +810,13 @@ export function FigurePanel({
       const dh = h - target.h;
       if (Math.abs(dw) <= 1 && Math.abs(dh) <= 1) {
         windowSized.current = true;
+        hostSizeWhenSized.current = { w: window.innerWidth, h: window.innerHeight };
         return false;
       }
       if (windowSizeAttempts.current >= MAX_SIZE_ATTEMPTS) {
-        // Stop retrying but let move/resize tracking resume.
+        // Stop retrying but let move/resize tracking resume, without re-driving.
         windowSized.current = true;
+        hostSizeWhenSized.current = null;
         return false;
       }
       windowSizeAttempts.current += 1;
@@ -768,6 +832,7 @@ export function FigurePanel({
         const chromeH = Math.max(0, window.innerHeight - h);
         const width = Math.round((target.w + chromeW) * dpr);
         const height = Math.round((target.h + chromeH) * dpr);
+        lastWindowRequestAt.current = Date.now();
         void rpc('figure.setWindowSize', { handle, width, height }).catch(() => undefined);
       }
       return true;
@@ -775,16 +840,42 @@ export function FigurePanel({
     const syncSize = () => {
       const w = Math.round(el.clientWidth);
       const h = Math.round(el.clientHeight);
-      if (w <= 10 || h <= 10) return;
-      setBox({ w, h });
+      // Track the canvas size first: the last observation may arrive while the host
+      // window is still being driven, and the stage must still follow it.
+      if (w > 10 && h > 10) setBox({ w, h });
+      // A collapsed canvas (wrapped toolbar) still drives the host window back; figure.setSize
+      // stays suppressed meanwhile so the too-small opening canvas cannot shrink the figure.
       if (standalone && !windowSized.current) {
-        // Drive the host window to the figure Position; suppress figure.setSize
-        // meanwhile so the opening (too-small) canvas cannot shrink the figure.
         if (driveStandaloneWindowSize(w, h)) return;
       }
+      if (w <= 10 || h <= 10) return;
       // A non-resizable figure is scaled to fit by the stage, not redrawn at the
       // panel size: never push the panel size back as the figure size.
       if (scaleToFit) return;
+      // Canvas drift with an unchanged host window (toolbar rewrap) is layout, not a user
+      // resize: drive the window back instead of shrinking the figure to the canvas.
+      const host = hostSizeWhenSized.current;
+      const hostUnchanged =
+        !!host &&
+        Math.abs(window.innerWidth - host.w) <= 1 &&
+        Math.abs(window.innerHeight - host.h) <= 1;
+      // A size this page just asked the host for is still settling: not a user resize.
+      const ownResizeSettling = Date.now() - lastWindowRequestAt.current < 1500;
+      if (
+        standalone &&
+        dl &&
+        (hostUnchanged || ownResizeSettling) &&
+        figureWindowNeedsResize(dl.width, dl.height, w, h)
+      ) {
+        // Settling retries keep their attempt budget so they cannot loop forever.
+        if (hostUnchanged) windowSizeAttempts.current = 0;
+        if (windowSizeAttempts.current < MAX_SIZE_ATTEMPTS) {
+          targetDrawSize.current = { handle, w: dl.width, h: dl.height };
+          windowSized.current = false;
+          driveStandaloneWindowSize(w, h);
+        }
+        return;
+      }
       if (dl && figureWindowNeedsResize(dl.width, dl.height, w, h)) {
         if (sizeDebounce.current) clearTimeout(sizeDebounce.current);
         if (resizeFrame.current !== null) window.cancelAnimationFrame(resizeFrame.current);

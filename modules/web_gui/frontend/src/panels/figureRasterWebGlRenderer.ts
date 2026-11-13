@@ -195,6 +195,15 @@ class WebGl2RasterRenderer implements FigureRasterWebGlRenderer {
       const alpha = value.length === 9 ? Number.parseInt(value.slice(7, 9), 16) / 255 : 1;
       if ([red, green, blue, alpha].every(Number.isFinite)) return [red, green, blue, alpha];
     }
+    // The engine serializes fills as rgba(r,g,b,a) with 0-255 channels.
+    const match = /^rgba?\(([^)]+)\)$/.exec(value.trim());
+    if (match) {
+      const parts = match[1].split(',').map((part) => Number.parseFloat(part));
+      if (parts.length >= 3 && parts.slice(0, 3).every(Number.isFinite)) {
+        const alpha = parts.length >= 4 && Number.isFinite(parts[3]) ? parts[3] : 1;
+        return [parts[0] / 255, parts[1] / 255, parts[2] / 255, alpha];
+      }
+    }
     return [0, 0, 0, 1];
   }
   //=============================================================================

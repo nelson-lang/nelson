@@ -43,6 +43,10 @@ type PushHandler = (payload: unknown) => void;
 const pushHandlers = new Map<string, Set<PushHandler>>();
 const anyPushHandlers = new Set<(channel: string, payload: unknown) => void>();
 const figureImagePayloads = new FigureImagePayloadCache();
+// Fill image pixels a display list refers to from those this page already received.
+export function hydrateFigureImages(figure: FigureDisplayListResult): FigureDisplayListResult {
+  return figureImagePayloads.hydrate(figure);
+}
 function dispatchPush(channel: string, payload: unknown): void {
   const handlers = pushHandlers.get(channel);
   if (handlers) {
@@ -67,9 +71,13 @@ window.__nelsonPush = (channel: string, payloadJson: string) => {
     /* leave as raw string */
   }
   if (channel === 'figure.frame') {
-    const frame = payload as { displayList?: FigureDisplayListResult };
+    const frame = payload as { handle?: number; displayList?: FigureDisplayListResult };
     if (frame?.displayList) {
-      payload = { ...frame, displayList: figureImagePayloads.hydrate(frame.displayList) };
+      const displayList = figureImagePayloads.hydrate(frame.displayList);
+      payload = { ...frame, displayList };
+      if (figureImagePayloads.missingPayload(displayList)) {
+        dispatchPush('figure.payloadMissing', { handle: frame.handle ?? displayList.handle });
+      }
     }
   }
   dispatchPush(channel, payload);

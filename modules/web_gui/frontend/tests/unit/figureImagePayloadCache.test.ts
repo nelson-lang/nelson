@@ -50,3 +50,14 @@ it('bounds retained animation data and keeps recently referenced sprites', () =>
   expect(cache.hydrate(frame([image('1')])).primitives[0]).not.toHaveProperty('image');
 });
 //=============================================================================
+it('reports an image whose pixels this page never received', () => {
+  const cache = new FigureImagePayloadCache();
+  const image: DrawPrimitive = { kind: 'image', imageId: 'raw:1x1:7', x: 0, y: 0, w: 4, h: 4 };
+  expect(cache.missingPayload(cache.hydrate(frame([image])))).toBe(true);
+  cache.retain([{ ...image, rgba: 'AAAA' }]);
+  expect(cache.missingPayload(cache.hydrate(frame([image])))).toBe(false);
+  expect(
+    cache.missingPayload(frame([{ kind: 'rect', x: 0, y: 0, w: 1, h: 1 } as DrawPrimitive]))
+  ).toBe(false);
+});
+//=============================================================================

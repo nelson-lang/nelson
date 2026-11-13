@@ -54,6 +54,20 @@ export class FigureImagePayloadCache {
     return { ...figure, primitives };
   }
   //=============================================================================
+  // True when an image refers to pixels this client never received (for example a
+  // frame pushed before the page connected): the caller must fetch a full list.
+  missingPayload(figure: FigureDisplayListResult): boolean {
+    return figure.primitives.some(
+      (primitive) =>
+        primitive.kind === 'image' &&
+        !!primitive.imageId &&
+        !primitive.image &&
+        !primitive.rgba &&
+        !primitive.rgbaBytes &&
+        !this.entries.has(primitive.imageId)
+    );
+  }
+  //=============================================================================
   clear(): void {
     this.entries.clear();
     this.bytes = 0;
