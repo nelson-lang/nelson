@@ -40,7 +40,12 @@ function varargout = mpiexec(varargin)
   else
     assume_as_root = '';
   end
-  cmd = ['mpiexec', assume_as_root, ' -n ', int2str(nb_process), ' ', 'nelson-cli', ' -q', ' -e ', '"', run_cmd, '"'];
+  % Launch the workers with this installation's nelson-cli, not one found on PATH.
+  nelson_exe = fullfile(modulepath('nelson', 'bin'), 'nelson-cli');
+  if ispc()
+    nelson_exe = [nelson_exe, '.exe'];
+  end
+  cmd = ['mpiexec', assume_as_root, ' -n ', int2str(nb_process), ' "', nelson_exe, '" -q -e "', run_cmd, '"'];
   [res, msg] = unix(cmd);
   if nargout == 0
     disp(msg)
