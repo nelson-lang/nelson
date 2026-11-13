@@ -539,7 +539,12 @@ NelsonMainStatesWithMainThreadEvents(Evaluator* eval, NELSON_ENGINE_MODE mode, b
             ProcessWebGuiEventsDynamic();
         }
 #endif
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        if (mode == NELSON_ENGINE_MODE::GUI) {
+            // Wakes at once when the evaluator posts GUI work (callGuiSync).
+            Nelson::waitGuiWork(1);
+        } else {
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        }
     }
 #ifdef _MSC_VER
     evaluatorThread.join();

@@ -9,6 +9,9 @@
 //=============================================================================
 #include "RuntimeDispatch.hpp"
 #include <atomic>
+#include <chrono>
+#include <condition_variable>
+#include <deque>
 #include <mutex>
 //=============================================================================
 namespace Nelson {
@@ -116,6 +119,52 @@ pumpGuiEventsBlocking(int maxTimeMs)
         return true;
     }
     return false;
+}
+//=============================================================================
+namespace {
+std::mutex guiWorkMutex;
+std::condition_variable guiWorkCondition;
+bool guiWorkPending = false;
+std::deque<RuntimeDispatchTask> guiDirectTasks;
+}
+//=============================================================================
+void
+notifyGuiWork()
+{
+    {
+        std::lock_guard<std::mutex> lock(guiWorkMutex);
+        guiWorkPending = true;
+    }
+    guiWorkCondition.notify_one();
+}
+//=============================================================================
+void
+postGuiDirectTask(RuntimeDispatchTask task)
+{
+    {
+        std::lock_guard<std::mutex> lock(guiWorkMutex);
+        guiDirectTasks.push_back(std::move(task));
+        guiWorkPending = true;
+    }
+    guiWorkCondition.notify_one();
+}
+//=============================================================================
+void
+waitGuiWork(int maxTimeMs)
+{
+    std::deque<RuntimeDispatchTask> tasks;
+    {
+        std::unique_lock<std::mutex> lock(guiWorkMutex);
+        guiWorkCondition.wait_for(
+            lock, std::chrono::milliseconds(maxTimeMs), [] { return guiWorkPending; });
+        guiWorkPending = false;
+        tasks.swap(guiDirectTasks);
+    }
+    for (auto& task : tasks) {
+        if (task) {
+            task();
+        }
+    }
 }
 //=============================================================================
 bool

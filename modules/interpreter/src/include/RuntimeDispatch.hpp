@@ -63,6 +63,19 @@ processGuiEvents(bool waitEvents);
 NLSINTERPRETER_IMPEXP bool
 pumpGuiEventsBlocking(int maxTimeMs);
 //=============================================================================
+// Wakes a main loop sleeping in waitGuiWork: call after posting GUI work.
+NLSINTERPRETER_IMPEXP void
+notifyGuiWork();
+//=============================================================================
+// Queues a task for the main loop and wakes it. The main loop runs it in waitGuiWork.
+NLSINTERPRETER_IMPEXP void
+postGuiDirectTask(RuntimeDispatchTask task);
+//=============================================================================
+// Sleeps at most maxTimeMs, returning early as soon as notifyGuiWork is called.
+// Runs the tasks queued by postGuiDirectTask, on the calling (main) thread.
+NLSINTERPRETER_IMPEXP void
+waitGuiWork(int maxTimeMs);
+//=============================================================================
 NLSINTERPRETER_IMPEXP bool
 hasQtRuntime();
 //=============================================================================

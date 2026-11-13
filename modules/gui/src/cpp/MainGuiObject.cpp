@@ -7,6 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <atomic>
+#include <future>
+#include <memory>
 #include <QtCore/QtGlobal>
 #include <QtCore/QFileInfo>
 #include <QtCore/QMetaObject>
@@ -201,6 +204,7 @@ registerQtRuntimeDispatchBackend()
             return;
         }
         QTimer::singleShot(0, qtApp, [task = std::move(task)]() mutable { task(); });
+        Nelson::notifyGuiWork();
     };
     backend.callGuiSync = [](Nelson::RuntimeDispatchTask task) {
         QCoreApplication* qtApp = QCoreApplication::instance();
@@ -211,8 +215,36 @@ registerQtRuntimeDispatchBackend()
             task();
             return;
         }
+#ifdef __APPLE__
+        // Run directly from the main loop (Qt events are polled once per ms) and via Qt
+        // for nested event loops (modal dialogs): whichever comes first runs it, once.
+        struct SyncCall
+        {
+            Nelson::RuntimeDispatchTask task;
+            std::promise<void> done;
+            std::atomic<bool> taken { false };
+        };
+        auto call = std::make_shared<SyncCall>();
+        call->task = std::move(task);
+        std::future<void> finished = call->done.get_future();
+        auto run = [call]() {
+            if (call->taken.exchange(true)) {
+                return;
+            }
+            try {
+                call->task();
+                call->done.set_value();
+            } catch (...) {
+                call->done.set_exception(std::current_exception());
+            }
+        };
+        QMetaObject::invokeMethod(qtApp, run, Qt::QueuedConnection);
+        Nelson::postGuiDirectTask(run);
+        finished.get();
+#else
         QMetaObject::invokeMethod(
             qtApp, [task = std::move(task)]() mutable { task(); }, Qt::BlockingQueuedConnection);
+#endif
     };
     backend.notifyInterrupt = [](size_t) { };
     backend.processGuiEvents = [](bool waitEvents) { Nelson::ProcessEvents(waitEvents); };
