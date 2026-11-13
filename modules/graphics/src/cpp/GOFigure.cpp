@@ -965,13 +965,19 @@ GOFigure::refreshPositionProperties(bool forceUpdate)
     }
     syncFigureUnitsIfChanged(this);
     if (m_win->isHeadlessHost()) {
+        // Read before the triplet sync, which rewrites the three properties and so
+        // clears their changed flags.
+        const bool positionChangedByScript = hasChanged(positionNames);
         syncSimplePositionTriplet(this);
         // The web panel controls m_width/m_height via setFigureSize. Only
         // re-derive the rendering size from Position when the script actually
         // changed the Position property; otherwise the web panel's size would
         // be overwritten on every render cycle.
-        if (hasChanged(positionNames)) {
+        if (positionChangedByScript) {
             syncRenderingSizeFromPosition(this);
+            // Re-derive the auto axes layout for the new drawing area, as
+            // applyWebWindowGeometry does for a user resize.
+            refreshChildrenLayout();
         }
         clearChanged(positionNames);
         refreshPaperPosition();
