@@ -7,13 +7,36 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <algorithm>
 #include "GOSubplotText.hpp"
+#include "GOFigure.hpp"
 #include "GOStringAutoManualProperty.hpp"
 #include "GOHelpers.hpp"
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+double
+subplotTextAutoFontSize(GOFigure* figure)
+{
+    // Figure widths and heights (pixels) where the reference adds half a point, from 11 to 15.
+    static const double widthSteps[] = { 177.5, 227.5, 282.5, 332.5, 402.5, 492.5, 582.5, 672.5 };
+    static const double heightSteps[] = { 142.5, 177.5, 212.5, 252.5, 302.5, 367.5, 437.5, 502.5 };
+    if (!figure) {
+        return 15.0;
+    }
+    std::vector<double> position = figure->findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR);
+    double width = position.size() >= 4 && position[2] > 0 ? position[2] : figure->getWidth();
+    double height = position.size() >= 4 && position[3] > 0 ? position[3] : figure->getHeight();
+    int widthCount = 0;
+    int heightCount = 0;
+    for (size_t k = 0; k < sizeof(widthSteps) / sizeof(widthSteps[0]); ++k) {
+        widthCount += width >= widthSteps[k] ? 1 : 0;
+        heightCount += height >= heightSteps[k] ? 1 : 0;
+    }
+    return 11.0 + 0.5 * std::min(widthCount, heightCount);
+}
 //=============================================================================
 GOSubplotText::GOSubplotText() : GOText()
 {

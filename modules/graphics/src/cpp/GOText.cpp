@@ -15,6 +15,7 @@
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
 #include "GOText.hpp"
+#include "GOSubplotText.hpp"
 #include "GOFontSpecHelpers.hpp"
 #include "GOAxis.hpp"
 #include "GOFigure.hpp"
@@ -113,6 +114,19 @@ namespace {
         return names;
     }
     //=============================================================================
+    // Font properties and their hidden auto/manual modes.
+    static const std::vector<std::pair<std::wstring, std::wstring>>&
+    fontModePropertyPairs()
+    {
+        static const std::vector<std::pair<std::wstring, std::wstring>> pairs
+            = { { GO_FONT_ANGLE_PROPERTY_NAME_STR, GO_FONT_ANGLE_MODE_PROPERTY_NAME_STR },
+                  { GO_FONT_NAME_PROPERTY_NAME_STR, GO_FONT_NAME_MODE_PROPERTY_NAME_STR },
+                  { GO_FONT_SIZE_PROPERTY_NAME_STR, GO_FONT_SIZE_MODE_PROPERTY_NAME_STR },
+                  { GO_FONT_UNITS_PROPERTY_NAME_STR, GO_FONT_UNITS_MODE_PROPERTY_NAME_STR },
+                  { GO_FONT_WEIGHT_PROPERTY_NAME_STR, GO_FONT_WEIGHT_MODE_PROPERTY_NAME_STR } };
+        return pairs;
+    }
+    //=============================================================================
     static const std::vector<std::wstring>&
     textContentPropertyNames()
     {
@@ -161,17 +175,6 @@ namespace {
         return defaultSubplotFigureSize(text->getParentFigure());
     }
     //=============================================================================
-    static double
-    subplotTextAutoFontSize(GOText* text)
-    {
-        if (subplotTextCompactFigure(text)) {
-            return 14.5;
-        }
-        if (subplotTextDefaultFigure(text)) {
-            return 15.0;
-        }
-        return 15.0;
-    }
     //=============================================================================
     static bool
     subplotTextParentIsTiledLayout(GOText* text)
@@ -340,6 +343,9 @@ namespace {
     //=============================================================================
 } // namespace
 //=============================================================================
+static void
+convertFontSizeOnUserUnitsChange(GOText* text);
+//=============================================================================
 std::wstring
 GOText::getType()
 {
@@ -433,6 +439,7 @@ GOText::constructProperties()
     registerProperty(
         new GOAutoManualProperty, GO_HORIZONTAL_ALIGNMENT_MODE_PROPERTY_NAME_STR, false, false);
     registerProperty(new GOThreeVectorProperty, GO_POSITION_PROPERTY_NAME_STR);
+    registerProperty(new GOAutoManualProperty, GO_POSITION_MODE_PROPERTY_NAME_STR, false, false);
     registerProperty(new GOScalarProperty, GO_ROTATION_PROPERTY_NAME_STR);
     registerProperty(new GOAutoManualProperty, GO_ROTATION_MODE_PROPERTY_NAME_STR, false, false);
     registerProperty(new GOUnitsProperty, GO_UNITS_PROPERTY_NAME_STR);
@@ -446,9 +453,12 @@ GOText::constructProperties()
     registerProperty(new GOScalarProperty, GO_MARGIN_PROPERTY_NAME_STR);
     registerProperty(new GOFontAngleProperty, GO_FONT_ANGLE_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_FONT_NAME_PROPERTY_NAME_STR);
-    registerProperty(new GOScalarProperty, GO_FONT_SIZE_PROPERTY_NAME_STR);
+    registerProperty(new GOFontSizeProperty, GO_FONT_SIZE_PROPERTY_NAME_STR);
     registerProperty(new GOFontUnitsProperty, GO_FONT_UNITS_PROPERTY_NAME_STR);
     registerProperty(new GOFontWeightProperty, GO_FONT_WEIGHT_PROPERTY_NAME_STR);
+    for (const auto& fontMode : fontModePropertyPairs()) {
+        registerProperty(new GOAutoManualProperty, fontMode.second, true, false);
+    }
     registerProperty(new GOOnOffProperty, GO_VISIBLE_PROPERTY_NAME_STR);
     registerProperty(new GOColorProperty, GO_COLOR_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_PARENT_PROPERTY_NAME_STR);
@@ -471,6 +481,7 @@ GOText::setupDefaults()
     setRestrictedStringDefault(
         GO_HORIZONTAL_ALIGNMENT_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
     setThreeVectorDefault(GO_POSITION_PROPERTY_NAME_STR, 0, 0, 0);
+    setRestrictedStringDefault(GO_POSITION_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
     setScalarDoubleDefault(GO_ROTATION_PROPERTY_NAME_STR, 0);
     setRestrictedStringDefault(GO_ROTATION_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
     setRestrictedStringDefault(GO_UNITS_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_DATA_STR);
@@ -488,6 +499,9 @@ GOText::setupDefaults()
     setScalarDoubleDefault(GO_FONT_SIZE_PROPERTY_NAME_STR, 10);
     setRestrictedStringDefault(GO_FONT_UNITS_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_POINTS_STR);
     setRestrictedStringDefault(GO_FONT_WEIGHT_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NORMAL_STR);
+    for (const auto& fontMode : fontModePropertyPairs()) {
+        setRestrictedStringDefault(fontMode.second, GO_PROPERTY_VALUE_AUTO_STR);
+    }
     setRestrictedStringDefault(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setThreeVectorDefault(GO_COLOR_PROPERTY_NAME_STR, 33.0 / 255.0, 33.0 / 255.0, 33.0 / 255.0);
     setStringDefault(GO_TYPE_PROPERTY_NAME_STR, getType());
@@ -509,7 +523,7 @@ GOText::paintMe(RenderInterface& gc)
         && !subplotTextParentIsTiledLayout(this)) {
         GOScalarProperty* fontsize
             = static_cast<GOScalarProperty*>(findProperty(GO_FONT_SIZE_PROPERTY_NAME_STR));
-        fontsize->data(subplotTextAutoFontSize(this));
+        fontsize->data(subplotTextAutoFontSize(getParentFigure()));
     }
     updateState();
     if (stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR)) {
@@ -768,6 +782,11 @@ GOText::updateState()
     // cleared at once so an auto value written by the owning axes (which also marks
     // the property modified) is not mistaken for a user set.
     if (stateInitialized) {
+        // A user-set Position pins an axes title against its automatic layout.
+        if (hasChanged(GO_POSITION_PROPERTY_NAME_STR)) {
+            toManual(GO_POSITION_MODE_PROPERTY_NAME_STR);
+            clearChanged(GO_POSITION_PROPERTY_NAME_STR);
+        }
         if (hasChanged(GO_ROTATION_PROPERTY_NAME_STR)) {
             toManual(GO_ROTATION_MODE_PROPERTY_NAME_STR);
             clearChanged(GO_ROTATION_PROPERTY_NAME_STR);
@@ -781,10 +800,25 @@ GOText::updateState()
             clearChanged(GO_VERTICAL_ALIGNMENT_PROPERTY_NAME_STR);
         }
     }
+    convertFontSizeOnUserUnitsChange(this);
     const std::vector<std::wstring>& fontProperties = fontStatePropertyNames();
     const std::vector<std::wstring>& textProperties = textContentPropertyNames();
     bool subplotTextFontModeChanged = isType(GO_PROPERTY_VALUE_SUBPLOT_TEXT_STR)
         && hasChanged(GO_FONT_SIZE_MODE_PROPERTY_NAME_STR);
+    // A user font value turns its mode to manual, unless the same set gave the mode.
+    if (!isType(GO_PROPERTY_VALUE_SUBPLOT_TEXT_STR)) {
+        for (const auto& fontMode : fontModePropertyPairs()) {
+            if (stateInitialized && hasChanged(fontMode.first) && !hasChanged(fontMode.second)) {
+                toManual(fontMode.second);
+            }
+            clearChanged(fontMode.second);
+        }
+        if (stateInitialized && haveProperty(GO_COLOR_MODE_PROPERTY_NAME_STR)
+            && hasChanged(GO_COLOR_PROPERTY_NAME_STR)
+            && !hasChanged(GO_COLOR_MODE_PROPERTY_NAME_STR)) {
+            toManual(GO_COLOR_MODE_PROPERTY_NAME_STR);
+        }
+    }
     bool fontChanged
         = !stateInitialized || hasChanged(fontProperties) || subplotTextFontModeChanged;
     bool textChanged = !stateInitialized || hasChanged(textProperties);
@@ -809,6 +843,9 @@ GOText::updateState()
             GOFontUnitsProperty* fontUnits
                 = static_cast<GOFontUnitsProperty*>(findProperty(GO_FONT_UNITS_PROPERTY_NAME_STR));
             double fontSize = fontsize->data();
+            if (!fontUnits->isEqual(GO_PROPERTY_VALUE_PIXELS_STR)) {
+                fontSize = fontSizeInPoints(this);
+            }
             if (isType(GO_PROPERTY_VALUE_SUBPLOT_TEXT_STR)) {
                 fontSize *= subplotTextQtFontScale(this);
             }
@@ -910,6 +947,25 @@ GOText::updateState()
     // vertical offset (it shifts up for a subtitle), so recompute the title layout
     // on text changes too.
     markParentTitleLayoutChanged(this, wasStateInitialized && (fontChanged || textChanged));
+}
+//=============================================================================
+static void
+convertFontSizeOnUserUnitsChange(GOText* text)
+{
+    // A user FontUnits keeps the font size, unless FontSize came after it in the same set.
+    auto* units = static_cast<GOFontUnitsProperty*>(
+        text->findProperty(GO_FONT_UNITS_PROPERTY_NAME_STR, false));
+    auto* size = dynamic_cast<GOFontSizeProperty*>(
+        text->findProperty(GO_FONT_SIZE_PROPERTY_NAME_STR, false));
+    if (!units || !size) {
+        return;
+    }
+    std::wstring from = units->takePendingFrom();
+    if (from.empty() || size->getSetOrder() > units->getSetOrder()) {
+        return;
+    }
+    size->data(convertFontSizeUnits(
+        size->data(), from, units->data(), fontUnitsReferenceHeight(text)));
 }
 //=============================================================================
 } // namespace Nelson

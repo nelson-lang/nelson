@@ -35,6 +35,10 @@ function varargout = zlabel(varargin)
   end
   ax.ZLabel = h;
   removeChild(ax, h);
+  % Like the reference, zlabel resets the font only on a 3D axes.
+  if isgraphics(ax, 'axes') && ~is2D(ax)
+    resetAxisLabelFont(ax, h);
+  end
   hasPosition = hasPropertyArgument(inputArguments(2:end), 'Position');
   hasUnits = hasPropertyArgument(inputArguments(2:end), 'Units');
   set(h, 'String', inputArguments{1}, inputArguments{2:end});

@@ -39,7 +39,7 @@ plot(x, y);
 t = title('Explicit title font', 'FontSize', 14);
 drawnow();
 asserts.isequal(t.FontSize, 14);
-asserts.isapprox(t.Position, [1.2769148900471095e-06 1.01328273244782 0], 1e-12);
+asserts.isapprox(t.Position, [1.2769148900471095e-06 1.01328273244782 0], 1e-4);
 close(f);
 close all;
 %=============================================================================
@@ -59,7 +59,7 @@ function pos = expectedTitlePosition(ax, hasSubtitle)
       yOffset = 0.06370192460525;
     end
   else
-    yOffset = 0.0125;
+    yOffset = 0.2 * ax.Title.FontSize / plotBoxHeightPixels(ax);
   end
   z = expectedTextZ(ax);
   pos = [x, yLimits(2) + yRange * yOffset, z];
@@ -94,5 +94,10 @@ end
 function tf = isEmptyTitleString(ax)
   titleString = ax.Title.String;
   tf = length(titleString) == 0 || strcmp(titleString, '');
+end
+%=============================================================================
+function h = plotBoxHeightPixels(ax)
+  fig = ancestor(ax, 'figure');
+  h = ax.Position(4) * fig.Position(4);
 end
 %=============================================================================

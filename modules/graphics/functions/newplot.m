@@ -51,9 +51,11 @@ function varargout = newplot(varargin)
     % the next plot would overflow its box.
     cla(ax);
     resetAxesAutoModes(ax);
+    resetAxesTextObjects(ax);
   elseif (strcmp(axNextPlot, 'replaceall'))
     reset(ax);
     cla(ax);
+    resetAxesTextObjects(ax);
   end
   if (nargin() == 1)
     h = ax;

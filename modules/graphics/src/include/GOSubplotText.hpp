@@ -13,6 +13,12 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+class GOFigure;
+//=============================================================================
+// Automatic FontSize of a figure title, from the figure size in pixels.
+NLSGRAPHICS_IMPEXP double
+subplotTextAutoFontSize(GOFigure* figure);
+//=============================================================================
 class NLSGRAPHICS_IMPEXP GOSubplotText : public GOText
 {
 public:

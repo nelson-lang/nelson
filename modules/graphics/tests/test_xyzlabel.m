@@ -41,7 +41,8 @@ ax = gca();
 asserts.istrue(isgraphics(ax.ZLabel, 'text'));
 asserts.isequal(ax.ZLabel.String, 'Z label');
 drawnow();
-assert_values_isclose(ax.ZLabel.FontSize, 11, 1e-12);
+% The reference sizes the ZLabel only on a 3D axes.
+assert_values_isclose(ax.ZLabel.FontSize, 10, 1e-12);
 %=============================================================================
 f = figure('Visible', 'off', 'Position', [100 100 560 420]);
 t = 0:pi / 50:10 * pi;

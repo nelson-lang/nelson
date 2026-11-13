@@ -47,6 +47,7 @@ function varargout = xlabel(varargin)
   end
   ax.XLabel = h;
   removeChild(ax, h);
+  resetAxisLabelFont(ax, h);
   set(h, 'String', inputArguments{1}, inputArguments{2:end});
   if nargout == 1
     varargout{1} = h;

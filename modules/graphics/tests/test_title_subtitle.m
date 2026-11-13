@@ -88,7 +88,7 @@ function pos = expectedTitlePosition(ax, hasSubtitle)
       yOffset = 0.06370192460525;
     end
   else
-    yOffset = 0.0125;
+    yOffset = 0.2 * ax.Title.FontSize / plotBoxHeightPixels(ax);
   end
   z = expectedTextZ(ax);
   pos = [x, yLimits(2) + yRange * yOffset, z];
@@ -123,5 +123,10 @@ end
 function tf = isEmptyTitleString(ax)
   titleString = ax.Title.String;
   tf = length(titleString) == 0 || strcmp(titleString, '');
+end
+%=============================================================================
+function h = plotBoxHeightPixels(ax)
+  fig = ancestor(ax, 'figure');
+  h = ax.Position(4) * fig.Position(4);
 end
 %=============================================================================

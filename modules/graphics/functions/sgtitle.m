@@ -109,11 +109,11 @@ function h = figureTitle(target, textValue, varargin)
     'FontName', 'Helvetica', ...
     'Color', [0.129411764705882 0.129411764705882 0.129411764705882], ...
     varargin{:});
-  if ~isempty(oldTitle)
+  if isempty(oldTitle)
+    reserveFigureTitleSpace(fig);
+  else
     delete(oldTitle);
   end
-  reserveFigureTitleSpace(fig);
-  syncFigureTitleFontSize(fig, h, varargin);
 end
 %=============================================================================
 function h = findFigureTitleText(fig)
@@ -149,7 +149,6 @@ function reserveFigureTitleSpace(fig)
     return
   end
 
-  axesFontSize = subplotAxesFontSize(fig);
   [innerLeft, innerBottom, innerWidth, innerHeight] = subplotInnerGrid(m, n, fig);
   [outerLeft, outerBottom, outerWidth, outerHeight] = subplotOuterGrid(m, n, fig);
   for k = 1:numel(axesList)
@@ -162,108 +161,16 @@ function reserveFigureTitleSpace(fig)
       axesList(k).OuterPosition = [outerLeft(col), outerBottom(rowFromBottom), ...
         outerWidth(col), outerHeight(rowFromBottom)];
     end
-    if isDefaultAxesFontSize(axesList(k).FontSize)
-      axesList(k).FontSize = axesFontSize;
+    if isempty(innerLeft)
+      axesList(k).Position = scaledBelowFigureTitle(gridPositions(k, :), fig);
+    else
+      axesList(k).Position = [innerLeft(col), innerBottom(rowFromBottom), innerWidth, innerHeight];
     end
-    axesList(k).Position = [innerLeft(col), innerBottom(rowFromBottom), innerWidth, innerHeight];
     if n == 1 && isUnitAxisLimits(axesList(k))
       axesList(k).XTick = 0:0.1:1;
     elseif useCompactSubplotLayout(fig) && n == 2 && isDefaultUnitAxis(axesList(k))
       axesList(k).XTick = [0 0.5 1];
     end
-  end
-  syncSubplotTitlePositions(fig, axesList);
-end
-%=============================================================================
-function syncFigureTitleFontSize(fig, h, propertyArguments)
-  if ~useDefaultSubplotLayout(fig)
-    return
-  end
-  if hasPropertyArgument(propertyArguments, 'FontSize') ...
-      || hasPropertyArgument(propertyArguments, 'FontSizeMode')
-    return
-  end
-  if abs(h.FontSize - 13) < 1e-12 || abs(h.FontSize - 14) < 1e-12
-    h.FontSize = 15;
-    h.FontSizeMode = 'auto';
-  end
-end
-%=============================================================================
-function tf = hasPropertyArgument(propertyArguments, name)
-  tf = false;
-  for k = 1:2:numel(propertyArguments) - 1
-    if ischar(propertyArguments{k}) && strcmpi(propertyArguments{k}, name)
-      tf = true;
-      return
-    end
-  end
-end
-%=============================================================================
-function syncSubplotTitlePositions(fig, axesList)
-  figurePosition = fig.Position;
-  if numel(figurePosition) < 4 || figurePosition(4) <= 0
-    return
-  end
-  axesPositions = zeros(numel(axesList), 4);
-  for k = 1:numel(axesList)
-    axesPositions(k, :) = axesList(k).Position;
-  end
-  [leftEdges, bottomEdges] = subplotGridEdges(axesPositions);
-  rows = numel(bottomEdges);
-  columns = numel(leftEdges);
-  for k = 1:numel(axesList)
-    ax = axesList(k);
-    titleHandle = ax.Title;
-    if isempty(titleHandle) || isempty(titleHandle.String)
-      continue
-    end
-    axesPosition = ax.Position;
-    if numel(axesPosition) < 4 || axesPosition(4) <= 0
-      continue
-    end
-    xLimits = ax.XLim;
-    yLimits = ax.YLim;
-    zLimits = ax.ZLim;
-    yRange = yLimits(2) - yLimits(1);
-    if yRange <= 0
-      yRange = 1;
-    end
-    col = nearestIndex(leftEdges, axesPosition(1));
-    rowFromBottom = nearestIndex(bottomEdges, axesPosition(2));
-    x = titleDataXPosition(ax.TitleHorizontalAlignment, xLimits, col, columns, fig);
-    y = yLimits(2) + yRange ...
-      * (subplotTitleOffsetPixels(fig, rowFromBottom, rows, columns) ...
-      / (figurePosition(4) * axesPosition(4)));
-    z = mean(zLimits);
-    if isDefaultTitleFontSize(titleHandle.FontSize)
-      titleHandle.FontSize = ax.FontSize * 1.1;
-    end
-    titleHandle.Units = 'data';
-    titleHandle.Position = [x, y, z];
-  end
-end
-%=============================================================================
-function x = titleDataXPosition(alignment, xLimits, col, columns, fig)
-  if strcmp(alignment, 'left')
-    x = xLimits(1);
-  elseif strcmp(alignment, 'right')
-    x = xLimits(2);
-  elseif columns == 1 && useDefaultSubplotLayout(fig)
-    x = 0.500000638457445;
-  elseif columns == 1 && useCompactSubplotLayout(fig)
-    x = 0.500000638961792;
-  elseif columns == 1
-    x = 0.500000638073162;
-  elseif col == 1 && useCompactSubplotLayout(fig)
-    x = 0.50000085241546;
-  elseif col == 1
-    x = 0.500000851400051;
-  elseif col == 2 && useCompactSubplotLayout(fig)
-    x = 0.500002108025275;
-  elseif col == 2
-    x = 0.500002108066278;
-  else
-    x = mean(xLimits);
   end
 end
 %=============================================================================
@@ -327,17 +234,20 @@ function [left, bottom, width, height] = subplotInnerGrid(rows, columns, fig)
     end
   end
 
-  plotArea = [0.13 0.106888131144905 0.775 0.791943880755431];
-  horizontalGapRatio = 6 / 19;
-  verticalGapRatio = 7 / 18;
-
-  width = plotArea(3) / (columns + (columns - 1) * horizontalGapRatio);
-  height = plotArea(4) / (rows + (rows - 1) * verticalGapRatio);
-  horizontalStep = width * (1 + horizontalGapRatio);
-  verticalStep = height * (1 + verticalGapRatio);
-
-  left = plotArea(1) + (0:(columns - 1)) * horizontalStep;
-  bottom = plotArea(2) + (0:(rows - 1)) * verticalStep;
+  left = [];
+  bottom = [];
+  width = [];
+  height = [];
+end
+%=============================================================================
+function position = scaledBelowFigureTitle(position, fig)
+  % The figure title takes a band of about 21 pixels at the top; the grid shrinks below it.
+  figureHeight = fig.Position(4);
+  if figureHeight <= 0
+    return
+  end
+  scale = 1 - 21 / figureHeight;
+  position([2 4]) = position([2 4]) * scale;
 end
 %=============================================================================
 function [left, bottom, width, height] = subplotOuterGrid(rows, columns, fig)
@@ -376,65 +286,11 @@ function [left, bottom, width, height] = subplotOuterGrid(rows, columns, fig)
       return
     end
   end
-  bottom = [0.0636107176654112 0.53364844575541];
-  height = [0.401718630654277 0.394793044481002];
-  if columns == 1
-    left = 0;
-    width = 1;
-  elseif columns == 2
-    left = [0.0789601386481802 0.534263458060926];
-    width = [0.392614318090921 0.409653637501739];
-  end
-end
-%=============================================================================
-function fontSize = subplotAxesFontSize(fig)
-  if useCompactSubplotLayout(fig)
-    fontSize = 9.5;
-  elseif useDefaultSubplotLayout(fig)
-    fontSize = 9.5;
-  else
-    fontSize = 10;
-  end
-end
-%=============================================================================
-function offset = subplotTitleOffsetPixels(fig, rowFromBottom, rows, columns)
-  if useDefaultSubplotLayout(fig) && rows == 2 && columns == 1
-    offset = 2.0884468336506;
-    return
-  elseif useDefaultSubplotLayout(fig) && rows == 2 && columns == 2
-    offset = 2.0884468336506;
-    return
-  end
-  if useCompactSubplotLayout(fig)
-    if rows == 2 && columns == 2
-      if rowFromBottom == 1
-        offset = 2.083201331285632;
-      else
-        offset = 2.094341445356778;
-      end
-      return
-    end
-    offset = 2.088428938164589;
-    return
-  end
-  if rows == 2 && rowFromBottom == 1
-    offset = 2.206556717080487;
-  else
-    offset = 2.199551775121725;
-  end
-end
-%=============================================================================
-function tf = isDefaultAxesFontSize(fontSize)
-  tf = abs(fontSize - 10) < 1e-12 || abs(fontSize - 9.5) < 1e-12;
-end
-%=============================================================================
-function tf = isDefaultTitleFontSize(fontSize)
-  tf = abs(fontSize - 11) < 1e-12 || abs(fontSize - 10.45) < 1e-12;
 end
 %=============================================================================
 function tf = useCompactSubplotLayout(fig)
   position = fig.Position;
-  tf = numel(position) >= 4 && position(3) <= 640 && position(4) <= 500;
+  tf = numel(position) >= 4 && abs(position(3) - 620) <= 1 && abs(position(4) - 460) <= 1;
 end
 %=============================================================================
 function tf = useDefaultSubplotLayout(fig)

@@ -55,10 +55,11 @@ f = figure('Visible', 'off');
 ax = gca();
 ax.Visible = 'off';
 s = subtitle('Hidden subtitle', 'Color', 'm');
-asserts.isequal(char(s.Visible), 'off');
+% Like the title, a subtitle on a hidden axes stays visible.
+asserts.isequal(char(s.Visible), 'on');
 asserts.isequal(s.Color, [1 0 1]);
 ax.Visible = 'on';
-asserts.isequal(char(s.Visible), 'off');
+asserts.isequal(char(s.Visible), 'on');
 close(f);
 %=============================================================================
 f = figure('Visible', 'off');
@@ -242,7 +243,7 @@ function pos = expectedTitlePosition(ax, hasSubtitle)
       yOffset = 0.06370192460525;
     end
   else
-    yOffset = 0.0125;
+    yOffset = 0.2 * ax.Title.FontSize / plotBoxHeightPixels(ax);
   end
   z = expectedTextZ(ax);
   pos = [x, yLimits(2) + yRange * yOffset, z];
@@ -284,5 +285,10 @@ function names = referenceLayoutTextProperties()
   names = {'String'; 'FontName'; 'FontSize'; 'FontAngle'; 'FontWeight'; 'Rotation';
     'HorizontalAlignment'; 'VerticalAlignment'; 'Interpreter'; 'Color'; 'Children'; 'Parent';
     'Visible'; 'HandleVisibility'};
+end
+%=============================================================================
+function h = plotBoxHeightPixels(ax)
+  fig = ancestor(ax, 'figure');
+  h = ax.Position(4) * fig.Position(4);
 end
 %=============================================================================
