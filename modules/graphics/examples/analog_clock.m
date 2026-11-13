@@ -39,6 +39,8 @@ axis(axesHandle, 'off');
 stopButton = uicontrol('Parent', figureHandle, 'Style', 'pushbutton', ...
   'String', 'Stop', 'Position', [210 18 100 32], 'UserData', false, ...
   'Callback', @(source, event) set(source, 'UserData', true));
+% Controls follow the window size.
+set(findobj(get(stopButton, 'Parent'), 'Type', 'uicontrol'), 'Units', 'normalized');
 
 % Tick like a real clock until the user presses "Stop" or closes the window.
 while true

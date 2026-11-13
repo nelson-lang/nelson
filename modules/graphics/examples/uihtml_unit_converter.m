@@ -55,7 +55,7 @@ page = strjoin({...
   '</script></body></html>'}, '');
 %=============================================================================
 f = uifigure('Name', 'uihtml unit converter', 'Position', [200 200 520 320]);
-h = uihtml(f, 'Position', [10 10 500 300], 'HTMLSource', page);
+h = uihtml(f, 'Units', 'normalized', 'Position', [0 0 1 1], 'HTMLSource', page);
 % The page asks, Nelson answers: the callback writes Data, which the page then
 % receives as a DataChanged event. A Nelson write never re-notifies Nelson.
 h.HTMLEventReceivedFcn = @(src, event) set(src, 'Data', ...

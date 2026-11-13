@@ -27,3 +27,5 @@ btn2 = uicontrol('Style', 'pushbutton', ...
                  'Position', [200 100 150 70], ...        % Position and size of the button [left bottom width height]
                  'Callback', @button2Callback, ...        % Function to call when the button is pressed
                  'Interruptible', 'off'); % Prevents this button's callback from being interrupted by other callbacks
+% Controls follow the window size.
+set(findobj(get(btn2, 'Parent'), 'Type', 'uicontrol'), 'Units', 'normalized');
