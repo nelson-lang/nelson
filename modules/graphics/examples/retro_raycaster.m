@@ -336,10 +336,13 @@ function [textures, spriteColor, spriteAlpha, weaponColor, weaponAlpha] = ...
     fullfile(assetRoot, 'enemy_render.png'));
   [weaponColor, ~, weaponAlpha] = imread(...
     fullfile(assetRoot, 'weapon_render.png'));
-  spriteColor = double(spriteColor) / 255;
-  spriteAlpha = double(spriteAlpha) / 255;
-  weaponColor = double(weaponColor) / 255;
-  weaponAlpha = double(weaponAlpha) / 255;
+  % The 768x512 renders far exceed the 400x225 frame: keep every 4th pixel so each
+  % frame stays light enough for the web desktop to stream at the target rate.
+  step = 4;
+  spriteColor = double(spriteColor(1:step:end, 1:step:end, :)) / 255;
+  spriteAlpha = double(spriteAlpha(1:step:end, 1:step:end)) / 255;
+  weaponColor = double(weaponColor(1:step:end, 1:step:end, :)) / 255;
+  weaponAlpha = double(weaponAlpha(1:step:end, 1:step:end)) / 255;
 end
 %=============================================================================
 function [frame, rayDistance] = raycasterRenderFrame(worldMap, textures, ...

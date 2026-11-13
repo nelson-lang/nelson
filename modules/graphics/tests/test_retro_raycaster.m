@@ -36,10 +36,10 @@ assert_istrue(raycasterPlayerX > 3.5);
 assert_isequal(raycasterWorldMap(floor(raycasterPlayerY), ...
   floor(raycasterPlayerX)), 0);
 assert_isequal(size(raycasterTextures), [256 256 3 4]);
-assert_isequal(size(raycasterSpriteColor), [768 512 3]);
-assert_isequal(size(raycasterSpriteAlpha), [768 512]);
-assert_isequal(size(raycasterWeaponColor), [768 512 3]);
-assert_isequal(size(raycasterWeaponAlpha), [768 512]);
+assert_isequal(size(raycasterSpriteColor), [192 128 3]);
+assert_isequal(size(raycasterSpriteAlpha), [192 128]);
+assert_isequal(size(raycasterWeaponColor), [192 128 3]);
+assert_isequal(size(raycasterWeaponAlpha), [192 128]);
 assert_istrue(any(raycasterSpriteAlpha(:) < 1));
 assert_istrue(any(raycasterWeaponAlpha(:) < 1));
 assert_istrue(isgraphics(figureHandle));
