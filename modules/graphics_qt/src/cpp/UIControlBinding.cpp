@@ -61,6 +61,9 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+static void
+applyTextAlignment(GOUIControl* control, QWidget* widget);
+//=============================================================================
 static QString
 colorStyle(const QString& name, GOColorProperty* color)
 {
@@ -157,21 +160,6 @@ buildWidgetStyleSheet(GOUIControl* control)
             border = QColor::fromRgb(rgb[0] * 255, rgb[1] * 255, rgb[2] * 255).name();
         }
         styleSheet += QString("border: 1px solid %1;").arg(border);
-    }
-
-    if (control->stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_TEXT_STR)
-        || control->stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_EDIT_STR)) {
-        GOAlignHorizProperty* textAlign = static_cast<GOAlignHorizProperty*>(
-            control->findProperty(GO_HORIZONTAL_ALIGNMENT_PROPERTY_NAME_STR));
-        if (textAlign) {
-            if (textAlign->isEqual(GO_PROPERTY_VALUE_LEFT_STR)) {
-                styleSheet += QStringLiteral("text-align: left;");
-            } else if (textAlign->isEqual(GO_PROPERTY_VALUE_RIGHT_STR)) {
-                styleSheet += QStringLiteral("text-align: right;");
-            } else {
-                styleSheet += QStringLiteral("text-align: center;");
-            }
-        }
     }
 
     const bool isButtonFamily
@@ -616,6 +604,7 @@ namespace {
                 if (!model->hasChanged(GO_VALUE_PROPERTY_NAME_STR)) {
                     model->findProperty(GO_VALUE_PROPERTY_NAME_STR)->setModified(true);
                 }
+                model->clearChanged(GO_STRING_PROPERTY_NAME_STR);
             }
         }
         //=============================================================================
@@ -758,11 +747,7 @@ namespace {
 
             if (model->stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_TEXT_STR)
                 || model->stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_EDIT_STR)) {
-                GOAlignHorizProperty* textAlign = static_cast<GOAlignHorizProperty*>(
-                    model->findProperty(GO_HORIZONTAL_ALIGNMENT_PROPERTY_NAME_STR));
-                if (textAlign) {
-                    widget->setStyleSheet(buildWidgetStyleSheet(model));
-                }
+                applyTextAlignment(model, widget.data());
                 model->clearChanged(GO_HORIZONTAL_ALIGNMENT_PROPERTY_NAME_STR);
             }
         }
@@ -1075,30 +1060,18 @@ namespace {
         void
         onPopupMenuChanged(bool newWidget)
         {
-            if (model->stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_POPUPMENU_STR)) {
-                ((QComboBox*)widget.data())->clear();
-                ArrayOf value = model->findProperty(GO_STRING_PROPERTY_NAME_STR)->get();
-                wstringVector values;
-                if (value.isScalarStringArray()) {
-                    model->tokenize(value.asWideString(), values, L"|");
-                } else if (value.isStringArray()) {
-                    values = value.asWideStringVector();
-                } else if (value.isCellArrayOfCharacterVectors()) {
-                    values = value.asWideStringVector();
-                } else if (value.isCharacterArray()) {
-                    model->tokenize(value.asWideString(), values, L"|");
-                }
-                for (size_t k = 0; k < values.size(); k++) {
-                    ((QComboBox*)widget.data())->addItem(wstringToQString(values[k]));
-                }
-
+            // Items come from onStringChangedPopupMenu: rebuilding them on every update reset an open list.
+            if (model->stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_POPUPMENU_STR)
+                && (newWidget || model->hasChanged(GO_VALUE_PROPERTY_NAME_STR))) {
+                QComboBox* comboBox = (QComboBox*)widget.data();
                 double indexPosition = model->findScalarDoubleProperty(GO_VALUE_PROPERTY_NAME_STR);
-
-                if (!values.empty() && indexPosition == 0) {
+                if (comboBox->count() > 0 && indexPosition == 0) {
                     model->setScalarDoubleDefault(GO_VALUE_PROPERTY_NAME_STR, 1);
                     indexPosition = 1;
                 }
-                ((QComboBox*)widget.data())->setCurrentIndex((int)(indexPosition - 1));
+                if (comboBox->currentIndex() != (int)(indexPosition - 1)) {
+                    comboBox->setCurrentIndex((int)(indexPosition - 1));
+                }
             }
         }
         //=============================================================================
@@ -1289,6 +1262,24 @@ UIControlSyncValueFromWidget(GOUIControl* control, QWidget* widget)
         control->findProperty(GO_VALUE_PROPERTY_NAME_STR)->set(ArrayOf::doubleScalar(value));
         control->clearChanged(GO_VALUE_PROPERTY_NAME_STR);
         return;
+    }
+}
+//=============================================================================
+// Stylesheet text-align is ignored by QLabel/QLineEdit: text sits at the top, edit is centred
+static void
+applyTextAlignment(GOUIControl* control, QWidget* widget)
+{
+    Qt::Alignment horizontal = Qt::AlignHCenter;
+    if (control->stringCheck(GO_HORIZONTAL_ALIGNMENT_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_LEFT_STR)) {
+        horizontal = Qt::AlignLeft;
+    } else if (control->stringCheck(
+                   GO_HORIZONTAL_ALIGNMENT_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_RIGHT_STR)) {
+        horizontal = Qt::AlignRight;
+    }
+    if (QLabel* label = qobject_cast<QLabel*>(widget)) {
+        label->setAlignment(horizontal | Qt::AlignTop);
+    } else if (QLineEdit* line = qobject_cast<QLineEdit*>(widget)) {
+        line->setAlignment(horizontal | Qt::AlignVCenter);
     }
 }
 //=============================================================================

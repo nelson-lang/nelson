@@ -10,9 +10,11 @@
 #include "FigureWorkspaceQt.hpp"
 #include "GOWindow.hpp"
 #include "GOAxis.hpp"
+#include "GOFigureMouseEvents.hpp"
 #include "GOFiguresManager.hpp"
 #include "GOGObjectsProperty.hpp"
 #include "GOHelpers.hpp"
+#include "GOUIComponent.h"
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
 #include <QtCore/QJsonArray>
@@ -30,6 +32,11 @@
 #include <cmath>
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+static GOAxis*
+pageAxisAt(GOFigure* figure, double x, double y);
+static QRectF
+axisWindowRect(QWidget* canvas, QWidget* window, GOAxis* axis);
 //=============================================================================
 namespace {
     GOAxis*
@@ -51,7 +58,7 @@ namespace {
             const auto handles = children->data();
             for (auto handle = handles.rbegin(); handle != handles.rend(); ++handle) {
                 auto* child = findGraphicsObject(*handle, false);
-                if (child) {
+                if (child && !isHiddenUIContainer(child)) {
                     if (auto* axis = axisAtPixel(child, pixelX, pixelY)) {
                         return axis;
                     }
@@ -80,7 +87,10 @@ FigureWorkspaceQt::axisAt(const QPointF& position) const
     const auto local = position - canvas->geometry().topLeft();
     auto* control = canvas->childAt(local.toPoint());
     if (control && !control->testAttribute(Qt::WA_TransparentForMouseEvents)) {
-        return nullptr;
+        // A uitab/uipanel page paints its own axes: find them through the graphics objects.
+        return control->property("nelsonPaintsGraphicsChildren").toBool()
+            ? pageAxisAt(window->goFig, local.x(), canvas->height() - local.y())
+            : nullptr;
     }
     const double ratio = canvas->devicePixelRatioF();
     return axisAtPixel(window->goFig, local.x() * ratio, (canvas->height() - local.y()) * ratio);
@@ -105,18 +115,14 @@ FigureWorkspaceQt::press(QMouseEvent* event)
     selectAxes(dragAxis);
     showIndicator(dragAxis);
     lastPointer = pendingPointer = dragOrigin = event->position();
-    const auto box = axis->getClientAreaAsPixels();
-    dragSize = QSizeF(box[2] / canvas->devicePixelRatioF(), box[3] / canvas->devicePixelRatioF());
+    const QRectF axisRect = axisWindowRect(canvas, window, axis);
+    dragSize = axisRect.size();
     dragMode = static_cast<int>(window->mouseMode);
     double azimuth = 0, elevation = 0;
     axis->getView(azimuth, elevation);
     initialView = { azimuth, elevation };
     if (window->mouseMode == MOUSE_MODE::ZOOM_IN) {
-        const double ratio = canvas->devicePixelRatioF();
-        const auto origin = canvas->geometry().topLeft();
-        dragBounds = QRectF(origin.x() + box[0] / ratio,
-            origin.y() + canvas->height() - (box[1] + box[3]) / ratio, box[2] / ratio,
-            box[3] / ratio);
+        dragBounds = axisRect;
         rectangleState = {};
         for (const auto& dimension : { QString("X"), QString("Y") }) {
             const auto limits = axis->findVectorDoubleProperty((dimension + "Lim").toStdWString());
@@ -291,10 +297,15 @@ FigureWorkspaceQt::doubleClick(QMouseEvent* event)
 {
     release();
     auto* axis = axisAt(event->position());
-    if (axis && event->button() == Qt::LeftButton) {
-        selectAxes(findGraphicsObjectHandle(axis));
-        action({ { "action", "fit" } });
+    if (!axis || event->button() != Qt::LeftButton) {
+        return;
     }
+    // double-click restore is a default interaction too, off with disableDefaultInteractivity
+    if (window->mouseMode == MOUSE_MODE::NONE && !defaultInteractivityEnabled(axis)) {
+        return;
+    }
+    selectAxes(findGraphicsObjectHandle(axis));
+    action({ { "action", "fit" } });
 }
 //=============================================================================
 void
@@ -456,16 +467,12 @@ FigureWorkspaceQt::showIndicator(int64 handle)
         indicator->hide();
         return;
     }
-    const auto box = axis->getClientAreaAsPixels();
-    if (box.size() != 4) {
+    const QRectF axisRect = axisWindowRect(canvas, window, axis);
+    if (axisRect.isEmpty()) {
         indicator->hide();
         return;
     }
-    const double ratio = canvas->devicePixelRatioF();
-    const auto origin = canvas->mapTo(window, QPoint());
-    indicator->setGeometry(QRectF(origin.x() + box[0] / ratio,
-        origin.y() + canvas->height() - (box[1] + box[3]) / ratio, box[2] / ratio, box[3] / ratio)
-            .toAlignedRect());
+    indicator->setGeometry(axisRect.toAlignedRect());
     indicator->setProperty("axesHandle", QVariant::fromValue<qlonglong>(handle));
     indicator->show();
     indicator->raise();
@@ -525,6 +532,44 @@ FigureWorkspaceQt::eventFilter(QObject* object, QEvent* event)
         }
     }
     return false;
+}
+//=============================================================================
+// Non-polar axes of a uitab/uipanel page under a figure point (logical pixels, bottom-left).
+static GOAxis*
+pageAxisAt(GOFigure* figure, double x, double y)
+{
+    const int64 picked = pickObjectAtPixel(figure, x, y);
+    GraphicsObject* object
+        = picked >= HANDLE_OFFSET_OBJECT ? findGraphicsObject(picked, false) : nullptr;
+    GOAxis* axis = dynamic_cast<GOAxis*>(object);
+    if (object && !axis) {
+        axis = object->getParentAxis();
+    }
+    return axis && !axis->isPolarAxes() ? axis : nullptr;
+}
+//=============================================================================
+// Plot box in window coordinates: canvas boxes are in device pixels, page boxes in logical ones.
+static QRectF
+axisWindowRect(QWidget* canvas, QWidget* window, GOAxis* axis)
+{
+    const auto box = axis->getClientAreaAsPixels();
+    if (box.size() != 4) {
+        return {};
+    }
+    QWidget* surface = canvas;
+    double ratio = canvas->devicePixelRatioF();
+    auto* parent = dynamic_cast<GOGObjectsProperty*>(
+        axis->findProperty(GO_PARENT_PROPERTY_NAME_STR, false));
+    auto* container = parent && !parent->data().empty()
+        ? dynamic_cast<GOUIComponent*>(findGraphicsObject(parent->data()[0], false))
+        : nullptr;
+    if (container && container->getBinding() && container->getBinding()->exists()) {
+        surface = static_cast<QWidget*>(container->getBinding()->nativeWidget());
+        ratio = 1.0;
+    }
+    const QPoint origin = surface->mapTo(window, QPoint());
+    return QRectF(origin.x() + box[0] / ratio,
+        origin.y() + surface->height() - (box[1] + box[3]) / ratio, box[2] / ratio, box[3] / ratio);
 }
 //=============================================================================
 } // namespace Nelson

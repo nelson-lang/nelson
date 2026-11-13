@@ -1533,7 +1533,7 @@ GOWindow::contextMenuEvent(QContextMenuEvent* event)
         event->accept();
         return;
     }
-    int64 colorBarHandle = findContainingColorBar(goFig, remapX(x), remapY(y));
+    int64 colorBarHandle = findContainingColorBar(goFig, x, y);
     GraphicsObject* colorBar = graphicsObjectFromHandle(colorBarHandle, false);
     if (colorBar && popupContextMenuForObject(this, colorBar, event->globalPos())) {
         event->accept();
@@ -1557,10 +1557,23 @@ GOWindow::deliverButtonDownCallbacks(QMouseEvent* e, const std::wstring& selecti
     // nothing is hit the click falls back to the colorbar/legend, then to the
     // current axes, so an empty area still reaches the axes.
     int64 pickedObject = pickObjectAtPixel(goFig, lastFigurePixelX, lastFigurePixelY);
+    // The canvas hit-test cannot see axes inside a uitab or uipanel: the pick result can.
+    if (NelsonConfiguration::getInstance()->isCurrentAxesOnClick()
+        && pickedObject >= HANDLE_OFFSET_OBJECT) {
+        GraphicsObject* picked = findGraphicsObject(pickedObject, false);
+        GOAxis* pickedAxis = dynamic_cast<GOAxis*>(picked);
+        if (picked && !pickedAxis) {
+            pickedAxis = picked->getParentAxis();
+        }
+        int64 axisHandle = pickedAxis ? findGraphicsObjectHandle(pickedAxis) : -1;
+        if (axisHandle >= HANDLE_OFFSET_OBJECT) {
+            goFig->setGoProperty(GO_CURRENT_AXES_PROPERTY_NAME_STR, axisHandle);
+        }
+    }
     if (pickedObject < HANDLE_OFFSET_OBJECT) {
         int x, y;
         qtGetPosition(e, x, y);
-        int64 pickedColorBar = findContainingColorBar(goFig, remapX(x), remapY(y));
+        int64 pickedColorBar = findContainingColorBar(goFig, x, y);
         if (pickedColorBar >= HANDLE_OFFSET_OBJECT) {
             pickedObject = pickedColorBar;
         } else {
@@ -1593,66 +1606,15 @@ GOWindow::deliverButtonDownCallbacks(QMouseEvent* e, const std::wstring& selecti
 void
 GOWindow::deliverLegendItemHit(QMouseEvent* e, const std::wstring& selectionType)
 {
-    if (!goFig) {
-        return;
-    }
-    int px = 0;
-    int py = 0;
-    qtGetPosition(e, px, py);
-    int mx = remapX(px);
-    int my = remapY(py);
-    GOGObjectsProperty* cp
-        = static_cast<GOGObjectsProperty*>(goFig->findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
-    std::vector<int64> children(cp->data());
-    QRect plotRegion(qtchild->geometry());
-    for (auto it = children.rbegin(); it != children.rend(); ++it) {
-        GOLegend* legend = dynamic_cast<GOLegend*>(findGraphicsObject(*it, false));
-        if (!legend) {
-            continue;
-        }
-        int64 peerHandle = 0;
-        int region = 0;
-        if (!legend->hitTestEntry(
-                mx, my, plotRegion.width(), plotRegion.height(), peerHandle, region)) {
-            continue;
-        }
-        GOCallbackProperty* cb = static_cast<GOCallbackProperty*>(
-            legend->findProperty(GO_ITEM_HIT_FCN_PROPERTY_NAME_STR, false));
-        if (cb && !cb->get().isEmpty()) {
-            wstringVector fieldNames = { L"Peer", L"Region", L"SelectionType" };
-            ArrayOfVector fieldValues;
-            fieldValues << graphicsObjectHandle(peerHandle, false);
-            fieldValues << ArrayOf::characterArray(
-                region == 0 ? std::wstring(L"icon") : std::wstring(L"label"));
-            fieldValues << ArrayOf::characterArray(selectionType);
-            cb->pushEvent(legend, L"ItemHitData", L"ItemHit", fieldNames, fieldValues);
-        }
-        return;
-    }
+    fireLegendItemHit(goFig, lastFigurePixelX, lastFigurePixelY, selectionType);
 }
 //=============================================================================
+// Colorbar or legend under the window point (x, y), in the figure or in a ui container.
 int64
 GOWindow::findContainingColorBar(GOFigure* fig, int x, int y)
 {
-    if (!fig) {
-        return -1;
-    }
-    GOGObjectsProperty* cp
-        = static_cast<GOGObjectsProperty*>(fig->findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
-    std::vector<int64> children(cp->data());
     QRect plotRegion(qtchild->geometry());
-    for (auto it = children.rbegin(); it != children.rend(); ++it) {
-        GraphicsObject* object = findGraphicsObject(*it, false);
-        GOColorBar* colorBar = dynamic_cast<GOColorBar*>(object);
-        if (colorBar && colorBar->hitTest(x, y, plotRegion.width(), plotRegion.height())) {
-            return *it;
-        }
-        GOLegend* legend = dynamic_cast<GOLegend*>(object);
-        if (legend && legend->hitTest(x, y, plotRegion.width(), plotRegion.height())) {
-            return *it;
-        }
-    }
-    return -1;
+    return decorationAtPixel(fig, x - plotRegion.x(), plotRegion.height() - (y - plotRegion.y()));
 }
 //=============================================================================
 int

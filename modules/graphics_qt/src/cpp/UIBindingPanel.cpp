@@ -7,11 +7,14 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <algorithm>
+#include <cmath>
 #include <QtWidgets/QWidget>
 #include <QtGui/QPainter>
 #include <QtGui/QPaintEvent>
 #include "UIComponentBindings.hpp"
 #include "UIComponentBindingBase.hpp"
+#include "GraphicsPageCache.hpp"
 #include "GOUIPanel.h"
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
@@ -42,24 +45,24 @@ namespace {
             setProperty("nelsonPaintsGraphicsChildren", true);
         }
         //=============================================================================
+        // Pixel height above the children, shared with the headless layout.
         int
-        titleHeight() const
+        topInset() const
         {
-            return title.isEmpty() ? 0 : fontMetrics().height() + 4;
+            return goPanel ? (int)std::lround(goPanel->topInset()) : 0;
         }
         //=============================================================================
     protected:
         void
-        paintEvent(QPaintEvent* /*event*/) override
+        paintEvent(QPaintEvent* event) override
         {
             // App-style look: the border encloses the whole panel including the
             // title band; a separator line closes the title band
             QPainter painter(this);
             painter.fillRect(rect(), backgroundColor);
-            int textHeight = titleHeight();
+            int top = topInset();
             if (!title.isEmpty()) {
                 painter.setPen(titleColor);
-                painter.setFont(font());
                 Qt::Alignment alignment = Qt::AlignVCenter;
                 switch (titleAlignment) {
                 case 1:
@@ -72,8 +75,10 @@ namespace {
                     alignment |= Qt::AlignLeft;
                     break;
                 }
-                QRect titleRect(
-                    borderWidth + 4, borderWidth, width() - 2 * (borderWidth + 4), textHeight);
+                QFont titleFont = font();
+                titleFont.setPixelSize(std::max(1, (int)std::lround(goPanel->titleBandHeight())));
+                painter.setFont(titleFont);
+                QRect titleRect(borderWidth + 4, 0, width() - 2 * (borderWidth + 4), top);
                 painter.drawText(titleRect, alignment, title);
             }
             if (borderVisible && borderWidth > 0) {
@@ -82,30 +87,22 @@ namespace {
                 painter.setPen(pen);
                 int half = borderWidth / 2;
                 painter.drawRect(half, half, width() - borderWidth - 1, height() - borderWidth - 1);
-                if (!title.isEmpty()) {
-                    painter.drawLine(
-                        0, borderWidth + textHeight, width() - 1, borderWidth + textHeight);
+                if (!title.isEmpty() && top > borderWidth) {
+                    painter.drawLine(0, top - half - 1, width() - 1, top - half - 1);
                 }
             }
             painter.end();
-            paintGraphicsChildren();
-        }
-        //=============================================================================
-        // The panel covers the figure canvas, so the axes and other graphics
-        // objects it holds have to be drawn here: nothing else paints them.
-        void
-        paintGraphicsChildren()
-        {
-            if (!goPanel || width() <= 0 || height() <= 0) {
-                return;
+            // The panel covers the figure canvas: its graphics objects are drawn here.
+            if (goPanel) {
+                graphicsCache.paint(this, event, [this](QPainter& graphicsPainter) {
+                    RenderQt renderer(&graphicsPainter, 0, 0, width(), height(), L"Image");
+                    goPanel->paintContentInFrame(renderer);
+                });
             }
-            QPainter painter(this);
-            painter.setRenderHint(QPainter::Antialiasing);
-            painter.setRenderHint(QPainter::TextAntialiasing);
-            RenderQt renderer(&painter, 0, 0, width(), height(), L"Image");
-            goPanel->paintContentInFrame(renderer);
         }
         //=============================================================================
+    private:
+        GraphicsPageCache graphicsCache;
     };
     //=============================================================================
     static QColor
@@ -150,6 +147,8 @@ namespace {
             }
             if (isNewWidget || model->hasChanged(GO_TITLE_PROPERTY_NAME_STR)
                 || model->hasChanged(GO_TITLE_POSITION_PROPERTY_NAME_STR)
+                || model->hasChanged(GO_FONT_SIZE_PROPERTY_NAME_STR)
+                || model->hasChanged(GO_FONT_UNITS_PROPERTY_NAME_STR)
                 || model->hasChanged(GO_BORDER_TYPE_PROPERTY_NAME_STR)
                 || model->hasChanged(GO_BORDER_WIDTH_PROPERTY_NAME_STR)
                 || model->hasChanged(GO_BORDER_COLOR_PROPERTY_NAME_STR)
@@ -173,16 +172,6 @@ namespace {
                 panel->titleColor = colorFromProperty(
                     model, GO_FOREGROUND_COLOR_PROPERTY_NAME_STR, QColor(33, 33, 33));
                 panel->update();
-                // InnerPosition: area inside borders and title
-                std::vector<double> position(
-                    model->findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR));
-                if (position.size() == 4) {
-                    double borderInset = panel->borderVisible ? (double)panel->borderWidth : 0.0;
-                    double titleInset = (double)panel->titleHeight();
-                    model->setFourVectorDefault(GO_INNER_POSITION_PROPERTY_NAME_STR,
-                        position[0] + borderInset, position[1] + borderInset,
-                        position[2] - 2 * borderInset, position[3] - 2 * borderInset - titleInset);
-                }
             }
         }
         //=============================================================================

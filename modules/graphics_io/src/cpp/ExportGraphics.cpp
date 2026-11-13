@@ -77,16 +77,6 @@ namespace {
         return writeRasterImageAtomic(filename, wstring_to_utf8(format), image, 75, error);
     }
     //=============================================================================
-    bool
-    isUiFigureLike(GOFigure* figure)
-    {
-        return figure
-            && figure->stringCheck(GO_MENU_BAR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NONE_STR)
-            && figure->stringCheck(GO_TOOL_BAR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NONE_STR)
-            && figure->stringCheck(GO_NUMBER_TITLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR)
-            && figure->stringCheck(GO_INTEGER_HANDLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
-    }
-    //=============================================================================
     // Counts filled faces. A z-buffered surface, an image or a colorbar ramp is not
     // counted: those export as one inline <image> or a few rects.
     size_t
@@ -297,7 +287,7 @@ ExportGraphicsAtScale(
         = scaleControlsToSurface(renderer.controls(), exportScale);
     if (format == SVG_EXPORT) {
         // uicontrols and uifigures, or too many filled faces, use the raster path.
-        const bool rasterFallback = isUiFigureLike(figure) || !controls.empty()
+        const bool rasterFallback = isUiFigure(figure) || !controls.empty()
             || filledPolygonCount(primitives) > maxVectorFilledPolygons;
         // Inverse of exportScale: internal pixels back to the logical size.
         const double displayScale = 1.0 / exportScale;

@@ -13,6 +13,7 @@
 #include <QtWidgets/QTabWidget>
 #include "UIComponentBindings.hpp"
 #include "UIComponentBindingBase.hpp"
+#include "GraphicsPageCache.hpp"
 #include "GOUITab.h"
 #include "GOUITabGroup.h"
 #include "GOUIComponent.h"
@@ -53,7 +54,13 @@ namespace {
         paintEvent(QPaintEvent* event) override
         {
             QWidget::paintEvent(event);
-            paintGraphicsChildren();
+            if (!goTab) {
+                return;
+            }
+            graphicsCache.paint(this, event, [this](QPainter& painter) {
+                RenderQt renderer(&painter, 0, 0, width(), height(), L"Image");
+                goTab->paintContentInFrame(renderer);
+            });
         }
 
         void
@@ -66,18 +73,7 @@ namespace {
         }
 
     private:
-        void
-        paintGraphicsChildren()
-        {
-            if (!goTab || width() <= 0 || height() <= 0) {
-                return;
-            }
-            QPainter painter(this);
-            painter.setRenderHint(QPainter::Antialiasing);
-            painter.setRenderHint(QPainter::TextAntialiasing);
-            RenderQt renderer(&painter, 0, 0, width(), height(), L"Image");
-            goTab->paintContentInFrame(renderer);
-        }
+        GraphicsPageCache graphicsCache;
     };
     //=============================================================================
     static GOUITabGroup*

@@ -412,6 +412,7 @@
     <ClInclude Include="..\include\FigureWorkspaceHelpers.hpp" />
     <ClInclude Include="..\cpp\UIAlignedPushButton.h" />
     <ClInclude Include="..\include\UIComponentBindingBase.hpp" />
+    <ClInclude Include="..\include\GraphicsPageCache.hpp" />
     <ClInclude Include="..\include\UIControlBinding.hpp" />
     <ClInclude Include="..\include\UIComponentBindings.hpp" />
     <ClInclude Include="..\include\BaseFigureQt.hpp" />
