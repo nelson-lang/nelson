@@ -12,11 +12,9 @@ function test_case_res = post_run_test_case_skip_or_pass(test_case_res)
     return
   end
   if ~isfile(test_case_res.outputfile)
-    msg = '';
-    if isfile(test_case_res.redirect_err)
-      msg = test_redirect_error_message(test_case_res.redirect_err, test_case_res.res_cmd);
-    end
+    msg = missing_runfile_result_message(test_case_res);
     test_case_res = post_run_fail_result_file(test_case_res, msg);
+    test_case_res = post_run_capture_redirect(test_case_res);
     return
   end
   [s, ok] = read_runfile_output_file(test_case_res.outputfile); %#ok<NLS0004>

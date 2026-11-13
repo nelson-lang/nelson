@@ -104,7 +104,7 @@ function bytes = tuneHeaderTag_readBytes(filename)
     error('Nelson:tests_manager:cannotOpenFile', 'Unable to open file.');
   end
   cleanup = onCleanup(@() fclose(fid)); %#ok<NLS0004>
-  bytes = fread(fid, Inf, 'uint8')';
+  bytes = fread(fid, Inf, '*uint8')';
   clear cleanup
 end
 %=============================================================================

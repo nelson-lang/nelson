@@ -36,6 +36,7 @@ function test_case_res = post_run_test_case_mpi(test_case_res) %#ok<NLS0026>
         error('Nelson:tests_manager:unhandledCase', 'Case not managed.');
     end
   else
+    test_case_res.msg = missing_runfile_result_message(test_case_res);
     test_case_res.status = 'Fail';
   end
   test_case_res = post_run_capture_redirect(test_case_res);

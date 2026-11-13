@@ -19,14 +19,10 @@ function test_case_res = post_run_test_case_skip_or_fail(test_case_res) %#ok<NLS
     else
       test_case_res = post_run_fail_result_file(test_case_res, s.msg);
     end
-  elseif isfile(test_case_res.redirect_err)
+  else
+    test_case_res.msg = missing_runfile_result_message(test_case_res);
     test_case_res.status = 'Fail';
     test_case_res.skip = false;
-    test_case_res = captureRedirectError(test_case_res);
-    test_case_res.msg = test_redirect_error_message(test_case_res.redirect_err, test_case_res.res_cmd);
-  else
-    test_case_res.status = 'Fail';
-    test_case_res.msg = ['Error code not caught:', ' ', num2str(test_case_res.res_cmd)];
   end
   test_case_res = post_run_capture_redirect(test_case_res);
 end

@@ -113,7 +113,7 @@ asserts.isfalse(any(strcmp(unsafeTaggedCase.tags, 'reuse_process')));
 asserts.istrue(any(strcmp(safeUntaggedCase.tags, 'reuse_process')));
 asserts.istrue(any(strcmp(guiTaggedCase.tags, 'reuse_process')));
 fid = fopen(safeUntaggedFile, 'rb');
-safeBytes = fread(fid, Inf, 'uint8')';
+safeBytes = fread(fid, Inf, '*uint8')';
 fclose(fid);
 asserts.isequal(safeBytes(1:3), uint8([239 187 191]));
 asserts.istrue(any(safeBytes(1:end - 1) == 13 & safeBytes(2:end) == 10));
