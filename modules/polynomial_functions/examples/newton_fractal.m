@@ -48,7 +48,8 @@ newtonFractalTolerance = 1e-5;
 
 % Zoom from the whole picture down to a rich point on a basin boundary.
 if ~exist('newtonFractalCenter', 'var')
-  newtonFractalCenter = complex(-0.5, 0.0);
+  % -2^(-1/3) is mapped onto 0 by the Newton step: all three basins meet there.
+  newtonFractalCenter = complex(-2 ^ (-1 / 3), 0.0);
 end
 if ~exist('newtonFractalStartSpan', 'var')
   newtonFractalStartSpan = 3.0;
@@ -94,6 +95,8 @@ newtonFractalSpeedText = uicontrol('Parent', newtonFractalFigure, ...
   'Position', [20 14 520 22], 'HorizontalAlignment', 'left', ...
   'BackgroundColor', [0.05 0.06 0.09], ...
   'ForegroundColor', [0.80 0.86 0.96], 'FontSize', 10);
+% Controls follow the window size.
+set(findobj(get(newtonFractalSpeedText, 'Parent'), 'Type', 'uicontrol'), 'Units', 'normalized');
 
 % An ambient triad plays under the zoom, looped by hand while animating.
 [newtonFractalPlayer, newtonFractalAudioDuration] = ...
