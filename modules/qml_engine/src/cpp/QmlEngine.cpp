@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <QtCore/QCoreApplication>
 #include <QtCore/QFile>
 #include <QtCore/QPointer>
 #include <QtCore/QScopedPointer>
@@ -68,9 +69,23 @@ QmlEngine::destroy()
     }
 }
 //=============================================================================
+// QML creates native windows, which must happen on the Qt GUI thread. The WebView
+// desktop runs the interpreter on another thread: fail cleanly instead of aborting.
+static void
+requireQtGuiThread()
+{
+    QCoreApplication* app = QCoreApplication::instance();
+    if (app == nullptr || QThread::currentThread() != app->thread()) {
+        Error(L"Nelson:qml:requiresQtDesktop",
+            L"QML windows require the Qt desktop (nelson --gui): this desktop does not run the "
+            L"interpreter on the Qt GUI thread.");
+    }
+}
+//=============================================================================
 QObjectHandleObject*
 QmlEngine::setData(const std::wstring& data)
 {
+    requireQtGuiThread();
     QPointer<QQmlComponent> component = new QQmlComponent(qmlengine);
     if (component != nullptr) {
         qmlengine->clearComponentCache();
@@ -97,6 +112,7 @@ QmlEngine::setData(const std::wstring& data)
 QObjectHandleObject*
 QmlEngine::loadQmlFile(const std::wstring& filename)
 {
+    requireQtGuiThread();
     QPointer<QQmlComponent> component = new QQmlComponent(qmlengine);
     if (component != nullptr) {
         qmlengine->clearComponentCache();
@@ -127,6 +143,7 @@ QmlEngine::loadQmlFile(const std::wstring& filename)
 QObjectHandleObject*
 QmlEngine::createQQuickView(const std::wstring& filename)
 {
+    requireQtGuiThread();
     QObject* topLevel = nullptr;
     QFile qf(wstringToQString(filename));
 

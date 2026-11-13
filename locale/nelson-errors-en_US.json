@@ -3793,6 +3793,7 @@
   "Nelson:qml:invalidConversion:vectorNXNExpected": "vector %dx%d expected.",
   "Nelson:qml:invalidQVariant": "QVariant invalid.",
   "Nelson:qml:notInitialized": "QML engine not initialized.",
+  "Nelson:qml:requiresQtDesktop": "QML windows require the Qt desktop (nelson --gui): this desktop does not run the interpreter on the Qt GUI thread.",
   "Nelson:qml:typeNotSupported": "Type not supported.",
   "Nelson:qml_engine:line": "at line",
   "Nelson:qml_engine:qobjectScalarHandle": "QObject scalar handle expected.",
