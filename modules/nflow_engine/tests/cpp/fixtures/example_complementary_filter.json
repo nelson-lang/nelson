@@ -339,6 +339,12 @@
       "to": "b11",
       "fromIndex": 0,
       "toIndex": 2
+    },
+    {
+      "from": "b8",
+      "to": "b11",
+      "fromIndex": 0,
+      "toIndex": 1
     }
   ],
   "width": 1500,
