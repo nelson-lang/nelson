@@ -9,4 +9,5 @@
 %=============================================================================
 shape = validatestring('rect', {'square', 'rectangle', 'triangle'});
 assert_isequal(shape, 'rectangle');
+disp(['''rect'' matches the valid option ''', shape, '''.']);
 %=============================================================================

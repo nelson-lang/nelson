@@ -15,4 +15,6 @@ parse(p, 4, 3, 'units', 'cm');
 areaValue = p.Results.width * p.Results.height;
 assert_isequal(areaValue, 12);
 assert_isequal(p.Results.units, 'cm');
+fprintf('Parsed width = %g, height = %g, units = %s -> area = %g %s^2\n', ...
+  p.Results.width, p.Results.height, p.Results.units, areaValue, p.Results.units);
 %=============================================================================

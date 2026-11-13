@@ -9,4 +9,11 @@
 %=============================================================================
 x = [1 2 3 4];
 validateattributes(x, {'numeric'}, {'row', 'nonempty', 'positive', 'finite'});
+disp('x = [1 2 3 4] is a finite, positive, non-empty numeric row vector.');
+% A rejected input raises a descriptive error.
+try
+  validateattributes([1 -2 3], {'numeric'}, {'positive'});
+catch err
+  disp(['[1 -2 3] rejected: ', err.message]);
+end
 %=============================================================================
