@@ -204,6 +204,9 @@ function SimulationPanel(): JSX.Element {
                 Solver
               </label>
               <select id="simSolver" className="input" defaultValue="discrete">
+                <option value="auto" data-i18n="Automatic">
+                  Automatic
+                </option>
                 <option value="discrete" data-i18n="Fixed-step (discrete)">
                   Fixed-step (discrete)
                 </option>
@@ -221,6 +224,9 @@ function SimulationPanel(): JSX.Element {
                 </option>
                 <option value="variableStiff" data-i18n="Variable-step (stiff)">
                   Variable-step (stiff)
+                </option>
+                <option value="dae" data-i18n="Variable-step DAE (acausal)">
+                  Variable-step DAE (acausal)
                 </option>
               </select>
             </div>

@@ -200,7 +200,8 @@ function isVariableSolver(name: string | undefined): boolean {
     name === 'variableStiff' ||
     name === 'variableNonstiff' ||
     name === 'cvodesBdf' ||
-    name === 'cvodesAdams'
+    name === 'cvodesAdams' ||
+    name === 'dae'
   );
 }
 //=============================================================================

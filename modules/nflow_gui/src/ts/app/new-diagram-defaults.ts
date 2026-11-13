@@ -34,9 +34,16 @@ export function readNewDiagramDefaults(): NewDiagramDefaults {
     runtime: positiveNumber('runtime', 10),
     sampleTime: positiveNumber('sample-time', 0.01),
     execution: ['auto', 'real-time', 'fast'].includes(execution) ? execution : 'auto',
-    solver: ['discrete', 'ode1', 'ode4', 'ode45', 'variableNonstiff', 'variableStiff'].includes(
-      solver
-    )
+    solver: [
+      'auto',
+      'discrete',
+      'ode1',
+      'ode4',
+      'ode45',
+      'variableNonstiff',
+      'variableStiff',
+      'dae',
+    ].includes(solver)
       ? solver
       : 'discrete',
     relTol: positiveNumber('relative-tolerance', 1e-6),

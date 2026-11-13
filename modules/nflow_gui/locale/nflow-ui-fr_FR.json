@@ -1,6 +1,8 @@
 {
+  "Automatic": "Automatique",
   "File": "Fichier",
   "Edit": "Édition",
+  "Variable-step DAE (acausal)": "Pas variable DAE (acausal)",
   "View": "Affichage",
   "Help": "Aide",
   "New": "Nouveau",
