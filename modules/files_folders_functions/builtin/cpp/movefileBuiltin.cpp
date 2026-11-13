@@ -14,6 +14,7 @@
 #include "FileSystemWrapper.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "NelsonException.hpp"
+#include "PathFunctionIndexerManager.hpp"
 #include "RemoveDirectory.hpp"
 #include "RemoveFile.hpp"
 //=============================================================================
@@ -99,6 +100,10 @@ Nelson::FilesFoldersGateway::movefileBuiltin(int nLhs, const ArrayOfVector& argI
         }
         ok = false;
         errorMessage = e.message();
+    }
+    if (ok) {
+        // a loaded function file just rewritten reloads at its next call
+        PathFunctionIndexerManager::getInstance()->notifyFileWritten(dest);
     }
     ArrayOfVector retval;
     if (nLhs == 0) {

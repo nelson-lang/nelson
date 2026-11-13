@@ -39,5 +39,22 @@ results = lines(startsWith(lines, 'RESULT') | contains(lines, '>> RESULT'));
 results = regexprep(results, '^.*RESULT', 'RESULT');
 asserts.isequal(results, {'RESULT A 1'; 'RESULT B 1'; 'RESULT C 33'; 'RESULT D 33'}');
 %=============================================================================
+% without the file watcher, only rehash reloads the changed file
+filewrite(fullfile(T, 'prompt_reload_probe.m'), {'function r = prompt_reload_probe()'; 'r = 1;'; 'end'});
+commands = {['addpath(''', strrep(T, '''', ''''''), ''');'];
+  'fprintf(''RESULT A %d\n'', prompt_reload_probe());';
+  ['copyfile(''', src, ''', ''', dst, ''', ''f'');'];
+  'fprintf(''RESULT B %d\n'', prompt_reload_probe());';
+  'rehash path';
+  'fprintf(''RESULT C %d\n'', prompt_reload_probe());';
+  'exit'};
+filewrite(inputFile, commands);
+[status, msg] = system([nelson_exe, ' -q --without-file-watcher < "', inputFile, '"'], 120);
+asserts.isequal(status, 0);
+lines = strtrim(strsplit(msg, newline));
+results = lines(startsWith(lines, 'RESULT') | contains(lines, '>> RESULT'));
+results = regexprep(results, '^.*RESULT', 'RESULT');
+asserts.isequal(results, {'RESULT A 1'; 'RESULT B 1'; 'RESULT C 33'}');
+%=============================================================================
 rmdir(T, 's');
 %=============================================================================

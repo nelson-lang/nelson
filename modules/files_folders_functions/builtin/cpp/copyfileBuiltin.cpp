@@ -14,6 +14,7 @@
 #include "ErrorID.hpp"
 #include "NelsonException.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "PathFunctionIndexerManager.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -62,6 +63,10 @@ Nelson::FilesFoldersGateway::copyfileBuiltin(int nLhs, const ArrayOfVector& argI
         }
         bRes = false;
         errorMessage = e.message();
+    }
+    if (bRes) {
+        // a loaded function file just rewritten reloads at its next call
+        PathFunctionIndexerManager::getInstance()->notifyFileWritten(dest);
     }
     if (nLhs == 0) {
         if (!bRes) {
