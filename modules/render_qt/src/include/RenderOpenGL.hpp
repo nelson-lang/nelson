@@ -149,6 +149,12 @@ private:
     map(double x, double y, double z);
     void
     setLineStyleGL(const std::wstring& style);
+    // Line style of lines drawn through the RenderInterface API. Dashes are cut
+    // on the CPU: GL_LINE_STIPPLE draws nothing under clip planes on macOS.
+    std::wstring m_lineStyle { L"-" };
+    double m_lineWidthPoints = 0.5;
+    void
+    drawStyledLines(unsigned int primitive, const double* xyz, size_t vertexCount);
     void
     configureLighting(bool enabled);
     void

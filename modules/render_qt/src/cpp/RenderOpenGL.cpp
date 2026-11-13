@@ -486,13 +486,130 @@ RenderOpenGL::setLineStyleGL(const std::wstring& style)
 void
 RenderOpenGL::setLineStyle(const std::wstring& style)
 {
-    setLineStyleGL(style);
+    glDisable(GL_LINE_STIPPLE);
+    m_lineStyle = style;
 }
 //=============================================================================
 void
 RenderOpenGL::lineWidth(double n)
 {
+    m_lineWidthPoints = n;
     glLineWidth(static_cast<GLfloat>(std::max(1.0, pointsToPixels(n))));
+}
+//=============================================================================
+static void
+drawVertexArrayRaw(GLenum primitive, const GLdouble* vertices, GLsizei vertexCount);
+//=============================================================================
+static std::vector<double>
+dashPatternUnits(const std::wstring& style)
+{
+    if (style == L"--") {
+        return { 7, 4 };
+    }
+    if (style == L":") {
+        return { 2, 3 };
+    }
+    if (style == L"-.") {
+        return { 7, 3, 2, 3 };
+    }
+    return {};
+}
+//=============================================================================
+static bool
+projectToWindow(const GLdouble* mv, const GLdouble* pr, const GLint* vp, const double* p,
+    double& wx, double& wy)
+{
+    double eye[4];
+    double clip[4];
+    for (int r = 0; r < 4; ++r) {
+        eye[r] = mv[r] * p[0] + mv[4 + r] * p[1] + mv[8 + r] * p[2] + mv[12 + r];
+    }
+    for (int r = 0; r < 4; ++r) {
+        clip[r] = pr[r] * eye[0] + pr[4 + r] * eye[1] + pr[8 + r] * eye[2] + pr[12 + r] * eye[3];
+    }
+    if (!(clip[3] > 0) || !std::isfinite(clip[0]) || !std::isfinite(clip[1])) {
+        return false;
+    }
+    wx = vp[0] + (clip[0] / clip[3] + 1.0) * 0.5 * vp[2];
+    wy = vp[1] + (clip[1] / clip[3] + 1.0) * 0.5 * vp[3];
+    return true;
+}
+//=============================================================================
+void
+RenderOpenGL::drawStyledLines(unsigned int primitive, const double* xyz, size_t vertexCount)
+{
+    if (vertexCount < 2 || m_lineStyle == GO_PROPERTY_VALUE_NONE_STR) {
+        return;
+    }
+    std::vector<double> pattern = dashPatternUnits(m_lineStyle);
+    if (pattern.empty()) {
+        drawVertexArrayRaw(primitive, xyz, static_cast<GLsizei>(vertexCount));
+        return;
+    }
+    const double widthPixels = std::max(1.0, qtScreenPointsToPixels(m_lineWidthPoints));
+    const double scale = deviceScale() * widthPixels;
+    for (double& value : pattern) {
+        value *= scale;
+    }
+    GLdouble mv[16];
+    GLdouble pr[16];
+    GLint vp[4];
+    glGetDoublev(GL_MODELVIEW_MATRIX, mv);
+    glGetDoublev(GL_PROJECTION_MATRIX, pr);
+    glGetIntegerv(GL_VIEWPORT, vp);
+
+    std::vector<std::pair<size_t, size_t>> segments;
+    if (primitive == GL_LINES) {
+        for (size_t i = 0; i + 1 < vertexCount; i += 2) {
+            segments.emplace_back(i, i + 1);
+        }
+    } else {
+        for (size_t i = 0; i + 1 < vertexCount; ++i) {
+            segments.emplace_back(i, i + 1);
+        }
+        if (primitive == GL_LINE_LOOP) {
+            segments.emplace_back(vertexCount - 1, 0);
+        }
+    }
+    std::vector<GLdouble> out;
+    out.reserve(segments.size() * 6);
+    size_t patternIndex = 0;
+    double remaining = pattern[0];
+    auto emitDash = [&](const double* a, const double* b, double t0, double t1) {
+        for (int k = 0; k < 3; ++k) {
+            out.push_back(a[k] + (b[k] - a[k]) * t0);
+        }
+        for (int k = 0; k < 3; ++k) {
+            out.push_back(a[k] + (b[k] - a[k]) * t1);
+        }
+    };
+    for (const auto& [ia, ib] : segments) {
+        const double* a = xyz + 3 * ia;
+        const double* b = xyz + 3 * ib;
+        double ax, ay, bx, by;
+        if (!projectToWindow(mv, pr, vp, a, ax, ay) || !projectToWindow(mv, pr, vp, b, bx, by)) {
+            emitDash(a, b, 0.0, 1.0);
+            continue;
+        }
+        const double length = std::hypot(bx - ax, by - ay);
+        if (!(length > 0)) {
+            continue;
+        }
+        double travelled = 0;
+        while (travelled < length) {
+            const double step = std::min(remaining, length - travelled);
+            if (patternIndex % 2 == 0) {
+                emitDash(a, b, travelled / length, (travelled + step) / length);
+            }
+            travelled += step;
+            remaining -= step;
+            if (remaining <= 1e-9) {
+                patternIndex = (patternIndex + 1) % pattern.size();
+                remaining = pattern[patternIndex];
+            }
+        }
+    }
+    drawVertexArrayRaw(GL_LINES, out.data(), static_cast<GLsizei>(out.size() / 3));
 }
 //=============================================================================
 static void
@@ -519,17 +636,6 @@ drawVertexArrayRaw(GLenum primitive, const GLdouble* vertices, GLsizei vertexCou
     glDisableClientState(GL_VERTEX_ARRAY);
 }
 //=============================================================================
-static void
-drawVertexArray2D(GLenum primitive, const std::vector<double>& vertices)
-{
-    if (vertices.empty()) {
-        return;
-    }
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(2, GL_DOUBLE, 0, vertices.data());
-    glDrawArrays(primitive, 0, static_cast<GLsizei>(vertices.size() / 2));
-    glDisableClientState(GL_VERTEX_ARRAY);
-}
 //=============================================================================
 static bool
 isFiniteLinePoint(const std::vector<double>& xs, const std::vector<double>& ys,
@@ -550,11 +656,10 @@ appendLineVertex(const std::vector<double>& xs, const std::vector<double>& ys,
 }
 //=============================================================================
 static bool
-drawSeparatedLineSegments(
-    const std::vector<double>& xs, const std::vector<double>& ys, const std::vector<double>& zs)
+collectSeparatedLineSegments(const std::vector<double>& xs, const std::vector<double>& ys,
+    const std::vector<double>& zs, std::vector<GLdouble>& vertices)
 {
     const size_t pointCount = std::min(xs.size(), ys.size());
-    std::vector<GLdouble> vertices;
     vertices.reserve(pointCount * 3);
     size_t index = 0;
     while (index < pointCount) {
@@ -575,11 +680,7 @@ drawSeparatedLineSegments(
         appendLineVertex(xs, ys, zs, start, vertices);
         appendLineVertex(xs, ys, zs, start + 1, vertices);
     }
-    if (vertices.empty()) {
-        return false;
-    }
-    drawVertexArray(GL_LINES, vertices);
-    return true;
+    return !vertices.empty();
 }
 //=============================================================================
 void
@@ -594,7 +695,8 @@ void
 RenderOpenGL::quadline(double x1, double y1, double z1, double x2, double y2, double z2, double x3,
     double y3, double z3, double x4, double y4, double z4)
 {
-    drawVertexArray(GL_LINE_LOOP, { x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4 });
+    const GLdouble vertices[] = { x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4 };
+    drawStyledLines(GL_LINE_LOOP, vertices, 4);
 }
 //=============================================================================
 void
@@ -608,14 +710,15 @@ void
 RenderOpenGL::triLine(double x1, double y1, double z1, double x2, double y2, double z2, double x3,
     double y3, double z3)
 {
-    drawVertexArray(GL_LINE_LOOP, { x1, y1, z1, x2, y2, z2, x3, y3, z3 });
+    const GLdouble vertices[] = { x1, y1, z1, x2, y2, z2, x3, y3, z3 };
+    drawStyledLines(GL_LINE_LOOP, vertices, 3);
 }
 //=============================================================================
 void
 RenderOpenGL::line(double x1, double y1, double z1, double x2, double y2, double z2)
 {
     const GLdouble vertices[] = { x1, y1, z1, x2, y2, z2 };
-    drawVertexArrayRaw(GL_LINES, vertices, 2);
+    drawStyledLines(GL_LINES, vertices, 2);
 }
 //=============================================================================
 void
@@ -627,13 +730,18 @@ RenderOpenGL::line(double x1, double y1, double x2, double y2)
 void
 RenderOpenGL::lineSegments3D(const std::vector<double>& xyz)
 {
-    drawVertexArray(GL_LINES, xyz);
+    drawStyledLines(GL_LINES, xyz.data(), xyz.size() / 3);
 }
 //=============================================================================
 void
 RenderOpenGL::lineSegments2D(const std::vector<double>& xy)
 {
-    drawVertexArray2D(GL_LINES, xy);
+    std::vector<GLdouble> xyz;
+    xyz.reserve(xy.size() / 2 * 3);
+    for (size_t i = 0; i + 1 < xy.size(); i += 2) {
+        xyz.insert(xyz.end(), { xy[i], xy[i + 1], 0.0 });
+    }
+    drawStyledLines(GL_LINES, xyz.data(), xyz.size() / 3);
 }
 //=============================================================================
 void
@@ -643,7 +751,9 @@ RenderOpenGL::lineSeries(std::vector<double> xs, std::vector<double> ys, std::ve
     if (pointCount < 2) {
         return;
     }
-    if (drawSeparatedLineSegments(xs, ys, zs)) {
+    std::vector<GLdouble> separated;
+    if (collectSeparatedLineSegments(xs, ys, zs, separated)) {
+        drawStyledLines(GL_LINES, separated.data(), separated.size() / 3);
         return;
     }
     size_t index = 0;
@@ -658,7 +768,7 @@ RenderOpenGL::lineSeries(std::vector<double> xs, std::vector<double> ys, std::ve
             index++;
         }
         if (vertices.size() >= 6) {
-            drawVertexArray(GL_LINE_STRIP, vertices);
+            drawStyledLines(GL_LINE_STRIP, vertices.data(), vertices.size() / 3);
         }
     }
 }
@@ -1179,13 +1289,19 @@ RenderOpenGL::applyDataClipPlanes()
     // first. Each plane keeps the half-space where a * x + b * y + c * z + d >= 0.
     glMatrixMode(GL_MODELVIEW);
     glLoadMatrixd(model);
+    // Limits are inclusive: widen by a relative epsilon so geometry lying exactly
+    // on a limit (e.g. a cube edge at XLim(2)) is not lost to round-off.
+    auto slack = [](double lo, double hi) { return std::max(1e-12, 1e-6 * std::fabs(hi - lo)); };
+    const double ex = slack(m_dataClip.xmin, m_dataClip.xmax);
+    const double ey = slack(m_dataClip.ymin, m_dataClip.ymax);
+    const double ez = slack(m_dataClip.zmin, m_dataClip.zmax);
     const GLdouble planes[6][4] = {
-        { 1.0, 0.0, 0.0, -m_dataClip.xmin },
-        { -1.0, 0.0, 0.0, m_dataClip.xmax },
-        { 0.0, 1.0, 0.0, -m_dataClip.ymin },
-        { 0.0, -1.0, 0.0, m_dataClip.ymax },
-        { 0.0, 0.0, 1.0, -m_dataClip.zmin },
-        { 0.0, 0.0, -1.0, m_dataClip.zmax },
+        { 1.0, 0.0, 0.0, -m_dataClip.xmin + ex },
+        { -1.0, 0.0, 0.0, m_dataClip.xmax + ex },
+        { 0.0, 1.0, 0.0, -m_dataClip.ymin + ey },
+        { 0.0, -1.0, 0.0, m_dataClip.ymax + ey },
+        { 0.0, 0.0, 1.0, -m_dataClip.zmin + ez },
+        { 0.0, 0.0, -1.0, m_dataClip.zmax + ez },
     };
     for (int i = 0; i < 6; i++) {
         glClipPlane(GL_CLIP_PLANE0 + i, planes[i]);
@@ -1237,12 +1353,8 @@ RenderOpenGL::depth(bool on)
 void
 RenderOpenGL::rect(double x1, double y1, double x2, double y2)
 {
-    glBegin(GL_LINE_LOOP);
-    glVertex2d(x1, y1);
-    glVertex2d(x2, y1);
-    glVertex2d(x2, y2);
-    glVertex2d(x1, y2);
-    glEnd();
+    const GLdouble vertices[] = { x1, y1, 0, x2, y1, 0, x2, y2, 0, x1, y2, 0 };
+    drawStyledLines(GL_LINE_LOOP, vertices, 4);
 }
 //=============================================================================
 void
@@ -1265,12 +1377,14 @@ RenderOpenGL::circle(double x, double y, double radius)
         return;
     }
     int segments = circleSegmentCount(radius);
-    glBegin(GL_LINE_LOOP);
+    std::vector<GLdouble> vertices;
+    vertices.reserve(static_cast<size_t>(segments) * 3);
     for (int i = 0; i < segments; ++i) {
         double theta = 2.0 * M_PI * static_cast<double>(i) / static_cast<double>(segments);
-        glVertex2d(x + radius * std::cos(theta), y + radius * std::sin(theta));
+        vertices.insert(
+            vertices.end(), { x + radius * std::cos(theta), y + radius * std::sin(theta), 0.0 });
     }
-    glEnd();
+    drawStyledLines(GL_LINE_LOOP, vertices.data(), vertices.size() / 3);
 }
 //=============================================================================
 void
