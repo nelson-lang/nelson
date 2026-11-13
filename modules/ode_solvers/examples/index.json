@@ -22,12 +22,12 @@
     {
       "file": "dde_bvp_added_features_example.m",
       "title": {
-        "en_US": "Boundary-value problem",
-        "fr_FR": "Problème aux limites"
+        "en_US": "Delay and boundary-value solvers",
+        "fr_FR": "Solveurs à retard et aux limites"
       },
       "description": {
-        "en_US": "Solve a delayed boundary-value problem with additional options.",
-        "fr_FR": "Résoudre un problème aux limites à retard avec des options supplémentaires."
+        "en_US": "Delayed logistic growth with dde23 and ddesd, and the two solutions of a boundary-value problem with bvp4c and bvp5c.",
+        "fr_FR": "Croissance logistique à retard avec dde23 et ddesd, et les deux solutions d'un problème aux limites avec bvp4c et bvp5c."
       },
       "tags": [
         "dde",

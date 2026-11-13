@@ -7,56 +7,38 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% Delay and boundary value solver features.
-%
-% This script demonstrates the DDE and BVP entry points added to the ODE solver
-% module. It is intentionally written with portable syntax and function calls.
+% Delayed logistic growth (dde23 / ddesd) settling on a limit cycle, and the
+% two solutions of y'' + |y| = 0 found by bvp4c / bvp5c from different guesses.
 %=============================================================================
-
-timeSpan = [0 0.2];
-constantDelaySolution = dde23(@delayRightHandSide, 0.1, 1, timeSpan);
-stateDelay = @(t, y) t - 0.05 + 0 * y(1);
-stateDelaySolution = ddesd(@delayRightHandSide, stateDelay, 1, timeSpan);
-neutralSolution = ddensd(@neutralDelayRightHandSide, stateDelay, stateDelay, 1, timeSpan);
-
-queryTime = linspace(timeSpan(1), timeSpan(2), 16);
+growthRate = 1.8;
+timeSpan = [0 30];
+hutchinson = @(t, y, Z) growthRate * y * (1 - Z(1));
+constantDelaySolution = dde23(hutchinson, 1, 0.5, timeSpan);
+varyingDelay = @(t, y) t - (1 + 0.3 * sin(t));
+varyingDelaySolution = ddesd(hutchinson, varyingDelay, 0.5, timeSpan);
+queryTime = linspace(timeSpan(1), timeSpan(2), 400);
 constantDelayValues = deval(constantDelaySolution, queryTime);
-stateDelayValues = deval(stateDelaySolution, queryTime);
-neutralDelayValues = deval(neutralSolution, queryTime);
+varyingDelayValues = deval(varyingDelaySolution, queryTime);
 
-initialMesh = linspace(0, 1, 5);
-initialGuess = bvpinit(initialMesh, @linearInitialGuess);
-linear4 = bvp4c(@linearEquation, @linearBoundaryConditions, initialGuess);
-linear5 = bvp5c(@linearEquation, @linearBoundaryConditions, initialGuess);
-extendedLinear = bvpxtend(linear4, 1.25, [1.25; 1]);
+twoSolutionsOde = @(x, y) [y(2); -abs(y(1))];
+twoSolutionsBc = @(ya, yb) [ya(1); yb(1) + 2];
+initialMesh = linspace(0, 4, 5);
+upperSolution = bvp4c(twoSolutionsOde, twoSolutionsBc, bvpinit(initialMesh, [1 0]));
+lowerSolution = bvp4c(twoSolutionsOde, twoSolutionsBc, bvpinit(initialMesh, [-1 0]));
+upperSolution5 = bvp5c(twoSolutionsOde, twoSolutionsBc, bvpinit(initialMesh, [1 0]));
+space = linspace(0, 4, 100);
+upperValues = deval(upperSolution, space);
+lowerValues = deval(lowerSolution, space);
+upperValues5 = deval(upperSolution5, space);
 
-space = linspace(0, 1, 24);
-linear4Values = deval(linear4, space);
-linear5Values = deval(linear5, space);
-
-ddeError = max(abs(constantDelayValues - 1));
-linearError = max(abs(linear4Values(1, :) - space));
-linearDifference = max(abs(linear4Values(1, :) - linear5Values(1, :)));
-extensionError = abs(extendedLinear.y(1, length(extendedLinear.x)) - 1.25);
-
-disp('DDE and BVP added features');
-disp(['  dde23 constant solution error: ', num2str(ddeError)]);
-disp(['  bvp4c linear solution error:   ', num2str(linearError)]);
-disp(['  bvp4c/bvp5c difference:        ', num2str(linearDifference)]);
-disp(['  bvpxtend extension error:      ', num2str(extensionError)]);
-
-if ddeError >= 1e-8
-  error('DDE constant delay example is outside tolerance.');
-end
-if linearError >= 1e-8
-  error('BVP linear solution is outside tolerance.');
-end
-if linearDifference >= 1e-8
-  error('BVP solver comparison is outside tolerance.');
-end
-if extensionError >= 1e-8
-  error('BVP extension is outside tolerance.');
-end
+lateCycle = constantDelayValues(queryTime > 15);
+disp('Delay and boundary value solvers');
+disp(['  dde23 limit cycle range:      [', num2str(min(lateCycle), 3), ', ', ...
+  num2str(max(lateCycle), 3), ']']);
+disp(['  bvp4c initial slopes:         ', num2str(upperValues(2, 1), 4), ' and ', ...
+  num2str(lowerValues(2, 1), 4)]);
+disp(['  bvp4c / bvp5c max difference: ', ...
+  num2str(max(abs(upperValues(1, :) - upperValues5(1, :))), 3)]);
 
 if exist('ddeBvpAddedFeaturesPlotEnabled', 'var') == 0
   ddeBvpAddedFeaturesPlotEnabled = true;
@@ -66,53 +48,25 @@ if ddeBvpAddedFeaturesPlotEnabled && exist('figure') ~= 0
   if exist('ddeBvpAddedFeaturesPlotVisible', 'var') == 0
     ddeBvpAddedFeaturesPlotVisible = 'on';
   end
-  figure('Visible', ddeBvpAddedFeaturesPlotVisible);
+  figure('Visible', ddeBvpAddedFeaturesPlotVisible, ...
+    'Name', 'Delay and boundary value solvers', 'NumberTitle', 'off');
   subplot(2, 1, 1);
   plot(queryTime, constantDelayValues(1, :), '-', ...
-    queryTime, stateDelayValues(1, :), '--', ...
-    queryTime, neutralDelayValues(1, :), ':');
+    queryTime, varyingDelayValues(1, :), '--', ...
+    timeSpan, [1 1], 'k:', 'LineWidth', 1.2);
   grid on
   xlabel('time');
-  ylabel('state');
-  title('Delay equation solutions');
-  legend('dde23', 'ddesd', 'ddensd');
+  ylabel('population y(t)');
+  title(sprintf('Delayed logistic growth, r = %.1f', growthRate));
+  legend('dde23, constant delay 1', 'ddesd, delay 1 + 0.3 sin(t)', 'carrying capacity');
 
   subplot(2, 1, 2);
-  plot(space, linear4Values(1, :), '-', ...
-    space, linear5Values(1, :), '--', ...
-    extendedLinear.x, extendedLinear.y(1, :), ':');
+  plot(space, upperValues(1, :), '-', space, lowerValues(1, :), '-', ...
+    space, upperValues5(1, :), '--', 'LineWidth', 1.2);
   grid on
-  xlabel('space');
-  ylabel('state');
-  title('Boundary value solutions');
-  legend('bvp4c', 'bvp5c', 'bvpxtend guess');
-end
-
-%=============================================================================
-% LOCAL FUNCTIONS
-%=============================================================================
-
-function dydt = delayRightHandSide(t, y, z)
-  dydt = -y + z(:, 1) + 0 * t;
-end
-%=============================================================================
-
-function dydt = neutralDelayRightHandSide(t, y, z, zp)
-  dydt = -y + z(:, 1) + 0 * zp(:, 1) + 0 * t;
-end
-%=============================================================================
-
-function y = linearInitialGuess(x)
-  y = [x; 1 + 0 * x];
-end
-%=============================================================================
-
-function dydx = linearEquation(x, y)
-  dydx = [y(2); 0 * y(1) + 0 * x];
-end
-%=============================================================================
-
-function residual = linearBoundaryConditions(ya, yb)
-  residual = [ya(1); yb(1) - 1];
+  xlabel('x');
+  ylabel('y(x)');
+  title('y" + abs(y) = 0, y(0) = 0, y(4) = -2: two solutions');
+  legend('bvp4c, guess y = 1', 'bvp4c, guess y = -1', 'bvp5c, guess y = 1');
 end
 %=============================================================================
