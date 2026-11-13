@@ -8,6 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <algorithm>
+#include <cmath>
+#include <tuple>
 #include "GOUIPanel.h"
 #include "GOUIControl.h"
 #include "GOUIRadioButton.h"
@@ -20,6 +22,8 @@
 #include "GOPositionHelpers.hpp"
 #include "GOColorProperty.hpp"
 #include "RenderInterface.hpp"
+#include "GOUIComponentUnits.hpp"
+#include "UnitsConversionHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -27,10 +31,10 @@ static bool
 setGroupButtonValue(GraphicsObject* button, bool selected);
 static bool
 groupButtonIsSelected(GraphicsObject* button);
+static double
+fontSizeInPixels(GOUIPanel* panel);
 //=============================================================================
-// Chrome metrics: the title sits in a band of its own text height plus this
-// padding, inset from the side by the border plus this margin.
-static constexpr double TITLE_BAND_PADDING = 4.0;
+// The title is inset from the side by the border plus this margin.
 static constexpr double TITLE_SIDE_PADDING = 4.0;
 //=============================================================================
 GOUIPanel::GOUIPanel(bool isButtonGroup) : buttonGroupStyle(isButtonGroup)
@@ -83,7 +87,7 @@ GOUIPanel::paintChrome(RenderInterface& gc)
     const double height = gc.height();
     const std::wstring title = findStringProperty(GO_TITLE_PROPERTY_NAME_STR);
     const double borderWidth = panelBorderWidth();
-    const double band = titleBandHeight(gc);
+    const double top = topInset();
     gc.setupDirectDraw();
     gc.setLineStyle(L"-");
     if (!title.empty()) {
@@ -102,8 +106,10 @@ GOUIPanel::paintChrome(RenderInterface& gc)
             x = width - borderWidth - TITLE_SIDE_PADDING;
             alignment = RenderInterface::Max;
         }
-        gc.putText(x, height - borderWidth - band / 2.0, title, textColor, alignment,
-            RenderInterface::Mean, chromeFont(), 0);
+        FontSpec font = chromeFont();
+        font.pixelSize = titleBandHeight();
+        gc.putText(x, height - top / 2.0, title, textColor, alignment, RenderInterface::Mean, font,
+            0);
     }
     if (borderWidth > 0) {
         auto* borderColor = dynamic_cast<GOColorProperty*>(
@@ -112,11 +118,10 @@ GOUIPanel::paintChrome(RenderInterface& gc)
             gc.color(borderColor->data());
             gc.lineWidth(borderWidth);
             const double half = borderWidth / 2.0;
-            // The border encloses the whole panel, title band included; a
-            // separator closes that band.
+            // The border encloses the whole panel; a separator closes the title band.
             gc.rect(half, half, width - half, height - half);
-            if (!title.empty()) {
-                const double y = height - borderWidth - band;
+            if (!title.empty() && top > borderWidth) {
+                const double y = height - top + half;
                 gc.line(0, y, width, y);
             }
         }
@@ -128,9 +133,8 @@ std::vector<double>
 GOUIPanel::contentRect(RenderInterface& gc)
 {
     const double borderWidth = panelBorderWidth();
-    const double band = titleBandHeight(gc);
     const double width = gc.width() - 2 * borderWidth;
-    const double height = gc.height() - 2 * borderWidth - band;
+    const double height = gc.height() - borderWidth - topInset();
     if (width <= 0 || height <= 0) {
         return {};
     }
@@ -148,12 +152,18 @@ GOUIPanel::panelBorderWidth()
 }
 //=============================================================================
 double
-GOUIPanel::titleBandHeight(RenderInterface& gc)
+GOUIPanel::titleBandHeight()
 {
     if (findStringProperty(GO_TITLE_PROPERTY_NAME_STR).empty()) {
         return 0.0;
     }
-    return chromeTextHeight(gc) + TITLE_BAND_PADDING;
+    return std::round(fontSizeInPixels(this));
+}
+//=============================================================================
+double
+GOUIPanel::topInset()
+{
+    return std::max(titleBandHeight(), panelBorderWidth());
 }
 //=============================================================================
 void
@@ -180,19 +190,34 @@ GOUIPanel::synchronizePanelPositions()
 void
 GOUIPanel::deriveInnerPosition()
 {
+    setInnerPositionFromInsets(panelBorderWidth(), titleBandHeight());
+    clearChanged(GO_INNER_POSITION_PROPERTY_NAME_STR);
+}
+//=============================================================================
+void
+GOUIPanel::setInnerPositionFromInsets(double borderInset, double titleInset)
+{
     std::vector<double> position = findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR);
     if (position.size() != 4) {
         return;
     }
-    double borderInset = stringCheck(GO_BORDER_TYPE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_LINE_STR)
-        ? findScalarDoubleProperty(GO_BORDER_WIDTH_PROPERTY_NAME_STR)
-        : 0.0;
-    double innerWidth = position[2] - 2 * borderInset;
-    double innerHeight = position[3] - 2 * borderInset;
-    setFourVectorDefault(GO_INNER_POSITION_PROPERTY_NAME_STR, position[0] + borderInset,
-        position[1] + borderInset, innerWidth < 0 ? 0 : innerWidth,
-        innerHeight < 0 ? 0 : innerHeight);
-    clearChanged(GO_INNER_POSITION_PROPERTY_NAME_STR);
+    // the insets are in pixels: express them in the panel units
+    double insetX = borderInset;
+    double insetY = borderInset;
+    double insetTop = std::max(titleInset, borderInset);
+    const std::wstring units = findStringProperty(GO_UNITS_PROPERTY_NAME_STR);
+    double parentWidth = 0;
+    double parentHeight = 0;
+    if (units != GO_PROPERTY_VALUE_PIXELS_STR
+        && uiComponentParentSizeInPixels(this, parentWidth, parentHeight)) {
+        std::tie(insetX, insetY)
+            = convertFromPixels(units, borderInset, borderInset, parentWidth, parentHeight);
+        insetTop = convertFromPixels(units, 0, insetTop, parentWidth, parentHeight).second;
+    }
+    double innerWidth = position[2] - 2 * insetX;
+    double innerHeight = position[3] - insetY - insetTop;
+    setFourVectorDefault(GO_INNER_POSITION_PROPERTY_NAME_STR, position[0] + insetX,
+        position[1] + insetY, innerWidth < 0 ? 0 : innerWidth, innerHeight < 0 ? 0 : innerHeight);
 }
 //=============================================================================
 void
@@ -215,8 +240,8 @@ GOUIPanel::updateState()
     applySelectedObject();
     synchronizePanelPositions();
     GOUIContainer::updateState();
+    deriveInnerPosition();
     if (!binding || !binding->exists()) {
-        deriveInnerPosition();
         clearChanged(GO_POSITION_PROPERTY_NAME_STR);
         clearChanged(GO_OUTER_POSITION_PROPERTY_NAME_STR);
     }
@@ -372,6 +397,29 @@ groupButtonIsSelected(GraphicsObject* button)
     return value != nullptr && button->haveProperty(GO_MAX_PROPERTY_NAME_STR)
         && button->findScalarDoubleProperty(GO_VALUE_PROPERTY_NAME_STR)
         == button->findScalarDoubleProperty(GO_MAX_PROPERTY_NAME_STR);
+}
+//=============================================================================
+double
+fontSizeInPixels(GOUIPanel* panel)
+{
+    const double size = panel->findScalarDoubleProperty(GO_FONT_SIZE_PROPERTY_NAME_STR);
+    const std::wstring units = panel->findStringProperty(GO_FONT_UNITS_PROPERTY_NAME_STR);
+    if (units == GO_PROPERTY_VALUE_PIXELS_STR) {
+        return size;
+    }
+    if (units == GO_PROPERTY_VALUE_NORMALIZED_STR) {
+        // normalized font units are relative to the panel height
+        std::vector<double> position
+            = panel->findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR);
+        double width = 0;
+        double height = 0;
+        if (position.size() != 4 || !uiComponentParentSizeInPixels(panel, width, height)) {
+            return 0.0;
+        }
+        const std::wstring positionUnits = panel->findStringProperty(GO_UNITS_PROPERTY_NAME_STR);
+        return size * convertToPixels(positionUnits, 0, position[3], width, height).second;
+    }
+    return convertToPixels(units, 0, size, 0, 0).second;
 }
 //=============================================================================
 } // namespace Nelson

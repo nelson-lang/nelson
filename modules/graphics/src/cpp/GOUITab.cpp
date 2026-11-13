@@ -19,6 +19,7 @@
 #include "GOStringOnOffProperty.hpp"
 #include "GOStringProperty.hpp"
 #include "RenderInterface.hpp"
+#include "UnitsConversionHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -114,9 +115,12 @@ GOUITab::onPageResized(double width, double height)
     if (width <= 0 || height <= 0) {
         return;
     }
-    setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, 0, 0, width, height);
-    setFourVectorDefault(GO_INNER_POSITION_PROPERTY_NAME_STR, 0, 0, width, height);
-    setFourVectorDefault(GO_OUTER_POSITION_PROPERTY_NAME_STR, 0, 0, width, height);
+    // the page in the tab units: [1 1 w h] in pixels, [0 0 1 1] when normalized
+    std::vector<double> page = convertFromPixels(
+        findStringProperty(GO_UNITS_PROPERTY_NAME_STR), 0, 0, width, height, width, height);
+    setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, page[0], page[1], page[2], page[3]);
+    setFourVectorDefault(GO_INNER_POSITION_PROPERTY_NAME_STR, page[0], page[1], page[2], page[3]);
+    setFourVectorDefault(GO_OUTER_POSITION_PROPERTY_NAME_STR, page[0], page[1], page[2], page[3]);
     refreshChildrenGeometry();
 }
 //=============================================================================

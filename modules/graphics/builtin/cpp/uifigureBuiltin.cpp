@@ -37,6 +37,7 @@ uifigureBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (!result.empty() && result[0].isGraphicsObject()) {
         GOFigure* fig = findGOFigure(result[0].asGraphicsObjectScalar());
         if (fig) {
+            markUiFigure(fig);
             auto* numberProperty
                 = static_cast<GOScalarProperty*>(fig->findProperty(GO_NUMBER_PROPERTY_NAME_STR));
             static_cast<GOVectorProperty*>(numberProperty)->data(std::vector<double> {});

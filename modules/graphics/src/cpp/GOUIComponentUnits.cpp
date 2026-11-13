@@ -131,11 +131,38 @@ graphicsParentSizeInPixels(GraphicsObject* object, GOFigure* figure, double& wid
     return width > 0 && height > 0;
 }
 //=============================================================================
+void
+decorationHostSizeInPixels(GraphicsObject* object, double& width, double& height)
+{
+    std::vector<double> content;
+    double frameHeight = 0;
+    if (uiParentContentRect(object, content, frameHeight) && content[2] > 0 && content[3] > 0) {
+        width = content[2];
+        height = content[3];
+        return;
+    }
+    GOFigure* fig = object ? object->getParentFigure() : nullptr;
+    std::vector<double> defaultPosition = defaultFigurePosition();
+    width = fig ? fig->getWidth() : defaultPosition[2];
+    height = fig ? fig->getHeight() : defaultPosition[3];
+    std::vector<double> figurePosition
+        = fig ? fig->findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR) : std::vector<double>();
+    if (figurePosition.size() >= 4 && figurePosition[2] > 0.0 && figurePosition[3] > 0.0) {
+        width = figurePosition[2];
+        height = figurePosition[3];
+    }
+}
+//=============================================================================
 bool
 uiComponentParentSizeInPixels(GOUIComponent* component, double& width, double& height)
 {
-    if (dynamic_cast<GOUIComponent*>(uiComponentParentObject(component)) == nullptr) {
+    auto* parentComponent = dynamic_cast<GOUIComponent*>(uiComponentParentObject(component));
+    if (parentComponent == nullptr) {
         return uiComponentFigureSizeInPixels(component, width, height);
+    }
+    // a tab is as large as its tab group, tab bar included
+    if (component->getType() == GO_PROPERTY_VALUE_UITAB_STR) {
+        return uiComponentOwnSizeInPixels(parentComponent, width, height);
     }
     std::vector<double> content;
     double frameHeight = 0;
@@ -179,17 +206,14 @@ GOUIComponent::onUnitsChanged(bool newWidget)
     bool positionChanged = hasChanged(GO_POSITION_PROPERTY_NAME_STR)
         || hasChanged(GO_INNER_POSITION_PROPERTY_NAME_STR)
         || hasChanged(GO_OUTER_POSITION_PROPERTY_NAME_STR);
+    auto* unitsProperty = static_cast<GOUnitsProperty*>(findProperty(GO_UNITS_PROPERTY_NAME_STR));
+    double width = 0;
+    double height = 0;
+    uiComponentParentSizeInPixels(this, width, height);
+    syncPositionUnitsTriplet(
+        this, unitsProperty->getPreviousUnits(), unitsProperty->data(), width, height);
     if (!positionChanged) {
-        auto* unitsProperty
-            = static_cast<GOUnitsProperty*>(findProperty(GO_UNITS_PROPERTY_NAME_STR));
-        double width = 0;
-        double height = 0;
-        uiComponentParentSizeInPixels(this, width, height);
-        syncPositionUnitsTriplet(
-            this, unitsProperty->getPreviousUnits(), unitsProperty->data(), width, height);
         clearChanged(GO_POSITION_PROPERTY_NAME_STR);
-    } else {
-        reconcilePositionPixelOrigin(this);
     }
     clearChanged(GO_UNITS_PROPERTY_NAME_STR);
 }

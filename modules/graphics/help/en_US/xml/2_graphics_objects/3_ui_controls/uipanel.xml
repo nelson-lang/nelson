@@ -27,6 +27,7 @@
   </param_output>
   <description>
     <p><b>p = uipanel</b> creates a panel container in a new figure (uifigure). A panel groups UI components; children are positioned relative to the panel. Main properties: <b>Title</b>, <b>TitlePosition</b> ('lefttop', 'centertop', 'righttop'), <b>BackgroundColor</b>, <b>ForegroundColor</b>, <b>BorderType</b> ('line', 'none'), <b>BorderWidth</b>, <b>BorderColor</b>, <b>Position</b>, <b>Scrollable</b>, <b>AutoResizeChildren</b>, <b>SizeChangedFcn</b>.</p>
+    <p>In a figure, a new panel fills its parent: <b>Units</b> is 'normalized' and <b>Position</b> is [0 0 1 1]. In a uifigure, <b>Units</b> is 'pixels' and <b>Position</b> is [20 20 260 221].</p>
   </description>
   <used_function />
   <bibliography />

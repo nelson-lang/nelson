@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <algorithm>
 #include <limits>
 #include "GOUIContainer.h"
 #include "GOPropertyNames.hpp"
@@ -19,8 +20,10 @@
 #include "GOScalarDoubleProperty.hpp"
 #include "GOStringOnOffProperty.hpp"
 #include "GOStringProperty.hpp"
+#include "GOAxis.hpp"
 #include "GOHelpers.hpp"
 #include "GOUIComponentUnits.hpp"
+#include "GOUnitsProperty.hpp"
 #include "RenderInterface.hpp"
 //=============================================================================
 namespace Nelson {
@@ -108,9 +111,34 @@ GOUIContainer::paintChrome(RenderInterface& gc)
 void
 GOUIContainer::paintContent(RenderInterface& gc)
 {
-    for (int64 childHandle : getChildrenHandles()) {
+    // Colorbars and legends follow their axes: refreshed first, drawn over them, like in a figure.
+    std::vector<int64> handles = getChildrenHandles();
+    for (int64 childHandle : handles) {
+        if (auto* axis = dynamic_cast<GOAxis*>(findGraphicsObject(childHandle, false))) {
+            axis->updateStateIfDirty();
+        }
+    }
+    std::vector<GraphicsObject*> colorBars;
+    std::vector<GraphicsObject*> legends;
+    for (int64 childHandle : handles) {
         GraphicsObject* child = findGraphicsObject(childHandle, false);
         if (child == nullptr) {
+            continue;
+        }
+        if (child->getType() == GO_PROPERTY_VALUE_COLORBAR_STR) {
+            child->updateState();
+            colorBars.push_back(child);
+        } else if (child->getType() == GO_PROPERTY_VALUE_LEGEND_STR
+            || child->getType() == GO_PROPERTY_VALUE_BUBBLE_LEGEND_STR) {
+            child->updateState();
+            legends.push_back(child);
+        }
+    }
+    for (int64 childHandle : handles) {
+        GraphicsObject* child = findGraphicsObject(childHandle, false);
+        if (child == nullptr
+            || std::find(colorBars.begin(), colorBars.end(), child) != colorBars.end()
+            || std::find(legends.begin(), legends.end(), child) != legends.end()) {
             continue;
         }
         if (auto* container = dynamic_cast<GOUIContainer*>(child)) {
@@ -126,6 +154,12 @@ GOUIContainer::paintContent(RenderInterface& gc)
         }
         updateStateIfChanged(child);
         child->paintMe(gc);
+    }
+    for (GraphicsObject* colorBar : colorBars) {
+        colorBar->paintMe(gc);
+    }
+    for (GraphicsObject* legend : legends) {
+        legend->paintMe(gc);
     }
 }
 //=============================================================================
@@ -246,6 +280,26 @@ GOUIContainer::setupPanelLikeDefaults(double x, double y, double w, double h)
     setRestrictedStringDefault(
         GO_AUTO_RESIZE_CHILDREN_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
     setRestrictedStringDefault(GO_SCROLLABLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
+}
+//=============================================================================
+void
+GOUIContainer::useFigureDefaults()
+{
+    auto* units = dynamic_cast<GOUnitsProperty*>(findProperty(GO_UNITS_PROPERTY_NAME_STR, false));
+    if (units == nullptr) {
+        return;
+    }
+    units->resetUnits(GO_PROPERTY_VALUE_NORMALIZED_STR);
+    const std::wstring names[] = { GO_POSITION_PROPERTY_NAME_STR,
+        GO_INNER_POSITION_PROPERTY_NAME_STR, GO_OUTER_POSITION_PROPERTY_NAME_STR };
+    for (const std::wstring& name : names) {
+        // set() records that the value is not shifted for the pixel origin
+        GOGenericProperty* position = findProperty(name, false);
+        if (position != nullptr) {
+            position->set(ArrayOf::doubleRowVector({ 0, 0, 1, 1 }));
+            clearChanged(name);
+        }
+    }
 }
 //=============================================================================
 } // namespace Nelson

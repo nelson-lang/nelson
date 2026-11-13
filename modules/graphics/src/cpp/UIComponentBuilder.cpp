@@ -53,6 +53,11 @@
 namespace Nelson {
 //=============================================================================
 static void
+applyFigureContainerDefaults(GOUIComponent* component, const ResolvedUIParent& parent);
+static ResolvedUIParent
+defaultTabGroupParent();
+//=============================================================================
+static void
 setFigureStringProperty(GOFigure* fig, const std::wstring& name, const std::wstring& value)
 {
     GOGenericProperty* property = fig->findProperty(name, false);
@@ -72,6 +77,7 @@ createNewUIFigure()
         Error(L"Nelson:graphics:figureCreationFailed", L"Impossible to create figure.");
     }
     GOFigure* fig = window->hostFigure();
+    markUiFigure(fig);
     setFigureStringProperty(fig, GO_MENU_BAR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NONE_STR);
     setFigureStringProperty(fig, GO_TOOL_BAR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NONE_STR);
     setFigureStringProperty(fig, GO_NUMBER_TITLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
@@ -249,25 +255,13 @@ UIComponentBuilder(const ArrayOfVector& argIn, const UIComponentBuilderOptions& 
         }
     }
 
-    if (!haveParent) {
+    if (!haveParent && options.parentKind == UIParentKind::TabGroupOnly) {
+        parent = defaultTabGroupParent();
+    } else if (!haveParent) {
         int64 figureID = createNewUIFigure();
         parent.figureID = figureID;
         parent.parentHandle = figureID;
         parent.isFigure = true;
-    }
-
-    // implicit tab group creation (uitab(fig) or uitab(panel))
-    if (options.parentKind == UIParentKind::TabGroupOnly && !parentIsTabGroup(parent)) {
-        GOUITabGroup* tabGroup = new GOUITabGroup;
-        int64 tabGroupHandle = assignGraphicsObject(tabGroup);
-        tabGroup->buildWidget(findGOWindows(parent.figureID));
-        wireComponentToParent(tabGroup, tabGroupHandle, parent);
-        if (parentIsGridLayout(parent)) {
-            attachGridLayoutOptions(tabGroup, tabGroupHandle);
-        }
-        tabGroup->updateState();
-        parent.parentHandle = tabGroupHandle;
-        parent.isFigure = false;
     }
     checkParentKind(options.parentKind, parent);
 
@@ -275,6 +269,7 @@ UIComponentBuilder(const ArrayOfVector& argIn, const UIComponentBuilderOptions& 
     go_handle thisHandle = assignGraphicsObject(go);
     go->buildWidget(findGOWindows(parent.figureID));
     wireComponentToParent(go, thisHandle, parent);
+    applyFigureContainerDefaults(go, parent);
     if (parentIsGridLayout(parent)) {
         attachGridLayoutOptions(go, thisHandle);
     }
@@ -694,6 +689,53 @@ UITreeExpand(const ArrayOfVector& argIn, bool expand)
     if (tree) {
         tree->syncExpandedState();
     }
+}
+//=============================================================================
+// Panels, button groups, tab groups and tabs of a figure fill their parent; a uifigure keeps pixels.
+static void
+applyFigureContainerDefaults(GOUIComponent* component, const ResolvedUIParent& parent)
+{
+    if (dynamic_cast<GOUIPanel*>(component) == nullptr
+        && dynamic_cast<GOUITabGroup*>(component) == nullptr
+        && dynamic_cast<GOUITab*>(component) == nullptr) {
+        return;
+    }
+    GOFigureHost* window = findGOWindows(parent.figureID);
+    if (window == nullptr || isUiFigure(window->hostFigure())) {
+        return;
+    }
+    static_cast<GOUIContainer*>(component)->useFigureDefaults();
+}
+//=============================================================================
+// uitab without parent: last visible tab group of the current figure, else a new one
+static ResolvedUIParent
+defaultTabGroupParent()
+{
+    ResolvedUIParent parent;
+    parent.figureID = getOrCreateVisibleCurrentFigure();
+    parent.parentHandle = parent.figureID;
+    parent.isFigure = true;
+    GOFigureHost* window = findGOWindows(parent.figureID);
+    GOGObjectsProperty* children = static_cast<GOGObjectsProperty*>(
+        window->hostFigure()->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false));
+    std::vector<int64> handles = children ? children->data() : std::vector<int64> {};
+    for (auto it = handles.rbegin(); it != handles.rend(); ++it) {
+        if (dynamic_cast<GOUITabGroup*>(findGraphicsObject(*it, false))
+            && isVisibleGraphicsHandle(*it)) {
+            parent.parentHandle = *it;
+            parent.isFigure = false;
+            return parent;
+        }
+    }
+    GOUITabGroup* tabGroup = new GOUITabGroup;
+    int64 tabGroupHandle = assignGraphicsObject(tabGroup);
+    tabGroup->buildWidget(window);
+    wireComponentToParent(tabGroup, tabGroupHandle, parent);
+    applyFigureContainerDefaults(tabGroup, parent);
+    tabGroup->updateState();
+    parent.parentHandle = tabGroupHandle;
+    parent.isFigure = false;
+    return parent;
 }
 //=============================================================================
 } // namespace Nelson

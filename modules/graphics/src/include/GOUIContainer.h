@@ -64,6 +64,10 @@ public:
     virtual std::vector<double>
     contentRect(RenderInterface& gc);
     //=============================================================================
+    // In a figure (not a uifigure) the container fills its parent in normalized units.
+    void
+    useFigureDefaults();
+    //=============================================================================
 protected:
     //=============================================================================
     // Only updates when changes are pending: an axes update marks the figure dirty and

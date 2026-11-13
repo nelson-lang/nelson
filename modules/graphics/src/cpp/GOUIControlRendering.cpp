@@ -19,8 +19,16 @@
 #include "RenderWeb.hpp"
 #include "UnitsConversionHelpers.hpp"
 #include "characters_encoding.hpp"
+#include "GORoot.hpp"
+#include "StringHelpers.hpp"
+#include <algorithm>
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+static double
+webFontPixels(GOUIControl* control, RenderWeb& renderer, double controlHeight);
+static std::string
+webFontFamily(GOUIControl* control);
 //=============================================================================
 static std::string
 cssColor(const std::vector<double>& color, const char* fallback)
@@ -73,7 +81,12 @@ GOUIControl::describeForWeb(RenderWeb& renderer, const std::vector<double>& posi
     control.value = findScalarDoubleProperty(GO_VALUE_PROPERTY_NAME_STR);
     control.minimum = findScalarDoubleProperty(GO_MIN_PROPERTY_NAME_STR);
     control.maximum = findScalarDoubleProperty(GO_MAX_PROPERTY_NAME_STR);
-    control.fontSize = findScalarDoubleProperty(GO_FONT_SIZE_PROPERTY_NAME_STR);
+    control.fontSize = webFontPixels(this, renderer, control.h);
+    control.fontFamily = webFontFamily(this);
+    control.bold = stringCheck(GO_FONT_WEIGHT_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_BOLD_STR);
+    control.italic = !stringCheck(GO_FONT_ANGLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NORMAL_STR);
+    control.horizontalAlignment
+        = wstring_to_utf8(findStringProperty(GO_HORIZONTAL_ALIGNMENT_PROPERTY_NAME_STR));
     control.background
         = cssColor(findVectorDoubleProperty(GO_BACKGROUND_COLOR_PROPERTY_NAME_STR), "");
     control.foreground
@@ -177,6 +190,50 @@ GOUIControl::paintMe(RenderInterface& gc)
             binding->renderSnapshot(gc);
         }
     }
+}
+//=============================================================================
+// FontSize in page pixels, read in its FontUnits as the native widget does
+static double
+webFontPixels(GOUIControl* control, RenderWeb& renderer, double controlHeight)
+{
+    const double size = control->findScalarDoubleProperty(GO_FONT_SIZE_PROPERTY_NAME_STR);
+    const std::wstring units = control->findStringProperty(GO_FONT_UNITS_PROPERTY_NAME_STR);
+    if (units == GO_PROPERTY_VALUE_PIXELS_STR) {
+        return size;
+    }
+    if (units == GO_PROPERTY_VALUE_INCHES_STR) {
+        return renderer.pointsToPixels(size * 72.0);
+    }
+    if (units == GO_PROPERTY_VALUE_CENTIMETERS_STR) {
+        return renderer.pointsToPixels(size * 72.0 / 2.54);
+    }
+    if (units == GO_PROPERTY_VALUE_NORMALIZED_STR) {
+        return size * controlHeight;
+    }
+    return renderer.pointsToPixels(size);
+}
+//=============================================================================
+// FontName as a CSS family list: the scalable family the native widget draws, then a generic one
+static std::string
+webFontFamily(GOUIControl* control)
+{
+    const std::wstring fontName = control->findStringProperty(GO_FONT_NAME_PROPERTY_NAME_STR);
+    std::wstring family = resolveRootFontName(fontName);
+    family.erase(std::remove_if(family.begin(), family.end(),
+                     [](wchar_t c) { return c == L'"' || c == L'\\' || c == L';'; }),
+        family.end());
+    if (family.empty()) {
+        return {};
+    }
+    const std::wstring fixedWidth = getGraphicsRootObject()->findStringProperty(
+        GO_FIXED_WIDTH_FONT_NAME_PROPERTY_NAME_STR);
+    const bool monospace = StringHelpers::iequals(family, fixedWidth)
+        || StringHelpers::icontains(family, L"courier") || StringHelpers::icontains(family, L"mono")
+        || StringHelpers::icontains(family, L"consol");
+    const bool serif = StringHelpers::icontains(family, L"times")
+        || (StringHelpers::icontains(family, L"serif") && !StringHelpers::icontains(family, L"sans"));
+    const char* generic = monospace ? "monospace" : (serif ? "serif" : "sans-serif");
+    return "\"" + wstring_to_utf8(family) + "\", " + generic;
 }
 //=============================================================================
 } // namespace Nelson

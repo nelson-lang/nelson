@@ -149,7 +149,8 @@ GOUIControl::onUnitsChanged(bool newWidget)
         return;
     }
 
-    if (!hasChanged(GO_POSITION_PROPERTY_NAME_STR)) {
+    bool positionChanged = hasChanged(GO_POSITION_PROPERTY_NAME_STR);
+    {
         GOUnitsProperty* unitsProperty = (GOUnitsProperty*)findProperty(GO_UNITS_PROPERTY_NAME_STR);
         std::wstring previousUnits = unitsProperty->getPreviousUnits();
         std::wstring currentUnits = unitsProperty->data();
@@ -172,9 +173,9 @@ GOUIControl::onUnitsChanged(bool newWidget)
         }
 
         syncPositionUnitsTriplet(this, previousUnits, currentUnits, width, height);
-        clearChanged(GO_POSITION_PROPERTY_NAME_STR);
-    } else {
-        reconcilePositionPixelOrigin(this);
+        if (!positionChanged) {
+            clearChanged(GO_POSITION_PROPERTY_NAME_STR);
+        }
     }
 
     clearChanged(GO_UNITS_PROPERTY_NAME_STR);

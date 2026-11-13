@@ -55,6 +55,8 @@
 namespace Nelson {
 //=============================================================================
 static UIComponentBindingFactory uiComponentBindingFactory = nullptr;
+static std::vector<double>
+tabPageOrigin(GOUITabGroup* tabGroup, const std::vector<double>& position);
 //=============================================================================
 void
 setUIComponentBindingFactory(UIComponentBindingFactory factory)
@@ -874,6 +876,12 @@ GOUIComponent::describeForWeb(RenderWeb& renderer, const std::vector<double>& po
                 }
             }
         }
+        auto* tabGroup = dynamic_cast<GOUITabGroup*>(this);
+        if (tabGroup != nullptr && logicalPosition.size() == 4) {
+            // the HTML tab bar takes the height the page layout reserves for it
+            RenderWeb barFrame(0, 0, logicalPosition[2], logicalPosition[3]);
+            extra["tabBarSize"] = tabGroup->tabBarThickness(barFrame);
+        }
         control.value = selectedIndex;
         control.extraJson = extra.dump();
         renderer.addControl(control);
@@ -881,7 +889,6 @@ GOUIComponent::describeForWeb(RenderWeb& renderer, const std::vector<double>& po
             // A tab page has no widget in the headless renderer. Size it to the tab
             // group's page area, as native bindings do, before laying out descendants
             // (notably uigridlayout), so Web and Wasm use the same positions.
-            auto* tabGroup = dynamic_cast<GOUITabGroup*>(this);
             auto* tabPage = dynamic_cast<GOUITab*>(selectedTab);
             if (tabGroup != nullptr && tabPage != nullptr && logicalPosition.size() == 4) {
                 RenderWeb pageFrame(0, 0, logicalPosition[2], logicalPosition[3]);
@@ -890,7 +897,7 @@ GOUIComponent::describeForWeb(RenderWeb& renderer, const std::vector<double>& po
                     tabPage->onPageResized(page[2], page[3]);
                 }
             }
-            uiDescribeChildrenForWeb(selectedTab, renderer, position);
+            uiDescribeChildrenForWeb(selectedTab, renderer, tabPageOrigin(tabGroup, position));
         }
         return;
     } else if (type == GO_PROPERTY_VALUE_UIGRIDLAYOUT_STR) {
@@ -1272,6 +1279,22 @@ GOUIComponent::setupUIComponentCommonDefaults(
         setThreeVectorDefault(GO_BACKGROUND_COLOR_PROPERTY_NAME_STR, 0.96078431372549,
             0.96078431372549, 0.96078431372549);
     }
+}
+//=============================================================================
+// Frame of the selected tab children: the page starts after the tab bar, as the native page widget
+static std::vector<double>
+tabPageOrigin(GOUITabGroup* tabGroup, const std::vector<double>& position)
+{
+    if (tabGroup == nullptr || position.size() != 4) {
+        return position;
+    }
+    RenderWeb frame(0, 0, position[2], position[3]);
+    std::vector<double> page = tabGroup->contentRect(frame);
+    if (page.size() != 4) {
+        return position;
+    }
+    const double topInset = position[3] - page[1] - page[3];
+    return { position[0] + page[0], position[1] - topInset, position[2], position[3] };
 }
 //=============================================================================
 } // namespace Nelson

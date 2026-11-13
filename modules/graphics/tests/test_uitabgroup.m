@@ -96,12 +96,11 @@ assert_isequal(t.InnerPosition, [1 1 288 156]);
 assert_isequal(t.OuterPosition, [1 1 288 156]);
 delete(fig);
 %=============================================================================
-% implicit tab group when parenting a tab to a figure
+% a tab needs a tab group parent
 %=============================================================================
 fig = uifigure('Visible', 'off');
-t = uitab(fig, 'Title', 'Auto');
-assert_isequal(class(t.Parent), 'nelson.ui.container.TabGroup');
-assert_isequal(t.Parent.Parent, fig);
+msg = _('Parent must be a TabGroup object.');
+assert_checkerror('uitab(fig, ''Title'', ''Auto'')', msg, 'Nelson:uicomponent:parentMustBeTabGroupObject');
 delete(fig);
 %=============================================================================
 close all

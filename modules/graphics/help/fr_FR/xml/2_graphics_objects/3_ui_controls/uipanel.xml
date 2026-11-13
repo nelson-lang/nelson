@@ -27,6 +27,7 @@
   </param_output>
   <description>
     <p><b>p = uipanel</b> crée un panneau dans une nouvelle figure (uifigure). Un panneau regroupe des composants UI ; les enfants sont positionnés relativement au panneau. Propriétés principales : <b>Title</b>, <b>TitlePosition</b> ('lefttop', 'centertop', 'righttop'), <b>BackgroundColor</b>, <b>ForegroundColor</b>, <b>BorderType</b> ('line', 'none'), <b>BorderWidth</b>, <b>BorderColor</b>, <b>Position</b>, <b>Scrollable</b>, <b>AutoResizeChildren</b>, <b>SizeChangedFcn</b>.</p>
+    <p>Dans une figure, un nouveau panneau remplit son parent : <b>Units</b> vaut 'normalized' et <b>Position</b> vaut [0 0 1 1]. Dans une uifigure, <b>Units</b> vaut 'pixels' et <b>Position</b> vaut [20 20 260 221].</p>
   </description>
   <used_function />
   <bibliography />

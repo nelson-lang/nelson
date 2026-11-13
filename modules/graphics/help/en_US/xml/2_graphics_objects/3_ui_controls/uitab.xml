@@ -12,7 +12,7 @@
   <param_input>
     <param_input_item>
       <param_name>parent</param_name>
-      <param_description>parent container (uifigure, figure, uipanel, uitab, uibuttongroup, uigridlayout).</param_description>
+      <param_description>parent TabGroup object (uitabgroup).</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>propertyName, propertyValue</param_name>
@@ -26,7 +26,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>t = uitab</b> creates a tab inside a tab group and returns the Tab object. If the given parent is not a TabGroup, an implicit uitabgroup is created. Main properties: <b>Title</b>, <b>BackgroundColor</b>, <b>ForegroundColor</b>, <b>Scrollable</b>. The tab geometry is managed by the parent TabGroup (read-only <b>Position</b>).</p>
+    <p><b>t = uitab</b> creates a tab inside a tab group and returns the Tab object. The parent must be a TabGroup: any other parent raises an error. Without parent, the tab goes into a tab group of the current figure (a figure and a tab group are created when needed). Main properties: <b>Title</b>, <b>BackgroundColor</b>, <b>ForegroundColor</b>, <b>Scrollable</b>. The tab geometry is managed by the parent TabGroup (read-only <b>Position</b>).</p>
   </description>
   <used_function />
   <bibliography />

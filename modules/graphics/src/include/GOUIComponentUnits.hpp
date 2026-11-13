@@ -37,6 +37,10 @@ uiParentContentRect(GraphicsObject* object, std::vector<double>& content, double
 bool
 graphicsParentSizeInPixels(GraphicsObject* object, GOFigure* figure, double& width, double& height);
 //=============================================================================
+// Pixel size of the area holding a colorbar or a legend: its ui container content or its figure.
+NLSGRAPHICS_IMPEXP void
+decorationHostSizeInPixels(GraphicsObject* object, double& width, double& height);
+//=============================================================================
 NLSGRAPHICS_IMPEXP bool
 uiComponentParentSizeInPixels(GOUIComponent* component, double& width, double& height);
 //=============================================================================

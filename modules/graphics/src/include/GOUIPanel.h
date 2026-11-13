@@ -37,6 +37,27 @@ public:
     void
     syncPositionProperties() override;
     //=============================================================================
+    // InnerPosition from Position less pixel insets, in the panel units; the top
+    // border lies inside the title band.
+    void
+    setInnerPositionFromInsets(double borderInset, double titleInset);
+    //=============================================================================
+    // InnerPosition from the current border and title.
+    void
+    deriveInnerPosition();
+    //=============================================================================
+    // Border thickness actually painted (0 when BorderType is 'none').
+    double
+    panelBorderWidth();
+    //=============================================================================
+    // Title band height in pixels: the title font size, 0 without a title.
+    double
+    titleBandHeight();
+    //=============================================================================
+    // Pixel height above the children: the title band or the top border.
+    double
+    topInset();
+    //=============================================================================
     void
     paintChrome(RenderInterface& gc) override;
     //=============================================================================
@@ -74,14 +95,6 @@ private:
     // SelectedObject set from code: select that button, clear the others.
     void
     applySelectedObject();
-    void
-    deriveInnerPosition();
-    // Border thickness actually painted (0 when BorderType is 'none').
-    double
-    panelBorderWidth();
-    // Height the Title band takes at the top of the panel, 0 without a title.
-    double
-    titleBandHeight(RenderInterface& gc);
     //=============================================================================
 };
 //=============================================================================
