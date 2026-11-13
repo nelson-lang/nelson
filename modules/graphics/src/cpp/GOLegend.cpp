@@ -787,6 +787,7 @@ isLegendablePeerChild(GraphicsObject* child)
         || type == GO_PROPERTY_VALUE_SURFACE_STR || type == GO_PROPERTY_VALUE_CONTOUR_STR
         || type == GO_PROPERTY_VALUE_HGGROUP_STR || type == GO_PROPERTY_VALUE_HGTRANSFORM_STR
         || type == GO_PROPERTY_VALUE_IMAGE_STR || type == GO_PROPERTY_VALUE_BAR_STR
+        || type == GO_PROPERTY_VALUE_HISTOGRAM_STR || type == GO_PROPERTY_VALUE_AREA_STR
         || type == GO_PROPERTY_VALUE_BUBBLE_CHART_STR
         || type == GO_PROPERTY_VALUE_RAIN_CLOUD_PLOT_STR;
 }

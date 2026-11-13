@@ -132,6 +132,7 @@ usesFilledLegendIcon(GraphicsObject* object)
     }
     const std::wstring type = object->getType();
     return type == GO_PROPERTY_VALUE_BAR_STR || type == GO_PROPERTY_VALUE_PATCH_STR
+        || type == GO_PROPERTY_VALUE_HISTOGRAM_STR || type == GO_PROPERTY_VALUE_AREA_STR
         || type == GO_PROPERTY_VALUE_RAIN_CLOUD_PLOT_STR;
 }
 //=============================================================================
