@@ -20,9 +20,7 @@ class NLSGRAPHICS_IMPEXP GOColorBar : public GraphicsObject
 private:
     int64 m_peerAxesHandle = 0;
     int64 m_labelHandle = 0;
-    std::vector<double> m_peerPositionBeforeResize;
     std::vector<double> m_autoLayoutPosition;
-    std::wstring m_layoutAppliedLocation;
     FontSpec m_font;
 
     void

@@ -12,6 +12,8 @@
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
 #include "GOUnitsProperty.hpp"
+#include "GOPositionHelpers.hpp"
+#include "GOUIComponentUnits.hpp"
 #include "GOSurfaceScale.hpp"
 #include "UnitsConversionHelpers.hpp"
 //=============================================================================
@@ -23,20 +25,17 @@ GOColorBar::updateUnits()
     if (!hasChanged(GO_UNITS_PROPERTY_NAME_STR)) {
         return;
     }
+    // properties apply in argument order: a Position given after Units is in the new units.
+    if (positionSetAfterUnits(this, GO_POSITION_PROPERTY_NAME_STR)) {
+        clearChanged(GO_UNITS_PROPERTY_NAME_STR);
+        return;
+    }
+    bool positionChanged = hasChanged(GO_POSITION_PROPERTY_NAME_STR);
     GOUnitsProperty* unitsProperty
         = static_cast<GOUnitsProperty*>(findProperty(GO_UNITS_PROPERTY_NAME_STR));
-    GOFigure* fig = getParentFigure();
-    std::vector<double> defaultPosition = defaultFigurePosition();
-    double width = fig ? fig->getWidth() : defaultPosition[2];
-    double height = fig ? fig->getHeight() : defaultPosition[3];
-    if (fig) {
-        std::vector<double> figurePosition
-            = fig->findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR);
-        if (figurePosition.size() >= 4 && figurePosition[2] > 0.0 && figurePosition[3] > 0.0) {
-            width = figurePosition[2];
-            height = figurePosition[3];
-        }
-    }
+    double width = 0;
+    double height = 0;
+    decorationHostSizeInPixels(this, width, height);
     std::vector<double> position = findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR);
     std::wstring previousUnits = unitsProperty->getPreviousUnits();
     std::wstring currentUnits = unitsProperty->data();
@@ -53,7 +52,9 @@ GOColorBar::updateUnits()
     }
     setFourVectorDefault(
         GO_POSITION_PROPERTY_NAME_STR, position[0], position[1], position[2], position[3]);
-    clearChanged(GO_POSITION_PROPERTY_NAME_STR);
+    if (!positionChanged) {
+        clearChanged(GO_POSITION_PROPERTY_NAME_STR);
+    }
     clearChanged(GO_UNITS_PROPERTY_NAME_STR);
 }
 //=============================================================================

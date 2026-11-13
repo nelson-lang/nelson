@@ -16,9 +16,9 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-// Room an outside decoration (legend, colorbar) takes from its peer axes: a slot on one
-// side, off the outer box (auto layout) or off Position (manual), never updating the peer
-// re-entrantly.
+// Room outside decorations (legends, colorbars) take from their peer axes. Each side
+// stacks its decorations in arrival order; the peer keeps one base geometry, shrunk off
+// the outer box (auto layout) or off Position (manual), never updated re-entrantly.
 //=============================================================================
 enum class AxesLayoutSide
 {
@@ -27,19 +27,6 @@ enum class AxesLayoutSide
     West,
     North,
     South
-};
-//=============================================================================
-// Peer geometry before the slot was taken, in the peer's own Units.
-struct AxesLayoutReservation
-{
-    std::vector<double> basePosition;
-    std::vector<double> baseOuterPosition;
-    bool outerDriven = false;
-    bool
-    active() const
-    {
-        return basePosition.size() == 4;
-    }
 };
 //=============================================================================
 // Side an outside Location sits on; None for an inside Location.
@@ -63,21 +50,29 @@ axesPositionNormalized(GraphicsObject* peer);
 NLSGRAPHICS_IMPEXP std::vector<double>
 axesDrawnBox(GraphicsObject* peer, const std::vector<double>& box, double width, double height);
 //=============================================================================
-// Keeps slotPixels free on one side of the peer and returns the box (parent fractions)
-// the decoration anchors to; idempotent when the peer already has the slot.
-NLSGRAPHICS_IMPEXP std::vector<double>
-reserveAxesLayoutSlot(GraphicsObject* peer, AxesLayoutSide side, double slotPixels,
-    AxesLayoutReservation& reservation);
+// Outer box of the peer before its decorations took room; false when none does.
+NLSGRAPHICS_IMPEXP bool
+axesLayoutBaseOuterPosition(GraphicsObject* peer, std::vector<double>& outerPosition);
 //=============================================================================
-// Gives the slot back to the peer. No-op without an active reservation.
+// Gives the slot of a decoration back to the peer; no-op when it holds none.
 NLSGRAPHICS_IMPEXP void
-releaseAxesLayoutSlot(GraphicsObject* peer, AxesLayoutReservation& reservation);
+releaseAxesLayoutSlot(GraphicsObject* peer, GraphicsObject* decoration);
 //=============================================================================
-// Places a pixelW x pixelH decoration at a Location: outside takes its slot (size + tick
-// inset + 8pt), inside gives it back. Returns its box in figW x figH fractions, empty if none.
+// Drops a destroyed decoration from every stack without touching the peers.
+NLSGRAPHICS_IMPEXP void
+forgetAxesLayoutDecoration(GraphicsObject* decoration);
+//=============================================================================
+// Places a pixelW x pixelH decoration at a Location: outside stacks it on its side
+// (size + 8pt), inside gives the slot back. Returns its box in figW x figH fractions.
 NLSGRAPHICS_IMPEXP std::vector<double>
-layoutDecorationAroundAxes(GraphicsObject* peer, const std::wstring& location, double pixelW,
-    double pixelH, double figW, double figH, AxesLayoutReservation& reservation);
+layoutDecorationAroundAxes(GraphicsObject* peer, GraphicsObject* decoration,
+    const std::wstring& location, double pixelW, double pixelH, double figW, double figH);
+//=============================================================================
+// Places an outside colorbar on its side stack. Returns its box in figW x figH
+// fractions, empty for an inside Location.
+NLSGRAPHICS_IMPEXP std::vector<double>
+layoutColorBarAroundAxes(GraphicsObject* peer, GraphicsObject* decoration,
+    const std::wstring& location, double figW, double figH);
 //=============================================================================
 // Updates the peer now, or marks it for its next update when it is already
 // updating (its repaint runs the decorations).

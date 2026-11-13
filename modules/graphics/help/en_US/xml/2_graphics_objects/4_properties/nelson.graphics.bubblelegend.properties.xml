@@ -79,8 +79,13 @@
       </tr>
       <tr>
         <td><b>FontSize</b></td>
-        <td>recomputes geometry, limits, or layout.</td>
-        <td>Type: finite numeric scalar. Supported values: finite scalar value.</td>
+        <td>recomputes geometry, limits, or layout. In 'auto' FontSizeMode it is 0.9 times the FontSize of the peer axes and follows it.</td>
+        <td>Type: finite numeric scalar. Supported values: finite scalar value. Setting it switches FontSizeMode to 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>FontSizeMode</b></td>
+        <td>'auto' recomputes FontSize from the peer axes FontSize.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto' (default), 'manual'.</td>
       </tr>
       <tr>
         <td><b>FontWeight</b></td>

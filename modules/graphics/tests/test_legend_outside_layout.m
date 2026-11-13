@@ -65,8 +65,14 @@ for k = 1:size(sizes, 1)
   f.Position = [100 100 sizes(k, :)];
   drawnow();
   assertOutsideLegendLayout(ax, lgd, 'northeastoutside', sizes(k, 1), sizes(k, 2), gap);
-  asserts.isapprox(lgd.Position(3:4) .* sizes(k, :), legendPixelSize, 1e-6);
+  % the legend font follows the axes auto font, which shrinks in a small figure
+  if lgd.FontSize == 9
+    asserts.isapprox(lgd.Position(3:4) .* sizes(k, :), legendPixelSize, 1e-6);
+  else
+    asserts.istrue(all(lgd.Position(3:4) .* sizes(k, :) < legendPixelSize));
+  end
 end
+asserts.isequal(char(ax.PositionConstraint), 'outerposition');
 % a legend title grows the legend and the slot with it
 title(lgd, 'Group');
 drawnow();

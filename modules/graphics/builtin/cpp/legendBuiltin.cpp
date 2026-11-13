@@ -98,18 +98,6 @@ figureForPeer(GraphicsObject* peer, int64& figureHandle)
     return fig;
 }
 //=============================================================================
-static void
-appendFigureChild(GOFigure* fig, int64 childHandle)
-{
-    GOGObjectsProperty* children
-        = static_cast<GOGObjectsProperty*>(fig->findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
-    std::vector<int64> values = children->data();
-    if (std::find(values.begin(), values.end(), childHandle) == values.end()) {
-        values.push_back(childHandle);
-        children->data(values);
-    }
-}
-//=============================================================================
 static bool
 isAxesLike(GraphicsObject* object)
 {
@@ -304,13 +292,13 @@ labelsFromArray(const ArrayOf& value)
 }
 //=============================================================================
 static int64
-existingLegendHandle(GOFigure* fig, int64 peerHandle)
+existingLegendHandle(GraphicsObject* holder, int64 peerHandle)
 {
-    if (!fig) {
+    if (!holder) {
         return HANDLE_UNASSIGNED_OBJECT;
     }
-    GOGObjectsProperty* children
-        = static_cast<GOGObjectsProperty*>(fig->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false));
+    GOGObjectsProperty* children = static_cast<GOGObjectsProperty*>(
+        holder->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false));
     if (!children) {
         return HANDLE_UNASSIGNED_OBJECT;
     }
@@ -342,9 +330,9 @@ legendFromAxes(GraphicsObject* peer, int64& legendHandle)
             return legend;
         }
     }
-    int64 figureHandle = 0;
-    GOFigure* fig = figureForPeer(peer, figureHandle);
-    legendHandle = existingLegendHandle(fig, findGraphicsObjectHandle(peer));
+    int64 holderHandle = HANDLE_UNASSIGNED_OBJECT;
+    legendHandle = existingLegendHandle(
+        axesDecorationHolder(peer, holderHandle), findGraphicsObjectHandle(peer));
     if (legendHandle >= HANDLE_OFFSET_OBJECT) {
         return dynamic_cast<GOLegend*>(findGraphicsObject(legendHandle, false));
     }
@@ -458,6 +446,8 @@ createOrUpdateLegend(int64 peerHandle, std::vector<int64> plotHandles,
     filterEmptyLabels(plotHandles, labels);
     int64 figureHandle = 0;
     GOFigure* fig = figureForPeer(peer, figureHandle);
+    int64 holderHandle = figureHandle;
+    GraphicsObject* holder = axesDecorationHolder(peer, holderHandle);
     int64 legendHandle = HANDLE_UNASSIGNED_OBJECT;
     GOLegend* legend = legendFromAxes(peer, legendHandle);
     bool isNewLegend = false;
@@ -465,10 +455,10 @@ createOrUpdateLegend(int64 peerHandle, std::vector<int64> plotHandles,
         legend = new GOLegend;
         legendHandle = assignGraphicsObject(legend);
         legend->setPeerAxesHandle(peerHandle);
-        legend->setGoProperty(GO_PARENT_PROPERTY_NAME_STR, figureHandle);
+        legend->setGoProperty(GO_PARENT_PROPERTY_NAME_STR, holderHandle);
         legend->createTitle(legendHandle);
         legend->createLayoutOptions(legendHandle, L"");
-        appendFigureChild(fig, legendHandle);
+        appendChildHandle(holder, legendHandle);
         setAxesLegend(peer, legendHandle);
         isNewLegend = true;
         // A new legend starts with the default (no-op) item hit callback.

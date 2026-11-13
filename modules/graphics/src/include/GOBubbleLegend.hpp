@@ -22,8 +22,6 @@ private:
     int64 m_peerAxesHandle = 0;
     int64 m_titleHandle = 0;
     int64 m_layoutHandle = 0;
-    // Room taken from the peer axes by an outside Location.
-    AxesLayoutReservation m_peerReservation;
     FontSpec m_font;
 
     GraphicsObject*

@@ -40,6 +40,8 @@
 #include "GOText.hpp"
 #include "GOTextInterpreterProperty.hpp"
 #include "GOUnitsProperty.hpp"
+#include "GOPositionHelpers.hpp"
+#include "GOUIComponentUnits.hpp"
 #include "GOVectorFourDoubleProperty.hpp"
 #include "GOVectorTwoDoubleProperty.hpp"
 #include "StringHelpers.hpp"
@@ -152,23 +154,6 @@ public:
     }
 };
 //=============================================================================
-static std::pair<double, double>
-figurePixelSize(GOFigure* fig)
-{
-    std::vector<double> defaultPosition = defaultFigurePosition();
-    double width = fig ? fig->getWidth() : defaultPosition[2];
-    double height = fig ? fig->getHeight() : defaultPosition[3];
-    if (fig) {
-        std::vector<double> figurePosition
-            = fig->findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR);
-        if (figurePosition.size() >= 4 && figurePosition[2] > 0.0 && figurePosition[3] > 0.0) {
-            width = figurePosition[2];
-            height = figurePosition[3];
-        }
-    }
-    return { width, height };
-}
-//=============================================================================
 static bool
 isLegendablePeerChild(GraphicsObject* child);
 //=============================================================================
@@ -195,7 +180,11 @@ GOLegend::GOLegend()
     clearAllChanged();
 }
 //=============================================================================
-GOLegend::~GOLegend() { deleteInternalHandles(); }
+GOLegend::~GOLegend()
+{
+    forgetAxesLayoutDecoration(this);
+    deleteInternalHandles();
+}
 //=============================================================================
 void
 GOLegend::deleteInternalHandles()
@@ -227,6 +216,7 @@ GOLegend::constructProperties()
     registerProperty(new GOColorProperty, GO_EDGE_COLOR_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_FONT_NAME_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty, GO_FONT_SIZE_PROPERTY_NAME_STR);
+    registerProperty(new GOAutoManualProperty, GO_FONT_SIZE_MODE_PROPERTY_NAME_STR);
     registerProperty(new GOFontAngleProperty, GO_FONT_ANGLE_PROPERTY_NAME_STR);
     registerProperty(new GOFontWeightProperty, GO_FONT_WEIGHT_PROPERTY_NAME_STR);
     registerProperty(new GOTextInterpreterProperty, GO_INTERPRETER_PROPERTY_NAME_STR);
@@ -281,6 +271,7 @@ GOLegend::setupDefaults()
         GO_EDGE_COLOR_PROPERTY_NAME_STR, 0.129411764705882, 0.129411764705882, 0.129411764705882);
     setStringDefault(GO_FONT_NAME_PROPERTY_NAME_STR, L"Helvetica");
     setScalarDoubleDefault(GO_FONT_SIZE_PROPERTY_NAME_STR, 9);
+    setRestrictedStringDefault(GO_FONT_SIZE_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
     setRestrictedStringDefault(GO_FONT_ANGLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NORMAL_STR);
     setRestrictedStringDefault(GO_FONT_WEIGHT_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NORMAL_STR);
     setStringDefault(GO_INTERPRETER_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_TEX_STR);
@@ -567,7 +558,7 @@ GOLegend::updateFont()
     // Legends use the raw point size (no Nelson->Qt 1.25 factor).
     m_font = FontSpec {};
     m_font.family = fontName;
-    m_font.pointSizeF = static_cast<double>(static_cast<int>(fontSize));
+    m_font.pointSizeF = fontSize;
     m_font.italic
         = fontAngle == GO_PROPERTY_VALUE_ITALIC_STR || fontAngle == GO_PROPERTY_VALUE_OBLIQUE_STR;
     if (fontWeight == GO_PROPERTY_VALUE_BOLD_STR) {
@@ -592,21 +583,51 @@ GOLegend::updateTitleDefaults()
     if (!title) {
         return;
     }
-    title->setStringDefault(
-        GO_FONT_NAME_PROPERTY_NAME_STR, findStringProperty(GO_FONT_NAME_PROPERTY_NAME_STR));
-    title->setScalarDoubleDefault(
-        GO_FONT_SIZE_PROPERTY_NAME_STR, findScalarDoubleProperty(GO_FONT_SIZE_PROPERTY_NAME_STR));
-    title->setRestrictedStringDefault(
-        GO_FONT_ANGLE_PROPERTY_NAME_STR, findStringProperty(GO_FONT_ANGLE_PROPERTY_NAME_STR));
-    title->setRestrictedStringDefault(
-        GO_FONT_WEIGHT_PROPERTY_NAME_STR, findStringProperty(GO_FONT_WEIGHT_PROPERTY_NAME_STR));
-    title->setStringDefault(
-        GO_INTERPRETER_PROPERTY_NAME_STR, findStringProperty(GO_INTERPRETER_PROPERTY_NAME_STR));
-    std::vector<double> color = findVectorDoubleProperty(GO_TEXT_COLOR_PROPERTY_NAME_STR);
-    if (color.size() >= 3) {
-        title->setThreeVectorDefault(GO_COLOR_PROPERTY_NAME_STR, color[0], color[1], color[2]);
+    // Font values follow the legend only while the title mode is auto.
+    bool written = false;
+    auto followString = [&](const std::wstring& name, const std::wstring& modeName,
+                            bool restricted) {
+        std::wstring value = findStringProperty(name);
+        if (!title->isAuto(modeName) || title->findStringProperty(name) == value) {
+            return;
+        }
+        if (restricted) {
+            title->setRestrictedStringDefault(name, value);
+        } else {
+            title->setStringDefault(name, value);
+        }
+        markTextFontWrittenAuto(title, name, modeName);
+        written = true;
+    };
+    followString(GO_FONT_NAME_PROPERTY_NAME_STR, GO_FONT_NAME_MODE_PROPERTY_NAME_STR, false);
+    followString(GO_FONT_ANGLE_PROPERTY_NAME_STR, GO_FONT_ANGLE_MODE_PROPERTY_NAME_STR, true);
+    followString(GO_FONT_WEIGHT_PROPERTY_NAME_STR, GO_FONT_WEIGHT_MODE_PROPERTY_NAME_STR, true);
+    double fontSize = findScalarDoubleProperty(GO_FONT_SIZE_PROPERTY_NAME_STR);
+    if (title->isAuto(GO_FONT_SIZE_MODE_PROPERTY_NAME_STR)
+        && title->findScalarDoubleProperty(GO_FONT_SIZE_PROPERTY_NAME_STR) != fontSize) {
+        title->setScalarDoubleDefault(GO_FONT_SIZE_PROPERTY_NAME_STR, fontSize);
+        markTextFontWrittenAuto(
+            title, GO_FONT_SIZE_PROPERTY_NAME_STR, GO_FONT_SIZE_MODE_PROPERTY_NAME_STR);
+        written = true;
     }
-    title->updateState();
+    std::wstring interpreter = findStringProperty(GO_INTERPRETER_PROPERTY_NAME_STR);
+    if (title->findStringProperty(GO_INTERPRETER_PROPERTY_NAME_STR) != interpreter) {
+        title->setStringDefault(GO_INTERPRETER_PROPERTY_NAME_STR, interpreter);
+        written = true;
+    }
+    std::vector<double> color = findVectorDoubleProperty(GO_TEXT_COLOR_PROPERTY_NAME_STR);
+    if (color.size() >= 3
+        && (!title->haveProperty(GO_COLOR_MODE_PROPERTY_NAME_STR)
+            || title->isAuto(GO_COLOR_MODE_PROPERTY_NAME_STR))
+        && title->findVectorDoubleProperty(GO_COLOR_PROPERTY_NAME_STR)
+            != std::vector<double>(color.begin(), color.begin() + 3)) {
+        title->setThreeVectorDefault(GO_COLOR_PROPERTY_NAME_STR, color[0], color[1], color[2]);
+        markTextFontWrittenAuto(title, GO_COLOR_PROPERTY_NAME_STR, GO_COLOR_MODE_PROPERTY_NAME_STR);
+        written = true;
+    }
+    if (written) {
+        title->updateState();
+    }
 }
 //=============================================================================
 void
@@ -663,10 +684,17 @@ GOLegend::updateUnits()
     if (!hasChanged(GO_UNITS_PROPERTY_NAME_STR)) {
         return;
     }
+    // properties apply in argument order: a Position given after Units is in the new units.
+    if (positionSetAfterUnits(this, GO_POSITION_PROPERTY_NAME_STR)) {
+        clearChanged(GO_UNITS_PROPERTY_NAME_STR);
+        return;
+    }
+    bool positionChanged = hasChanged(GO_POSITION_PROPERTY_NAME_STR);
     GOUnitsProperty* unitsProperty
         = static_cast<GOUnitsProperty*>(findProperty(GO_UNITS_PROPERTY_NAME_STR));
-    GOFigure* fig = getParentFigure();
-    auto [width, height] = figurePixelSize(fig);
+    double width = 0;
+    double height = 0;
+    decorationHostSizeInPixels(this, width, height);
     std::vector<double> position = findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR);
     std::wstring previousUnits = unitsProperty->getPreviousUnits();
     std::wstring currentUnits = unitsProperty->data();
@@ -683,7 +711,9 @@ GOLegend::updateUnits()
     }
     setFourVectorDefault(
         GO_POSITION_PROPERTY_NAME_STR, position[0], position[1], position[2], position[3]);
-    clearChanged(GO_POSITION_PROPERTY_NAME_STR);
+    if (!positionChanged) {
+        clearChanged(GO_POSITION_PROPERTY_NAME_STR);
+    }
     clearChanged(GO_UNITS_PROPERTY_NAME_STR);
 }
 //=============================================================================
@@ -712,7 +742,7 @@ GOLegend::peerAxes()
 void
 GOLegend::restorePeerAxesPosition()
 {
-    releaseAxesLayoutSlot(peerAxes(), m_peerReservation);
+    releaseAxesLayoutSlot(peerAxes(), this);
 }
 //=============================================================================
 void
@@ -735,13 +765,15 @@ GOLegend::updateAutoLayout()
     GraphicsObject* peer = peerAxes();
     std::wstring loc = findStringProperty(GO_LOCATION_PROPERTY_NAME_STR);
     if (loc == GO_PROPERTY_VALUE_NONE_STR) {
-        releaseAxesLayoutSlot(peer, m_peerReservation);
+        releaseAxesLayoutSlot(peer, this);
         return;
     }
-    auto [figW, figH] = figurePixelSize(getParentFigure());
+    double figW = 0;
+    double figH = 0;
+    decorationHostSizeInPixels(this, figW, figH);
     auto [pixelW, pixelH] = preferredSizeInPixels();
     std::vector<double> placed
-        = layoutDecorationAroundAxes(peer, loc, pixelW, pixelH, figW, figH, m_peerReservation);
+        = layoutDecorationAroundAxes(peer, this, loc, pixelW, pixelH, figW, figH);
     if (placed.size() < 4) {
         return;
     }
@@ -759,6 +791,7 @@ GOLegend::updateState()
     m_metricsValid = false;
     updateUnits();
     updateModes();
+    followPeerAxesFontSize(this, m_peerAxesHandle);
     updateFont();
     updateTitleDefaults();
     updateDynamicEntries();

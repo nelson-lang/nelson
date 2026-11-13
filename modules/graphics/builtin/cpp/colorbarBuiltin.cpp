@@ -109,14 +109,14 @@ figureForPeer(GraphicsObject* peer, int64& figureHandle)
 }
 //=============================================================================
 static std::vector<int64>
-colorBarsForPeer(GOFigure* fig, int64 peerHandle)
+colorBarsForPeer(GraphicsObject* holder, int64 peerHandle)
 {
     std::vector<int64> result;
-    if (!fig) {
+    if (!holder) {
         return result;
     }
-    GOGObjectsProperty* children
-        = static_cast<GOGObjectsProperty*>(fig->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false));
+    GOGObjectsProperty* children = static_cast<GOGObjectsProperty*>(
+        holder->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false));
     if (!children) {
         return result;
     }
@@ -128,18 +128,6 @@ colorBarsForPeer(GOFigure* fig, int64 peerHandle)
         }
     }
     return result;
-}
-//=============================================================================
-static void
-appendFigureChild(GOFigure* fig, int64 childHandle)
-{
-    GOGObjectsProperty* children
-        = static_cast<GOGObjectsProperty*>(fig->findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
-    std::vector<int64> values = children->data();
-    if (std::find(values.begin(), values.end(), childHandle) == values.end()) {
-        values.push_back(childHandle);
-        children->data(values);
-    }
 }
 //=============================================================================
 static int64
@@ -203,7 +191,9 @@ createColorBar(int64 peerHandle, const std::wstring& location, const ArrayOfVect
     }
     int64 figureHandle = 0;
     GOFigure* fig = figureForPeer(peer, figureHandle);
-    std::vector<int64> oldColorBars = colorBarsForPeer(fig, peerHandle);
+    int64 holderHandle = figureHandle;
+    GraphicsObject* holder = axesDecorationHolder(peer, holderHandle);
+    std::vector<int64> oldColorBars = colorBarsForPeer(holder, peerHandle);
 
     GOColorBar* colorBar = nullptr;
     int64 colorBarHandle = 0;
@@ -221,9 +211,9 @@ createColorBar(int64 peerHandle, const std::wstring& location, const ArrayOfVect
     if (!reusedColorBar) {
         colorBar = new GOColorBar;
         colorBarHandle = assignGraphicsObject(colorBar);
-        colorBar->setGoProperty(GO_PARENT_PROPERTY_NAME_STR, figureHandle);
+        colorBar->setGoProperty(GO_PARENT_PROPERTY_NAME_STR, holderHandle);
         createLabelForColorBar(colorBarHandle, colorBar);
-        appendFigureChild(fig, colorBarHandle);
+        appendChildHandle(holder, colorBarHandle);
         colorBar->createLayoutOptions(colorBarHandle, L"");
     }
     colorBar->setPeerAxesHandle(peerHandle);
@@ -322,8 +312,9 @@ colorbarBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (GOColorBar* colorBar = dynamic_cast<GOColorBar*>(target)) {
             deleteGraphicsObject(targetHandle, true, true);
         } else {
-            GOFigure* fig = target->getParentFigure();
-            deleteColorBars(colorBarsForPeer(fig, targetHandle));
+            int64 holderHandle = -1;
+            deleteColorBars(
+                colorBarsForPeer(axesDecorationHolder(target, holderHandle), targetHandle));
         }
         return emptyReturn(nLhs);
     }

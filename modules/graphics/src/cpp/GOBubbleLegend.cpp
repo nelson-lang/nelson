@@ -32,6 +32,7 @@
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
 #include "GOScalarAlphaProperty.hpp"
+#include "GOStringAutoManualProperty.hpp"
 #include "GOScalarDoubleProperty.hpp"
 #include "GOScalarPositiveIntegerValueProperty.hpp"
 #include "GORestrictedStringProperty.hpp"
@@ -41,6 +42,7 @@
 #include "GOText.hpp"
 #include "GOTextInterpreterProperty.hpp"
 #include "GOUnitsProperty.hpp"
+#include "GOUIComponentUnits.hpp"
 #include "GOVectorFourDoubleProperty.hpp"
 #include "RenderHelpers.hpp"
 #include "GOSurfaceScale.hpp"
@@ -335,7 +337,11 @@ GOBubbleLegend::GOBubbleLegend()
     clearAllChanged();
 }
 //=============================================================================
-GOBubbleLegend::~GOBubbleLegend() { deleteInternalHandles(); }
+GOBubbleLegend::~GOBubbleLegend()
+{
+    forgetAxesLayoutDecoration(this);
+    deleteInternalHandles();
+}
 //=============================================================================
 void
 GOBubbleLegend::deleteInternalHandles()
@@ -368,6 +374,7 @@ GOBubbleLegend::constructProperties()
     registerProperty(new GOColorProperty, GO_EDGE_COLOR_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_FONT_NAME_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty, GO_FONT_SIZE_PROPERTY_NAME_STR);
+    registerProperty(new GOAutoManualProperty, GO_FONT_SIZE_MODE_PROPERTY_NAME_STR);
     registerProperty(new GOFontAngleProperty, GO_FONT_ANGLE_PROPERTY_NAME_STR);
     registerProperty(new GOFontWeightProperty, GO_FONT_WEIGHT_PROPERTY_NAME_STR);
     registerProperty(new GOTextInterpreterProperty, GO_INTERPRETER_PROPERTY_NAME_STR);
@@ -410,6 +417,7 @@ GOBubbleLegend::setupDefaults()
         GO_EDGE_COLOR_PROPERTY_NAME_STR, 0.129411764705882, 0.129411764705882, 0.129411764705882);
     setStringDefault(GO_FONT_NAME_PROPERTY_NAME_STR, L"Helvetica");
     setScalarDoubleDefault(GO_FONT_SIZE_PROPERTY_NAME_STR, 9);
+    setRestrictedStringDefault(GO_FONT_SIZE_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
     setRestrictedStringDefault(GO_FONT_ANGLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NORMAL_STR);
     setRestrictedStringDefault(GO_FONT_WEIGHT_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NORMAL_STR);
     setStringDefault(GO_INTERPRETER_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_TEX_STR);
@@ -563,7 +571,7 @@ GOBubbleLegend::positionAsPixels(double width, double height)
 void
 GOBubbleLegend::restorePeerAxesPosition()
 {
-    releaseAxesLayoutSlot(peerAxes(), m_peerReservation);
+    releaseAxesLayoutSlot(peerAxes(), this);
 }
 //=============================================================================
 GraphicsObject*
@@ -584,17 +592,18 @@ GOBubbleLegend::updateAutoLayout()
     GraphicsObject* peer = peerAxes();
     std::wstring loc = findStringProperty(GO_LOCATION_PROPERTY_NAME_STR);
     if (loc == GO_PROPERTY_VALUE_NONE_STR) {
-        releaseAxesLayoutSlot(peer, m_peerReservation);
+        releaseAxesLayoutSlot(peer, this);
         return;
     }
-    GOFigure* fig = getParentFigure();
-    if (!fig) {
+    if (!getParentFigure()) {
         return;
     }
+    double hostW = 0;
+    double hostH = 0;
+    decorationHostSizeInPixels(this, hostW, hostH);
     auto [pixelW, pixelH] = preferredSizeInPixels();
-    std::vector<double> placed = layoutDecorationAroundAxes(peer, loc, pixelW, pixelH,
-        static_cast<double>(fig->getWidth()), static_cast<double>(fig->getHeight()),
-        m_peerReservation);
+    std::vector<double> placed
+        = layoutDecorationAroundAxes(peer, this, loc, pixelW, pixelH, hostW, hostH);
     if (placed.size() < 4) {
         return;
     }
@@ -755,7 +764,9 @@ GOBubbleLegend::drawBubbles(RenderInterface& gc, const std::vector<double>& pos,
 void
 GOBubbleLegend::updateState()
 {
-    if (hasChanged(GO_FONT_NAME_PROPERTY_NAME_STR) || hasChanged(GO_FONT_SIZE_PROPERTY_NAME_STR)
+    bool fontSizeFollowed = followPeerAxesFontSize(this, m_peerAxesHandle);
+    if (fontSizeFollowed || hasChanged(GO_FONT_NAME_PROPERTY_NAME_STR)
+        || hasChanged(GO_FONT_SIZE_PROPERTY_NAME_STR)
         || hasChanged(GO_FONT_ANGLE_PROPERTY_NAME_STR)
         || hasChanged(GO_FONT_WEIGHT_PROPERTY_NAME_STR)) {
         updateFont();

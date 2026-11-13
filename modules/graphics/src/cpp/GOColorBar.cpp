@@ -37,6 +37,7 @@
 #include "GOScalarDoubleProperty.hpp"
 #include "GOStringAutoManualProperty.hpp"
 #include "GOStringOnOffProperty.hpp"
+#include "GOUIComponentUnits.hpp"
 #include "GOStringProperty.hpp"
 #include "GOStringVectorProperty.hpp"
 #include "GOText.hpp"
@@ -47,6 +48,7 @@
 #include "GOVectorProperty.hpp"
 #include "StringHelpers.hpp"
 #include "TexToUnicode.hpp"
+#include "UnitsConversionHelpers.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -116,7 +118,6 @@ genericColorBarPosition(const std::vector<double>& base, const std::wstring& loc
     double y = base[1];
     double w = base[2];
     double h = base[3];
-    double gap = 0.035;
     double inset = 0.015;
     double thickV = std::max(0.012, std::min(0.025, w * 0.0256));
     double thickH = std::max(0.018, std::min(0.035, h * 0.0359));
@@ -130,40 +131,7 @@ genericColorBarPosition(const std::vector<double>& base, const std::wstring& loc
     if (loc == GO_PROPERTY_VALUE_WEST_STR) {
         return { x + inset * w, y + inset * h, thickV, h * (1 - 2 * inset) };
     }
-    if (loc == GO_PROPERTY_VALUE_NORTHOUTSIDE_STR) {
-        return { x, y + h + gap, w, thickH };
-    }
-    if (loc == GO_PROPERTY_VALUE_SOUTHOUTSIDE_STR) {
-        return { x, std::max(0.0, y - gap - thickH), w, thickH };
-    }
-    if (loc == GO_PROPERTY_VALUE_WESTOUTSIDE_STR) {
-        return { std::max(0.0, x - gap - thickV), y, thickV, h };
-    }
-    if (loc == GO_PROPERTY_VALUE_EAST_STR) {
-        return { x + w - thickV - inset * w, y + inset * h, thickV, h * (1 - 2 * inset) };
-    }
-    return { x + w + gap, y, thickV, h };
-}
-//=============================================================================
-static std::vector<double>
-genericPeerPositionForOutside(const std::vector<double>& base, const std::wstring& loc)
-{
-    double x = base[0];
-    double y = base[1];
-    double w = base[2];
-    double h = base[3];
-    double reserveX = std::min(w * 0.0794, 0.08);
-    double reserveY = std::min(h * 0.117, 0.12);
-    if (loc == GO_PROPERTY_VALUE_NORTHOUTSIDE_STR) {
-        return { x, y, w, std::max(0.01, h - reserveY) };
-    }
-    if (loc == GO_PROPERTY_VALUE_SOUTHOUTSIDE_STR) {
-        return { x, y + reserveY, w, std::max(0.01, h - reserveY) };
-    }
-    if (loc == GO_PROPERTY_VALUE_WESTOUTSIDE_STR) {
-        return { x + reserveX, y, std::max(0.01, w - reserveX), h };
-    }
-    return { x, y, std::max(0.01, w - reserveX), h };
+    return { x + w - thickV - inset * w, y + inset * h, thickV, h * (1 - 2 * inset) };
 }
 //=============================================================================
 static std::vector<double>
@@ -204,6 +172,7 @@ GOColorBar::GOColorBar()
 //=============================================================================
 GOColorBar::~GOColorBar()
 {
+    forgetAxesLayoutDecoration(this);
     if (m_labelHandle >= HANDLE_OFFSET_OBJECT && !isDeletedGraphicsObject(m_labelHandle)) {
         deleteGraphicsObject(m_labelHandle, false, false);
     }
@@ -236,6 +205,7 @@ GOColorBar::constructProperties()
     registerProperty(new GOFontAngleProperty, GO_FONT_ANGLE_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_FONT_NAME_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty, GO_FONT_SIZE_PROPERTY_NAME_STR);
+    registerProperty(new GOAutoManualProperty, GO_FONT_SIZE_MODE_PROPERTY_NAME_STR);
     registerProperty(new GOFontWeightProperty, GO_FONT_WEIGHT_PROPERTY_NAME_STR);
     registerProperty(new GOTwoVectorProperty, GO_LIMITS_PROPERTY_NAME_STR);
     registerProperty(new GOAutoManualProperty, GO_LIMITS_MODE_PROPERTY_NAME_STR);
@@ -282,6 +252,7 @@ GOColorBar::setupDefaults()
     setRestrictedStringDefault(GO_FONT_ANGLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NORMAL_STR);
     setStringDefault(GO_FONT_NAME_PROPERTY_NAME_STR, L"Helvetica");
     setScalarDoubleDefault(GO_FONT_SIZE_PROPERTY_NAME_STR, 9);
+    setRestrictedStringDefault(GO_FONT_SIZE_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
     setRestrictedStringDefault(GO_FONT_WEIGHT_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NORMAL_STR);
     setTwoVectorDefault(GO_LIMITS_PROPERTY_NAME_STR, 0, 1);
     setRestrictedStringDefault(GO_LIMITS_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
@@ -389,24 +360,10 @@ GOColorBar::isOutside() const
 void
 GOColorBar::restorePeerAxesPosition()
 {
-    if (m_peerPositionBeforeResize.empty() || m_peerAxesHandle < HANDLE_OFFSET_OBJECT
-        || isDeletedGraphicsObject(m_peerAxesHandle)) {
+    if (m_peerAxesHandle < HANDLE_OFFSET_OBJECT || isDeletedGraphicsObject(m_peerAxesHandle)) {
         return;
     }
-    GraphicsObject* peer = findGraphicsObject(m_peerAxesHandle, false);
-    if (!peer) {
-        return;
-    }
-    GOOnOffProperty* deleting = static_cast<GOOnOffProperty*>(
-        peer->findProperty(GO_BEING_DELETED_PROPERTY_NAME_STR, false));
-    if (deleting && deleting->asBool()) {
-        return;
-    }
-    peer->setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, m_peerPositionBeforeResize[0],
-        m_peerPositionBeforeResize[1], m_peerPositionBeforeResize[2],
-        m_peerPositionBeforeResize[3]);
-    peer->updateState();
-    m_peerPositionBeforeResize.clear();
+    releaseAxesLayoutSlot(findGraphicsObject(m_peerAxesHandle, false), this);
 }
 //=============================================================================
 void
@@ -423,86 +380,46 @@ GOColorBar::applyLocationToPeerAxes()
     if (loc == GO_PROPERTY_VALUE_MANUAL_STR || loc == L"layout") {
         return;
     }
-    bool outside = isOutsideLocation(loc);
-    bool repeatedLocation = outside && loc == m_layoutAppliedLocation;
-    if (!outside && !m_peerPositionBeforeResize.empty()) {
-        peer->setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, m_peerPositionBeforeResize[0],
-            m_peerPositionBeforeResize[1], m_peerPositionBeforeResize[2],
-            m_peerPositionBeforeResize[3]);
-    }
-    std::vector<double> base = outside && !m_peerPositionBeforeResize.empty() && !repeatedLocation
-        ? peer->findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR)
-        : m_peerPositionBeforeResize.empty()
-        ? peer->findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR)
-        : m_peerPositionBeforeResize;
-    if (base.size() < 4) {
-        return;
-    }
-    bool peerInLayout = isColorBarPeerInTiledLayout(peer);
-    if (peerInLayout) {
-        if (!m_peerPositionBeforeResize.empty()) {
-            m_peerPositionBeforeResize.clear();
-        }
-        base = tiledColorBarPeerPosition(peer, base);
-        peer->setFourVectorDefault(
-            GO_POSITION_PROPERTY_NAME_STR, base[0], base[1], base[2], base[3]);
-        requestPeerAxesUpdate(peer);
-    }
-    bool peer3D = isColorBarPeer3D(peer);
-    bool peerContour = isColorBarPeerContour(peer);
     double figureWidth = GO_DEFAULT_FIGURE_WIDTH;
     double figureHeight = GO_DEFAULT_FIGURE_HEIGHT;
-    GOFigure* figure = getParentFigure();
-    if (figure) {
-        std::vector<double> figurePosition
-            = figure->findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR);
-        if (figurePosition.size() >= 4 && figurePosition[2] > 0.0 && figurePosition[3] > 0.0) {
-            figureWidth = figurePosition[2];
-            figureHeight = figurePosition[3];
+    decorationHostSizeInPixels(this, figureWidth, figureHeight);
+    bool peerInLayout = isColorBarPeerInTiledLayout(peer);
+    std::vector<double> cbPos;
+    if (isOutsideLocation(loc) && !peerInLayout) {
+        // Outside: the colorbar stacks on its side with the outside legends.
+        cbPos = layoutColorBarAroundAxes(peer, this, loc, figureWidth, figureHeight);
+    } else {
+        releaseAxesLayoutSlot(peer, this);
+        std::vector<double> base = peer->findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR);
+        if (base.size() < 4) {
+            return;
+        }
+        bool peer3D = isColorBarPeer3D(peer);
+        if (peerInLayout) {
+            base = tiledColorBarPeerPosition(peer, base);
+            peer->setFourVectorDefault(
+                GO_POSITION_PROPERTY_NAME_STR, base[0], base[1], base[2], base[3]);
+            requestPeerAxesUpdate(peer);
+            cbPos = tiledColorBarPosition(base, loc, peer3D);
         } else {
-            figureWidth = figure->getWidth();
-            figureHeight = figure->getHeight();
+            cbPos = isDefaultColorBarAxesPosition(base)
+                ? defaultColorBarPosition(base, loc, figureWidth, figureHeight)
+                : genericColorBarPosition(base, loc);
+            cbPos = constrainedColorBarPosition(peer, loc, cbPos, base, figureWidth, figureHeight);
         }
     }
-    bool defaultColorBarGeometry = isDefaultColorBarAxesPosition(base)
-        || (!m_peerPositionBeforeResize.empty()
-            && isDefaultColorBarAxesPosition(m_peerPositionBeforeResize));
-    std::vector<double> cbPos = peerInLayout ? tiledColorBarPosition(base, loc, peer3D)
-        : defaultColorBarGeometry
-        ? defaultColorBarPosition(base, loc, peer3D, peerContour, figureWidth, figureHeight)
-        : genericColorBarPosition(base, loc);
-    // The peer axes shrinks to make room for an outside colorbar; the colorbar
-    // is anchored to that shrunk rectangle (or to the axes rectangle for an
-    // inside colorbar). Compute it first so a locked-aspect peer can hug the
-    // actual drawn box instead of the full Position rectangle.
-    std::vector<double> newPeer;
-    if (outside) {
-        newPeer = defaultColorBarGeometry ? defaultColorBarPeerPositionForOutside(base, loc, peer3D,
-                                                peerContour, figureWidth, figureHeight)
-                                          : genericPeerPositionForOutside(base, loc);
-    }
-    if (!peerInLayout) {
-        const std::vector<double>& peerBox = outside ? newPeer : base;
-        cbPos = constrainedColorBarPosition(peer, loc, cbPos, peerBox, figureWidth, figureHeight);
-    }
-    setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, cbPos[0], cbPos[1], cbPos[2], cbPos[3]);
-    m_autoLayoutPosition = cbPos;
-    if (peerInLayout) {
-        m_layoutAppliedLocation = loc;
+    if (cbPos.size() < 4) {
         return;
     }
-    if (outside) {
-        if (m_peerPositionBeforeResize.empty()) {
-            m_peerPositionBeforeResize = base;
-        }
-        peer->setFourVectorDefault(
-            GO_POSITION_PROPERTY_NAME_STR, newPeer[0], newPeer[1], newPeer[2], newPeer[3]);
-        requestPeerAxesUpdate(peer);
-    } else if (!m_peerPositionBeforeResize.empty()) {
-        m_peerPositionBeforeResize.clear();
-        requestPeerAxesUpdate(peer);
+    // the layout works in normalized units, Position is stored in the Units of the colorbar
+    convertPositionPixelOrigin(GO_PROPERTY_VALUE_NORMALIZED_STR,
+        findStringProperty(GO_UNITS_PROPERTY_NAME_STR), cbPos, figureWidth, figureHeight);
+    if (!isSameColorBarPosition(findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR), cbPos)) {
+        setFourVectorDefault(
+            GO_POSITION_PROPERTY_NAME_STR, cbPos[0], cbPos[1], cbPos[2], cbPos[3]);
     }
-    m_layoutAppliedLocation = loc;
+    clearChanged(GO_POSITION_PROPERTY_NAME_STR);
+    m_autoLayoutPosition = cbPos;
 }
 //=============================================================================
 void
@@ -611,7 +528,7 @@ GOColorBar::updateFont()
     std::wstring fontWeight = findStringProperty(GO_FONT_WEIGHT_PROPERTY_NAME_STR);
     m_font = FontSpec {};
     m_font.family = fontName;
-    m_font.pointSizeF = static_cast<double>(static_cast<int>(fontSize));
+    m_font.pointSizeF = fontSize;
     m_font.italic
         = fontAngle == GO_PROPERTY_VALUE_ITALIC_STR || fontAngle == GO_PROPERTY_VALUE_OBLIQUE_STR;
     if (fontWeight == GO_PROPERTY_VALUE_BOLD_STR) {
@@ -662,7 +579,8 @@ GOColorBar::updateState()
     bool tiledPeer = location != GO_PROPERTY_VALUE_MANUAL_STR && location != L"layout"
         && m_peerAxesHandle >= HANDLE_OFFSET_OBJECT && !isDeletedGraphicsObject(m_peerAxesHandle)
         && isColorBarPeerInTiledLayout(findGraphicsObject(m_peerAxesHandle, false));
-    if (hasChanged(GO_LOCATION_PROPERTY_NAME_STR) || tiledPeer) {
+    // an outside colorbar follows its peer and the decorations stacked with it
+    if (hasChanged(GO_LOCATION_PROPERTY_NAME_STR) || tiledPeer || isOutsideLocation(location)) {
         applyLocationToPeerAxes();
     }
     if (hasChanged(GO_LOCATION_PROPERTY_NAME_STR) || hasChanged(GO_LAYOUT_PROPERTY_NAME_STR)
@@ -672,6 +590,7 @@ GOColorBar::updateState()
     updateAutoAxisLocation();
     updateAutoLimits();
     updateAutoTicks();
+    followPeerAxesFontSize(this, m_peerAxesHandle);
     updateFont();
     updateLabelDefaults();
     clearAllChanged();
@@ -851,8 +770,7 @@ GOColorBar::drawLabel(RenderInterface& gc, const std::vector<double>& pos)
     txt = texToUnicode(txt);
     FontSpec labelFont;
     labelFont.family = label->findStringProperty(GO_FONT_NAME_PROPERTY_NAME_STR);
-    labelFont.pointSizeF = static_cast<double>(
-        static_cast<int>(label->findScalarDoubleProperty(GO_FONT_SIZE_PROPERTY_NAME_STR)));
+    labelFont.pointSizeF = label->findScalarDoubleProperty(GO_FONT_SIZE_PROPERTY_NAME_STR);
     std::vector<double> color = label->findVectorDoubleProperty(GO_COLOR_PROPERTY_NAME_STR);
     bool out = stringCheck(GO_AXIS_LOCATION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OUT_STR);
     std::wstring loc = findStringProperty(GO_LOCATION_PROPERTY_NAME_STR);

@@ -119,18 +119,6 @@ figureForPeer(GraphicsObject* peer, int64& figureHandle)
     return fig;
 }
 //=============================================================================
-static void
-appendFigureChild(GOFigure* fig, int64 childHandle)
-{
-    GOGObjectsProperty* children
-        = static_cast<GOGObjectsProperty*>(fig->findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
-    std::vector<int64> values = children->data();
-    if (std::find(values.begin(), values.end(), childHandle) == values.end()) {
-        values.push_back(childHandle);
-        children->data(values);
-    }
-}
-//=============================================================================
 static int64
 targetAxes(const ArrayOfVector& argIn, size_t& index)
 {
@@ -273,9 +261,12 @@ bubblelegendBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
     int64 figureHandle = 0;
     GOFigure* fig = figureForPeer(peer, figureHandle);
+    int64 holderHandle = figureHandle;
+    GraphicsObject* holder = axesDecorationHolder(peer, holderHandle);
     if (parentHandle >= HANDLE_OFFSET_OBJECT) {
-        figureHandle = parentHandle;
+        holderHandle = parentHandle;
         fig = dynamic_cast<GOFigure*>(objectFromHandle(parentHandle));
+        holder = fig;
         if (!fig) {
             Error(L"Nelson:graphics:parentMustBeFigure", L"Parent must be a figure.");
         }
@@ -283,10 +274,10 @@ bubblelegendBuiltin(int nLhs, const ArrayOfVector& argIn)
     GOBubbleLegend* legend = new GOBubbleLegend;
     int64 legendHandle = assignGraphicsObject(legend);
     legend->setPeerAxesHandle(peerHandle);
-    legend->setGoProperty(GO_PARENT_PROPERTY_NAME_STR, figureHandle);
+    legend->setGoProperty(GO_PARENT_PROPERTY_NAME_STR, holderHandle);
     legend->createTitle(legendHandle, title);
     legend->createLayoutOptions(legendHandle, L"");
-    appendFigureChild(fig, legendHandle);
+    appendChildHandle(holder, legendHandle);
     applyProperties(legend, props);
     legend->updateState();
     GOCallbackProperty* createCallback = static_cast<GOCallbackProperty*>(

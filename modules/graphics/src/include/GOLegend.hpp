@@ -49,8 +49,6 @@ private:
     std::vector<int64> m_iconHandles;
     std::vector<int64> m_textHandles;
     std::set<int64> m_seenPeerChildren;
-    // Room taken from the peer axes by an outside Location.
-    AxesLayoutReservation m_peerReservation;
     // Position the automatic layout last wrote: a Position flagged changed with
     // that value (figure resize) is not a user override.
     std::vector<double> m_autoLayoutPosition;

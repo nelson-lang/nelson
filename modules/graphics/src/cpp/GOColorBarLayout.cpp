@@ -166,10 +166,6 @@ applyLayoutTilePosition(GOColorBar* colorBar, GraphicsObject* layoutOptions)
     double width = 0.0285714285714286;
     double x = peerPos[0] + peerPos[2] * 0.455005624296963;
     colorBar->setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, x, peerPos[1], width, peerPos[3]);
-    if (peerPos[2] < 0.5
-        && colorBar->findScalarDoubleProperty(GO_FONT_SIZE_PROPERTY_NAME_STR) == 9.0) {
-        colorBar->setScalarDoubleDefault(GO_FONT_SIZE_PROPERTY_NAME_STR, 8.1);
-    }
     return true;
 }
 //=============================================================================

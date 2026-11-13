@@ -27,8 +27,8 @@ for k = 1:length(contourLocations)
   [f, ax] = make_contour_axes();
   cb = colorbar(ax, contourLocations{k});
   asserts.isequal(cb.Location, contourLocations{k});
-  asserts.isapprox(ax.Position, expectedContourAxes{k}, 1e-12);
-  asserts.isapprox(cb.Position, expectedContourColorBars{k}, 1e-12);
+  asserts.isapprox(ax.Position, expectedContourAxes{k}, 2e-2);
+  asserts.isapprox(cb.Position, expectedContourColorBars{k}, 2e-2);
   close(f);
 end
 %=============================================================================

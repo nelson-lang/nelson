@@ -22,9 +22,6 @@ bool
 isColorBarPeer3D(GraphicsObject* peer);
 //=============================================================================
 bool
-isColorBarPeerContour(GraphicsObject* peer);
-//=============================================================================
-bool
 isColorBarPeerInTiledLayout(GraphicsObject* peer);
 //=============================================================================
 std::vector<double>
@@ -33,21 +30,10 @@ tiledColorBarPeerPosition(GraphicsObject* peer, const std::vector<double>& base)
 std::vector<double>
 tiledColorBarPosition(const std::vector<double>& base, const std::wstring& location, bool peer3D);
 //=============================================================================
+// Inside colorbar on a peer at its default Position: 16pt thick, 8pt in from the edges.
 std::vector<double>
-defaultColorBarPosition(const std::wstring& location, bool peer3D, bool peerContour,
+defaultColorBarPosition(const std::vector<double>& base, const std::wstring& location,
     double figureWidth, double figureHeight);
-//=============================================================================
-std::vector<double>
-defaultColorBarPosition(const std::vector<double>& base, const std::wstring& location, bool peer3D,
-    bool peerContour, double figureWidth, double figureHeight);
-//=============================================================================
-std::vector<double>
-defaultColorBarPeerPositionForOutside(const std::wstring& location, bool peer3D, bool peerContour,
-    double figureWidth, double figureHeight);
-//=============================================================================
-std::vector<double>
-defaultColorBarPeerPositionForOutside(const std::vector<double>& base, const std::wstring& location,
-    bool peer3D, bool peerContour, double figureWidth, double figureHeight);
 //=============================================================================
 // With a locked aspect ratio (axis image / equal / square) the data is drawn in a
 // smaller box centered in the axes Position rectangle, and a docked colorbar hugs

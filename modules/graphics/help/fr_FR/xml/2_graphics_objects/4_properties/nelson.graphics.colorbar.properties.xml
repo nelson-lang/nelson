@@ -44,8 +44,13 @@
       </tr>
       <tr>
         <td><b>FontSize</b></td>
-        <td>recalcule la geometrie, les limites ou la disposition.</td>
-        <td>Type: scalaire numerique fini. Valeurs prises en charge: valeur scalaire finie.</td>
+        <td>recalcule la géométrie, les limites ou la disposition. En mode FontSizeMode 'auto', vaut 0,9 fois la FontSize des axes associés et la suit.</td>
+        <td>Type: scalaire numerique fini. Valeurs prises en charge: valeur scalaire finie. La définir passe FontSizeMode à 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>FontSizeMode</b></td>
+        <td>'auto' recalcule FontSize à partir de la FontSize des axes associés.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caractères. Valeurs prises en charge: 'auto' (défaut), 'manual'.</td>
       </tr>
       <tr>
         <td><b>FontWeight</b></td>

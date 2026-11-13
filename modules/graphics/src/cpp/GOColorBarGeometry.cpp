@@ -51,32 +51,6 @@ isColorBarPeer3D(GraphicsObject* peer)
 }
 //=============================================================================
 bool
-isColorBarPeerContour(GraphicsObject* peer)
-{
-    if (!peer) {
-        return false;
-    }
-    GOGObjectsProperty* children = dynamic_cast<GOGObjectsProperty*>(
-        peer->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false));
-    if (!children) {
-        return false;
-    }
-    for (int64 handle : children->data()) {
-        if (handle >= HANDLE_OFFSET_OBJECT && !isDeletedGraphicsObject(handle)) {
-            GraphicsObject* child = findGraphicsObject(handle, false);
-            if (child && child->isType(GO_PROPERTY_VALUE_CONTOUR_STR)) {
-                return true;
-            }
-            if (child && child->isType(GO_PROPERTY_VALUE_PATCH_STR)
-                && child->findStringProperty(GO_TAG_PROPERTY_NAME_STR) == L"contourslice") {
-                return true;
-            }
-        }
-    }
-    return false;
-}
-//=============================================================================
-bool
 isColorBarPeerInTiledLayout(GraphicsObject* peer)
 {
     if (!peer) {
@@ -214,25 +188,14 @@ constrainedColorBarPosition(GraphicsObject* peer, const std::wstring& loc,
     return result;
 }
 //=============================================================================
-// The default peer-axes margins are fixed in NORMALIZED units (0.13, 0.11, 0.775, 0.815).
-// The colorbar thickness, its gap to the peer axes and the peer axes shrink are fixed in
-// PIXELS. Each geometry entry is a normalized anchor plus a pixel offset converted with the
-// figure dimensions, so the layout holds at any figure size.
-// Peer kind: 0 = 2D axes, 1 = filled contour, 2 = 3D axes.
+// An inside colorbar on the default axes: a 16pt bar, 8pt in from the axes edges.
+// Each entry is a normalized anchor plus a pixel offset converted with the figure size.
 static const double COLORBAR_AXES_LEFT = 0.13;
 static const double COLORBAR_AXES_BOTTOM = 0.11;
 static const double COLORBAR_AXES_WIDTH = 0.775;
 static const double COLORBAR_AXES_HEIGHT = 0.815;
-static const double COLORBAR_AXES_RIGHT = COLORBAR_AXES_LEFT + COLORBAR_AXES_WIDTH; // 0.905
-static const double COLORBAR_AXES_TOP = COLORBAR_AXES_BOTTOM + COLORBAR_AXES_HEIGHT; // 0.925
 static const double COLORBAR_THICKNESS_PX = 64.0 / 3.0; // 16 pt at 96 dpi
 static const double COLORBAR_INSET_PX = 32.0 / 3.0; // 8 pt at 96 dpi
-//=============================================================================
-static int
-colorBarPeerKind(bool peer3D, bool peerContour)
-{
-    return peerContour ? 1 : (peer3D ? 2 : 0);
-}
 //=============================================================================
 static std::vector<double>
 composeColorBarRect(const std::array<double, 4>& base, const std::array<double, 4>& pixelOffset,
@@ -248,107 +211,32 @@ composeColorBarRect(const std::array<double, 4>& base, const std::array<double, 
 }
 //=============================================================================
 std::vector<double>
-defaultColorBarPosition(
-    const std::wstring& loc, bool peer3D, bool peerContour, double figureWidth, double figureHeight)
+defaultColorBarPosition(const std::vector<double>& base, const std::wstring& loc,
+    double figureWidth, double figureHeight)
 {
-    return defaultColorBarPosition(
-        { COLORBAR_AXES_LEFT, COLORBAR_AXES_BOTTOM, COLORBAR_AXES_WIDTH, COLORBAR_AXES_HEIGHT },
-        loc, peer3D, peerContour, figureWidth, figureHeight);
-}
-//=============================================================================
-std::vector<double>
-defaultColorBarPosition(const std::vector<double>& base, const std::wstring& loc, bool peer3D,
-    bool peerContour, double figureWidth, double figureHeight)
-{
-    const int kind = colorBarPeerKind(peer3D, peerContour);
     if (base.size() < 4) {
-        return defaultColorBarPosition(loc, peer3D, peerContour, figureWidth, figureHeight);
+        return defaultColorBarPosition(
+            { COLORBAR_AXES_LEFT, COLORBAR_AXES_BOTTOM, COLORBAR_AXES_WIDTH, COLORBAR_AXES_HEIGHT },
+            loc, figureWidth, figureHeight);
     }
     const double L = base[0];
     const double B = base[1];
     const double W = base[2];
     const double H = base[3];
-    const double R = L + W;
-    const double Tp = B + H;
     const double t = COLORBAR_THICKNESS_PX;
     const double i = COLORBAR_INSET_PX;
-    static const double eastOutside[3] = { -42.33, -41.83, -39.89 };
-    static const double westOutside[3] = { 16.67, 16.67, 15.57 };
-    static const double northOutside[3] = { -43.33, -42.83, -41.60 };
-    static const double southOutside[3] = { 17.67, 17.67, 17.28 };
-
-    if (loc == GO_PROPERTY_VALUE_EAST_STR) {
-        return composeColorBarRect(
-            { R, B, 0.0, H }, { -(t + i), i, t, -t }, figureWidth, figureHeight);
-    }
     if (loc == GO_PROPERTY_VALUE_WEST_STR) {
         return composeColorBarRect({ L, B, 0.0, H }, { i, i, t, -t }, figureWidth, figureHeight);
     }
     if (loc == GO_PROPERTY_VALUE_NORTH_STR) {
         return composeColorBarRect(
-            { L, Tp, W, 0.0 }, { i, -(t + i), -t, t }, figureWidth, figureHeight);
+            { L, B + H, W, 0.0 }, { i, -(t + i), -t, t }, figureWidth, figureHeight);
     }
     if (loc == GO_PROPERTY_VALUE_SOUTH_STR) {
         return composeColorBarRect({ L, B, W, 0.0 }, { i, i, -t, t }, figureWidth, figureHeight);
     }
-    if (loc == GO_PROPERTY_VALUE_WESTOUTSIDE_STR) {
-        return composeColorBarRect(
-            { L, B, 0.0, H }, { westOutside[kind], 0.0, t, 0.0 }, figureWidth, figureHeight);
-    }
-    if (loc == GO_PROPERTY_VALUE_NORTHOUTSIDE_STR) {
-        return composeColorBarRect(
-            { L, Tp, W, 0.0 }, { 0.0, northOutside[kind], 0.0, t }, figureWidth, figureHeight);
-    }
-    if (loc == GO_PROPERTY_VALUE_SOUTHOUTSIDE_STR) {
-        return composeColorBarRect(
-            { L, B, W, 0.0 }, { 0.0, southOutside[kind], 0.0, t }, figureWidth, figureHeight);
-    }
     return composeColorBarRect(
-        { R, B, 0.0, H }, { eastOutside[kind], 0.0, t, 0.0 }, figureWidth, figureHeight);
-}
-//=============================================================================
-std::vector<double>
-defaultColorBarPeerPositionForOutside(
-    const std::wstring& loc, bool peer3D, bool peerContour, double figureWidth, double figureHeight)
-{
-    return defaultColorBarPeerPositionForOutside(
-        { COLORBAR_AXES_LEFT, COLORBAR_AXES_BOTTOM, COLORBAR_AXES_WIDTH, COLORBAR_AXES_HEIGHT },
-        loc, peer3D, peerContour, figureWidth, figureHeight);
-}
-//=============================================================================
-std::vector<double>
-defaultColorBarPeerPositionForOutside(const std::vector<double>& base, const std::wstring& loc,
-    bool peer3D, bool peerContour, double figureWidth, double figureHeight)
-{
-    const int kind = colorBarPeerKind(peer3D, peerContour);
-    if (base.size() < 4) {
-        return defaultColorBarPeerPositionForOutside(
-            loc, peer3D, peerContour, figureWidth, figureHeight);
-    }
-    static const double eastShiftX[3] = { -7.63, -8.60, -11.09 };
-    static const double eastShrinkW[3] = { -45.47, -51.28, -66.13 };
-    static const double westShiftX[3] = { 68.73, 68.73, 74.24 };
-    static const double westShrinkW[3] = { -61.22, -61.22, -66.13 };
-    static const double northShiftY[3] = { -6.45, -7.28, -9.39 };
-    static const double northShrinkH[3] = { -47.81, -53.93, -69.55 };
-    static const double southShiftY[3] = { 70.31, 70.31, 75.95 };
-    static const double southShrinkH[3] = { -64.38, -64.38, -69.55 };
-    const std::array<double, 4> baseRect = { base[0], base[1], base[2], base[3] };
-
-    if (loc == GO_PROPERTY_VALUE_NORTHOUTSIDE_STR) {
-        return composeColorBarRect(baseRect, { 0.0, northShiftY[kind], 0.0, northShrinkH[kind] },
-            figureWidth, figureHeight);
-    }
-    if (loc == GO_PROPERTY_VALUE_SOUTHOUTSIDE_STR) {
-        return composeColorBarRect(baseRect, { 0.0, southShiftY[kind], 0.0, southShrinkH[kind] },
-            figureWidth, figureHeight);
-    }
-    if (loc == GO_PROPERTY_VALUE_WESTOUTSIDE_STR) {
-        return composeColorBarRect(
-            baseRect, { westShiftX[kind], 0.0, westShrinkW[kind], 0.0 }, figureWidth, figureHeight);
-    }
-    return composeColorBarRect(
-        baseRect, { eastShiftX[kind], 0.0, eastShrinkW[kind], 0.0 }, figureWidth, figureHeight);
+        { L + W, B, 0.0, H }, { -(t + i), i, t, -t }, figureWidth, figureHeight);
 }
 //=============================================================================
 } // namespace Nelson
