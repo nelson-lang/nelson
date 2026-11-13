@@ -24,6 +24,7 @@
 #include "NelsonConfiguration.hpp"
 #include "NelsonReadyNamedMutex.hpp"
 #include "ParserInterface.hpp"
+#include "PathFunctionIndexerManager.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -229,6 +230,11 @@ Evaluator::evaluateCliCommand(std::wstring commandLine)
         commandLine = normalizeCliNewlines(commandLine);
     }
     bool evalResult = false;
+    // a command typed at the prompt runs the files as they are now on disk
+    if (!bpActive && callstack.size() <= 1 && commandLine != L"\n"
+        && NelsonConfiguration::getInstance()->isFileWatcherEnabled()) {
+        PathFunctionIndexerManager::getInstance()->reloadChangedFiles(true);
+    }
     try {
         evalResult = evaluateString(commandLine, false);
     } catch (NelsonException& e) {

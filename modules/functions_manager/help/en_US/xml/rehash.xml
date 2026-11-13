@@ -7,12 +7,21 @@
   >Reinitialize Nelson’s search path directory cache.</short_description>
   <syntax>
     <syntax_item>rehash</syntax_item>
+    <syntax_item>rehash path</syntax_item>
+    <syntax_item>rehash(option)</syntax_item>
   </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>option</param_name>
+      <param_description>a character vector or string scalar: 'path', 'toolbox', 'pathreset', 'toolboxreset' or 'toolboxcache'. Every option rescans the path and reloads the changed files.</param_description>
+    </param_input_item>
+  </param_input>
   <description>
     <p>
       <b>rehash()</b> reinitializes Nelson’s search path directory cache.</p>
-    <p>This happens each time Nelson displays the prompt.</p>
-    <p>You should use <b>rehash()</b> only when you run a .m file that updates another .m file</p>
+    <p>Function, script, private and class files changed on disk (write time or size) since they were loaded are reloaded on their next call.</p>
+    <p>This happens each time a command is run from the prompt, for the files of the folders added with <b>addpath</b>, the current folder and the user path.</p>
+    <p>You should use <b>rehash()</b> only when you run a .m file that updates another .m file and calls it before returning to the prompt.</p>
   </description>
   <used_function />
   <bibliography />
@@ -35,6 +44,10 @@
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>changed files are reloaded from the prompt and by rehash; option argument added.</history_description>
     </history_item>
   </history>
   <authors>

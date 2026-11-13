@@ -55,7 +55,7 @@ static const nlsGateway gateway[] = {
     { "isbuiltin", (ptrBuiltin)Nelson::FunctionsGateway::isbuiltinBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "restoredefaultpath", (ptrBuiltin)Nelson::FunctionsGateway::restoredefaultpathBuiltin, 0, 0 },
-    { "rehash", (ptrBuiltin)Nelson::FunctionsGateway::rehashBuiltin, 0, 0 },
+    { "rehash", (ptrBuiltin)Nelson::FunctionsGateway::rehashBuiltin, 0, 1 },
     { "userpath", (ptrBuiltin)Nelson::FunctionsGateway::userpathBuiltin, 1, 1 },
     { "inmem", (ptrBuiltin)Nelson::FunctionsGateway::inmemBuiltin, 2, 0 },
     { "import", (ptrBuiltin)Nelson::FunctionsGateway::importBuiltin, 1, -1,

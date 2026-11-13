@@ -54,6 +54,8 @@ static bool
 isKnownNonClassdefFile(const std::string& className);
 static void
 rememberNonClassdefFile(const std::string& className);
+static std::vector<std::unordered_map<std::string, ClassdefDefinition>::node_type>&
+retiredClassdefDefinitions();
 //=============================================================================
 bool
 classdefLooksLikeSource(const std::string& source)
@@ -305,6 +307,50 @@ classdefClear()
     ++classdefGenerationCounter();
 }
 //=============================================================================
+bool
+classdefForgetClassFile(const std::wstring& filename)
+{
+    stringVector names;
+    for (const auto& entry : classdefFilenames()) {
+        if (entry.second == filename) {
+            names.push_back(entry.first);
+        }
+    }
+    if (names.empty()) {
+        return false;
+    }
+    // a subclass copies the members of its superclasses: it is reloaded too
+    bool grown = true;
+    while (grown) {
+        grown = false;
+        for (const auto& entry : classdefDefinitions()) {
+            if (std::find(names.begin(), names.end(), entry.first) != names.end()) {
+                continue;
+            }
+            for (const auto& superclass : entry.second.superclasses) {
+                if (std::find(names.begin(), names.end(), superclass) != names.end()) {
+                    names.push_back(entry.first);
+                    grown = true;
+                    break;
+                }
+            }
+        }
+    }
+    for (const auto& name : names) {
+        auto it = classdefDefinitions().find(name);
+        if (it != classdefDefinitions().end()) {
+            retireClassdefGeneratedFunctions(it->second);
+            // a running method may still read the old definition: its node is kept
+            retiredClassdefDefinitions().push_back(classdefDefinitions().extract(it));
+        }
+        classdefFilenames().erase(name);
+        classdefLayouts().erase(name);
+        classdefPropertyDefaultValues().erase(name);
+    }
+    ++classdefGenerationCounter();
+    return true;
+}
+//=============================================================================
 size_t
 classdefRegistryGeneration()
 {
@@ -443,6 +489,8 @@ classdefIsClassdefFile(const std::wstring& filename)
 FunctionDef*
 classdefLoadConstructor(const std::wstring& filename, const std::string& expectedClassName)
 {
+    // stamped before parsing: a write during the parse is seen as a change
+    PathFunctionIndexerManager::getInstance()->recordLoadedFile(filename, true);
     ClassdefDefinition definition;
     if (!loadDefinitionFromFile(filename, expectedClassName, definition)) {
         return nullptr;
@@ -507,6 +555,8 @@ classdefLoadConstructor(const std::wstring& filename, const std::string& expecte
 bool
 classdefLoadClass(const std::string& className)
 {
+    // one relaxed load unless a class file changed on disk
+    PathFunctionIndexerManager::applyPendingClassFileChanges();
     if (classdefDefinitions().find(className) != classdefDefinitions().end()
         || isBuiltinClassdef(className)) {
         return true;
@@ -557,6 +607,15 @@ static void
 rememberNonClassdefFile(const std::string& className)
 {
     nonClassdefFiles().insert(className);
+}
+//=============================================================================
+// never freed: a definition may be read by a method still running at exit
+static std::vector<std::unordered_map<std::string, ClassdefDefinition>::node_type>&
+retiredClassdefDefinitions()
+{
+    static auto* nodes
+        = new std::vector<std::unordered_map<std::string, ClassdefDefinition>::node_type>();
+    return *nodes;
 }
 //=============================================================================
 } // namespace Nelson

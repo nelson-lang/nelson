@@ -7,12 +7,21 @@
   >Réinitialise le cache des répertoires du chemin de recherche de Nelson.</short_description>
   <syntax>
     <syntax_item>rehash</syntax_item>
+    <syntax_item>rehash path</syntax_item>
+    <syntax_item>rehash(option)</syntax_item>
   </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>option</param_name>
+      <param_description>un vecteur de caractères ou une chaîne scalaire : 'path', 'toolbox', 'pathreset', 'toolboxreset' ou 'toolboxcache'. Chaque option réanalyse le chemin et recharge les fichiers modifiés.</param_description>
+    </param_input_item>
+  </param_input>
   <description>
     <p>
       <b>rehash()</b> réinitialise le cache des répertoires du chemin de recherche de Nelson.</p>
-    <p>Cela se produit chaque fois que Nelson affiche l&apos;invite.</p>
-    <p>Vous devriez utiliser <b>rehash()</b> uniquement lorsque vous exécutez un fichier .m qui met à jour un autre fichier .m</p>
+    <p>Les fichiers de fonction, de script, privés et de classe modifiés sur le disque (date d'écriture ou taille) depuis leur chargement sont rechargés à leur prochain appel.</p>
+    <p>Cela se produit à chaque commande exécutée depuis l'invite, pour les fichiers des dossiers ajoutés par <b>addpath</b>, du dossier courant et du chemin utilisateur.</p>
+    <p>Vous devriez utiliser <b>rehash()</b> uniquement lorsque vous exécutez un fichier .m qui met à jour un autre fichier .m et l'appelle avant de revenir à l'invite.</p>
   </description>
   <used_function />
   <bibliography />
@@ -35,6 +44,10 @@
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>les fichiers modifiés sont rechargés depuis l'invite et par rehash ; argument option ajouté.</history_description>
     </history_item>
   </history>
   <authors>

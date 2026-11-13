@@ -158,6 +158,22 @@ public:
 
     bool
     hashOnFileWatcher();
+
+    // Remembers the write time and size of a file loaded from a watched directory.
+    void
+    recordLoadedFile(const std::wstring& filename, bool isClassdef);
+
+    // Drops the definitions of loaded files changed on disk so the next call reloads them.
+    bool
+    reloadChangedFiles(bool withClassdefs);
+
+    // A file or folder Nelson has just written: a loaded function file there reloads at its next call.
+    void
+    notifyFileWritten(const std::wstring& filename);
+
+    // Applies the class files changed meanwhile, on the interpreter thread only (cheap otherwise).
+    static void
+    applyPendingClassFileChanges();
 };
 //=============================================================================
 } // namespace Nelson

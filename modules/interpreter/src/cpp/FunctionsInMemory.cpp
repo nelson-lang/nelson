@@ -283,6 +283,31 @@ FunctionsInMemory::retireIfFileReplaced(
     return retire(_macroFunctionsInMemory) || retire(_mexFunctionsInMemory);
 }
 //=============================================================================
+bool
+FunctionsInMemory::retireFileDefinitions(const std::wstring& filename)
+{
+    std::unique_lock<std::shared_mutex> lock(tablesMutex);
+    bool retired = false;
+    // the filename the definition was loaded from, so an exact comparison
+    for (auto it = _macroFunctionsInMemory.begin(); it != _macroFunctionsInMemory.end();) {
+        if (it->second != nullptr && it->second->getFilename() == filename) {
+            // a running definition stays alive until the tables are cleared
+            if (std::find(_retiredFunctions.begin(), _retiredFunctions.end(), it->second)
+                == _retiredFunctions.end()) {
+                _retiredFunctions.push_back(it->second);
+            }
+            it = _macroFunctionsInMemory.erase(it);
+            retired = true;
+        } else {
+            ++it;
+        }
+    }
+    if (retired) {
+        clearMapCacheLocked();
+    }
+    return retired;
+}
+//=============================================================================
 stringVector
 FunctionsInMemory::getMacroAndMexNames()
 {

@@ -11,6 +11,10 @@
 #include <algorithm>
 #include <atomic>
 #include <chrono>
+#include <condition_variable>
+#include <cwctype>
+#include <thread>
+#include "nlsBuildConfig.h"
 #include "PathFunctionIndexerManager.hpp"
 #include "ClassdefParser.hpp"
 #include "StringHelpers.hpp"
@@ -24,11 +28,58 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+// set by the first prompt command: class registry changes are applied on that thread only
+static std::atomic<std::thread::id> interpreterThreadId {};
+//=============================================================================
+// class files changed while another thread noticed them, applied at the next name lookup
+static std::atomic<bool> classFilesPending { false };
+//=============================================================================
 static bool
 isEngineSentinelName(const std::string& functionName);
 //=============================================================================
 static bool
 mustPollWatchedDirectories();
+//=============================================================================
+struct LoadedFileStamp
+{
+    nfs::file_time_type writeTime {};
+    std::uintmax_t size = 0;
+    bool isClassdef = false;
+    std::wstring loadedFilename;
+};
+//=============================================================================
+static std::unordered_map<std::wstring, LoadedFileStamp>&
+loadedFileStamps();
+//=============================================================================
+static std::mutex&
+loadedFileStampsMutex();
+//=============================================================================
+static wstringVector&
+pendingClassFiles();
+//=============================================================================
+static std::vector<LoadedFileStamp>
+takeChangedLoadedFiles();
+//=============================================================================
+static void
+dispatchChangedFiles(const std::vector<LoadedFileStamp>& changedFiles, bool onInterpreterThread);
+//=============================================================================
+static void
+forgetClassFile(const std::wstring& filename);
+//=============================================================================
+static bool
+isInterpreterThread();
+//=============================================================================
+static void
+startLoadedFilesMonitor();
+//=============================================================================
+static void
+stopLoadedFilesMonitor();
+//=============================================================================
+static bool
+readFileStamp(const std::wstring& filename, LoadedFileStamp& stamp);
+//=============================================================================
+static bool
+isInsideDirectory(const std::wstring& normalizedFilename, const std::wstring& directory);
 //=============================================================================
 PathFunctionIndexerManager* PathFunctionIndexerManager::m_pInstance = nullptr;
 //=============================================================================
@@ -125,6 +176,7 @@ PathFunctionIndexerManager::getInstance()
 void
 PathFunctionIndexerManager::destroy()
 {
+    stopLoadedFilesMonitor();
     clearUserPath();
     clear();
     FunctionsInMemory::getInstance()->clear();
@@ -148,6 +200,11 @@ PathFunctionIndexerManager::startFileWatcher()
         _currentPath->startFileWatcher();
     }
     _filesWatcherStarted = true;
+    // started by the thread that then runs the prompt loop
+    interpreterThreadId.store(std::this_thread::get_id());
+    if (NelsonConfiguration::getInstance()->isFileWatcherEnabled()) {
+        startLoadedFilesMonitor();
+    }
 }
 //=============================================================================
 bool
@@ -177,6 +234,91 @@ PathFunctionIndexerManager::hashOnFileWatcher()
         refreshFunctionsMap();
     }
     return result;
+}
+//=============================================================================
+void
+PathFunctionIndexerManager::recordLoadedFile(const std::wstring& filename, bool isClassdef)
+{
+    if (filename.empty()) {
+        return;
+    }
+    std::lock_guard<std::recursive_mutex> lock(m_mutex);
+    const std::wstring normalizedFilename = FileSystemWrapper::Path::normalize(filename);
+    bool watched = (_currentPath != nullptr
+                       && isInsideDirectory(normalizedFilename, _currentPath->getPath()))
+        || (_userPath != nullptr && isInsideDirectory(normalizedFilename, _userPath->getPath()));
+    for (size_t k = 0; !watched && k < _pathWatchFuncVector.size(); ++k) {
+        watched = isInsideDirectory(normalizedFilename, _pathWatchFuncVector[k]->getPath());
+    }
+    if (!watched) {
+        return;
+    }
+    LoadedFileStamp stamp;
+    if (readFileStamp(normalizedFilename, stamp)) {
+        stamp.isClassdef = isClassdef;
+        stamp.loadedFilename = filename;
+        std::lock_guard<std::mutex> stampsLock(loadedFileStampsMutex());
+        loadedFileStamps()[normalizedFilename] = stamp;
+    }
+}
+//=============================================================================
+bool
+PathFunctionIndexerManager::reloadChangedFiles(bool withClassdefs)
+{
+    std::lock_guard<std::recursive_mutex> lock(m_mutex);
+    if (withClassdefs && interpreterThreadId.load() == std::thread::id()) {
+        interpreterThreadId.store(std::this_thread::get_id());
+    }
+    const bool onInterpreterThread = withClassdefs && isInterpreterThread();
+    if (onInterpreterThread) {
+        applyPendingClassFileChanges();
+    }
+    const std::vector<LoadedFileStamp> changedFiles = takeChangedLoadedFiles();
+    if (changedFiles.empty()) {
+        return false;
+    }
+    dispatchChangedFiles(changedFiles, onInterpreterThread);
+    FunctionsInMemory::getInstance()->clearMapCache();
+    return true;
+}
+//=============================================================================
+void
+PathFunctionIndexerManager::applyPendingClassFileChanges()
+{
+    if (!classFilesPending.load(std::memory_order_relaxed) || !isInterpreterThread()) {
+        return;
+    }
+    wstringVector filenames;
+    {
+        std::lock_guard<std::mutex> lock(loadedFileStampsMutex());
+        filenames.swap(pendingClassFiles());
+        classFilesPending.store(false, std::memory_order_relaxed);
+    }
+    for (const auto& filename : filenames) {
+        forgetClassFile(filename);
+    }
+}
+//=============================================================================
+void
+PathFunctionIndexerManager::notifyFileWritten(const std::wstring& filename)
+{
+    if (filename.empty() || !NelsonConfiguration::getInstance()->isFileWatcherEnabled()) {
+        return;
+    }
+    // data files written in a loop must not pay one stat per loaded function
+    std::wstring extension = FileSystemWrapper::Path(filename).extension().generic_wstring();
+    std::transform(extension.begin(), extension.end(), extension.begin(), ::towlower);
+    if (!extension.empty() && extension != L".m" && extension != L".nbc") {
+        return;
+    }
+    {
+        std::lock_guard<std::mutex> lock(loadedFileStampsMutex());
+        if (loadedFileStamps().empty()) {
+            return;
+        }
+    }
+    // the background check would see it too, but only after the next calls
+    dispatchChangedFiles(takeChangedLoadedFiles(), isInterpreterThread());
 }
 //=============================================================================
 void
@@ -608,6 +750,7 @@ PathFunctionIndexerManager::rehash()
         }
     }
     refreshFunctionsMap();
+    reloadChangedFiles(true);
 }
 //=============================================================================
 void
@@ -700,6 +843,10 @@ PathFunctionIndexerManager::processFile(FileFunction* ff, const std::string& fun
         } else if (!ff->isOverload() && classdefIsClassdefFile(ff->getFilename())) {
             ptr = classdefLoadConstructor(ff->getFilename(), functionName);
         } else {
+            if (ff->getWithWatcher()) {
+                // stamped before parsing: a write during the parse is seen as a change
+                recordLoadedFile(ff->getFilename(), false);
+            }
             ptr = processMacroFile(ff->getFilename(), ff->getWithWatcher(), ff->isOverload());
             auto* macro = dynamic_cast<MacroFunctionDef*>(ptr);
             std::string ownerClassName = overloadOwnerClassName(functionName);
@@ -800,6 +947,191 @@ mustPollWatchedDirectories()
     }
     // A poll that loses the exchange has just been done by another thread.
     return lastPoll.compare_exchange_strong(previous, now, std::memory_order_relaxed);
+}
+//=============================================================================
+// heap state never freed: the monitor thread may still run while statics are destroyed
+static std::unordered_map<std::wstring, LoadedFileStamp>&
+loadedFileStamps()
+{
+    static auto* stamps = new std::unordered_map<std::wstring, LoadedFileStamp>();
+    return *stamps;
+}
+//=============================================================================
+static std::mutex&
+loadedFileStampsMutex()
+{
+    static auto* mutex = new std::mutex();
+    return *mutex;
+}
+//=============================================================================
+// guarded by loadedFileStampsMutex
+static wstringVector&
+pendingClassFiles()
+{
+    static auto* filenames = new wstringVector();
+    return *filenames;
+}
+//=============================================================================
+static bool
+isInterpreterThread()
+{
+    return interpreterThreadId.load(std::memory_order_relaxed) == std::this_thread::get_id();
+}
+//=============================================================================
+static void
+forgetClassFile(const std::wstring& filename)
+{
+    FunctionsInMemory::getInstance()->retireFileDefinitions(filename);
+    classdefForgetClassFile(filename);
+    FunctionsInMemory::getInstance()->clearMapCache();
+}
+//=============================================================================
+static void
+dispatchChangedFiles(const std::vector<LoadedFileStamp>& changedFiles, bool onInterpreterThread)
+{
+    bool queued = false;
+    for (const auto& changed : changedFiles) {
+        if (!changed.isClassdef) {
+            FunctionsInMemory::getInstance()->retireFileDefinitions(changed.loadedFilename);
+        } else if (onInterpreterThread) {
+            forgetClassFile(changed.loadedFilename);
+        } else {
+            std::lock_guard<std::mutex> lock(loadedFileStampsMutex());
+            pendingClassFiles().push_back(changed.loadedFilename);
+            classFilesPending.store(true, std::memory_order_relaxed);
+            queued = true;
+        }
+    }
+    if (queued) {
+        // cached call sites look the names up again, which applies the pending classes
+        FunctionsInMemory::getInstance()->clearMapCache();
+    }
+}
+//=============================================================================
+// Stats the loaded files outside the lock, then takes the ones still stamped as read.
+static std::vector<LoadedFileStamp>
+takeChangedLoadedFiles()
+{
+    std::vector<std::pair<std::wstring, LoadedFileStamp>> snapshot;
+    {
+        std::lock_guard<std::mutex> lock(loadedFileStampsMutex());
+        snapshot.assign(loadedFileStamps().begin(), loadedFileStamps().end());
+    }
+    std::vector<LoadedFileStamp> changedFiles;
+    for (const auto& entry : snapshot) {
+        LoadedFileStamp current;
+        if (readFileStamp(entry.first, current) && current.writeTime == entry.second.writeTime
+            && current.size == entry.second.size) {
+            continue;
+        }
+        std::lock_guard<std::mutex> lock(loadedFileStampsMutex());
+        auto it = loadedFileStamps().find(entry.first);
+        // a reload since the snapshot recorded a new stamp: that definition is current
+        if (it == loadedFileStamps().end() || it->second.writeTime != entry.second.writeTime
+            || it->second.size != entry.second.size) {
+            continue;
+        }
+        changedFiles.push_back(it->second);
+        loadedFileStamps().erase(it);
+    }
+    return changedFiles;
+}
+//=============================================================================
+struct LoadedFilesMonitor
+{
+    std::mutex mutex;
+    std::condition_variable wakeUp;
+    std::thread worker;
+    bool running = false;
+    bool stopRequested = false;
+};
+//=============================================================================
+static LoadedFilesMonitor&
+loadedFilesMonitor()
+{
+    static auto* monitor = new LoadedFilesMonitor();
+    return *monitor;
+}
+//=============================================================================
+// An edited file changes no directory time: a background thread compares the loaded
+// files and retires the changed definitions, so calls pay nothing and the next one reloads.
+static void
+startLoadedFilesMonitor()
+{
+#if WITH_FILE_WATCHER
+    LoadedFilesMonitor& monitor = loadedFilesMonitor();
+    std::lock_guard<std::mutex> lock(monitor.mutex);
+    if (monitor.running) {
+        return;
+    }
+    monitor.stopRequested = false;
+    monitor.running = true;
+    monitor.worker = std::thread([&monitor]() {
+        constexpr std::chrono::milliseconds LOADED_FILES_POLL_INTERVAL(100);
+        std::unique_lock<std::mutex> monitorLock(monitor.mutex);
+        while (!monitor.wakeUp.wait_for(monitorLock, LOADED_FILES_POLL_INTERVAL,
+            [&monitor]() { return monitor.stopRequested; })) {
+            monitorLock.unlock();
+            dispatchChangedFiles(takeChangedLoadedFiles(), false);
+            monitorLock.lock();
+        }
+    });
+#endif
+}
+//=============================================================================
+static void
+stopLoadedFilesMonitor()
+{
+    LoadedFilesMonitor& monitor = loadedFilesMonitor();
+    {
+        std::lock_guard<std::mutex> lock(monitor.mutex);
+        if (!monitor.running) {
+            return;
+        }
+        monitor.stopRequested = true;
+        monitor.running = false;
+    }
+    monitor.wakeUp.notify_all();
+    if (monitor.worker.joinable()) {
+        monitor.worker.join();
+    }
+}
+//=============================================================================
+static bool
+readFileStamp(const std::wstring& filename, LoadedFileStamp& stamp)
+{
+    std::error_code errorCode;
+    const nfs::path path(FileSystemWrapper::Path(filename).native());
+    stamp.writeTime = nfs::last_write_time(path, errorCode);
+    if (errorCode) {
+        return false;
+    }
+    stamp.size = nfs::file_size(path, errorCode);
+    return !errorCode;
+}
+//=============================================================================
+static bool
+isInsideDirectory(const std::wstring& normalizedFilename, const std::wstring& directory)
+{
+    if (directory.empty()) {
+        return false;
+    }
+    const std::wstring normalizedDirectory = FileSystemWrapper::Path::normalize(directory);
+    if (normalizedFilename.size() <= normalizedDirectory.size()) {
+        return false;
+    }
+    const wchar_t separator = normalizedFilename[normalizedDirectory.size()];
+    if (separator != L'/' && separator != L'\\' && normalizedDirectory.back() != L'/'
+        && normalizedDirectory.back() != L'\\') {
+        return false;
+    }
+#ifdef _MSC_VER
+    return std::equal(normalizedDirectory.begin(), normalizedDirectory.end(),
+        normalizedFilename.begin(),
+        [](wchar_t a, wchar_t b) { return towlower(a) == towlower(b); });
+#else
+    return normalizedFilename.compare(0, normalizedDirectory.size(), normalizedDirectory) == 0;
+#endif
 }
 //=============================================================================
 } // namespace Nelson

@@ -122,6 +122,10 @@ public:
     bool
     retireIfFileReplaced(const std::string& functionName, const std::wstring& resolvedFilename);
     //=============================================================================
+    // Retires every macro definition loaded from that exact filename (changed on disk).
+    bool
+    retireFileDefinitions(const std::wstring& filename);
+
     // Names (table keys) of the macro and MEX definitions currently held, used
     // to reconcile the tables when the set of resolvable files changes.
     stringVector

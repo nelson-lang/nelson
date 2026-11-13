@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-asserts.isequal(nargin('rehash'), 0);
+asserts.isequal(nargin('rehash'), 1);
 asserts.isequal(nargout('rehash'), 0);
 %=============================================================================
 rehash();
