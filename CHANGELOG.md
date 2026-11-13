@@ -58,6 +58,7 @@ Nelson 2.0 is a major release. Existing scripts run faster, larger projects can 
 
 - `.xlsx` read and write on every platform, and optional NetCDF and Parquet support.
 - `readlines`, `writelines`, and partial loading and saving of MAT-files with `matfile`.
+- `nelson.io.zip`, `nelson.io.zstd`, `nelson.io.gzip` and `nelson.io.tar`: read and write ZIP entries, tar archives (plain, gzip or Zstandard), gzip and Zstandard data without extracting files, with `fopen` file identifiers on entries and compressed data, password-protected ZIP archives (WinZip AES and traditional encryption) and http/https sources.
 - Python package to drive Nelson from Python, with NumPy and pandas conversion.
 - Built-in MCP server for AI agents.
 - Optional `compiler` module to build standalone applications and installers from `.m` files.
@@ -76,6 +77,8 @@ Nelson 2.0 is a major release. Existing scripts run faster, larger projects can 
 - More options for existing functions: `'like'` for `eps`, `realmax`, `intmax`, ..., `save -struct`, full matrices in `svds`, unsorted points in `interp1` and `spline`, `hgtransform` parents for `plot`, `surf`, `patch`, and `text`.
 - A function file on the path always takes precedence over a built-in of the same name.
 - `filewrite` is about 6 times faster on large text.
+- `patch` no longer widens manual axes limits (`XLim`, `YLim`, `ZLim`) to include the new patch.
+- `xlim`, `ylim` and `zlim` accept and return `datetime` limits on datetime axes; `image`, `imagesc` and `imshow` fix manual limits to the image and leave a held axes unchanged.
 
 ### Removed
 
