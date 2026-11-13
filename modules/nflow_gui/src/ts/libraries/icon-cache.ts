@@ -121,21 +121,47 @@ function makeFailed(url: string): CachedIcon {
   return { url, ok: false, svgText: null, svgEl: null, colors: null };
 }
 //=============================================================================
+/** Absolute file path of an icon from a library outside the bundle (`libraries//abs/...`). */
+export function externalLibraryIconPath(url: string): string | null {
+  let pathname = '';
+  try {
+    pathname = new URL(url).pathname;
+  } catch {
+    return null;
+  }
+  const m = pathname.match(/\/libraries\/(\/.+\.svg|[A-Za-z]:\/.+\.svg)$/i);
+  return m ? decodeURIComponent(m[1]) : null;
+}
+//=============================================================================
+async function readExternalIcon(url: string): Promise<string> {
+  const path = externalLibraryIconPath(url);
+  if (!path) return '';
+  try {
+    const { nflowRpc } = await import('../app/native-rpc.js');
+    const res = await nflowRpc<{ success?: boolean; text?: string }>('nflow.library.readFile', {
+      path,
+    });
+    return res && res.success && typeof res.text === 'string' ? res.text : '';
+  } catch {
+    return '';
+  }
+}
+//=============================================================================
+async function fetchIconText(url: string): Promise<string> {
+  try {
+    const resp = await fetch(url);
+    if (resp && resp.ok) {
+      const text = await resp.text();
+      if (text) return text;
+    }
+  } catch {
+    // fall through to the engine for libraries outside the bundle
+  }
+  return readExternalIcon(url);
+}
+//=============================================================================
 async function fetchAndParse(url: string): Promise<CachedIcon> {
-  let resp: Response | null = null;
-  try {
-    resp = await fetch(url);
-  } catch {
-    return makeFailed(url);
-  }
-  if (!resp || !resp.ok) return makeFailed(url);
-
-  let text = '';
-  try {
-    text = await resp.text();
-  } catch {
-    return makeFailed(url);
-  }
+  const text = await fetchIconText(url);
   if (!text) return makeFailed(url);
 
   const parser = typeof DOMParser !== 'undefined' ? new DOMParser() : null;

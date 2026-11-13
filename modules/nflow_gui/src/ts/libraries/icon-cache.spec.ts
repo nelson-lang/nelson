@@ -10,6 +10,7 @@
 // Tests for the shared block-icon cache
 //=============================================================================
 import { vi, beforeEach, afterEach } from 'vitest';
+import * as nativeRpc from '../app/native-rpc.js';
 import {
   getIcon,
   getIconSync,
@@ -17,6 +18,7 @@ import {
   prewarmIcons,
   toExportsUrl,
   loadBuiltinSprite,
+  externalLibraryIconPath,
   _resetIconCache,
 } from './icon-cache.js';
 //=============================================================================
@@ -134,6 +136,29 @@ describe('prewarmIcons', () => {
     expect(fetchMock).toHaveBeenCalledTimes(3);
     expect(getIconSync('a')?.svgEl).not.toBeNull();
     expect(cloneIconSvg('c')).not.toBeNull();
+  });
+});
+//=============================================================================
+describe('external library icons', () => {
+  test('extracts the absolute path of a library outside the bundle', () => {
+    expect(externalLibraryIconPath('http://h/libraries//opt/libs/my%20lib/exports/a.svg')).toBe(
+      '/opt/libs/my lib/exports/a.svg'
+    );
+    expect(externalLibraryIconPath('http://h/libraries/C:/libs/x/exports/a.svg')).toBe(
+      'C:/libs/x/exports/a.svg'
+    );
+    expect(externalLibraryIconPath('http://h/libraries/math/exports/gain.svg')).toBeNull();
+  });
+
+  test('falls back to the engine when the HTTP fetch fails', async () => {
+    (global as any).fetch = vi.fn().mockResolvedValue({ ok: false, text: async () => '' });
+    const rpc = vi.spyOn(nativeRpc, 'nflowRpc').mockResolvedValue({ success: true, text: SVG });
+    const icon = await getIcon('http://h/libraries//opt/libs/x/exports/a.svg');
+    expect(rpc).toHaveBeenCalledWith('nflow.library.readFile', {
+      path: '/opt/libs/x/exports/a.svg',
+    });
+    expect(icon.ok).toBe(true);
+    expect(icon.colors).toEqual({ fill: '#123456', stroke: '#abcdef' });
   });
 });
 //=============================================================================

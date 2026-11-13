@@ -14,6 +14,7 @@ import { buildTitleName } from './title-manager.js';
 import { parseVariables } from '../utils/expr.js';
 import { t } from '../utils/i18n.js';
 import { getMissingBlockTypes } from './library-loader.js';
+import { enableLibrariesForBlockTypes } from './library-service.js';
 import { showMissingBlocksModal } from './modal-handlers.js';
 import { renderSubsystemBreadcrumb } from './components/subsystem-breadcrumb.js';
 import type { SubsystemBreadcrumbItem } from './components/subsystem-breadcrumb.js';
@@ -244,7 +245,8 @@ export async function loadDiagram(
           s === 'variableStiff' ||
           s === 'variableNonstiff' ||
           s === 'cvodesBdf' ||
-          s === 'cvodesAdams';
+          s === 'cvodesAdams' ||
+          s === 'dae';
         tolGroup.style.display = isVariable ? '' : 'none';
       }
     }
@@ -452,7 +454,11 @@ export async function loadDiagram(
     .map((b: unknown) => (b as unknown as Record<string, unknown>)?.type)
     .filter(Boolean)
     .map(String);
-  const missing = getMissingBlockTypes(neededTypes as string[]);
+  let missing = getMissingBlockTypes(neededTypes as string[]);
+  const enableable = missing.map((m) => m.libraryId).filter(Boolean) as string[];
+  if (enableable.length > 0 && (await enableLibrariesForBlockTypes(enableable))) {
+    missing = getMissingBlockTypes(neededTypes as string[]);
+  }
   if (missing.length > 0) {
     showMissingBlocksModal(missing);
     return;

@@ -823,6 +823,43 @@ namespace {
         if (method == "nflow.library.getSearchPaths") {
             return Nelson::NFlow::BlockRegistry::instance().searchPaths();
         }
+        if (method == "nflow.library.readFile") {
+            // Libraries outside the bundle have no HTTP route: hand their renderer module
+            // and icons (.js/.svg/.json) to the client, from a discovered library only.
+            nlohmann::json failed { { "success", false } };
+            std::error_code ec;
+            const std::filesystem::path target = std::filesystem::weakly_canonical(
+                std::filesystem::path(utf8_to_wstring(params.value("path", ""))), ec);
+            std::string extension = target.extension().string();
+            std::transform(extension.begin(), extension.end(), extension.begin(),
+                [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+            const bool allowedType
+                = extension == ".svg" || extension == ".js" || extension == ".json";
+            if (ec || !allowedType || !std::filesystem::is_regular_file(target, ec)) {
+                return failed;
+            }
+            bool insideLibrary = false;
+            for (const auto& raw : Nelson::NFlow::BlockRegistry::instance().discoveredManifests()) {
+                const auto manifest = nlohmann::json::parse(raw, nullptr, false);
+                if (!manifest.is_object() || !manifest.contains("_dir")) {
+                    continue;
+                }
+                const auto dir = std::filesystem::weakly_canonical(
+                    std::filesystem::path(utf8_to_wstring(manifest.value("_dir", ""))), ec);
+                const auto relative = std::filesystem::relative(target, dir, ec);
+                if (!ec && !relative.empty() && *relative.begin() != "..") {
+                    insideLibrary = true;
+                    break;
+                }
+            }
+            if (!insideLibrary) {
+                return failed;
+            }
+            std::ifstream file(target, std::ios::binary);
+            std::ostringstream contents;
+            contents << file.rdbuf();
+            return nlohmann::json { { "success", true }, { "text", contents.str() } };
+        }
         if (method == "nflow.library.setSearchPaths") {
             std::vector<std::string> paths;
             nlohmann::json arr = nlohmann::json::array();

@@ -226,6 +226,32 @@ export async function moveLibraryLocation(index: number, offset: -1 | 1): Promis
   });
 }
 //=============================================================================
+// Enables the discovered (but disabled) libraries that provide the given block types,
+// so opening a diagram that needs them works without a trip to the Library Manager.
+export async function enableLibrariesForBlockTypes(libraryIds: string[]): Promise<boolean> {
+  let changed = false;
+  for (const id of Array.from(new Set(libraryIds))) {
+    if (!id || getLoadedLibraries().has(id)) continue;
+    const manifest = getDiscoveredManifests().get(id) as
+      | (LibraryManifest & { native?: boolean; _dir?: string })
+      | undefined;
+    if (!manifest) continue;
+    try {
+      if (manifest.native && manifest._dir && canUseNFlowRpc('nflow.library.load')) {
+        await nflowRpc('nflow.library.load', { path: String(manifest._dir) });
+      }
+      if ((await loadLibrary(id)) || (await enableLibraryFromManifest(id))) changed = true;
+    } catch {
+      // The diagram then reports the type as missing.
+    }
+  }
+  if (changed) {
+    await persistLibraryPreferences();
+    rebuildPalette();
+  }
+  return changed;
+}
+//=============================================================================
 export async function setLibraryEnabled(library: ManagedLibrary, enabled: boolean): Promise<void> {
   if (library.builtIn) return;
   if (!enabled && library.usedBlockIds.length > 0) {

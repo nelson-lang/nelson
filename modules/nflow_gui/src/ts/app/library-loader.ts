@@ -251,6 +251,36 @@ async function _loadLibraryFromManifest(
   return entry;
 }
 //=============================================================================
+// A library outside the bundle (absolute `dir`) has no HTTP route: when the plain
+// import fails, read its renderer module through the engine and import it as a Blob.
+export async function importLibraryModule(
+  moduleUrl: string,
+  dir: string
+): Promise<Record<string, any>> {
+  try {
+    return await import(/* @vite-ignore */ moduleUrl);
+  } catch (error) {
+    const isAbsoluteDir = dir.startsWith('/') || /^[A-Za-z]:[\\/]/.test(dir);
+    if (
+      !isAbsoluteDir ||
+      !canUseNFlowRpc('nflow.library.readFile') ||
+      typeof URL.createObjectURL !== 'function'
+    ) {
+      throw error;
+    }
+    const res = await nflowRpc<{ success?: boolean; text?: string }>('nflow.library.readFile', {
+      path: `${dir.replace(/[\\/]+$/, '')}/blocks.js`,
+    });
+    if (!res || !res.success || typeof res.text !== 'string') throw error;
+    const blobUrl = URL.createObjectURL(new Blob([res.text], { type: 'text/javascript' }));
+    try {
+      return await import(/* @vite-ignore */ blobUrl);
+    } finally {
+      URL.revokeObjectURL(blobUrl);
+    }
+  }
+}
+//=============================================================================
 export async function loadLibrary(id: string): Promise<LoadedLibrary | null> {
   if (loadedLibraries.has(id)) return loadedLibraries.get(id) || null;
 
@@ -272,7 +302,7 @@ export async function loadLibrary(id: string): Promise<LoadedLibrary | null> {
 
   try {
     const moduleUrl = new URL(`../libraries/${dir}/blocks.js`, MODULE_URL).href;
-    const mod = await import(moduleUrl);
+    const mod = await importLibraryModule(moduleUrl, dir);
     const library = mod.library ?? _libraryFromManifest(manifest);
     let createTemplates = mod.createTemplates ?? null;
     if (!createTemplates) {
