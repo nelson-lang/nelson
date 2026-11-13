@@ -364,6 +364,9 @@ function value = defaultValueLocal(sample, nRows)
     value = false(sz);
   elseif isstring(sample)
     value = strings(sz);
+  elseif iscellstr(sample)
+    % Missing text in a cellstr column is the empty character vector.
+    value = repmat({''}, sz);
   elseif iscell(sample)
     value = cell(sz);
   else
