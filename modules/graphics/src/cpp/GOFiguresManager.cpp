@@ -324,6 +324,29 @@ getCurrentFigure()
     return GOFiguresManagerSingleton::getInstance().getCurrentFig();
 }
 //=============================================================================
+int64
+getOrCreateVisibleCurrentFigure()
+{
+    int64 currentFigureID = getCurrentFigure();
+    if (currentFigureID != NO_FIGURE && !isVisibleGraphicsHandle(currentFigureID)) {
+        currentFigureID = NO_FIGURE;
+    }
+    if (currentFigureID == NO_FIGURE) {
+        std::vector<int64> figs = getFigureGraphicsObjects();
+        for (auto it = figs.rbegin(); it != figs.rend(); ++it) {
+            if (isVisibleGraphicsHandle(*it)) {
+                currentFigureID = *it;
+                notifyCurrentFigureChanged(currentFigureID);
+                break;
+            }
+        }
+        if (currentFigureID == NO_FIGURE) {
+            currentFigureID = createNewFigure();
+        }
+    }
+    return currentFigureID;
+}
+//=============================================================================
 void
 notifyCurrentFigureChanged(int64 figNum)
 {
@@ -435,6 +458,7 @@ deleteFigure(go_handle fignum, bool forceClose)
                 goCallback->executeNow(fig, L"EventData", L"ObjectBeingDestroyed");
                 fig = win->hostFigure();
                 if (fig == nullptr || fig != originalFig) {
+                    forgetUiFigure(originalFig);
                     return true;
                 }
             }
@@ -466,6 +490,7 @@ deleteFigure(go_handle fignum, bool forceClose)
         if (!hostPrepared) {
             win->prepareHostClose(forceClose);
         }
+        forgetUiFigure(win->hostFigure());
         hFigures[fignum] = nullptr;
         if (forceClose) {
             win->destroyHost();

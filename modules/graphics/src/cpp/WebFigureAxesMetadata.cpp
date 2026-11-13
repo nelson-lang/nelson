@@ -11,6 +11,7 @@
 #include "GOAxis.hpp"
 #include "GOFigure.hpp"
 #include "GOGObjectsProperty.hpp"
+#include "GOFigureMouseEvents.hpp"
 #include "GOHelpers.hpp"
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
@@ -104,7 +105,9 @@ namespace {
             object->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false));
         if (children) {
             for (auto handle : children->data()) {
-                if (auto* child = findGraphicsObject(handle, false)) {
+                auto* child = findGraphicsObject(handle, false);
+                // Axes of a hidden tab or panel never take the pointer.
+                if (child && !isHiddenUIContainer(child)) {
                     collectAxes(child, width, height, highlight, axes);
                 }
             }

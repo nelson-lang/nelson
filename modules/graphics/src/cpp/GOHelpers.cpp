@@ -7,9 +7,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <cmath>
 #include <limits>
 #include <algorithm>
 #include <cwctype>
+#include <unordered_set>
 #include "GOHelpers.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
@@ -27,16 +29,25 @@
 #include "GOLegend.hpp"
 #include "GOStringOnOffProperty.hpp"
 #include "GOAxis.hpp"
+#include "GOUIContainer.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 static GOList<GraphicsObject*> objectset;
+// Figures made by uifigure or by a ui component without parent.
+static std::unordered_set<GOFigure*> uiFigures;
 //=============================================================================
 static bool
 isCharacterMatrix(const ArrayOf& arg);
 //=============================================================================
 static wstringVector
 characterMatrixRows(const ArrayOf& arg);
+//=============================================================================
+static int64
+decorationPeerHandle(GraphicsObject* object);
+//=============================================================================
+// Legend and colorbar FontSize relative to the peer axes FontSize.
+constexpr double DECORATION_FONT_SIZE_RATIO = 0.9;
 //=============================================================================
 static void
 clearAxesToolbarReference(GraphicsObject* object, int64 handle)
@@ -66,51 +77,24 @@ clearAxesToolbarReference(GraphicsObject* object, int64 handle)
 }
 //=============================================================================
 static void
-deleteColorBarsForPeer(int64 peerHandle)
+deleteDecorationsForPeer(int64 peerHandle, GraphicsObject* peer)
 {
-    std::vector<int64> figures = getFigureGraphicsObjects();
-    for (int64 figureHandle : figures) {
-        GOFigure* figure = findGOFigure(figureHandle);
-        if (!figure) {
-            continue;
-        }
-        GOGObjectsProperty* children = static_cast<GOGObjectsProperty*>(
-            figure->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false));
-        if (!children) {
-            continue;
-        }
-        std::vector<int64> childHandles(children->data());
-        for (int64 child : childHandles) {
-            GraphicsObject* object = findGraphicsObject(child, false);
-            GOColorBar* colorBar = dynamic_cast<GOColorBar*>(object);
-            if (colorBar && colorBar->getPeerAxesHandle() == peerHandle) {
-                deleteGraphicsObject(child, false, true);
-            }
-        }
+    std::vector<GraphicsObject*> holders;
+    for (int64 figureHandle : getFigureGraphicsObjects()) {
+        holders.push_back(findGOFigure(figureHandle));
     }
-}
-//=============================================================================
-static void
-deleteLegendsForPeer(int64 peerHandle)
-{
-    std::vector<int64> figures = getFigureGraphicsObjects();
-    for (int64 figureHandle : figures) {
-        GOFigure* figure = findGOFigure(figureHandle);
-        if (!figure) {
-            continue;
-        }
-        GOGObjectsProperty* children = static_cast<GOGObjectsProperty*>(
-            figure->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false));
+    int64 holderHandle = HANDLE_UNASSIGNED_OBJECT;
+    holders.push_back(axesDecorationHolder(peer, holderHandle));
+    for (GraphicsObject* holder : holders) {
+        GOGObjectsProperty* children = holder ? static_cast<GOGObjectsProperty*>(
+                                           holder->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false))
+                                              : nullptr;
         if (!children) {
             continue;
         }
         std::vector<int64> childHandles(children->data());
         for (int64 child : childHandles) {
-            GraphicsObject* object = findGraphicsObject(child, false);
-            GOLegend* legend = dynamic_cast<GOLegend*>(object);
-            GOBubbleLegend* bubbleLegend = dynamic_cast<GOBubbleLegend*>(object);
-            if ((legend && legend->getPeerAxesHandle() == peerHandle)
-                || (bubbleLegend && bubbleLegend->getPeerAxesHandle() == peerHandle)) {
+            if (decorationPeerHandle(findGraphicsObject(child, false)) == peerHandle) {
                 deleteGraphicsObject(child, false, true);
             }
         }
@@ -557,8 +541,7 @@ deleteGraphicsObject(int64 handle, bool repaintParentFigure, bool removeRefInPar
     clearLegendPeerReference(gp);
     clearParentInternalObjectReference(gp, handle);
     if (gp->isType(GO_PROPERTY_VALUE_AXES_STR) || gp->isType(GO_PROPERTY_VALUE_POLAR_AXES_STR)) {
-        deleteColorBarsForPeer(handle);
-        deleteLegendsForPeer(handle);
+        deleteDecorationsForPeer(handle, gp);
     }
     clearFigureCurrentReferences(handle);
     freeGraphicsObject(handle);
@@ -681,6 +664,96 @@ findGraphicsObjectHandle(GraphicsObject* hp)
     return -1;
 }
 //=============================================================================
+GraphicsObject*
+axesDecorationHolder(GraphicsObject* peer, int64& holderHandle)
+{
+    int64 parentHandle = peer ? peer->findGoProperty(GO_PARENT_PROPERTY_NAME_STR) : -1;
+    GraphicsObject* parent
+        = parentHandle >= HANDLE_OFFSET_OBJECT ? findGraphicsObject(parentHandle, false) : nullptr;
+    if (dynamic_cast<GOUIContainer*>(parent)) {
+        holderHandle = parentHandle;
+        return parent;
+    }
+    GOFigure* fig = peer ? peer->getParentFigure() : nullptr;
+    holderHandle = fig ? findGraphicsObjectHandle(fig) : HANDLE_UNASSIGNED_OBJECT;
+    return fig;
+}
+//=============================================================================
+bool
+followPeerAxesFontSize(GraphicsObject* decoration, int64 peerHandle)
+{
+    if (!decoration || !decoration->haveProperty(GO_FONT_SIZE_MODE_PROPERTY_NAME_STR)) {
+        return false;
+    }
+    // A FontSize set by the user switches to manual.
+    if (decoration->hasChanged(GO_FONT_SIZE_PROPERTY_NAME_STR)
+        && !decoration->hasChanged(GO_FONT_SIZE_MODE_PROPERTY_NAME_STR)) {
+        decoration->toManual(GO_FONT_SIZE_MODE_PROPERTY_NAME_STR);
+        return false;
+    }
+    if (!decoration->isAuto(GO_FONT_SIZE_MODE_PROPERTY_NAME_STR)
+        || peerHandle < HANDLE_OFFSET_OBJECT || isDeletedGraphicsObject(peerHandle)) {
+        return false;
+    }
+    GraphicsObject* peer = findGraphicsObject(peerHandle, false);
+    if (!peer || !peer->haveProperty(GO_FONT_SIZE_PROPERTY_NAME_STR)) {
+        return false;
+    }
+    double fontSize
+        = DECORATION_FONT_SIZE_RATIO * peer->findScalarDoubleProperty(GO_FONT_SIZE_PROPERTY_NAME_STR);
+    if (!std::isfinite(fontSize) || fontSize <= 0
+        || fontSize == decoration->findScalarDoubleProperty(GO_FONT_SIZE_PROPERTY_NAME_STR)) {
+        return false;
+    }
+    decoration->setScalarDoubleDefault(GO_FONT_SIZE_PROPERTY_NAME_STR, fontSize);
+    return true;
+}
+//=============================================================================
+void
+followAxesFontSizeInDecorations(GraphicsObject* axes)
+{
+    int64 holderHandle = HANDLE_UNASSIGNED_OBJECT;
+    GraphicsObject* holder = axesDecorationHolder(axes, holderHandle);
+    GOGObjectsProperty* children = holder
+        ? static_cast<GOGObjectsProperty*>(holder->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false))
+        : nullptr;
+    if (!children) {
+        return;
+    }
+    int64 axesHandle = findGraphicsObjectHandle(axes);
+    for (int64 child : children->data()) {
+        GraphicsObject* object = findGraphicsObject(child, false);
+        if (object && decorationPeerHandle(object) == axesHandle) {
+            followPeerAxesFontSize(object, axesHandle);
+        }
+    }
+}
+//=============================================================================
+void
+markTextFontWrittenAuto(GraphicsObject* text, const std::wstring& name, const std::wstring& modeName)
+{
+    GOGenericProperty* property = text->findProperty(name, false);
+    if (property) {
+        property->setModified(true);
+    }
+    if (!modeName.empty() && text->haveProperty(modeName)) {
+        text->setRestrictedStringDefault(modeName, GO_PROPERTY_VALUE_AUTO_STR);
+        text->findProperty(modeName)->setModified(true);
+    }
+}
+//=============================================================================
+void
+appendChildHandle(GraphicsObject* parent, int64 childHandle)
+{
+    GOGObjectsProperty* children
+        = static_cast<GOGObjectsProperty*>(parent->findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
+    std::vector<int64> values = children->data();
+    if (std::find(values.begin(), values.end(), childHandle) == values.end()) {
+        values.push_back(childHandle);
+        children->data(values);
+    }
+}
+//=============================================================================
 // A character matrix carries one entry per row, the way cellstr reads it. A row
 // vector is not one: it keeps the '|' delimited reading.
 bool
@@ -716,6 +789,41 @@ characterMatrixRows(const ArrayOf& arg)
         result.push_back(line);
     }
     return result;
+}
+//=============================================================================
+int64
+decorationPeerHandle(GraphicsObject* object)
+{
+    if (auto* colorBar = dynamic_cast<GOColorBar*>(object)) {
+        return colorBar->getPeerAxesHandle();
+    }
+    if (auto* legend = dynamic_cast<GOLegend*>(object)) {
+        return legend->getPeerAxesHandle();
+    }
+    if (auto* bubbleLegend = dynamic_cast<GOBubbleLegend*>(object)) {
+        return bubbleLegend->getPeerAxesHandle();
+    }
+    return HANDLE_UNASSIGNED_OBJECT;
+}
+//=============================================================================
+void
+markUiFigure(GOFigure* fig)
+{
+    if (fig) {
+        uiFigures.insert(fig);
+    }
+}
+//=============================================================================
+void
+forgetUiFigure(GOFigure* fig)
+{
+    uiFigures.erase(fig);
+}
+//=============================================================================
+bool
+isUiFigure(GOFigure* fig)
+{
+    return fig != nullptr && uiFigures.count(fig) != 0;
 }
 //=============================================================================
 } // namespace Nelson

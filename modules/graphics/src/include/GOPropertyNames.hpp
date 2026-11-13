@@ -539,7 +539,11 @@
 #define GO_FACE_VERTEX_C_DATA_MODE_PROPERTY_NAME_STR L"FaceVertexCDataMode"
 #define GO_FILE_NAME_PROPERTY_NAME_STR L"FileName"
 #define GO_FIXED_WIDTH_FONT_NAME_PROPERTY_NAME_STR L"FixedWidthFontName"
+#define GO_FONT_ANGLE_MODE_PROPERTY_NAME_STR L"FontAngleMode"
+#define GO_FONT_NAME_MODE_PROPERTY_NAME_STR L"FontNameMode"
 #define GO_FONT_SIZE_MODE_PROPERTY_NAME_STR L"FontSizeMode"
+#define GO_FONT_UNITS_MODE_PROPERTY_NAME_STR L"FontUnitsMode"
+#define GO_FONT_WEIGHT_MODE_PROPERTY_NAME_STR L"FontWeightMode"
 #define GO_GRID_ALPHA_MODE_PROPERTY_NAME_STR L"GridAlphaMode"
 #define GO_GRID_COLOR_MODE_PROPERTY_NAME_STR L"GridColorMode"
 #define GO_GRID_LINE_WIDTH_PROPERTY_NAME_STR L"GridLineWidth"
@@ -550,6 +554,8 @@
 #define GO_INTERACTIONS_PROPERTY_NAME_STR L"Interactions"
 // internal on/off flag toggled by disableDefaultInteractivity/enableDefaultInteractivity
 #define GO_DEFAULT_INTERACTIVITY_INTERNAL_PROPERTY_NAME_STR L"DefaultInteractivity_Hidden"
+// internal [rows cols] of the subplot grid holding the axes; sizes its auto FontSize
+#define GO_SUBPLOT_GRID_INTERNAL_PROPERTY_NAME_STR L"SubplotGrid_Hidden"
 #define GO_INTERPOLATION_PROPERTY_NAME_STR L"Interpolation"
 #define GO_INVERT_HARDCOPY_PROPERTY_NAME_STR L"InvertHardcopy"
 #define GO_LABEL_FONT_SIZE_MULTIPLIER_PROPERTY_NAME_STR L"LabelFontSizeMultiplier"

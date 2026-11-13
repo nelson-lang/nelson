@@ -16,6 +16,7 @@
 #include "WebFigureFramePush.hpp"
 #include "GOFiguresManager.hpp"
 #include "GOFigure.hpp"
+#include "GOSubplotText.hpp"
 #include "GOGObjectsProperty.hpp"
 #include "GOHelpers.hpp"
 #include "GOScalarDoubleProperty.hpp"
@@ -36,17 +37,6 @@ static constexpr long long DRAWNOW_WEB_PUSH_INTERVAL_US = 10000;
 static constexpr long long DRAWNOW_WEB_SPIN_MARGIN_US = 500;
 static constexpr int DRAWNOW_RENDER_SYNC_TIMEOUT_MS = 250;
 //=============================================================================
-static bool
-isCompactFigure(GOFigure* goFigure)
-{
-    std::vector<double> position
-        = goFigure->findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR);
-    if (position.size() >= 4 && position[2] > 0 && position[3] > 0) {
-        return position[3] <= 500;
-    }
-    return goFigure->getHeight() <= 500;
-}
-//=============================================================================
 static void
 updateSubplotTextAutoFontSize(GOFigure* goFigure)
 {
@@ -58,7 +48,7 @@ updateSubplotTextAutoFontSize(GOFigure* goFigure)
     if (!children) {
         return;
     }
-    double fontSize = isCompactFigure(goFigure) ? 14.5 : 15.0;
+    double fontSize = subplotTextAutoFontSize(goFigure);
     for (auto handle : children->data()) {
         GraphicsObject* child = findGraphicsObject(handle, false);
         if (!child || child->getType() != GO_PROPERTY_VALUE_SUBPLOT_TEXT_STR

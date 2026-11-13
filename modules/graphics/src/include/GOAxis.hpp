@@ -121,6 +121,10 @@ public:
     void
     syncTitleTextLayout();
     //=============================================================================
+    // Hides the polar title/subtitle with the axes and shows them back with it.
+    void
+    syncPolarTitleVisibility();
+    //=============================================================================
     std::vector<double>
     mapCamera(const std::vector<double>& point);
     //=============================================================================
@@ -145,6 +149,9 @@ public:
     //=============================================================================
     std::vector<double>
     getPropertyVectorAsPixels(RenderInterface& gc, const std::wstring& name);
+    //=============================================================================
+    std::vector<double>
+    getPropertyVectorAsPixels(const std::wstring& name);
     //=============================================================================
     std::vector<double>
     reInterpUnits(RenderInterface& gc, std::vector<double> a);
@@ -302,6 +309,9 @@ private:
     //=============================================================================
     void
     updateAxisFont();
+    // FontSizeMode auto: shrinks FontSize on a small plot box; true when it changed.
+    bool
+    applyAutoFontSize();
     //=============================================================================
     void
     handlePlotBoxFlags();
@@ -361,9 +371,6 @@ private:
     //=============================================================================
     std::vector<double>
     unitsReinterpret(std::vector<double> a);
-    //=============================================================================
-    std::vector<double>
-    getPropertyVectorAsPixels(const std::wstring& name);
     //=============================================================================
     std::vector<double>
     getAxisLimits();

@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <algorithm>
 #include <utility>
 #include "axesBuiltin.hpp"
 #include "GOPropertyNames.hpp"
@@ -19,6 +20,7 @@
 #include "GORoot.hpp"
 #include "GOLayoutOptions.hpp"
 #include "GOUIContainer.h"
+#include "GOUIControl.h"
 #include "GOUIGridLayout.h"
 #include "GOUITabGroup.h"
 #include "Error.hpp"
@@ -52,7 +54,9 @@ addAxesToParentChildren(const ResolvedAxesParent& parent, int64 axesHandle);
 static void
 attachGridLayoutOptions(GraphicsObject* axes, int64 axesHandle);
 static void
-moveAxesToFront(GOFigure* fig, int64 handle);
+moveAxesToFront(GraphicsObject* parent, int64 handle);
+static bool
+isUiComponentHandle(int64 handle);
 static ArrayOfVector
 buildReturnValue(int nLhs, int64 handle);
 static ArrayOfVector
@@ -65,6 +69,10 @@ static ResolvedAxesParent
 figureAxesParent(GOFigure* fig, int64 figureId);
 static ResolvedAxesParent
 resolveAxesParent(int64 handle);
+static int64
+findAncestorFigureId(GraphicsObject* object);
+static void
+selectAndShowFigure(GOFigure* fig, int64 figureId);
 //=============================================================================
 ArrayOfVector
 axesBuiltin(int nLhs, const ArrayOfVector& argIn)
@@ -294,17 +302,15 @@ addAxesToParentChildren(const ResolvedAxesParent& parent, int64 axesHandle)
     if (!parentObject) {
         return;
     }
+    if (!parent.parentIsGridLayout) {
+        moveAxesToFront(parentObject, axesHandle);
+        return;
+    }
+    // Grid layout cells follow creation order: keep appending.
     GOGObjectsProperty* hp
         = (GOGObjectsProperty*)parentObject->findProperty(GO_CHILDREN_PROPERTY_NAME_STR);
     std::vector<int64> children(hp->data());
-    bool exists = false;
-    for (int64 child : children) {
-        if (child == axesHandle) {
-            exists = true;
-            break;
-        }
-    }
-    if (!exists) {
+    if (std::find(children.begin(), children.end(), axesHandle) == children.end()) {
         children.push_back(axesHandle);
     }
     hp->data(children);
@@ -320,25 +326,33 @@ attachGridLayoutOptions(GraphicsObject* axes, int64 axesHandle)
 }
 //=============================================================================
 void
-moveAxesToFront(GOFigure* fig, int64 handle)
+moveAxesToFront(GraphicsObject* parent, int64 handle)
 {
-    if (!fig) {
+    if (!parent) {
         return;
     }
-    GOGObjectsProperty* cp = (GOGObjectsProperty*)fig->findProperty(GO_CHILDREN_PROPERTY_NAME_STR);
-    std::vector<int64> children(cp->data());
-
-    int64 i = 0;
-    while (i < (int64)children.size()) {
-        if (children[i] == handle) {
-            children.erase(children.begin() + i);
-        } else {
-            i++;
-        }
+    GOGObjectsProperty* cp
+        = (GOGObjectsProperty*)parent->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false);
+    if (!cp) {
+        return;
     }
-
-    children.insert(children.begin(), 1, handle);
+    std::vector<int64> children(cp->data());
+    children.erase(std::remove(children.begin(), children.end(), handle), children.end());
+    // Stored bottom-to-top: put the axes on top of other axes but under UI components.
+    size_t position = children.size();
+    while (position > 0 && isUiComponentHandle(children[position - 1])) {
+        position--;
+    }
+    children.insert(children.begin() + position, handle);
     cp->data(children);
+}
+//=============================================================================
+bool
+isUiComponentHandle(int64 handle)
+{
+    GraphicsObject* object = findGraphicsObject(handle, false);
+    return dynamic_cast<GOUIComponent*>(object) != nullptr
+        || dynamic_cast<GOUIControl*>(object) != nullptr;
 }
 //=============================================================================
 ArrayOfVector
@@ -360,28 +374,21 @@ activateOrCreateAxesFromHandle(int nLhs, const ArrayOfVector& argIn)
         Error("Nelson:graphics:invalidHandle", "Invalid handle.");
     }
 
-    if (hp->isType(GO_PROPERTY_VALUE_FIGURE_STR)) {
-        // axes(f) always creates new axes in the figure.
-        GOFigure* fig = dynamic_cast<GOFigure*>(hp);
-        if (!fig) {
-            Error(
-                "Nelson:graphics:invalidFigureCast", "Failed to cast GraphicsObject to GOFigure.");
-            return ArrayOfVector();
-        }
+    if (!hp->isType(GO_PROPERTY_VALUE_AXES_STR) && !hp->isType(GO_PROPERTY_VALUE_POLAR_AXES_STR)) {
+        // axes(parent) creates new axes in a figure or UI container.
         ArrayOfVector t;
-        int64 newHandle = createNewAxes(figureAxesParent(fig, handle), t, new GOAxis);
+        int64 newHandle = createNewAxes(resolveAxesParent(handle), t, new GOAxis);
         return buildReturnValue(nLhs, newHandle);
     }
 
-    if (!hp->isType(GO_PROPERTY_VALUE_AXES_STR)) {
-        Error("Nelson:axes:expectedAxesHandle",
-            "Single argument to axes function must be handle for an axes.");
-    }
-
+    // axes(ax) only activates: it returns nothing.
+    nargoutcheck(nLhs, 0, 0);
     GOFigure* fig = hp->getParentFigure();
+    int64 figureId = findAncestorFigureId(hp);
     if (!fig) {
         auto [ownerFigure, ownerFigureId] = findFigureOwningChild(handle);
         fig = ownerFigure;
+        figureId = ownerFigureId;
         if (fig && ownerFigureId != -1) {
             hp->setGoProperty(GO_PARENT_PROPERTY_NAME_STR, ownerFigureId);
         }
@@ -389,15 +396,19 @@ activateOrCreateAxesFromHandle(int nLhs, const ArrayOfVector& argIn)
     if (!fig) {
         Error("Nelson:axes:noParentFigure", "Axes object does not have a valid parent figure.");
     }
+    selectAndShowFigure(fig, figureId);
     // axes(h) promotes an existing axes to current; it does not pick an object.
     fig->setGoProperty(GO_CURRENT_AXES_PROPERTY_NAME_STR, handle);
-    moveAxesToFront(fig, handle);
+    // Raise the axes among the children of its own parent (figure or container).
+    GOGObjectsProperty* parentProp
+        = (GOGObjectsProperty*)hp->findProperty(GO_PARENT_PROPERTY_NAME_STR, false);
+    int64 parentId = (parentProp && !parentProp->data().empty()) ? parentProp->data()[0] : -1;
+    moveAxesToFront(parentId == -1 ? fig : getGraphicsObjectFromGraphicHandle(parentId), handle);
     fig->setRenderingStateInvalid(true);
     if (!fig->isDrawLater()) {
         fig->repaint();
     }
-
-    return buildReturnValue(nLhs, handle);
+    return {};
 }
 //=============================================================================
 std::pair<GOFigure*, int64>
@@ -455,7 +466,7 @@ figureAxesParent(GOFigure* fig, int64 figureId)
     return parent;
 }
 //=============================================================================
-static int64
+int64
 findAncestorFigureId(GraphicsObject* object)
 {
     GraphicsObject* current = object;
@@ -507,6 +518,21 @@ resolveAxesParent(int64 handle)
     parent.parentId = handle;
     parent.parentIsGridLayout = dynamic_cast<GOUIGridLayout*>(container) != nullptr;
     return parent;
+}
+//=============================================================================
+void
+selectAndShowFigure(GOFigure* fig, int64 figureId)
+{
+    // A figure hidden from handle lookups does not become the current figure.
+    if (figureId != -1
+        && !fig->stringCheck(GO_HANDLE_VISIBILITY_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR)) {
+        selectFigure(figureId, false);
+    }
+    if (fig->stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR)) {
+        fig->findProperty(GO_VISIBLE_PROPERTY_NAME_STR)
+            ->set(ArrayOf::characterArray(GO_PROPERTY_VALUE_ON_STR));
+        fig->updateState();
+    }
 }
 //=============================================================================
 } // namespace Nelson::GraphicsGateway

@@ -20,7 +20,7 @@ function varargout = scatterhistogram(varargin)
   set(chart, 'Children', [axScatter, axTop, axRight]);
   state = renderScatterHistogram(chart, data, opts, axScatter, axTop, axRight);
   chart.UserData = state;
-  axes(axScatter);
+  setCurrentAxes(axScatter);
   removeScatterHistogramAxesFromFigure(parent, [axScatter, axTop, axRight]);
   if nargout == 1
     varargout{1} = chart;
@@ -335,7 +335,7 @@ function state = renderScatterHistogram(chart, data, opts, axScatter, axTop, axR
 end
 %=============================================================================
 function h = renderScatterGroup(ax, data, opts, indices, color, groupIndex, groups)
-  axes(ax);
+  setCurrentAxes(ax);
   marker = cycledCellValue(opts.MarkerStyle, groupIndex);
   markerSize = cycledNumericValue(opts.MarkerSize, groupIndex);
   markerAlpha = cycledNumericValue(opts.MarkerAlpha, groupIndex);
@@ -350,7 +350,7 @@ function h = renderScatterGroup(ax, data, opts, indices, color, groupIndex, grou
 end
 %=============================================================================
 function h = renderXHistogram(ax, values, opts, color, groupIndex, groups)
-  axes(ax);
+  setCurrentAxes(ax);
   if strcmp(opts.HistogramDisplayStyle, 'smooth')
     h = renderSmoothHistogram(ax, values, opts, color, groupIndex, false, groups);
   else
@@ -364,7 +364,7 @@ function h = renderXHistogram(ax, values, opts, color, groupIndex, groups)
 end
 %=============================================================================
 function h = renderYHistogram(ax, values, opts, color, groupIndex, groups)
-  axes(ax);
+  setCurrentAxes(ax);
   if strcmp(opts.HistogramDisplayStyle, 'smooth')
     h = renderSmoothHistogram(ax, values, opts, color, groupIndex, true, groups);
   else
@@ -850,5 +850,11 @@ function value = ternary(condition, trueValue, falseValue)
   else
     value = falseValue;
   end
+end
+%=============================================================================
+function setCurrentAxes(ax)
+  % Same as axes(ax) but keeps a hidden figure hidden.
+  fig = ancestor(ax, 'figure');
+  set(fig, 'CurrentAxes', ax);
 end
 %=============================================================================

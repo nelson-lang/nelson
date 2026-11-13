@@ -118,5 +118,37 @@ clearFigureCurrentReferences(int64 handle);
 NLSGRAPHICS_IMPEXP void
 setCurrentObject(int64 handle);
 //=============================================================================
+// Flags a figure as made by uifigure (or by a ui component without parent).
+NLSGRAPHICS_IMPEXP void
+markUiFigure(GOFigure* fig);
+//=============================================================================
+// Drops the uifigure flag of a figure being deleted.
+NLSGRAPHICS_IMPEXP void
+forgetUiFigure(GOFigure* fig);
+//=============================================================================
+// True for a figure made by uifigure, whatever its property values.
+NLSGRAPHICS_IMPEXP bool
+isUiFigure(GOFigure* fig);
+//=============================================================================
+// Holder of the colorbars and legends of an axes: its uipanel or uitab, else its figure.
+NLSGRAPHICS_IMPEXP GraphicsObject*
+axesDecorationHolder(GraphicsObject* peer, int64& holderHandle);
+//=============================================================================
+NLSGRAPHICS_IMPEXP void
+appendChildHandle(GraphicsObject* parent, int64 childHandle);
+//=============================================================================
+// Legend/colorbar FontSize in auto mode: 0.9 x the peer axes FontSize. True if it changed.
+NLSGRAPHICS_IMPEXP bool
+followPeerAxesFontSize(GraphicsObject* decoration, int64 peerHandle);
+//=============================================================================
+// Pushes the axes FontSize to its legends and colorbars in auto FontSize mode.
+NLSGRAPHICS_IMPEXP void
+followAxesFontSizeInDecorations(GraphicsObject* axes);
+//=============================================================================
+// Marks a text font value as written by its owner: its mode (if any) stays auto.
+NLSGRAPHICS_IMPEXP void
+markTextFontWrittenAuto(
+    GraphicsObject* text, const std::wstring& name, const std::wstring& modeName);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

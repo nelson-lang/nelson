@@ -561,6 +561,8 @@ GOFigure::updateState(bool forceUpdate)
     const bool positionChanged = hasChanged(GO_POSITION_PROPERTY_NAME_STR)
         || hasChanged(GO_INNER_POSITION_PROPERTY_NAME_STR)
         || hasChanged(GO_OUTER_POSITION_PROPERTY_NAME_STR);
+    // units first: the host reads Position in the current Units.
+    syncFigureUnitsIfChanged(this);
     m_win->updateHostState(forceUpdate);
     if (windowStyleChanged) {
         notifyWebFigureWindowStyleChanged(this);
@@ -600,6 +602,8 @@ GOFigure::updateState(bool forceUpdate)
 void
 GOFigure::updateState()
 {
+    // units first: the host reads Position in the current Units.
+    syncFigureUnitsIfChanged(this);
     m_win->updateHostState(false);
     this->updateState(false);
 }
@@ -824,10 +828,21 @@ updateResizeChildren(GOFigure* fig)
         bool restoreAutoPosition = !userPositionEdit
             && fp->haveProperty(GO_POSITION_MODE_PROPERTY_NAME_STR)
             && fp->isAuto(GO_POSITION_MODE_PROPERTY_NAME_STR);
+        // A resize is not a Position set: the PositionConstraint is kept.
+        std::wstring positionConstraint
+            = !userPositionEdit && fp->haveProperty(GO_POSITION_CONSTRAINT_PROPERTY_NAME_STR)
+            ? fp->findStringProperty(GO_POSITION_CONSTRAINT_PROPERTY_NAME_STR)
+            : std::wstring();
         fp->updateState();
         if (restoreAutoPosition && !fp->isAuto(GO_POSITION_MODE_PROPERTY_NAME_STR)) {
             fp->toAuto(GO_POSITION_MODE_PROPERTY_NAME_STR);
             fp->clearChanged(GO_POSITION_MODE_PROPERTY_NAME_STR);
+        }
+        if (!positionConstraint.empty()
+            && fp->findStringProperty(GO_POSITION_CONSTRAINT_PROPERTY_NAME_STR)
+                != positionConstraint) {
+            setPositionConstraintIfPresent(fp, positionConstraint);
+            fp->clearChanged(GO_POSITION_CONSTRAINT_PROPERTY_NAME_STR);
         }
         // The title margin is a pixel amount inside a normalized Position: a title
         // that fit the old height is clipped by a shorter one. Re-pack it for the new

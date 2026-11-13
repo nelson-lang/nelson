@@ -9,6 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <array>
 #include <string>
 #include <unordered_map>
 #include "nlsGraphics_exports.h"
@@ -58,6 +59,12 @@ public:
     getLimits()
     {
         return {};
+    };
+    // Limits of the data visible in box [xmin xmax ymin ymax zmin zmax]; default ignores the box.
+    virtual std::vector<double>
+    getLimitsInRange(const std::vector<double>& box, const std::array<bool, 3>& logScale)
+    {
+        return getLimits();
     };
     virtual bool
     preservesAutoDataLimits()

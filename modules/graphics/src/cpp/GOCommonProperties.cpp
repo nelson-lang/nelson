@@ -284,6 +284,9 @@ registerAxesProperties(GraphicsObject* go)
     // hidden flag read by the figure navigation; defaults to 'on'
     addProperty(
         go, new GOOnOffProperty, GO_DEFAULT_INTERACTIVITY_INTERNAL_PROPERTY_NAME_STR, true, false);
+    // hidden subplot grid size set by subplot
+    addProperty(
+        go, new GOTwoVectorProperty, GO_SUBPLOT_GRID_INTERNAL_PROPERTY_NAME_STR, true, false);
     addScalar(go, GO_LABEL_FONT_SIZE_MULTIPLIER_PROPERTY_NAME_STR);
     addGo(go, GO_LEGEND_PROPERTY_NAME_STR);
     addString(go, GO_LINE_STYLE_CYCLING_METHOD_PROPERTY_NAME_STR);

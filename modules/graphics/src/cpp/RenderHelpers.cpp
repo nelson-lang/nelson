@@ -7,6 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <algorithm>
+#include <cmath>
 #include <cstdlib>
 #include <math.h>
 #ifndef M_PI
@@ -394,5 +396,48 @@ StringToSymbol(const std::wstring& symbolName)
     }
 
     return RenderInterface::None;
+}
+//=============================================================================
+bool
+IsMarkerRGBCData(const Nelson::ArrayOf& cdata, size_t pointCount)
+{
+    if (!cdata.is2D() || cdata.columns() != 3) {
+        return false;
+    }
+    // A column of one scalar per point (CData [1; 2; 3]) is colormapped, not a triplet.
+    return cdata.rows() == 1 || cdata.rows() >= static_cast<Nelson::indexType>(pointCount);
+}
+//=============================================================================
+std::vector<double>
+MarkerCDataColor(const Nelson::ArrayOf& cdata, size_t pointCount, size_t pointIndex,
+    const std::vector<double>& colorMap, const std::vector<double>& clim)
+{
+    const double* ptr = static_cast<const double*>(cdata.dataPointer());
+    Nelson::indexType elementCount = cdata.elementCount();
+    if (!ptr || elementCount == 0) {
+        return { 0, 0.4470, 0.7410 };
+    }
+    if (IsMarkerRGBCData(cdata, pointCount)) {
+        Nelson::indexType rows = cdata.rows();
+        size_t row = rows == 1 ? 0 : pointIndex;
+        return { ptr[row], ptr[row + rows], ptr[row + 2 * rows] };
+    }
+    size_t length = colorMap.size() / 3;
+    if (length == 0) {
+        return { 0, 0.4470, 0.7410 };
+    }
+    double value = ptr[std::min(pointIndex, static_cast<size_t>(elementCount - 1))];
+    size_t index = 0;
+    if (clim.size() >= 2) {
+        double low = std::min(clim[0], clim[1]);
+        double high = std::max(clim[0], clim[1]);
+        // Same rule as patch/surface: equal slices of [low, high], clamped at both ends.
+        if (high > low && std::isfinite(value)) {
+            double scaled = std::floor((value - low) / (high - low) * static_cast<double>(length));
+            index = static_cast<size_t>(std::clamp(scaled, 0., static_cast<double>(length - 1)));
+        }
+    }
+    size_t offset = index * 3;
+    return { colorMap[offset], colorMap[offset + 1], colorMap[offset + 2] };
 }
 //=============================================================================

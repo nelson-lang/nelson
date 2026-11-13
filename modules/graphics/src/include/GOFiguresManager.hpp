@@ -84,6 +84,10 @@ notifyWebFigureTitleChanged(GOFigure* fig);
 NLSGRAPHICS_IMPEXP int64
 getCurrentFigure();
 //=============================================================================
+// current figure with visible handle (as gcf), a new figure when none
+NLSGRAPHICS_IMPEXP int64
+getOrCreateVisibleCurrentFigure();
+//=============================================================================
 NLSGRAPHICS_IMPEXP void
 notifyCurrentFigureChanged(int64 figNum);
 //=============================================================================

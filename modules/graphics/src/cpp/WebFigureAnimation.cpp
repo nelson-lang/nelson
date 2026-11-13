@@ -28,6 +28,7 @@ namespace Nelson {
 struct CachedAnimationMesh
 {
     uint64_t revision = 0;
+    std::array<double, 3> origin {};
 };
 //=============================================================================
 struct AnimationMeshState
@@ -130,7 +131,9 @@ appendMatrixOnlyMeshJson(std::string& out, size_t meshIndex, const CachedAnimati
     out += ",\"revision\":\"";
     out += std::to_string(cached.revision);
     out += "\",\"model\":";
-    appendArray(out, transform.model);
+    std::array<double, 16> model = transform.model;
+    translateWebGlModel(model, cached.origin);
+    appendArray(out, model);
     out += ",\"projection\":";
     appendArray(out, transform.projection);
     out += ",\"viewport\":";
@@ -263,6 +266,7 @@ endWebFigureAnimationFrame(int64_t handle, int width, int height, uint64_t displ
         const WebGlMesh& mesh = meshes[meshIndex];
         animationState.revisions[meshIndex] = mesh.revision;
         animationState.meshes[meshIndex].revision = mesh.revision;
+        animationState.meshes[meshIndex].origin = mesh.origin;
     }
     animationState.displaySignature = displaySignature;
     animationState.layoutSignature = layoutSignature;

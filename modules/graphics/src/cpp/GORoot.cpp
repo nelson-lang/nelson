@@ -680,6 +680,17 @@ GORoot::getDefaultProperty(const std::wstring& name, ArrayOf& value) const
     return false;
 }
 //=============================================================================
+bool
+GORoot::getUserDefaultProperty(const std::wstring& name, ArrayOf& value) const
+{
+    auto overrideValue = m_defaultPropertyOverrides.find(name);
+    if (overrideValue == m_defaultPropertyOverrides.end()) {
+        return false;
+    }
+    value = overrideValue->second;
+    return true;
+}
+//=============================================================================
 void
 GORoot::ensureFactoryDefaultsForType(const std::wstring& objectType)
 {
@@ -865,14 +876,26 @@ helveticaSubstituteFontName()
 std::wstring
 resolveRootFontName(const std::wstring& fontName)
 {
-    if (StringHelpers::iequals(fontName, L"Helvetica")) {
-        return helveticaSubstituteFontName();
+    // Windows bitmap-only fonts look jagged when scaled: draw a scalable family instead
+    static const wchar_t* sansBitmapFonts[] = { L"Helvetica", L"MS Sans Serif", L"System",
+        L"Small Fonts" };
+    static const wchar_t* fixedBitmapFonts[] = { L"FixedWidth", L"Courier", L"Fixedsys",
+        L"Terminal" };
+    for (const wchar_t* name : sansBitmapFonts) {
+        if (StringHelpers::iequals(fontName, name)) {
+            return helveticaSubstituteFontName();
+        }
     }
-    if (!StringHelpers::iequals(fontName, L"FixedWidth")) {
-        return fontName;
+    if (StringHelpers::iequals(fontName, L"MS Serif")) {
+        return L"Times New Roman";
     }
-    GORoot* root = getGraphicsRootObject();
-    return root->findStringProperty(GO_FIXED_WIDTH_FONT_NAME_PROPERTY_NAME_STR);
+    for (const wchar_t* name : fixedBitmapFonts) {
+        if (StringHelpers::iequals(fontName, name)) {
+            GORoot* root = getGraphicsRootObject();
+            return root->findStringProperty(GO_FIXED_WIDTH_FONT_NAME_PROPERTY_NAME_STR);
+        }
+    }
+    return fontName;
 }
 //=============================================================================
 } // namespace Nelson

@@ -172,9 +172,10 @@ function opts = parseWordCloudOptions(args)
 end
 %=============================================================================
 function args = explicitPositionArgs(opts)
-  names = {'OuterPosition', 'InnerPosition', 'Position', 'Units', 'PositionConstraint'};
-  flags = {'OuterPositionSpecified', 'InnerPositionSpecified', 'PositionSpecified', ...
-    'UnitsSpecified', 'PositionConstraintSpecified'};
+  % Units first: properties apply in order, so positions are read in these units
+  names = {'Units', 'OuterPosition', 'InnerPosition', 'Position', 'PositionConstraint'};
+  flags = {'UnitsSpecified', 'OuterPositionSpecified', 'InnerPositionSpecified', ...
+    'PositionSpecified', 'PositionConstraintSpecified'};
   args = {};
   for k = 1:numel(names)
     if opts.(flags{k})

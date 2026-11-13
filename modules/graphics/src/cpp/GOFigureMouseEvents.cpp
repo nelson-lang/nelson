@@ -10,11 +10,13 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <functional>
 #include "GOFigureMouseEvents.hpp"
 #include "GOFigure.hpp"
 #include "GOAxis.hpp"
 #include "GOArrayOfProperty.hpp"
 #include "GOCallbackProperty.hpp"
+#include "GOColorBar.hpp"
 #include "GOBubbleChart.hpp"
 #include "GOGObjectsProperty.hpp"
 #include "GOHelpers.hpp"
@@ -29,6 +31,8 @@
 #include "GOPropertyValues.hpp"
 #include "GOTiledChartLayout.hpp"
 #include "GOUIContainer.h"
+#include "GOUITab.h"
+#include "GOUITabGroup.h"
 #include "RenderWeb.hpp"
 #include "UnitsConversionHelpers.hpp"
 //=============================================================================
@@ -46,8 +50,12 @@ pushFigureCallback(GOFigure* fig, const std::wstring& propertyName, const std::w
 static void
 pushObjectCallback(
     GraphicsObject* object, const std::wstring& propertyName, const std::wstring& eventType);
-static void
-fireLegendItemHit(GOFigure* fig, double x, double y, const std::wstring& selectionType);
+static bool
+containerContentPoint(GOUIContainer* container, double width, double height,
+    std::vector<double>& point);
+static bool
+visitDecorations(GraphicsObject* parent, double x, double y, double width, double height,
+    const std::function<bool(GraphicsObject*, int64, double, double, double, double)>& visit);
 static void
 pickInChildren(GraphicsObject* parent, double x, double y, double width, double height,
     double scale, int64& bestHandle, double& bestDepth, int64& fallbackAxes);
@@ -86,6 +94,27 @@ figureListensToMotion(GOFigure* fig)
                                GO_WINDOW_BUTTON_MOTION_FCN_PROPERTY_NAME_STR, false))
                          : nullptr;
     return callback != nullptr && !callback->get().isEmpty();
+}
+//=============================================================================
+bool
+isHiddenUIContainer(GraphicsObject* object)
+{
+    if (dynamic_cast<GOUIContainer*>(object) == nullptr) {
+        return false;
+    }
+    if (object->stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR)) {
+        return true;
+    }
+    auto* tab = dynamic_cast<GOUITab*>(object);
+    if (tab == nullptr) {
+        return false;
+    }
+    auto* parent
+        = dynamic_cast<GOGObjectsProperty*>(tab->findProperty(GO_PARENT_PROPERTY_NAME_STR, false));
+    auto* group = parent && !parent->data().empty()
+        ? dynamic_cast<GOUITabGroup*>(findGraphicsObject(parent->data()[0], false))
+        : nullptr;
+    return group != nullptr && group->selectedTab() != tab;
 }
 //=============================================================================
 std::wstring
@@ -182,45 +211,57 @@ pushObjectCallback(
 }
 //=============================================================================
 // Fires a legend's ItemHitFcn when the press lands on one of its entries, with
-// the entry's plotted object as Peer and the Region ('icon' or 'label'). Uses
-// the figure drawing-area pixel size, matching GOLegend::hitTestEntry.
-static void
+// the entry's plotted object as Peer and the Region ('icon' or 'label').
+void
 fireLegendItemHit(GOFigure* fig, double x, double y, const std::wstring& selectionType)
 {
-    double width = fig->getLayoutWidth();
-    double height = fig->getLayoutHeight();
-    if (width <= 0 || height <= 0) {
+    if (fig == nullptr) {
         return;
     }
-    auto* children = dynamic_cast<GOGObjectsProperty*>(
-        fig->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false));
-    if (children == nullptr) {
-        return;
+    visitDecorations(fig, x, y, fig->getLayoutWidth(), fig->getLayoutHeight(),
+        [&](GraphicsObject* object, int64, double lx, double ly, double width, double height) {
+            auto* legend = dynamic_cast<GOLegend*>(object);
+            int64 peerHandle = 0;
+            int region = 0;
+            if (legend == nullptr
+                || !legend->hitTestEntry(lx, ly, width, height, peerHandle, region)) {
+                return false;
+            }
+            auto* cb = dynamic_cast<GOCallbackProperty*>(
+                legend->findProperty(GO_ITEM_HIT_FCN_PROPERTY_NAME_STR, false));
+            if (cb != nullptr && !cb->get().isEmpty()) {
+                wstringVector fieldNames = { L"Peer", L"Region", L"SelectionType" };
+                ArrayOfVector fieldValues;
+                fieldValues << graphicsObjectHandle(peerHandle, false);
+                fieldValues << ArrayOf::characterArray(
+                    region == 0 ? std::wstring(L"icon") : std::wstring(L"label"));
+                fieldValues << ArrayOf::characterArray(selectionType);
+                cb->pushEvent(legend, L"ItemHitData", L"ItemHit", fieldNames, fieldValues);
+            }
+            return true;
+        });
+}
+//=============================================================================
+int64
+decorationAtPixel(GOFigure* fig, double x, double y)
+{
+    int64 found = -1;
+    if (fig == nullptr) {
+        return found;
     }
-    std::vector<int64> handles(children->data());
-    for (auto it = handles.rbegin(); it != handles.rend(); ++it) {
-        auto* legend = dynamic_cast<GOLegend*>(findGraphicsObject(*it, false));
-        if (legend == nullptr) {
-            continue;
-        }
-        int64 peerHandle = 0;
-        int region = 0;
-        if (!legend->hitTestEntry(x, y, width, height, peerHandle, region)) {
-            continue;
-        }
-        auto* cb = dynamic_cast<GOCallbackProperty*>(
-            legend->findProperty(GO_ITEM_HIT_FCN_PROPERTY_NAME_STR, false));
-        if (cb != nullptr && !cb->get().isEmpty()) {
-            wstringVector fieldNames = { L"Peer", L"Region", L"SelectionType" };
-            ArrayOfVector fieldValues;
-            fieldValues << graphicsObjectHandle(peerHandle, false);
-            fieldValues << ArrayOf::characterArray(
-                region == 0 ? std::wstring(L"icon") : std::wstring(L"label"));
-            fieldValues << ArrayOf::characterArray(selectionType);
-            cb->pushEvent(legend, L"ItemHitData", L"ItemHit", fieldNames, fieldValues);
-        }
-        return;
-    }
+    visitDecorations(fig, x, y, fig->getLayoutWidth(), fig->getLayoutHeight(),
+        [&](GraphicsObject* object, int64 handle, double lx, double ly, double width,
+            double height) {
+            auto* colorBar = dynamic_cast<GOColorBar*>(object);
+            auto* legend = dynamic_cast<GOLegend*>(object);
+            if ((colorBar && colorBar->hitTest(lx, ly, width, height))
+                || (legend && legend->hitTest(lx, ly, width, height))) {
+                found = handle;
+                return true;
+            }
+            return false;
+        });
+    return found;
 }
 //=============================================================================
 // An object is pickable unless it is hidden, or HitTest == 'off', or
@@ -715,18 +756,11 @@ pickInChildren(GraphicsObject* parent, double x, double y, double width, double 
             pickInAxes(axis, handle, x * scale, y * scale, width * scale, height * scale,
                 bestHandle, bestDepth, fallbackAxes);
         } else if (auto* container = dynamic_cast<GOUIContainer*>(child)) {
-            RenderWeb parentFrame(0, 0, width, height, false);
-            std::vector<double> frame = container->frameRect(parentFrame);
-            if (frame.size() != 4 || frame[2] <= 0 || frame[3] <= 0) {
-                continue;
+            std::vector<double> c;
+            if (containerContentPoint(container, width, height, c)) {
+                pickInChildren(container, x - c[0], y - c[1], c[2], c[3], 1.0, bestHandle,
+                    bestDepth, fallbackAxes);
             }
-            RenderWeb containerFrame(0, 0, frame[2], frame[3], false);
-            std::vector<double> content = container->contentRect(containerFrame);
-            if (content.size() != 4) {
-                continue;
-            }
-            pickInChildren(container, x - frame[0] - content[0], y - frame[1] - content[1],
-                content[2], content[3], 1.0, bestHandle, bestDepth, fallbackAxes);
         } else if (dynamic_cast<GOTiledChartLayout*>(child) != nullptr) {
             pickInChildren(child, x, y, width, height, scale, bestHandle, bestDepth, fallbackAxes);
         }
@@ -776,18 +810,10 @@ updateChildrenCurrentPoint(
         if (auto* axis = dynamic_cast<GOAxis*>(child)) {
             updateAxesCurrentPoint(axis, x * scale, y * scale, width * scale, height * scale);
         } else if (auto* container = dynamic_cast<GOUIContainer*>(child)) {
-            RenderWeb parentFrame(0, 0, width, height, false);
-            std::vector<double> frame = container->frameRect(parentFrame);
-            if (frame.size() != 4 || frame[2] <= 0 || frame[3] <= 0) {
-                continue;
+            std::vector<double> c;
+            if (containerContentPoint(container, width, height, c)) {
+                updateChildrenCurrentPoint(container, x - c[0], y - c[1], c[2], c[3], 1.0);
             }
-            RenderWeb containerFrame(0, 0, frame[2], frame[3], false);
-            std::vector<double> content = container->contentRect(containerFrame);
-            if (content.size() != 4) {
-                continue;
-            }
-            updateChildrenCurrentPoint(container, x - frame[0] - content[0],
-                y - frame[1] - content[1], content[2], content[3], 1.0);
         } else if (dynamic_cast<GOTiledChartLayout*>(child) != nullptr) {
             updateChildrenCurrentPoint(child, x, y, width, height, scale);
         }
@@ -923,6 +949,56 @@ updateAxesCurrentPoint(GOAxis* axis, double x, double y, double width, double he
             GO_Z_LIM_PROPERTY_NAME_STR, GO_Z_SCALE_PROPERTY_NAME_STR);
     }
     currentPoint->data(result);
+}
+//=============================================================================
+// Content area of a ui container in its parent frame (width x height): {x, y, w, h}.
+bool
+containerContentPoint(
+    GOUIContainer* container, double width, double height, std::vector<double>& point)
+{
+    // Objects of a hidden tab or panel never receive the pointer.
+    if (isHiddenUIContainer(container)) {
+        return false;
+    }
+    RenderWeb parentFrame(0, 0, width, height, false);
+    std::vector<double> frame = container->frameRect(parentFrame);
+    if (frame.size() != 4 || frame[2] <= 0 || frame[3] <= 0) {
+        return false;
+    }
+    RenderWeb containerFrame(0, 0, frame[2], frame[3], false);
+    std::vector<double> content = container->contentRect(containerFrame);
+    if (content.size() != 4) {
+        return false;
+    }
+    point = { frame[0] + content[0], frame[1] + content[1], content[2], content[3] };
+    return true;
+}
+//=============================================================================
+// Calls visit on the children of parent and of its ui containers, top-most first,
+// in the frame of each holder, until visit returns true.
+bool
+visitDecorations(GraphicsObject* parent, double x, double y, double width, double height,
+    const std::function<bool(GraphicsObject*, int64, double, double, double, double)>& visit)
+{
+    auto* children = dynamic_cast<GOGObjectsProperty*>(
+        parent->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false));
+    if (children == nullptr || width <= 0 || height <= 0) {
+        return false;
+    }
+    std::vector<int64> handles(children->data());
+    for (auto it = handles.rbegin(); it != handles.rend(); ++it) {
+        GraphicsObject* child = findGraphicsObject(*it, false);
+        if (auto* container = dynamic_cast<GOUIContainer*>(child)) {
+            std::vector<double> c;
+            if (containerContentPoint(container, width, height, c)
+                && visitDecorations(container, x - c[0], y - c[1], c[2], c[3], visit)) {
+                return true;
+            }
+        } else if (child != nullptr && visit(child, *it, x, y, width, height)) {
+            return true;
+        }
+    }
+    return false;
 }
 //=============================================================================
 } // namespace Nelson

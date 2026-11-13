@@ -55,8 +55,6 @@ function varargout = subplot(varargin)
   end
   position = [position(1), position(2), position(3) - position(1), position(4) - position(2)];
   fig = gcf();
-  compactVerticalStack = m == 4 && n == 1 && isDefaultFigureSize(fig);
-  largeVerticalStack = m == 4 && n == 1 && isLargeFigureSize(fig);
   children = allchild(fig);
   found = false;
   childrenToDelete = [];
@@ -76,10 +74,9 @@ function varargout = subplot(varargin)
   if (~found || isempty(ax))
     ax = axes('Position', position, 'LineStyleOrder', '-', 'Box', 'off');
   end
-  if compactVerticalStack && isprop(ax, 'FontSize') && abs(ax.FontSize - 10) < 1e-12
-    ax.FontSize = 8.5;
-  elseif largeVerticalStack && isprop(ax, 'FontSize') && abs(ax.FontSize - 10) < 1e-12
-    ax.FontSize = 9.5;
+  if isscalar(p) && isSameGrid(children, ax, [m, n])
+    % auto FontSize of a grid cell follows the grid size
+    ax.SubplotGrid_Hidden = [m, n];
   end
   fig.NextPlot = 'add';
   if (nargout > 0)
@@ -87,14 +84,19 @@ function varargout = subplot(varargin)
   end;
 end
 %=============================================================================
-function tf = isDefaultFigureSize(fig)
-  position = fig.Position;
-  tf = numel(position) >= 4 && abs(position(3) - 859) <= 1 && abs(position(4) - 517) <= 1;
-end
-%=============================================================================
-function tf = isLargeFigureSize(fig)
-  position = fig.Position;
-  tf = numel(position) >= 4 && position(3) >= 1500 && position(4) >= 900;
+function tf = isSameGrid(children, ax, grid)
+  % a cell of another grid shape than the subplots already there is laid out alone
+  tf = true;
+  for i = 1:length(children)
+    child = children(i);
+    if isgraphics(child, 'axes') && ~isequal(child, ax)
+      other = child.SubplotGrid_Hidden;
+      if numel(other) == 2 && all(other >= 1) && any(other ~= grid)
+        tf = false;
+        return;
+      end
+    end
+  end
 end
 %=============================================================================
 function position = subplotPosition(m, n, row, col)

@@ -198,6 +198,7 @@
     <ClInclude Include="..\include\GOStringVectorProperty.hpp" />
     <ClInclude Include="..\include\GOCategoricalVectorProperty.hpp" />
     <ClInclude Include="..\include\GOStackedLineChart.hpp" />
+    <ClInclude Include="..\include\GOLimitsInRange.hpp" />
     <ClInclude Include="..\include\GOStair.hpp" />
     <ClInclude Include="..\include\GOStem.hpp" />
     <ClInclude Include="..\include\GOSurface.hpp" />
@@ -409,6 +410,7 @@
     <ClCompile Include="..\cpp\GOStringVectorProperty.cpp" />
     <ClCompile Include="..\cpp\GOCategoricalVectorProperty.cpp" />
     <ClCompile Include="..\cpp\GOStackedLineChart.cpp" />
+    <ClCompile Include="..\cpp\GOLimitsInRange.cpp" />
     <ClCompile Include="..\cpp\GOStair.cpp" />
     <ClCompile Include="..\cpp\GOStem.cpp" />
     <ClCompile Include="..\cpp\GOSurface.cpp" />

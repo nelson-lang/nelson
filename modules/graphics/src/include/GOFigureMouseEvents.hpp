@@ -16,6 +16,7 @@
 namespace Nelson {
 //=============================================================================
 class GOFigure;
+class GraphicsObject;
 //=============================================================================
 // x, y are logical pixels of the figure drawing area, origin at its bottom-left corner.
 // Writes the figure CurrentPoint (in the figure Units) and the CurrentPoint of every
@@ -49,10 +50,21 @@ setFigureSelectionType(GOFigure* fig, const std::wstring& selectionType);
 NLSGRAPHICS_IMPEXP int64
 pickObjectAtPixel(GOFigure* fig, double x, double y);
 //=============================================================================
+// Colorbar or legend under the pixel (x, y), in the figure or in its ui containers, or -1.
+NLSGRAPHICS_IMPEXP int64
+decorationAtPixel(GOFigure* fig, double x, double y);
+//=============================================================================
+// Fires the ItemHitFcn of the legend entry under the pixel (x, y), if any.
+NLSGRAPHICS_IMPEXP void
+fireLegendItemHit(GOFigure* fig, double x, double y, const std::wstring& selectionType);
+//=============================================================================
 // True when WindowButtonMotionFcn is set. Motion only updates CurrentPoint and runs
 // callbacks in that case.
 NLSGRAPHICS_IMPEXP bool
 figureListensToMotion(GOFigure* fig);
+// A ui container that is not on screen (Visible off, or a uitab that is not selected).
+NLSGRAPHICS_IMPEXP bool
+isHiddenUIContainer(GraphicsObject* object);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -11,6 +11,7 @@
 //=============================================================================
 #include "nlsGraphics_exports.h"
 #include "RenderInterface.hpp"
+#include "ArrayOf.hpp"
 //=============================================================================
 NLSGRAPHICS_IMPEXP void
 DrawSymbol(RenderInterface& gc, RenderInterface::SymbolType symb, double x, double y, double z,
@@ -51,4 +52,13 @@ fontPointsToQtPoints(double points);
 //=============================================================================
 NLSGRAPHICS_IMPEXP RenderInterface::SymbolType
 StringToSymbol(const std::wstring& symbolName);
+//=============================================================================
+// True when marker CData is RGB (Nx3 list or one 1x3 triplet), not colormapped.
+NLSGRAPHICS_IMPEXP bool
+IsMarkerRGBCData(const Nelson::ArrayOf& cdata, size_t pointCount);
+//=============================================================================
+// Marker color of one point: RGB CData as is, scalar CData mapped through the colormap with CLim.
+NLSGRAPHICS_IMPEXP std::vector<double>
+MarkerCDataColor(const Nelson::ArrayOf& cdata, size_t pointCount, size_t pointIndex,
+    const std::vector<double>& colorMap, const std::vector<double>& clim);
 //=============================================================================

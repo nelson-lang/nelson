@@ -775,6 +775,15 @@ extern "C"
                 if (c.inactive) {
                     item["inactive"] = true;
                 }
+                if (c.bold) {
+                    item["bold"] = true;
+                }
+                if (c.italic) {
+                    item["italic"] = true;
+                }
+                if (!c.fontFamily.empty()) {
+                    item["fontFamily"] = c.fontFamily;
+                }
                 if (!c.units.empty()) {
                     item["units"] = c.units;
                 }

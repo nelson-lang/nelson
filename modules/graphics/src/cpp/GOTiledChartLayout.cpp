@@ -24,6 +24,7 @@
 #include "GOVectorTwoDoubleProperty.hpp"
 #include "GOVectorFourDoubleProperty.hpp"
 #include "GOSubplotText.hpp"
+#include "GOAxis.hpp"
 #include "GOText.hpp"
 #include "GOHelpers.hpp"
 #include "GOCommonProperties.hpp"
@@ -906,10 +907,28 @@ GOTiledChartLayout::updateChildPositions()
             posProp->value(left, bottom, width, height);
         }
 
+        // A one-tile axes sizes its auto FontSize from the grid, like subplot.
+        bool gridChanged = false;
+        if (child->findProperty(GO_SUBPLOT_GRID_INTERNAL_PROPERTY_NAME_STR, false)) {
+            bool singleTile = spanC == 1 && spanR == 1 && !isEdgeTileHandle(childHandle);
+            std::vector<double> grid = { singleTile ? double(m) : 0., singleTile ? double(n) : 0. };
+            gridChanged
+                = child->findVectorDoubleProperty(GO_SUBPLOT_GRID_INTERNAL_PROPERTY_NAME_STR)
+                != grid;
+            child->setTwoVectorDefault(
+                GO_SUBPLOT_GRID_INTERNAL_PROPERTY_NAME_STR, grid[0], grid[1]);
+        }
+
         GOGenericProperty* posModeProp
             = child->findProperty(GO_POSITION_MODE_PROPERTY_NAME_STR, false);
         if (posModeProp) {
             posModeProp->set(ArrayOf::characterArray(GO_PROPERTY_VALUE_MANUAL_STR));
+        }
+        // The new grid reaches the auto FontSize at once.
+        if (gridChanged) {
+            if (auto* axis = dynamic_cast<GOAxis*>(child)) {
+                axis->requestLayoutUpdate();
+            }
         }
     };
 

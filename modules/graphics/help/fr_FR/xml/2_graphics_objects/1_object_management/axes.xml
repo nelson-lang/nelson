@@ -41,7 +41,7 @@
     <p>
       <b>axes</b> crée des axes dans la figure courante et les définit comme axes courants.</p>
     <p>
-      <b>axes(cax)</b> rend les axes courants.</p>
+      <b>axes(cax)</b> rend les axes courants. Sa figure devient la figure courante et est rendue visible. Cette forme ne renvoie aucune sortie.</p>
     <p>Un clic sur un axe le rend automatiquement courant.</p>
     <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.axes.properties">proprietes de axes</link> pour la liste complete des proprietes.</p>
   </description>

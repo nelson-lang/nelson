@@ -401,6 +401,9 @@
     <ClInclude Include="..\include\GOStackedLineChart.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\GOLimitsInRange.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\include\GOStair.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1011,6 +1014,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\GOStackedLineChart.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\GOLimitsInRange.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\GOStair.cpp">

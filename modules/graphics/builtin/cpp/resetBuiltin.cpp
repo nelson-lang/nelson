@@ -80,6 +80,23 @@ resetObject(GraphicsObject* object)
         } catch (const NelsonException&) {
         }
     }
+    // A value restored under a default 'auto' mode is not a user edit, so its mode stays auto.
+    for (const auto& name : defaults->fieldnames()) {
+        const std::wstring suffix = L"Mode";
+        if (name.size() <= suffix.size()
+            || name.compare(name.size() - suffix.size(), suffix.size(), suffix) != 0) {
+            continue;
+        }
+        std::wstring valueName = name.substr(0, name.size() - suffix.size());
+        if (!object->findProperty(valueName, false)) {
+            continue;
+        }
+        ArrayOf mode = defaults->findProperty(name)->get();
+        if ((mode.isRowVectorCharacterArray() || mode.isScalarStringArray())
+            && mode.asWideString() == GO_PROPERTY_VALUE_AUTO_STR) {
+            object->clearChanged(valueName);
+        }
+    }
     if (object->isType(GO_PROPERTY_VALUE_AXES_STR)) {
         if (keepPolarAxis) {
             object->findProperty(GO_POLAR_AXES_PROPERTY_NAME_STR)

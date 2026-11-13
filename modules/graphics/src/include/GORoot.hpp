@@ -72,6 +72,9 @@ public:
     isDefaultPropertyName(const std::wstring& name) const;
     bool
     getDefaultProperty(const std::wstring& name, ArrayOf& value) const;
+    // Only a default set by the user: never builds the factory defaults.
+    bool
+    getUserDefaultProperty(const std::wstring& name, ArrayOf& value) const;
     void
     setDefaultProperty(const std::wstring& name, const ArrayOf& value);
     void

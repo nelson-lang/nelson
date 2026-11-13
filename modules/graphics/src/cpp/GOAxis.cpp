@@ -18,6 +18,7 @@
 #include <iomanip>
 #include <math.h>
 #include <sstream>
+#include <unordered_set>
 #include "nlsBuildConfig.h"
 #include "GOFontSpecHelpers.hpp"
 #include "GOChartDecorators.hpp"
@@ -68,7 +69,9 @@
 #include "GOText.hpp"
 #include "GORuler.hpp"
 #include "GOHelpers.hpp"
+#include "GOUIAxes.hpp"
 #include "GORoot.hpp"
+#include "GOAxesLayoutManager.hpp"
 #include "GOLayoutOptions.hpp"
 #include "RenderHelpers.hpp"
 #include "characters_encoding.hpp"
@@ -98,18 +101,19 @@ constexpr double UI_AXES_PROPERTY_LEFT_INSET = 20.1333338419596;
 constexpr double UI_AXES_PROPERTY_BOTTOM_INSET = 16.9333327611287;
 constexpr double UI_AXES_PROPERTY_RIGHT_INSET = 5.0;
 constexpr double UI_AXES_PROPERTY_TOP_INSET = 6.8;
+// Auto FontSize shrinks linearly to 80% between these plot box widths (pixels, fitted).
+constexpr double AUTO_FONT_FULL_WIDTH = 299.96;
+constexpr double AUTO_FONT_MIN_WIDTH = 106.08;
+constexpr double AUTO_FONT_HEIGHT_TO_WIDTH = 1.2495;
+constexpr double AUTO_FONT_MIN_SCALE = 0.8;
+constexpr double AXES_FACTORY_FONT_SIZE = 10.0;
+constexpr double DEFAULT_PLOT_BOX_WIDTH = 0.775;
+constexpr double DEFAULT_PLOT_BOX_HEIGHT = 0.815;
 //=============================================================================
-static bool
-isUiFigureLike(GOFigure* fig)
-{
-    if (!fig) {
-        return false;
-    }
-    return fig->stringCheck(GO_MENU_BAR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NONE_STR)
-        && fig->stringCheck(GO_TOOL_BAR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NONE_STR)
-        && fig->stringCheck(GO_NUMBER_TITLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR)
-        && fig->stringCheck(GO_INTEGER_HANDLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
-}
+static double
+autoFontSizeForBox(double baseFontSize, double widthPixels, double heightPixels);
+static void
+followAutoFontSize(GOAxis* axis, double previousFontSize, double fontSize);
 //=============================================================================
 static std::vector<double>
 uiAxesViewportPosition(const std::vector<double>& position, double scaleX, double scaleY)
@@ -190,7 +194,7 @@ setAxisPropertyVectorFromPixels(
 static bool
 syncUiAxesPositionProperties(GOAxis* axis)
 {
-    if (!axis || !isUiFigureLike(axis->getParentFigure())) {
+    if (!axis || !axis->usesUiAxesLayout()) {
         return false;
     }
     bool positionChanged = axis->hasChanged(GO_POSITION_PROPERTY_NAME_STR);
@@ -456,6 +460,47 @@ trimTicksToLimits(
 static bool
 axisHasLimitChildren(GOAxis* axis);
 //=============================================================================
+static bool
+hasNoFinitePoint(const std::vector<double>& childLimits);
+//=============================================================================
+static void
+keepBarEdges(GOAxis* axis, bool yRuler, const std::vector<double>& dataLimits, double& start,
+    double& stop, std::vector<double>& ticks, std::vector<std::wstring>& labels);
+//=============================================================================
+static void
+collectBarPositionEdges(GraphicsObject* object, bool yRuler, double& lo, double& hi, int depth);
+//=============================================================================
+static double
+polarTitleDataYPosition(GOAxis* axis, const std::vector<double>& limits, bool aboveSubtitle);
+//=============================================================================
+static bool
+isPolarGridObject(GraphicsObject* object);
+//=============================================================================
+static std::unordered_set<int64>&
+polarTitlesHiddenByAxes();
+//=============================================================================
+static double
+polarTitleTopMargin(GOAxis* axis, double boxWidth, double boxHeight);
+//=============================================================================
+// Theta label gap in pixels: base plus a share of the font size in pixels.
+static constexpr double POLAR_THETA_LABEL_GAP_BASE = 3.3;
+static constexpr double POLAR_THETA_LABEL_GAP_EM = 0.24;
+//=============================================================================
+static double
+polarDiscRadius(GOAxis* axis, const std::vector<double>& limits);
+//=============================================================================
+static double
+polarPixelsPerDataUnit(GOAxis* axis, const std::vector<double>& limits);
+//=============================================================================
+static bool
+isPolarGridText(GraphicsObject* object);
+//=============================================================================
+static bool
+isPolarThetaLabel(GraphicsObject* object, double radius);
+//=============================================================================
+static void
+layoutPolarGridLabels(GOAxis* axis);
+//=============================================================================
 static void
 copyRulerProperty(GOGenericProperty* sp, GOGenericProperty* dp);
 //=============================================================================
@@ -537,10 +582,29 @@ syncAxisLabelVisibility(GOAxis* axis)
 // calling title() first. They exist from the first updateState on, so "the property has an object"
 // does not imply "there is a label to draw". Callers that reserve room or paint must use
 // axisTextHasString, because getTextHeightInPixels reports a full line height whatever the string.
+// Axes text fonts to sync: size/weight force the axes value, auto* reach auto modes only.
+struct AxisTextFontSync
+{
+    bool size = false;
+    bool autoSize = false;
+    bool weight = false;
+    bool autoWeight = false;
+    bool name = false;
+    bool angle = false;
+};
 static void
-syncAxisTitleTexts(GOAxis* axis, bool syncFont);
+syncAxisTitleTexts(GOAxis* axis, const AxisTextFontSync& sync);
 static void
-syncAxisLabelTexts(GOAxis* axis, bool syncFont);
+syncAxisLabelTexts(GOAxis* axis, const AxisTextFontSync& sync);
+static void
+syncAxisLabelColors(GOAxis* axis);
+static void
+markAxisTextFontWritten(GOText* text, const std::wstring& name, const std::wstring& modeName);
+static void
+syncAxisTextFont(GOAxis* axis, GOText* text, const AxisTextFontSync& sync, double fontSize,
+    const std::wstring& fontWeight);
+static void
+convertAxisFontUnits(GOAxis* axis);
 //=============================================================================
 static bool
 createAxisTextSubObject(GOAxis* axis, int64 axisHandle, const std::wstring& propertyName)
@@ -553,6 +617,8 @@ createAxisTextSubObject(GOAxis* axis, int64 axisHandle, const std::wstring& prop
     int64 textHandle = assignGraphicsObject(text);
     text->setGoProperty(GO_PARENT_PROPERTY_NAME_STR, axisHandle);
     text->setStringDefault(GO_STRING_PROPERTY_NAME_STR, L"");
+    // Consume the setup flags, so the first font sync is not blocked by them.
+    text->updateState();
     std::vector<int64> handles;
     handles.push_back(textHandle);
     property->data(handles);
@@ -577,8 +643,14 @@ GOAxis::ensureTextSubObjects()
         // Runs the same font/layout sync as a label installed by title() or xlabel(), so a new
         // label is in the state that sync would produce. Otherwise it differs from the same figure
         // after a savefig/openfig round-trip.
-        syncAxisTitleTexts(this, true);
-        syncAxisLabelTexts(this, true);
+        AxisTextFontSync sync;
+        sync.size = true;
+        sync.weight = true;
+        sync.name = true;
+        sync.angle = true;
+        syncAxisTitleTexts(this, sync);
+        sync.weight = false;
+        syncAxisLabelTexts(this, sync);
     }
 }
 //=============================================================================
@@ -727,20 +799,42 @@ titleText3DPosition(GOAxis* axis, const std::wstring& alignment, const std::vect
 }
 //=============================================================================
 static double
+plotBoxLogicalHeight(GOAxis* axis)
+{
+    std::vector<double> plotBox = axis->getPropertyVectorAsPixels(GO_POSITION_PROPERTY_NAME_STR);
+    if (plotBox.size() < 4) {
+        return 0.0;
+    }
+    // A shown figure is measured in device pixels; its Position is in logical pixels.
+    double height = plotBox[3];
+    GOFigure* fig = axis->getParentFigure();
+    if (fig && fig->getHeight() > 0) {
+        std::vector<double> figurePosition
+            = fig->findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR);
+        if (figurePosition.size() >= 4 && figurePosition[3] > 0
+            && fig->stringCheck(GO_UNITS_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_PIXELS_STR)) {
+            height *= figurePosition[3] / fig->getHeight();
+        }
+    }
+    return height;
+}
+//=============================================================================
+static double
 titleTextDataYPosition(const std::vector<double>& limits, bool hasTitle, bool hasSubtitle,
-    bool defaultFull2DAxes, double titleFontSize)
+    bool defaultFull2DAxes, double titleFontSize, double plotHeightPixels)
 {
     double range = limits[3] - limits[2];
     if (!std::isfinite(range) || range <= 0.0) {
         range = 1.0;
     }
-    double offset = defaultFull2DAxes ? 0.00664136622391 : 0.0125;
-    if (defaultFull2DAxes && !hasSubtitle && std::isfinite(titleFontSize) && titleFontSize > 14.0) {
-        offset += (titleFontSize - 14.0) * 0.0004743833017;
+    double layoutFontSize = std::isfinite(titleFontSize) ? titleFontSize : 11.0;
+    // The title sits a fifth of its font size in pixels above the plot box.
+    double offset = 0.0125;
+    if (std::isfinite(plotHeightPixels) && plotHeightPixels > 0.0) {
+        offset = 0.2 * layoutFontSize / plotHeightPixels;
     }
     if (hasSubtitle) {
         if (defaultFull2DAxes) {
-            double layoutFontSize = std::isfinite(titleFontSize) ? titleFontSize : 11.0;
             offset = 0.050572520297295 + (layoutFontSize - 11.0) * 0.000704209638702;
         } else {
             offset = hasTitle ? 0.06370192460525 : 0.06191588933594;
@@ -786,7 +880,7 @@ markTextFontChanged(GOText* text, const std::wstring& propertyName)
 }
 //=============================================================================
 static void
-syncAxisTitleText(GOAxis* axis, const std::wstring& propertyName, bool syncFont)
+syncAxisTitleText(GOAxis* axis, const std::wstring& propertyName, const AxisTextFontSync& sync)
 {
     GOText* text = axisTextObject(axis, propertyName);
     if (!text) {
@@ -809,17 +903,29 @@ syncAxisTitleText(GOAxis* axis, const std::wstring& propertyName, bool syncFont)
     bool defaultFull2DAxes = isDefaultFull2DAxesPosition(axis) && axisHasLimitChildren(axis);
     bool xLogScale
         = axis->findStringProperty(GO_X_SCALE_PROPERTY_NAME_STR) == GO_PROPERTY_VALUE_LOG_STR;
+    std::wstring fontWeight
+        = axis->findStringProperty(isTitle ? GO_TITLE_FONT_WEIGHT_PROPERTY_NAME_STR
+                                           : GO_SUBTITLE_FONT_WEIGHT_PROPERTY_NAME_STR);
+    syncAxisTextFont(axis, text, sync, fontSize, fontWeight);
     GOText* titleText = axisTextObject(axis, GO_TITLE_PROPERTY_NAME_STR);
-    double layoutTitleFontSize = fontSize;
-    if (titleText && (!syncFont || titleText->hasChanged(GO_FONT_SIZE_PROPERTY_NAME_STR))) {
-        double currentTitleFontSize
-            = titleText->findScalarDoubleProperty(GO_FONT_SIZE_PROPERTY_NAME_STR);
+    double layoutTitleFontSize = fontSizeInPoints(axis)
+        * axis->findScalarDoubleProperty(GO_TITLE_FONT_SIZE_MULTIPLIER_PROPERTY_NAME_STR);
+    if (titleText) {
+        double currentTitleFontSize = fontSizeInPoints(titleText);
         if (std::isfinite(currentTitleFontSize)) {
             layoutTitleFontSize = currentTitleFontSize;
         }
     }
 
-    if (!axis->is2D()) {
+    if (!text->isAuto(GO_POSITION_MODE_PROPERTY_NAME_STR)) {
+        // A title Position set by the user is kept.
+    } else if (axis->isPolarAxes() && axis->is2D()) {
+        // Polar title and subtitle sit above the theta labels.
+        double dataX = titleTextDataXPosition(alignment, limits, false, false);
+        double dataY = polarTitleDataYPosition(axis, limits, isTitle && hasSubtitle);
+        text->setRestrictedStringDefault(GO_UNITS_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_DATA_STR);
+        text->setThreeVectorDefault(GO_POSITION_PROPERTY_NAME_STR, dataX, dataY, 0.0);
+    } else if (!axis->is2D()) {
         std::vector<double> position = titleText3DPosition(axis, alignment, limits);
         if (!isTitle) {
             position[2] -= (limits[5] - limits[4]) * 0.08;
@@ -831,8 +937,8 @@ syncAxisTitleText(GOAxis* axis, const std::wstring& propertyName, bool syncFont)
             GO_POSITION_PROPERTY_NAME_STR, position[0], position[1], position[2]);
     } else if (isTitle) {
         double dataX = titleTextDataXPosition(alignment, limits, defaultFull2DAxes, xLogScale);
-        double dataY = titleTextDataYPosition(
-            limits, hasTitle, hasSubtitle, defaultFull2DAxes, layoutTitleFontSize);
+        double dataY = titleTextDataYPosition(limits, hasTitle, hasSubtitle, defaultFull2DAxes,
+            layoutTitleFontSize, plotBoxLogicalHeight(axis));
         double dataZ
             = axis->is2D() && axisHasLimitChildren(axis) ? 0.0 : (limits[4] + limits[5]) * 0.5;
         text->setRestrictedStringDefault(GO_UNITS_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_DATA_STR);
@@ -850,55 +956,65 @@ syncAxisTitleText(GOAxis* axis, const std::wstring& propertyName, bool syncFont)
         GO_HORIZONTAL_ALIGNMENT_PROPERTY_NAME_STR, titleTextAlignment(alignment));
     text->setRestrictedStringDefault(
         GO_VERTICAL_ALIGNMENT_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_BOTTOM_STR);
-    if (syncFont) {
-        std::wstring fontWeight
-            = axis->findStringProperty(isTitle ? GO_TITLE_FONT_WEIGHT_PROPERTY_NAME_STR
-                                               : GO_SUBTITLE_FONT_WEIGHT_PROPERTY_NAME_STR);
-        if (!text->hasChanged(GO_FONT_SIZE_PROPERTY_NAME_STR)) {
-            text->setScalarDoubleDefault(GO_FONT_SIZE_PROPERTY_NAME_STR, fontSize);
-            markTextFontChanged(text, GO_FONT_SIZE_PROPERTY_NAME_STR);
-        }
-        if (!text->hasChanged(GO_FONT_UNITS_PROPERTY_NAME_STR)) {
-            text->setRestrictedStringDefault(GO_FONT_UNITS_PROPERTY_NAME_STR,
-                axis->findStringProperty(GO_FONT_UNITS_PROPERTY_NAME_STR));
-            markTextFontChanged(text, GO_FONT_UNITS_PROPERTY_NAME_STR);
-        }
-        if (!text->hasChanged(GO_FONT_WEIGHT_PROPERTY_NAME_STR)) {
-            text->setRestrictedStringDefault(GO_FONT_WEIGHT_PROPERTY_NAME_STR, fontWeight);
-            markTextFontChanged(text, GO_FONT_WEIGHT_PROPERTY_NAME_STR);
-        }
-    }
 }
 //=============================================================================
 static void
-syncAxisTitleTexts(GOAxis* axis, bool syncFont)
+syncAxisTitleTexts(GOAxis* axis, const AxisTextFontSync& sync)
 {
-    syncAxisTitleText(axis, GO_TITLE_PROPERTY_NAME_STR, syncFont);
-    syncAxisTitleText(axis, GO_SUBTITLE_PROPERTY_NAME_STR, syncFont);
+    syncAxisTitleText(axis, GO_TITLE_PROPERTY_NAME_STR, sync);
+    syncAxisTitleText(axis, GO_SUBTITLE_PROPERTY_NAME_STR, sync);
 }
 //=============================================================================
 void
 GOAxis::syncTitleTextLayout()
 {
-    syncAxisTitleTexts(this, false);
+    syncAxisTitleTexts(this, AxisTextFontSync());
+}
+//=============================================================================
+void
+GOAxis::syncPolarTitleVisibility()
+{
+    if (!isPolarAxes()) {
+        return;
+    }
+    bool visible = stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
+    for (const std::wstring& name : { GO_TITLE_PROPERTY_NAME_STR, GO_SUBTITLE_PROPERTY_NAME_STR }) {
+        GOText* text = axisTextObject(this, name);
+        auto* visibleProperty = text ? static_cast<GOOnOffProperty*>(
+                                           text->findProperty(GO_VISIBLE_PROPERTY_NAME_STR, false))
+                                     : nullptr;
+        if (!visibleProperty) {
+            continue;
+        }
+        int64 handle = findGoProperty(name);
+        std::unordered_set<int64>& hidden = polarTitlesHiddenByAxes();
+        // Only texts hidden by the axes come back; one hidden by the user stays hidden.
+        if (!visible && visibleProperty->asBool()) {
+            visibleProperty->data(GO_PROPERTY_VALUE_OFF_STR);
+            hidden.insert(handle);
+        } else if (visible && hidden.erase(handle) > 0) {
+            visibleProperty->data(GO_PROPERTY_VALUE_ON_STR);
+        }
+    }
 }
 //=============================================================================
 static void
-syncAxisLabelText(GOAxis* axis, const std::wstring& propertyName, bool syncFont)
+syncAxisLabelText(GOAxis* axis, const std::wstring& propertyName, AxisTextFontSync sync)
 {
     GOText* text = axisTextObject(axis, propertyName);
-    if (!text || !syncFont || text->hasChanged(GO_FONT_SIZE_PROPERTY_NAME_STR)) {
+    if (!text) {
         return;
+    }
+    // The reference sizes the ZLabel only on a 3D axes, where an auto one always follows the axes.
+    if (propertyName == GO_Z_LABEL_PROPERTY_NAME_STR) {
+        bool is3D = !axis->is2D();
+        sync.size = sync.size && is3D;
+        sync.autoSize = is3D;
     }
     double fontSize = axis->findScalarDoubleProperty(GO_FONT_SIZE_PROPERTY_NAME_STR)
         * axis->findScalarDoubleProperty(GO_LABEL_FONT_SIZE_MULTIPLIER_PROPERTY_NAME_STR);
-    text->setScalarDoubleDefault(GO_FONT_SIZE_PROPERTY_NAME_STR, fontSize);
-    markTextFontChanged(text, GO_FONT_SIZE_PROPERTY_NAME_STR);
-    if (!text->hasChanged(GO_FONT_UNITS_PROPERTY_NAME_STR)) {
-        text->setRestrictedStringDefault(GO_FONT_UNITS_PROPERTY_NAME_STR,
-            axis->findStringProperty(GO_FONT_UNITS_PROPERTY_NAME_STR));
-        markTextFontChanged(text, GO_FONT_UNITS_PROPERTY_NAME_STR);
-    }
+    syncAxisTextFont(axis, text, sync,
+        fontSize, axis->findStringProperty(GO_FONT_WEIGHT_PROPERTY_NAME_STR));
 }
 //=============================================================================
 // Setting X/Y/ZColor also colors the matching axis label.
@@ -919,11 +1035,11 @@ syncAxisLabelColor(GOAxis* axis, const std::wstring& labelName, const std::wstri
 }
 //=============================================================================
 static void
-syncAxisLabelTexts(GOAxis* axis, bool syncFont)
+syncAxisLabelTexts(GOAxis* axis, const AxisTextFontSync& sync)
 {
-    syncAxisLabelText(axis, GO_X_LABEL_PROPERTY_NAME_STR, syncFont);
-    syncAxisLabelText(axis, GO_Y_LABEL_PROPERTY_NAME_STR, syncFont);
-    syncAxisLabelText(axis, GO_Z_LABEL_PROPERTY_NAME_STR, syncFont);
+    syncAxisLabelText(axis, GO_X_LABEL_PROPERTY_NAME_STR, sync);
+    syncAxisLabelText(axis, GO_Y_LABEL_PROPERTY_NAME_STR, sync);
+    syncAxisLabelText(axis, GO_Z_LABEL_PROPERTY_NAME_STR, sync);
 }
 //=============================================================================
 static void
@@ -1778,60 +1894,6 @@ formatThetaTickLabels(
     return labels;
 }
 //=============================================================================
-static std::vector<double>
-visibleThetaTicksForLabels(
-    const std::vector<double>& ticks, const std::vector<double>& thetaLim, bool radians)
-{
-    if (thetaLim.size() < 2) {
-        return {};
-    }
-    std::vector<double> visibleTicks;
-    for (double tick : ticks) {
-        if (tick >= thetaLim[0] && tick <= thetaLim[1]) {
-            visibleTicks.push_back(tick);
-        }
-    }
-    if (isFullCircleThetaSpan(thetaLim, radians) && visibleTicks.size() > 1
-        && std::fabs(visibleTicks.back() - thetaLim[1]) < 1e-12) {
-        visibleTicks.pop_back();
-    }
-    return visibleTicks;
-}
-//=============================================================================
-static bool
-isPolarGridText(GraphicsObject* object)
-{
-    if (!object || !object->isType(GO_PROPERTY_VALUE_TEXT_STR)) {
-        return false;
-    }
-    GOStringProperty* tag
-        = static_cast<GOStringProperty*>(object->findProperty(GO_TAG_PROPERTY_NAME_STR, false));
-    return tag && tag->isEqual(L"__nelson_polar_grid__");
-}
-//=============================================================================
-static std::vector<GraphicsObject*>
-polarThetaLabelObjects(GOAxis* axis, double maxRadius)
-{
-    std::vector<GraphicsObject*> labels;
-    GOGObjectsProperty* children
-        = static_cast<GOGObjectsProperty*>(axis->findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
-    for (int64 handle : children->data()) {
-        if (handle < HANDLE_OFFSET_OBJECT) {
-            continue;
-        }
-        GraphicsObject* child = findGraphicsObject(handle, false);
-        if (!isPolarGridText(child)) {
-            continue;
-        }
-        std::vector<double> position
-            = child->findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR);
-        if (position.size() >= 2 && std::hypot(position[0], position[1]) > maxRadius) {
-            labels.push_back(child);
-        }
-    }
-    return labels;
-}
-//=============================================================================
 static bool
 objectHasLimits(GraphicsObject* object)
 {
@@ -1852,7 +1914,8 @@ objectHasLimits(GraphicsObject* object)
         }
         return false;
     }
-    return !object->getLimits().empty();
+    std::vector<double> limits(object->getLimits());
+    return !limits.empty() && !hasNoFinitePoint(limits);
 }
 //=============================================================================
 static bool
@@ -1866,38 +1929,6 @@ axisHasLimitChildren(GOAxis* axis)
         }
     }
     return false;
-}
-//=============================================================================
-static void
-updatePolarThetaGridLabels(GOAxis* axis)
-{
-    bool radians
-        = axis->stringCheck(GO_THETA_AXIS_UNITS_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_RADIANS_STR);
-    std::vector<double> thetaLim = axis->findVectorDoubleProperty(GO_THETA_LIM_PROPERTY_NAME_STR);
-    std::vector<double> thetaTick = axis->findVectorDoubleProperty(GO_THETA_TICK_PROPERTY_NAME_STR);
-    std::vector<double> rLim = axis->findVectorDoubleProperty(GO_R_LIM_PROPERTY_NAME_STR);
-    double maxRadius = 1.0;
-    if (rLim.size() >= 2) {
-        maxRadius = std::max(std::fabs(rLim[0]), std::fabs(rLim[1]));
-    }
-    if (maxRadius <= 0 || !std::isfinite(maxRadius)) {
-        maxRadius = 1.0;
-    }
-    std::vector<double> visibleTicks = visibleThetaTicksForLabels(thetaTick, thetaLim, radians);
-    wstringVector labels = axis->isAuto(GO_THETA_TICK_LABEL_MODE_PROPERTY_NAME_STR)
-        ? formatThetaTickLabels(thetaTick, thetaLim, radians)
-        : axis->findStringVectorProperty(GO_THETA_TICK_LABEL_PROPERTY_NAME_STR);
-    std::vector<GraphicsObject*> textObjects = polarThetaLabelObjects(axis, maxRadius);
-    size_t count = std::min({ textObjects.size(), visibleTicks.size(), labels.size() });
-    double radius = maxRadius * 1.06;
-    for (size_t k = 0; k < count; ++k) {
-        double theta = radians ? visibleTicks[k] : degreesToRadians(visibleTicks[k]);
-        static_cast<GOStringProperty*>(textObjects[k]->findProperty(GO_STRING_PROPERTY_NAME_STR))
-            ->data(labels[k]);
-        static_cast<GOThreeVectorProperty*>(
-            textObjects[k]->findProperty(GO_POSITION_PROPERTY_NAME_STR))
-            ->value(radius * std::cos(theta), radius * std::sin(theta), 0.0);
-    }
 }
 //=============================================================================
 static bool
@@ -2088,7 +2119,7 @@ GOAxis::constructProperties()
     registerProperty(new GOAutoManualProperty, GO_DATA_ASPECT_RATIO_MODE_PROPERTY_NAME_STR);
     registerProperty(new GOFontAngleProperty, GO_FONT_ANGLE_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_FONT_NAME_PROPERTY_NAME_STR);
-    registerProperty(new GOScalarProperty, GO_FONT_SIZE_PROPERTY_NAME_STR);
+    registerProperty(new GOFontSizeProperty, GO_FONT_SIZE_PROPERTY_NAME_STR);
     registerProperty(new GOFontUnitsProperty, GO_FONT_UNITS_PROPERTY_NAME_STR);
     registerProperty(new GOFontWeightProperty, GO_FONT_WEIGHT_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty(0, 1), GO_GRID_ALPHA_PROPERTY_NAME_STR);
@@ -2976,6 +3007,10 @@ GOAxis::recalculateTicks()
             clampLargeOneSidedTickAlignedPadding(
                 xLimitMethod, dataLimits[0], dataLimits[1], xStart, xStop, xticks, xlabels);
         }
+        if (hasFiniteDataLimits && !xLogScale
+            && xLimitMethod == GO_PROPERTY_VALUE_TICKALIGNED_STR) {
+            keepBarEdges(this, false, dataLimits, xStart, xStop, xticks, xlabels);
+        }
         if (std::isfinite(xStart) && std::isfinite(xStop) && xStop > xStart) {
             xAutoLimitsAdjusted = true;
         }
@@ -3092,6 +3127,10 @@ GOAxis::recalculateTicks()
                 yticks.push_back(std::fabs(tick) <= step * 1e-12 ? 0.0 : tick);
             }
             formatAxisTickLabels(textInterpreterProperty->getAsEnum(), yticks, yLogScale, ylabels);
+        }
+        if (hasFiniteDataLimits && !yLogScale
+            && yLimitMethod == GO_PROPERTY_VALUE_TICKALIGNED_STR) {
+            keepBarEdges(this, true, dataLimits, yStart, yStop, yticks, ylabels);
         }
         if (std::isfinite(yStart) && std::isfinite(yStop) && yStop > yStart) {
             yAutoLimitsAdjusted = true;
@@ -3344,7 +3383,7 @@ GOAxis::recalculateTicks()
         // Final pass: regenerate auto ticks from the settled limits with the pixel-density
         // algorithm. In 2D the axis lengths are the plot box sides; in 3D the projected edge
         // lengths. X and Y carry horizontal labels; Z stacks its labels like a 2D Y axis.
-        double tickFontSize = findScalarDoubleProperty(GO_FONT_SIZE_PROPERTY_NAME_STR);
+        double tickFontSize = fontSizeInPoints(this);
         double lenX = axisPixelPosition[2];
         double lenY = axisPixelPosition[3];
         double lenZ = 0.0;
@@ -3594,7 +3633,7 @@ GOAxis::recalculateTicks()
         qp->data(zlabels);
         clearChanged(GO_Z_TICK_LABEL_PROPERTY_NAME_STR);
     }
-    syncAxisTitleTexts(this, false);
+    syncAxisTitleTexts(this, AxisTextFontSync());
 }
 //=============================================================================
 static void
@@ -3885,6 +3924,8 @@ GOAxis::drawBox(RenderInterface& gc)
     }
     std::vector<double> limits(getAxisLimits());
     gc.color(hp->data());
+    // Thin pen: a wide line left by a previous object must not grow the background.
+    gc.lineWidth(0.5);
     gc.depth(true);
     if (is2D()) {
         double left;
@@ -4005,15 +4046,7 @@ GOAxis::drawPolarBackground(RenderInterface& gc)
         return;
     }
     std::vector<double> limits(getAxisLimits());
-    std::vector<double> rLim(findVectorDoubleProperty(GO_R_LIM_PROPERTY_NAME_STR));
-    double radius = 0.;
-    if (rLim.size() >= 2) {
-        radius = std::max(std::fabs(rLim[0]), std::fabs(rLim[1]));
-    }
-    if (radius <= 0 || !std::isfinite(radius)) {
-        radius = std::max(std::max(std::fabs(limits[0]), std::fabs(limits[1])),
-            std::max(std::fabs(limits[2]), std::fabs(limits[3])));
-    }
+    double radius = polarDiscRadius(this, limits);
     if (radius <= 0 || !std::isfinite(radius)) {
         return;
     }
@@ -4242,13 +4275,71 @@ GOAxis::updateAxisFont()
         = static_cast<GOScalarProperty*>(findProperty(GO_FONT_SIZE_PROPERTY_NAME_STR));
     GOFontUnitsProperty* fontUnits
         = static_cast<GOFontUnitsProperty*>(findProperty(GO_FONT_UNITS_PROPERTY_NAME_STR));
-    const bool sizeInPixels
-        = isUiFigureLike(getParentFigure()) && fontUnits->isEqual(GO_PROPERTY_VALUE_PIXELS_STR);
-    m_font = makeGOFontSpec(resolveRootFontName(fontname->data()), sizeInPixels, fontsize->data(),
+    const bool sizeInPixels = fontUnits->isEqual(GO_PROPERTY_VALUE_PIXELS_STR);
+    m_font = makeGOFontSpec(resolveRootFontName(fontname->data()), sizeInPixels,
+        sizeInPixels ? fontsize->data() : fontSizeInPoints(this),
         fontangle->data(), fontweight->data());
     setScalarDoubleDefault(GO_TEXT_HEIGHT_PROPERTY_NAME_STR,
         std::lround(FontMetrics::lineHeightPixels(
             m_font.family, fontSpecPixelSize(m_font), m_font.bold, m_font.italic)));
+}
+//=============================================================================
+bool
+GOAxis::applyAutoFontSize()
+{
+    // uiaxes keep their size whatever the box.
+    if (usesUiAxesLayout() || !isAuto(GO_FONT_SIZE_MODE_PROPERTY_NAME_STR)
+        || hasChanged(GO_FONT_SIZE_PROPERTY_NAME_STR)
+        || !stringCheck(GO_FONT_UNITS_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_POINTS_STR)) {
+        return false;
+    }
+    std::vector<double> box = getPropertyVectorAsPixels(GO_POSITION_PROPERTY_NAME_STR);
+    if (box.size() < 4 || !std::isfinite(box[2]) || !std::isfinite(box[3])) {
+        return false;
+    }
+    // A subplot grid cell or an outer box counts as the default plot box inside it.
+    std::vector<double> grid
+        = findVectorDoubleProperty(GO_SUBPLOT_GRID_INTERNAL_PROPERTY_NAME_STR);
+    if (grid.size() == 2 && grid[0] >= 1 && grid[1] >= 1) {
+        double parentWidth = 0;
+        double parentHeight = 0;
+        graphicsParentSizeInPixels(this, getParentFigure(), parentWidth, parentHeight);
+        box[2] = DEFAULT_PLOT_BOX_WIDTH * parentWidth / grid[1];
+        box[3] = DEFAULT_PLOT_BOX_HEIGHT * parentHeight / grid[0];
+    } else if (stringCheck(
+                   GO_POSITION_CONSTRAINT_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OUTERPOSITION_STR)) {
+        // Room taken by outside legends and colorbars does not count.
+        std::vector<double> outer;
+        if (axesLayoutBaseOuterPosition(this, outer)) {
+            outer = layoutUnitsToPixels(outer);
+        } else {
+            outer = getPropertyVectorAsPixels(GO_OUTER_POSITION_PROPERTY_NAME_STR);
+        }
+        if (outer.size() >= 4 && std::isfinite(outer[2]) && std::isfinite(outer[3])) {
+            box[2] = DEFAULT_PLOT_BOX_WIDTH * outer[2];
+            box[3] = DEFAULT_PLOT_BOX_HEIGHT * outer[3];
+        }
+    }
+    // The auto size starts from the user default (groot) or the factory size.
+    double baseFontSize = AXES_FACTORY_FONT_SIZE;
+    GORoot* root = getGraphicsRootObject();
+    ArrayOf userDefault;
+    if (!isPolarAxes() && root
+        && root->getUserDefaultProperty(L"DefaultAxesFontSize", userDefault)
+        && userDefault.isNumeric() && userDefault.isScalar()) {
+        double value = userDefault.asDoubleScalar();
+        if (std::isfinite(value) && value > 0) {
+            baseFontSize = value;
+        }
+    }
+    double fontSize = autoFontSizeForBox(baseFontSize, box[2], box[3]);
+    double previousFontSize = findScalarDoubleProperty(GO_FONT_SIZE_PROPERTY_NAME_STR);
+    if (fontSize == previousFontSize) {
+        return false;
+    }
+    setScalarDoubleDefault(GO_FONT_SIZE_PROPERTY_NAME_STR, fontSize);
+    followAutoFontSize(this, previousFontSize, fontSize);
+    return true;
 }
 //=============================================================================
 void
@@ -4459,6 +4550,9 @@ GOAxis::rePackTitleArea()
         // height (0.815) until the title font really overflows the top margin (~16 pt with a
         // subtitle on the default figure), instead of shrinking one font step too early.
         requiredTopMargin = titleHeight * 0.965;
+    }
+    if (isPolarAxes() && titleHeight > 0) {
+        requiredTopMargin = polarTitleTopMargin(this, poswidth, posheight);
     }
     if (titleHeight > 0 && requiredTopMargin > topMargin) {
         const double shrink
@@ -4809,7 +4903,7 @@ GOAxis::tightInsetPixels()
     for (const std::wstring& name :
         { std::wstring(GO_TITLE_PROPERTY_NAME_STR), std::wstring(GO_SUBTITLE_PROPERTY_NAME_STR) }) {
         if (GOText* text = axisTextObject(this, name); text && axisTextHasString(this, name)) {
-            const double points = text->findScalarDoubleProperty(GO_FONT_SIZE_PROPERTY_NAME_STR);
+            const double points = fontSizeInPoints(text);
             titleExtent += text->getTextHeightInPixels()
                     * labelLines(text->findStringProperty(GO_STRING_PROPERTY_NAME_STR))
                 + 0.25 * points * 96. / 72.;
@@ -4899,6 +4993,47 @@ GOAxis::updateLimits(bool x, bool y, bool z, bool a, bool c)
     GOSixVectorProperty* hp
         = static_cast<GOSixVectorProperty*>(findProperty(GO_DATA_LIMITS_PROPERTY_NAME_STR));
 
+    // With exactly one manual X or Y range (Z auto), the auto limits fit the data visible in it.
+    std::vector<double> rangeBox;
+    std::array<bool, 3> rangeLog = { stringCheck(GO_X_SCALE_PROPERTY_NAME_STR,
+                                         GO_PROPERTY_VALUE_LOG_STR),
+        stringCheck(GO_Y_SCALE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_LOG_STR),
+        stringCheck(GO_Z_SCALE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_LOG_STR) };
+    bool xManual = !isAuto(GO_X_LIM_MODE_PROPERTY_NAME_STR);
+    bool yManual = !isAuto(GO_Y_LIM_MODE_PROPERTY_NAME_STR);
+    if (xManual != yManual && isAuto(GO_Z_LIM_MODE_PROPERTY_NAME_STR)) {
+        const double inf = std::numeric_limits<double>::infinity();
+        rangeBox = { -inf, inf, -inf, inf, -inf, inf };
+        std::vector<double> manualLim = findVectorDoubleProperty(
+            xManual ? GO_X_LIM_PROPERTY_NAME_STR : GO_Y_LIM_PROPERTY_NAME_STR);
+        if (manualLim.size() == 2) {
+            size_t offset = xManual ? 0 : 2;
+            rangeBox[offset] = manualLim[0];
+            rangeBox[offset + 1] = manualLim[1];
+        }
+    }
+    bool anyOutside = false;
+    // Folds CLim from all the child data, then returns its limits inside rangeBox.
+    auto childLimits = [&](GraphicsObject* child) -> std::vector<double> {
+        std::vector<double> full(child->getLimits());
+        if (hasNoFinitePoint(full)) {
+            anyExcluded = true;
+            return {};
+        }
+        if (full.empty()) {
+            return full;
+        }
+        foldClim(child, full);
+        if (rangeBox.empty()) {
+            return full;
+        }
+        std::vector<double> visible(child->getLimitsInRange(rangeBox, rangeLog));
+        if (visible.empty()) {
+            anyOutside = true;
+        }
+        return visible;
+    };
+
     for (int i = 0; i < handles.size(); i++) {
         GraphicsObject* fp = findGraphicsObject(handles[i]);
         if (excludedFromAutoLimits(fp)) {
@@ -4919,9 +5054,8 @@ GOAxis::updateLimits(bool x, bool y, bool z, bool a, bool c)
                     anyExcluded = true;
                     continue;
                 }
-                std::vector<double> child_limits(hp->getLimits());
+                std::vector<double> child_limits(childLimits(hp));
                 if (!child_limits.empty()) {
-                    foldClim(hp, child_limits);
                     if (first) {
                         limits = child_limits;
                         if (hp->getType() == GO_PROPERTY_VALUE_PATCH_STR) {
@@ -4942,9 +5076,8 @@ GOAxis::updateLimits(bool x, bool y, bool z, bool a, bool c)
                 }
             }
         } else {
-            std::vector<double> child_limits(fp->getLimits());
+            std::vector<double> child_limits(childLimits(fp));
             if (!child_limits.empty()) {
-                foldClim(fp, child_limits);
                 if (first) {
                     limits = child_limits;
                     if (goType == GO_PROPERTY_VALUE_PATCH_STR) {
@@ -4965,8 +5098,8 @@ GOAxis::updateLimits(bool x, bool y, bool z, bool a, bool c)
         }
     }
     if (first) {
-        if (anyExcluded) {
-            // Every contributing child is excluded: the automatic limits fall back to the default.
+        if (anyExcluded || anyOutside) {
+            // No child data is excluded or visible: the automatic limits fall back to the default.
             if (x) {
                 setTwoVectorDefault(GO_X_LIM_PROPERTY_NAME_STR, 0., 1.);
             }
@@ -4977,10 +5110,16 @@ GOAxis::updateLimits(bool x, bool y, bool z, bool a, bool c)
                 setTwoVectorDefault(GO_Z_LIM_PROPERTY_NAME_STR, 0., 1.);
             }
             if (c) {
-                applyAutoClim(0., 1.);
+                applyAutoClim(firstClim ? 0. : climLo, firstClim ? 1. : climHi);
             }
             if (a) {
                 setTwoVectorDefault(GO_A_LIM_PROPERTY_NAME_STR, 0., 1.);
+            }
+            if (anyOutside) {
+                std::vector<double> xl = findVectorDoubleProperty(GO_X_LIM_PROPERTY_NAME_STR);
+                std::vector<double> yl = findVectorDoubleProperty(GO_Y_LIM_PROPERTY_NAME_STR);
+                std::vector<double> zl = findVectorDoubleProperty(GO_Z_LIM_PROPERTY_NAME_STR);
+                hp->value(xl[0], xl[1], yl[0], yl[1], zl[0], zl[1]);
             }
         }
         return;
@@ -6782,10 +6921,13 @@ GOAxis::drawChildren(RenderInterface& gc)
     if (surfaceGroup) {
         gc.beginSurfaceGroup();
     }
+    bool hidePolarGrid = isPolarAxes()
+        && stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
     for (auto h : handles) {
         GraphicsObject* fp = findGraphicsObject(h, false);
         if (fp) {
-            if (fp->isType(GO_PROPERTY_VALUE_LIGHT_STR)) {
+            if (fp->isType(GO_PROPERTY_VALUE_LIGHT_STR)
+                || (hidePolarGrid && isPolarGridObject(fp))) {
                 continue;
             }
             // Clipping 'off' lets an object draw outside the axes limits: drop the
@@ -6903,6 +7045,11 @@ GOAxis::updateState()
     }
     std::vector<std::wstring> tset;
     tset.reserve(11);
+    convertAxisFontUnits(this);
+    bool autoFontSizeChanged = applyAutoFontSize();
+    if (autoFontSizeChanged || hasChanged(GO_FONT_SIZE_PROPERTY_NAME_STR)) {
+        followAxesFontSizeInDecorations(this);
+    }
     bool titleReferenceChanged
         = hasChanged(GO_TITLE_PROPERTY_NAME_STR) || hasChanged(GO_SUBTITLE_PROPERTY_NAME_STR);
     bool labelReferenceChanged = hasChanged(GO_X_LABEL_PROPERTY_NAME_STR)
@@ -6910,9 +7057,25 @@ GOAxis::updateState()
     bool titleFontChanged = titleReferenceChanged || hasChanged(GO_FONT_SIZE_PROPERTY_NAME_STR)
         || hasChanged(GO_TITLE_FONT_SIZE_MULTIPLIER_PROPERTY_NAME_STR)
         || hasChanged(GO_TITLE_FONT_WEIGHT_PROPERTY_NAME_STR)
+        || hasChanged(GO_SUBTITLE_FONT_WEIGHT_PROPERTY_NAME_STR)
+        || hasChanged(GO_FONT_NAME_PROPERTY_NAME_STR)
+        || hasChanged(GO_FONT_ANGLE_PROPERTY_NAME_STR);
+    // Axes font size, name and angle win; multipliers and weights reach auto texts only.
+    AxisTextFontSync titleSync;
+    titleSync.size = titleReferenceChanged || hasChanged(GO_FONT_SIZE_PROPERTY_NAME_STR);
+    titleSync.autoSize = hasChanged(GO_TITLE_FONT_SIZE_MULTIPLIER_PROPERTY_NAME_STR);
+    titleSync.weight = titleReferenceChanged;
+    titleSync.autoWeight = hasChanged(GO_TITLE_FONT_WEIGHT_PROPERTY_NAME_STR)
         || hasChanged(GO_SUBTITLE_FONT_WEIGHT_PROPERTY_NAME_STR);
-    bool labelFontChanged = labelReferenceChanged || hasChanged(GO_FONT_SIZE_PROPERTY_NAME_STR)
-        || hasChanged(GO_LABEL_FONT_SIZE_MULTIPLIER_PROPERTY_NAME_STR);
+    titleSync.name = hasChanged(GO_FONT_NAME_PROPERTY_NAME_STR);
+    titleSync.angle = hasChanged(GO_FONT_ANGLE_PROPERTY_NAME_STR);
+    AxisTextFontSync labelSync;
+    labelSync.size = labelReferenceChanged || hasChanged(GO_FONT_SIZE_PROPERTY_NAME_STR);
+    labelSync.autoSize = hasChanged(GO_LABEL_FONT_SIZE_MULTIPLIER_PROPERTY_NAME_STR);
+    labelSync.weight = hasChanged(GO_FONT_WEIGHT_PROPERTY_NAME_STR);
+    labelSync.name = titleSync.name;
+    labelSync.angle = titleSync.angle;
+    syncAxisLabelColors(this);
     auto enableLogMinorTick
         = [this](const std::wstring& scaleName, const std::wstring& minorTickName) {
               if (hasChanged(scaleName) && !hasChanged(minorTickName)
@@ -7104,7 +7267,7 @@ GOAxis::updateState()
     tset.push_back(GO_X_COLOR_PROPERTY_NAME_STR);
     tset.push_back(GO_Y_COLOR_PROPERTY_NAME_STR);
     tset.push_back(GO_Z_COLOR_PROPERTY_NAME_STR);
-    if (hasChanged(tset)) {
+    if (hasChanged(tset) || autoFontSizeChanged) {
         updateAxisFont();
         clearChanged(tset);
     }
@@ -7116,8 +7279,8 @@ GOAxis::updateState()
         toManual(GO_PLOT_BOX_ASPECT_RATIO_MODE_PROPERTY_NAME_STR);
     }
 
-    syncAxisTitleTexts(this, titleFontChanged);
-    syncAxisLabelTexts(this, labelFontChanged);
+    syncAxisTitleTexts(this, titleSync);
+    syncAxisLabelTexts(this, labelSync);
     applyAutoAxisLabelOrientation(this);
 
     auto updateChildrenState = [this]() {
@@ -7144,11 +7307,11 @@ GOAxis::updateState()
 
     bool polarAxes = isPolarAxes();
     if (polarAxes) {
-        if (thetaAxisUnitsChanged || thetaLimChanged || thetaTickChanged || thetaTickLabelChanged) {
-            updatePolarThetaGridLabels(this);
-        }
         if (outerPositionChanged) {
             rePackFigure(false);
+            // The default box holds no title room yet: reserve it from scratch.
+            m_titleRepackShrink = 0.0;
+            rePackTitleArea();
             std::vector<double> position = findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR);
             if (position.size() == 4) {
                 setFourVectorDefault(GO_INNER_POSITION_PROPERTY_NAME_STR, position[0], position[1],
@@ -7216,7 +7379,7 @@ GOAxis::updateState()
         }
     }
 
-    bool titleLayoutChanged = titleReferenceChanged || titleFontChanged
+    bool titleLayoutChanged = titleReferenceChanged || titleFontChanged || autoFontSizeChanged
         || hasChanged(GO_TITLE_HORIZONTAL_ALIGNMENT_PROPERTY_NAME_STR);
     rePackFigure(titleLayoutChanged);
     if (outerPositionChanged && !uiAxesPositionHandled) {
@@ -7297,7 +7460,7 @@ GOAxis::layoutUnitsToPixels(const std::vector<double>& values)
 bool
 GOAxis::usesUiAxesLayout()
 {
-    return isUiFigureLike(getParentFigure());
+    return dynamic_cast<GOUIAxes*>(this) != nullptr;
 }
 //=============================================================================
 void
@@ -7335,8 +7498,15 @@ GOAxis::paintMe(RenderInterface& gc)
     }
     profiler.section("setup_axis");
     if (isPolarAxes) {
-        drawPolarBackground(gc);
+        // A hidden polaraxes keeps its data and title, not its disc, grid or labels.
+        if (isVisible) {
+            drawPolarBackground(gc);
+        }
+        layoutPolarGridLabels(this);
         drawChildren(gc);
+        // The title/subtitle follow the current size and theta labels; their own Visible decides.
+        syncTitleTextLayout();
+        drawAxisLabels(gc);
         m_box = getPropertyVectorAsPixels(gc, GO_POSITION_PROPERTY_NAME_STR);
         markViewStateReady();
         return;
@@ -7420,7 +7590,7 @@ GOAxis::getPropertyVectorAsPixels(RenderInterface& gc, const std::wstring& name)
 {
     GOFourVectorProperty* hp = (GOFourVectorProperty*)findProperty(name);
     std::vector<double> position = reInterpUnits(gc, hp->data());
-    if (name == GO_POSITION_PROPERTY_NAME_STR && isUiFigureLike(getParentFigure())) {
+    if (name == GO_POSITION_PROPERTY_NAME_STR && usesUiAxesLayout()) {
         double scaleX, scaleY;
         logicalToSurfaceScale(this, gc.width(), gc.height(), scaleX, scaleY);
         return uiAxesViewportPosition(position, scaleX, scaleY);
@@ -7952,6 +8122,8 @@ GOAxis::updateInteractionState()
     syncTitleTextLayout();
     // For the same reason, re-derive the x/y/z label Rotation and alignment from the new view.
     applyAutoAxisLabelOrientation(this);
+    // A view turned 3D gives the ZLabel its size.
+    syncAxisLabelTexts(this, AxisTextFontSync());
     clearChanged(GO_VIEW_PROPERTY_NAME_STR);
     if (isAuto(GO_CAMERA_TARGET_MODE_PROPERTY_NAME_STR)) {
         clearChanged(GO_CAMERA_TARGET_PROPERTY_NAME_STR);
@@ -8154,6 +8326,462 @@ copyRulerProperty(GOGenericProperty* sp, GOGenericProperty* dp)
         }
     }
     dp->set(value);
+}
+//=============================================================================
+bool
+hasNoFinitePoint(const std::vector<double>& childLimits)
+{
+    // All-NaN data report inverted X, Y and Z ranges: such a child sets no limit.
+    return childLimits.size() >= 6 && childLimits[0] > childLimits[1]
+        && childLimits[2] > childLimits[3] && childLimits[4] > childLimits[5];
+}
+//=============================================================================
+// A bar position edge sets the auto limit as is: only data edges snap to the ticks.
+static void
+collectBarPositionEdges(GraphicsObject* object, bool yRuler, double& lo, double& hi, int depth)
+{
+    auto* children = static_cast<GOGObjectsProperty*>(
+        object->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false));
+    if (!children || depth > 8) {
+        return;
+    }
+    for (int64 handle : children->data()) {
+        GraphicsObject* child = findGraphicsObject(handle, false);
+        if (!child || excludedFromAutoLimits(child)) {
+            continue;
+        }
+        if (child->isType(GO_PROPERTY_VALUE_BAR_STR)) {
+            bool horizontal
+                = child->stringCheck(GO_HORIZONTAL_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
+            std::vector<double> lims = child->getLimits();
+            if (horizontal == yRuler && lims.size() >= 4) {
+                lo = std::min(lo, lims[yRuler ? 2 : 0]);
+                hi = std::max(hi, lims[yRuler ? 3 : 1]);
+            }
+        } else if (child->isType(GO_PROPERTY_VALUE_HGGROUP_STR)
+            || child->isType(GO_PROPERTY_VALUE_HGTRANSFORM_STR)) {
+            collectBarPositionEdges(child, yRuler, lo, hi, depth + 1);
+        }
+    }
+}
+//=============================================================================
+static void
+keepBarEdges(GOAxis* axis, bool yRuler, const std::vector<double>& dataLimits, double& start,
+    double& stop, std::vector<double>& ticks, std::vector<std::wstring>& labels)
+{
+    double lo = std::numeric_limits<double>::infinity();
+    double hi = -std::numeric_limits<double>::infinity();
+    collectBarPositionEdges(axis, yRuler, lo, hi, 0);
+    size_t k = yRuler ? 2 : 0;
+    if (!std::isfinite(lo) || dataLimits.size() < k + 2) {
+        return;
+    }
+    double tolerance = 1e-12 * std::max(1., std::fabs(dataLimits[k + 1] - dataLimits[k]));
+    bool changed = false;
+    if (std::fabs(lo - dataLimits[k]) <= tolerance && dataLimits[k] > start) {
+        start = dataLimits[k];
+        changed = true;
+    }
+    if (std::fabs(hi - dataLimits[k + 1]) <= tolerance && dataLimits[k + 1] < stop) {
+        stop = dataLimits[k + 1];
+        changed = true;
+    }
+    if (!changed) {
+        return;
+    }
+    std::vector<double> keptTicks;
+    std::vector<std::wstring> keptLabels;
+    bool withLabels = labels.size() == ticks.size();
+    for (size_t i = 0; i < ticks.size(); ++i) {
+        if (ticks[i] >= start - tolerance && ticks[i] <= stop + tolerance) {
+            keptTicks.push_back(ticks[i]);
+            if (withLabels) {
+                keptLabels.push_back(labels[i]);
+            }
+        }
+    }
+    ticks = keptTicks;
+    if (withLabels) {
+        labels = keptLabels;
+    }
+}
+//=============================================================================
+// Data Y of a polar title bottom: 2 px above the highest theta label (measured on the reference).
+static double
+polarTitleDataYPosition(GOAxis* axis, const std::vector<double>& limits, bool aboveSubtitle)
+{
+    double scale = polarPixelsPerDataUnit(axis, limits);
+    if (!(scale > 0)) {
+        double yRange = limits[3] - limits[2];
+        return limits[3] + 0.06 * (std::isfinite(yRange) && yRange > 0 ? yRange : 1.0);
+    }
+    double topPixels = 0.0;
+    double radius = polarDiscRadius(axis, limits);
+    auto* children = static_cast<GOGObjectsProperty*>(
+        axis->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false));
+    if (children) {
+        for (int64 handle : children->data()) {
+            GraphicsObject* child = findGraphicsObject(handle, false);
+            if (!isPolarThetaLabel(child, radius)
+                || child->findStringProperty(GO_STRING_PROPERTY_NAME_STR).empty()) {
+                continue;
+            }
+            std::vector<double> position
+                = child->findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR);
+            double fontPixels = pointsToPixels(fontSizeInPoints(child));
+            if (position.size() < 2 || !std::isfinite(position[1]) || !std::isfinite(fontPixels)) {
+                continue;
+            }
+            // A label line is about 1.1 em high above its vertical anchor.
+            double lineAbove = 1.1 * fontPixels;
+            if (child->stringCheck(
+                    GO_VERTICAL_ALIGNMENT_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MIDDLE_STR)) {
+                lineAbove *= 0.5;
+            } else if (child->stringCheck(
+                           GO_VERTICAL_ALIGNMENT_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_TOP_STR)) {
+                lineAbove = 0.0;
+            }
+            double top = (position[1] - limits[3]) * scale + lineAbove;
+            topPixels = std::max(topPixels, top);
+        }
+    }
+    double offsetPixels = topPixels + 2.2;
+    if (aboveSubtitle) {
+        GOText* subtitle = axisTextObject(axis, GO_SUBTITLE_PROPERTY_NAME_STR);
+        double fontSize
+            = fontSizeInPoints(subtitle ? static_cast<GraphicsObject*>(subtitle) : axis);
+        // The title sits one subtitle line higher.
+        offsetPixels += 1.3 * pointsToPixels(fontSize);
+    }
+    return limits[3] + offsetPixels / scale;
+}
+//=============================================================================
+static double
+polarDiscRadius(GOAxis* axis, const std::vector<double>& limits)
+{
+    std::vector<double> rLim(axis->findVectorDoubleProperty(GO_R_LIM_PROPERTY_NAME_STR));
+    double radius = 0.;
+    if (rLim.size() >= 2) {
+        radius = std::max(std::fabs(rLim[0]), std::fabs(rLim[1]));
+    }
+    if ((radius <= 0 || !std::isfinite(radius)) && limits.size() >= 4) {
+        radius = std::max(std::max(std::fabs(limits[0]), std::fabs(limits[1])),
+            std::max(std::fabs(limits[2]), std::fabs(limits[3])));
+    }
+    return radius;
+}
+//=============================================================================
+// Pixels per data unit; DataAspectRatio [1 1 1] makes it the same on both axes.
+static double
+polarPixelsPerDataUnit(GOAxis* axis, const std::vector<double>& limits)
+{
+    if (limits.size() < 4) {
+        return 0.;
+    }
+    double xRange = limits[1] - limits[0];
+    double yRange = limits[3] - limits[2];
+    std::vector<double> box = axisPropertyVectorAsPixels(axis, GO_POSITION_PROPERTY_NAME_STR);
+    if (box.size() < 4 || !(xRange > 0) || !(yRange > 0) || !(box[2] > 0) || !(box[3] > 0)) {
+        return 0.;
+    }
+    return std::min(box[2] / xRange, box[3] / yRange);
+}
+//=============================================================================
+static bool
+isPolarGridText(GraphicsObject* object)
+{
+    return object && object->isType(GO_PROPERTY_VALUE_TEXT_STR)
+        && object->findStringProperty(GO_TAG_PROPERTY_NAME_STR) == L"__nelson_polar_grid__";
+}
+//=============================================================================
+// Radial labels lie inside the disc, theta labels outside it.
+static bool
+isPolarThetaLabel(GraphicsObject* object, double radius)
+{
+    if (!isPolarGridText(object) || !(radius > 0)) {
+        return false;
+    }
+    std::vector<double> position = object->findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR);
+    return position.size() >= 2 && std::hypot(position[0], position[1]) > radius * (1. + 1e-9);
+}
+//=============================================================================
+// Grid labels use the axes font; theta labels sit a fixed pixel gap outside the disc.
+static void
+layoutPolarGridLabels(GOAxis* axis)
+{
+    auto* children = static_cast<GOGObjectsProperty*>(
+        axis->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false));
+    if (!children) {
+        return;
+    }
+    std::vector<double> xLimits(axis->findVectorDoubleProperty(GO_X_LIM_PROPERTY_NAME_STR));
+    std::vector<double> yLimits(axis->findVectorDoubleProperty(GO_Y_LIM_PROPERTY_NAME_STR));
+    std::vector<double> limits = { xLimits[0], xLimits[1], yLimits[0], yLimits[1] };
+    double radius = polarDiscRadius(axis, limits);
+    double scale = polarPixelsPerDataUnit(axis, limits);
+    double fontSize = fontSizeInPoints(axis);
+    std::wstring fontName = axis->findStringProperty(GO_FONT_NAME_PROPERTY_NAME_STR);
+    double fontPixels = pointsToPixels(fontSize);
+    // Gap from the disc to the label anchor, measured on the reference.
+    double gapPixels = POLAR_THETA_LABEL_GAP_BASE + POLAR_THETA_LABEL_GAP_EM * fontPixels;
+    // Labels near the vertical axis are centred, those near the horizontal one middled.
+    const double centreLimit = std::sin(11.25 * M_PI / 180.);
+    const double middleLimit = std::sin(22.5 * M_PI / 180.) + 1e-9;
+    for (int64 handle : children->data()) {
+        GraphicsObject* child = findGraphicsObject(handle, false);
+        if (!isPolarGridText(child)) {
+            continue;
+        }
+        GOText* text = static_cast<GOText*>(child);
+        if (std::isfinite(fontSize)
+            && text->findScalarDoubleProperty(GO_FONT_SIZE_PROPERTY_NAME_STR) != fontSize) {
+            text->setScalarDoubleDefault(GO_FONT_SIZE_PROPERTY_NAME_STR, fontSize);
+            markTextFontChanged(text, GO_FONT_SIZE_PROPERTY_NAME_STR);
+        }
+        if (!fontName.empty()
+            && text->findStringProperty(GO_FONT_NAME_PROPERTY_NAME_STR) != fontName) {
+            text->setStringDefault(GO_FONT_NAME_PROPERTY_NAME_STR, fontName);
+            markTextFontChanged(text, GO_FONT_NAME_PROPERTY_NAME_STR);
+        }
+        std::vector<double> position
+            = text->findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR);
+        if (position.size() < 3 || !(scale > 0) || !std::isfinite(gapPixels)
+            || !isPolarThetaLabel(text, radius)) {
+            continue;
+        }
+        double angle = std::atan2(position[1], position[0]);
+        double c = std::cos(angle);
+        double s = std::sin(angle);
+        double anchor = radius + gapPixels / scale;
+        double x = anchor * c;
+        double y = anchor * s;
+        if (std::fabs(x - position[0]) > 1e-12 * anchor
+            || std::fabs(y - position[1]) > 1e-12 * anchor) {
+            text->setThreeVectorDefault(GO_POSITION_PROPERTY_NAME_STR, x, y, position[2]);
+        }
+        std::wstring horizontal = std::fabs(c) < centreLimit
+            ? GO_PROPERTY_VALUE_CENTER_STR
+            : (c > 0 ? GO_PROPERTY_VALUE_LEFT_STR : GO_PROPERTY_VALUE_RIGHT_STR);
+        std::wstring vertical = std::fabs(s) <= middleLimit
+            ? GO_PROPERTY_VALUE_MIDDLE_STR
+            : (s > 0 ? GO_PROPERTY_VALUE_BOTTOM_STR : GO_PROPERTY_VALUE_TOP_STR);
+        if (!text->stringCheck(GO_HORIZONTAL_ALIGNMENT_PROPERTY_NAME_STR, horizontal)) {
+            text->setRestrictedStringDefault(GO_HORIZONTAL_ALIGNMENT_PROPERTY_NAME_STR, horizontal);
+        }
+        if (!text->stringCheck(GO_VERTICAL_ALIGNMENT_PROPERTY_NAME_STR, vertical)) {
+            text->setRestrictedStringDefault(GO_VERTICAL_ALIGNMENT_PROPERTY_NAME_STR, vertical);
+        }
+    }
+}
+//=============================================================================
+// Grid lines, ticks and labels that polarRefresh builds for a polar axes.
+static bool
+isPolarGridObject(GraphicsObject* object)
+{
+    return object && object->findProperty(GO_TAG_PROPERTY_NAME_STR, false)
+        && object->findStringProperty(GO_TAG_PROPERTY_NAME_STR) == L"__nelson_polar_grid__";
+}
+//=============================================================================
+// Handles of polar titles/subtitles that their hidden axes turned off.
+static std::unordered_set<int64>&
+polarTitlesHiddenByAxes()
+{
+    static std::unordered_set<int64> handles;
+    return handles;
+}
+//=============================================================================
+// Room above a polar box for the top theta label and the title stack, in pixels.
+// The title takes 1.29 em, a subtitle 1.385 em more (measured on the reference).
+static double
+polarTitleTopMargin(GOAxis* axis, double boxWidth, double boxHeight)
+{
+    auto textPixels = [axis](const std::wstring& name) {
+        GOText* text = axisTextObject(axis, name);
+        if (!text || !axisTextHasString(axis, name)) {
+            return 0.;
+        }
+        double pixels = pointsToPixels(fontSizeInPoints(text));
+        return std::isfinite(pixels) ? pixels : 0.;
+    };
+    double titlePixels = textPixels(GO_TITLE_PROPERTY_NAME_STR);
+    double subtitlePixels = textPixels(GO_SUBTITLE_PROPERTY_NAME_STR);
+    double stack = titlePixels > 0. ? 1.29 * titlePixels + 1.385 * subtitlePixels
+                                    : 1.29 * subtitlePixels;
+    double fontPixels = pointsToPixels(fontSizeInPoints(axis));
+    if (!std::isfinite(fontPixels)) {
+        fontPixels = 0.;
+    }
+    double labelPixels = POLAR_THETA_LABEL_GAP_BASE + POLAR_THETA_LABEL_GAP_EM * fontPixels
+        + 1.14 * fontPixels;
+    // A disc limited by the box width leaves free room above it.
+    double slack = std::max(0., (boxHeight - std::min(boxWidth, boxHeight)) * 0.5);
+    return std::max(0., labelPixels + 0.55 + stack - slack);
+}
+//=============================================================================
+static double
+autoFontSizeForBox(double baseFontSize, double widthPixels, double heightPixels)
+{
+    // The height counts as a 1.25x wider box; the smaller side drives the shrink.
+    double size = std::min(widthPixels, heightPixels * AUTO_FONT_HEIGHT_TO_WIDTH);
+    double ratio = (size - AUTO_FONT_MIN_WIDTH) / (AUTO_FONT_FULL_WIDTH - AUTO_FONT_MIN_WIDTH);
+    ratio = std::clamp(ratio, 0.0, 1.0);
+    double scale = AUTO_FONT_MIN_SCALE + (1.0 - AUTO_FONT_MIN_SCALE) * ratio;
+    // Rounded to the nearest half point.
+    return std::round(baseFontSize * scale * 2.0) / 2.0;
+}
+//=============================================================================
+static void
+followAutoFontSize(GOAxis* axis, double previousFontSize, double fontSize)
+{
+    // Title and labels still sized from the previous axes size follow the new one.
+    const std::pair<const wchar_t*, const wchar_t*> texts[] = {
+        { GO_TITLE_PROPERTY_NAME_STR, GO_TITLE_FONT_SIZE_MULTIPLIER_PROPERTY_NAME_STR },
+        { GO_SUBTITLE_PROPERTY_NAME_STR, GO_TITLE_FONT_SIZE_MULTIPLIER_PROPERTY_NAME_STR },
+        { GO_X_LABEL_PROPERTY_NAME_STR, GO_LABEL_FONT_SIZE_MULTIPLIER_PROPERTY_NAME_STR },
+        { GO_Y_LABEL_PROPERTY_NAME_STR, GO_LABEL_FONT_SIZE_MULTIPLIER_PROPERTY_NAME_STR },
+        { GO_Z_LABEL_PROPERTY_NAME_STR, GO_LABEL_FONT_SIZE_MULTIPLIER_PROPERTY_NAME_STR },
+    };
+    for (const auto& entry : texts) {
+        GOText* text = axisTextObject(axis, entry.first);
+        if (!text || !text->isAuto(GO_FONT_SIZE_MODE_PROPERTY_NAME_STR)) {
+            continue;
+        }
+        double multiplier = axis->findScalarDoubleProperty(entry.second);
+        double current = text->findScalarDoubleProperty(GO_FONT_SIZE_PROPERTY_NAME_STR);
+        if (std::fabs(current - previousFontSize * multiplier) > 1e-9) {
+            continue;
+        }
+        text->setScalarDoubleDefault(GO_FONT_SIZE_PROPERTY_NAME_STR, fontSize * multiplier);
+        markAxisTextFontWritten(
+            text, GO_FONT_SIZE_PROPERTY_NAME_STR, GO_FONT_SIZE_MODE_PROPERTY_NAME_STR);
+        text->updateState();
+    }
+}
+//=============================================================================
+static void
+syncAxisLabelColors(GOAxis* axis)
+{
+    // An axis color always paints its label, even one colored by the user.
+    const std::pair<const wchar_t*, const wchar_t*> labels[] = {
+        { GO_X_LABEL_PROPERTY_NAME_STR, GO_X_COLOR_PROPERTY_NAME_STR },
+        { GO_Y_LABEL_PROPERTY_NAME_STR, GO_Y_COLOR_PROPERTY_NAME_STR },
+        { GO_Z_LABEL_PROPERTY_NAME_STR, GO_Z_COLOR_PROPERTY_NAME_STR },
+    };
+    for (const auto& entry : labels) {
+        GOText* text = axisTextObject(axis, entry.first);
+        if (!text || !axis->hasChanged(entry.second)) {
+            continue;
+        }
+        std::vector<double> color = axis->findVectorDoubleProperty(entry.second);
+        if (color.size() == 3) {
+            text->setThreeVectorDefault(GO_COLOR_PROPERTY_NAME_STR, color[0], color[1], color[2]);
+        }
+    }
+}
+//=============================================================================
+static void
+markAxisTextFontWritten(GOText* text, const std::wstring& name, const std::wstring& modeName)
+{
+    markTextFontChanged(text, name);
+    if (!modeName.empty()) {
+        text->setRestrictedStringDefault(modeName, GO_PROPERTY_VALUE_AUTO_STR);
+        markTextFontChanged(text, modeName);
+    }
+}
+//=============================================================================
+static void
+syncAxisTextFont(GOAxis* axis, GOText* text, const AxisTextFontSync& sync, double fontSize,
+    const std::wstring& fontWeight)
+{
+    bool written = false;
+    // The size is written in the text's own font units.
+    std::wstring axisUnits = axis->findStringProperty(GO_FONT_UNITS_PROPERTY_NAME_STR);
+    std::wstring textUnits = text->findStringProperty(GO_FONT_UNITS_PROPERTY_NAME_STR);
+    if (axisUnits != textUnits && (sync.size || sync.autoSize)) {
+        fontSize = convertFontSizeUnits(
+            fontSize, axisUnits, textUnits, fontUnitsReferenceHeight(axis));
+    }
+    bool autoSize = sync.autoSize && text->isAuto(GO_FONT_SIZE_MODE_PROPERTY_NAME_STR)
+        && text->findScalarDoubleProperty(GO_FONT_SIZE_PROPERTY_NAME_STR) != fontSize;
+    if (sync.size || autoSize) {
+        text->setScalarDoubleDefault(GO_FONT_SIZE_PROPERTY_NAME_STR, fontSize);
+        markAxisTextFontWritten(
+            text, GO_FONT_SIZE_PROPERTY_NAME_STR, GO_FONT_SIZE_MODE_PROPERTY_NAME_STR);
+        written = true;
+    }
+    if (sync.weight || (sync.autoWeight && text->isAuto(GO_FONT_WEIGHT_MODE_PROPERTY_NAME_STR))) {
+        text->setRestrictedStringDefault(GO_FONT_WEIGHT_PROPERTY_NAME_STR, fontWeight);
+        markAxisTextFontWritten(
+            text, GO_FONT_WEIGHT_PROPERTY_NAME_STR, GO_FONT_WEIGHT_MODE_PROPERTY_NAME_STR);
+        written = true;
+    }
+    if (sync.name) {
+        text->setStringDefault(GO_FONT_NAME_PROPERTY_NAME_STR,
+            axis->findStringProperty(GO_FONT_NAME_PROPERTY_NAME_STR));
+        markAxisTextFontWritten(
+            text, GO_FONT_NAME_PROPERTY_NAME_STR, GO_FONT_NAME_MODE_PROPERTY_NAME_STR);
+        written = true;
+    }
+    if (sync.angle) {
+        text->setRestrictedStringDefault(GO_FONT_ANGLE_PROPERTY_NAME_STR,
+            axis->findStringProperty(GO_FONT_ANGLE_PROPERTY_NAME_STR));
+        markAxisTextFontWritten(
+            text, GO_FONT_ANGLE_PROPERTY_NAME_STR, GO_FONT_ANGLE_MODE_PROPERTY_NAME_STR);
+        written = true;
+    }
+    if (written) {
+        // Apply it now; the written mode tells the text this is not a user value.
+        text->updateState();
+    }
+}
+//=============================================================================
+static void
+convertAxisFontUnits(GOAxis* axis)
+{
+    auto* units = static_cast<GOFontUnitsProperty*>(
+        axis->findProperty(GO_FONT_UNITS_PROPERTY_NAME_STR, false));
+    auto* size = dynamic_cast<GOFontSizeProperty*>(
+        axis->findProperty(GO_FONT_SIZE_PROPERTY_NAME_STR, false));
+    if (!units || !size) {
+        return;
+    }
+    std::wstring from = units->takePendingFrom();
+    if (from.empty()) {
+        return;
+    }
+    std::wstring to = units->data();
+    double height = fontUnitsReferenceHeight(axis);
+    // A FontSize given after FontUnits in the same set is already in the new units.
+    if (size->getSetOrder() < units->getSetOrder()) {
+        size->data(convertFontSizeUnits(size->data(), from, to, height));
+    }
+    bool is3D = !axis->is2D();
+    for (const std::wstring& name : { GO_TITLE_PROPERTY_NAME_STR, GO_SUBTITLE_PROPERTY_NAME_STR,
+             GO_X_LABEL_PROPERTY_NAME_STR, GO_Y_LABEL_PROPERTY_NAME_STR,
+             GO_Z_LABEL_PROPERTY_NAME_STR }) {
+        GOText* text = axisTextObject(axis, name);
+        if (!text) {
+            continue;
+        }
+        // Ruler labels keep points until the user sets their font units.
+        bool rulerLabel = name == GO_X_LABEL_PROPERTY_NAME_STR
+            || name == GO_Y_LABEL_PROPERTY_NAME_STR
+            || (is3D && name == GO_Z_LABEL_PROPERTY_NAME_STR);
+        if (rulerLabel && text->isAuto(GO_FONT_UNITS_MODE_PROPERTY_NAME_STR)) {
+            continue;
+        }
+        std::wstring textUnits = text->findStringProperty(GO_FONT_UNITS_PROPERTY_NAME_STR);
+        double textSize = text->findScalarDoubleProperty(GO_FONT_SIZE_PROPERTY_NAME_STR);
+        text->setScalarDoubleDefault(GO_FONT_SIZE_PROPERTY_NAME_STR,
+            convertFontSizeUnits(textSize, textUnits, to, height));
+        text->setRestrictedStringDefault(GO_FONT_UNITS_PROPERTY_NAME_STR, to);
+        // Marking the modes too keeps them as they are.
+        markTextFontChanged(text, GO_FONT_SIZE_PROPERTY_NAME_STR);
+        markTextFontChanged(text, GO_FONT_SIZE_MODE_PROPERTY_NAME_STR);
+        markTextFontChanged(text, GO_FONT_UNITS_PROPERTY_NAME_STR);
+        markTextFontChanged(text, GO_FONT_UNITS_MODE_PROPERTY_NAME_STR);
+        text->updateState();
+    }
 }
 //=============================================================================
 } // namespace Nelson

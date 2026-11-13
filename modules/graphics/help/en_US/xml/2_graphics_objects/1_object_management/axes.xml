@@ -41,7 +41,7 @@
     <p>
       <b>axes</b> creates axes in the current figure and set it as the current axes.</p>
     <p>
-      <b>axes(cax)</b> set current axes.</p>
+      <b>axes(cax)</b> set current axes. Its figure becomes the current figure and is made visible. This form returns no output.</p>
     <p>Clicking on an axis automatically sets it as the current axes object.</p>
     <p>See <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.axes.properties">axes properties</link> for the complete property list.</p>
   </description>
