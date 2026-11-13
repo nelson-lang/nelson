@@ -8,6 +8,10 @@ ApplicationWindow {
 
     width: 620
     height: 420
+    minimumWidth: 620
+    maximumWidth: 620
+    minimumHeight: 420
+    maximumHeight: 420
     visible: true
 
     Item {

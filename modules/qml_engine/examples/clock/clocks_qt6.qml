@@ -57,7 +57,7 @@ ApplicationWindow {
 
         delegate: Content.Clock { city: cityName; shift: timeShift }
         model: ListModel {
-            ListElement { cityName: "New York"; timeShift: -4 }
+            ListElement { cityName: "New York"; timeShift: -5 }
             ListElement { cityName: "London"; timeShift: 0 }
             ListElement { cityName: "Oslo"; timeShift: 1 }
             ListElement { cityName: "Mumbai"; timeShift: 5.5 }

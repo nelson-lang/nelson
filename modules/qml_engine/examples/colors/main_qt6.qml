@@ -4,8 +4,12 @@ import QtQuick.Layouts
 
 ApplicationWindow {
     title: "My Application"
-    width: 640
+    width: 320
     height: 480
+    minimumWidth: 320
+    maximumWidth: 320
+    minimumHeight: 480
+    maximumHeight: 480
     visible: true
     objectName: "colors"
 

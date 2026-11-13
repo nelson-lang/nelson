@@ -17,6 +17,11 @@ if isempty(qobj)
   qml_file = [modulepath('qml_engine'), '/examples/qcharts_demo/QChartGallery_qt6.qml'];
   qobj = qml_createqquickview(qml_file)
   qobj.title = 'Nelson <--> qcharts demo';
+  % The charts are laid out in pixels: keep the window at its designed size.
+  qobj.minimumWidth = qobj.width;
+  qobj.maximumWidth = qobj.width;
+  qobj.minimumHeight = qobj.height;
+  qobj.maximumHeight = qobj.height;
   %child_text = qobj.children(2).children(5);
   child_text = QObject_findchildren(qobj, 'textField', true);
   child_text.text = 'Nelson with QCharts.js';

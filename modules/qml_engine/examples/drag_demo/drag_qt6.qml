@@ -11,7 +11,7 @@ ApplicationWindow {
 
   Rectangle {
     id: container
-    width: 800; height: 600
+    anchors.fill: parent
 
     SystemPalette { id: pal; colorGroup: SystemPalette.Active }
 

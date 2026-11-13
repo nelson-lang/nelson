@@ -17,6 +17,11 @@ if isempty(qobj)
   qml_file = [modulepath('qml_engine'), '/examples/dynamic_scene_demo/dynamicscene_qt6.qml'];
   qobj = qml_createqquickview(qml_file);
   qobj.title = 'Nelson demo dynamic scene';
+  % The scene is laid out in pixels: keep the window at its designed size.
+  qobj.minimumWidth = qobj.width;
+  qobj.maximumWidth = qobj.width;
+  qobj.minimumHeight = qobj.height;
+  qobj.maximumHeight = qobj.height;
 else
   qobj.visible = true;
 end
