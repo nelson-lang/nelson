@@ -74,6 +74,8 @@ waveInfo = uicontrol('Parent', waveFigure, 'Style', 'text', 'String', '', ...
   'Position', [16 8 720 20], 'HorizontalAlignment', 'left', ...
   'BackgroundColor', [0.03 0.04 0.07], 'ForegroundColor', [0.78 0.86 0.96], ...
   'FontSize', 10);
+% Controls follow the window size.
+set(findobj(get(waveInfo, 'Parent'), 'Type', 'uicontrol'), 'Units', 'normalized');
 
 if waveAnimationEnabled
   waveFrame = 0;
@@ -108,8 +110,11 @@ if waveAnimationEnabled
 end
 %=============================================================================
 function rgb = waveColor(field)
-  % Map the signed wave height to a teal-black-magenta display.
-  value = max(min(field / 1.3, 1), -1);
+  % Map the signed wave height to a teal-black-magenta display, scaled to the current
+  % amplitude (99.5th percentile) so the interference pattern stays readable.
+  magnitudes = sort(abs(field(:)));
+  reference = max(magnitudes(ceil(0.995 * numel(magnitudes))), 1e-3);
+  value = max(min(field / reference, 1), -1);
   positive = max(value, 0);
   negative = max(-value, 0);
   rows = size(field, 1);
