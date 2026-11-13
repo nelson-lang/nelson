@@ -16,7 +16,7 @@ function text = __nelsonc_help_text__(filename)
     error('Nelson:nelsonc:helpFile:cannotOpenApplicationHelpFile', 'Cannot open application help file.');
   end
   cleanup = onCleanup(@() fclose(fid));
-  bytes = fread(fid, 1048577, '*uint8')';
+  bytes = reshape(fread(fid, 1048577, '*uint8'), 1, []);
   [message, number] = ferror(fid);
   if number ~= 0
     error('Nelson:nelsonc:helpFile:cannotReadApplicationHelp', 'Cannot read application help: %s', message);

@@ -116,7 +116,7 @@ function res = convertContentType(filename, contentType, characterEncoding)
       res = {y, fs};
     case 'binary'
       fid = fopen(filename, 'r');
-      data = fread(fid, 'uint8');
+      data = fread(fid, '*uint8');
       res = {data};
       fclose(fid);
     case 'json'
@@ -130,12 +130,12 @@ function res = convertContentType(filename, contentType, characterEncoding)
       res = {txt};
     case 'raw'
       fid = fopen(filename, 'r');
-      data = fread(fid, 'uint8');
+      data = fread(fid, '*uint8');
       res = {data};
       fclose(fid);
     otherwise
       fid = fopen(filename, 'r');
-      data = fread(fid, 'uint8');
+      data = fread(fid, '*uint8');
       res = {data};
       fclose(fid);
     end
@@ -171,7 +171,7 @@ function res = autoConvert(filename, characterEncoding)
 
   try
     fid = fopen(filename, 'r');
-    data = fread(fid, 'uint8');
+    data = fread(fid, '*uint8');
     res = {data};
     fclose(fid);
     return

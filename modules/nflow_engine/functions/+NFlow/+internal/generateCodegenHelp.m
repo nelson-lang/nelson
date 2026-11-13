@@ -60,7 +60,7 @@ function nChanged = generateCodegenHelp(helpRoot)
         end
         f = [catDir, '/', fn];
         fid = fopen(f, 'rb');
-        bytes = fread(fid, inf, 'uint8')';
+        bytes = fread(fid, inf, '*uint8')';
         fclose(fid);
         raw = char(bytes);
         % The syntax line is "Block type: <type>" (en) or, on some fr pages, the
