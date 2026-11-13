@@ -289,3 +289,58 @@ describe('FigureControls uitree', () => {
   });
 });
 //=============================================================================
+describe('FigureControls uicontrol text and tabs', () => {
+  it('draws the font weight, angle and text alignment of the uicontrol', () => {
+    const { host } = renderControls([
+      control({ handle: 1, style: 'text', text: 'Title', bold: true, hAlign: 'left' }),
+      control({ handle: 2, style: 'edit', text: 'x', italic: true, hAlign: 'right' }),
+      control({ handle: 3, style: 'text', text: 'Mid' }),
+    ]);
+    const [title, mid] = Array.from(host.querySelectorAll<HTMLElement>('span.figure-uicontrol'));
+    expect(title.style.fontWeight).toBe('bold');
+    expect(title.style.justifyContent).toBe('flex-start');
+    expect(mid.style.fontWeight).toBe('');
+    expect(mid.style.justifyContent).toBe('center');
+    const edit = host.querySelector('input') as HTMLInputElement;
+    expect(edit.style.fontStyle).toBe('italic');
+    expect(edit.style.textAlign).toBe('right');
+  });
+
+  it('keeps repeated spaces, sits at the top and draws the FontName family', () => {
+    const { host } = renderControls([
+      control({
+        handle: 1,
+        style: 'text',
+        text: '9.2  32.2',
+        fontFamily: '"Courier New", monospace',
+      }),
+      control({ handle: 2, style: 'text', text: 'plain' }),
+    ]);
+    const [mono, plain] = Array.from(host.querySelectorAll<HTMLElement>('span.figure-uicontrol'));
+    expect(mono.textContent).toBe('9.2  32.2');
+    expect(mono.style.whiteSpace).toBe('pre-wrap');
+    expect(mono.style.alignItems).toBe('flex-start');
+    expect(mono.style.fontFamily).toBe('"Courier New", monospace');
+    expect(plain.style.fontFamily).toBe('');
+  });
+
+  it('gives the tab bar the height the engine keeps out of the page', () => {
+    const { host } = renderControls([
+      control({
+        style: 'tabgroup',
+        text: '',
+        items: ['Day', 'Week'],
+        value: 1,
+        x: 0,
+        y: 0,
+        w: 400,
+        h: 300,
+        data: { tabLocation: 'top', tabBarSize: 21 },
+      }),
+    ]);
+    const tabs = Array.from(host.querySelectorAll('button'));
+    expect(tabs.map((b) => b.textContent)).toEqual(['Day', 'Week']);
+    expect(tabs.every((b) => b.style.height === '21px')).toBe(true);
+  });
+});
+//=============================================================================

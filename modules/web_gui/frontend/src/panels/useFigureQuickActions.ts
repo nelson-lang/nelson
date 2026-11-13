@@ -75,9 +75,12 @@ export function useFigureQuickActions(options: Options) {
     setKeyboard(null);
     setHover(pick(event)?.handle ?? null);
   };
+  // disableDefaultInteractivity also turns off the modeless select and double-click restore
+  const modelessOff = (axis: { interactive?: boolean }) =>
+    axis.interactive === false && (options.tool ?? 'inspect') === 'inspect';
   const down = (event: ReactMouseEvent) => {
     const axis = pick(event);
-    if (event.button !== 0 || !axis) return;
+    if (event.button !== 0 || !axis || modelessOff(axis)) return;
     setKeyboard(null);
     setHover(axis.handle);
     setDrag(axis.handle);
@@ -85,7 +88,7 @@ export function useFigureQuickActions(options: Options) {
   };
   const doubleClick = (event: ReactMouseEvent) => {
     const axis = pick(event);
-    if (event.button !== 0 || !axis) return;
+    if (event.button !== 0 || !axis || modelessOff(axis)) return;
     event.preventDefault();
     options.selectAxes(axis.handle);
     void options.action({ action: 'fit', axesHandle: axis.handle });

@@ -97,6 +97,8 @@ export function createFigureMouseSender(
   };
   return (payload) => {
     if (payload.action !== 'motion') {
+      // a stale motion must not reach the engine after this press or release
+      queued = null;
       send(payload).then(learn, () => undefined);
       return;
     }

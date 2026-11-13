@@ -381,7 +381,12 @@ export interface UIControl {
   value: number;
   min: number;
   max: number;
+  // font size in page pixels
   fontSize: number;
+  // CSS font-family list from FontName (absent keeps the page font)
+  fontFamily?: string;
+  bold?: boolean;
+  italic?: boolean;
   enabled: boolean;
   // Enable === 'inactive': the control looks normal (enabled) but must not
   // react to user input. ButtonDownFcn still fires. Present only when true.
@@ -411,6 +416,8 @@ export interface UIControl {
     range?: number[];
     // uitabgroup header placement, matching the native TabLocation property.
     tabLocation?: 'top' | 'bottom' | 'left' | 'right' | string;
+    // thickness of the tab bar the engine keeps out of the page area
+    tabBarSize?: number;
   };
 }
 //=============================================================================

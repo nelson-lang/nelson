@@ -461,6 +461,9 @@ function FigureControlsImpl({
           width: c.w,
           height: c.h,
           fontSize: c.fontSize ? `${c.fontSize}px` : undefined,
+          fontFamily: c.fontFamily || undefined,
+          fontWeight: c.bold ? 'bold' : undefined,
+          fontStyle: c.italic ? 'italic' : undefined,
           background: c.background || undefined,
           color: c.foreground || undefined,
           boxSizing: 'border-box',
@@ -481,7 +484,15 @@ function FigureControlsImpl({
               <span
                 key={c.handle}
                 title={c.tooltip || undefined}
-                style={{ ...box, display: 'flex', alignItems: 'center' }}
+                style={{
+                  ...box,
+                  display: 'flex',
+                  // text sits at the top and keeps repeated spaces, as in the native window
+                  alignItems: 'flex-start',
+                  whiteSpace: 'pre-wrap',
+                  justifyContent: flexAlign(c.hAlign),
+                  textAlign: textAlign(c.hAlign),
+                }}
                 className="figure-uicontrol figure-uicontrol--label"
               >
                 {c.text}
@@ -491,6 +502,7 @@ function FigureControlsImpl({
             return (
               <input
                 {...common}
+                style={{ ...box, textAlign: textAlign(c.hAlign) }}
                 type="text"
                 defaultValue={c.text}
                 onBlur={(e) => onAction(c, c.value, e.target.value)}
@@ -636,6 +648,7 @@ function FigureControlsImpl({
             const sel = Math.round(c.value);
             const tabLocation = (c.data?.tabLocation ?? 'top').toLowerCase();
             const vertical = tabLocation === 'left' || tabLocation === 'right';
+            const barSize = c.data?.tabBarSize;
             return (
               <div
                 key={c.handle}
@@ -669,7 +682,9 @@ function FigureControlsImpl({
                       key={i}
                       onClick={() => onAction(c, i + 1, t)}
                       style={{
-                        padding: '3px 12px',
+                        padding: barSize ? '0 12px' : '3px 12px',
+                        boxSizing: 'border-box',
+                        ...(barSize ? (vertical ? { width: barSize } : { height: barSize }) : {}),
                         border: '1px solid #b0b0b0',
                         ...(vertical
                           ? { borderRight: 'none', marginBottom: 2 }
@@ -790,4 +805,12 @@ function FigureControlsImpl({
 }
 //=============================================================================
 export const FigureControls = memo(FigureControlsImpl);
+//=============================================================================
+// HorizontalAlignment of a text / edit uicontrol as CSS
+function flexAlign(align: string | undefined): CSSProperties['justifyContent'] {
+  return align === 'left' ? 'flex-start' : align === 'right' ? 'flex-end' : 'center';
+}
+function textAlign(align: string | undefined): CSSProperties['textAlign'] {
+  return align === 'left' ? 'left' : align === 'right' ? 'right' : 'center';
+}
 //=============================================================================

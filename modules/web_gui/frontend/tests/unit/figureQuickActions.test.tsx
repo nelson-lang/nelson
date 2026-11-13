@@ -29,7 +29,9 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 //=============================================================================
-function workspace(opts: { tool?: FigureTool; point?: FigureDataPoint } = {}) {
+function workspace(
+  opts: { tool?: FigureTool; point?: FigureDataPoint; interactive?: boolean } = {}
+) {
   const host = document.createElement('div');
   document.body.append(host);
   const root = createRoot(host);
@@ -42,7 +44,7 @@ function workspace(opts: { tool?: FigureTool; point?: FigureDataPoint } = {}) {
     height: 600,
     rotatableAxes: [
       { handle: 11, rect: [0, 0, 0.4, 1], view: [0, 90] },
-      { handle: 22, rect: [0.6, 0, 0.4, 1], view: [-37.5, 30] },
+      { handle: 22, rect: [0.6, 0, 0.4, 1], view: [-37.5, 30], interactive: opts.interactive },
     ],
   } as FigureDisplayListResult;
   function Workspace() {
@@ -121,6 +123,26 @@ it('fits only the subplot under a double-click, leaving margins and controls alo
   click(host.querySelector('canvas')!, 500);
   click(host.querySelector('input')!, 700);
   expect(action).toHaveBeenCalledTimes(1);
+});
+//=============================================================================
+it('leaves a double-click to the script on axes with default interactivity off', () => {
+  const dblclick = (host: HTMLElement) =>
+    act(() => {
+      host
+        .querySelector('canvas')!
+        .dispatchEvent(
+          new MouseEvent('dblclick', { button: 0, clientX: 700, clientY: 200, bubbles: true })
+        );
+    });
+  const off = workspace({ interactive: false });
+  dblclick(off.host);
+  expect(off.action).not.toHaveBeenCalled();
+  expect(off.selectAxes).not.toHaveBeenCalled();
+  dispose();
+  // an explicit toolbar mode keeps its own double-click restore
+  const zoom = workspace({ interactive: false, tool: 'zoom' });
+  dblclick(zoom.host);
+  expect(zoom.action.mock.calls).toEqual([[{ action: 'fit', axesHandle: 22 }]]);
 });
 //=============================================================================
 it('keeps the indicator on the dragged axes when the pointer crosses another subplot', () => {

@@ -106,5 +106,20 @@ describe('figure mouse events', () => {
     send({ handle: 1, action: 'motion', x: 4, y: 0 });
     expect(sent.map((p) => p.x)).toEqual([0, 1, 2, 4]);
   });
+
+  it('never delivers a queued motion after the release that follows it', async () => {
+    const pending = [deferred()];
+    const sent: FigureMouseEventPayload[] = [];
+    const send = createFigureMouseSender((payload) => {
+      sent.push(payload);
+      return pending[sent.length - 1]?.promise ?? Promise.resolve({ ok: true, motion: true });
+    });
+    send({ handle: 1, action: 'motion', x: 1, y: 0 });
+    send({ handle: 1, action: 'motion', x: 2, y: 0 });
+    send({ handle: 1, action: 'release', x: 3, y: 0 });
+    pending[0].resolve({ ok: true, motion: true });
+    await flush();
+    expect(sent.map((p) => `${p.action}:${p.x}`)).toEqual(['motion:1', 'release:3']);
+  });
 });
 //=============================================================================
