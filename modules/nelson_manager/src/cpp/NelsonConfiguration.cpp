@@ -485,6 +485,26 @@ NelsonConfiguration::getBugTrackerUrl()
     return bugTrackerUrl;
 }
 //=============================================================================
+std::wstring
+NelsonConfiguration::getNewsfeedUrl()
+{
+    std::lock_guard<std::recursive_mutex> lock(stringMutex);
+    if (newsfeedUrl.empty()) {
+        newsfeedUrl = getDefaultFromConfFile(L"newsfeed_url");
+    }
+    return newsfeedUrl;
+}
+//=============================================================================
+std::wstring
+NelsonConfiguration::getReleasesUrl()
+{
+    std::lock_guard<std::recursive_mutex> lock(stringMutex);
+    if (releasesUrl.empty()) {
+        releasesUrl = getDefaultFromConfFile(L"releases_url");
+    }
+    return releasesUrl;
+}
+//=============================================================================
 void
 NelsonConfiguration::setDocBookUrl(const std::wstring& url)
 {

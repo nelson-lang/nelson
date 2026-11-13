@@ -257,6 +257,12 @@ public:
     getBugTrackerUrl();
     //=============================================================================
     std::wstring
+    getNewsfeedUrl();
+    //=============================================================================
+    std::wstring
+    getReleasesUrl();
+    //=============================================================================
+    std::wstring
     getDocBookUrl();
     //=============================================================================
     void
@@ -407,6 +413,8 @@ private:
     std::wstring websiteUrl;
     std::wstring updateUrl;
     std::wstring bugTrackerUrl;
+    std::wstring newsfeedUrl;
+    std::wstring releasesUrl;
     std::wstring docBookUrl;
     std::wstring currentLocale;
     std::wstring editorCommandLine;

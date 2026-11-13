@@ -11,7 +11,7 @@ function varargout = newsfeed(url, varargin)
   narginchk(0, 2);
   nargoutchk(0, 2);
   if nargin < 1 || isempty(url)
-    url = 'https://nelson-lang.github.io/nelson-website/feed.xml';
+    url = getDefaultFeedUrl();
   end
   tohtml = any(strcmpi(varargin, '-tohtml'));
   tostruct = any(strcmpi(varargin, '-tostruct'));
@@ -33,5 +33,12 @@ function varargout = newsfeed(url, varargin)
   [status, h] = web(['text://', html], '-new', '-noaddressbox');
   if nargout >= 1; varargout{1} = h; end
   if nargout >= 2; varargout{2} = status; end
+end
+%=============================================================================
+function url = getDefaultFeedUrl()
+  % Default feed URL from etc/defaults.conf (shared with the Qt news feed).
+  defaultsConf = [modulepath('nelson', 'etc'), '/defaults.conf'];
+  defaults = jsondecode(defaultsConf, '-file');
+  url = defaults.newsfeed_url;
 end
 %=============================================================================
