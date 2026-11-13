@@ -9,6 +9,6 @@
 %=============================================================================
 % Plot the frequency response of a low-pass transfer function.
 system = tf(25, [1, 4, 25]);
-figure();
+% bode opens its own figure with the magnitude and phase plots.
 bode(system);
-title('Low-pass frequency response');
+set(gcf(), 'Name', 'Low-pass frequency response', 'NumberTitle', 'off');
