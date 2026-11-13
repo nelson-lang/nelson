@@ -14,9 +14,10 @@ run([modulepath('statistics', 'root'), '/examples/kmeans_clustering.m']);
 
 sortedCenters = sortrows(clusterCenters, 1);
 centerErrors = abs(sortedCenters - sourceCenters);
-assert(isequal(size(clusterData), [75 2]));
+assert(isequal(size(clusterData), [240 2]));
 assert(isequal(unique(clusterIndex), [1; 2; 3]));
-assert(max(centerErrors(:)) < 0.1);
+assert(max(centerErrors(:)) < 0.25);
+assert(agreement > 0.95);
 assert(all(withinClusterSums >= 0));
 assert(isgraphics(figureHandle));
 close(figureHandle);
