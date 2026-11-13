@@ -20,6 +20,7 @@
 #include <type_traits>
 #include "ArrayOf.hpp"
 #include "LuFactorization.hpp"
+#include "BinaryOperatorsHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -105,17 +106,18 @@ solveWellConditionedDiagonal(
     const Real* parts = reinterpret_cast<const Real*>(x);
     constexpr indexType partCount = sizeof(T) / sizeof(Real);
     Real finiteCheck = 0;
+    // same quotients as ./ so that B / diag(d) equals B ./ d
     for (indexType col = 0; col < cols; ++col) {
         const T* bc = b + col * rows;
         T* xc = x + col * rows;
         if constexpr (OnRight) {
             const T d = a[col + col * n];
             for (indexType k = 0; k < rows; ++k) {
-                xc[k] = luDivide(bc[k], d);
+                xc[k] = divideValues(bc[k], d);
             }
         } else {
             for (indexType k = 0; k < rows; ++k) {
-                xc[k] = luDivide(bc[k], a[k + k * n]);
+                xc[k] = divideValues(bc[k], a[k + k * n]);
             }
         }
         const Real* xp = parts + col * rows * partCount;

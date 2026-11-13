@@ -19,6 +19,6 @@ function n = numunique(A, varargin)
   else
     n = numel(unique(A));
   end
-  n = double(gather(n));
+  n = double(n);
 end
 %=============================================================================

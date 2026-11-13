@@ -44,9 +44,9 @@ function X = lsqminnorm(A, B, varargin)
     return
   end
   [Q, R, perm] = qr(A, 0);
-  r = gather(sum(abs(diag(R)) > tol));
+  r = sum(abs(diag(R)) > tol);
   if warnRank && r < min(m, n)
-    warning('Nelson:lsqminnorm:rankDeficient', 'Rank deficient, rank = %d, tol = %e.', r, double(gather(tol)));
+    warning('Nelson:lsqminnorm:rankDeficient', 'Rank deficient, rank = %d, tol = %e.', r, double(tol));
   end
   if r == 0
     return
@@ -54,9 +54,9 @@ function X = lsqminnorm(A, B, varargin)
   C = Q(:, 1:r)' * B;
   if r < n
     [Z, T] = qr(R(1:r, :)', 0);
-    X(gather(perm), :) = Z * (T' \ C);
+    X(perm, :) = Z * (T' \ C);
   else
-    X(gather(perm), :) = R(1:r, 1:r) \ C;
+    X(perm, :) = R(1:r, 1:r) \ C;
   end
 end
 %=============================================================================

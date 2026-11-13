@@ -14,6 +14,7 @@
 #include <complex>
 #include <limits>
 #include <utility>
+#include <vector>
 #include "LapackPrototypes.hpp"
 //=============================================================================
 // Products and sums below must round one by one: no fused multiply-add.
@@ -373,6 +374,74 @@ luFactor(const lapack_int* m, const lapack_int* n, std::complex<float>* a, const
         LAPACK_cgetrf(m, n, a, lda, ipiv, info);
     }
 }
+//=============================================================================
+// Inverse from a nonsingular small factor, in place: unblocked ?trti2 then ?getri steps.
+template <class T>
+NLS_LU_NO_FMA_ATTRIBUTE inline void
+smallLuInverse(T* a, lapack_int n, const lapack_int* ipiv)
+{
+    NLS_LU_NO_FMA_BODY
+    for (lapack_int j = 0; j < n; ++j) {
+        T* colJ = a + (size_t)j * n;
+        colJ[j] = luDivide(T(1), colJ[j]);
+        const T ajj = -colJ[j];
+        // x := inv(U(0:j-1, 0:j-1)) * x as ?trmv (upper, no transpose, non unit)
+        for (lapack_int k = 0; k < j; ++k) {
+            if (!luIsZero(colJ[k])) {
+                const T temp = colJ[k];
+                const T* colK = a + (size_t)k * n;
+                for (lapack_int i = 0; i < k; ++i) {
+                    colJ[i] = colJ[i] + luMul(temp, colK[i]);
+                }
+                colJ[k] = luMul(colJ[k], colK[k]);
+            }
+        }
+        for (lapack_int i = 0; i < j; ++i) {
+            colJ[i] = luMul(colJ[i], ajj);
+        }
+    }
+    std::vector<T> work((size_t)n);
+    for (lapack_int j = n; j-- > 0;) {
+        T* colJ = a + (size_t)j * n;
+        for (lapack_int i = j + 1; i < n; ++i) {
+            work[i] = colJ[i];
+            colJ[i] = T(0);
+        }
+        // column j -= A(:, j+1:n) * work(j+1:n) as ?gemv
+        for (lapack_int k = j + 1; k < n; ++k) {
+            const T temp = -work[k];
+            const T* colK = a + (size_t)k * n;
+            for (lapack_int i = 0; i < n; ++i) {
+                colJ[i] = colJ[i] + luMul(temp, colK[i]);
+            }
+        }
+    }
+    for (lapack_int j = n - 1; j-- > 0;) {
+        lapack_int p = ipiv[j] - 1;
+        if (p != j) {
+            std::swap_ranges(a + (size_t)j * n, a + (size_t)(j + 1) * n, a + (size_t)p * n);
+        }
+    }
+}
+//=============================================================================
+// Drop-in ?getri after luFactor: small matrices use the unblocked kernel, others LAPACK.
+#define NLS_LU_INVERSE(TYPE, GETRI)                                                                \
+    inline void luInverse(const lapack_int* n, TYPE* a, const lapack_int* lda,                     \
+        const lapack_int* ipiv, TYPE* work, const lapack_int* lwork, lapack_int* info)             \
+    {                                                                                              \
+        if (isSmallLu<TYPE>(*n, *n) && *lda == *n) {                                               \
+            *info = 0;                                                                             \
+            smallLuInverse<TYPE>(a, *n, ipiv);                                                     \
+        } else {                                                                                   \
+            GETRI(const_cast<lapack_int*>(n), a, const_cast<lapack_int*>(lda),                     \
+                const_cast<lapack_int*>(ipiv), work, const_cast<lapack_int*>(lwork), info);        \
+        }                                                                                          \
+    }
+NLS_LU_INVERSE(double, LAPACK_dgetri)
+NLS_LU_INVERSE(float, LAPACK_sgetri)
+NLS_LU_INVERSE(std::complex<double>, LAPACK_zgetri)
+NLS_LU_INVERSE(std::complex<float>, LAPACK_cgetri)
+#undef NLS_LU_INVERSE
 //=============================================================================
 // Determinant from a ?getrf factor: diagonal product first to last, then the swap sign.
 template <class T>

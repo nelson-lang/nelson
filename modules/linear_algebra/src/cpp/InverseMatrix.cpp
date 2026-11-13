@@ -56,7 +56,7 @@ InverseDouble(const ArrayOf& A, double rcond)
         luFactor(&N, &N, ptrD, &N, IPIV, &INFO);
         if (INFO == 0) {
             double* WORK = new_with_exception<double>(LWORK);
-            LAPACK_dgetri(&N, ptrD, &N, IPIV, WORK, &LWORK, &INFO);
+            luInverse(&N, ptrD, &N, IPIV, WORK, &LWORK, &INFO);
             delete[] WORK;
             delete[] IPIV;
         } else {
@@ -101,7 +101,7 @@ InverseDoubleComplex(ArrayOf A, double rcond)
         luFactor(&N, &N, Rz, &N, IPIV, &INFO);
         if (INFO == 0) {
             doublecomplex* WORK = new_with_exception<doublecomplex>(LWORK);
-            LAPACK_zgetri(&N, Rz, &N, IPIV, WORK, &LWORK, &INFO);
+            luInverse(&N, Rz, &N, IPIV, WORK, &LWORK, &INFO);
             delete[] WORK;
             delete[] IPIV;
         } else {
@@ -149,7 +149,7 @@ InverseSingle(const ArrayOf& A, single rcond)
         luFactor(&N, &N, ptrD, &N, IPIV, &INFO);
         if (INFO == 0) {
             single* WORK = new_with_exception<single>(LWORK);
-            LAPACK_sgetri(&N, ptrD, &N, IPIV, WORK, &LWORK, &INFO);
+            luInverse(&N, ptrD, &N, IPIV, WORK, &LWORK, &INFO);
             delete[] WORK;
             delete[] IPIV;
         } else {
@@ -194,7 +194,7 @@ InverseSingleComplex(ArrayOf A, single rcond)
         luFactor(&N, &N, Rz, &N, IPIV, &INFO);
         if (INFO == 0) {
             singlecomplex* WORK = new_with_exception<singlecomplex>(LWORK);
-            LAPACK_cgetri(&N, Rz, &N, IPIV, WORK, &LWORK, &INFO);
+            luInverse(&N, Rz, &N, IPIV, WORK, &LWORK, &INFO);
             delete[] WORK;
             delete[] IPIV;
         } else {

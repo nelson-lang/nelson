@@ -16,7 +16,7 @@ function P = legendre(n, X, normalization)
   if ~(isnumeric(n) && isscalar(n) && isreal(n) && n >= 0 && n == fix(n))
     error('Nelson:legendre:invalidDegree', 'N must be a nonnegative integer scalar.');
   end
-  n = double(gather(n));
+  n = double(n);
   isText = ischar(normalization) || isstring(normalization);
   if ~(isText && any(strcmpi(char(normalization), {'unnorm', 'sch', 'norm'})))
     error('Nelson:legendre:invalidNormalization', 'Normalization must be ''unnorm'', ''sch'' or ''norm''.');

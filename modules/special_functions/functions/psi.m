@@ -19,7 +19,7 @@ function Y = psi(varargin)
     if ~(isnumeric(k) && isscalar(k) && isreal(k) && k >= 0 && k == fix(k))
       error('Nelson:psi:invalidOrder', 'K must be a nonnegative integer scalar.');
     end
-    k = double(gather(k));
+    k = double(k);
   end
   if ~isfloat(X)
     error('Nelson:psi:invalidType', 'X must be a single or double array.');

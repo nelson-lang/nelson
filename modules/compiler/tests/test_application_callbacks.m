@@ -65,9 +65,9 @@ clearCases = {
   'set(h, ''Callback'');'
   'set(h, ''String'', ''Callback'', ''Visible'', ''off'');'
   'set(h, [axisName, ''Tick''], ticks);'
-  'set(h, [axisName, ''TickLabel''], labels);'
+  'set(h, [axisName, ''TickLabel''], tickLabels);'
   'property = [axisName, ''Tick'']; set(h, property, ticks);'
-  'property = [axisName, ''TickLabel'']; set(h, property, labels);'
+  'property = [axisName, ''TickLabel'']; set(h, property, tickLabels);'
   'h.([prefix, ''Setting'']) = value;'
   'strcmp(''Callback'', ''nc_text_callback'');'
 };

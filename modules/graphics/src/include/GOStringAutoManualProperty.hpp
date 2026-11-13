@@ -13,7 +13,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-class GOAutoManualProperty : public GORestrictedStringProperty
+class NLSGRAPHICS_IMPEXP GOAutoManualProperty : public GORestrictedStringProperty
 {
 public:
     GOAutoManualProperty();

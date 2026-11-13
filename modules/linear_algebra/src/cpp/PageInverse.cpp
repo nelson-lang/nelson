@@ -33,7 +33,7 @@ invPageD(double* page, int n)
     if (info == 0) {
         int lwork = std::max(1, 4 * n);
         std::vector<double> work(lwork);
-        LAPACK_dgetri(&nn, page, &nn, ipiv.data(), work.data(), &lwork, &info);
+        luInverse(&nn, page, &nn, ipiv.data(), work.data(), &lwork, &info);
     }
     if (info != 0) {
         double inf = std::numeric_limits<double>::infinity();
@@ -53,7 +53,7 @@ invPageS(single* page, int n)
     if (info == 0) {
         int lwork = std::max(1, 4 * n);
         std::vector<single> work(lwork);
-        LAPACK_sgetri(&nn, page, &nn, ipiv.data(), work.data(), &lwork, &info);
+        luInverse(&nn, page, &nn, ipiv.data(), work.data(), &lwork, &info);
     }
     if (info != 0) {
         single inf = std::numeric_limits<single>::infinity();
@@ -73,7 +73,7 @@ invPageZ(doublecomplex* page, int n)
     if (info == 0) {
         int lwork = std::max(1, 4 * n);
         std::vector<doublecomplex> work(lwork);
-        LAPACK_zgetri(&nn, page, &nn, ipiv.data(), work.data(), &lwork, &info);
+        luInverse(&nn, page, &nn, ipiv.data(), work.data(), &lwork, &info);
     }
     if (info != 0) {
         doublecomplex inf(std::numeric_limits<double>::infinity(), 0.0);
@@ -93,7 +93,7 @@ invPageC(singlecomplex* page, int n)
     if (info == 0) {
         int lwork = std::max(1, 4 * n);
         std::vector<singlecomplex> work(lwork);
-        LAPACK_cgetri(&nn, page, &nn, ipiv.data(), work.data(), &lwork, &info);
+        luInverse(&nn, page, &nn, ipiv.data(), work.data(), &lwork, &info);
     }
     if (info != 0) {
         singlecomplex inf(std::numeric_limits<single>::infinity(), 0.0f);

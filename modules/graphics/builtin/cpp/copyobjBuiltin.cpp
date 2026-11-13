@@ -81,6 +81,11 @@ restoreAutoManualModes(GraphicsObject* source, GraphicsObject* target)
             continue;
         }
         targetMode->data(sourceMode->data());
+        // the copied value (XLim for XLimMode) must not flip the mode back on updateState
+        const size_t modeLength = std::wstring(L"Mode").size();
+        if (name.size() > modeLength) {
+            target->clearChanged(name.substr(0, name.size() - modeLength));
+        }
         changed = true;
     }
     if (changed) {

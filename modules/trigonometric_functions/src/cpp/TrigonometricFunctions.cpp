@@ -1389,6 +1389,11 @@ sinCosDegrees(double x, double& s, double& c)
     double lo = std::fma(t, degToRadHigh, -hi) + t * degToRadLow;
     double sv = std::sin(hi) + lo * (1.0 - 0.5 * hi * hi);
     double cv = std::cos(hi) - lo * hi;
+    if (std::fabs(t) == 45.0) {
+        // libm sin and cos may differ by one ulp here: keep sind(45) == cosd(45)
+        cv = std::sqrt(0.5);
+        sv = std::copysign(cv, t);
+    }
     switch (static_cast<int>(q) & 3) {
     case 0:
         s = sv;

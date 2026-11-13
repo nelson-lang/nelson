@@ -18,6 +18,17 @@
 #include "MatrixCheck.hpp"
 #include "nlsOperators_exports.h"
 //=============================================================================
+#if defined(__clang__)
+#define NLS_QUOTIENT_NO_FMA_ATTRIBUTE
+#define NLS_QUOTIENT_NO_FMA_BODY _Pragma("clang fp contract(off)")
+#elif defined(__GNUC__)
+#define NLS_QUOTIENT_NO_FMA_ATTRIBUTE __attribute__((optimize("fp-contract=off")))
+#define NLS_QUOTIENT_NO_FMA_BODY
+#else
+#define NLS_QUOTIENT_NO_FMA_ATTRIBUTE
+#define NLS_QUOTIENT_NO_FMA_BODY
+#endif
+//=============================================================================
 namespace Nelson {
 //=============================================================================
 struct BinaryBroadcast
@@ -189,6 +200,26 @@ complexQuotientIsSpecial(std::complex<T> n, std::complex<T> z)
     return !std::isfinite(sum) | (z.real() * z.imag() == 0);
 }
 //=============================================================================
+// Smith's method rounded step by step (no fused multiply-add), as the LU kernels divide.
+template <class T>
+NLS_QUOTIENT_NO_FMA_ATTRIBUTE inline std::complex<T>
+complexQuotientSmith(std::complex<T> n, std::complex<T> z)
+{
+    NLS_QUOTIENT_NO_FMA_BODY
+    T a = n.real();
+    T b = n.imag();
+    T c = z.real();
+    T d = z.imag();
+    if (std::fabs(c) >= std::fabs(d)) {
+        T r = d / c;
+        T den = c + d * r;
+        return std::complex<T>((a + b * r) / den, (b - a * r) / den);
+    }
+    T r = c / d;
+    T den = c * r + d;
+    return std::complex<T>((a * r + b) / den, (b * r - a) / den);
+}
+//=============================================================================
 // Real or imaginary divisor: part by part, an exact zero part paired with a nonzero one stays
 // 0. Otherwise a NaN gives NaN + NaNi and an infinite divisor of a finite value gives 0.
 template <class T>
@@ -217,21 +248,15 @@ complexQuotientSpecial(std::complex<T> n, std::complex<T> z)
         return std::complex<T>((T)0, (T)0);
     }
     // infinite numerator, finite divisor
-    if (std::fabs(c) >= std::fabs(d)) {
-        T r = d / c;
-        T den = c + d * r;
-        return std::complex<T>((a + b * r) / den, (b - a * r) / den);
-    }
-    T r = c / d;
-    T den = c * r + d;
-    return std::complex<T>((a * r + b) / den, (b * r - a) / den);
+    return complexQuotientSmith<T>(n, z);
 }
 //=============================================================================
 template <class T>
 inline std::complex<T>
 complexQuotient(std::complex<T> n, std::complex<T> z)
 {
-    return complexQuotientIsSpecial<T>(n, z) ? complexQuotientSpecial<T>(n, z) : n / z;
+    return complexQuotientIsSpecial<T>(n, z) ? complexQuotientSpecial<T>(n, z)
+                                              : complexQuotientSmith<T>(n, z);
 }
 //=============================================================================
 // Element quotient for real or complex values (complex ones follow complexQuotient).

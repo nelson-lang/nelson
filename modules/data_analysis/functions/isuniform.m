@@ -33,6 +33,6 @@ function [tf, step] = isuniform(v)
   if tf
     step = candidate;
   end
-  tf = logical(gather(tf));
+  tf = logical(tf);
 end
 %=============================================================================
