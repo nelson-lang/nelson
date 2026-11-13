@@ -21,8 +21,8 @@
 % output; simulating yields b = 3 * 2 = 6.
 %
 % Note: the produced .fmu carries a platform-specific binary (e.g. win64), so the
-% generated GainChain.ssp only simulates on the platform it was built on. Re-run
-% this script on another platform to rebuild native FMUs.
+% GainChain.ssp shipped next to this script only simulates on the platform it was
+% built on; this script rebuilds native FMUs in tempdir() for the current platform.
 %=============================================================================
 work = tempdir();
 
@@ -55,7 +55,8 @@ fid = fopen(gainPath, 'wt'); fwrite(fid, jsonencode(gainModel)); fclose(fid);
 components = struct('name', {'Source', 'Gain'}, 'model', {sourcePath, gainPath});
 connections = struct('startElement', {'Source', 'Gain'}, 'startConnector', {'a', 'b'}, ...
   'endElement', {'Gain', ''}, 'endConnector', {'a', 'b'});
-sspPath = [fileparts(mfilename('fullpathext')), '/GainChain.ssp'];
+% Generate into the temporary directory: the module folder may be read-only.
+sspPath = fullfile(work, 'GainChain.ssp');
 NFlow.sspExport(sspPath, components, connections);
 disp(['generated : ', sspPath]);
 

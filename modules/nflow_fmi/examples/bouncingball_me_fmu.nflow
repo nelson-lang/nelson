@@ -79,33 +79,13 @@
       "from": "fmu1",
       "fromIndex": 0,
       "to": "scope1",
-      "toIndex": 0,
-      "points": [
-        [
-          2136,
-          1920
-        ],
-        [
-          2360,
-          1840
-        ]
-      ]
+      "toIndex": 0
     },
     {
       "from": "fmu1",
       "fromIndex": 1,
       "to": "scope2",
-      "toIndex": 0,
-      "points": [
-        [
-          2136,
-          1920
-        ],
-        [
-          2360,
-          2020
-        ]
-      ]
+      "toIndex": 0
     }
   ],
   "variables": {},
