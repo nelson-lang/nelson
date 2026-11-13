@@ -8,6 +8,12 @@
     <p
     >The File Archiver module provides tools for compressing and decompressing files in Nelson.</p>
     <p
-    >It supports creation of zip archives and extraction of files from zip archives, enabling efficient file storage, sharing, and management.</p>
+    >It creates and extracts zip archives and tar archives (plain or compressed with gzip, zstd, xz, bzip2, lz4 or lzma).</p>
+    <p
+    >nelson.io.archive reads and extracts archives of many other formats, such as 7z, rar, iso9660, cpio, ar, cab, lha and xar.</p>
+    <p
+    >It also compresses and decompresses gzip and Zstandard streams, in memory or between files.</p>
+    <p
+    >File identifiers give access to compressed data with the usual file functions (fread, fprintf, fseek, ...).</p>
   </chapter_description>
 </xmldoc>

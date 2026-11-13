@@ -93,8 +93,8 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;HAVE_ZLIB;ZLIB_COMPAT;HAVE_STDINT_H;_DEBUG;_WINDOWS;_USRDLL;NLSFILE_ARCHIVER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/file_archiver/src/include;$(SolutionDir)modules/file_archiver/src/c/minizip;$(SolutionDir)modules/file_archiver/src/cpp/zipper;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/zlib/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;_WINDOWS;_USRDLL;NLSFILE_ARCHIVER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/file_archiver/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/zlib/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -112,8 +112,8 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;HAVE_ZLIB;ZLIB_COMPAT;HAVE_STDINT_H;_DEBUG;_WINDOWS;_USRDLL;NLSFILE_ARCHIVER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/file_archiver/src/include;$(SolutionDir)modules/file_archiver/src/c/minizip;$(SolutionDir)modules/file_archiver/src/cpp/zipper;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/zlib/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_DEBUG;_WINDOWS;_USRDLL;NLSFILE_ARCHIVER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/file_archiver/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/zlib/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -134,8 +134,8 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;HAVE_ZLIB;ZLIB_COMPAT;HAVE_STDINT_H;NDEBUG;_WINDOWS;_USRDLL;NLSFILE_ARCHIVER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/file_archiver/src/include;$(SolutionDir)modules/file_archiver/src/c/minizip;$(SolutionDir)modules/file_archiver/src/cpp/zipper;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/zlib/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;NLSFILE_ARCHIVER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/file_archiver/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/zlib/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -159,8 +159,8 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;HAVE_ZLIB;ZLIB_COMPAT;HAVE_STDINT_H;NDEBUG;_WINDOWS;_USRDLL;NLSFILE_ARCHIVER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/file_archiver/src/include;$(SolutionDir)modules/file_archiver/src/c/minizip;$(SolutionDir)modules/file_archiver/src/cpp/zipper;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/zlib/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_WINDOWS;_USRDLL;NLSFILE_ARCHIVER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/file_archiver/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/elementary_mathematics/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/zlib/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -175,28 +175,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\ArchiveInterruption.cpp" />
+    <ClCompile Include="..\cpp\ArchiveDiskWriter.cpp" />
+    <ClCompile Include="..\cpp\LibarchiveSupport.cpp" />
     <ClCompile Include="..\cpp\StringZLib.cpp" />
     <ClCompile Include="..\cpp\Unzip.cpp" />
-    <ClCompile Include="..\cpp\UnzipHelpers.cpp" />
     <ClCompile Include="..\cpp\Zip.cpp" />
+    <ClCompile Include="..\cpp\ZipArchive.cpp" />
+    <ClCompile Include="..\cpp\ZipCentralDirectory.cpp" />
     <ClCompile Include="..\cpp\ZipHelpers.cpp" />
-    <ClCompile Include="..\cpp\Zipper.cpp" />
+    <ClCompile Include="..\cpp\ZipArchiveSessions.cpp" />
+    <ClCompile Include="..\cpp\ZstdCodec.cpp" />
+    <ClCompile Include="..\cpp\ArchivePath.cpp" />
+    <ClCompile Include="..\cpp\ArchiveStreams.cpp" />
+    <ClCompile Include="..\cpp\ExtractionGuard.cpp" />
+    <ClCompile Include="..\cpp\GzipCodec.cpp" />
+    <ClCompile Include="..\cpp\TarArchive.cpp" />
+    <ClCompile Include="..\cpp\TarLibarchiveReader.cpp" />
+    <ClCompile Include="..\cpp\TarArchiveSessions.cpp" />
+    <ClCompile Include="..\cpp\Tar.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
-    <ClCompile Include="minizip\mz_compat.c" />
-    <ClCompile Include="minizip\mz_crypt.c" />
-    <ClCompile Include="minizip\mz_crypt_win32.c" />
-    <ClCompile Include="minizip\mz_os.c" />
-    <ClCompile Include="minizip\mz_os_win32.c" />
-    <ClCompile Include="minizip\mz_strm.c" />
-    <ClCompile Include="minizip\mz_strm_buf.c" />
-    <ClCompile Include="minizip\mz_strm_mem.c" />
-    <ClCompile Include="minizip\mz_strm_os_win32.c" />
-    <ClCompile Include="minizip\mz_strm_pkcrypt.c" />
-    <ClCompile Include="minizip\mz_strm_split.c" />
-    <ClCompile Include="minizip\mz_strm_wzaes.c" />
-    <ClCompile Include="minizip\mz_strm_zlib.c" />
-    <ClCompile Include="minizip\mz_zip.c" />
-    <ClCompile Include="minizip\mz_zip_rw.c" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">
@@ -222,13 +220,26 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\cpp\UnzipHelpers.hpp" />
+    <ClInclude Include="..\include\ArchiveInterruption.hpp" />
+    <ClInclude Include="..\cpp\ArchiveDiskWriter.hpp" />
+    <ClInclude Include="..\cpp\LibarchiveSupport.hpp" />
     <ClInclude Include="..\cpp\ZipHelpers.hpp" />
-    <ClInclude Include="..\cpp\Zipper.hpp" />
     <ClInclude Include="..\include\nlsFile_archiver_exports.h" />
     <ClInclude Include="..\include\StringZLib.hpp" />
     <ClInclude Include="..\include\Unzip.hpp" />
     <ClInclude Include="..\include\Zip.hpp" />
+    <ClInclude Include="..\cpp\ZipCentralDirectory.hpp" />
+    <ClInclude Include="..\include\ZipArchive.hpp" />
+    <ClInclude Include="..\include\ZstdCodec.hpp" />
+    <ClInclude Include="..\include\ArchivePath.hpp" />
+    <ClInclude Include="..\include\ArchiveStreams.hpp" />
+    <ClInclude Include="..\include\ExtractionGuard.hpp" />
+    <ClInclude Include="..\include\GzipCodec.hpp" />
+    <ClInclude Include="..\cpp\TarLibarchiveReader.hpp" />
+    <ClInclude Include="..\include\TarArchive.hpp" />
+    <ClInclude Include="..\include\TarArchiveSessions.hpp" />
+    <ClInclude Include="..\include\Tar.hpp" />
+    <ClInclude Include="..\include\ZipArchiveSessions.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\ApplicationArchive.cpp" />
@@ -244,6 +255,37 @@
       <AdditionalIncludeDirectories>$(SolutionDir)modules/core/src/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
+  <!-- Zstandard streams (nelson.io.zstd) when the third-party zstd folder is present. -->
+  <PropertyGroup>
+    <NelsonZstdDir>$(SolutionDir)..\NelSon-thirdparty-$(PlatformName)\zstd</NelsonZstdDir>
+    <NelsonHasZstd Condition="Exists('$(NelsonZstdDir)\include\zstd.h')">true</NelsonHasZstd>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(NelsonHasZstd)'=='true'">
+    <ClCompile>
+      <PreprocessorDefinitions>HAVE_ZSTD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(NelsonZstdDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(NelsonZstdDir)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>zstd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <!-- libarchive is required on Windows. -->
+  <PropertyGroup>
+    <NelsonLibArchiveDir>$(SolutionDir)..\NelSon-thirdparty-$(PlatformName)\libarchive</NelsonLibArchiveDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(NelsonLibArchiveDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(NelsonLibArchiveDir)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>archive.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <Target Name="NelsonCheckLibArchive" BeforeTargets="ClCompile">
+    <Error Condition="!Exists('$(NelsonLibArchiveDir)\include\archive.h')" Text="libarchive not found: $(NelsonLibArchiveDir)" />
+  </Target>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

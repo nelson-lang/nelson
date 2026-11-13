@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>gunzip</keyword>
+  <short_description>Decompress gzip files.</short_description>
+  <syntax>
+    <syntax_item>filenames = gunzip(files)</syntax_item>
+    <syntax_item>filenames = gunzip(files, outputfolder)</syntax_item>
+    <syntax_item>filenames = gunzip(files, outputfolder, 'MaxExtractedSize', maxextractedsize)</syntax_item>
+    <syntax_item>filenames = gunzip(files, outputfolder, 'MaxCompressionRatio', maxratio)</syntax_item>
+    <syntax_item>filenames = gunzip(files, Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>files</param_name>
+      <param_description>a character vector, a cell array of character vectors, or a string array: names of .gz files or folders, with wildcards '*' and '?' allowed; or one http/https URL.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>outputfolder</param_name>
+      <param_description>a character vector or string scalar: folder of the decompressed files, created if needed.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>maxextractedsize</param_name>
+      <param_description>a nonnegative integer: largest size in bytes of each decompressed file (default: Inf, no limit).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>maxratio</param_name>
+      <param_description>a positive number: a file whose decompressed size is more than maxratio times the size of its .gz file is refused (default: Inf, no limit).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>filenames</param_name>
+      <param_description>a cell array of character vectors: names of the written files.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>gunzip</b> decompresses each .gz file. The output name is the name of the .gz file without its '.gz' extension.</p>
+    <p>Without output folder, each file is written next to its .gz file. A folder gives all the .gz files it contains; other files are ignored.</p>
+    <p>A URL is downloaded to a temporary file first. Without output folder, the result is written in the current folder.</p>
+    <p>Protection against decompression bombs: <b>MaxExtractedSize</b> limits the size of each decompressed file (error <b>Nelson:io:gzip:tooLarge</b>), and <b>MaxCompressionRatio</b> is checked while decompressing. Writing stops with an error when the free disk space of the destination is not enough.</p>
+    <p>Several gzip members put one after the other are decompressed as one file. A damaged file raises an error.</p>
+    <p>Ctrl+C stops the decompression and removes the file being written.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[folder = tempname();
+mkdir(folder);
+source = fullfile(folder, 'notes.txt');
+filewrite(source, repmat(sprintf('line\n'), 1, 100));
+packed = gzip(source)
+filenames = gunzip(packed, fullfile(folder, 'out'))
+isequal(fileread(filenames{1}), fileread(source))
+rmdir(folder, 's');
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${file_archiver}gzip">gzip</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}nelson.io.gzip">nelson.io.gzip</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}untar">untar</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}unzip">unzip</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version, with MaxExtractedSize and MaxCompressionRatio options</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

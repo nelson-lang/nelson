@@ -8,5 +8,5 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 addgateway(modulepath('file_archiver', 'builtin'), 'file_archiver');
-%addpath(modulepath('file_archiver', 'functions'), '-frozen');
+addpath(modulepath('file_archiver', 'functions'), '-frozen');
 %=============================================================================

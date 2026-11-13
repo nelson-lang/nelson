@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.io.zip</keyword>
+  <short_description>Lit et écrit les entrées d'une archive ZIP sans extraire de fichiers.</short_description>
+  <syntax>
+    <syntax_item>z = nelson.io.zip.open(filename)</syntax_item>
+    <syntax_item>z = nelson.io.zip.open(filename, mode)</syntax_item>
+    <syntax_item>z = nelson.io.zip.open(filename, mode, 'Compression', method, 'Level', level)</syntax_item>
+    <syntax_item>z = nelson.io.zip.open(filename, 'r', 'Password', password)</syntax_item>
+    <syntax_item>z = nelson.io.zip.open(filename, mode, 'Password', password, 'Encryption', encryption)</syntax_item>
+    <syntax_item>z = nelson.io.zip.open(url)</syntax_item>
+    <syntax_item>z = nelson.io.zip.open(bytes)</syntax_item>
+    <syntax_item>z = nelson.io.zip.open([], 'w')</syntax_item>
+    <syntax_item>T = nelson.io.zip.entries(z)</syntax_item>
+    <syntax_item>data = nelson.io.zip.read(z, name)</syntax_item>
+    <syntax_item>data = nelson.io.zip.read(z, name, 'MaxSize', maxsize)</syntax_item>
+    <syntax_item>txt = nelson.io.zip.readtext(z, name)</syntax_item>
+    <syntax_item>txt = nelson.io.zip.readtext(z, name, 'Encoding', encoding, 'MaxSize', maxsize)</syntax_item>
+    <syntax_item>nelson.io.zip.write(z, name, data)</syntax_item>
+    <syntax_item>nelson.io.zip.write(z, name, data, 'Compression', method, 'Level', level, 'Modified', when)</syntax_item>
+    <syntax_item>names = nelson.io.zip.add(z, path)</syntax_item>
+    <syntax_item>names = nelson.io.zip.add(z, path, entryname)</syntax_item>
+    <syntax_item>fid = nelson.io.zip.fopen(z, name)</syntax_item>
+    <syntax_item>fid = nelson.io.zip.fopen(z, name, permission, encoding)</syntax_item>
+    <syntax_item>fid = nelson.io.zip.fopen(z, name, 'r', encoding, 'MaxSize', maxsize)</syntax_item>
+    <syntax_item>fid = nelson.io.zip.fopen(z, name, 'w', encoding, 'Compression', method, 'Level', level, 'Modified', when)</syntax_item>
+    <syntax_item>bytes = nelson.io.zip.tobytes(z)</syntax_item>
+    <syntax_item>nelson.io.zip.close(z)</syntax_item>
+    <syntax_item>methods = nelson.io.zip.compressions()</syntax_item>
+    <syntax_item>nelson.io.zip.remove(filename, names)</syntax_item>
+    <syntax_item>nelson.io.zip.rename(filename, oldnames, newnames)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>une chaîne : nom du fichier ZIP.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>mode</param_name>
+      <param_description>'r' (lecture, par défaut), 'w' (nouvelle archive, remplace le fichier), 'a' (ajout d'entrées à une archive existante) ou 'x' (nouvelle archive, le fichier ne doit pas exister).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>password</param_name>
+      <param_description>un vecteur de caractères ou une chaîne : mot de passe pour lire les entrées chiffrées (mode 'r') ou pour chiffrer les fichiers écrits (modes 'w', 'a' et 'x').</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>encryption</param_name>
+      <param_description>'aes256' (par défaut), 'aes128' (WinZip AES) ou 'zipcrypto' (chiffrement traditionnel, faible, seulement pour d'anciens outils). Les archives chiffrées en 'aes192' peuvent être lues, mais pas écrites.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>url</param_name>
+      <param_description>une chaîne : URL http ou https d'une archive ZIP, ouverte en mode 'r'.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>bytes</param_name>
+      <param_description>un vecteur uint8 : octets d'une archive ZIP en mémoire.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>z</param_name>
+      <param_description>un objet nelson.io.ZipArchive.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>name, entryname</param_name>
+      <param_description>une chaîne : nom de l'entrée dans l'archive, avec '/' comme séparateur de dossiers.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>data</param_name>
+      <param_description>vecteur uint8, vecteur de caractères ou chaîne scalaire (le texte est stocké en UTF-8).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>path</param_name>
+      <param_description>une chaîne : fichier, ou dossier ajouté avec ses fichiers et ses sous-dossiers vides.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>method</param_name>
+      <param_description>'deflate' (par défaut), 'store', 'zstd', 'xz', 'bzip2' ou 'lzma'.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>level</param_name>
+      <param_description>niveau de compression de 0 à 9 pour toutes les méthodes (6 par défaut pour deflate). Le niveau 0 stocke les données. Un seul niveau est utilisé pour toute l'archive.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>when</param_name>
+      <param_description>un datetime : date de modification enregistrée pour l'entrée (par défaut : maintenant).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>maxsize</param_name>
+      <param_description>taille d'entrée maximale acceptée, en octets (par défaut : Inf). Une entrée plus grande est refusée avant la décompression.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>encoding</param_name>
+      <param_description>un vecteur de caractères : encodage utilisé pour décoder l'entrée (par défaut : 'UTF-8').</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>names, oldnames, newnames</param_name>
+      <param_description>tableaux de chaînes de noms d'entrées.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>permission</param_name>
+      <param_description>'r' (lecture, par défaut) ou 'w' (écriture d'une nouvelle entrée ou de données .zst).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>T</param_name>
+      <param_description>une table avec les variables Name, Size, CompressedSize, Compression, Modified, IsFolder, CRC32 et Encrypted.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>data</param_name>
+      <param_description>un vecteur ligne uint8.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>txt</param_name>
+      <param_description>un vecteur ligne de caractères.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>methods</param_name>
+      <param_description>un tableau de chaînes : méthodes de compression disponibles dans cette version.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>fid</param_name>
+      <param_description>un identificateur de fichier pour fread, fgetl, fgets, fscanf, textscan, fwrite, fprintf, feof, ftell, fseek, frewind, fsize et fclose.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.io.zip</b> lit, écrit et inspecte les archives ZIP entrée par entrée, sur disque ou en mémoire, sans les extraire dans des fichiers.</p>
+    <p>Les entrées stockées ou compressées en deflate, zstd, xz, bzip2 ou lzma sont lues de façon transparente. Toute autre méthode de compression (par exemple deflate64) provoque une erreur qui indique la méthode et l'entrée. La lecture vérifie la taille et la somme de contrôle de chaque entrée. <b>MaxSize</b> protège contre des entrées qui se décompressent bien au-delà de la taille attendue.</p>
+    <p>Les entrées chiffrées (WinZip AES avec des clés de 128, 192 ou 256 bits, ou chiffrement PKWARE traditionnel) se lisent avec le <b>Password</b> donné à l'ouverture ; la variable <b>Encrypted</b> de <b>entries</b> indique lesquelles le sont. Le mot de passe est utilisé en texte UTF-8. Un mauvais mot de passe lève une erreur, et une entrée AES modifiée échoue au contrôle de son code d'authentification quand elle a été lue jusqu'au bout.</p>
+    <p>Une archive ouverte avec le mode 'w', 'a' ou 'x' et un <b>Password</b> chiffre les fichiers écrits ensuite par <b>write</b>, <b>add</b> et <b>fopen</b>. <b>Encryption</b> choisit la méthode : 'aes256' (par défaut), 'aes128' ou 'zipcrypto'. 'zipcrypto' est faible : utilisez-le seulement pour d'anciens outils. Les archives chiffrées en 'aes192' sont lues, mais écrire avec 'aes192' lève l'erreur Nelson:io:zip:invalidArgument. Les dossiers ne sont pas chiffrés. <b>Encryption</b> sans <b>Password</b>, ou en mode 'r', lève l'erreur Nelson:io:zip:encryptionNeedsPassword. Une méthode inconnue lève l'erreur Nelson:io:zip:unknownEncryption. Un mot de passe qui n'est pas du texte lève l'erreur Nelson:io:zip:invalidTextOption.</p>
+    <p><b>open</b> accepte aussi une URL http ou https en mode 'r'. L'archive est téléchargée dans un fichier temporaire, supprimé par <b>close</b>.</p>
+    <p><b>add</b> compresse les fichiers d'un dossier l'un après l'autre et les écrit dans l'ordre.</p>
+    <p>Les nouvelles entrées utilisent deflate, sauf si <b>Compression</b> est donnée pour l'archive (à l'ouverture) ou pour une entrée. <b>nelson.io.zip.compressions</b> liste les méthodes de la version en cours. Dans la version WebAssembly, seules store et deflate sont disponibles, et 'zipcrypto' est la seule méthode de chiffrement.</p>
+    <p>Le niveau de compression s'applique à toute l'archive : le premier fichier écrit le fixe. Une entrée suivante qui demande un autre niveau lève l'erreur Nelson:io:zip:invalidArgument. Si besoin, donnez le niveau une seule fois, à l'ouverture : <b>nelson.io.zip.open(filename, 'w', 'Level', 9)</b>.</p>
+    <p>Les fichiers de plus de 4 Go et les archives de plus de 65535 entrées sont écrits au format ZIP64.</p>
+    <p>Une archive ouverte en écriture doit être fermée pour être complète : <b>close</b> écrit le répertoire central. <b>tobytes</b> ferme une archive en mémoire ouverte en écriture et renvoie ses octets.</p>
+    <p><b>remove</b> et <b>rename</b> réécrivent un fichier ZIP : les entrées conservées sont décompressées puis compressées à nouveau. Elles ne peuvent pas conserver d'entrées chiffrées (erreur). Un nom terminé par '/', ou un nom qui ne correspond à aucune entrée mais sert de dossier, s'applique à toutes les entrées de ce dossier : <b>rename(f, 'old', 'new')</b> transforme 'old/a.txt' en 'new/a.txt'.</p>
+    <p>Une archive ouverte avec le mode 'a' connaît ses entrées existantes : <b>entries</b> les liste, et <b>write</b> ou <b>add</b> refusent un nom déjà présent. L'archive est écrite à nouveau : les entrées existantes sont décompressées puis compressées à nouveau dans un fichier temporaire, qui remplace le fichier d'origine à la fermeture. Une archive qui contient des entrées chiffrées ne peut pas être ouverte en mode 'a' (erreur Nelson:io:zip:invalidArgument).</p>
+    <p>Les fonctions sont aussi des méthodes de <b>nelson.io.ZipArchive</b> : <b>z.read(name)</b> équivaut à <b>nelson.io.zip.read(z, name)</b>.</p>
+    <p><b>fopen</b> ouvre une entrée comme un identificateur de fichier : les fonctions de fichier habituelles la lisent ou l'écrivent bloc par bloc, sans la charger en mémoire. <b>fclose</b> vérifie la somme de contrôle d'une entrée lue et termine une entrée écrite.</p>
+    <p>Le positionnement est exact. Avancer décompresse en sautant les données ; reculer dans une entrée compressée la relit depuis le début, ce qui est lent pour les grosses entrées.</p>
+    <p>Plusieurs entrées peuvent être lues en même temps. Une seule entrée à la fois est écrite : tant que son identificateur n'est pas fermé, <b>write</b>, <b>add</b>, un autre <b>fopen</b> en écriture et <b>close</b> provoquent une erreur. Supprimer l'objet archive le ferme quand cette entrée se termine, et fclose('all') termine l'entrée.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Écrire et lire une archive en mémoire</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[z = nelson.io.zip.open([], 'w');
+z.write('notes/hello.txt', 'Hello ZIP');
+z.write('data.bin', uint8(1:100), 'Compression', 'store');
+bytes = nelson.io.zip.tobytes(z);
+r = nelson.io.zip.open(bytes);
+nelson.io.zip.entries(r)
+nelson.io.zip.readtext(r, 'notes/hello.txt')
+nelson.io.zip.close(r);
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Créer un fichier d'archive, puis y ajouter une entrée</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[filename = [tempdir(), 'nelson_io_zip_example.zip'];
+z = nelson.io.zip.open(filename, 'w');
+nelson.io.zip.add(z, [modulepath('file_archiver'), '/etc/startup.m']);
+nelson.io.zip.close(z);
+z = nelson.io.zip.open(filename, 'a');
+z.write('readme.txt', "appended");
+z.close();
+r = nelson.io.zip.open(filename);
+r.entries().Name
+r.close();
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Lire et écrire des entrées avec des identificateurs de fichier</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[z = nelson.io.zip.open([], 'w');
+fid = z.fopen('table.csv', 'w');
+fprintf(fid, '%d,%g\n', [1:3; (1:3) / 10]);
+fclose(fid);
+r = nelson.io.zip.open(z.tobytes());
+fid = r.fopen('table.csv');
+C = textscan(fid, '%d,%f')
+fclose(fid);
+r.close();
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Écrire et lire une archive chiffrée</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[filename = [tempname(), '.zip'];
+z = nelson.io.zip.open(filename, 'w', 'Password', 'secret', 'Encryption', 'aes256');
+z.Encryption
+z.write('notes/private.txt', 'Hidden text');
+z.close();
+r = nelson.io.zip.open(filename, 'r', 'Password', 'secret');
+r.entries().Encrypted
+r.readtext('notes/private.txt')
+r.close();
+delete(filename);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${file_archiver}zip">zip</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}unzip">unzip</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}nelson.io.zstd">nelson.io.zstd</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>chiffrement en écriture, source URL, compression xz, bzip2 et lzma ajoutés</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

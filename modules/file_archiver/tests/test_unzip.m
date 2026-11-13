@@ -68,6 +68,7 @@ for r = R
     asserts.istrue(isdir(rr));
   else
     asserts.istrue(isfile(rr));
+    fileinfo = dir(rr);
     asserts.istrue(fileinfo.bytes > 0);
   end
 end

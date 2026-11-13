@@ -7,17 +7,28 @@
   <syntax>
     <syntax_item>res = unzip(zipname)</syntax_item>
     <syntax_item>res = unzip(zipname, rootdir)</syntax_item>
+    <syntax_item>res = unzip(zipname, rootdir, 'MaxExtractedSize', maxextractedsize)</syntax_item>
+    <syntax_item>res = unzip(zipname, rootdir, 'MaxCompressionRatio', maxratio)</syntax_item>
+    <syntax_item>res = unzip(zipname, Name, Value)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>zipname</param_name>
       <param_description
-      >une chaîne : nom du fichier d&apos;archive zip.</param_description>
+      >une chaîne : nom du fichier d'archive zip, ou URL http ou https d'une archive zip.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>rootdir</param_name>
       <param_description
       >un vecteur de caractères ou une chaîne : chemin racine pour les fichiers à décompresser.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>maxextractedsize</param_name>
+      <param_description>un entier positif ou nul : nombre total maximal d'octets que l'extraction peut écrire (par défaut : Inf, sans limite).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>maxratio</param_name>
+      <param_description>un nombre positif : une entrée dont la taille décompressée dépasse maxratio fois sa taille compressée est refusée. Les entrées de 1 Mio ou moins ne sont jamais refusées pour leur taux de compression (par défaut : Inf, sans limite).</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -29,7 +40,15 @@
   </param_output>
   <description>
     <p>
-      <b>unzip</b> extracts archived contents. Timestamps and attributes are preserved for each file.</p>
+      <b>unzip</b> extrait le contenu de l'archive. Les dates de modification de chaque fichier sont conservées.</p>
+    <p>Les attributs de l'archive ne sont pas appliqués sous Windows. Sous Linux et macOS, les droits d'exécution des entrées créées sous Unix sont restaurés.</p>
+    <p>Une archive absente provoque une erreur et aucun dossier de destination n'est créé. Une entrée dont la somme de contrôle est fausse provoque une erreur.</p>
+    <p>Les entrées stockées ou compressées en deflate, zstd, xz, bzip2 ou lzma (méthodes 0, 8, 93, 95, 12 et 14) sont prises en charge. Dans la version WebAssembly, seules les entrées stockées ou compressées en deflate sont prises en charge. Toute autre méthode de compression (par exemple deflate64, méthode 9) provoque une erreur qui indique la méthode et l'entrée.</p>
+    <p>Protection contre les bombes de décompression : une archive dont les entrées partagent les mêmes octets (entrées qui se chevauchent) est toujours refusée avec l'erreur <b>Nelson:io:zip:overlappingEntries</b>. Une extraction dont la taille totale déclarée dépasse l'espace disque libre de la destination est refusée avec l'erreur <b>Nelson:file_archiver:notEnoughSpace</b>.</p>
+    <p><b>MaxExtractedSize</b> limite la taille totale écrite (erreur <b>Nelson:file_archiver:extractedSizeLimit</b>). <b>MaxCompressionRatio</b> refuse les entrées qui se décompressent trop (erreur <b>Nelson:file_archiver:compressionRatioLimit</b>).</p>
+    <p>Ces contrôles utilisent les tailles déclarées dans l'archive et ont lieu avant toute écriture : en cas d'échec, aucun fichier ni dossier de destination n'est créé. Pendant la lecture, une entrée ne peut jamais fournir plus d'octets qu'elle n'en déclare.</p>
+    <p>Quand <b>zipname</b> est une URL http ou https, l'archive est d'abord téléchargée dans un fichier temporaire.</p>
+    <p>Ctrl+C arrête l'extraction et supprime le fichier en cours d'écriture.</p>
   </description>
   <used_function />
   <bibliography />
@@ -39,8 +58,24 @@
       <example_item_description />
       <example_item_data
         runnable="cli"
-      ><![CDATA[zip([tempdir(), 'test.zip'], [nelsonroot(), '/module_skeleton']);
+      ><![CDATA[folder = [tempdir(), createGUID()];
+mkdir(folder);
+filewrite([folder, '/a.txt'], 'first file');
+filewrite([folder, '/b.txt'], 'second file');
+zip([tempdir(), 'test.zip'], folder);
 r = unzip([tempdir(), 'test.zip'], [tempdir(), createGUID()])]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Extraire avec des limites contre les bombes de décompression</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[folder = [tempdir(), createGUID()];
+mkdir(folder);
+filewrite([folder, '/a.txt'], 'first file');
+filewrite([folder, '/b.txt'], 'second file');
+zip([tempdir(), 'test.zip'], folder);
+r = unzip([tempdir(), 'test.zip'], [tempdir(), createGUID()], 'MaxExtractedSize', 1e9, 'MaxCompressionRatio', 1000)]]></example_item_data>
     </example_item>
   </examples>
   <see_also>
@@ -52,6 +87,10 @@ r = unzip([tempdir(), 'test.zip'], [tempdir(), createGUID()])]]></example_item_d
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>attributs non appliqués sous Windows, droits d'exécution restaurés sous Unix, contrôle de la somme de contrôle, URL http ou https acceptée, options MaxExtractedSize et MaxCompressionRatio, contrôle des entrées qui se chevauchent et de l'espace disque libre, lecture des entrées zstd, xz, bzip2 et lzma.</history_description>
     </history_item>
   </history>
   <authors>

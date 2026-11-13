@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>untar</keyword>
+  <short_description>Extraire le contenu d'un fichier tar.</short_description>
+  <syntax>
+    <syntax_item>filenames = untar(tarfilename)</syntax_item>
+    <syntax_item>filenames = untar(tarfilename, outputfolder)</syntax_item>
+    <syntax_item>filenames = untar(tarfilename, outputfolder, 'MaxExtractedSize', maxextractedsize)</syntax_item>
+    <syntax_item>filenames = untar(tarfilename, outputfolder, 'MaxCompressionRatio', maxratio)</syntax_item>
+    <syntax_item>filenames = untar(tarfilename, Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>tarfilename</param_name>
+      <param_description>une chaîne : nom du fichier d'archive tar ou URL http/https.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>outputfolder</param_name>
+      <param_description>un vecteur de caractères ou une chaîne : dossier de destination (par défaut : dossier courant).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>maxextractedsize</param_name>
+      <param_description>un entier positif ou nul : nombre total maximal d'octets que l'extraction peut écrire (par défaut : Inf, sans limite).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>maxratio</param_name>
+      <param_description>un nombre positif : l'extraction est refusée quand la taille totale des fichiers dépasse maxratio fois la taille du fichier d'archive (par défaut : Inf, sans limite).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>filenames</param_name>
+      <param_description>un tableau de cellules de vecteurs de caractères : noms des fichiers et dossiers écrits.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>untar</b> extrait le contenu d'une archive tar.</p>
+    <p>Les archives simples et les archives compressées en gzip, zstd, xz, bzip2, lz4 ou lzma sont acceptées : la compression est détectée d'après le contenu, pas d'après le nom.</p>
+    <p>Une URL est d'abord téléchargée dans un fichier temporaire, supprimé après l'extraction.</p>
+    <p>Protection contre les bombes de décompression : <b>MaxExtractedSize</b> limite la taille totale écrite (erreur <b>Nelson:file_archiver:extractedSizeLimit</b>) et <b>MaxCompressionRatio</b> limite la taille totale des fichiers par rapport à la taille du fichier d'archive compressé (erreur <b>Nelson:file_archiver:compressionRatioLimit</b>). Une extraction plus grande que l'espace disque libre de la destination est refusée (erreur <b>Nelson:file_archiver:notEnoughSpace</b>). Ces contrôles ont lieu avant toute écriture.</p>
+    <p>Les noms d'entrées dangereux comme '../x' sont refusés, et rien n'est écrit à travers un lien symbolique. Sous Linux et macOS, un lien symbolique n'est restauré que si sa cible reste dans le dossier de destination. Les autres liens symboliques, les liens physiques et tous les liens sous Windows sont ignorés et ne figurent pas dans les noms renvoyés.</p>
+    <p>Les dates sont restaurées. Les droits d'exécution des entrées sont conservés (le umask est appliqué), sauf sous Windows.</p>
+    <p>Ctrl+C arrête l'extraction et supprime le fichier en cours d'écriture.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[folder = tempname();
+mkdir(fullfile(folder, 'data'));
+filewrite(fullfile(folder, 'data', 'a.txt'), 'first file');
+tarfilename = fullfile(folder, 'data.tar.zst');
+tar(tarfilename, 'data', folder);
+filenames = untar(tarfilename, fullfile(folder, 'out'))
+rmdir(folder, 's');
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${file_archiver}tar">tar</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}nelson.io.tar">nelson.io.tar</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}gunzip">gunzip</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}unzip">unzip</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale, avec les options MaxExtractedSize et MaxCompressionRatio</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

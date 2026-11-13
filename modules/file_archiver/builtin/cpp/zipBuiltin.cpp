@@ -30,7 +30,13 @@ Nelson::FileArchiverGateway::zipBuiltin(int nLhs, const ArrayOfVector& argIn)
             rootPath = L".";
         }
     }
-    Zip(zipFilename, names, rootPath, filenames);
+    // Nelson keeps any given extension (.nlx, .fmu, ...); ".zip" is added only when there is none.
+    const size_t nameStart = zipFilename.find_last_of(L"/\\");
+    const size_t dot = zipFilename.find_last_of(L'.');
+    if (dot == std::wstring::npos || (nameStart != std::wstring::npos && dot < nameStart)) {
+        zipFilename += L".zip";
+    }
+    Zip(zipFilename, names, rootPath, filenames, false);
     if (nLhs > 0) {
         retval << ArrayOf::cellArrayFromArrayOfCharacterRowVectors(filenames);
     }

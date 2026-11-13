@@ -13,69 +13,60 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\minizip">
-      <UniqueIdentifier>{e80512a0-f948-4d75-8de9-c24fe5d3f908}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\ArchiveInterruption.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\ArchiveDiskWriter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\LibarchiveSupport.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\cpp\ZipHelpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="minizip\mz_zip_rw.c">
-      <Filter>Source Files\minizip</Filter>
-    </ClCompile>
-    <ClCompile Include="minizip\mz_zip.c">
-      <Filter>Source Files\minizip</Filter>
-    </ClCompile>
-    <ClCompile Include="minizip\mz_strm_zlib.c">
-      <Filter>Source Files\minizip</Filter>
-    </ClCompile>
-    <ClCompile Include="minizip\mz_strm_wzaes.c">
-      <Filter>Source Files\minizip</Filter>
-    </ClCompile>
-    <ClCompile Include="minizip\mz_strm_split.c">
-      <Filter>Source Files\minizip</Filter>
-    </ClCompile>
-    <ClCompile Include="minizip\mz_strm_pkcrypt.c">
-      <Filter>Source Files\minizip</Filter>
-    </ClCompile>
-    <ClCompile Include="minizip\mz_strm_os_win32.c">
-      <Filter>Source Files\minizip</Filter>
-    </ClCompile>
-    <ClCompile Include="minizip\mz_strm_mem.c">
-      <Filter>Source Files\minizip</Filter>
-    </ClCompile>
-    <ClCompile Include="minizip\mz_strm_buf.c">
-      <Filter>Source Files\minizip</Filter>
-    </ClCompile>
-    <ClCompile Include="minizip\mz_strm.c">
-      <Filter>Source Files\minizip</Filter>
-    </ClCompile>
-    <ClCompile Include="minizip\mz_os_win32.c">
-      <Filter>Source Files\minizip</Filter>
-    </ClCompile>
-    <ClCompile Include="minizip\mz_os.c">
-      <Filter>Source Files\minizip</Filter>
-    </ClCompile>
-    <ClCompile Include="minizip\mz_crypt_win32.c">
-      <Filter>Source Files\minizip</Filter>
-    </ClCompile>
-    <ClCompile Include="minizip\mz_crypt.c">
-      <Filter>Source Files\minizip</Filter>
-    </ClCompile>
-    <ClCompile Include="minizip\mz_compat.c">
-      <Filter>Source Files\minizip</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\Zipper.cpp">
+    <ClCompile Include="..\cpp\ZipArchiveSessions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\UnzipHelpers.cpp">
+    <ClCompile Include="..\cpp\ZstdCodec.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\ArchivePath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\ArchiveStreams.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\ExtractionGuard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\GzipCodec.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\TarArchive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\TarLibarchiveReader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\TarArchiveSessions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\Tar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\Unzip.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\Zip.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\ZipArchive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\ZipCentralDirectory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\StringZLib.cpp">
@@ -97,10 +88,16 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\nlsFile_archiver_exports.h">
+    <ClInclude Include="..\include\ArchiveInterruption.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\cpp\Zipper.hpp">
+    <ClInclude Include="..\cpp\ArchiveDiskWriter.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp\LibarchiveSupport.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\nlsFile_archiver_exports.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\Unzip.hpp">
@@ -109,10 +106,43 @@
     <ClInclude Include="..\include\Zip.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\cpp\ZipHelpers.hpp">
+    <ClInclude Include="..\include\ZipArchive.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\cpp\UnzipHelpers.hpp">
+    <ClInclude Include="..\cpp\ZipCentralDirectory.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ZstdCodec.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ArchivePath.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ArchiveStreams.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ExtractionGuard.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\GzipCodec.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\TarArchive.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp\TarLibarchiveReader.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\TarArchiveSessions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Tar.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ZipArchiveSessions.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cpp\ZipHelpers.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\StringZLib.hpp">

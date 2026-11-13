@@ -8,6 +8,12 @@
     <p
     >Le module File Archiver fournit des outils pour compresser et décompresser des fichiers dans Nelson.</p>
     <p
-    >Il prend en charge la création d&apos;archives zip et l&apos;extraction de fichiers depuis des archives zip, permettant un stockage, un partage et une gestion efficaces des fichiers.</p>
+    >Il crée et extrait des archives zip et des archives tar (simples ou compressées en gzip, zstd, xz, bzip2, lz4 ou lzma).</p>
+    <p
+    >nelson.io.archive lit et extrait des archives de nombreux autres formats, comme 7z, rar, iso9660, cpio, ar, cab, lha et xar.</p>
+    <p
+    >Il compresse et décompresse aussi des flux gzip et Zstandard, en mémoire ou entre fichiers.</p>
+    <p
+    >Des identificateurs de fichier donnent accès aux données compressées avec les fonctions de fichier habituelles (fread, fprintf, fseek, ...).</p>
   </chapter_description>
 </xmldoc>

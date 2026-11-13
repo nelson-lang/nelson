@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.io.ZipArchive</keyword>
+  <short_description>Open ZIP archive returned by nelson.io.zip.open.</short_description>
+  <syntax>
+    <syntax_item>z = nelson.io.zip.open(filename, mode)</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>z</param_name>
+      <param_description>a <b>nelson.io.ZipArchive</b> handle object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.io.ZipArchive</b> keeps a ZIP archive open between calls.</p>
+    <p>Read-only properties: <b>Source</b> (file name, empty for an in-memory archive), <b>Mode</b>, <b>Compression</b> and <b>Level</b> (defaults of new entries), <b>Encryption</b> ("none", or the method used to encrypt the files written: "aes256", "aes128" or "zipcrypto") and <b>IsOpen</b>. Archives encrypted with AES-192 can still be read.</p>
+    <p>Methods: <b>entries</b>, <b>read</b>, <b>readtext</b>, <b>write</b>, <b>add</b>, <b>tobytes</b>, <b>fopen</b> and <b>close</b>, with the same arguments as the <b>nelson.io.zip</b> functions without the first one.</p>
+    <p>Displaying the object shows these properties. Deleting the object closes the archive.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[z = nelson.io.zip.open([], 'w', 'Compression', 'store')
+z.write('a.txt', 'abc');
+z.IsOpen
+bytes = z.tobytes();
+z.IsOpen
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${file_archiver}nelson.io.zip">nelson.io.zip</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Encryption property added</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

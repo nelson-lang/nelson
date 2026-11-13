@@ -12,7 +12,7 @@
     <param_input_item>
       <param_name>zipname</param_name>
       <param_description
-      >a string: zip archive destination file.</param_description>
+      >a string: zip archive destination file. '.zip' is added only when the name has no extension; any other extension (for example '.nlx' or '.fmu') is kept.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>files</param_name>
@@ -22,7 +22,7 @@
     <param_input_item>
       <param_name>rootdir</param_name>
       <param_description
-      >a character vector or string scalar: root path for the files to compress.</param_description>
+      >a character vector or string scalar: root path for the files to compress. Relative names in files are found and stored relative to rootdir, with or without a trailing '/'.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -35,8 +35,14 @@
   <description>
     <p>
       <b>zip</b> compress files and directories into zip archive.</p>
-    <p>Each individual file must be smaller than 4 GB.</p>
-    <p>Number of files specified must be less than 65535.</p>
+    <p>Names can use the wildcards '*' (any characters) and '?' (one character).</p>
+    <p>An absolute name is stored relative to its parent folder: 'C:/data/a.txt' gives 'a.txt', and the folder 'C:/data' gives 'data/...' entries.</p>
+    <p>If an error occurs, the partial archive is deleted.</p>
+    <p>A folder adds its files and its empty subfolders; only empty folders get their own entry, and they are listed without a trailing '/'. A wildcard that matches a folder adds its contents.</p>
+    <p>Each entry keeps the modification time of its file.</p>
+    <p>Files larger than 4 GB and archives with more than 65535 entries are written in ZIP64 format.</p>
+    <p>Files are compressed one after the other and written in order.</p>
+    <p>Ctrl+C stops the compression and removes the partial archive.</p>
   </description>
   <used_function />
   <bibliography />
@@ -46,7 +52,11 @@
       <example_item_description />
       <example_item_data
         runnable="cli"
-      ><![CDATA[zip([tempdir(), 'test.zip'], [nelsonroot(), '/module_skeleton'])
+      ><![CDATA[folder = [tempdir(), createGUID()];
+mkdir(folder);
+filewrite([folder, '/a.txt'], 'first file');
+filewrite([folder, '/b.txt'], 'second file');
+zip([tempdir(), 'test.zip'], folder)
 ]]></example_item_data>
     </example_item>
   </examples>
@@ -59,6 +69,10 @@
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>'.zip' added to an archive name without extension, entry names relative to rootdir or to the parent folder of absolute names.</history_description>
     </history_item>
   </history>
   <authors>

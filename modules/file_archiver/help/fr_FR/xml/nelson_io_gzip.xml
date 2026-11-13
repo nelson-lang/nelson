@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.io.gzip</keyword>
+  <short_description>Compresse et décompresse des données gzip et des fichiers .gz.</short_description>
+  <syntax>
+    <syntax_item>bytes = nelson.io.gzip.compress(data)</syntax_item>
+    <syntax_item>bytes = nelson.io.gzip.compress(data, 'Level', level)</syntax_item>
+    <syntax_item>data = nelson.io.gzip.decompress(bytes)</syntax_item>
+    <syntax_item>data = nelson.io.gzip.decompress(bytes, 'MaxSize', maxsize)</syntax_item>
+    <syntax_item>data = nelson.io.gzip.decompress(bytes, 'MaxSize', maxsize, 'MaxCompressionRatio', maxratio)</syntax_item>
+    <syntax_item>txt = nelson.io.gzip.decompresstext(bytes)</syntax_item>
+    <syntax_item>txt = nelson.io.gzip.decompresstext(bytes, 'Encoding', encoding, 'MaxSize', maxsize)</syntax_item>
+    <syntax_item>txt = nelson.io.gzip.decompresstext(bytes, 'MaxCompressionRatio', maxratio)</syntax_item>
+    <syntax_item>destination = nelson.io.gzip.compressfile(source)</syntax_item>
+    <syntax_item>destination = nelson.io.gzip.compressfile(source, destination, 'Level', level)</syntax_item>
+    <syntax_item>destination = nelson.io.gzip.decompressfile(source)</syntax_item>
+    <syntax_item>destination = nelson.io.gzip.decompressfile(source, destination, 'MaxSize', maxsize)</syntax_item>
+    <syntax_item>destination = nelson.io.gzip.decompressfile(source, destination, 'MaxSize', maxsize, 'MaxCompressionRatio', maxratio)</syntax_item>
+    <syntax_item>fid = nelson.io.gzip.fopen(source)</syntax_item>
+    <syntax_item>fid = nelson.io.gzip.fopen(source, 'r', encoding, 'MaxSize', maxsize)</syntax_item>
+    <syntax_item>fid = nelson.io.gzip.fopen(filename, 'w', encoding, 'Level', level)</syntax_item>
+    <syntax_item>fid = nelson.io.gzip.fopen(filename, 'a')</syntax_item>
+    <syntax_item>fid = nelson.io.gzip.fopen([], 'w')</syntax_item>
+    <syntax_item>bytes = nelson.io.gzip.tobytes(fid)</syntax_item>
+    <syntax_item>tf = nelson.io.gzip.isavailable()</syntax_item>
+    <syntax_item>v = nelson.io.gzip.version()</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>data</param_name>
+      <param_description>vecteur uint8, vecteur de caractères ou chaîne scalaire (le texte est compressé en UTF-8).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>bytes</param_name>
+      <param_description>un vecteur uint8 : un ou plusieurs membres gzip.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>level</param_name>
+      <param_description>niveau de compression : de 0 (sans compression) à 9 (compact), -1 pour la valeur par défaut de zlib (6). Par défaut : -1.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>maxsize</param_name>
+      <param_description>taille décompressée maximale acceptée, en octets (par défaut : Inf).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>maxratio</param_name>
+      <param_description>un nombre positif : des données dont la taille décompressée dépasse maxratio fois leur taille compressée provoquent une erreur (par défaut : Inf, sans limite).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>encoding</param_name>
+      <param_description>un vecteur de caractères : encodage utilisé pour décoder ou encoder les données (par défaut : 'UTF-8').</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>source, destination</param_name>
+      <param_description>chaînes : noms de fichiers. Par défaut, compressfile ajoute '.gz' et decompressfile le retire.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>source</param_name>
+      <param_description>pour fopen : nom d'un fichier .gz, octets uint8 ou URL http/https (lecture seule).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>une chaîne : fichier .gz à écrire ('w') ou à compléter ('a').</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>bytes, data</param_name>
+      <param_description>vecteurs ligne uint8.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>txt</param_name>
+      <param_description>un vecteur de caractères : texte décompressé.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>destination</param_name>
+      <param_description>un vecteur de caractères : nom du fichier écrit.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>tf</param_name>
+      <param_description>un logique : toujours vrai, gzip est présent dans toutes les versions.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>v</param_name>
+      <param_description>une chaîne : version de la bibliothèque zlib.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>fid</param_name>
+      <param_description>un identificateur de fichier pour fread, fgetl, fgets, fscanf, textscan, fwrite, fprintf, feof, ftell, fseek, frewind et fclose.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.io.gzip</b> compresse et décompresse des données au format gzip (RFC 1952) avec la bibliothèque zlib, en mémoire ou entre fichiers.</p>
+    <p>La décompression vérifie la somme de contrôle de chaque membre et s'arrête sur une erreur si les données sont tronquées ou abîmées. Plusieurs membres gzip placés les uns à la suite des autres sont lus comme un seul flux.</p>
+    <p><b>decompresstext</b> décode les octets décompressés en texte.</p>
+    <p><b>MaxSize</b> protège contre des données qui se décompressent bien au-delà de la taille attendue.</p>
+    <p><b>MaxCompressionRatio</b> est contrôlé pendant la décompression par <b>decompress</b>, <b>decompresstext</b> et <b>decompressfile</b>. <b>decompressfile</b> s'arrête aussi quand la sortie dépasserait l'espace disque libre de la destination. En cas d'échec, aucun fichier de destination ne reste.</p>
+    <p>Les fichiers sont traités par blocs : leur taille n'est pas limitée par la mémoire. La destination est écrite dans un fichier temporaire et ne remplace le fichier final qu'en cas de succès.</p>
+    <p><b>decompressfile</b> sans destination retire l'extension '.gz' ; un nom de source sans cette extension provoque l'erreur <b>Nelson:io:gzip:destinationExpected</b>.</p>
+    <p><b>fopen</b> ouvre des données gzip comme un identificateur de fichier : les fonctions de fichier habituelles les lisent ou les écrivent bloc par bloc. Une URL est d'abord téléchargée dans un fichier temporaire. Un fichier .gz écrit ainsi apparaît sous son nom quand <b>fclose</b> réussit.</p>
+    <p>Le mode 'a' ajoute un nouveau membre gzip à la fin d'un fichier .gz existant : la lecture du fichier renvoie alors les anciennes données suivies des nouvelles.</p>
+    <p><b>tobytes</b> termine un écrivain ouvert avec <b>fopen([], 'w')</b>, ferme son identificateur et renvoie les octets compressés.</p>
+    <p>Le positionnement est exact. Les octets décodés sont conservés dans un fichier temporaire : reculer n'est lent que la première fois.</p>
+  </description>
+  <used_function />
+  <bibliography>RFC 1952 : GZIP file format specification version 4.3.</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Compresser du texte en mémoire</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[text = repmat('gzip ', 1, 100);
+packed = nelson.io.gzip.compress(text, 'Level', 9);
+[numel(text), numel(packed)]
+isequal(nelson.io.gzip.decompresstext(packed), text)
+nelson.io.gzip.version()
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Compresser un fichier puis le restaurer</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[folder = tempname();
+mkdir(folder);
+source = fullfile(folder, 'gzip_example.txt');
+filewrite(source, repmat(sprintf('line\n'), 1, 1000));
+packed = nelson.io.gzip.compressfile(source)
+delete(source);
+restored = nelson.io.gzip.decompressfile(packed)
+rmdir(folder, 's');
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Écrire, compléter et lire un fichier .gz avec des identificateurs de fichier</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[filename = [tempname(), '.gz'];
+fid = nelson.io.gzip.fopen(filename, 'w');
+fprintf(fid, 'line %d\n', 1:2);
+fclose(fid);
+fid = nelson.io.gzip.fopen(filename, 'a');
+fprintf(fid, 'line %d\n', 3);
+fclose(fid);
+fid = nelson.io.gzip.fopen(filename);
+first = fgetl(fid)
+rest = fread(fid, [1, Inf], '*char')
+fclose(fid);
+delete(filename);
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Écrire des données gzip en mémoire</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[fid = nelson.io.gzip.fopen([], 'w');
+fprintf(fid, '%d,%g\n', [1:3; (1:3) / 10]);
+bytes = nelson.io.gzip.tobytes(fid);
+fid = nelson.io.gzip.fopen(bytes);
+C = textscan(fid, '%d,%f')
+fclose(fid);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${file_archiver}gzip">gzip</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}gunzip">gunzip</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}nelson.io.zstd">nelson.io.zstd</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}nelson.io.tar">nelson.io.tar</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}fopen">fopen</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}fread">fread</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}textscan">textscan</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale, avec l'option MaxCompressionRatio</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

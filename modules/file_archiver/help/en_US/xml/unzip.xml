@@ -7,16 +7,27 @@
   <syntax>
     <syntax_item>res = unzip(zipname)</syntax_item>
     <syntax_item>res = unzip(zipname, rootdir)</syntax_item>
+    <syntax_item>res = unzip(zipname, rootdir, 'MaxExtractedSize', maxextractedsize)</syntax_item>
+    <syntax_item>res = unzip(zipname, rootdir, 'MaxCompressionRatio', maxratio)</syntax_item>
+    <syntax_item>res = unzip(zipname, Name, Value)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>zipname</param_name>
-      <param_description>a string: zip archive filename.</param_description>
+      <param_description>a string: zip archive filename, or http or https URL of a zip archive.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>rootdir</param_name>
       <param_description
       >a character vector or string scalar: root path for the files to decompress.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>maxextractedsize</param_name>
+      <param_description>a nonnegative integer: largest total number of bytes the extraction may write (default: Inf, no limit).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>maxratio</param_name>
+      <param_description>a positive number: an entry whose uncompressed size is more than maxratio times its compressed size is refused. Entries of 1 MiB or less are never refused for their ratio (default: Inf, no limit).</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -28,7 +39,15 @@
   </param_output>
   <description>
     <p>
-      <b>unzip</b> extracts archived contents. Timestamps and attributes are preserved for each file.</p>
+      <b>unzip</b> extracts archived contents. Timestamps are preserved for each file.</p>
+    <p>Archive attributes are not applied on Windows. On Linux and macOS, execute permissions of entries made on Unix are restored.</p>
+    <p>A missing archive is an error and creates no destination folder. An entry with a wrong checksum is an error.</p>
+    <p>Entries stored or compressed with deflate, zstd, xz, bzip2 or lzma (methods 0, 8, 93, 95, 12 and 14) are supported. In the WebAssembly version, only stored and deflate entries are supported. Any other compression method (for example deflate64, method 9) is an error that names the method and the entry.</p>
+    <p>Protection against decompression bombs: an archive whose entries share the same bytes (overlapping entries) is always refused with the error <b>Nelson:io:zip:overlappingEntries</b>. An extraction whose total declared size is larger than the free disk space of the destination is refused with the error <b>Nelson:file_archiver:notEnoughSpace</b>.</p>
+    <p><b>MaxExtractedSize</b> limits the total size written (error <b>Nelson:file_archiver:extractedSizeLimit</b>). <b>MaxCompressionRatio</b> refuses entries that expand too much (error <b>Nelson:file_archiver:compressionRatioLimit</b>).</p>
+    <p>These checks use the sizes declared in the archive and are done before anything is written: when one fails, no file and no destination folder is created. While reading, an entry can never give more bytes than it declares.</p>
+    <p>When <b>zipname</b> is an http or https URL, the archive is first downloaded to a temporary file.</p>
+    <p>Ctrl+C stops the extraction and removes the file being written.</p>
   </description>
   <used_function />
   <bibliography />
@@ -38,8 +57,24 @@
       <example_item_description />
       <example_item_data
         runnable="cli"
-      ><![CDATA[zip([tempdir(), 'test.zip'], [nelsonroot(), '/module_skeleton']);
+      ><![CDATA[folder = [tempdir(), createGUID()];
+mkdir(folder);
+filewrite([folder, '/a.txt'], 'first file');
+filewrite([folder, '/b.txt'], 'second file');
+zip([tempdir(), 'test.zip'], folder);
 r = unzip([tempdir(), 'test.zip'], [tempdir(), createGUID()])]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Extract with limits against decompression bombs</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[folder = [tempdir(), createGUID()];
+mkdir(folder);
+filewrite([folder, '/a.txt'], 'first file');
+filewrite([folder, '/b.txt'], 'second file');
+zip([tempdir(), 'test.zip'], folder);
+r = unzip([tempdir(), 'test.zip'], [tempdir(), createGUID()], 'MaxExtractedSize', 1e9, 'MaxCompressionRatio', 1000)]]></example_item_data>
     </example_item>
   </examples>
   <see_also>
@@ -51,6 +86,10 @@ r = unzip([tempdir(), 'test.zip'], [tempdir(), createGUID()])]]></example_item_d
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>attributes not applied on Windows, execute permissions restored on Unix, checksum verified, http or https URL accepted, MaxExtractedSize and MaxCompressionRatio options, overlapping entries and free disk space checked, zstd, xz, bzip2 and lzma entries read.</history_description>
     </history_item>
   </history>
   <authors>

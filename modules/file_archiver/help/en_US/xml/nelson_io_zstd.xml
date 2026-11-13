@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.io.zstd</keyword>
+  <short_description>Compress and decompress Zstandard data and .zst files.</short_description>
+  <syntax>
+    <syntax_item>bytes = nelson.io.zstd.compress(data)</syntax_item>
+    <syntax_item>bytes = nelson.io.zstd.compress(data, 'Level', level)</syntax_item>
+    <syntax_item>bytes = nelson.io.zstd.compress(data, 'Level', level, 'Workers', workers)</syntax_item>
+    <syntax_item>data = nelson.io.zstd.decompress(bytes)</syntax_item>
+    <syntax_item>data = nelson.io.zstd.decompress(bytes, 'MaxSize', maxsize)</syntax_item>
+    <syntax_item>data = nelson.io.zstd.decompress(bytes, 'MaxSize', maxsize, 'MaxCompressionRatio', maxratio)</syntax_item>
+    <syntax_item>txt = nelson.io.zstd.decompresstext(bytes)</syntax_item>
+    <syntax_item>txt = nelson.io.zstd.decompresstext(bytes, 'Encoding', encoding, 'MaxSize', maxsize)</syntax_item>
+    <syntax_item>txt = nelson.io.zstd.decompresstext(bytes, 'MaxCompressionRatio', maxratio)</syntax_item>
+    <syntax_item>destination = nelson.io.zstd.compressfile(source)</syntax_item>
+    <syntax_item>destination = nelson.io.zstd.compressfile(source, destination, 'Level', level)</syntax_item>
+    <syntax_item>destination = nelson.io.zstd.compressfile(source, destination, 'Level', level, 'Workers', workers)</syntax_item>
+    <syntax_item>destination = nelson.io.zstd.decompressfile(source)</syntax_item>
+    <syntax_item>destination = nelson.io.zstd.decompressfile(source, destination, 'MaxSize', maxsize)</syntax_item>
+    <syntax_item>destination = nelson.io.zstd.decompressfile(source, destination, 'MaxSize', maxsize, 'MaxCompressionRatio', maxratio)</syntax_item>
+    <syntax_item>fid = nelson.io.zstd.fopen(source)</syntax_item>
+    <syntax_item>fid = nelson.io.zstd.fopen(source, 'r', encoding, 'MaxSize', maxsize)</syntax_item>
+    <syntax_item>fid = nelson.io.zstd.fopen(source, 'w', encoding, 'Level', level)</syntax_item>
+    <syntax_item>fid = nelson.io.zstd.fopen(source, 'w', encoding, 'Level', level, 'Workers', workers)</syntax_item>
+    <syntax_item>fid = nelson.io.zstd.fopen(filename, 'w', 'Seekable', true)</syntax_item>
+    <syntax_item>fid = nelson.io.zstd.fopen(filename, 'a')</syntax_item>
+    <syntax_item>bytes = nelson.io.zstd.tobytes(fid)</syntax_item>
+    <syntax_item>tf = nelson.io.zstd.isavailable()</syntax_item>
+    <syntax_item>v = nelson.io.zstd.version()</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>data</param_name>
+      <param_description>uint8 vector, character vector or string scalar (text is compressed as UTF-8).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>bytes</param_name>
+      <param_description>a uint8 vector: one or more Zstandard frames.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>level</param_name>
+      <param_description>compression level: 1 (fast) to 22 (small), negative values for faster compression, 0 for the default (3).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>workers</param_name>
+      <param_description>'auto' or an integer from 0 to 256: number of compression threads. 'auto' (default for compress and compressfile) uses the computational threads (see maxNumCompThreads) when the data is 4 MiB or more. Writers opened with fopen use one thread unless Workers is given.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>seekable</param_name>
+      <param_description>a logical: true writes the seekable Zstandard format (default: false). Only with 'w'.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>maxsize</param_name>
+      <param_description>largest accepted decompressed size in bytes (default: Inf).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>maxratio</param_name>
+      <param_description>a positive number: data whose decompressed size is more than maxratio times its compressed size raises an error (default: Inf, no limit).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>encoding</param_name>
+      <param_description>a character vector: text encoding used to decode the data (default: 'UTF-8').</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>source, destination</param_name>
+      <param_description>strings: file names. By default compressfile adds '.zst' and decompressfile removes it.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>source</param_name>
+      <param_description>file name, http or https URL (read only), uint8 bytes to read, or [] to write in memory.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>permission</param_name>
+      <param_description>'r' (read, default), 'w' (write) or 'a' (append a new frame to a file).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>bytes, data</param_name>
+      <param_description>uint8 row vectors.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>txt</param_name>
+      <param_description>a character vector: decompressed text.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>destination</param_name>
+      <param_description>a character vector: name of the written file.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>tf</param_name>
+      <param_description>a logical: true when this build has the zstd library.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>v</param_name>
+      <param_description>a string: version of the zstd library, empty when it is not available.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>fid</param_name>
+      <param_description>a file identifier for fread, fgetl, fgets, fscanf, textscan, fwrite, fprintf, feof, ftell, fseek, frewind, fsize and fclose.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.io.zstd</b> compresses and decompresses data with Zstandard, in memory or between files.</p>
+    <p>Compression writes one frame with a content checksum. Decompression reads every frame of the input, checks the checksums, and stops with an error on truncated or damaged data.</p>
+    <p><b>decompresstext</b> decodes the decompressed bytes as text, like <b>nelson.io.zip.readtext</b> for a ZIP entry.</p>
+    <p><b>MaxSize</b> protects against data that expands far beyond what is expected.</p>
+    <p><b>MaxCompressionRatio</b> is checked while decompressing with <b>decompress</b>, <b>decompresstext</b> and <b>decompressfile</b>. <b>decompressfile</b> also stops when the output would be larger than the free disk space of the destination. When it fails, no destination file is left.</p>
+    <p>Files are processed in blocks, so their size is not limited by memory. The destination is written to a temporary file and replaced only when the operation succeeds.</p>
+    <p>Zstandard is available when Nelson is built with the zstd library; otherwise every function except <b>isavailable</b> and <b>version</b> raises an error.</p>
+    <p><b>fopen</b> opens Zstandard data as a file identifier: the usual file functions read or write it block by block. A .zst file written this way appears under its name when <b>fclose</b> succeeds.</p>
+    <p><b>tobytes</b> finishes a writer opened with <b>fopen([], 'w')</b>, closes its identifier and returns the compressed bytes.</p>
+    <p>Positioning is exact. The first move backward reads the data again from its start. The decoded bytes are kept in a temporary file, so the next moves backward are fast. <b>fscanf</b> reads this cache directly. <b>fsize</b> reads the data once when its size is not stored in the frame header.</p>
+    <p><b>Workers</b> compresses with several threads. The output is still a standard Zstandard frame. A bad value raises the error Nelson:io:zstd:invalidWorkers.</p>
+    <p><b>fopen(filename, 'a')</b> adds a new frame at the end of an existing .zst file. The file must be empty, missing, or contain Zstandard data; otherwise the error is Nelson:io:zstd:invalidData. Reading returns the content of all frames in sequence.</p>
+    <p><b>fopen(filename, 'w', 'Seekable', true)</b> writes the seekable Zstandard format: independent frames of 1 MiB, followed by a seek table stored in a skippable frame. Seekable data is read with random access: <b>fseek</b> decodes only the frame that holds the target, and the size is known without decoding. Usual zstd tools still read these files. <b>Seekable</b> cannot be used with 'a' (error Nelson:io:zstd:seekableAppend).</p>
+    <p>The source of <b>fopen</b> can be an http or https URL. The data is downloaded first and can only be read; a write mode raises the error Nelson:io:urlReadOnly.</p>
+    <p><b>tobytes</b> on an identifier that is not an in-memory writer raises the error Nelson:io:notMemoryWriter.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Compress text in memory</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[if nelson.io.zstd.isavailable()
+  text = repmat('Zstandard ', 1, 100);
+  packed = nelson.io.zstd.compress(text, 'Level', 9);
+  [numel(text), numel(packed)]
+  isequal(nelson.io.zstd.decompresstext(packed), text)
+end
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Compress a file</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[if nelson.io.zstd.isavailable()
+  source = [tempdir(), 'zstd_example.txt'];
+  filewrite(source, repmat(sprintf('line\n'), 1, 1000));
+  packed = nelson.io.zstd.compressfile(source)
+  restored = nelson.io.zstd.decompressfile(packed, [tempdir(), 'zstd_example_restored.txt'])
+end
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Write and read Zstandard data with file identifiers</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[if nelson.io.zstd.isavailable()
+  fid = nelson.io.zstd.fopen([], 'w');
+  fprintf(fid, 'line %d\n', 1:3);
+  bytes = nelson.io.zstd.tobytes(fid);
+  fid = nelson.io.zstd.fopen(bytes);
+  first = fgetl(fid)
+  rest = fread(fid, '*char')'
+  fclose(fid);
+end
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Append frames and write seekable data</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[if nelson.io.zstd.isavailable()
+  filename = [tempname(), '.zst'];
+  fid = nelson.io.zstd.fopen(filename, 'w');
+  fprintf(fid, 'first frame
+');
+  fclose(fid);
+  fid = nelson.io.zstd.fopen(filename, 'a');
+  fprintf(fid, 'second frame
+');
+  fclose(fid);
+  fid = nelson.io.zstd.fopen(filename);
+  txt = fread(fid, '*char')'
+  fclose(fid);
+  delete(filename);
+  data = uint8(mod(1:3000000, 251));
+  fid = nelson.io.zstd.fopen(filename, 'w', 'Seekable', true, 'Workers', 'auto');
+  fwrite(fid, data);
+  fclose(fid);
+  fid = nelson.io.zstd.fopen(filename);
+  fseek(fid, 2500000, 'bof');
+  value = fread(fid, 4, 'uint8=>uint8')'
+  fclose(fid);
+  delete(filename);
+end
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${file_archiver}nelson.io.zip">nelson.io.zip</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}nelson.io.gzip">nelson.io.gzip</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Workers, Seekable, mode 'a' and MaxCompressionRatio added</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

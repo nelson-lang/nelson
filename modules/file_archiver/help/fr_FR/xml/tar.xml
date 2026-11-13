@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>tar</keyword>
+  <short_description>Archiver des fichiers dans un fichier tar.</short_description>
+  <syntax>
+    <syntax_item>entrynames = tar(tarfilename, files)</syntax_item>
+    <syntax_item>entrynames = tar(tarfilename, files, rootfolder)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>tarfilename</param_name>
+      <param_description>une chaîne : fichier d'archive tar de destination. '.tar' est ajouté si le nom n'a pas d'extension.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>files</param_name>
+      <param_description>un vecteur de caractères, un tableau de cellules de vecteurs de caractères ou un tableau de chaînes : noms des fichiers ou dossiers à archiver. Les jokers '*' et '?' sont acceptés.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>rootfolder</param_name>
+      <param_description>un vecteur de caractères ou une chaîne : dossier où sont cherchés les noms relatifs de files, et à partir duquel les noms des entrées sont construits (par défaut : dossier courant).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>entrynames</param_name>
+      <param_description>un tableau de cellules de vecteurs de caractères : noms triés des entrées écrites dans l'archive.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>tar</b> archive des fichiers et des dossiers dans un fichier tar. Un dossier est ajouté avec tout son contenu.</p>
+    <p>La compression suit l'extension du nom de l'archive : '.tar.gz' ou '.tgz' donne gzip, '.tar.zst' ou '.tzst' donne Zstandard, '.tar.xz' ou '.txz' donne xz, '.tar.bz2', '.tbz2' ou '.tbz' donne bzip2, '.tar.lz4' donne lz4, '.tar.lzma' ou '.tlz' donne lzma. Tout autre nom donne un fichier tar simple.</p>
+    <p>zstd et xz compressent sur plusieurs threads (voir maxNumCompThreads). La sortie gzip n'a pas de date dans son en-tête : les mêmes fichiers donnent la même archive.</p>
+    <p>Les archives sont écrites au format ustar, avec des en-têtes pax pour les noms longs ou non ASCII et pour les fichiers de plus de 8 Gio.</p>
+    <p>Ctrl+C arrête la compression et supprime l'archive partielle.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[folder = tempname();
+mkdir(folder);
+filewrite(fullfile(folder, 'a.txt'), 'first file');
+filewrite(fullfile(folder, 'b.txt'), 'second file');
+tarfilename = fullfile(folder, 'texts.tgz');
+entrynames = tar(tarfilename, '*.txt', folder)
+filenames = untar(tarfilename, fullfile(folder, 'out'))
+rmdir(folder, 's');
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${file_archiver}untar">untar</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}nelson.io.tar">nelson.io.tar</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}gzip">gzip</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}zip">zip</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

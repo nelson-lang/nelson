@@ -10,6 +10,13 @@
 #define MODULE_NAME "file_archiver"
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\z.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_FILE_ARCHIVER};
+; Zstandard ZIP entries; absent when the third-party zstd folder was not present at build time.
+Source: {#RootPath}bin\{#BinPath}\zstd.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_FILE_ARCHIVER}; Flags: skipifsourcedoesntexist;
+; libarchive and its dependencies.
+Source: {#RootPath}bin\{#BinPath}\archive.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_FILE_ARCHIVER};
+Source: {#RootPath}bin\{#BinPath}\bz2.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_FILE_ARCHIVER};
+Source: {#RootPath}bin\{#BinPath}\liblzma.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_FILE_ARCHIVER};
+Source: {#RootPath}bin\{#BinPath}\lz4.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_FILE_ARCHIVER};
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsFile_archiver.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_FILE_ARCHIVER};
 ; The reduced no- stub only satisfies the static import from the full ipc
@@ -22,7 +29,7 @@ Source: {#RootPath}modules\{#MODULE_NAME}\loader.m; DestDir: {app}\modules\{#MOD
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;Components: {#COMPONENT_FILE_ARCHIVER};
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;Components: {#COMPONENT_FILE_ARCHIVER};
 ;==============================================================================
-;Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\;Components: {#COMPONENT_FILE_ARCHIVER};
+Source: {#RootPath}modules\{#MODULE_NAME}\functions\*; DestDir: {app}\modules\{#MODULE_NAME}\functions\; Flags: recursesubdirs;Components: {#COMPONENT_FILE_ARCHIVER};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\examples\*; DestDir: {app}\modules\{#MODULE_NAME}\examples\; Flags: recursesubdirs;Components: {#COMPONENT_FILE_ARCHIVER};
 ;==============================================================================

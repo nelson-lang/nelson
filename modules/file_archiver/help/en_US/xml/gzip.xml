@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>gzip</keyword>
+  <short_description>Compress files into gzip files.</short_description>
+  <syntax>
+    <syntax_item>filenames = gzip(files)</syntax_item>
+    <syntax_item>filenames = gzip(files, outputfolder)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>files</param_name>
+      <param_description>a character vector, a cell array of character vectors, or a string array: names of files or folders to compress. Wildcards '*' and '?' are allowed.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>outputfolder</param_name>
+      <param_description>a character vector or string scalar: folder of the .gz files, created if needed.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>filenames</param_name>
+      <param_description>a cell array of character vectors: names of the written .gz files.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>gzip</b> compresses each file into its own gzip file named after it with '.gz' added.</p>
+    <p>Without output folder, each .gz file is written next to its file. The original files are kept.</p>
+    <p>A folder is compressed recursively, file by file.</p>
+    <p>When no file matches, the error <b>Nelson:gzip:fileNotFound</b> is raised.</p>
+    <p>Ctrl+C stops the compression and removes the partial .gz file.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[folder = tempname();
+mkdir(folder);
+filewrite(fullfile(folder, 'a.txt'), repmat('a', 1, 1000));
+filewrite(fullfile(folder, 'b.txt'), repmat('b', 1, 1000));
+filenames = gzip(fullfile(folder, '*.txt'), fullfile(folder, 'packed'))
+restored = gunzip(fullfile(folder, 'packed'), fullfile(folder, 'restored'))
+rmdir(folder, 's');
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${file_archiver}gunzip">gunzip</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}nelson.io.gzip">nelson.io.gzip</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}tar">tar</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}zip">zip</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

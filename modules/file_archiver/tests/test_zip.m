@@ -15,7 +15,7 @@ if ~isfile(builderFile)
   return
 end
 %=============================================================================
-TMPDIR = tempdir()
+TMPDIR = tempdir();
 %=============================================================================
 DEST_1 = [TMPDIR, 'zip_test_1.zip'];
 cd([nelsonroot(), '/module_skeleton'])

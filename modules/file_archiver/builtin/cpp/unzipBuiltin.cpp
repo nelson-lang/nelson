@@ -11,23 +11,29 @@
 #include "Error.hpp"
 #include "Unzip.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "ioBuiltinHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
+using namespace Nelson::FileArchiverGateway;
 //=============================================================================
+// filenames = __unzip__(zipfilename[, outputfolder[, maxExtractedSize, maxCompressionRatio]])
 ArrayOfVector
 Nelson::FileArchiverGateway::unzipBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    nargincheck(argIn, 1, 2);
+    nargincheck(argIn, 1, 4);
     nargoutcheck(nLhs, 0, 1);
     std::wstring zipFilename = argIn[0].asWideString();
     std::wstring rootPath = L".";
     if (argIn.size() > 1) {
         rootPath = argIn[1].asWideString();
     }
+    ExtractionLimits limits;
+    if (argIn.size() > 3) {
+        limits = extractionLimits(argIn[2], argIn[3]);
+    }
     wstringVector filenames;
-
-    UnZip(zipFilename, rootPath, filenames);
+    UnZip(zipFilename, rootPath, filenames, limits);
     if (nLhs > 0) {
         retval << ArrayOf::cellArrayFromArrayOfCharacterRowVectors(filenames);
     }

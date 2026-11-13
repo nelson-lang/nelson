@@ -13,7 +13,7 @@
     <param_input_item>
       <param_name>zipname</param_name>
       <param_description
-      >une chaîne : fichier de destination de l&apos;archive zip.</param_description>
+      >une chaîne : fichier de destination de l&apos;archive zip. '.zip' est ajouté seulement quand le nom n'a pas d'extension ; toute autre extension (par exemple '.nlx' ou '.fmu') est conservée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>files</param_name>
@@ -23,7 +23,7 @@
     <param_input_item>
       <param_name>rootdir</param_name>
       <param_description
-      >un vecteur de caractères ou une chaîne : chemin racine pour les fichiers à compresser.</param_description>
+      >un vecteur de caractères ou une chaîne : chemin racine pour les fichiers à compresser. Les noms relatifs de files sont cherchés et stockés relativement à rootdir, avec ou sans '/' final.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -36,8 +36,14 @@
   <description>
     <p>
       <b>zip</b> compresse des fichiers et des répertoires dans une archive zip.</p>
-    <p>Chaque fichier individuel doit être inférieur à 4 Go.</p>
-    <p>Le nombre de fichiers spécifiés doit être inférieur à 65535.</p>
+    <p>Les noms peuvent utiliser les jokers '*' (des caractères quelconques) et '?' (un caractère).</p>
+    <p>Un nom absolu est stocké relativement à son dossier parent : 'C:/data/a.txt' donne 'a.txt', et le dossier 'C:/data' donne des entrées 'data/...'.</p>
+    <p>En cas d'erreur, l'archive partielle est supprimée.</p>
+    <p>Un dossier ajoute ses fichiers et ses sous-dossiers vides ; seuls les dossiers vides ont leur propre entrée, et ils sont listés sans '/' final. Un joker qui désigne un dossier ajoute son contenu.</p>
+    <p>Chaque entrée conserve la date de modification de son fichier.</p>
+    <p>Les fichiers de plus de 4 Go et les archives de plus de 65535 entrées sont écrits au format ZIP64.</p>
+    <p>Les fichiers sont compressés l'un après l'autre et écrits dans l'ordre.</p>
+    <p>Ctrl+C arrête la compression et supprime l'archive partielle.</p>
   </description>
   <used_function />
   <bibliography />
@@ -47,7 +53,11 @@
       <example_item_description />
       <example_item_data
         runnable="cli"
-      ><![CDATA[zip([tempdir(), 'test.zip'], [nelsonroot(), '/module_skeleton'])
+      ><![CDATA[folder = [tempdir(), createGUID()];
+mkdir(folder);
+filewrite([folder, '/a.txt'], 'first file');
+filewrite([folder, '/b.txt'], 'second file');
+zip([tempdir(), 'test.zip'], folder)
 ]]></example_item_data>
     </example_item>
   </examples>
@@ -60,6 +70,10 @@
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>'.zip' ajouté à un nom d'archive sans extension, noms des entrées relatifs à rootdir ou au dossier parent des noms absolus.</history_description>
     </history_item>
   </history>
   <authors>

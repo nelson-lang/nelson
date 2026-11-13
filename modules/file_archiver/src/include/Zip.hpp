@@ -19,6 +19,7 @@ NLSFILE_ARCHIVER_IMPEXP
 void
 Zip(const std::wstring& zipFilename, const wstringVector& names, const std::wstring& rootpath,
     wstringVector& filenames);
+// reproducible: fixed dates and order, the archive must not exist yet.
 NLSFILE_ARCHIVER_IMPEXP
 void
 Zip(const std::wstring& zipFilename, const wstringVector& names, const std::wstring& rootpath,

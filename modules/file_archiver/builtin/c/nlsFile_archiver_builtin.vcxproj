@@ -94,7 +94,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSFILE_ARCHIVER_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/file_archiver/builtin/include;$(SolutionDir)modules/file_archiver/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/i18n/src/include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/file_archiver/builtin/include;$(SolutionDir)modules/file_archiver/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/i18n/src/include;</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -115,7 +115,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSFILE_ARCHIVER_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/file_archiver/builtin/include;$(SolutionDir)modules/file_archiver/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/i18n/src/include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/file_archiver/builtin/include;$(SolutionDir)modules/file_archiver/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/i18n/src/include;</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -139,7 +139,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSFILE_ARCHIVER_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/file_archiver/builtin/include;$(SolutionDir)modules/file_archiver/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/i18n/src/include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/file_archiver/builtin/include;$(SolutionDir)modules/file_archiver/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/i18n/src/include;</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -166,7 +166,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSFILE_ARCHIVER_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/file_archiver/builtin/include;$(SolutionDir)modules/file_archiver/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/i18n/src/include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/file_archiver/builtin/include;$(SolutionDir)modules/file_archiver/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/string/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/i18n/src/include;</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -183,12 +183,51 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\tarCompressionsBuiltin.cpp" />
+    <ClCompile Include="..\cpp\archiveOpenBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\unzipBuiltin.cpp" />
+    <ClCompile Include="..\cpp\zipOpenBuiltin.cpp" />
+    <ClCompile Include="..\cpp\zipEntriesBuiltin.cpp" />
+    <ClCompile Include="..\cpp\zipReadBuiltin.cpp" />
+    <ClCompile Include="..\cpp\zipWriteBuiltin.cpp" />
+    <ClCompile Include="..\cpp\zipAddBuiltin.cpp" />
+    <ClCompile Include="..\cpp\zipCloseBuiltin.cpp" />
+    <ClCompile Include="..\cpp\zipCompressionsBuiltin.cpp" />
+    <ClCompile Include="..\cpp\zipRewriteBuiltin.cpp" />
+    <ClCompile Include="..\cpp\ioBuiltinHelpers.cpp" />
+    <ClCompile Include="..\cpp\streamTobytesBuiltin.cpp" />
+    <ClCompile Include="..\cpp\streamFopenBuiltin.cpp" />
+    <ClCompile Include="..\cpp\zipFopenBuiltin.cpp" />
+    <ClCompile Include="..\cpp\tarBuiltin.cpp" />
+    <ClCompile Include="..\cpp\untarBuiltin.cpp" />
+    <ClCompile Include="..\cpp\tarOpenBuiltin.cpp" />
+    <ClCompile Include="..\cpp\tarEntriesBuiltin.cpp" />
+    <ClCompile Include="..\cpp\tarReadBuiltin.cpp" />
+    <ClCompile Include="..\cpp\tarWriteBuiltin.cpp" />
+    <ClCompile Include="..\cpp\tarAddBuiltin.cpp" />
+    <ClCompile Include="..\cpp\tarCloseBuiltin.cpp" />
+    <ClCompile Include="..\cpp\tarFopenBuiltin.cpp" />
+    <ClCompile Include="..\cpp\tarExtractBuiltin.cpp" />
+    <ClCompile Include="..\cpp\tarBuiltinHelpers.cpp" />
+    <ClCompile Include="..\cpp\ArchiveFileBackends.cpp" />
+    <ClCompile Include="..\cpp\zipBuiltinHelpers.cpp" />
+    <ClCompile Include="..\cpp\streamBuiltinHelpers.cpp" />
+    <ClCompile Include="..\cpp\streamVersionBuiltin.cpp" />
+    <ClCompile Include="..\cpp\streamDecompressFileBuiltin.cpp" />
+    <ClCompile Include="..\cpp\streamCompressFileBuiltin.cpp" />
+    <ClCompile Include="..\cpp\streamDecompressBuiltin.cpp" />
+    <ClCompile Include="..\cpp\streamCompressBuiltin.cpp" />
     <ClCompile Include="..\cpp\zipBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">
+      <Project>{a75dc538-eefa-4873-888b-a034a7ee72c5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\commons\src\c\nlsCommons.vcxproj">
+      <Project>{867f2f84-cc27-4bd8-b44b-5ef4f69c6e15}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\error_manager\src\c\nlsError_manager.vcxproj">
       <Project>{d0ef0ceb-a3bd-44ab-91b3-f33db1870f8d}</Project>
     </ProjectReference>
@@ -200,6 +239,12 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\types\src\c\nlsTypes.vcxproj">
       <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\stream_manager\src\c\nlsStream_manager.vcxproj">
+      <Project>{1b461db6-82ea-4436-a674-d2975f184b90}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\nelson_manager\src\c\nlsNelson_manager.vcxproj">
+      <Project>{e467b14f-0d56-4237-b649-eb5572b5e731}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\src\c\nlsFile_archiver.vcxproj">
       <Project>{b192ae19-f947-4900-81a6-babe8fa2b6cd}</Project>
@@ -218,8 +263,42 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\tarCompressionsBuiltin.hpp" />
+    <ClInclude Include="..\include\interruptibleBuiltin.hpp" />
+    <ClInclude Include="..\include\archiveOpenBuiltin.hpp" />
     <ClInclude Include="..\include\nlsFile_archiver_builtin_exports.h" />
     <ClInclude Include="..\include\unzipBuiltin.hpp" />
+    <ClInclude Include="..\include\zipOpenBuiltin.hpp" />
+    <ClInclude Include="..\include\zipEntriesBuiltin.hpp" />
+    <ClInclude Include="..\include\zipReadBuiltin.hpp" />
+    <ClInclude Include="..\include\zipWriteBuiltin.hpp" />
+    <ClInclude Include="..\include\zipAddBuiltin.hpp" />
+    <ClInclude Include="..\include\zipCloseBuiltin.hpp" />
+    <ClInclude Include="..\include\zipCompressionsBuiltin.hpp" />
+    <ClInclude Include="..\include\zipRewriteBuiltin.hpp" />
+    <ClInclude Include="..\include\ioBuiltinHelpers.hpp" />
+    <ClInclude Include="..\include\streamTobytesBuiltin.hpp" />
+    <ClInclude Include="..\include\streamFopenBuiltin.hpp" />
+    <ClInclude Include="..\include\zipFopenBuiltin.hpp" />
+    <ClInclude Include="..\include\tarBuiltin.hpp" />
+    <ClInclude Include="..\include\untarBuiltin.hpp" />
+    <ClInclude Include="..\include\tarOpenBuiltin.hpp" />
+    <ClInclude Include="..\include\tarEntriesBuiltin.hpp" />
+    <ClInclude Include="..\include\tarReadBuiltin.hpp" />
+    <ClInclude Include="..\include\tarWriteBuiltin.hpp" />
+    <ClInclude Include="..\include\tarAddBuiltin.hpp" />
+    <ClInclude Include="..\include\tarCloseBuiltin.hpp" />
+    <ClInclude Include="..\include\tarFopenBuiltin.hpp" />
+    <ClInclude Include="..\include\tarExtractBuiltin.hpp" />
+    <ClInclude Include="..\include\tarBuiltinHelpers.hpp" />
+    <ClInclude Include="..\include\ArchiveFileBackends.hpp" />
+    <ClInclude Include="..\include\zipBuiltinHelpers.hpp" />
+    <ClInclude Include="..\include\streamBuiltinHelpers.hpp" />
+    <ClInclude Include="..\include\streamVersionBuiltin.hpp" />
+    <ClInclude Include="..\include\streamDecompressFileBuiltin.hpp" />
+    <ClInclude Include="..\include\streamCompressFileBuiltin.hpp" />
+    <ClInclude Include="..\include\streamDecompressBuiltin.hpp" />
+    <ClInclude Include="..\include\streamCompressBuiltin.hpp" />
     <ClInclude Include="..\include\zipBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.io.TarArchive</keyword>
+  <short_description>Open tar archive returned by nelson.io.tar.open.</short_description>
+  <syntax>
+    <syntax_item>t = nelson.io.tar.open(source)</syntax_item>
+    <syntax_item>t = nelson.io.tar.open(filename, mode)</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>t</param_name>
+      <param_description>a <b>nelson.io.TarArchive</b> handle object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.io.TarArchive</b> keeps a tar archive open between calls.</p>
+    <p>Read-only properties: <b>Source</b> (file name or URL, empty for an in-memory archive), <b>Mode</b> ("r" or "w"), <b>Compression</b> ("none", "gzip", "zstd", "xz", "bzip2", "lz4" or "lzma"), <b>Level</b> and <b>IsOpen</b>.</p>
+    <p>Methods: <b>entries</b>, <b>read</b>, <b>readtext</b>, <b>write</b>, <b>add</b>, <b>fopen</b>, <b>extract</b>, <b>tobytes</b> and <b>close</b>, with the same arguments as the <b>nelson.io.tar</b> functions without the first one.</p>
+    <p><b>t.extract(outputfolder, Name, Value)</b> accepts the options <b>MaxExtractedSize</b> (largest total number of bytes written) and <b>MaxCompressionRatio</b> (largest ratio between the total size of the files and the size of the archive file), both Inf by default, like <b>untar</b>. These limits and the free disk space of the destination are checked before anything is written.</p>
+    <p>The 'Compression' and 'Level' options of <b>nelson.io.tar.open</b> choose how a writer compresses. Levels are 0 to 9 for gzip, xz and lzma, 1 to 9 for bzip2 and lz4, 1 to 22 for zstd, and -1 for the default of the method. zstd and xz compress on several threads (see maxNumCompThreads).</p>
+    <p><b>extract</b> restores dates and keeps execute permissions (umask applied), except on Windows. On Linux and macOS, a symbolic link is restored only when its target stays inside the destination folder; other links, hard links, and all links on Windows are skipped. '..' names and writing through symbolic links are refused.</p>
+    <p><b>entries</b> returns a table with Name, Size, Modified (a datetime), Mode (unix permission bits as a double), IsFolder and IsLink.</p>
+    <p>Displaying the object shows these properties. Deleting the object closes the archive; when an entry is still written through a file identifier, the archive is closed when that identifier is closed.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[t = nelson.io.tar.open([], 'w', 'Compression', 'gzip')
+t.write('a.txt', 'abc');
+t.IsOpen
+bytes = t.tobytes();
+t.IsOpen
+r = nelson.io.tar.open(bytes);
+T = r.entries()
+r.readtext('a.txt')
+r.close();
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${file_archiver}nelson.io.tar">nelson.io.tar</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}nelson.io.ZipArchive">nelson.io.ZipArchive</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version, with MaxExtractedSize and MaxCompressionRatio options for extract</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

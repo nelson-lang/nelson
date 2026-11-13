@@ -12,42 +12,10 @@ set(module_library_name nlsFile_archiver)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
 if(NOT WITHOUT_FILE_ARCHIVER_MODULE)
-  include(CheckIncludeFile)
-  check_include_file(stdint.h HAVE_STDINT_H)
-  check_include_file(inttypes.h HAVE_INTTYPES_H)
-endif()
-# ==============================================================================
-if(NOT WITHOUT_FILE_ARCHIVER_MODULE)
-  set(_minizip_dir "${CMAKE_CURRENT_SOURCE_DIR}/src/c/minizip")
-  file(GLOB _minizip_srcs
-    "${_minizip_dir}/mz_compat.c"
-    "${_minizip_dir}/mz_crypt.c"
-    "${_minizip_dir}/mz_os.c"
-    "${_minizip_dir}/mz_strm.c"
-    "${_minizip_dir}/mz_strm_buf.c"
-    "${_minizip_dir}/mz_strm_mem.c"
-    "${_minizip_dir}/mz_strm_split.c"
-    "${_minizip_dir}/mz_strm_zlib.c"
-    "${_minizip_dir}/mz_zip.c"
-  )
-  if(WIN32)
-    list(APPEND _minizip_srcs
-      "${_minizip_dir}/mz_os_win32.c"
-      "${_minizip_dir}/mz_strm_os_win32.c"
-    )
-  else()
-    list(APPEND _minizip_srcs
-      "${_minizip_dir}/mz_os_posix.c"
-      "${_minizip_dir}/mz_strm_os_posix.c"
-    )
-  endif()
   nelson_module_sources_from_glob(
     FILE_ARCHIVER_SRC
     DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp
-  )
-  list(APPEND FILE_ARCHIVER_SRC
-    ${_minizip_srcs}
   )
 else()
   nelson_module_sources_from_glob(
@@ -60,14 +28,6 @@ endif()
 add_library(${module_library_name} ${FILE_ARCHIVER_SRC})
 
 if(NOT WITHOUT_FILE_ARCHIVER_MODULE)
-  target_compile_definitions(${module_library_name}
-    PRIVATE
-      MZ_ZIP_NO_ENCRYPTION
-      ZLIB_COMPAT
-      HAVE_ZLIB
-      $<$<BOOL:${HAVE_STDINT_H}>:HAVE_STDINT_H>
-      $<$<BOOL:${HAVE_INTTYPES_H}>:HAVE_INTTYPES_H>
-  )
   target_include_directories(${module_library_name}
     PUBLIC
       $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
@@ -84,7 +44,7 @@ if(NOT WITHOUT_FILE_ARCHIVER_MODULE)
       ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include
       ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
       ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
-      ${_minizip_dir}
+      ${LibArchive_INCLUDE_DIRS}
       ${ZLIB_INCLUDE_DIRS}
       ${ZLIB_INCLUDE_DIR}
   )
@@ -94,8 +54,14 @@ if(NOT WITHOUT_FILE_ARCHIVER_MODULE)
       nlsCommons
       nlsError_manager
       nlsI18n
+      ${LibArchive_LIBRARIES}
       ${ZLIB_LIBRARIES}
   )
+  if(ZSTD_FOUND)
+    target_compile_definitions(${module_library_name} PRIVATE HAVE_ZSTD)
+    target_include_directories(${module_library_name} PRIVATE ${ZSTD_INCLUDE_DIR})
+    target_link_libraries(${module_library_name} PRIVATE ${ZSTD_LIBRARY})
+  endif()
 else()
   target_include_directories(${module_library_name}
     PUBLIC
@@ -105,6 +71,13 @@ else()
 endif()
 # ==============================================================================
 nelson_install_library(${module_library_name})
+if(WIN32 AND ZSTD_FOUND AND ZSTD_RUNTIME_DIR)
+  install(FILES "${ZSTD_RUNTIME_DIR}/zstd.dll" DESTINATION ${CMAKE_INSTALL_BINDIR})
+endif()
+if(WIN32 AND NOT WITHOUT_FILE_ARCHIVER_MODULE AND LIBARCHIVE_RUNTIME_DIR)
+  file(GLOB _nelson_libarchive_dlls "${LIBARCHIVE_RUNTIME_DIR}/*.dll")
+  install(FILES ${_nelson_libarchive_dlls} DESTINATION ${CMAKE_INSTALL_BINDIR})
+endif()
 # ==============================================================================
 if(NOT WITHOUT_FILE_ARCHIVER_MODULE)
   nelson_module_sources_from_glob(
@@ -125,16 +98,22 @@ if(NOT WITHOUT_FILE_ARCHIVER_MODULE)
       ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
       ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
       ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+      ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
       ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
       ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
+      ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
   )
 
   target_link_libraries(${module_library_builtin_name}
     PRIVATE
       ${module_library_name}
+      nlsCharacters_encoding
+      nlsCommons
       nlsError_manager
       nlsI18n
       nlsInterpreter
+      nlsNelson_manager
+      nlsStream_manager
       nlsTypes
   )
 

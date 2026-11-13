@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.io.archive</keyword>
+  <short_description>Lit et extrait des archives de nombreux formats (7z, zip, tar, rar, iso, ...).</short_description>
+  <syntax>
+    <syntax_item>a = nelson.io.archive.open(source)</syntax_item>
+    <syntax_item>a = nelson.io.archive.open(source, 'Password', password)</syntax_item>
+    <syntax_item>T = a.entries()</syntax_item>
+    <syntax_item>data = a.read(name)</syntax_item>
+    <syntax_item>data = a.read(name, 'MaxSize', maxsize)</syntax_item>
+    <syntax_item>txt = a.readtext(name)</syntax_item>
+    <syntax_item>txt = a.readtext(name, 'Encoding', encoding, 'MaxSize', maxsize)</syntax_item>
+    <syntax_item>fid = a.fopen(name)</syntax_item>
+    <syntax_item>filenames = a.extract()</syntax_item>
+    <syntax_item>filenames = a.extract(outputfolder)</syntax_item>
+    <syntax_item>filenames = a.extract(outputfolder, 'MaxExtractedSize', maxextractedsize, 'MaxCompressionRatio', maxratio)</syntax_item>
+    <syntax_item>a.close()</syntax_item>
+    <syntax_item>filenames = nelson.io.archive.extract(source)</syntax_item>
+    <syntax_item>filenames = nelson.io.archive.extract(source, outputfolder)</syntax_item>
+    <syntax_item>filenames = nelson.io.archive.extract(source, outputfolder, 'Password', password, 'MaxExtractedSize', maxextractedsize, 'MaxCompressionRatio', maxratio)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>source</param_name>
+      <param_description>archive à lire : un nom de fichier, une URL http/https (téléchargée d'abord) ou un vecteur uint8 contenant les octets d'une archive.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>password</param_name>
+      <param_description>un vecteur de caractères ou une chaîne scalaire : mot de passe des entrées ZIP chiffrées (par défaut : '').</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>name</param_name>
+      <param_description>une chaîne : nom de l'entrée dans l'archive, avec '/' comme séparateur de dossiers.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>maxsize</param_name>
+      <param_description>taille maximale acceptée pour une entrée, en octets (par défaut : Inf).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>encoding</param_name>
+      <param_description>un vecteur de caractères : encodage utilisé pour décoder l'entrée (par défaut : 'UTF-8').</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>outputfolder</param_name>
+      <param_description>une chaîne : dossier de destination (par défaut : dossier courant).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>maxextractedsize</param_name>
+      <param_description>un entier positif ou nul : nombre total maximal d'octets que l'extraction peut écrire (par défaut : Inf, sans limite).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>maxratio</param_name>
+      <param_description>un nombre strictement positif : rapport maximal entre la taille des fichiers et celle de l'archive (par défaut : Inf, sans limite).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>a</param_name>
+      <param_description>un objet handle <b>nelson.io.Archive</b>.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>T</param_name>
+      <param_description>une table avec les variables Name, Size, Modified, Mode, IsFolder, IsLink et Encrypted.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>data</param_name>
+      <param_description>un vecteur ligne uint8.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>txt</param_name>
+      <param_description>un vecteur ligne de caractères.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>fid</param_name>
+      <param_description>un identificateur de fichier en lecture seule pour fread, fgetl, fgets, fscanf, textscan, feof, ftell, fseek, frewind et fclose.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>filenames</param_name>
+      <param_description>noms des fichiers et dossiers extraits.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.io.archive.open</b> ouvre une archive en lecture, quel que soit son format : 7z, zip, tar (simple ou compressée), rar, rar5, iso9660, cpio, ar, cab, lha et xar. Le format est reconnu d'après le contenu, pas d'après le nom.</p>
+    <p>L'objet <b>nelson.io.Archive</b> renvoyé a les propriétés en lecture seule <b>Source</b>, <b>Format</b> (nom du format reconnu, par exemple "7-Zip" ou "POSIX ustar format"), <b>Compression</b> ("none", "gzip", ...) et <b>IsOpen</b>.</p>
+    <p>Méthodes : <b>entries</b> liste les entrées, <b>read</b> et <b>readtext</b> renvoient le contenu d'une entrée, <b>fopen</b> ouvre une entrée comme un identificateur de fichier en lecture seule, <b>extract</b> écrit toutes les entrées dans un dossier et <b>close</b> ferme l'archive.</p>
+    <p><b>nelson.io.archive.extract</b> ouvre, extrait et ferme une archive en un seul appel.</p>
+    <p>Les entrées ZIP chiffrées (chiffrement WinZip AES ou traditionnel) sont déchiffrées avec 'Password'. Les entrées 7z et rar chiffrées sont listées (Encrypted vaut true) mais leurs données ne peuvent pas être déchiffrées : l'erreur <b>Nelson:io:archive:unsupportedEncryption</b> est levée.</p>
+    <p>La lecture d'une entrée chiffrée sans mot de passe lève <b>Nelson:io:archive:encryptedEntry</b>, et un mauvais mot de passe lève <b>Nelson:io:archive:wrongPassword</b>. Une source qui n'est pas une archive prise en charge lève <b>Nelson:io:archive:unknownFormat</b>.</p>
+    <p>L'extraction contrôle 'MaxExtractedSize' et 'MaxCompressionRatio' comme <b>untar</b>. Les noms dangereux comme '../x' sont refusés, et rien n'est écrit à travers un lien symbolique. Sous Linux et macOS, un lien symbolique n'est restauré que si sa cible reste dans le dossier de destination. Les autres liens symboliques, les liens physiques et tous les liens sous Windows sont ignorés et ne figurent pas dans les noms renvoyés. Les dates sont restaurées, et les droits d'exécution sont conservés (umask appliqué), sauf sous Windows.</p>
+    <p>Ctrl+C arrête une extraction et supprime le fichier en cours d'écriture.</p>
+    <p>L'écriture n'est pas prise en charge : utilisez <b>nelson.io.zip</b> ou <b>nelson.io.tar</b> pour créer des archives.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Lire et extraire une archive .tar.xz</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[folder = [tempdir(), createGUID()];
+mkdir(folder);
+filename = fullfile(folder, 'data.tar.xz');
+t = nelson.io.tar.open(filename, 'w');
+t.write('notes/hello.txt', 'Hello archive');
+t.write('data.bin', uint8(1:100));
+t.close();
+a = nelson.io.archive.open(filename);
+a.Format
+a.Compression
+T = a.entries()
+a.readtext('notes/hello.txt')
+filenames = a.extract(fullfile(folder, 'out'))
+a.close();
+filenames = nelson.io.archive.extract(filename, fullfile(folder, 'out2'))
+rmdir(folder, 's');
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${file_archiver}nelson.io.tar">nelson.io.tar</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}nelson.io.zip">nelson.io.zip</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}untar">untar</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}unzip">unzip</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

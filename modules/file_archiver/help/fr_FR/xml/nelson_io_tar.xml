@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.io.tar</keyword>
+  <short_description>Lit et écrit des entrées tar sans extraire de fichiers.</short_description>
+  <syntax>
+    <syntax_item>t = nelson.io.tar.open(source)</syntax_item>
+    <syntax_item>t = nelson.io.tar.open(filename, 'w')</syntax_item>
+    <syntax_item>t = nelson.io.tar.open(filename, 'w', 'Compression', compression, 'Level', level)</syntax_item>
+    <syntax_item>t = nelson.io.tar.open([], 'w')</syntax_item>
+    <syntax_item>t = nelson.io.tar.open([], 'w', 'Compression', compression, 'Level', level)</syntax_item>
+    <syntax_item>T = nelson.io.tar.entries(t)</syntax_item>
+    <syntax_item>data = nelson.io.tar.read(t, name)</syntax_item>
+    <syntax_item>data = nelson.io.tar.read(t, name, 'MaxSize', maxsize)</syntax_item>
+    <syntax_item>txt = nelson.io.tar.readtext(t, name)</syntax_item>
+    <syntax_item>txt = nelson.io.tar.readtext(t, name, 'Encoding', encoding, 'MaxSize', maxsize)</syntax_item>
+    <syntax_item>nelson.io.tar.write(t, name, data)</syntax_item>
+    <syntax_item>nelson.io.tar.write(t, name, data, 'Modified', when)</syntax_item>
+    <syntax_item>names = nelson.io.tar.add(t, path)</syntax_item>
+    <syntax_item>names = nelson.io.tar.add(t, path, entryname)</syntax_item>
+    <syntax_item>fid = nelson.io.tar.fopen(t, name)</syntax_item>
+    <syntax_item>fid = nelson.io.tar.fopen(t, name, permission)</syntax_item>
+    <syntax_item>fid = nelson.io.tar.fopen(t, name, 'r', encoding, 'MaxSize', maxsize)</syntax_item>
+    <syntax_item>filenames = nelson.io.tar.extract(t)</syntax_item>
+    <syntax_item>filenames = nelson.io.tar.extract(t, outputfolder)</syntax_item>
+    <syntax_item>filenames = nelson.io.tar.extract(t, outputfolder, 'MaxExtractedSize', maxextractedsize, 'MaxCompressionRatio', maxratio)</syntax_item>
+    <syntax_item>bytes = nelson.io.tar.tobytes(t)</syntax_item>
+    <syntax_item>nelson.io.tar.close(t)</syntax_item>
+    <syntax_item>names = nelson.io.tar.compressions()</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>source</param_name>
+      <param_description>archive à lire : un nom de fichier (.tar, .tar.gz, .tgz, .tar.zst, .tar.xz, .tar.bz2, ...), un vecteur uint8 contenant les octets d'une archive, ou une URL http/https.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>une chaîne : fichier tar à créer (remplacé s'il existe).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>compression</param_name>
+      <param_description>'auto' (par défaut), 'none', 'gzip', 'zstd', 'xz', 'bzip2', 'lz4' ou 'lzma'. Avec 'auto', un nom de fichier choisit la compression d'après son extension : .tar.gz ou .tgz, .tar.zst ou .tzst, .tar.xz ou .txz, .tar.bz2, .tbz2 ou .tbz, .tar.lz4, .tar.lzma ou .tlz ; tout autre nom et une archive en mémoire ne sont pas compressés. Un nom inconnu lève <b>Nelson:io:tar:unknownCompression</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>level</param_name>
+      <param_description>niveau de compression : de 0 à 9 pour gzip, xz et lzma, de 1 à 9 pour bzip2 et lz4, de 1 à 22 pour zstd, -1 pour la valeur par défaut de la méthode (par défaut : -1). Un niveau incorrect lève <b>Nelson:io:tar:invalidLevel</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>t</param_name>
+      <param_description>un objet nelson.io.TarArchive.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>name, entryname</param_name>
+      <param_description>une chaîne : nom de l'entrée dans l'archive, avec '/' comme séparateur de dossiers.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>data</param_name>
+      <param_description>vecteur uint8, vecteur de caractères ou chaîne scalaire (le texte est stocké en UTF-8).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>when</param_name>
+      <param_description>un datetime : date de modification enregistrée pour l'entrée (par défaut : maintenant).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>path</param_name>
+      <param_description>une chaîne : fichier, ou dossier ajouté avec tout son contenu.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>permission</param_name>
+      <param_description>'r' (lecture, par défaut) ou 'w' (écriture d'une nouvelle entrée).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>maxsize</param_name>
+      <param_description>taille maximale acceptée pour une entrée, en octets (par défaut : Inf).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>encoding</param_name>
+      <param_description>un vecteur de caractères : encodage utilisé pour décoder l'entrée (par défaut : 'UTF-8').</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>outputfolder</param_name>
+      <param_description>une chaîne : dossier de destination de extract (par défaut : dossier courant).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>maxextractedsize</param_name>
+      <param_description>un entier positif ou nul : nombre total maximal d'octets que extract peut écrire (par défaut : Inf, sans limite).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>maxratio</param_name>
+      <param_description>un nombre strictement positif : rapport maximal entre la taille des fichiers et celle de l'archive (par défaut : Inf, sans limite).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>t</param_name>
+      <param_description>un objet handle <b>nelson.io.TarArchive</b>.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>T</param_name>
+      <param_description>une table avec les variables Name, Size, Modified, Mode, IsFolder et IsLink.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>data, bytes</param_name>
+      <param_description>vecteurs ligne uint8.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>txt</param_name>
+      <param_description>un vecteur ligne de caractères.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>names</param_name>
+      <param_description>pour add : noms des entrées ajoutées, les dossiers se terminent par '/'. Pour compressions : une colonne de chaînes avec "none", "gzip" et "zstd" quand il est disponible.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>filenames</param_name>
+      <param_description>noms des fichiers et dossiers extraits.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>fid</param_name>
+      <param_description>un identificateur de fichier pour fread, fgetl, fgets, fscanf, textscan, fwrite, fprintf, feof, ftell, fseek, frewind et fclose.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.io.tar</b> lit, écrit et inspecte des archives tar entrée par entrée, sur disque ou en mémoire, sans les extraire dans des fichiers.</p>
+    <p>Une archive est écrite et lue simple ou compressée en gzip, zstd, xz, bzip2, lz4 ou lzma. En lecture, la compression est détectée d'après le contenu, pas d'après le nom. Une URL est d'abord téléchargée dans un fichier temporaire et ne peut être que lue.</p>
+    <p>zstd et xz compressent sur plusieurs threads (voir maxNumCompThreads). La sortie gzip n'a pas de date dans son en-tête : les mêmes entrées donnent la même archive.</p>
+    <p>Les archives sont écrites au format ustar. Des en-têtes pax sont ajoutés pour les noms longs ou non ASCII et pour les entrées de plus de 8 Gio. Les noms longs GNU sont aussi lus.</p>
+    <p><b>add</b> ajoute un fichier, ou un dossier avec tout son contenu, et renvoie les noms des nouvelles entrées.</p>
+    <p><b>fopen</b> ouvre une entrée comme un identificateur de fichier. En écriture, les données sont conservées dans un fichier temporaire et ajoutées à l'archive à l'appel de <b>fclose</b>.</p>
+    <p><b>extract</b> écrit toutes les entrées sous le dossier de destination et restaure les dates. Les droits d'exécution des entrées sont conservés (le umask est appliqué), sauf sous Windows.</p>
+    <p>Les noms d'entrées dangereux comme '../x' sont refusés, et rien n'est écrit à travers un lien symbolique. Sous Linux et macOS, un lien symbolique n'est restauré que si sa cible reste dans le dossier de destination. Les autres liens symboliques, les liens physiques et tous les liens sous Windows sont ignorés et ne figurent pas dans les noms renvoyés.</p>
+    <p><b>extract</b> accepte 'MaxExtractedSize' et 'MaxCompressionRatio' comme <b>untar</b> : les tailles des en-têtes tar sont comparées à ces limites et à l'espace disque libre avant toute écriture.</p>
+    <p>Ctrl+C arrête une compression ou une extraction et supprime l'archive partielle ou le fichier en cours d'écriture.</p>
+    <p>Un écrivain doit être fermé pour être complet. <b>tobytes</b> ferme un écrivain en mémoire et renvoie ses octets.</p>
+    <p>Les fonctions sont aussi des méthodes de <b>nelson.io.TarArchive</b> : <b>t.read(name)</b> équivaut à <b>nelson.io.tar.read(t, name)</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Écrire et lire une archive en mémoire</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[t = nelson.io.tar.open([], 'w', 'Compression', 'gzip');
+nelson.io.tar.write(t, 'notes/hello.txt', 'Hello tar');
+nelson.io.tar.write(t, 'data.bin', uint8(1:100));
+bytes = nelson.io.tar.tobytes(t);
+r = nelson.io.tar.open(bytes);
+r.Compression
+nelson.io.tar.entries(r)
+nelson.io.tar.readtext(r, 'notes/hello.txt')
+nelson.io.tar.close(r);
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Archiver un dossier dans un fichier .tar.gz, puis l'extraire</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[folder = tempname();
+mkdir(fullfile(folder, 'data'));
+filewrite(fullfile(folder, 'data', 'a.txt'), 'first file');
+filewrite(fullfile(folder, 'data', 'b.txt'), 'second file');
+filename = fullfile(folder, 'data.tar.gz');
+t = nelson.io.tar.open(filename, 'w');
+names = nelson.io.tar.add(t, fullfile(folder, 'data'))
+nelson.io.tar.close(t);
+r = nelson.io.tar.open(filename);
+filenames = nelson.io.tar.extract(r, fullfile(folder, 'out'))
+nelson.io.tar.close(r);
+rmdir(folder, 's');
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Lire et écrire des entrées avec des identificateurs de fichier</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[t = nelson.io.tar.open([], 'w');
+fid = nelson.io.tar.fopen(t, 'table.csv', 'w');
+fprintf(fid, '%d,%g\n', [1:3; (1:3) / 10]);
+fclose(fid);
+r = nelson.io.tar.open(nelson.io.tar.tobytes(t));
+fid = nelson.io.tar.fopen(r, 'table.csv');
+C = textscan(fid, '%d,%f')
+fclose(fid);
+nelson.io.tar.close(r);
+nelson.io.tar.compressions()
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${file_archiver}nelson.io.TarArchive">nelson.io.TarArchive</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}tar">tar</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}untar">untar</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}nelson.io.gzip">nelson.io.gzip</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}nelson.io.zstd">nelson.io.zstd</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${file_archiver}nelson.io.zip">nelson.io.zip</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}textscan">textscan</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
