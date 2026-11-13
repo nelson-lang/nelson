@@ -99,83 +99,43 @@
       "from": "pos",
       "to": "bc",
       "fromIndex": 0,
-      "toIndex": 0,
-      "points": [
-        [140, 220],
-        [170, 220],
-        [170, 160],
-        [220, 160]
-      ]
+      "toIndex": 0
     },
     {
       "from": "cnt",
       "to": "bc",
       "fromIndex": 0,
-      "toIndex": 1,
-      "points": [
-        [140, 100],
-        [200, 100],
-        [200, 180],
-        [220, 180]
-      ]
+      "toIndex": 1
     },
     {
       "from": "bc",
       "to": "ba",
       "fromIndex": 0,
-      "toIndex": 0,
-      "points": [
-        [300, 170],
-        [360, 170],
-        [360, 230],
-        [380, 230]
-      ]
+      "toIndex": 0
     },
     {
       "from": "newcnt",
       "to": "ba",
       "fromIndex": 0,
-      "toIndex": 1,
-      "points": [
-        [140, 340],
-        [360, 340],
-        [360, 250],
-        [380, 250]
-      ]
+      "toIndex": 1
     },
     {
       "from": "ba",
       "to": "sel",
       "fromIndex": 0,
-      "toIndex": 0,
-      "points": [
-        [480, 240],
-        [560, 240]
-      ]
+      "toIndex": 0
     },
     {
       "from": "sel",
       "to": "scope_pos",
       "fromIndex": 0,
-      "toIndex": 0,
-      "points": [
-        [650, 230],
-        [670, 230],
-        [670, 300],
-        [730, 300]
-      ]
+      "toIndex": 0
     },
     {
       "from": "sel",
       "to": "scope_cnt",
       "fromIndex": 1,
-      "toIndex": 0,
-      "points": [
-        [650, 250],
-        [710, 250],
-        [710, 100],
-        [730, 100]
-      ]
+      "toIndex": 0
     }
   ],
   "variables": "",

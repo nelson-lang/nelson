@@ -224,131 +224,67 @@
       "from": "and_gate",
       "to": "and_scope",
       "fromIndex": 0,
-      "toIndex": 0,
-      "points": [
-        [300, 150],
-        [360, 150],
-        [360, 100],
-        [380, 100]
-      ]
+      "toIndex": 0
     },
     {
       "from": "or_gate",
       "to": "or_scope",
       "fromIndex": 0,
-      "toIndex": 0,
-      "points": [
-        [300, 410],
-        [360, 410],
-        [360, 360],
-        [380, 360]
-      ]
+      "toIndex": 0
     },
     {
       "from": "xor_gate",
       "to": "xor_scope",
       "fromIndex": 0,
-      "toIndex": 0,
-      "points": [
-        [300, 670],
-        [360, 670],
-        [360, 620],
-        [380, 620]
-      ]
+      "toIndex": 0
     },
     {
       "from": "not_gate",
       "to": "not_scope",
       "fromIndex": 0,
-      "toIndex": 0,
-      "points": [
-        [300, 930],
-        [360, 930],
-        [360, 880],
-        [380, 880]
-      ]
+      "toIndex": 0
     },
     {
       "from": "b2",
       "to": "and_gate",
       "fromIndex": 0,
-      "toIndex": 0,
-      "points": [
-        [140, 110],
-        [200, 110],
-        [200, 130],
-        [220, 130]
-      ]
+      "toIndex": 0
     },
     {
       "from": "b3",
       "to": "and_gate",
       "fromIndex": 0,
-      "toIndex": 1,
-      "points": [
-        [140, 200],
-        [200, 200],
-        [200, 170],
-        [220, 170]
-      ]
+      "toIndex": 1
     },
     {
       "from": "b5",
       "to": "or_gate",
       "fromIndex": 0,
-      "toIndex": 0,
-      "points": [
-        [140, 460],
-        [200, 460],
-        [200, 390],
-        [220, 390]
-      ]
+      "toIndex": 0
     },
     {
       "from": "b4",
       "to": "or_gate",
       "fromIndex": 0,
-      "toIndex": 1,
-      "points": [
-        [140, 370],
-        [170, 370],
-        [170, 430],
-        [220, 430]
-      ]
+      "toIndex": 1
     },
     {
       "from": "b6",
       "to": "xor_gate",
       "fromIndex": 0,
-      "toIndex": 0,
-      "points": [
-        [140, 630],
-        [200, 630],
-        [200, 650],
-        [220, 650]
-      ]
+      "toIndex": 0
     },
     {
       "from": "b8",
       "to": "not_gate",
       "fromIndex": 0,
-      "toIndex": 0,
-      "points": [
-        [140, 930],
-        [220, 930]
-      ]
+      "toIndex": 0
     },
     {
       "from": "b7",
       "to": "xor_gate",
       "fromIndex": 0,
-      "toIndex": 1,
-      "points": [
-        [140, 720],
-        [200, 720],
-        [200, 690],
-        [220, 690]
-      ]
+      "toIndex": 1
     }
   ],
   "variables": "",

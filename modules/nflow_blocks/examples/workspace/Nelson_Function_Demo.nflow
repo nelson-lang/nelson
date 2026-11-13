@@ -66,49 +66,25 @@
       "from": "src",
       "to": "nf",
       "fromIndex": 0,
-      "toIndex": 0,
-      "points": [
-        [140, 180],
-        [200, 180],
-        [200, 230],
-        [220, 230]
-      ]
+      "toIndex": 0
     },
     {
       "from": "src",
       "to": "ex",
       "fromIndex": 0,
-      "toIndex": 0,
-      "points": [
-        [140, 180],
-        [200, 180],
-        [200, 130],
-        [220, 130]
-      ]
+      "toIndex": 0
     },
     {
       "from": "nf",
       "to": "sc",
       "fromIndex": 0,
-      "toIndex": 0,
-      "points": [
-        [320, 230],
-        [380, 230],
-        [380, 100],
-        [400, 100]
-      ]
+      "toIndex": 0
     },
     {
       "from": "ex",
       "to": "sc",
       "fromIndex": 0,
-      "toIndex": 1,
-      "points": [
-        [300, 130],
-        [350, 130],
-        [350, 180],
-        [400, 180]
-      ]
+      "toIndex": 1
     }
   ],
   "variables": "",
