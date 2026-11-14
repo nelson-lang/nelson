@@ -288,6 +288,11 @@
         <td>Type: chaîne scalaire ou vecteur ligne de caractères. Valeurs prises en charge: texte vide ou identifiant d&apos;objet.</td>
       </tr>
       <tr>
+        <td><b>Theme</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: graphics theme object en lecture, text scalar or character row vector en ecriture. Valeurs affectees prises en charge: 'light', 'dark'.</td>
+      </tr>
+      <tr>
         <td><b>Thème</b></td>
         <td>renvoie l&apos;objet de thème graphique actif; l&apos;affectation de 'light' ou 'dark' met à jour le rendu au prochain rafraîchissement graphique.</td>
         <td>Type: objet de thème graphique en lecture, chaîne scalaire ou vecteur ligne de caractères en écriture. Valeurs prises en charge en affectation: 'light', 'dark'.</td>

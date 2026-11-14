@@ -98,6 +98,11 @@
         <td>Type: vecteur numérique fini. Valeurs prises en charge: vecteur fini de taille documentée, par exemple [left bottom width height], [x y z], [azimuth élévation] ou [minor major].</td>
       </tr>
       <tr>
+        <td><b>Interpreter</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: text scalar or character row vector. Valeurs prises en charge: 'tex', 'latex', 'none'. 'latex' retombe actuellement sur le pipeline 'tex' (un moteur LaTeX complet n'est pas encore implemente).</td>
+      </tr>
+      <tr>
         <td><b>Interpréter</b></td>
         <td>met à jour le rendu au prochain rafraîchissement graphique.</td>
         <td>Type: chaîne scalaire ou vecteur ligne de caractères. Valeurs prises en charge: 'tex', 'none'.</td>

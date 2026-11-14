@@ -138,6 +138,11 @@
         <td>Type: interaction object, structure, cell array, or empty array. Valeurs prises en charge: [] ou définitions d&apos;interaction pour axes et graphiques.</td>
       </tr>
       <tr>
+        <td><b>Interpreter</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: text scalar or character row vector. Valeurs prises en charge: 'tex', 'latex', 'none'. 'latex' retombe actuellement sur le pipeline 'tex' (un moteur LaTeX complet n'est pas encore implemente).</td>
+      </tr>
+      <tr>
         <td><b>Interpréter</b></td>
         <td>met à jour le rendu au prochain rafraîchissement graphique.</td>
         <td>Type: chaîne scalaire ou vecteur ligne de caractères. Valeurs prises en charge: 'tex', 'latex', 'none'. 'latex' se rabat actuellement sur le pipeline 'tex' (un moteur de mise en page LaTeX complet n'est pas encore implémenté).</td>

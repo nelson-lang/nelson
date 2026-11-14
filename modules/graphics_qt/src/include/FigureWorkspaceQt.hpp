@@ -71,6 +71,9 @@ public:
     hover(const QPointF& windowPosition);
     void
     syncVisibility();
+    // Restores the saved tool bar visibility once; forced before the first show.
+    void
+    restorePreferences();
     void
     saveAs();
 
@@ -149,8 +152,6 @@ private:
     updateViewControls();
     void
     createEnhancements(QToolBar* primary);
-    void
-    restorePreferences();
     void
     savePreferences();
     void

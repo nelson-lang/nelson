@@ -55,6 +55,9 @@ FigureWorkspaceQt::createEnhancements(QToolBar* primary)
 void
 FigureWorkspaceQt::restorePreferences()
 {
+    if (preferencesReady || !inspector) {
+        return;
+    }
     auto settings = workspaceSettings();
     navigationRequested = settings->value("FigureWorkspace/navigation", true).toBool();
     detailsRequested = settings->value("FigureWorkspace/details", false).toBool();

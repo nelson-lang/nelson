@@ -15,6 +15,7 @@
 #include <QtWidgets/QLayout>
 #include "GOWindow.hpp"
 #include "BaseFigureQt.hpp"
+#include "FigureWorkspaceQt.hpp"
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
 //=============================================================================
@@ -142,6 +143,10 @@ GOWindow::presentNativeWindow()
     // flashing black. Show it directly at its target geometry: parking it off-screen and
     // moving it after show() failed with a live event loop, because the native window was
     // realized at the parked spot.
+    // Settle the chrome first: the workspace shows its tool bars from a deferred start-up call.
+    if (workspace) {
+        workspace->restorePreferences();
+    }
     const QRect targetGeometry = geometry();
     // The target geometry is transient bookkeeping until show() applies it: it
     // must never be read back into the figure Position (see hostFrameGeometry /
@@ -171,7 +176,6 @@ GOWindow::presentNativeWindow()
         // The realized window knows its real chrome: fit the drawing area to the
         // requested Position before the geometry is read back.
         // Re-arm the one-shot refit: the fallback geometry above undid one made while showing.
-        QCoreApplication::sendPostedEvents(nullptr, QEvent::LayoutRequest);
         drawingAreaRefitDone = false;
         refitDrawingAreaToRequest();
         if (qtchild) {

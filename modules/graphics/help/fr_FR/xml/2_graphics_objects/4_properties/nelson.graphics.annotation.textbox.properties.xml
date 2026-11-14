@@ -113,6 +113,11 @@
         <td>Type: mot-clé texte. Valeurs prises en charge: 'left', 'center' ou 'right'.</td>
       </tr>
       <tr>
+        <td><b>Interpreter</b></td>
+        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>Type: text scalar or character row vector. Valeurs prises en charge: 'tex', 'latex', 'none'. 'latex' retombe actuellement sur le pipeline 'tex' (un moteur LaTeX complet n'est pas encore implemente).</td>
+      </tr>
+      <tr>
         <td><b>Interpréter</b></td>
         <td>change l&apos;interprétation du balisage du texte d&apos;annotation.</td>
         <td>Type: mot-clé texte. Valeurs prises en charge: 'tex', 'latex' ou 'none'.</td>
