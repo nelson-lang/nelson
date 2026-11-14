@@ -92,6 +92,8 @@ public:
     waitForRenderedFrame(int timeoutMs);
     void
     prerenderFirstFrame();
+    void
+    recomposeForFirstContent();
     bool
     hasRenderedFrame() const
     {
