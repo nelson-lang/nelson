@@ -818,6 +818,10 @@ GOText::updateState()
             && !hasChanged(GO_COLOR_MODE_PROPERTY_NAME_STR)) {
             toManual(GO_COLOR_MODE_PROPERTY_NAME_STR);
         }
+        // Clear the Color change flag like the blocks above: a stale flag would
+        // re-run the auto->manual flip on a later updateState and override a
+        // ColorMode restored by openfig (or set together with Color).
+        clearChanged(GO_COLOR_PROPERTY_NAME_STR);
     }
     bool fontChanged
         = !stateInitialized || hasChanged(fontProperties) || subplotTextFontModeChanged;

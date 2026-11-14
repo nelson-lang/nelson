@@ -262,7 +262,7 @@ graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
                                 // A nested assignment such as l.Title.String = 'x' writes the
                                 // same handle back; that is not a change.
                                 auto* handles = dynamic_cast<GOGObjectsProperty*>(hp);
-                                if (handles
+                                if (handles && !handles->data().empty()
                                     && sameObjectReferences(handles->data(), pairs[ptr + 1])) {
                                     ptr += 2;
                                     continue;
