@@ -49,7 +49,8 @@ function synth_piano()
   app.songs = synth_piano_songs();
   app.clock = tic();
   fig = uifigure('Name', _('Nelson NS-37 synthesizer'), 'Tag', 'synth_piano', 'Resize', 'off', ...
-    'Position', synthCenteredPosition(1180, 745), 'Color', app.theme.background);
+    'Position', synthCenteredPosition(1180, 745), 'Color', app.theme.background, ...
+    'Visible', 'off');
   app = synthBuildHeader(fig, app);
   app = synthBuildSoundPanel(fig, app);
   app = synthBuildPlayerPanel(fig, app);
@@ -79,6 +80,8 @@ function synth_piano()
   fig.WindowButtonDownFcn = @(src, evt) synthMousePressed(fig);
   fig.WindowButtonUpFcn = @(src, evt) synthMouseReleased(fig);
   fig.DeleteFcn = @(src, evt) synthShutdown(fig);
+  % shown only once fully built
+  fig.Visible = 'on';
   start(app.timer);
   synthStartScore(fig, synthIntroScore(), 0.035, _('Welcome glissando'));
 end
