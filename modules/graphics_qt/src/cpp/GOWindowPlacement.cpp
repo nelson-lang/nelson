@@ -11,6 +11,7 @@
 #include <QtGui/QGuiApplication>
 #include <QtGui/QMoveEvent>
 #include <QtGui/QScreen>
+#include <QtGui/QWindow>
 #include <QtWidgets/QLayout>
 #include "GOWindow.hpp"
 #include "BaseFigureQt.hpp"
@@ -151,9 +152,19 @@ GOWindow::presentNativeWindow()
             baseFigure->prerenderFirstFrame();
         }
         setGeometry(targetGeometry);
+        // Realize the native window at the target geometry before it is shown. Otherwise
+        // the platform can create it at a default placement and show() corrects it with a
+        // visible jump: the figure flashes at a standard size/position before moving to the
+        // requested Position. Creating the handle now and positioning the QWindow maps the
+        // window directly where Position asks.
+        if (!windowHandle()) {
+            createWinId();
+        }
+        if (QWindow* nativeHandle = windowHandle()) {
+            nativeHandle->setGeometry(targetGeometry);
+        }
         show();
-        // Re-apply after show() so the window lands where Position asks even if
-        // the platform realized it at a default placement first.
+        // Fallback for platforms that still ignore the pre-show geometry.
         setGeometry(targetGeometry);
         // The realized window knows its real chrome: fit the drawing area to the
         // requested Position before the geometry is read back.

@@ -84,6 +84,8 @@ const QString SETTING_DESKTOP_STATUS_BAR_VISIBLE = "desktop_status_bar_visible";
 //=============================================================================
 static void
 setActionTips(QAction* action, const QString& tip);
+static bool
+isRectOnAnyScreen(const QRect& frame);
 // user saved layouts: one key per layout name, value = QMainWindow::saveState()
 const QString SETTING_MAIN_WINDOW_USER_LAYOUTS_GROUP = "mw_UserLayouts";
 //=============================================================================
@@ -266,17 +268,27 @@ QtMainWindow::QtMainWindow(bool minimized)
     QScreen* primaryScreen = QGuiApplication::primaryScreen();
     QRect desktopRect
         = primaryScreen ? primaryScreen->availableGeometry() : QRect(0, 0, WIDTH_MIN, HEIGHT_MIN);
-    QPoint center = desktopRect.center();
-    int widthCentered = desktopRect.width() * .66;
-    int heightCentered = desktopRect.height() * .66;
-    if (widthCentered < WIDTH_MIN) {
-        widthCentered = WIDTH_MIN;
+    // Place the window at its final geometry *before* the first show, so it does not
+    // appear centered at a default size and then jump to the saved placement (the
+    // dock layout is still restored later in createDockWidgets, which does not move
+    // the top-level window).
+    QSettings startupSettings(NELSON_SETTINGS_ORGANIZATION, NELSON_SETTINGS_APPLICATION);
+    QByteArray savedGeometry = startupSettings.value(SETTING_MAIN_WINDOW_GEOMETRY).toByteArray();
+    m_startupGeometryRestored = !savedGeometry.isEmpty() && restoreGeometry(savedGeometry)
+        && isRectOnAnyScreen(frameGeometry());
+    if (!m_startupGeometryRestored) {
+        QPoint center = desktopRect.center();
+        int widthCentered = desktopRect.width() * .66;
+        int heightCentered = desktopRect.height() * .66;
+        if (widthCentered < WIDTH_MIN) {
+            widthCentered = WIDTH_MIN;
+        }
+        if (heightCentered < HEIGHT_MIN) {
+            heightCentered = HEIGHT_MIN;
+        }
+        setGeometry(0, 0, widthCentered, heightCentered);
+        move(center.x() - width() / 2, center.y() - height() / 2);
     }
-    if (heightCentered < HEIGHT_MIN) {
-        heightCentered = HEIGHT_MIN;
-    }
-    setGeometry(0, 0, widthCentered, heightCentered);
-    move(center.x() - width() / 2, center.y() - height() / 2);
 
     // https://bugreports.qt.io/browse/QTBUG-76354
     if (QGuiApplication::primaryScreen()) {
@@ -1104,7 +1116,9 @@ QtMainWindow::restoreDockWidgetPositions()
     QByteArray geometry = settings.value(SETTING_MAIN_WINDOW_GEOMETRY).toByteArray();
     QByteArray state = settings.value(SETTING_MAIN_WINDOW_Window_State).toByteArray();
 
-    if (!geometry.isEmpty()) {
+    // the constructor already restored the window geometry before the first show;
+    // re-restoring it here (window now visible) would move/resize it on screen.
+    if (!geometry.isEmpty() && !m_startupGeometryRestored) {
         restoreGeometry(geometry);
         // a geometry saved on a monitor that is gone would leave the window off
         // every screen: recenter it on the primary screen in that case.

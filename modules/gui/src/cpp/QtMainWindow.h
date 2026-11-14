@@ -317,6 +317,10 @@ private:
 
     bool bClosed;
 
+    // the saved window geometry was already restored in the constructor (before the
+    // first show), so restoreDockWidgetPositions() must not restore it again.
+    bool m_startupGeometryRestored = false;
+
     bool
     eventFilter(QObject* watched, QEvent* event) override;
     void
