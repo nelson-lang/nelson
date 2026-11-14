@@ -148,7 +148,8 @@ for host = 1:2
     pixelChild = uipanel(t, 'Units', 'pixels', 'Position', [1 1 50 30]);
     assert_isequal(getpixelposition(pixelChild), [1 1 50 30]);
     % a child at the page corner coincides with the tab (recursive) corner
-    assert_isequal(getpixelposition(pixelChild, true), getpixelposition(t, true));
+    tabCorner = getpixelposition(t, true);
+    assert_isequal(getpixelposition(pixelChild, true)(1:2), tabCorner(1:2));
     delete(t);
   end
   delete(fig);
