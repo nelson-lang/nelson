@@ -29,5 +29,5 @@ fid = fopen(pdfFile, 'r');
 asserts.istrue(fid > 0);
 signature = fread(fid, 4, '*char');
 fclose(fid);
-asserts.isequal(signature, '%PDF');
+asserts.isequal(signature.', '%PDF');
 %=============================================================================
