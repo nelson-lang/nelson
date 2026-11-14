@@ -74,11 +74,6 @@
       </tr>
       <tr>
         <td><b>Categories</b></td>
-        <td>recalcule la geometrie, les limites ou la disposition.</td>
-        <td>Type: text vector. Valeurs prises en charge: valeur vide ou une liste de noms de categories sous forme de cell array de character vectors ou de string array.</td>
-      </tr>
-      <tr>
-        <td><b>Catégories</b></td>
         <td>recalcule la géométrie, les limites ou la disposition.</td>
         <td>Type: vecteur de texte. Valeurs prises en charge: valeur vide ou une liste de noms de catégories sous forme de tableau de cellules de vecteurs de caractères ou de tableau de chaînes.</td>
       </tr>

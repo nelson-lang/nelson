@@ -13,11 +13,6 @@
         <th>Type et valeurs prises en charge</th>
       </tr>
       <tr>
-        <td><b>Interpreter</b></td>
-        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
-        <td>Type: text scalar or character row vector. Valeurs prises en charge: 'tex', 'latex', 'none'. 'latex' retombe actuellement sur le pipeline 'tex' (un moteur LaTeX complet n'est pas encore implemente).</td>
-      </tr>
-      <tr>
         <td><b>Title</b></td>
         <td>met à jour le titre affiche ou l&apos;objet titre associe à l&apos;objet graphique.</td>
         <td>Type: objet texte graphique ou valeur texte, selon la classe d&apos;objet. Valeurs prises en charge: objet texte de titre, vecteur ligne de caractères, chaîne scalaire ou texte vide.</td>
@@ -78,7 +73,7 @@
         <td>Type: chaîne scalaire ou vecteur ligne de caractères. Valeurs prises en charge: 'normal', 'bold'.</td>
       </tr>
       <tr>
-        <td><b>Interpréter</b></td>
+        <td><b>Interpreter</b></td>
         <td>met à jour le rendu au prochain rafraîchissement graphique.</td>
         <td>Type: chaîne scalaire ou vecteur ligne de caractères. Valeurs prises en charge: 'tex', 'none'.</td>
       </tr>
