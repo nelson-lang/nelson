@@ -100,7 +100,7 @@ pub fn nflow_step(s: &mut ModelState,
     out_b3 = 0.0_f64 + out_b1 + out_b2;
     // scope  b11
     let _ = out_b5;
-    let _ = 0.0_f64;
+    let _ = out_b8;
     let _ = out_b3;
 }
 

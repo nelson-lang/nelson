@@ -93,7 +93,7 @@ void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t)
   out_b3 = out_b1 + out_b2;
   // scope b11
   (void)(out_b5);
-  (void)(0.0);
+  (void)(out_b8);
   (void)(out_b3);
 }
 
