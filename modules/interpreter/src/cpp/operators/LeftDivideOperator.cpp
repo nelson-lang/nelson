@@ -80,10 +80,27 @@ isTransposedSolveOperand(const ArrayOf& A, const ArrayOf& B, bool conjugate)
         && dimsB.rows() == dimsA.rows() && dimsB.columns() > 0;
 }
 //=============================================================================
+// Narrow a double operand to single (keeping complexity), as the reference does.
+static void
+narrowDoubleOperandToSingle(ArrayOf& value)
+{
+    value.promoteType(value.isComplex() ? NLS_SCOMPLEX : NLS_SINGLE);
+}
+//=============================================================================
 ArrayOf
-Evaluator::transposedLeftDivideOperator(const ArrayOf& A, const ArrayOf& B, bool conjugate)
+Evaluator::transposedLeftDivideOperator(const ArrayOf& Ain, const ArrayOf& Bin, bool conjugate)
 {
     const std::string transposeName = conjugate ? CTRANSPOSE_OPERATOR_STR : TRANSPOSE_OPERATOR_STR;
+    ArrayOf A(Ain);
+    ArrayOf B(Bin);
+    // mixed double/single narrows to single before the solve, matching the operator reference
+    if (!A.isSparse() && !B.isSparse()) {
+        if (A.isSingleType() && B.isDoubleType()) {
+            narrowDoubleOperandToSingle(B);
+        } else if (A.isDoubleType() && B.isSingleType()) {
+            narrowDoubleOperandToSingle(A);
+        }
+    }
     if (isTransposedSolveOperand(A, B, conjugate)) {
         const std::string className = ClassName(A);
         if (!builtinOverloadDefined(this, className, transposeName)
