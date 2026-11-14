@@ -50,6 +50,18 @@ QtUIComponentBinding::getParentContentOffset(double& left, double& top)
     // inside the border; the widget hosting them covers the whole panel.
     left = 0;
     top = 0;
+    // A uitab is different: its QTabWidget page widget already is the page
+    // (border and tab bar excluded by the native layout), so children anchor at
+    // its corner. getParentLayoutSize still gives them the page size.
+    if (auto* parentProperty = static_cast<GOGObjectsProperty*>(
+            model->findProperty(GO_PARENT_PROPERTY_NAME_STR, false))) {
+        if (!parentProperty->data().empty()) {
+            GraphicsObject* parent = findGraphicsObject(parentProperty->data()[0], false);
+            if (parent != nullptr && parent->getType() == GO_PROPERTY_VALUE_UITAB_STR) {
+                return;
+            }
+        }
+    }
     std::vector<double> content;
     double frameHeight = 0;
     if (uiParentContentRect(model, content, frameHeight)) {

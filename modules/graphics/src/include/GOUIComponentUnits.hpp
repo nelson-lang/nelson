@@ -15,8 +15,16 @@
 namespace Nelson {
 //=============================================================================
 class GOUIComponent;
+class GOUIContainer;
 class GOFigure;
 class GraphicsObject;
+//=============================================================================
+// Area left to the children of `container` in a frame of frameWidth x
+// frameHeight: {x, y, w, h}, bottom-left origin. A uitab yields its group's
+// page (border and tab bar deducted); any other container its contentRect.
+NLSGRAPHICS_IMPEXP bool
+uiContainerChildContentRect(
+    GOUIContainer* container, double frameWidth, double frameHeight, std::vector<double>& content);
 //=============================================================================
 NLSGRAPHICS_IMPEXP void
 uiComponentPositionInPixels(

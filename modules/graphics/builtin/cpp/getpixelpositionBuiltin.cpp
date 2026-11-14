@@ -61,6 +61,13 @@ getpixelpositionBuiltin(int nLhs, const ArrayOfVector& argIn)
             if (!uiParentContentRect(child, content, frameHeight) || content.size() != 4) {
                 content.assign(4, 0.0);
             }
+            // A tab fills its group: the page inset (border and tab bar) is already
+            // carried when the tab itself climbs to its group, so the tab adds no
+            // further origin offset for its own children here.
+            if (ancestor->isType(GO_PROPERTY_VALUE_UITAB_STR)) {
+                content[0] = 0;
+                content[1] = 0;
+            }
             position[0] += ancestorPosition[0] - 1 + content[0];
             position[1] += ancestorPosition[1] - 1 + content[1];
             child = ancestor;

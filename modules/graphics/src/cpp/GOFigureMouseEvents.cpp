@@ -30,6 +30,7 @@
 #include "GOText.hpp"
 #include "GOPropertyValues.hpp"
 #include "GOTiledChartLayout.hpp"
+#include "GOUIComponentUnits.hpp"
 #include "GOUIContainer.h"
 #include "GOUITab.h"
 #include "GOUITabGroup.h"
@@ -965,9 +966,10 @@ containerContentPoint(
     if (frame.size() != 4 || frame[2] <= 0 || frame[3] <= 0) {
         return false;
     }
-    RenderWeb containerFrame(0, 0, frame[2], frame[3], false);
-    std::vector<double> content = container->contentRect(containerFrame);
-    if (content.size() != 4) {
+    // A uitab maps its pointer into the group page, as its children are laid out.
+    std::vector<double> content;
+    if (!uiContainerChildContentRect(container, frame[2], frame[3], content)
+        || content.size() != 4) {
         return false;
     }
     point = { frame[0] + content[0], frame[1] + content[1], content[2], content[3] };

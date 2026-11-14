@@ -10,6 +10,7 @@
 #include "GOUIComponentUnits.hpp"
 #include "GOUIComponent.h"
 #include "GOUIContainer.h"
+#include "GOUITabGroup.h"
 #include "GOFigure.hpp"
 #include "GOGObjectsProperty.hpp"
 #include "GOHelpers.hpp"
@@ -93,6 +94,40 @@ uiComponentOwnSizeInPixels(GOUIComponent* component, double& width, double& heig
 }
 //=============================================================================
 bool
+uiContainerChildContentRect(
+    GOUIContainer* container, double frameWidth, double frameHeight, std::vector<double>& content)
+{
+    content = { 0, 0, frameWidth, frameHeight };
+    if (container == nullptr) {
+        return false;
+    }
+    // Children of a uitab live in the tab group's page (the group frame less its
+    // one pixel border and its tab bar), not in the whole tab frame: the tab
+    // stores the group size as its own Position, so its chrome is the group's.
+    // This is the single place the reference page rule is applied to children.
+    if (container->getType() == GO_PROPERTY_VALUE_UITAB_STR) {
+        auto* group = dynamic_cast<GOUITabGroup*>(uiComponentParentObject(container));
+        if (group != nullptr) {
+            RenderWeb gc(0, 0, frameWidth, frameHeight);
+            std::vector<double> page = group->contentRect(gc);
+            if (page.size() == 4) {
+                content = page;
+                return true;
+            }
+        }
+        return true;
+    }
+    // The container chrome (border, title band) is deducted exactly as it is
+    // painted: contentRect only measures text, a Qt-free context is enough.
+    RenderWeb gc(0, 0, frameWidth, frameHeight);
+    std::vector<double> rect = container->contentRect(gc);
+    if (rect.size() == 4) {
+        content = rect;
+    }
+    return true;
+}
+//=============================================================================
+bool
 uiParentContentRect(GraphicsObject* object, std::vector<double>& content, double& frameHeight)
 {
     auto* parentComponent = dynamic_cast<GOUIComponent*>(uiComponentParentObject(object));
@@ -102,15 +137,8 @@ uiParentContentRect(GraphicsObject* object, std::vector<double>& content, double
         return false;
     }
     content = { 0, 0, frameWidth, frameHeight };
-    // The container chrome (border, title band, tab bar) is deducted exactly as
-    // it is painted: contentRect only measures text, a Qt-free context is enough.
-    if (auto* container = dynamic_cast<GOUIContainer*>(parentComponent)) {
-        RenderWeb gc(0, 0, frameWidth, frameHeight);
-        std::vector<double> rect = container->contentRect(gc);
-        if (rect.size() == 4) {
-            content = rect;
-        }
-    }
+    uiContainerChildContentRect(
+        dynamic_cast<GOUIContainer*>(parentComponent), frameWidth, frameHeight, content);
     return true;
 }
 //=============================================================================

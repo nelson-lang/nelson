@@ -56,8 +56,6 @@
 namespace Nelson {
 //=============================================================================
 static UIComponentBindingFactory uiComponentBindingFactory = nullptr;
-static std::vector<double>
-tabPageOrigin(GOUITabGroup* tabGroup, const std::vector<double>& position);
 //=============================================================================
 void
 setUIComponentBindingFactory(UIComponentBindingFactory factory)
@@ -912,7 +910,10 @@ GOUIComponent::describeForWeb(RenderWeb& renderer, const std::vector<double>& po
                     tabPage->onPageResized(page[2], page[3]);
                 }
             }
-            uiDescribeChildrenForWeb(selectedTab, renderer, tabPageOrigin(tabGroup, position));
+            // Children sit in the group frame: uiDescribeChildrenForWeb offsets each
+            // one into the tab page (border and bar deducted) through the tab content
+            // rect, so the whole group position is passed here, not a page-anchored one.
+            uiDescribeChildrenForWeb(selectedTab, renderer, position);
         }
         return;
     } else if (type == GO_PROPERTY_VALUE_UIGRIDLAYOUT_STR) {
@@ -1294,22 +1295,6 @@ GOUIComponent::setupUIComponentCommonDefaults(
         setThreeVectorDefault(GO_BACKGROUND_COLOR_PROPERTY_NAME_STR, 0.96078431372549,
             0.96078431372549, 0.96078431372549);
     }
-}
-//=============================================================================
-// Frame of the selected tab children: the page starts after the tab bar, as the native page widget
-static std::vector<double>
-tabPageOrigin(GOUITabGroup* tabGroup, const std::vector<double>& position)
-{
-    if (tabGroup == nullptr || position.size() != 4) {
-        return position;
-    }
-    RenderWeb frame(0, 0, position[2], position[3]);
-    std::vector<double> page = tabGroup->contentRect(frame);
-    if (page.size() != 4) {
-        return position;
-    }
-    const double topInset = position[3] - page[1] - page[3];
-    return { position[0] + page[0], position[1] - topInset, position[2], position[3] };
 }
 //=============================================================================
 } // namespace Nelson
