@@ -613,28 +613,6 @@ BaseFigureQt::prerenderFirstFrame()
 }
 //=============================================================================
 void
-BaseFigureQt::recomposeForFirstContent()
-{
-    if (!isVisible() || width() <= 0 || height() <= 0) {
-        return;
-    }
-    // The first content drawn into an already-shown (initially empty) figure renders into the
-    // offscreen FBO, but it does not reach the screen until a real resize reconfigures the GL
-    // surface - the user otherwise has to resize the window to see it. Reproduce that
-    // reconfigure here: feed QOpenGLWidget a resize event whose old size differs by one pixel
-    // so it is not short-circuited as a no-op, then repaint synchronously so the composite runs.
-    resizing = false;
-    const QSize current = size();
-    QResizeEvent reconfigure(current, QSize(current.width(), current.height() + 1));
-    QOpenGLWidget::resizeEvent(&reconfigure);
-    syncFigureSize(width(), height());
-    if (hfig) {
-        hfig->setRenderingStateInvalid(true);
-    }
-    repaint();
-}
-//=============================================================================
-void
 BaseFigureQt::initializeGL()
 {
     initializedGL = true;

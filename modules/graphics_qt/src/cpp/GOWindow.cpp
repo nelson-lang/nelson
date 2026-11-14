@@ -82,25 +82,6 @@ namespace Nelson {
 #define TITLE_WITH_FIGURE_NUMBER_FORMAT L"Figure {0}"
 #define TITLE_WITH_FIGURE_NUMBER_AND_NAME_FORMAT L"Figure {0}: {1}"
 #define TITLE_WITH_NAME_ONLY_FORMAT L"{0}"
-// FIGTRACE begin
-static QString
-figWinState(QWidget* w, QWidget* child)
-{
-    QWindow* h = w->windowHandle();
-    return QStringLiteral("win[vis=%1 created=%2 hwnd=%3 handle=%4 surf=%5 exposed=%6 mapped=%7] child[%8 vis=%9 %10x%11]")
-        .arg(w->isVisible())
-        .arg(w->testAttribute(Qt::WA_WState_Created))
-        .arg(w->testAttribute(Qt::WA_WState_Created) ? quint64(w->internalWinId()) : 0, 0, 16)
-        .arg(quint64(quintptr(h)), 0, 16)
-        .arg(h ? int(h->surfaceType()) : -1)
-        .arg(h ? h->isExposed() : false)
-        .arg(w->testAttribute(Qt::WA_Mapped))
-        .arg(child ? QString::fromLatin1(child->metaObject()->className()) : QStringLiteral("null"))
-        .arg(child ? child->isVisible() : false)
-        .arg(child ? child->width() : 0)
-        .arg(child ? child->height() : 0);
-}
-// FIGTRACE end
 constexpr int REPAINT_COALESCE_DELAY_MS = 16;
 constexpr int RENDER_SYNC_TIMEOUT_MS = 250;
 constexpr int FIRST_RENDER_SYNC_TIMEOUT_MS = 1000;
@@ -620,6 +601,16 @@ GOWindow::showEvent(QShowEvent* event)
     QMainWindow::showEvent(event);
 }
 //=============================================================================
+void
+GOWindow::setVisible(bool visible)
+{
+    if (visible) {
+        // GL canvas before any show: Qt recreates a shown raster window to host one.
+        ensureBaseFigureWidget();
+    }
+    QMainWindow::setVisible(visible);
+}
+//=============================================================================
 #ifdef _MSC_VER
 void
 GOWindow::serviceNativeResize(bool force, const QSize& oldWindowSize)
@@ -872,8 +863,7 @@ GOWindow::performPendingRepaint(bool immediate)
         ensureBaseFigureWidget();
     }
     bool firstContent = shouldRenderFirstContent();
-    const bool presentedNow = shouldPresentOnFirstContent();
-    if (presentedNow) {
+    if (shouldPresentOnFirstContent()) {
         presentNativeWindow();
         immediate = true;
     } else if (firstContent) {
@@ -907,12 +897,6 @@ GOWindow::performPendingRepaint(bool immediate)
         bool rendered = true;
         BaseFigureQt* baseFigure = dynamic_cast<BaseFigureQt*>(qtchild);
         if (baseFigure) {
-            // When the figure was already visible (shown empty by figure(), then filled by a
-            // plot) presentNativeWindow did not run, so the fresh content never reached the
-            // screen until a manual resize reconfigured the GL surface. Reconfigure it now.
-            if (!presentedNow && !qEnvironmentVariableIsSet("NELSON_FIG_NORECOMPOSE")) { 
-                baseFigure->recomposeForFirstContent();
-            }
             rendered = baseFigure->waitForRenderedFrame(FIRST_RENDER_SYNC_TIMEOUT_MS);
         }
         firstContentPresentationPending = false;

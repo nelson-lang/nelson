@@ -148,6 +148,8 @@ GOWindow::presentNativeWindow()
     // moveEvent) while the window is still being realized.
     presentationTargetGeometry = targetGeometry;
     try {
+        // GL canvas before the native window: Qt recreates a shown raster window to host one.
+        ensureBaseFigureWidget();
         if (BaseFigureQt* baseFigure = dynamic_cast<BaseFigureQt*>(qtchild)) {
             baseFigure->prerenderFirstFrame();
         }
@@ -168,6 +170,9 @@ GOWindow::presentNativeWindow()
         setGeometry(targetGeometry);
         // The realized window knows its real chrome: fit the drawing area to the
         // requested Position before the geometry is read back.
+        // Re-arm the one-shot refit: the fallback geometry above undid one made while showing.
+        QCoreApplication::sendPostedEvents(nullptr, QEvent::LayoutRequest);
+        drawingAreaRefitDone = false;
         refitDrawingAreaToRequest();
         if (qtchild) {
             qtchild->repaint();
