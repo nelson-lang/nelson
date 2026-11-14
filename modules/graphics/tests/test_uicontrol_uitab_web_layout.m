@@ -30,12 +30,16 @@ assert_istrue(bar > 0);
 fh = f.Position(4);
 fw = f.Position(3);
 c = find_control(dl, 'text', 'Zoom +');
-% the page starts after the tab bar, as the native tab page widget does
-% the page starts after a one pixel border, and after the bar when it is on top
+% Children of a tab are laid out in the tab page, not the whole group: the page
+% is the group less a one pixel border on every side and the tab bar. A
+% normalized child is a fraction of that page and sits at the page corner.
 border = 1;
 assert_isequal(bar, 23);
-assert_isapprox([c.x, c.w, c.h], [border + 0.05 * fw, 0.1 * fw, 0.05 * fh], 1e-9);
-assert_isapprox(c.y, bar + border + fh - 0.95 * fh, 1e-9);
+pw = fw - 2 * border;
+ph = fh - bar - 2 * border;
+assert_isapprox([c.x, c.w, c.h], [border + 0.05 * pw, 0.1 * pw, 0.05 * ph], 1e-9);
+% top bar: the page bottom-left is one pixel above the group bottom-left
+assert_isapprox(c.y, fh - (border + 0.9 * ph) - 0.05 * ph, 1e-9);
 assert_istrue(c.y >= group.y + bar);
 assert_isequal(c.tooltip, 'zoom in');
 % FontUnits 'points' is drawn in page pixels (96 dpi)
@@ -50,22 +54,22 @@ assert_isfalse(isfield(label, 'italic'));
 edit = find_control(dl, 'text', 'note');
 assert_isapprox(edit.fontSize, 14, 1e-9);
 assert_istrue(edit.italic);
-% pixel Position is one-based
-assert_isapprox(edit.y, bar + border + fh - (10 - 1) - 20, 1e-9);
+% pixel Position is one-based, measured from the page bottom-left corner
+assert_isapprox(edit.y, fh - (border + (10 - 1)) - 20, 1e-9);
 %=============================================================================
-% a bottom tab bar leaves the page at the top of the group
+% a bottom tab bar puts the page above the bar: the page bottom-left rises by it
 tg.TabLocation = 'bottom';
 drawnow();
 dl = jsondecode(__web_display_list__(f));
 c = find_control(dl, 'text', 'Zoom +');
-assert_isapprox(c.y, border + fh - 0.95 * fh, 1e-9);
-% a left one shifts the page to the right
+assert_isapprox(c.y, fh - (border + bar + 0.9 * ph) - 0.05 * ph, 1e-9);
+% a left one shifts the page to the right by its (thin) side bar
 tg.TabLocation = 'left';
 drawnow();
 dl = jsondecode(__web_display_list__(f));
 bar = find_control(dl, 'style', 'tabgroup').data.tabBarSize;
 c = find_control(dl, 'text', 'Zoom +');
-assert_isapprox(c.x, bar + 0.05 * fw, 1e-9);
+assert_isapprox(c.x, bar + 0.05 * (fw - bar), 1e-9);
 close(f);
 %=============================================================================
 % web mouse on an axes of a tab: callbacks order, SelectionType and CurrentPoint
