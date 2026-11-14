@@ -88,6 +88,25 @@ for k = 1:numel(locations)
 end
 delete(fig);
 %=============================================================================
+% the page starts after a one pixel border, and after the 23 pixel bar when it is at the bottom
+%=============================================================================
+fig = uifigure('Visible', 'on', 'Position', [100 100 360 260], 'Color', [1 1 1]);
+fig.AutoResizeChildren = 'off';
+tg = uitabgroup(fig, 'Position', [40 35 260 170]);
+t = uitab(tg, 'Title', 'Stats', 'BackgroundColor', [1 0 0]);
+corner = uipanel(t, 'Position', [1 1 30 20]);
+drawnow();
+assert_isequal(getpixelposition(corner, true), [41 36 30 20]);
+% on screen the page is 258 x 145 pixels, within the pixel a scaled display may round away
+frame = getframe(fig).cdata;
+red = frame(:, :, 1) > 200 & frame(:, :, 2) < 60 & frame(:, :, 3) < 60;
+assert_istrue(abs(max(sum(red, 2)) - 258) <= 1);
+assert_istrue(abs(max(sum(red, 1)) - 145) <= 1);
+tg.TabLocation = 'bottom';
+drawnow();
+assert_isequal(getpixelposition(corner, true), [41 59 30 20]);
+delete(fig);
+%=============================================================================
 % normalized tab group units still produce a pixel-sized public tab area.
 %=============================================================================
 fig = uifigure('Visible', 'on', 'Position', [100 100 360 260], 'Color', [1 1 1]);
