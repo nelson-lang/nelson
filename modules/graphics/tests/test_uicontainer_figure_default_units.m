@@ -58,8 +58,9 @@ t = uitab(tg);
 c = uicontrol(t, 'Units', 'normalized', 'Position', [0 0 1 1]);
 c.Units = 'pixels';
 assert_isequal(c.Position, [1 1 800 600]);
+% in pixels a tab reports its page: the group less its border and its tab bar
 t.Units = 'pixels';
-assert_isequal(t.Position, [1 1 800 600]);
+assert_isequal(t.Position, [1 1 798 575]);
 close(f);
 %=============================================================================
 % uifigure keeps pixel defaults

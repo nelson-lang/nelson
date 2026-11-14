@@ -169,9 +169,11 @@ noteWebFigureClosed()
 }
 //=============================================================================
 // Hosts are built through a registered factory so the model never names a windowing type.
-// Desktop modes load the Qt adapter on first use.
+// Desktop modes load the Qt adapter on first use. The web desktop loads it too: it installs
+// no factory there, only the screen metrics hooks (DevicePixelRatio, DPI, screen size).
 static FigureHostFactory hostFactory = nullptr;
 static library_handle graphicsQtLibrary = nullptr;
+static bool graphicsQtLibraryRequested = false;
 //=============================================================================
 void
 setFigureHostFactory(FigureHostFactory factory)
@@ -182,13 +184,15 @@ setFigureHostFactory(FigureHostFactory factory)
 static void
 loadQtFigureHostFactory()
 {
-    if (hostFactory != nullptr || graphicsQtLibrary != nullptr) {
+    if (hostFactory != nullptr || graphicsQtLibraryRequested) {
         return;
     }
     const int mode = NelsonConfiguration::getInstance()->getNelsonEngineMode();
-    if (mode != NELSON_ENGINE_MODE::GUI && mode != NELSON_ENGINE_MODE::ADVANCED_TERMINAL) {
+    if (mode != NELSON_ENGINE_MODE::GUI && mode != NELSON_ENGINE_MODE::ADVANCED_TERMINAL
+        && mode != NELSON_ENGINE_MODE::WEB_GUI) {
         return;
     }
+    graphicsQtLibraryRequested = true;
     const std::wstring libraryPath = NelsonConfiguration::getInstance()->getNelsonLibraryDirectory()
         + L"/libnlsGraphics_qt" + get_dynamic_library_extensionW();
     // Loading the adapter installs the host factory and the GUI environment hooks. Keep the
@@ -222,6 +226,11 @@ isHeadlessFigureScopeActive()
 static GOFigureHost*
 createFigureHost(int64 figNum)
 {
+    if (NelsonConfiguration::getInstance()->getNelsonEngineMode() == NELSON_ENGINE_MODE::WEB_GUI) {
+        // the first web figure must already see the screen metrics, not only the ones
+        // created after graphics_io happened to load the adapter
+        loadQtFigureHostFactory();
+    }
     if (useWebGraphics() || isHeadlessFigureScopeActive()) {
         return createHeadlessFigureHost(figNum);
     }

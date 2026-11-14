@@ -30,14 +30,14 @@ __figure_mouse_event__(f, 'press', [200 150]);
 assert_isapprox(ax2.CurrentPoint(1, 1:2), [5 50], 1e-9);
 close(f);
 %=============================================================================
-% uitab: the page starts at the bottom-left corner of the tab group (tabs on
-% top)
+% uitab: the page starts one pixel inside the bottom-left corner of the tab
+% group, after its border (tabs on top)
 f = figure('Position', [100 100 400 300]);
 tg = uitabgroup(f, 'Units', 'pixels', 'Position', [1 1 400 300]);
 t = uitab(tg, 'Title', 'A');
 ax = pixel_axes(t, [50 50 300 150]);
 drawnow();
-__figure_mouse_event__(f, 'press', [200 125]);
+__figure_mouse_event__(f, 'press', [201 126]);
 assert_isapprox(ax.CurrentPoint(1, 1:2), [5 50], 1e-9);
 close(f);
 %=============================================================================

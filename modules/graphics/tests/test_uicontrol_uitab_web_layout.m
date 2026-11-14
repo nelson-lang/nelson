@@ -31,8 +31,11 @@ fh = f.Position(4);
 fw = f.Position(3);
 c = find_control(dl, 'text', 'Zoom +');
 % the page starts after the tab bar, as the native tab page widget does
-assert_isapprox([c.x, c.w, c.h], [0.05 * fw, 0.1 * fw, 0.05 * fh], 1e-9);
-assert_isapprox(c.y, bar + fh - 0.95 * fh, 1e-9);
+% the page starts after a one pixel border, and after the bar when it is on top
+border = 1;
+assert_isequal(bar, 23);
+assert_isapprox([c.x, c.w, c.h], [border + 0.05 * fw, 0.1 * fw, 0.05 * fh], 1e-9);
+assert_isapprox(c.y, bar + border + fh - 0.95 * fh, 1e-9);
 assert_istrue(c.y >= group.y + bar);
 assert_isequal(c.tooltip, 'zoom in');
 % FontUnits 'points' is drawn in page pixels (96 dpi)
@@ -48,14 +51,14 @@ edit = find_control(dl, 'text', 'note');
 assert_isapprox(edit.fontSize, 14, 1e-9);
 assert_istrue(edit.italic);
 % pixel Position is one-based
-assert_isapprox(edit.y, bar + fh - (10 - 1) - 20, 1e-9);
+assert_isapprox(edit.y, bar + border + fh - (10 - 1) - 20, 1e-9);
 %=============================================================================
 % a bottom tab bar leaves the page at the top of the group
 tg.TabLocation = 'bottom';
 drawnow();
 dl = jsondecode(__web_display_list__(f));
 c = find_control(dl, 'text', 'Zoom +');
-assert_isapprox(c.y, fh - 0.95 * fh, 1e-9);
+assert_isapprox(c.y, border + fh - 0.95 * fh, 1e-9);
 % a left one shifts the page to the right
 tg.TabLocation = 'left';
 drawnow();

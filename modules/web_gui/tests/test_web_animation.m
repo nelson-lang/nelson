@@ -98,7 +98,7 @@ assert_istrue(elapsed < 8);
 dl = jsondecode(__web_display_list__(h));
 assert_istrue(isfield(dl, 'webglMeshes'));
 assert_istrue(dl.webglMeshes(1).positionsLength > 1000);
-assert_istrue(length(dl.webglMeshes(1).positionsBase64) > 1000);
+assert_istrue(length(dl.webglMeshes(1).positionsF16) > 1000);
 close(h);
 %=============================================================================
 % sleep must really delay (haveEventsLoop pumping)

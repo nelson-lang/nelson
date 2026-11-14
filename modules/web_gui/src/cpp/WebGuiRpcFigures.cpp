@@ -262,8 +262,17 @@ WebGuiRpc::figureSetSize(const nlohmann::json& params)
     const long long handle = params.value("handle", 0LL);
     const int width = params.value("width", 0);
     const int height = params.value("height", 0);
+    // The page measured its canvas against the frame it had (baseWidth x baseHeight). When
+    // the script resized the figure since, that measure is stale: applying it would undo
+    // the script and raise SizeChangedFcn twice. The page converges on the frame returned.
+    const int baseWidth = params.value("baseWidth", 0);
+    const int baseHeight = params.value("baseHeight", 0);
     bool ok = false;
-    runOnInterpreterThread([&] { ok = m_setFigureSizeFn(handle, width, height); });
+    runOnInterpreterThread([&] {
+        const bool stale = baseWidth > 0 && baseHeight > 0 && m_isFigureSizeFn != nullptr
+            && !m_isFigureSizeFn(handle, baseWidth, baseHeight);
+        ok = stale || m_setFigureSizeFn(handle, width, height);
+    });
     if (!ok) {
         throw std::runtime_error("figure " + std::to_string(handle) + " could not be resized");
     }

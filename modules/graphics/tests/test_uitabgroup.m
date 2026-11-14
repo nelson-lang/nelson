@@ -63,9 +63,10 @@ lbl = uilabel(t, 'Text', 'Top text fully visible', ...
 drawnow();
 pause(0.1);
 drawnow();
-assert_isequal(t.Position, [1 1 260 170]);
-assert_isequal(t.InnerPosition, [1 1 260 170]);
-assert_isequal(t.OuterPosition, [1 1 260 170]);
+% a tab reports its page: the group less a 1 pixel border and a 23 pixel bar
+assert_isequal(t.Position, [1 1 258 145]);
+assert_isequal(t.InnerPosition, [1 1 258 145]);
+assert_isequal(t.OuterPosition, [1 1 258 145]);
 assert_isequal(lbl.Position, [10 139 210 22]);
 frame = getframe(fig).cdata;
 yellow = double(frame(:, :, 1)) > 180 & double(frame(:, :, 2)) > 180 & ...
@@ -73,10 +74,15 @@ yellow = double(frame(:, :, 1)) > 180 & double(frame(:, :, 2)) > 180 & ...
 assert_istrue(nnz(yellow) > 2500);
 % Resizing and moving the header must not expose native page insets.
 tg.Position = [40 35 280 190];
-for location = {'top', 'bottom', 'left', 'right'}
-  tg.TabLocation = location{1};
+% a uifigure tab reports its new size once its deferred resize event has run
+pause(0.1);
+% a side bar of a short title is 66 pixels wide
+pages = {[1 1 278 165], [1 1 278 165], [1 1 212 188], [1 1 212 188]};
+locations = {'top', 'bottom', 'left', 'right'};
+for k = 1:numel(locations)
+  tg.TabLocation = locations{k};
   drawnow();
-  assert_isequal(t.Position, [1 1 280 190]);
+  assert_isequal(t.Position, pages{k});
   assert_isequal(t.InnerPosition, t.Position);
   assert_isequal(t.OuterPosition, t.Position);
 end
@@ -91,9 +97,9 @@ t = uitab(tg, 'Title', 'Norm');
 drawnow();
 pause(0.1);
 drawnow();
-assert_isequal(t.Position, [1 1 288 156]);
-assert_isequal(t.InnerPosition, [1 1 288 156]);
-assert_isequal(t.OuterPosition, [1 1 288 156]);
+assert_isequal(t.Position, [1 1 286 131]);
+assert_isequal(t.InnerPosition, [1 1 286 131]);
+assert_isequal(t.OuterPosition, [1 1 286 131]);
 delete(fig);
 %=============================================================================
 % a tab needs a tab group parent

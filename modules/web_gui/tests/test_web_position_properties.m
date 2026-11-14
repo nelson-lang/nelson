@@ -51,7 +51,8 @@ dl = jsondecode(__web_display_list__(f));
 assert_isequal(dl.controlLayoutWidth, f.Position(3));
 assert_isequal(dl.controlLayoutHeight, f.Position(4));
 cu = find_control(dl, 'text', 'web');
-assert_vec_close([cu.x cu.y cu.w cu.h], [25 250 140 45], 1e-9);
+% a pixel Position has a 1-based origin: x = 25 starts 24 pixels from the left edge
+assert_vec_close([cu.x cu.y cu.w cu.h], [24 251 140 45], 1e-9);
 assert_frame_region_not_white(frame, cu);
 %=============================================================================
 uf = uifigure('Visible', 'off', 'Position', [100 120 420 310]);
@@ -77,10 +78,10 @@ dl = jsondecode(__web_display_list__(uf));
 cp = find_control(dl, 'panel', '');
 cb = find_control(dl, 'pushbutton', 'inside');
 cl = find_control(dl, 'text', 'norm');
-assert_vec_close([cp.x cp.y cp.w cp.h], [25 145 210 130], 1e-9);
+assert_vec_close([cp.x cp.y cp.w cp.h], [24 146 210 130], 1e-9);
 % children sit in the panel content area: inside its 1 pixel border (208 x 128)
-assert_vec_close([cb.x cb.y cb.w cb.h], [48 222 90 28], 1e-9);
-assert_vec_close([cl.x cl.y cl.w cl.h], [46.8 216.4 104 32], 1e-9);
+assert_vec_close([cb.x cb.y cb.w cb.h], [46 224 90 28], 1e-9);
+assert_vec_close([cl.x cl.y cl.w cl.h], [45.8 217.4 104 32], 1e-9);
 assert_frame_region_not_white(frame, cb);
 close('all');
 %=============================================================================

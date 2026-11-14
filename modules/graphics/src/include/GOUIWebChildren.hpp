@@ -14,6 +14,8 @@
 namespace Nelson {
 //=============================================================================
 class GraphicsObject;
+class GOFigure;
+class GOUIComponent;
 class RenderWeb;
 //=============================================================================
 // Describe the UI children (ui components and uicontrols) of a container to
@@ -28,6 +30,18 @@ uiDescribeChildrenForWeb(
 // on the canvas underneath, so an opaque overlay div would hide them.
 bool
 uiContainerHasAxesChild(GraphicsObject* container);
+//=============================================================================
+// Widgetless container: raises SizeChangedFcn when its pixel size changed, nested ones first.
+void
+uiNotifyWebContainerGeometry(GOUIComponent* container);
+//=============================================================================
+// Same for the ui containers held by `parent` (a headless figure or a container).
+void
+uiNotifyWebChildContainers(GraphicsObject* parent);
+//=============================================================================
+// Same for every ui container of a figure; no-op unless its host is headless.
+void
+uiNotifyWebContainerSizes(GOFigure* figure);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

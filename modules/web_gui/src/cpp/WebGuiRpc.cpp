@@ -650,6 +650,8 @@ WebGuiRpc::ensureGraphicsBridge()
     m_panAxesFn = reinterpret_cast<PanAxesFn>(get_function(handle, "nlsWebGuiPanAxes"));
     m_setFigureSizeFn
         = reinterpret_cast<SetFigureSizeFn>(get_function(handle, "nlsWebGuiSetFigureSize"));
+    m_isFigureSizeFn
+        = reinterpret_cast<IsFigureSizeFn>(get_function(handle, "nlsWebGuiIsFigureSize"));
     m_uiControlActionFn
         = reinterpret_cast<UIControlActionFn>(get_function(handle, "nlsWebGuiUIControlAction"));
     m_uiHtmlPullFn = reinterpret_cast<UiHtmlPullFn>(get_function(handle, "nlsWebGuiUiHtmlPull"));

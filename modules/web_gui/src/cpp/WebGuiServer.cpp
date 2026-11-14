@@ -566,7 +566,10 @@ WebGuiServer::shutdown()
     const size_t window = m_window;
     m_window = 0;
     if (window != 0) {
-        if (m_launchAttempted.load() && !m_launchOptions.notebookHost) {
+        // Only the desktop window has a geometry to remember: the figures-only server never
+        // shows its main window.
+        if (m_launchAttempted.load() && !m_launchOptions.notebookHost
+            && !m_launchOptions.figuresOnly) {
             saveWebGuiWindowGeometry(window);
         }
         webui_close(window);

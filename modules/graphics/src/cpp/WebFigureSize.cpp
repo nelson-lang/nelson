@@ -15,6 +15,8 @@
 #include "GOHelpers.hpp"
 #include "GOPropertyNames.hpp"
 #include "GOCallbackProperty.hpp"
+#include "GOUIWebChildren.hpp"
+#include "SizeChangedDispatcher.hpp"
 //=============================================================================
 namespace {
 void
@@ -38,6 +40,21 @@ invalidateAxesLayout(Nelson::GraphicsObject* object)
 }
 //=============================================================================
 } // namespace
+//=============================================================================
+extern "C" NLSGRAPHICS_IMPEXP bool
+nlsWebGuiIsFigureSize(int64_t handle, int width, int height)
+{
+    auto* host = Nelson::getFigure(static_cast<Nelson::int64>(handle));
+    auto* figure = host ? host->hostFigure() : nullptr;
+    if (!figure) {
+        return false;
+    }
+    // a figure not sized yet is drawn at its default size: nothing to compare with
+    if (figure->getWidth() <= 0 || figure->getHeight() <= 0) {
+        return true;
+    }
+    return figure->getWidth() == width && figure->getHeight() == height;
+}
 //=============================================================================
 extern "C" NLSGRAPHICS_IMPEXP bool
 nlsWebGuiSetFigureSize(int64_t handle, int width, int height)
@@ -64,9 +81,12 @@ nlsWebGuiSetFigureSize(int64_t handle, int width, int height)
     // Positions (title, label and tick insets) for the new drawing area now.
     figure->refreshChildrenLayout();
     figure->setRenderingStateInvalid(true);
+    // Containers first, the figure last.
+    Nelson::uiNotifyWebContainerSizes(figure);
     auto* callback = dynamic_cast<Nelson::GOCallbackProperty*>(
         figure->findProperty(GO_SIZE_CHANGED_FCN_PROPERTY_NAME_STR, false));
-    if (callback && !callback->get().isEmpty()) {
+    // A size reported by the browser proves the figure is on screen: no invisible hold.
+    if (callback && Nelson::isSizeChangedFcnActive(figure)) {
         Nelson::ArrayOfVector values;
         values << Nelson::ArrayOf::doubleScalar(width) << Nelson::ArrayOf::doubleScalar(height);
         // Queued like every other figure callback: it runs at the next

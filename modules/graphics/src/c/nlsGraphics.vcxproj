@@ -236,6 +236,7 @@
     <ClInclude Include="..\include\UIControlTabOrder.hpp" />
     <ClInclude Include="..\include\GOFigureMouseEvents.hpp" />
     <ClInclude Include="..\include\GOUIContainer.h" />
+    <ClInclude Include="..\include\SizeChangedDispatcher.hpp" />
     <ClInclude Include="..\include\GOUIDropDown.h" />
     <ClInclude Include="..\include\GOUIEditField.h" />
     <ClInclude Include="..\include\GOUIHTML.h" />
@@ -439,6 +440,7 @@
     <ClCompile Include="..\cpp\UIControlTabOrder.cpp" />
     <ClCompile Include="..\cpp\GOUIComponentWidget.cpp" />
     <ClCompile Include="..\cpp\GOUIContainer.cpp" />
+    <ClCompile Include="..\cpp\SizeChangedDispatcher.cpp" />
     <ClCompile Include="..\cpp\GOUIDropDown.cpp" />
     <ClCompile Include="..\cpp\GOUIEditField.cpp" />
     <ClCompile Include="..\cpp\GOUIHTML.cpp" />

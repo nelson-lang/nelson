@@ -14,6 +14,7 @@
 #include "GraphicsEnvironment.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "QueueProcessing.hpp"
+#include "SizeChangedDispatcher.hpp"
 #include "StringHelpers.hpp"
 #include "i18n.hpp"
 //=============================================================================
@@ -45,6 +46,8 @@ drawnowBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargincheck(argIn, 0, 1);
     nargoutcheck(nLhs, 0, 0);
 
+    // A resize seen while the events are pumped runs its SizeChangedFcn before drawnow returns.
+    SizeChangedScope sizeChangedScope;
     GraphicsEnvironment::processGuiEvents();
     processPendingCallbacksAndTimers();
     drawNow(getDrawNowMode(argIn));

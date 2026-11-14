@@ -16,9 +16,11 @@
 #include "GOHelpers.hpp"
 #include "GOUIComponent.h"
 #include "GOUIComponentUnits.hpp"
+#include "GOUITabGroup.h"
 #include "GOStringOnOffProperty.hpp"
 #include "GOStringProperty.hpp"
 #include "RenderInterface.hpp"
+#include "SizeChangedDispatcher.hpp"
 #include "UnitsConversionHelpers.hpp"
 //=============================================================================
 namespace Nelson {
@@ -106,6 +108,21 @@ GOUITab::frameRect(RenderInterface& gc)
 }
 //=============================================================================
 void
+GOUITab::reportedPageSize(double& width, double& height)
+{
+    reportedTabPageSize(this, width, height);
+    auto* parentProperty
+        = dynamic_cast<GOGObjectsProperty*>(findProperty(GO_PARENT_PROPERTY_NAME_STR, false));
+    if (parentProperty == nullptr || parentProperty->data().empty()) {
+        return;
+    }
+    auto* group = dynamic_cast<GOUITabGroup*>(findGraphicsObject(parentProperty->data()[0], false));
+    if (group != nullptr) {
+        group->reportedPageSize(width, height);
+    }
+}
+//=============================================================================
+void
 GOUITab::onPageResized(double width, double height)
 {
     // Public tab geometry follows the group, independently of the native
@@ -121,7 +138,12 @@ GOUITab::onPageResized(double width, double height)
     setFourVectorDefault(GO_POSITION_PROPERTY_NAME_STR, page[0], page[1], page[2], page[3]);
     setFourVectorDefault(GO_INNER_POSITION_PROPERTY_NAME_STR, page[0], page[1], page[2], page[3]);
     setFourVectorDefault(GO_OUTER_POSITION_PROPERTY_NAME_STR, page[0], page[1], page[2], page[3]);
-    refreshChildrenGeometry();
+    {
+        // The reference raises what a tab group resizes after the statement, not within it.
+        SizeChangedDeferral deferral;
+        refreshChildrenGeometry();
+    }
+    notifyTabPageResized(this, width, height);
 }
 //=============================================================================
 } // namespace Nelson

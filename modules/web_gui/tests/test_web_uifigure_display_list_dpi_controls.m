@@ -28,9 +28,11 @@ assert_isequal(dl.controlLayoutHeight, 420);
 cp = find_control(dl, 'panel', '');
 cb = find_control(dl, 'pushbutton', 'inside');
 cl = find_control(dl, 'text', 'norm');
-assert_vec_close([cp.x cp.y cp.w cp.h], [0 0 630 420], 1e-9);
-assert_vec_close([cb.x cb.y cb.w cb.h], [60 350 120 30], 1e-9);
-assert_vec_close([cl.x cl.y cl.w cl.h], [63 231 315 105], 1e-9);
+% a pixel Position has a 1-based origin: one device pixel is 1 / ratio in layout units
+origin = 1 / ratio;
+assert_vec_close([cp.x cp.y cp.w cp.h], [-origin, origin, 630, 420], 1e-9);
+assert_vec_close([cb.x cb.y cb.w cb.h], [60 - 2 * origin, 350 + 2 * origin, 120, 30], 1e-9);
+assert_vec_close([cl.x cl.y cl.w cl.h], [63 - origin, 231 + origin, 315, 105], 1e-9);
 close(f);
 %=============================================================================
 function assert_vec_close(actual, expected, tolerance)

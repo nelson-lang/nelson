@@ -90,10 +90,11 @@ function installWordCloudResizeFcn(parent, ax, textHandles, layout)
   if isempty(parent) || ~isgraphics(parent, 'figure') || isempty(textHandles) || isempty(fieldnames(layout))
     return
   end
-  if ~isempty(parent.SizeChangedFcn)
+  % a figure that auto resizes its children never calls SizeChangedFcn
+  if ~isempty(parent.SizeChangedFcn) || strcmp(char(parent.AutoResizeChildren), 'on')
     return
   end
-  parent.SizeChangedFcn = @(src, event) resizeWordCloud(src, ax, textHandles, layout);
+  parent.SizeChangedFcn =@(src, event) resizeWordCloud(src, ax, textHandles, layout);
 end
 %=============================================================================
 function resizeWordCloud(fig, ax, textHandles, layout)

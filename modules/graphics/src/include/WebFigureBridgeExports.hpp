@@ -66,6 +66,10 @@ extern "C"
     NLSGRAPHICS_IMPEXP bool
     nlsWebGuiSetFigureSize(int64_t handle, int width, int height);
     //=============================================================================
+    // True when the figure is currently drawn at this size.
+    NLSGRAPHICS_IMPEXP bool
+    nlsWebGuiIsFigureSize(int64_t handle, int width, int height);
+    //=============================================================================
     NLSGRAPHICS_IMPEXP bool
     nlsWebGuiSetFigurePosition(int64_t handle, int x, int y, int width, int height);
     //=============================================================================

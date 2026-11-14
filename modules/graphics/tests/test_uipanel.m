@@ -26,7 +26,7 @@ assert_isapprox(p.BackgroundColor, [0.96078431372549 0.96078431372549 0.96078431
 assert_isequal(p.FontUnits, 'points');
 assert_isequal(p.FontSize, 8);
 assert_isequal(p.Units, 'pixels');
-assert_isequal(char(p.AutoResizeChildren), 'off');
+assert_isequal(char(p.AutoResizeChildren), 'on');
 assert_isequal(char(p.Scrollable), 'off');
 assert_isequal(char(p.Visible), 'on');
 assert_isequal(char(p.Enable), 'on');

@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <limits>
 #include "GOUIContainer.h"
+#include "SizeChangedDispatcher.hpp"
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
 #include "GOCallbackProperty.hpp"
@@ -64,10 +65,7 @@ void
 GOUIContainer::onGeometryChanged()
 {
     refreshChildrenGeometry();
-    if (haveProperty(GO_SIZE_CHANGED_FCN_PROPERTY_NAME_STR)) {
-        emitCallbackEvent(GO_SIZE_CHANGED_FCN_PROPERTY_NAME_STR, L"SizeChangedData", L"SizeChanged",
-            {}, {}, true);
-    }
+    notifySizeChanged(this);
 }
 //=============================================================================
 void

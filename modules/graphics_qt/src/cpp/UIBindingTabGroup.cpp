@@ -7,6 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <QtWidgets/QProxyStyle>
+#include <QtWidgets/QTabBar>
 #include <QtWidgets/QTabWidget>
 #include "UIComponentBindings.hpp"
 #include "UIComponentBindingBase.hpp"
@@ -20,6 +22,77 @@
 namespace Nelson {
 //=============================================================================
 namespace {
+    //=============================================================================
+    // Reference geometry of a bar on top or at the bottom: a 23 pixel bar, then the page inside
+    // a one pixel frame. The native look is kept, only the rectangles are imposed.
+    static constexpr int TAB_BAR_HEIGHT = 23;
+    static constexpr int TAB_PAGE_FRAME = 1;
+    //=============================================================================
+    static bool
+    isHorizontalTabBar(QTabBar::Shape shape)
+    {
+        return shape == QTabBar::RoundedNorth || shape == QTabBar::RoundedSouth
+            || shape == QTabBar::TriangularNorth || shape == QTabBar::TriangularSouth;
+    }
+    //=============================================================================
+    class QUITabBar : public QTabBar
+    {
+    protected:
+        QSize
+        tabSizeHint(int index) const override
+        {
+            QSize hint = QTabBar::tabSizeHint(index);
+            if (isHorizontalTabBar(shape())) {
+                hint.setHeight(TAB_BAR_HEIGHT);
+            }
+            return hint;
+        }
+    };
+    //=============================================================================
+    class QUITabGroupStyle : public QProxyStyle
+    {
+    public:
+        QRect
+        subElementRect(
+            SubElement element, const QStyleOption* option, const QWidget* widget) const override
+        {
+            const QRect native = QProxyStyle::subElementRect(element, option, widget);
+            const auto* tabWidget = qobject_cast<const QTabWidget*>(widget);
+            if (!tabWidget || tabWidget->count() == 0) {
+                return native;
+            }
+            const bool north = tabWidget->tabPosition() == QTabWidget::North;
+            if (!north && tabWidget->tabPosition() != QTabWidget::South) {
+                return native;
+            }
+            const QRect whole = widget->rect();
+            const QRect pane
+                = north ? whole.adjusted(0, TAB_BAR_HEIGHT, 0, 0) : whole.adjusted(0, 0, 0, -TAB_BAR_HEIGHT);
+            switch (element) {
+            case SE_TabWidgetTabBar:
+                return QRect(native.x(), north ? 0 : whole.height() - TAB_BAR_HEIGHT, native.width(),
+                    TAB_BAR_HEIGHT);
+            case SE_TabWidgetTabPane:
+                return pane;
+            case SE_TabWidgetTabContents:
+                return pane.adjusted(TAB_PAGE_FRAME, TAB_PAGE_FRAME, -TAB_PAGE_FRAME, -TAB_PAGE_FRAME);
+            default:
+                return native;
+            }
+        }
+    };
+    //=============================================================================
+    class QUITabWidget : public QTabWidget
+    {
+    public:
+        explicit QUITabWidget(QWidget* parent) : QTabWidget(parent)
+        {
+            setTabBar(new QUITabBar());
+            auto* groupStyle = new QUITabGroupStyle();
+            groupStyle->setParent(this);
+            setStyle(groupStyle);
+        }
+    };
     //=============================================================================
     class UITabGroupBinding : public QtUIComponentBinding
     {
@@ -35,7 +108,7 @@ namespace {
             if (!parent) {
                 return;
             }
-            QTabWidget* tabWidget = new QTabWidget(parent);
+            QTabWidget* tabWidget = new QUITabWidget(parent);
             QObject::connect(tabWidget, &QTabWidget::currentChanged, tabWidget,
                 [this](int index) { onCurrentChanged(index); });
             widget = tabWidget;

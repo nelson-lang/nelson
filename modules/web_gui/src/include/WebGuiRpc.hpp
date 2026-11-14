@@ -239,6 +239,7 @@ private:
     using SetAxesViewFn = bool (*)(long long, long long, double, double);
     using PanAxesFn = bool (*)(long long, double, double);
     using SetFigureSizeFn = bool (*)(long long, int, int);
+    using IsFigureSizeFn = bool (*)(long long, int, int);
     using UIControlActionFn = bool (*)(long long, double, const char*);
     using UiHtmlPullFn = bool (*)(long long, void (*)(void*, const char*, int), void*);
     using FigureKeyEventFn
@@ -267,6 +268,7 @@ private:
     SetAxesViewFn m_setAxesViewFn { nullptr };
     PanAxesFn m_panAxesFn { nullptr };
     SetFigureSizeFn m_setFigureSizeFn { nullptr };
+    IsFigureSizeFn m_isFigureSizeFn { nullptr };
     UIControlActionFn m_uiControlActionFn { nullptr };
     UiHtmlPullFn m_uiHtmlPullFn { nullptr };
     FigureKeyEventFn m_figureKeyEventFn { nullptr };

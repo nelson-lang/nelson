@@ -1107,6 +1107,7 @@
   "Single": "Simple",
   "Singular Values [dB]": "Valeurs singulières [dB]",
   "Size": "Taille",
+  "SizeChangedFcn is not called while AutoResizeChildren is 'on'.": "SizeChangedFcn n'est pas appelé tant que AutoResizeChildren vaut 'on'.",
   "Skipped:": "Ignorés :",
   "Slider": "Curseur",
   "Smart Indent": "Indentation intelligente",

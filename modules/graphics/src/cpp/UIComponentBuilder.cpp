@@ -37,6 +37,7 @@
 #include "GOFigure.hpp"
 #include "GOFiguresManager.hpp"
 #include "GOHelpers.hpp"
+#include "SizeChangedDispatcher.hpp"
 #include "GOCallbackProperty.hpp"
 #include "GOGObjectsProperty.hpp"
 #include "GOScalarDoubleProperty.hpp"
@@ -53,7 +54,8 @@
 namespace Nelson {
 //=============================================================================
 static void
-applyFigureContainerDefaults(GOUIComponent* component, const ResolvedUIParent& parent);
+applyFigureContainerDefaults(
+    GOUIComponent* component, const ResolvedUIParent& parent, bool parentGiven);
 static ResolvedUIParent
 defaultTabGroupParent();
 //=============================================================================
@@ -203,6 +205,8 @@ UIComponentBuilder(const ArrayOfVector& argIn, const UIComponentBuilderOptions& 
     ArrayOfVector args(argIn);
     ResolvedUIParent parent;
     bool haveParent = false;
+    // A SizeChangedFcn given at creation runs before the constructor returns.
+    SizeChangedScope sizeChangedScope;
 
     if (!args.empty() && args[0].isGraphicsObject()) {
         parent = resolveUIParent(args[0]);
@@ -269,7 +273,7 @@ UIComponentBuilder(const ArrayOfVector& argIn, const UIComponentBuilderOptions& 
     go_handle thisHandle = assignGraphicsObject(go);
     go->buildWidget(findGOWindows(parent.figureID));
     wireComponentToParent(go, thisHandle, parent);
-    applyFigureContainerDefaults(go, parent);
+    applyFigureContainerDefaults(go, parent, haveParent);
     if (parentIsGridLayout(parent)) {
         attachGridLayoutOptions(go, thisHandle);
     }
@@ -694,7 +698,8 @@ UITreeExpand(const ArrayOfVector& argIn, bool expand)
 // Panels, button groups, tab groups and tabs of a figure fill their parent; a uifigure keeps
 // pixels.
 static void
-applyFigureContainerDefaults(GOUIComponent* component, const ResolvedUIParent& parent)
+applyFigureContainerDefaults(
+    GOUIComponent* component, const ResolvedUIParent& parent, bool parentGiven)
 {
     if (dynamic_cast<GOUIPanel*>(component) == nullptr
         && dynamic_cast<GOUITabGroup*>(component) == nullptr
@@ -702,7 +707,24 @@ applyFigureContainerDefaults(GOUIComponent* component, const ResolvedUIParent& p
         return;
     }
     GOFigureHost* window = findGOWindows(parent.figureID);
-    if (window == nullptr || isUiFigure(window->hostFigure())) {
+    if (window == nullptr) {
+        return;
+    }
+    if (isUiFigure(window->hostFigure())) {
+        // In a uifigure given by the caller, containers auto resize their children; a
+        // nested container follows its parent container.
+        GraphicsObject* parentObject
+            = parent.isFigure ? nullptr : findGraphicsObject(parent.parentHandle, false);
+        const bool followsParent = parentObject != nullptr
+            && parentObject->haveProperty(GO_AUTO_RESIZE_CHILDREN_PROPERTY_NAME_STR);
+        const bool autoResize = followsParent
+            ? parentObject->stringCheck(
+                  GO_AUTO_RESIZE_CHILDREN_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR)
+            : parentGiven;
+        if (autoResize && component->haveProperty(GO_AUTO_RESIZE_CHILDREN_PROPERTY_NAME_STR)) {
+            component->setRestrictedStringDefault(
+                GO_AUTO_RESIZE_CHILDREN_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
+        }
         return;
     }
     static_cast<GOUIContainer*>(component)->useFigureDefaults();
@@ -732,7 +754,7 @@ defaultTabGroupParent()
     int64 tabGroupHandle = assignGraphicsObject(tabGroup);
     tabGroup->buildWidget(window);
     wireComponentToParent(tabGroup, tabGroupHandle, parent);
-    applyFigureContainerDefaults(tabGroup, parent);
+    applyFigureContainerDefaults(tabGroup, parent, false);
     tabGroup->updateState();
     parent.parentHandle = tabGroupHandle;
     parent.isFigure = false;

@@ -279,7 +279,7 @@
       </tr>
       <tr>
         <td><b>SizeChangedFcn</b></td>
-        <td>the graphics event system invokes it for the associated event.</td>
+        <td>runs when the drawing area size changes, before the statement that resized the figure returns; once at creation when given to the constructor, once when an invisible figure is shown, never while AutoResizeChildren is 'on'.</td>
         <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
       </tr>
       <tr>

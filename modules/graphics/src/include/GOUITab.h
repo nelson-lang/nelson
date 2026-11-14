@@ -31,6 +31,17 @@ public:
     void
     onPageResized(double width, double height);
     //=============================================================================
+    // Size Position, InnerPosition and OuterPosition report in pixels, from the group size
+    // they store: the size still pending in a uifigure, then the reference page of the group.
+    void
+    reportedPageSize(double& width, double& height);
+    //=============================================================================
+    // the page size is reported by onPageResized
+    void
+    onGeometryChanged() override
+    {
+    }
+    //=============================================================================
     bool
     managesOwnGeometry() override
     {

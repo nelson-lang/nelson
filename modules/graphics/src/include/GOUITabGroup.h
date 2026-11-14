@@ -42,6 +42,11 @@ public:
     double
     tabBarThickness(RenderInterface& gc);
     //=============================================================================
+    // Size a tab page reports for a group of the given size: border and tab bar
+    // deducted as the reference does, whatever the chrome drawn here.
+    void
+    reportedPageSize(double& width, double& height);
+    //=============================================================================
     // The tab currently on top, the first one when SelectedTab says nothing.
     GOUITab*
     selectedTab();

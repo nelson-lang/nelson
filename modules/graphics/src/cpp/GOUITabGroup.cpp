@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <algorithm>
 #include "GOUITabGroup.h"
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
@@ -25,6 +26,15 @@ namespace Nelson {
 // Tab bar metrics and colors: a label is its text plus this padding on every
 // side, drawn on a bar slightly darker than the page it opens.
 static constexpr double TAB_LABEL_PADDING = 6.0;
+// Reference page of a tab: a 1 pixel border on each side and a 23 pixel bar; a side bar is
+// as wide as its longest title plus 29 pixels, between 66 and 101 pixels.
+// A bar on top or at the bottom is drawn with these sizes; a side bar still is a thin one.
+static constexpr double PAGE_BORDER = 1.0;
+static constexpr double REPORTED_PAGE_BORDER = 2.0 * PAGE_BORDER;
+static constexpr double REPORTED_BAR_HEIGHT = 23.0;
+static constexpr double REPORTED_SIDE_BAR_PADDING = 29.0;
+static constexpr double REPORTED_SIDE_BAR_MIN = 66.0;
+static constexpr double REPORTED_SIDE_BAR_MAX = 101.0;
 static const std::vector<double> TAB_BAR_COLOR { 0.878, 0.878, 0.878 };
 static const std::vector<double> TAB_BORDER_COLOR { 0.690, 0.690, 0.690 };
 static const std::vector<double> TAB_LABEL_COLOR { 0.129, 0.129, 0.129 };
@@ -84,7 +94,38 @@ GOUITabGroup::tabBarThickness(RenderInterface& gc)
     if (tabsOf(this).empty()) {
         return 0.0;
     }
+    if (!isVerticalTabBar()) {
+        return REPORTED_BAR_HEIGHT;
+    }
     return chromeTextHeight(gc) + TAB_LABEL_PADDING;
+}
+//=============================================================================
+void
+GOUITabGroup::reportedPageSize(double& width, double& height)
+{
+    double barWidth = 0;
+    double barHeight = REPORTED_BAR_HEIGHT;
+    if (isVerticalTabBar()) {
+        // Text measurement only: a Qt-free context is enough.
+        RenderWeb gc(0, 0, width, height);
+        const FontSpec font = chromeFont();
+        double widest = 0;
+        for (GOUITab* tab : tabsOf(this)) {
+            int textWidth = 0;
+            int textHeight = 0;
+            int xoffset = 0;
+            int yoffset = 0;
+            gc.measureText(tab->findStringProperty(GO_TITLE_PROPERTY_NAME_STR), font,
+                RenderInterface::Min, RenderInterface::Min, textWidth, textHeight, xoffset,
+                yoffset);
+            widest = std::max(widest, static_cast<double>(textWidth));
+        }
+        barWidth = std::clamp(
+            widest + REPORTED_SIDE_BAR_PADDING, REPORTED_SIDE_BAR_MIN, REPORTED_SIDE_BAR_MAX);
+        barHeight = 0;
+    }
+    width = std::max(0.0, width - barWidth - REPORTED_PAGE_BORDER);
+    height = std::max(0.0, height - barHeight - REPORTED_PAGE_BORDER);
 }
 //=============================================================================
 std::vector<double>
@@ -101,11 +142,12 @@ GOUITabGroup::contentRect(RenderInterface& gc)
         width -= thickness;
     } else if (location == GO_PROPERTY_VALUE_RIGHT_STR) {
         width -= thickness;
-    } else if (location == GO_PROPERTY_VALUE_BOTTOM_STR) {
-        y = thickness;
-        height -= thickness;
-    } else {
-        height -= thickness;
+    } else if (thickness > 0) {
+        // The page sits inside a one pixel border, the bar outside of it.
+        x = PAGE_BORDER;
+        width -= REPORTED_PAGE_BORDER;
+        height -= thickness + REPORTED_PAGE_BORDER;
+        y = PAGE_BORDER + (location == GO_PROPERTY_VALUE_BOTTOM_STR ? thickness : 0.0);
     }
     if (width <= 0 || height <= 0) {
         return {};
@@ -231,7 +273,7 @@ GOUITabGroup::tabLabelBox(
     if (location == GO_PROPERTY_VALUE_BOTTOM_STR) {
         return { cursor, 0, extent, thickness };
     }
-    return { cursor, page[1] + page[3], extent, thickness };
+    return { cursor, page[1] + page[3] + PAGE_BORDER, extent, thickness };
 }
 //=============================================================================
 std::vector<double>
@@ -247,7 +289,7 @@ GOUITabGroup::tabBarRect(RenderInterface& gc, const std::vector<double>& page, d
     if (location == GO_PROPERTY_VALUE_BOTTOM_STR) {
         return { 0, 0, gc.width(), thickness };
     }
-    return { 0, page[1] + page[3], gc.width(), thickness };
+    return { 0, page[1] + page[3] + PAGE_BORDER, gc.width(), thickness };
 }
 //=============================================================================
 std::vector<GOUITab*>

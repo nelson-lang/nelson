@@ -26,6 +26,19 @@ asserts.isfalse(__web_figure_size__(handle, 0, 580));
 drawnow();
 asserts.isequal(f.UserData.count, 1);
 close(f);
+% AutoResizeChildren 'on' disables the callback of a web resize too
+f = uifigure('Visible', 'off', 'Position', [10 20 400 300]);
+f.UserData = struct('count', 0, 'width', 0, 'height', 0);
+f.SizeChangedFcn = @recordViewport;
+handle = __web_graphics_handle__(f, 'number');
+asserts.istrue(__web_figure_size__(handle, 450, 300));
+drawnow();
+asserts.isequal(f.UserData.count, 0);
+f.AutoResizeChildren = 'off';
+asserts.istrue(__web_figure_size__(handle, 470, 300));
+drawnow();
+asserts.isequal(f.UserData, struct('count', 1, 'width', 470, 'height', 300));
+close(f);
 
 function recordViewport(source, event)
   state = source.UserData;

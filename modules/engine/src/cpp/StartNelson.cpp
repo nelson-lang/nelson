@@ -318,6 +318,22 @@ EvaluateCommandLineCommand(Evaluator* eval, const std::wstring& command)
     }
 }
 //=============================================================================
+// Advanced terminal with web figures (--webview): the figure server owns a push thread,
+// WebUI server threads and RPC threads that call into the graphics module. Stop them and
+// close the native windows before the modules are unloaded, or they race the teardown
+// (access violation or a hang at exit). The web desktop stops its server after its own loop.
+static void
+shutdownWebGraphicsFigures()
+{
+#ifdef NELSON_WEB_GUI_ENABLED
+    NelsonConfiguration* configuration = NelsonConfiguration::getInstance();
+    if (configuration->isWebGraphicsMode()
+        && configuration->getNelsonEngineMode() == NELSON_ENGINE_MODE::ADVANCED_TERMINAL) {
+        ShutdownWebGuiDynamic();
+    }
+#endif
+}
+//=============================================================================
 static int
 NelsonMainStates(Evaluator* eval, bool haveNoStartup, bool haveNoUserStartup,
     bool haveNoUserModules, const std::wstring& commandToExecute, const std::wstring& fileToExecute,
@@ -449,6 +465,7 @@ FINISH:
         DrainPendingHandleFinalizers(eval);
         closeIsReadyNelsonMutex(get_current_process_id());
         NelsonConfiguration::getInstance()->setAsShuttingDown(true);
+        shutdownWebGraphicsFigures();
         FinishNelsonMainScript(eval);
         if (eval->isQuitOrForceQuitState()) {
             goto EXIT;
@@ -457,6 +474,7 @@ FINISH:
 EXIT:
     // Partial initialization cannot be made successful by shutdown scripts.
     int exitCode = mainStartupSucceeded ? eval->getExitCode() : 1;
+    shutdownWebGraphicsFigures();
     if (destroyEvaluatorAtExit) {
         ::destroyMainEvaluator();
     }

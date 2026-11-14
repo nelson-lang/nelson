@@ -13,6 +13,8 @@
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
 #include "GOFigure.hpp"
+#include "SizeChangedDispatcher.hpp"
+#include "GOUIWebChildren.hpp"
 #include "RenderInterface.hpp"
 #include "GOList.hpp"
 #include "GOFigureHost.hpp"
@@ -262,6 +264,8 @@ GOFigure::GOFigure(GOFigureHost* win, int number)
     m_width = static_cast<int>(position[2]);
     m_height = static_cast<int>(position[3]);
     m_win = win;
+    // A reused address must not inherit the records of a closed figure.
+    forgetSizeChangedState(this);
     registerProperties();
     initializeProperties();
     setScalarDoubleDefault(GO_NUMBER_PROPERTY_NAME_STR, (double)number);
@@ -561,9 +565,13 @@ GOFigure::updateState(bool forceUpdate)
     const bool positionChanged = hasChanged(GO_POSITION_PROPERTY_NAME_STR)
         || hasChanged(GO_INNER_POSITION_PROPERTY_NAME_STR)
         || hasChanged(GO_OUTER_POSITION_PROPERTY_NAME_STR);
+    warnSizeChangedFcnDisabled(this);
     // units first: the host reads Position in the current Units.
     syncFigureUnitsIfChanged(this);
     m_win->updateHostState(forceUpdate);
+    if (visibleChanged) {
+        notifyFigureShown(this);
+    }
     if (windowStyleChanged) {
         notifyWebFigureWindowStyleChanged(this);
         clearChanged(GO_WINDOW_STYLE_PROPERTY_NAME_STR);
@@ -602,10 +610,14 @@ GOFigure::updateState(bool forceUpdate)
 void
 GOFigure::updateState()
 {
+    const bool visibleChanged = hasChanged(GO_VISIBLE_PROPERTY_NAME_STR);
     // units first: the host reads Position in the current Units.
     syncFigureUnitsIfChanged(this);
     m_win->updateHostState(false);
     this->updateState(false);
+    if (visibleChanged) {
+        notifyFigureShown(this);
+    }
 }
 //=============================================================================
 void
@@ -873,6 +885,7 @@ GOFigure::resizeGL(int width, int height)
         return;
     }
     m_sizeReportExpected = false;
+    const bool sizeChanged = (m_width != width) || (m_height != height);
     _resized = true;
     double geoX = 0;
     double geoY = 0;
@@ -928,11 +941,7 @@ GOFigure::resizeGL(int width, int height)
     }
     // setRenderingSize flagged the children layout stale; updateState re-derives it.
     updateState();
-    GOCallbackProperty* goCallback
-        = (GOCallbackProperty*)findProperty(GO_SIZE_CHANGED_FCN_PROPERTY_NAME_STR);
-    if (goCallback) {
-        goCallback->pushEvent(this, L"SizeChangedData", L"SizeChanged");
-    }
+    notifyFigureSizeReported(this, sizeChanged);
 }
 //=============================================================================
 bool
@@ -996,6 +1005,11 @@ GOFigure::refreshPositionProperties(bool forceUpdate)
         }
         clearChanged(positionNames);
         refreshPaperPosition();
+        if (positionChangedByScript) {
+            // The web host applies the size at once: containers first, the figure last.
+            uiNotifyWebContainerSizes(this);
+            notifyFigureSizeReported(this, true);
+        }
         return;
     }
     if (stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR)) {

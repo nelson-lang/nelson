@@ -921,6 +921,8 @@ _webui_connection_get_id(_webui_window_t* win, struct mg_connection* client, siz
 static void
 _webui_connection_remove(_webui_window_t* win, struct mg_connection* client);
 static void
+_webui_connection_forget_all(_webui_window_t* win);
+static void
 _webui_remove_firefox_profile_ini(const char* path, const char* profile_name);
 static bool
 _webui_is_firefox_ini_profile_exist(const char* path, const char* profile_name);
@@ -10415,6 +10417,11 @@ _webui_get_child_process_id(_webui_window_t* win)
         } else {
 // Web Browser Mode
 // Filter process by WebUI's web server URL in process CLI
+            // NELSON PATCH: a window never shown has no URL, hence no browser process
+            // (the lookups below dereferenced the null URL).
+            if (win->url == NULL) {
+                return 0;
+            }
 #if defined(_WIN32)
             char* out = NULL;
             char cmd[1024] = { 0 };
@@ -13245,6 +13252,12 @@ static WEBUI_THREAD_SERVER_START
 
     _webui_mutex_is_connected(win, WEBUI_MUTEX_SET_FALSE);
 
+    // NELSON PATCH: the close handler of a window no longer connected returns
+    // early, so the clients of this window were left registered: the next show
+    // of the window kept the stale `single_client` and sent to a connection
+    // whose mutex mg_stop() had destroyed (access violation in the sender).
+    _webui_connection_forget_all(win);
+
 // Kill Process
 #ifndef WEBUI_LOG
     if (!_webui.is_webview_mode) {
@@ -13651,6 +13664,37 @@ _webui_connection_remove(_webui_window_t* win, struct mg_connection* client)
     // Free any script pipe still waiting on this client
     _webui_script_client_closed(client);
     mg_close_connection(client);
+}
+
+// Unregister every client of a window whose server is stopping. Done before
+// mg_stop(): a sender holds `mutex_client` for the whole write, so once the
+// entries are gone no thread can still use a connection the workers free.
+static void
+_webui_connection_forget_all(_webui_window_t* win)
+{
+#ifdef WEBUI_LOG
+    _webui_log_debug("[Core]		_webui_connection_forget_all([%zu])
+", win->num);
+#endif
+
+    for (size_t i = 0; i < WEBUI_MAX_IDS; i++) {
+        _webui_mutex_lock(&_webui.mutex_client);
+        struct mg_connection* client = NULL;
+        if ((_webui.clients[i] != NULL) && (_webui.clients_win_num[i] == win->num)) {
+            client = _webui.clients[i];
+            _webui.clients[i] = NULL;
+            _webui.clients_win_num[i] = 0;
+            _webui_mutex_is_multi_client_token_valid(win, WEBUI_MUTEX_SET_FALSE, i);
+        }
+        _webui_mutex_unlock(&_webui.mutex_client);
+        // Free any script pipe still waiting on this client
+        _webui_script_client_closed(client);
+    }
+    _webui_mutex_lock(&_webui.mutex_client);
+    win->single_client = NULL;
+    _webui_mutex_is_single_client_token_valid(win, WEBUI_MUTEX_SET_FALSE);
+    win->clients_count = 0;
+    _webui_mutex_unlock(&_webui.mutex_client);
 }
 
 static bool

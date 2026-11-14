@@ -21,6 +21,7 @@
 #include "GOPropertyValues.hpp"
 #include "GOCallbackProperty.hpp"
 #include "QueueProcessing.hpp"
+#include "SizeChangedDispatcher.hpp"
 //=============================================================================
 namespace Nelson::GraphicsGateway {
 //=============================================================================
@@ -33,6 +34,9 @@ figureBuiltin(int nLhs, const ArrayOfVector& argIn)
 
     processPendingCallbacksAndTimers();
 
+    // A SizeChangedFcn given at creation runs before the constructor returns.
+    SizeChangedScope sizeChangedScope;
+    bool figureCreated = false;
     int64 currentFigureID;
     if (argIn.size() == 0) {
         currentFigureID = createNewFigure();
@@ -62,6 +66,7 @@ figureBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
     } else {
         currentFigureID = createNewFigure(false);
+        figureCreated = true;
     }
     GOFigure* fig = findGOFigure(currentFigureID);
     if (!fig) {
@@ -88,7 +93,14 @@ figureBuiltin(int nLhs, const ArrayOfVector& argIn)
                 }
             }
         }
+        if (figureCreated) {
+            // The window was sized before the properties were applied: report it again.
+            forgetSizeChangedState(fig);
+        }
         fig->updateState(true);
+        if (figureCreated) {
+            notifyFigureShown(fig);
+        }
     } else {
         Error("Nelson:wrongNumberOfInputs", "Wrong number of input arguments.");
     }

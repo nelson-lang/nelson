@@ -279,7 +279,7 @@
       </tr>
       <tr>
         <td><b>SizeChangedFcn</b></td>
-        <td>le système d&apos;événements graphiques l&apos;invoque pour l&apos;événement associé.</td>
+        <td>s'exécute quand la taille de la zone de dessin change, avant le retour de l'instruction qui a redimensionné la figure ; une fois à la création s'il est passé au constructeur, une fois quand une figure invisible est affichée, jamais tant que AutoResizeChildren vaut 'on'.</td>
         <td>Type: callback value. Valeurs prises en charge: [], handle de fonction, vecteur de caractères, chaîne scalaire ou cellule callback.</td>
       </tr>
       <tr>

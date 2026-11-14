@@ -278,8 +278,15 @@ export function FigurePanel({
       // device pixel ratio.
       const dpr = window.devicePixelRatio || 1;
       const box = canvasBox.current;
-      const width = Math.round(box ? box.clientWidth : window.innerWidth);
-      const height = Math.round(box ? box.clientHeight : window.innerHeight);
+      let width = Math.round(box ? box.clientWidth : window.innerWidth);
+      let height = Math.round(box ? box.clientHeight : window.innerHeight);
+      // A canvas one pixel off the figure size is host rounding at a fractional display
+      // scale: a window move must not write it back as a new figure size.
+      const drawn = displayListRef.current;
+      if (drawn && !figureWindowNeedsResize(drawn.width, drawn.height, width, height)) {
+        width = drawn.width;
+        height = drawn.height;
+      }
       const x = Math.round(window.screenX / dpr);
       const screenH = Math.round(window.screen?.height ?? window.innerHeight);
       // The drawing area sits at the bottom of the client, so its bottom edge is
@@ -659,11 +666,15 @@ export function FigurePanel({
     }
     sizeJob.current.pending = true;
     sizeJob.current.last = key;
+    // baseWidth/baseHeight: the frame this canvas was measured against, read when the request
+    // leaves. The engine drops the report when a script resized the figure meanwhile.
     withFigureSlot(() =>
       rpc<FigureDisplayListResult>('figure.setSize', {
         ...displayListParams(),
         width: w,
         height: h,
+        baseWidth: displayListRef.current?.width ?? 0,
+        baseHeight: displayListRef.current?.height ?? 0,
       })
     )
       .then(ordered(acceptDisplayList))
@@ -888,6 +899,9 @@ export function FigurePanel({
         return;
       }
       if (sizeDebounce.current) clearTimeout(sizeDebounce.current);
+      // The host window is sized in physical pixels: at a fractional display scale its canvas
+      // lands one pixel off the figure size. That is rounding, not a resize to report.
+      if (standalone && dl && (w !== dl.width || h !== dl.height)) return;
       sizeDebounce.current = setTimeout(() => setSize(w, h), standalone ? 40 : 120);
     };
     const ro = new ResizeObserver(syncSize);

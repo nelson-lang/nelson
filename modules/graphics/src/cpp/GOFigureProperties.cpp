@@ -14,7 +14,9 @@
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
 #include "GOStringOnOffProperty.hpp"
+#include "GOUIWebChildren.hpp"
 #include "GOVectorFourDoubleProperty.hpp"
+#include "SizeChangedDispatcher.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -107,14 +109,14 @@ GOFigure::applyWebWindowGeometry(int x, int y, int width, int height)
     setRenderingSize(width, height, 1.0);
     refreshPaperPosition();
     if (sizeChanged) {
-        auto* callback = static_cast<GOCallbackProperty*>(
-            findProperty(GO_SIZE_CHANGED_FCN_PROPERTY_NAME_STR, false));
-        if (callback != nullptr) {
-            callback->pushEvent(this, L"SizeChangedData", L"SizeChanged");
-        }
         // setRenderingSize flagged the children layout stale: re-derive the auto
         // axes Positions for the new drawing area before the repaint.
         refreshChildrenLayout();
+        // Containers first, the figure last.
+        uiNotifyWebContainerSizes(this);
+    }
+    notifyFigureSizeReported(this, sizeChanged);
+    if (sizeChanged) {
         repaint();
     }
     return true;
