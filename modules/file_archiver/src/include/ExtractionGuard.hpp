@@ -34,7 +34,7 @@ enum class ExtractionLimitKind
     Ratio
 };
 //=============================================================================
-class ExtractionLimitError : public std::runtime_error
+class NLSFILE_ARCHIVER_IMPEXP ExtractionLimitError : public std::runtime_error
 {
 public:
     ExtractionLimitError(

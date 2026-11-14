@@ -58,7 +58,7 @@ enum class ZipErrorCode
     UnsupportedEncryption // encrypted data the library cannot decrypt (7z, rar)
 };
 //=============================================================================
-class ZipArchiveError : public std::runtime_error
+class NLSFILE_ARCHIVER_IMPEXP ZipArchiveError : public std::runtime_error
 {
 public:
     ZipArchiveError(ZipErrorCode code, const std::string& message, const std::string& entry = "")
