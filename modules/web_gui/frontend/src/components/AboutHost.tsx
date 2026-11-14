@@ -10,6 +10,7 @@
 import { useEffect, useState } from 'react';
 import { rpc } from '../rpc/client';
 import { t, tf } from '../i18n';
+import { getConfigUrls } from '../desktop/capabilities';
 //=============================================================================
 // About dialog, opened from the Help menu by a window event, like Preferences.
 export const OPEN_ABOUT_EVENT = 'nelson-webview.open-about';
@@ -51,21 +52,13 @@ export function AboutHost(): JSX.Element | null {
           )}
         </p>
         <div className="about-card__links">
-          <a
-            href="https://nelson-lang.github.io/nelson-website/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href={getConfigUrls().website} target="_blank" rel="noopener noreferrer">
             {t('Website')}
           </a>
           <a href="https://github.com/nelson-lang/nelson" target="_blank" rel="noopener noreferrer">
             {t('Source')}
           </a>
-          <a
-            href="https://nelson-lang.github.io/nelson-website/en_US/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href={`${getConfigUrls().website}en_US/`} target="_blank" rel="noopener noreferrer">
             {t('Documentation')}
           </a>
         </div>

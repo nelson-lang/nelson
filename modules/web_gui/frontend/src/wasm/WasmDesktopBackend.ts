@@ -41,6 +41,7 @@ import {
   WasmProfilerService,
 } from './wasmDesktopServices';
 import { WasmNewsfeedService } from './wasmNewsfeed';
+import { DEFAULT_CONFIG_URLS } from '../desktop/configUrls';
 import { WasmPackageManagerServices } from './wasmPackageManagerServices';
 import { handleWasmAudioAction, type WasmAudioAction } from './webAudio';
 import { detectBrowserRuntimeDiagnostics } from './browserCapabilities';
@@ -382,6 +383,7 @@ export class WasmDesktopBackend implements LocalRpcBackend {
             (this.options.runtimeCapabilities?.capabilities.includes('package-manager-core') ??
               true),
           launchMode: 'browser',
+          urls: DEFAULT_CONFIG_URLS,
         };
       case 'diagnostics.info':
         return this.diagnosticsInfo();

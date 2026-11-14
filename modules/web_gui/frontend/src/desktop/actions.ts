@@ -40,7 +40,7 @@ import { webConfirm, webPrompt } from '../components/PromptHost';
 import { isEngineBusy, runCommand } from './engineSession';
 import { rpc } from '../rpc/client';
 import { getThemePref, requestTheme, type ThemePref } from './theme';
-import { getDesktopCapabilities, packageManagerTitle } from './capabilities';
+import { getConfigUrls, getDesktopCapabilities, packageManagerTitle } from './capabilities';
 import { corePanelTitle } from './panelTitles';
 import { t, tf } from '../i18n';
 //=============================================================================
@@ -395,13 +395,13 @@ function shellAndLayoutActions(): DesktopAction[] {
       id: 'help.website',
       title: t('Nelson website'),
       category: 'Help',
-      run: () => window.open('https://nelson-lang.github.io/nelson-website/', '_blank', 'noopener'),
+      run: () => window.open(getConfigUrls().website, '_blank', 'noopener'),
     },
     {
       id: 'help.issues',
       title: t('Bugs and Requests'),
       category: 'Help',
-      run: () => window.open('https://github.com/nelson-lang/nelson/issues', '_blank', 'noopener'),
+      run: () => window.open(getConfigUrls().issues, '_blank', 'noopener'),
     },
     {
       id: 'help.about',

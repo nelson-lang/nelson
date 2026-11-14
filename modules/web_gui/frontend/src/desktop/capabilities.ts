@@ -8,8 +8,9 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 import { rpc } from '../rpc/client';
-import type { AppCapabilitiesResult } from '../rpc/types';
+import type { AppCapabilitiesResult, ConfigUrls } from '../rpc/types';
 import { t, tf } from '../i18n';
+import { DEFAULT_CONFIG_URLS } from './configUrls';
 //=============================================================================
 const unavailable: AppCapabilitiesResult = { nflow: false, packageManager: false };
 let capabilities = unavailable;
@@ -45,8 +46,17 @@ export function setDesktopCapabilities(next: AppCapabilitiesResult): void {
     packageManager: !!next.packageManager,
     packageUpdates: updatesCount(next.packageUpdates),
     launchMode,
+    // URLs are fixed for the session: keep the ones already learned if a later
+    // poll comes back without them.
+    urls: next.urls ?? capabilities.urls,
   };
   listeners.forEach((listener) => listener());
+}
+//=============================================================================
+// External URLs from etc/defaults.conf (engine-authoritative via app.capabilities),
+// falling back to the bundled defaults until the first poll resolves.
+export function getConfigUrls(): ConfigUrls {
+  return { ...DEFAULT_CONFIG_URLS, ...(capabilities.urls ?? {}) };
 }
 //=============================================================================
 // client.role can report the launch mode before app.capabilities does. Missing

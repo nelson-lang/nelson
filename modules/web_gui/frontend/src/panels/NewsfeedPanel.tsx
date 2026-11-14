@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 import { rpc } from '../rpc/client';
 import type { NewsfeedListResult, NewsfeedItem } from '../rpc/types';
 import { t, tf } from '../i18n';
-import { DEFAULT_FEEDS } from '../newsfeedFeeds';
+import { getConfigUrls } from '../desktop/capabilities';
 //=============================================================================
 // Strip markup from a feed summary: feeds carry untrusted HTML, so the web
 // panel shows plain text rather than injecting it into the app origin.
@@ -24,7 +24,8 @@ function toText(html: string): string {
 }
 //=============================================================================
 export function NewsfeedPanel(): JSX.Element {
-  const [url, setUrl] = useState(DEFAULT_FEEDS[0]);
+  const feeds = [getConfigUrls().newsfeed, getConfigUrls().releases];
+  const [url, setUrl] = useState(() => feeds[0]);
   const [title, setTitle] = useState('');
   const [items, setItems] = useState<NewsfeedItem[]>([]);
   const [status, setStatus] = useState(() => t('Loading...'));
@@ -66,7 +67,7 @@ export function NewsfeedPanel(): JSX.Element {
           placeholder={t('Feed URL…')}
         />
         <datalist id="newsfeed-feeds">
-          {DEFAULT_FEEDS.map((f) => (
+          {feeds.map((f) => (
             <option key={f} value={f} />
           ))}
         </datalist>

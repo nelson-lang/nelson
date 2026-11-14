@@ -469,10 +469,19 @@ WebGuiRpc::ping()
 nlohmann::json
 WebGuiRpc::appCapabilities()
 {
+    NelsonConfiguration* config = NelsonConfiguration::getInstance();
     return { { "nflow", IsConfiguredModuleName(L"nflow_gui") },
         { "packageManager", IsConfiguredModuleName(L"nmm_gui") },
         { "packageUpdates", getPackageUpdatesCount() },
-        { "launchMode", WebDesktopBridge::getInstance()->getWebLaunchMode() } };
+        { "launchMode", WebDesktopBridge::getInstance()->getWebLaunchMode() },
+        // External URLs from etc/defaults.conf, so the frontend keeps a single source.
+        { "urls",
+            { { "website", wstring_to_utf8(config->getWebsiteUrl()) },
+                { "issues", wstring_to_utf8(config->getBugTrackerUrl()) },
+                { "docbook", wstring_to_utf8(config->getDocBookUrl()) },
+                { "update", wstring_to_utf8(config->getUpdateUrl()) },
+                { "newsfeed", wstring_to_utf8(config->getNewsfeedUrl()) },
+                { "releases", wstring_to_utf8(config->getReleasesUrl()) } } } };
 }
 //=============================================================================
 nlohmann::json

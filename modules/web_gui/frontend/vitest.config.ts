@@ -36,8 +36,16 @@ const reactAlias = new URL('./node_modules/react', import.meta.url).pathname.rep
   '$1'
 );
 //=============================================================================
+// Mirror vite.config: configUrls.ts inlines etc/defaults.conf (?raw), above the
+// frontend tree, so the transform server must be allowed to read the repo root.
+const repositoryRoot = new URL('../../..', import.meta.url).pathname.replace(
+  /^\/([A-Za-z]:)/,
+  '$1'
+);
+//=============================================================================
 // Unit tests (vitest). E2E lives separately under tests/e2e (Playwright).
 export default defineConfig({
+  server: { fs: { allow: [repositoryRoot] } },
   resolve: {
     dedupe: ['react', 'react-dom'],
     alias: {

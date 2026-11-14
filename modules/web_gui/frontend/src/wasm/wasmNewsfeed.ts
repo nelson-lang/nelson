@@ -8,8 +8,10 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 import type { NewsfeedFeed, NewsfeedItem, NewsfeedListResult } from '../rpc/types';
-import { DEFAULT_FEED, RELEASES_FEED } from '../newsfeedFeeds';
+import { DEFAULT_CONFIG_URLS } from '../desktop/configUrls';
 //=============================================================================
+const DEFAULT_FEED = DEFAULT_CONFIG_URLS.newsfeed;
+const RELEASES_FEED = DEFAULT_CONFIG_URLS.releases;
 const RELEASES_API = 'https://api.github.com/repos/nelson-lang/nelson/releases?per_page=30';
 const MAX_FEED_BYTES = 4 * 1024 * 1024;
 type Fetch = (input: RequestInfo | URL, init?: RequestInit) => Promise<Response>;

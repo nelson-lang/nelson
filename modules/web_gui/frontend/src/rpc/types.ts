@@ -16,6 +16,17 @@ export interface PingResult {
   version: string;
 }
 //=============================================================================
+// External URLs mirrored from etc/defaults.conf, carried in app.capabilities so
+// the frontend keeps a single source rather than hardcoding them per component.
+export interface ConfigUrls {
+  website: string;
+  issues: string;
+  docbook: string;
+  update: string;
+  newsfeed: string;
+  releases: string;
+}
+//=============================================================================
 export interface AppCapabilitiesResult {
   nflow: boolean;
   // nmm_gui module configured: exposes the Window > Package Manager panel.
@@ -24,6 +35,8 @@ export interface AppCapabilitiesResult {
   // Package Manager window in this session (0 until then): shown as a badge.
   packageUpdates?: number;
   launchMode?: 'webview' | 'browser' | 'server' | 'none';
+  // Default external URLs from etc/defaults.conf (engine-authoritative).
+  urls?: ConfigUrls;
 }
 //=============================================================================
 export interface DiagnosticsInfoResult {
