@@ -405,15 +405,22 @@ BaseFigureQt::resizeEvent(QResizeEvent* e)
 {
     const bool initialResize = firstTime;
     firstTime = false;
-    if (!e->spontaneous() && !figureRequestsSize(hfig, e->size())) {
-        if (GOWindow* parentWindow = dynamic_cast<GOWindow*>(parentWidget())) {
-            if (parentWindow->isVisible()) {
-                parentWindow->refitDrawingAreaToRequest();
+    GOWindow* parentWindow = dynamic_cast<GOWindow*>(parentWidget());
+    // A size the figure asked for is reported at once: coalescing it delays SizeChangedFcn.
+    // Position cannot tell: the window move that precedes the resize restores the old size.
+    const bool requestedResize
+        = !e->spontaneous() && parentWindow && parentWindow->isApplyingRequestedGeometry();
+    if (!e->spontaneous() && !requestedResize && !figureRequestsSize(hfig, e->size())) {
+        if (parentWindow && parentWindow->isVisible()) {
+            parentWindow->refitDrawingAreaToRequest();
+            if (size() != e->size()) {
+                // the refit resized the canvas again and that event reported the size
+                return;
             }
         }
     }
-    const bool interactiveResize
-        = !initialResize && (e->spontaneous() || !figureRequestsSize(hfig, e->size()));
+    const bool interactiveResize = !initialResize && !requestedResize
+        && (e->spontaneous() || !figureRequestsSize(hfig, e->size()));
     if (interactiveResize) {
         if (!resizing) {
             resizeStartSize = e->oldSize();
@@ -433,7 +440,7 @@ BaseFigureQt::resizeEvent(QResizeEvent* e)
         resizeTimer.stop();
         resizeTimer.start(RESIZE_COALESCE_DELAY_MS, this);
 #ifdef _MSC_VER
-        if (GOWindow* parentWindow = dynamic_cast<GOWindow*>(parentWidget())) {
+        if (parentWindow) {
             parentWindow->serviceNativeResize(false);
         }
 #endif

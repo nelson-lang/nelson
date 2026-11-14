@@ -130,6 +130,7 @@ private:
     int requestedInnerWidth = 0;
     int requestedInnerHeight = 0;
     bool drawingAreaRefitDone = false;
+    int requestedGeometryDepth = 0;
     //=============================================================================
     void
     changeEvent(QEvent* event) override;
@@ -277,6 +278,12 @@ public:
     // window chrome is known (called from the canvas resize that misses the request).
     void
     refitDrawingAreaToRequest();
+    // True while the window applies a size asked by the figure, not by the user.
+    bool
+    isApplyingRequestedGeometry() const
+    {
+        return requestedGeometryDepth > 0;
+    }
 #ifdef _MSC_VER
     void
     serviceNativeResize(bool force, const QSize& oldWindowSize = QSize());
