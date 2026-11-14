@@ -51,13 +51,14 @@ c = uicontrol(p2);
 assert_isequal(c.Units, 'pixels');
 close(f);
 %=============================================================================
-% a tab is as large as its tab group, tab bar included
+% a tab is as large as its tab group, tab bar included, but its children are
+% laid out in the tab page (the group less its one pixel border and its tab bar)
 f = figure('Visible', 'off', 'Position', [100 100 800 600]);
 tg = uitabgroup(f);
 t = uitab(tg);
 c = uicontrol(t, 'Units', 'normalized', 'Position', [0 0 1 1]);
 c.Units = 'pixels';
-assert_isequal(c.Position, [1 1 800 600]);
+assert_isequal(c.Position, [1 1 798 575]);
 % in pixels a tab reports its page: the group less its border and its tab bar
 t.Units = 'pixels';
 assert_isequal(t.Position, [1 1 798 575]);
