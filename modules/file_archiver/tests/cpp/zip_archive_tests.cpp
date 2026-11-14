@@ -41,6 +41,8 @@ static size_t
 findSignature(const std::vector<uint8_t>& bytes, uint32_t signature, size_t start = 0);
 static void
 writeUint16(std::vector<uint8_t>& bytes, size_t offset, uint16_t value);
+static void
+writeUint32(std::vector<uint8_t>& bytes, size_t offset, uint32_t value);
 static uint16_t
 readUint16(const std::vector<uint8_t>& bytes, size_t offset);
 static std::vector<uint8_t>
@@ -53,6 +55,8 @@ static void
 setAllMethods(std::vector<uint8_t>& bytes, uint16_t method);
 static void
 testUnsupportedMethod();
+static void
+testLzmaDictionaryLimit();
 static void
 testCp437Name();
 static void
@@ -92,13 +96,15 @@ main()
 {
     testMemoryRoundTrip(ZipCompression::Deflate, "deflate");
     testMemoryRoundTrip(ZipCompression::Store, "store");
-    if (ZipArchive::supportsCompression(static_cast<uint16_t>(ZipCompression::Zstd))) {
-        testMemoryRoundTrip(ZipCompression::Zstd, "zstd");
-    } else {
-        std::cerr << "zstd not built: skipped\n";
+    for (ZipCompression method : ZipArchive::availableCompressions()) {
+        if (method != ZipCompression::Deflate && method != ZipCompression::Store) {
+            const std::string label = ZipArchive::compressionName(static_cast<uint16_t>(method));
+            testMemoryRoundTrip(method, label.c_str());
+        }
     }
     testCrcMismatch();
     testUnsupportedMethod();
+    testLzmaDictionaryLimit();
     testCp437Name();
     testFilesAndModes();
     testNotAnArchive();
@@ -172,6 +178,15 @@ writeUint16(std::vector<uint8_t>& bytes, size_t offset, uint16_t value)
 {
     bytes[offset] = static_cast<uint8_t>(value & 0xFF);
     bytes[offset + 1] = static_cast<uint8_t>(value >> 8);
+}
+//=============================================================================
+static void
+writeUint32(std::vector<uint8_t>& bytes, size_t offset, uint32_t value)
+{
+    bytes[offset] = static_cast<uint8_t>(value & 0xFF);
+    bytes[offset + 1] = static_cast<uint8_t>((value >> 8) & 0xFF);
+    bytes[offset + 2] = static_cast<uint8_t>((value >> 16) & 0xFF);
+    bytes[offset + 3] = static_cast<uint8_t>(value >> 24);
 }
 //=============================================================================
 static uint16_t
@@ -254,6 +269,21 @@ testUnsupportedMethod()
     check(reader.entries()[2].method == 9, "deflate64 method reported");
     checkThrows(
         [&] { reader.readEntry(2); }, ZipErrorCode::UnsupportedCompression, "deflate64 rejected");
+}
+//=============================================================================
+static void
+testLzmaDictionaryLimit()
+{
+    if (!ZipArchive::supportsCompression(static_cast<uint16_t>(ZipCompression::Lzma))) {
+        return;
+    }
+    std::vector<uint8_t> bytes = buildArchive(ZipCompression::Lzma);
+    const size_t local = findSignature(bytes, localHeader, findSignature(bytes, localHeader) + 4);
+    const size_t data = local + 30 + readUint16(bytes, local + 26) + readUint16(bytes, local + 28);
+    writeUint32(bytes, data + 5, 64 * 1024 * 1024 + 1);
+    ZipArchive reader = ZipArchive::openMemory(bytes);
+    checkThrows([&] { reader.readEntry(*reader.find("folder/hello.txt")); },
+        ZipErrorCode::EntryTooLarge, "oversized LZMA dictionary rejected");
 }
 //=============================================================================
 static void

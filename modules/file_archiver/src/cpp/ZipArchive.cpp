@@ -11,6 +11,7 @@
 #include <cctype>
 #include <filesystem>
 #include <fstream>
+#include <limits>
 #include <unordered_map>
 #include <sys/stat.h>
 #include "LibarchiveSupport.hpp"
@@ -26,6 +27,21 @@ namespace {
     constexpr size_t blockSize = 64 * 1024;
     constexpr int defaultLevel = -1;
     constexpr uint16_t unixMadeBy = 3 << 8;
+    constexpr uint32_t localHeaderSignature = 0x04034b50;
+    constexpr uint32_t maxLzmaDictionary = 64 * 1024 * 1024;
+
+    uint16_t
+    littleEndian16(const uint8_t* bytes)
+    {
+        return static_cast<uint16_t>(bytes[0] | (bytes[1] << 8));
+    }
+
+    uint32_t
+    littleEndian32(const uint8_t* bytes)
+    {
+        return static_cast<uint32_t>(bytes[0]) | (static_cast<uint32_t>(bytes[1]) << 8)
+            | (static_cast<uint32_t>(bytes[2]) << 16) | (static_cast<uint32_t>(bytes[3]) << 24);
+    }
 } // namespace
 //=============================================================================
 [[noreturn]] static void
@@ -34,6 +50,8 @@ static std::vector<ZipDirectoryEntry>
 indexFile(const std::wstring& filename);
 static std::vector<ZipDirectoryEntry>
 indexMemory(const std::vector<uint8_t>& bytes);
+static int
+setWriteCompression(struct archive* archive, ZipCompression method);
 static bool
 isWritableMethod(uint16_t method);
 //=============================================================================
@@ -44,6 +62,7 @@ struct ZipArchive::Impl
     bool entryOpen = false;
     std::vector<ZipEntryInfo> entries;
     std::unordered_map<std::string, size_t> index;
+    std::vector<ZipDirectoryEntry> directory;
     // Reading: libarchive gives the entries in the order of their position in the archive.
     std::wstring sourceFile;
     std::shared_ptr<const std::vector<uint8_t>> memoryInput;
@@ -106,10 +125,11 @@ struct ZipArchive::Impl
     }
 
     void
-    setIndex(const std::vector<ZipDirectoryEntry>& directory)
+    setIndex(const std::vector<ZipDirectoryEntry>& newDirectory)
     {
         entries.clear();
         index.clear();
+        directory = newDirectory;
         ranks.assign(directory.size(), 0);
         std::vector<size_t> order(directory.size());
         for (size_t k = 0; k < directory.size(); ++k) {
@@ -198,6 +218,56 @@ struct ZipArchive::Impl
         return static_cast<size_t>(count);
     }
 
+    bool
+    readSource(uint64_t offset, uint8_t* buffer, size_t size) const
+    {
+        if (memoryInput) {
+            if (offset > memoryInput->size() || size > memoryInput->size() - offset) {
+                return false;
+            }
+            std::copy_n(memoryInput->data() + offset, size, buffer);
+            return true;
+        }
+        if (offset > static_cast<uint64_t>(std::numeric_limits<std::streamoff>::max())) {
+            return false;
+        }
+        std::ifstream input(toNativePath(sourceFile), std::ios::binary);
+        if (!input.is_open()) {
+            return false;
+        }
+        input.seekg(static_cast<std::streamoff>(offset));
+        input.read(reinterpret_cast<char*>(buffer), static_cast<std::streamsize>(size));
+        return input.gcount() == static_cast<std::streamsize>(size);
+    }
+
+    void
+    validateLzmaDictionary(size_t entryIndex) const
+    {
+        const ZipEntryInfo& info = entries[entryIndex];
+        if (info.method != static_cast<uint16_t>(ZipCompression::Lzma) || info.isEncrypted) {
+            return;
+        }
+        const uint64_t localOffset = directory[entryIndex].localOffset;
+        uint8_t localHeader[30];
+        if (!readSource(localOffset, localHeader, sizeof(localHeader))
+            || littleEndian32(localHeader) != localHeaderSignature) {
+            fail(ZipErrorCode::NotAZipArchive, "Invalid ZIP local header.", info.name);
+        }
+        const uint64_t dataOffset = localOffset + sizeof(localHeader)
+            + littleEndian16(localHeader + 26) + littleEndian16(localHeader + 28);
+        uint8_t lzmaHeader[9];
+        if (dataOffset < localOffset || info.compressedSize < sizeof(lzmaHeader)
+            || !readSource(dataOffset, lzmaHeader, sizeof(lzmaHeader))) {
+            fail(ZipErrorCode::NotAZipArchive, "Invalid ZIP LZMA data.", info.name);
+        }
+        if (littleEndian16(lzmaHeader + 2) != 5) {
+            fail(ZipErrorCode::NotAZipArchive, "Invalid ZIP LZMA data.", info.name);
+        }
+        if (littleEndian32(lzmaHeader + 5) > maxLzmaDictionary) {
+            fail(ZipErrorCode::EntryTooLarge, "ZIP LZMA dictionary is too large.", info.name);
+        }
+    }
+
     // Starts libarchive with the level of the first file, then writes what waited.
     void
     startWriter(int level)
@@ -267,26 +337,9 @@ struct ZipArchive::Impl
     void
     writeHeader(const ZipEntryInfo& info, int64_t size)
     {
-        switch (static_cast<ZipCompression>(info.method)) {
-        case ZipCompression::Store:
-            archive_write_zip_set_compression_store(writer);
-            break;
-        case ZipCompression::Bzip2:
-            archive_write_zip_set_compression_bzip2(writer);
-            break;
-        case ZipCompression::Lzma:
-            archive_write_zip_set_compression_lzma(writer);
-            break;
-        case ZipCompression::Zstd:
-            archive_write_zip_set_compression_zstd(writer);
-            break;
-        case ZipCompression::Xz:
-            archive_write_zip_set_compression_xz(writer);
-            break;
-        case ZipCompression::Deflate:
-        default:
-            archive_write_zip_set_compression_deflate(writer);
-            break;
+        if (setWriteCompression(writer, static_cast<ZipCompression>(info.method)) != ARCHIVE_OK) {
+            fail(ZipErrorCode::UnsupportedCompression, "Unsupported ZIP compression method.",
+                info.name);
         }
         struct archive_entry* item = archive_entry_new();
         archive_entry_set_pathname_utf8(item, info.name.c_str());
@@ -493,22 +546,26 @@ ZipArchive::availableCompressions()
     // Methods this libarchive build can write (and so read), asked once.
     static const std::vector<ZipCompression> methods = []() {
         std::vector<ZipCompression> found;
-        struct archive* probe = archive_write_new();
-        archive_write_set_format_zip(probe);
-        const std::pair<ZipCompression, int (*)(struct archive*)> candidates[] = {
-            { ZipCompression::Store, archive_write_zip_set_compression_store },
-            { ZipCompression::Deflate, archive_write_zip_set_compression_deflate },
-            { ZipCompression::Zstd, archive_write_zip_set_compression_zstd },
-            { ZipCompression::Xz, archive_write_zip_set_compression_xz },
-            { ZipCompression::Bzip2, archive_write_zip_set_compression_bzip2 },
-            { ZipCompression::Lzma, archive_write_zip_set_compression_lzma },
+        const ZipCompression candidates[] = {
+            ZipCompression::Store,
+            ZipCompression::Deflate,
+#if ARCHIVE_VERSION_NUMBER >= 3008000
+            ZipCompression::Zstd,
+            ZipCompression::Xz,
+            ZipCompression::Bzip2,
+            ZipCompression::Lzma,
+#endif
         };
-        for (const auto& [method, select] : candidates) {
-            if (select(probe) == ARCHIVE_OK) {
+        for (ZipCompression method : candidates) {
+            struct archive* probe = archive_write_new();
+            if (probe != nullptr && archive_write_set_format_zip(probe) == ARCHIVE_OK
+                && setWriteCompression(probe, method) == ARCHIVE_OK) {
                 found.push_back(method);
             }
+            if (probe != nullptr) {
+                archive_write_free(probe);
+            }
         }
-        archive_write_free(probe);
         return found;
     }();
     return methods;
@@ -567,6 +624,7 @@ ZipArchive::openEntry(size_t index, uint64_t maxSize)
     if (info.size > maxSize) {
         fail(ZipErrorCode::SizeLimitExceeded, "ZIP entry exceeds the size limit.", info.name);
     }
+    pImpl->validateLzmaDictionary(index);
     pImpl->entryOpen = false;
     pImpl->moveTo(pImpl->ranks[index], info);
     pImpl->entryOpen = true;
@@ -624,6 +682,7 @@ ZipArchive::reopenForReading() const
     impl->memoryInput = pImpl->memoryInput;
     impl->entries = pImpl->entries;
     impl->index = pImpl->index;
+    impl->directory = pImpl->directory;
     impl->ranks = pImpl->ranks;
     impl->password = pImpl->password;
     impl->open = true;
@@ -992,6 +1051,29 @@ indexMemory(const std::vector<uint8_t>& bytes)
             return available;
         },
         bytes.size());
+}
+//=============================================================================
+static int
+setWriteCompression(struct archive* archive, ZipCompression method)
+{
+    switch (method) {
+    case ZipCompression::Store:
+        return archive_write_zip_set_compression_store(archive);
+    case ZipCompression::Deflate:
+        return archive_write_zip_set_compression_deflate(archive);
+#if ARCHIVE_VERSION_NUMBER >= 3008000
+    case ZipCompression::Bzip2:
+        return archive_write_zip_set_compression_bzip2(archive);
+    case ZipCompression::Lzma:
+        return archive_write_zip_set_compression_lzma(archive);
+    case ZipCompression::Zstd:
+        return archive_write_zip_set_compression_zstd(archive);
+    case ZipCompression::Xz:
+        return archive_write_zip_set_compression_xz(archive);
+#endif
+    default:
+        return ARCHIVE_FAILED;
+    }
 }
 //=============================================================================
 static bool
