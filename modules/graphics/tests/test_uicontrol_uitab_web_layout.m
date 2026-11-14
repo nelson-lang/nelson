@@ -84,9 +84,10 @@ UITAB_MOUSE_LOG = {};
 f.WindowButtonDownFcn = @(s, e) log_mouse(s, ax, 'down');
 f.WindowButtonMotionFcn = @(s, e) log_mouse(s, ax, 'motion');
 f.WindowButtonUpFcn = @(s, e) log_mouse(s, ax, 'up');
-dl = jsondecode(__web_display_list__(f));
-page = f.Position(4) - find_control(dl, 'style', 'tabgroup').data.tabBarSize;
-center = [0.5 * f.Position(3), 0.4 * page];
+% The axes is laid out in the tab page (group less its one pixel border and its
+% 23 pixel bar); its plot box centre, where the viewer reads data [5 50], falls
+% at figure [400 222] for this 800x600 group-filling tab.
+center = [0.5 * f.Position(3), 222];
 % callbacks run between events, as in the window
 events = {'press', [0 0], 'normal'; 'motion', [8 0], 'normal'; 'release', [8 0], 'normal'; ...
   'press', [0 0], 'open'; 'release', [0 0], 'open'};

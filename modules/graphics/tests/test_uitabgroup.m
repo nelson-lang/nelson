@@ -57,8 +57,10 @@ fig = uifigure('Visible', 'on', 'Position', [100 100 360 260], 'Color', [1 1 1])
 fig.AutoResizeChildren = 'off';
 tg = uitabgroup(fig, 'Position', [40 35 260 170]);
 t = uitab(tg, 'Title', 'Stats');
+% the label sits near the top of the tab page (145 pixels tall): its children
+% are laid out in the page, not the whole group, so it must fit within it
 lbl = uilabel(t, 'Text', 'Top text fully visible', ...
-  'Position', [10 139 210 22], 'BackgroundColor', [1 1 0], ...
+  'Position', [10 118 210 22], 'BackgroundColor', [1 1 0], ...
   'FontColor', [0 0 0]);
 drawnow();
 pause(0.1);
@@ -67,7 +69,7 @@ drawnow();
 assert_isequal(t.Position, [1 1 258 145]);
 assert_isequal(t.InnerPosition, [1 1 258 145]);
 assert_isequal(t.OuterPosition, [1 1 258 145]);
-assert_isequal(lbl.Position, [10 139 210 22]);
+assert_isequal(lbl.Position, [10 118 210 22]);
 frame = getframe(fig).cdata;
 yellow = double(frame(:, :, 1)) > 180 & double(frame(:, :, 2)) > 180 & ...
   double(frame(:, :, 3)) < 80;
@@ -120,6 +122,37 @@ assert_isequal(t.Position, [1 1 286 131]);
 assert_isequal(t.InnerPosition, [1 1 286 131]);
 assert_isequal(t.OuterPosition, [1 1 286 131]);
 delete(fig);
+%=============================================================================
+% children of a tab are laid out in the tab page, not the whole group: a
+% normalized child is a fraction of the page and sits at the page corner, a
+% pixel child is one-based in the page (reference R2025a). Tabs on top and at
+% the bottom, in a classic figure and a uifigure.
+%=============================================================================
+for host = 1:2
+  if host == 1
+    fig = figure('Visible', 'off', 'Position', [100 100 700 500]);
+    tg = uitabgroup(fig, 'Units', 'pixels', 'Position', [10 10 200 150]);
+  else
+    fig = uifigure('Visible', 'off', 'Position', [100 100 700 500]);
+    fig.AutoResizeChildren = 'off';
+    tg = uitabgroup(fig, 'Position', [10 10 200 150]);
+  end
+  for location = {'top', 'bottom'}
+    tg.TabLocation = location{1};
+    t = uitab(tg, 'Title', 'a');
+    % the tab fills the group, its children fill the page (198 x 125)
+    full = uipanel(t, 'Units', 'normalized', 'Position', [0 0 1 1]);
+    assert_isequal(getpixelposition(full), [1 1 198 125]);
+    quarter = uicontrol(t, 'Units', 'normalized', 'Position', [0.25 0.25 0.5 0.5]);
+    assert_isequal(getpixelposition(quarter), [50.5 32.25 99 62.5]);
+    pixelChild = uipanel(t, 'Units', 'pixels', 'Position', [1 1 50 30]);
+    assert_isequal(getpixelposition(pixelChild), [1 1 50 30]);
+    % a child at the page corner coincides with the tab (recursive) corner
+    assert_isequal(getpixelposition(pixelChild, true), getpixelposition(t, true));
+    delete(t);
+  end
+  delete(fig);
+end
 %=============================================================================
 % a tab needs a tab group parent
 %=============================================================================
