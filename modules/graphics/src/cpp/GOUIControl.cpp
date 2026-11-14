@@ -13,8 +13,31 @@
 #include "GOPropertyNames.hpp"
 #include "GOScalarDoubleProperty.hpp"
 #include "GOPositionHelpers.hpp"
+#include "GOFontUnitsProperty.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+// A FontUnits change converts FontSize to the new units, like an axes/text.
+static void
+convertUIControlFontUnits(GOUIControl* control)
+{
+    auto* units = static_cast<GOFontUnitsProperty*>(
+        control->findProperty(GO_FONT_UNITS_PROPERTY_NAME_STR, false));
+    auto* size = dynamic_cast<GOFontSizeProperty*>(
+        control->findProperty(GO_FONT_SIZE_PROPERTY_NAME_STR, false));
+    if (!units || !size) {
+        return;
+    }
+    std::wstring from = units->takePendingFrom();
+    if (from.empty()) {
+        return;
+    }
+    // A FontSize given after FontUnits in the same set is already in the new units.
+    if (size->getSetOrder() < units->getSetOrder()) {
+        double height = fontUnitsReferenceHeight(control);
+        size->data(convertFontSizeUnits(size->data(), from, units->data(), height));
+    }
+}
 //=============================================================================
 static UIControlBindingFactory uiControlBindingFactory = nullptr;
 //=============================================================================
@@ -65,6 +88,7 @@ GOUIControl::getType()
 void
 GOUIControl::updateState()
 {
+    convertUIControlFontUnits(this);
     syncButtonGroupSelection();
     const std::wstring style = findStringProperty(GO_STYLE_PROPERTY_NAME_STR);
     if ((style == GO_PROPERTY_VALUE_LISTBOX_STR || style == GO_PROPERTY_VALUE_POPUPMENU_STR)

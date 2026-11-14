@@ -83,8 +83,7 @@ GOUIControl::constructProperties()
     registerProperty(new GOHandleVisibilityProperty, GO_HANDLE_VISIBILITY_PROPERTY_NAME_STR);
     registerProperty(new GOColorProperty, GO_BACKGROUND_COLOR_PROPERTY_NAME_STR);
     registerProperty(new GOColorProperty, GO_FOREGROUND_COLOR_PROPERTY_NAME_STR);
-    registerProperty(new GOScalarProperty(1.0, (double)std::numeric_limits<int>::max()),
-        GO_FONT_SIZE_PROPERTY_NAME_STR);
+    registerProperty(new GOFontSizeProperty, GO_FONT_SIZE_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_FONT_NAME_PROPERTY_NAME_STR);
     registerProperty(new GOFontAngleProperty, GO_FONT_ANGLE_PROPERTY_NAME_STR);
     registerProperty(new GOFontWeightProperty, GO_FONT_WEIGHT_PROPERTY_NAME_STR);
