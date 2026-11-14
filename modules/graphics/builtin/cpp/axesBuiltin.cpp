@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <utility>
 #include "axesBuiltin.hpp"
+#include "nexttileBuiltin.hpp"
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
 #include "GOFiguresManager.hpp"
@@ -36,6 +37,14 @@ namespace Nelson::GraphicsGateway {
 //=============================================================================
 static GraphicsObject*
 getGraphicsObjectFromGraphicHandle(nelson_handle go);
+//=============================================================================
+static bool
+isTiledLayoutHandle(int64 handle)
+{
+    GraphicsObject* object = getGraphicsObjectFromGraphicHandle(handle);
+    return object != nullptr && object->getType() == GO_PROPERTY_VALUE_TILED_LAYOUT_STR;
+}
+//=============================================================================
 struct ResolvedAxesParent
 {
     GOFigure* fig = nullptr;
@@ -114,6 +123,11 @@ polaraxesBuiltin(int nLhs, const ArrayOfVector& argIn)
 
     if (argIn.size() != 0 && argIn[0].isGraphicsObject()) {
         int64 handle = argIn[0].asGraphicsObjectScalar();
+        if (isTiledLayoutHandle(handle)) {
+            t.pop_front();
+            int64 tileHandle = appendAxisToTiledLayout(handle, new GOPolarAxes, t);
+            return buildReturnValue(nLhs, tileHandle);
+        }
         parent = resolveAxesParent(handle);
         t.pop_front();
     } else {
@@ -375,6 +389,12 @@ activateOrCreateAxesFromHandle(int nLhs, const ArrayOfVector& argIn)
     }
 
     if (!hp->isType(GO_PROPERTY_VALUE_AXES_STR) && !hp->isType(GO_PROPERTY_VALUE_POLAR_AXES_STR)) {
+        // axes(t) appends a cartesian axes to the next tile of a tiled layout.
+        if (isTiledLayoutHandle(handle)) {
+            ArrayOfVector empty;
+            int64 tileHandle = appendAxisToTiledLayout(handle, new GOAxis, empty);
+            return buildReturnValue(nLhs, tileHandle);
+        }
         // axes(parent) creates new axes in a figure or UI container.
         ArrayOfVector t;
         int64 newHandle = createNewAxes(resolveAxesParent(handle), t, new GOAxis);

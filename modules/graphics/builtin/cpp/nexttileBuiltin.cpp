@@ -50,7 +50,7 @@ resolveLayout(
     const ArrayOfVector& argIn, size_t& pos, int64& layoutHandle, int64& figHandle, GOFigure*& fig);
 static int64
 createAxesInTile(GOTiledChartLayout* layout, int64 layoutHandle, GOFigure* fig, int tileNum,
-    int spanRows, int spanCols, const std::wstring& edgeTile = L"");
+    int spanRows, int spanCols, GOAxis* ax, const std::wstring& edgeTile = L"");
 static void
 makeCurrentAxesIfPossible(GOFigure* fig, go_handle handle);
 static void
@@ -168,7 +168,7 @@ nexttileBuiltin(int nLhs, const ArrayOfVector& argIn)
             }
             return retval;
         }
-        int64 axHandle = createAxesInTile(layout, layoutHandle, fig, 0, 1, 1, edgeTile);
+        int64 axHandle = createAxesInTile(layout, layoutHandle, fig, 0, 1, 1, new GOAxis, edgeTile);
         layout->registerEdgeTile(edgeTile, axHandle);
         layout->updateChildPositions();
         if (nLhs > 0) {
@@ -235,7 +235,8 @@ nexttileBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
     }
 
-    int64 axHandle = createAxesInTile(layout, layoutHandle, fig, tileNum, spanRows, spanCols);
+    int64 axHandle
+        = createAxesInTile(layout, layoutHandle, fig, tileNum, spanRows, spanCols, new GOAxis);
     layout->setNextTileIndex(tileNum + 1);
     if (arrangement == GO_PROPERTY_VALUE_FLOW_STR) {
         layout->reflowTiles();
@@ -465,9 +466,8 @@ resolveLayout(
 //=============================================================================
 int64
 createAxesInTile(GOTiledChartLayout* layout, int64 layoutHandle, GOFigure* fig, int tileNum,
-    int spanRows, int spanCols, const std::wstring& edgeTile)
+    int spanRows, int spanCols, GOAxis* ax, const std::wstring& edgeTile)
 {
-    GOAxis* ax = new GOAxis;
     int64 axHandle = assignGraphicsObject(ax);
 
     ax->setGoProperty(GO_PARENT_PROPERTY_NAME_STR, layoutHandle);
@@ -481,6 +481,52 @@ createAxesInTile(GOTiledChartLayout* layout, int64 layoutHandle, GOFigure* fig, 
     ax->updateState();
     layout->updateChildPositions();
     fig->setRenderingStateInvalid(true);
+    return axHandle;
+}
+//=============================================================================
+// Shared with axes()/polaraxes(): place a freshly created axis object into a
+// tiled layout. Unlike nexttile(), axes(t)/polaraxes(t) always target tile 1
+// and never advance the tile cursor; repeated calls stack on tile 1 (R2025a).
+int64
+appendAxisToTiledLayout(int64 layoutHandle, GOAxis* ax, const ArrayOfVector& properties)
+{
+    GraphicsObject* go = findGraphicsObject(layoutHandle, false);
+    if (!go || go->getType() != GO_PROPERTY_VALUE_TILED_LAYOUT_STR) {
+        delete ax;
+        Error(L"Nelson:axes:invalidParent",
+            L"Parent must be a figure or UI container graphics object.");
+    }
+    GOTiledChartLayout* layout = static_cast<GOTiledChartLayout*>(go);
+    int64 figHandle = findParentFigureHandleFromLayout(layout);
+    GOFigure* fig = (figHandle == -1) ? nullptr : findGOFigure(figHandle);
+    if (!fig) {
+        delete ax;
+        Error(L"Nelson:axes:parentNotAttachedToFigure",
+            L"Invalid parent: container is not attached to a figure.");
+    }
+
+    const int tileNum = 1;
+    int64 axHandle = createAxesInTile(layout, layoutHandle, fig, tileNum, 1, 1, ax);
+
+    // Apply trailing name/value pairs; Parent is already resolved to the layout.
+    ArrayOfVector t(properties);
+    while (t.size() >= 2) {
+        std::wstring propname(ax->resolvePartialPropertyName(t[0].asWideString()));
+        std::wstring canonicalName(propname);
+        StringHelpers::to_lower(canonicalName);
+        if (canonicalName != L"parent") {
+            ax->findProperty(propname)->set(t[1]);
+        }
+        t.pop_front();
+        t.pop_front();
+    }
+
+    ax->updateState();
+    layout->updateChildPositions();
+    fig->setRenderingStateInvalid(true);
+    if (!fig->isDrawLater()) {
+        fig->repaint();
+    }
     return axHandle;
 }
 //=============================================================================

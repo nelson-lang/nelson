@@ -11,10 +11,19 @@
 //=============================================================================
 #include "ArrayOf.hpp"
 //=============================================================================
+namespace Nelson {
+class GOAxis;
+}
+//=============================================================================
 namespace Nelson::GraphicsGateway {
 //=============================================================================
 ArrayOfVector
 nexttileBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
+// Place a freshly created axis object (GOAxis/GOPolarAxes/...) into the next
+// empty tile of a tiled layout; takes ownership of ax. Returns the axis handle.
+int64
+appendAxisToTiledLayout(int64 layoutHandle, GOAxis* ax, const ArrayOfVector& properties);
 //=============================================================================
 } // namespace Nelson::GraphicsGateway
 //=============================================================================
