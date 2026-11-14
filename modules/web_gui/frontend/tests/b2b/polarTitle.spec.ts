@@ -167,16 +167,15 @@ test('shows polaraxes titles and subtitles in the live view', async ({ page }) =
     'left clockwise': '90°',
     'bottom clockwise': '180°',
   };
-  texts = await waitForTexts(page, Object.keys(tops));
+  await waitForTexts(page, Object.keys(tops));
   const all = await drawnTexts(page);
+  const names = all.map((t) => t.text);
   for (const [name, top] of Object.entries(tops)) {
-    const title = texts.get(name)!;
-    // the top label is the one of that name closest under the title
-    const label = all
-      .filter((t) => t.text === top && t.y > title.y && Math.abs(t.x - title.x) < 4)
-      .sort((a, b) => a.y - b.y)[0];
-    expect(label, `top label under ${name}`).toBeDefined();
-    expectTitleAbove(title, label);
+    // an axes draws its labels right before its title: both come from the same frame
+    const titleIndex = names.lastIndexOf(name);
+    const labelIndex = names.lastIndexOf(top, titleIndex);
+    expect(labelIndex, `top label under ${name}`).toBeGreaterThanOrEqual(0);
+    expectTitleAbove(all[titleIndex], all[labelIndex]);
   }
   await run("close('all')");
 });

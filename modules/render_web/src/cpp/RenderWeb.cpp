@@ -1210,7 +1210,7 @@ RenderWeb::putText(double x, double y, std::wstring txt, std::vector<double> col
 {
     // Anchor as RenderQt::putText: shift by the measured extent for the requested
     // alignment (plus the font descent), rotate, then map. The result is a
-    // baseline-anchored, left-aligned draw on the client. Metrics are Qt-free
+    // baseline-anchored draw on the client. Metrics are Qt-free
     // (core-font advance tables by family).
     const bool bold = fnt.bold;
     const bool italic = fnt.italic;
@@ -1223,11 +1223,13 @@ RenderWeb::putText(double x, double y, std::wstring txt, std::vector<double> col
     const double lineHeight = (lines.size() > 1)
         ? FontMetrics::lineHeightPixels(fnt.family, pixelSize, bold, italic)
         : 0.0;
+    // A single line is aligned by the client, whose font may differ from the metric tables.
+    const bool clientAligned = lines.size() == 1 && xflag != Min;
     double xdelta = 0.0;
     double ydelta = 0.0;
-    if (xflag == Mean) {
+    if (!clientAligned && xflag == Mean) {
         xdelta = -width / 2.0;
-    } else if (xflag == Max) {
+    } else if (!clientAligned && xflag == Max) {
         xdelta = -width;
     }
     if (yflag == Mean) {
@@ -1260,7 +1262,8 @@ RenderWeb::putText(double x, double y, std::wstring txt, std::vector<double> col
         p.fontFamily = FontMetrics::genericFamily(fnt.family);
         p.fontBold = bold;
         p.fontItalic = italic;
-        p.align = "left"; // alignment is already baked into the anchor
+        // otherwise the alignment is already baked into the anchor
+        p.align = clientAligned ? (xflag == Mean ? "center" : "right") : "left";
         p.rotation = rotation;
         m_prims.push_back(p);
     }

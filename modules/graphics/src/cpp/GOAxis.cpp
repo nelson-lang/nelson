@@ -2812,9 +2812,10 @@ GOAxis::recalculateTicks()
     const int rawXTickCount = xcnt;
     const int rawYTickCount = ycnt;
     if (axes2D && axisPixelPosition.size() >= 4 && std::isfinite(axisPixelPosition[2])
-        && axisPixelPosition[2] <= 500.0 && std::fabs(limits[1] - limits[0]) <= 2.5) {
-        xcnt = std::min(xcnt, 5);
-        if (compactNormalizedAxis) {
+        && axisPixelPosition[2] <= 500.0) {
+        // A narrow X ruler keeps a tick interval of at least 47.5 px (measured on the reference).
+        xcnt = std::min(xcnt, std::max(5, static_cast<int>(axisPixelPosition[2] / 47.5)));
+        if (compactNormalizedAxis && std::fabs(limits[1] - limits[0]) <= 2.5) {
             xcnt = std::min(xcnt, 3);
         }
     }

@@ -85,13 +85,29 @@ asserts.isapprox(get(ax, 'XLim'), [0 20], 1e-12);
 asserts.isapprox(get(ax, 'YLim'), [1 10], 1e-12);
 delete(f);
 %=============================================================================
-f = figure('Visible', 'off');
+% Large abscissas with a tiny range keep the limits and ticks of the same range at zero.
+f = figure('Visible', 'off', 'Position', [50 50 560 420]);
 ax = axes(f);
 plot(ax, t0 + (0:100) * w / 100, 1:101);
 patch(ax, t0 + w / 3 + [0 0 0 0], [2 2 5 5], 'r');
 asserts.isequal(get(ax, 'XLimMode'), 'auto');
-xl = get(ax, 'XLim') - t0;
-assert(abs(xl(1)) < 1e-8);
-assert(abs(xl(2) - 0.0007) < 1e-8);
+asserts.istrue(max(abs(get(ax, 'XLim') - t0 - [0 0.0007])) < 1e-8);
+asserts.isequal(numel(get(ax, 'XTick')), 8);
+asserts.istrue(max(abs(get(ax, 'XTick') - t0 - (0:7) * 1e-4)) < 1e-8);
+delete(f);
+%=============================================================================
+% A narrow ruler takes the coarser step.
+f = figure('Visible', 'off', 'Position', [50 50 400 420]);
+ax = axes(f);
+plot(ax, t0 + (0:100) * w / 100, 1:101);
+asserts.istrue(max(abs(get(ax, 'XLim') - t0 - [0 0.0008])) < 1e-8);
+asserts.isequal(numel(get(ax, 'XTick')), 5);
+asserts.istrue(max(abs(get(ax, 'XTick') - t0 - (0:4) * 2e-4)) < 1e-8);
+delete(f);
+%=============================================================================
+f = figure('Visible', 'off', 'Position', [50 50 560 420]);
+ax = axes(f);
+plot(ax, (0:100) * 0.694 / 100, 1:101);
+asserts.isapprox(get(ax, 'XLim'), [0 0.7], 1e-12);
 delete(f);
 %=============================================================================

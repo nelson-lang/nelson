@@ -21,6 +21,7 @@
 #include "ForceWindowsTitleBarToDark.hpp"
 #include "HistoryBrowser.hpp"
 #include "DesktopDocking.hpp"
+#include "MainThreadTaskQueue.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -47,8 +48,10 @@ feedPromptCommand(Evaluator* eval)
         return;
     }
     // the prompt pumps events: the command runs here, as a toolbar click would
+    // a kept prompt still reads as ready while a step runs: wait for the idle prompt loop
     if (eval == nullptr || !eval->isBreakpointActive() || !eval->isAtPrompt()
-        || !eval->commandQueue.isEmpty()) {
+        || !eval->commandQueue.isEmpty()
+        || !MainThreadTaskQueue::getInstance()->isInterpreterIdle()) {
         return;
     }
     std::wstring command = promptCommands.front();

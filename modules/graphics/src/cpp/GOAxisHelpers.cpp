@@ -183,6 +183,29 @@ tickGreaterEqual(double value, double limit, double step)
     return value >= limit - std::fabs(step) * 1e-10;
 }
 //=============================================================================
+// Snap tolerance of a step index, widened to the rounding error of a large value.
+static double
+stepIndexTolerance(double ratio, double tolerance)
+{
+    return std::max(tolerance, 8.0 * std::numeric_limits<double>::epsilon() * std::fabs(ratio));
+}
+//=============================================================================
+// Step index at or below value.
+static double
+stepIndexFloor(double value, double step, double tolerance)
+{
+    double ratio = value / step;
+    return std::floor(ratio + stepIndexTolerance(ratio, tolerance));
+}
+//=============================================================================
+// Step index at or above value.
+static double
+stepIndexCeil(double value, double step, double tolerance)
+{
+    double ratio = value / step;
+    return std::ceil(ratio - stepIndexTolerance(ratio, tolerance));
+}
+//=============================================================================
 static double
 niceTickStep(double amin, double amax, int requestedCounts, int maxIntervals = 10)
 {
@@ -273,31 +296,23 @@ buildTicks(double amin, double amax, double astep, bool includeOuter)
     if (amax < amin) {
         std::swap(amin, amax);
     }
-    double first = 0;
-    double last = 0;
-    if (includeOuter) {
-        double lowerMin = std::floor(amin / astep) * astep;
-        double upperMin = std::ceil(amin / astep) * astep;
-        double lowerMax = std::floor(amax / astep) * astep;
-        double upperMax = std::ceil(amax / astep) * astep;
-        double snapTolerance = std::max(std::fabs(astep) * 1e-5, 1e-12);
-        first = (std::fabs(amin - upperMin) <= snapTolerance) ? upperMin : lowerMin;
-        last = (std::fabs(amax - lowerMax) <= snapTolerance) ? lowerMax : upperMax;
-    } else {
-        double lower = std::floor(amin / astep) * astep;
-        double upper = std::ceil(amax / astep) * astep;
-        double snapTolerance = std::max(std::fabs(astep) * 1e-5, 1e-12);
-        first
-            = (std::fabs(amin - lower) <= snapTolerance) ? lower : std::ceil(amin / astep) * astep;
-        last
-            = (std::fabs(amax - upper) <= snapTolerance) ? upper : std::floor(amax / astep) * astep;
-    }
-    if (last < first) {
+    // An endpoint within 1e-5 step of a step multiple counts as on it.
+    const double snapTolerance = 1e-5;
+    double firstIndex = includeOuter ? stepIndexFloor(amin, astep, snapTolerance)
+                                     : stepIndexCeil(amin, astep, snapTolerance);
+    double lastIndex = includeOuter ? stepIndexCeil(amax, astep, snapTolerance)
+                                    : stepIndexFloor(amax, astep, snapTolerance);
+    if (lastIndex < firstIndex) {
         return retvec;
     }
-    int guard = 0;
-    for (double value = first; tickLessEqual(value, last, astep) && guard < 10000;
-        value += astep, ++guard) {
+    // The tick count comes from the indices: a sum of steps drifts on large values.
+    double tickCount = std::min(lastIndex - firstIndex + 1.0, 10000.0);
+    double value = firstIndex * astep;
+    // A first tick that differs from the lower bound by rounding only is that bound.
+    if (std::fabs(value - amin) <= stepIndexTolerance(amin / astep, 0.0) * astep) {
+        value = amin;
+    }
+    for (int k = 0; k < static_cast<int>(tickCount); ++k, value += astep) {
         if (std::fabs(value) <= std::fabs(astep) * 1e-12) {
             value = 0;
         }
@@ -454,14 +469,13 @@ niceStep(double amin, double amax, int maxIntervals)
             if (!std::isfinite(step) || step <= 0) {
                 continue;
             }
-            double lo = std::floor(amin / step + snapTol) * step;
-            double hi = std::ceil(amax / step - snapTol) * step;
-            double intervals = (hi - lo) / step;
-            long intervalCount = std::lround(intervals);
-            if (intervalCount < 1 || intervalCount > maxIntervals) {
+            double loIndex = stepIndexFloor(amin, step, snapTol);
+            double hiIndex = stepIndexCeil(amax, step, snapTol);
+            double intervals = hiIndex - loIndex;
+            if (!(intervals >= 1) || intervals > maxIntervals) {
                 continue;
             }
-            double padding = (amin - lo) + (hi - amax);
+            double padding = (amin - loIndex * step) + (hiIndex * step - amax);
             // Steps are in ascending order: replace only on strictly smaller padding, so
             // the first minimal one (the finest) wins.
             if (padding < bestPadding - paddingTol) {
@@ -715,10 +729,18 @@ struct RefTickCandidate
     bool valid = false;
 };
 //=============================================================================
+// Alignment tolerance in steps: relative to the index, yet well under one step for a huge index.
+static double
+refIndexTolerance(double index)
+{
+    double relative = std::min(REF_TICK_ALIGN_TOL * std::max(1.0, std::fabs(index)), 1e-4);
+    return stepIndexTolerance(index, relative);
+}
+//=============================================================================
 static bool
 refAligned(double product, double limit, double step)
 {
-    return std::fabs(product - limit) <= REF_TICK_ALIGN_TOL * std::max(std::fabs(limit), step);
+    return std::fabs(product - limit) <= refIndexTolerance(limit / step) * step;
 }
 //=============================================================================
 static std::vector<double>
@@ -774,10 +796,8 @@ refLinearAutoTicks(double lo, double hi, double axisLengthPx, double labelAngleD
             if (std::fabs(q0) > 4e15 || std::fabs(q1) > 4e15) {
                 continue;
             }
-            long long k0 = static_cast<long long>(
-                std::ceil(q0 - REF_TICK_ALIGN_TOL * std::max(1.0, std::fabs(q0))));
-            long long k1 = static_cast<long long>(
-                std::floor(q1 + REF_TICK_ALIGN_TOL * std::max(1.0, std::fabs(q1))));
+            long long k0 = static_cast<long long>(std::ceil(q0 - refIndexTolerance(q0)));
+            long long k1 = static_cast<long long>(std::floor(q1 + refIndexTolerance(q1)));
             long long n = k1 - k0 + 1;
             if (n < 2) {
                 continue;
