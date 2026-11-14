@@ -21,6 +21,18 @@
 bool
 Nelson::NFlow::handleRelationalOperator(SimCtx& ctx, const Block& b, Phase phase)
 {
+    if (phase == Phase::ZERO_CROSSING) {
+        // Event-aware switching surface: the continuous operand difference
+        // (lhs - rhs). A variable-step / DAE solver locates the instant the
+        // comparison flips (a carrier crossing a duty level) and reinits there,
+        // instead of error-testing across the comparator's 0/1 output step and
+        // failing (IDASolve -3). Scalar first lane; held on the fixed-step path.
+        double* g = blockG(ctx, b.nid);
+        if (g && hasInput(ctx, b.nid, 0) && hasInput(ctx, b.nid, 1)) {
+            g[0] = sigAt(getInputSig(ctx, b.nid, 0), 0) - sigAt(getInputSig(ctx, b.nid, 1), 0);
+        }
+        return false;
+    }
     if (phase != Phase::ALGEBRAIC) {
         return false;
     }

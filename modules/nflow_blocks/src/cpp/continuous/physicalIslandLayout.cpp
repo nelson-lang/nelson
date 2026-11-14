@@ -332,6 +332,7 @@ namespace NFlow {
                         L.id.push_back(0.0); // branch current algebraic
                         L.ic.push_back(0.0);
                         idx += 1;
+                        L.hasSwitch = true;
                         break;
                     case Kind::CurrentSensor:
                         comp.value = 0.0; // ideal ammeter: 0 V across
@@ -352,6 +353,7 @@ namespace NFlow {
             }
             L.numStates = idx;
             L.diodeMode.assign(L.comps.size(), 0); // ideal diodes start off
+            L.switchMode.assign(L.comps.size(), 0); // ideal switches start open
 
             // Warm-start the node potentials so the IDACalcIC Newton starts near
             // the solution (a T^4 radiation term is flat at 0 and hard from a cold

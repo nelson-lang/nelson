@@ -96,6 +96,14 @@ namespace NFlow {
             // residual solve is linear in the current modes.
             bool hasIdealDiode = false;
             std::vector<int> diodeMode; // [comp] 0 = off, 1 = on (IdealDiode only)
+            // Mode-latched ideal switch: the branch mode (open/closed) is a
+            // discrete state read from the control signal only at a committed
+            // instant (t = 0 seed, a located event, a scheduled source edge),
+            // never inside a residual / Newton evaluation. A live read would flip
+            // the branch equation mid-step when a comparator gate crosses its
+            // threshold, so the DAE corrector could not error-test across it.
+            bool hasSwitch = false;
+            std::vector<int> switchMode; // [comp] 0 = open, 1 = closed (Switch only)
         };
         //=============================================================================
         // State indices are assigned in a fixed order: node potentials first

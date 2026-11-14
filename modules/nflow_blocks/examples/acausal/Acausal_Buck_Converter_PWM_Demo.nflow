@@ -1,0 +1,150 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "created": "2026-11-14",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Closed-form PWM buck step-down converter. A 10 kHz sawtooth carrier (0..1) and a constant duty reference feed a relational comparator (carrier < duty) whose 0/1 output gates the ideal high-side switch: a trailing-edge PWM modulator built from signal blocks instead of a fixed pulse source, so the duty is a tunable input. The ideal freewheeling diode and the LC output filter (L = 1 mH, C = 100 uF, R = 5) average the switched rail, so in continuous conduction the load settles at Vout = D * Vin = 0.4 * 12 = 4.8 V. The comparator exposes its carrier-minus-duty crossing as a zero-crossing surface, so the DAE solver locates each switching instant and reinits there instead of error-testing across the gate step. The Scope plots the output voltage; ToWorkspace exports it.",
+  "name": "Acausal Buck Converter PWM",
+  "blocks": [
+    {
+      "id": "carrier",
+      "type": "repeatingSequenceInterpolated",
+      "params": { "name": "carrier", "TimeValues": [0, 1e-4], "OutValues": [0, 1] },
+      "inputs": 0,
+      "outputs": 1,
+      "x": -240,
+      "y": 40,
+      "rotation": 0
+    },
+    {
+      "id": "duty",
+      "type": "constant",
+      "params": { "name": "duty", "Value": 0.4 },
+      "inputs": 0,
+      "outputs": 1,
+      "x": -240,
+      "y": 120,
+      "rotation": 0
+    },
+    {
+      "id": "pwm",
+      "type": "relationalOperator",
+      "params": { "name": "pwm", "Operator": "lt" },
+      "inputs": 2,
+      "outputs": 1,
+      "x": -100,
+      "y": 80,
+      "rotation": 0
+    },
+    {
+      "id": "Vin",
+      "type": "ConstantVoltage",
+      "params": { "name": "Vin", "V": 12 },
+      "x": 40,
+      "y": 280,
+      "rotation": 90
+    },
+    {
+      "id": "SW",
+      "type": "IdealSwitch",
+      "params": { "name": "SW" },
+      "x": 200,
+      "y": 180,
+      "rotation": 0
+    },
+    {
+      "id": "D1",
+      "type": "IdealDiode",
+      "params": { "name": "D1", "Ron": 0.001, "Goff": 1e-6, "Vknee": 0 },
+      "x": 340,
+      "y": 280,
+      "rotation": 90
+    },
+    {
+      "id": "L1",
+      "type": "Inductor",
+      "params": { "name": "L1", "L": 0.001, "i0": 0 },
+      "x": 460,
+      "y": 180,
+      "rotation": 0
+    },
+    {
+      "id": "C1",
+      "type": "Capacitor",
+      "params": { "name": "C1", "C": 1e-4, "v0": 0 },
+      "x": 600,
+      "y": 280,
+      "rotation": 90
+    },
+    {
+      "id": "R1",
+      "type": "Resistor",
+      "params": { "name": "R1", "R": 5 },
+      "x": 720,
+      "y": 280,
+      "rotation": 90
+    },
+    {
+      "id": "VS",
+      "type": "VoltageSensor",
+      "params": { "name": "Vout" },
+      "x": 840,
+      "y": 280,
+      "rotation": 90
+    },
+    {
+      "id": "G",
+      "type": "Ground",
+      "params": {},
+      "x": 40,
+      "y": 400,
+      "rotation": 90
+    },
+    {
+      "id": "tw",
+      "type": "toWorkspace",
+      "params": { "VariableName": "vout" },
+      "inputs": 1,
+      "outputs": 0,
+      "x": 1000,
+      "y": 130,
+      "rotation": 0
+    },
+    {
+      "id": "sc",
+      "type": "scope",
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": "",
+        "YMax": "",
+        "width": 320,
+        "height": 220,
+        "ShowTickLabels": true
+      },
+      "x": 1000,
+      "y": 300,
+      "rotation": 0
+    }
+  ],
+  "connections": [
+    { "from": "carrier", "to": "pwm", "fromIndex": 0, "toIndex": 0 },
+    { "from": "duty", "to": "pwm", "fromIndex": 0, "toIndex": 1 },
+    { "from": "pwm", "to": "SW", "fromIndex": 0, "toIndex": 0 },
+    { "from": "VS", "to": "tw", "fromIndex": 0, "toIndex": 0 },
+    { "from": "VS", "to": "sc", "fromIndex": 0, "toIndex": 0 }
+  ],
+  "solver": "dae",
+  "runtime": 0.02,
+  "sampleTime": 2e-5,
+  "physicalWires": [
+    { "pins": ["Vin.p", "SW.p"] },
+    { "pins": ["SW.n", "D1.n", "L1.p"] },
+    { "pins": ["L1.n", "C1.p", "R1.p", "VS.p"] },
+    { "pins": ["Vin.n", "D1.p", "C1.n", "R1.n", "VS.n", "G.p"] }
+  ]
+}

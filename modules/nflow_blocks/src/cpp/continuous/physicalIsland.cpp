@@ -83,6 +83,28 @@ namespace NFlow {
     static void
     islandImplicitAdvance(
         SimCtx& ctx, const Block& b, BlockState& st, IslandLayout* L, bool seedOnly = false);
+    // Re-latch each ideal switch's mode from its live control input (closed when
+    // control > 0.5). Called only at committed instants (t = 0 seed, a located
+    // event, a scheduled source edge, a native-loop major step), never inside a
+    // residual evaluation. Returns true when a mode changed.
+    static bool
+    islandLatchSwitchModes(SimCtx& ctx, const Block& b, IslandLayout* L)
+    {
+        bool changed = false;
+        for (size_t ci = 0; ci < L->comps.size() && ci < L->switchMode.size(); ++ci) {
+            const IslandComp& c = L->comps[ci];
+            if (c.kind != Kind::Switch) {
+                continue;
+            }
+            const double ctrl = (c.port >= 0) ? getInput(ctx, b.nid, c.port, 1.0) : 1.0;
+            const int m = (ctrl > 0.5) ? 1 : 0;
+            if (L->switchMode[ci] != m) {
+                L->switchMode[ci] = m;
+                changed = true;
+            }
+        }
+        return changed;
+    }
     //=============================================================================
     int
     physicalIslandStateCount(const Block& b, const ValMap&)
@@ -172,10 +194,15 @@ namespace NFlow {
         }
 
         if (phase == Phase::EVENT) {
-            // A located root: toggle the ideal diode(s) sitting at their knee
-            // (the surface that crossed), then re-solve the algebraic state in
-            // the new modes so the reinit (IDACalcIC) starts consistent instead
+            // A located root: re-latch the ideal switch(es) from the control
+            // signal that crossed, and toggle the ideal diode(s) sitting at their
+            // knee (the surface that crossed), then re-solve the algebraic state
+            // in the new modes so the reinit (IDACalcIC) starts consistent instead
             // of discovering the mode change under a stale Jacobian.
+            bool reSolve = false;
+            if (L->hasSwitch) {
+                reSolve |= islandLatchSwitchModes(ctx, b, L);
+            }
             if (L->hasIdealDiode) {
                 const double* x = blockX(ctx, b.nid);
                 for (size_t ci = 0; ci < L->comps.size() && ci < L->diodeMode.size(); ++ci) {
@@ -185,6 +212,9 @@ namespace NFlow {
                         L->diodeMode[ci] = (L->diodeMode[ci] == 0) ? 1 : 0;
                     }
                 }
+                reSolve = true;
+            }
+            if (reSolve) {
                 islandImplicitAdvance(ctx, b, st, L, true);
             }
             return false;
@@ -194,13 +224,21 @@ namespace NFlow {
             if (ctx.islandImplicitStep && !ctx.sideEffectFree) {
                 // Non-DAE loops: the island advances itself here, once per major
                 // step (never during the solver's side-effect-free rhs / roots
-                // evaluations, whose stage vectors must not be written).
+                // evaluations, whose stage vectors must not be written). Re-latch
+                // the switch modes from the live control at the sample instant.
+                if (L->hasSwitch) {
+                    islandLatchSwitchModes(ctx, b, L);
+                }
                 islandImplicitAdvance(ctx, b, st, L);
-            } else if (ctx.initialStateSeed && L->hasIdealDiode) {
-                // DAE path, t = 0 seed evaluation: settle the latched diode modes
-                // against the live inputs (unlike INIT) and hand IDACalcIC a
+            } else if (ctx.initialStateSeed && (L->hasIdealDiode || L->hasSwitch)) {
+                // DAE path, t = 0 seed or a reinit at a scheduled source edge:
+                // re-latch the switch modes and settle the latched diode modes
+                // against the live inputs (unlike INIT), then hand IDACalcIC a
                 // consistent start. Islands without a latched mode keep their
                 // original cold start, so their trajectories are untouched.
+                if (L->hasSwitch) {
+                    islandLatchSwitchModes(ctx, b, L);
+                }
                 islandImplicitAdvance(ctx, b, st, L, true);
             }
             const double* x = blockX(ctx, b.nid);
@@ -420,15 +458,22 @@ namespace NFlow {
                 break;
             }
             case Kind::Switch: {
-                // Ideal switch: control from input port. Closed (control >
-                // 0.5) -> short, residual v = e_a - e_b = 0; open -> residual
-                // i = 0. i is the algebraic branch state either way.
+                // Ideal switch under a LATCHED mode (like the ideal diode): the
+                // branch equation flips only at a committed instant, never on a
+                // live read inside this residual, so the corrector can error-test
+                // across a comparator-gated crossing. Closed -> short, residual
+                // v = e_a - e_b = 0; open -> residual i = 0. i is the algebraic
+                // branch state either way.
                 const double iBr = xat(c.stateIndex);
-                double ctrl = 1.0;
-                if (c.port >= 0) {
-                    ctrl = getInput(ctx, b.nid, c.port, 1.0);
+                const size_t ci = static_cast<size_t>(&c - L->comps.data());
+                bool closed;
+                if (ci < L->switchMode.size()) {
+                    closed = (L->switchMode[ci] != 0);
+                } else {
+                    const double ctrl = (c.port >= 0) ? getInput(ctx, b.nid, c.port, 1.0) : 1.0;
+                    closed = (ctrl > 0.5);
                 }
-                if (ctrl > 0.5) {
+                if (closed) {
                     out[c.stateIndex] = ePot(c.a) - ePot(c.b);
                 } else {
                     out[c.stateIndex] = iBr;

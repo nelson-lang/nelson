@@ -182,6 +182,12 @@ namespace NFlow {
         islandMeta.sampleTime = SampleTimeClass::Continuous;
         islandMeta.directFeedthrough = false;
         islandMeta.acceptsVectorInputs = false;
+        // Island signal inputs are heterogeneous control / drive lines (a boolean
+        // switch gate, a double source reference), so they need not share a type;
+        // the outputs are physical sensor readings, always real doubles, never
+        // the inherited type of a boolean gate feeding a switch.
+        islandMeta.allowMixedInputTypes = true;
+        islandMeta.fixedOutSigType = static_cast<int>(SigType::Double);
         islandMeta.continuousStateCount = [](const Block& blk, const ValMap& vars) {
             return physicalIslandStateCount(blk, vars);
         };
@@ -208,6 +214,8 @@ namespace NFlow {
         mechMeta.sampleTime = SampleTimeClass::Continuous;
         mechMeta.directFeedthrough = false;
         mechMeta.acceptsVectorInputs = false;
+        mechMeta.allowMixedInputTypes = true; // heterogeneous force / control inputs
+        mechMeta.fixedOutSigType = static_cast<int>(SigType::Double); // real sensor outputs
         mechMeta.continuousStateCount = [](const Block& blk, const ValMap& vars) {
             return mechanicalIslandStateCount(blk, vars);
         };
@@ -222,6 +230,8 @@ namespace NFlow {
         planarMeta.sampleTime = SampleTimeClass::Continuous;
         planarMeta.directFeedthrough = false;
         planarMeta.acceptsVectorInputs = false;
+        planarMeta.allowMixedInputTypes = true; // heterogeneous force / control inputs
+        planarMeta.fixedOutSigType = static_cast<int>(SigType::Double); // real sensor outputs
         planarMeta.continuousStateCount = [](const Block& blk, const ValMap& vars) {
             return planarIslandStateCount(blk, vars);
         };

@@ -18,7 +18,12 @@
 %=============================================================================
 hroot = [modulepath('nflow_blocks'), '/help'];
 langs = {'en_US', 'fr_FR'};
-lineMark = {'Code generation: supported', 'Generation de code'};
+% The XML is read as raw bytes, so the fr_FR marker stays ASCII (a substring of
+% both the accented "Génération de code :" and an unaccented "Generation de
+% code :") to match whatever accenting the help pages carry, independent of
+% source encoding. The trailing " :" keeps it on the indicator paragraph and off
+% the plain "Code generation" capability-table cell (which carries no colon).
+lineMark = {'Code generation: supported', 'ration de code :'};
 skip_testsuite(~isdir([hroot, '/', langs{1}, '/xml']), ...
   'NFlow XML help sources are not present in the installed layout.');
 mismatches = {};

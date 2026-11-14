@@ -52,8 +52,10 @@ namespace NFlow {
         reg.registerCodegen("combinatorialLogic",
             BlockRegistry::BlockCodegenPair {
                 getCodeGenCCombinatorialLogic(), getCodeGenRustCombinatorialLogic() });
-        reg.registerHandler(
-            "relationalOperator", handleRelationalOperator, { Phase::ALGEBRAIC }, "builtin.logic");
+        BlockMetadata relMeta;
+        relMeta.numZeroCrossings = 1; // operand-difference crossing surface (lhs - rhs)
+        reg.registerHandler("relationalOperator", handleRelationalOperator,
+            { Phase::ALGEBRAIC, Phase::ZERO_CROSSING }, "builtin.logic", relMeta);
         reg.registerHandler(
             "logicalOperator", handleLogicalOperator, { Phase::ALGEBRAIC }, "builtin.logic");
         reg.registerHandler("switchCase", handleSwitchCase, { Phase::ALGEBRAIC }, "builtin.logic");

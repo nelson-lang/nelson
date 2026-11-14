@@ -123,8 +123,44 @@ namespace NFlow {
             { Phase::INIT, Phase::OUTPUT, Phase::UPDATE }, "builtin.source");
         reg.registerHandler("repeatingSequenceStair", handleRepeatingSequenceStair,
             { Phase::INIT, Phase::OUTPUT, Phase::UPDATE }, "builtin.source");
-        reg.registerHandler("repeatingSequenceInterpolated", handleRepeatingSequenceInterpolated,
-            { Phase::OUTPUT }, "builtin.source");
+        {
+            // The (TimeValues, OutValues) table wraps from its last entry back to
+            // its first at each period boundary (t = k*period); if those values
+            // differ the source jumps there (a sawtooth / trailing-edge carrier).
+            // List those hard edges so the DAE solver stops just before each and
+            // cold-restarts past it, as pulse / sawTooth already do.
+            BlockMetadata rsiMeta;
+            rsiMeta.directFeedthrough = true;
+            rsiMeta.discontinuityInstants = [](const Block& b, const ValMap& vars, double t0,
+                                                double t1, std::vector<double>& out) {
+                nflow::BlockDescriptor bd(b, vars);
+                const std::vector<double> tv = bd.paramList("TimeValues");
+                const std::vector<double> ov = bd.paramList("OutValues");
+                const int n = static_cast<int>(std::min(tv.size(), ov.size()));
+                if (n < 2) {
+                    return;
+                }
+                const double period = tv[n - 1];
+                if (period <= 0.0 || ov[n - 1] == ov[0]) {
+                    return;
+                }
+                long k = static_cast<long>(std::floor(t0 / period));
+                if (k < 1) {
+                    k = 1;
+                }
+                for (;; ++k) {
+                    const double td = k * period;
+                    if (td > t1 + 1e-12) {
+                        break;
+                    }
+                    if (td > t0 + 1e-12) {
+                        out.push_back(td);
+                    }
+                }
+            };
+            reg.registerHandler("repeatingSequenceInterpolated",
+                handleRepeatingSequenceInterpolated, { Phase::OUTPUT }, "builtin.source", rsiMeta);
+        }
         {
             BlockMetadata sigGenMeta;
             sigGenMeta.directFeedthrough = true;

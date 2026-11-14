@@ -245,6 +245,13 @@ runSolverLoop(SolverLoopCtx& c)
                         return true;
                     }
                 }
+                // A comparator's zero-crossing surface (lhs - rhs) also reads
+                // signals, so the roots callback must refresh the algebraic chain
+                // feeding it (a carrier / duty routed through gains, or a duty
+                // produced by a pid in ALGEBRAIC) before the surface is sampled.
+                if (bb.type == "relationalOperator") {
+                    return true;
+                }
                 const size_t idx = static_cast<size_t>(bb.nid);
                 if (idx >= sts.size()) {
                     continue;
@@ -260,17 +267,19 @@ runSolverLoop(SolverLoopCtx& c)
         zcReadsSignals = (ng > 0) && anyCtrlSurface(blocks, blockState);
     }
     if (ng > 0) {
-        // Surfaces that depend on TIME alone (a step source) are not localised
-        // on the fixed-step path: a fixed-step stepper cannot land between
-        // samples, and stopping AT the instant would make the result depend on
-        // whether it falls on the sample grid. Held constant, the surface never
-        // changes sign. State events keep their localisation.
+        // Surfaces not localised on the fixed-step path: a fixed-step stepper
+        // cannot land between samples, and stopping AT the instant would make the
+        // result depend on whether it falls on the sample grid. This covers a
+        // TIME-only surface (a step source) and a comparator surface (lhs - rhs
+        // of a relationalOperator), both held constant so they never change sign.
+        // State events keep their localisation.
         std::vector<int> timeOnlyG;
         if (solverIsFixedRk) {
             std::function<void(const std::vector<Block>&, const std::vector<BlockState>&)> collect
                 = [&](const std::vector<Block>& bs, const std::vector<BlockState>& st) {
                       for (size_t i = 0; i < bs.size() && i < st.size(); ++i) {
-                          if (bs[i].type == "step" && st[i].gOffset >= 0) {
+                          if ((bs[i].type == "step" || bs[i].type == "relationalOperator")
+                              && st[i].gOffset >= 0) {
                               for (int k = 0; k < st[i].gLength; ++k) {
                                   timeOnlyG.push_back(st[i].gOffset + k);
                               }
@@ -579,6 +588,37 @@ runSolverLoop(SolverLoopCtx& c)
                 // Restart just PAST the discontinuity: a sign-based square wave
                 // still holds its old value exactly at the edge.
                 const double tRestart = discTime + discBack;
+                // A scheduled source edge is a committed instant, like a located
+                // root: run OUTPUT + ALGEBRAIC + EVENT at the post-edge time so a
+                // physical island re-latches its mode-held branches (an ideal
+                // switch gated by a source that jumps here, a diode at its knee)
+                // from the post-edge inputs and hands the reinit a consistent
+                // state in the new topology.
+                if (!eventIdx.empty()) {
+                    ctx.t = tRestart;
+                    ctx.x = xvec.data();
+                    ctx.xdot = xdotvec.data();
+                    ctx.nx = nx;
+                    ctx.sideEffectFree = false; // committed pass, state may change
+                    std::fill(outputs.begin(), outputs.end(), 0.0);
+                    for (int i : outputIdx) {
+                        auto fn = reg.getHandler(blocks[i].type);
+                        if (fn) {
+                            fn(ctx, blocks[i], Phase::OUTPUT);
+                        }
+                    }
+                    resolveLabelSources();
+                    if (!solveAlgebraicSystem()) {
+                        algLoopFailed = true;
+                        algLoopTime = tRestart;
+                    }
+                    for (int i : eventIdx) {
+                        auto fn = reg.getHandler(blocks[i].type);
+                        if (fn) {
+                            fn(ctx, blocks[i], Phase::EVENT);
+                        }
+                    }
+                }
                 SimDiagnostic rdiag;
                 if (!backend->reinit(tRestart, xvec.data(), rdiag)) {
                     return buildOutputJson("error",
@@ -590,11 +630,18 @@ runSolverLoop(SolverLoopCtx& c)
                 continue;
             }
             if (ar.status == AdvanceStatus::RootFound) {
+                // Reinit a hair PAST the root: an element whose equation flips at
+                // the surface (ideal switch) is still in its old mode exactly at
+                // the root, and a reinit there would re-solve the old topology.
+                const double rootBack = 1.0e-9 * std::max(1.0, std::fabs(ar.t));
+                const double tRoot = ar.t + rootBack;
                 // Event-reacting blocks (FMI Model Exchange) may reset the
-                // continuous state: OUTPUT+ALGEBRAIC at the crossing so their
-                // inputs are current, then EVENT writes back into xvec.
+                // continuous state: OUTPUT+ALGEBRAIC just PAST the crossing so
+                // their inputs are current (a mode-held switch re-latches from the
+                // post-crossing control, unambiguous where the surface sits
+                // exactly on the threshold), then EVENT writes back into xvec.
                 if (!eventIdx.empty()) {
-                    ctx.t = ar.t;
+                    ctx.t = tRoot;
                     ctx.x = xvec.data();
                     ctx.xdot = xdotvec.data();
                     ctx.nx = nx;
@@ -618,11 +665,6 @@ runSolverLoop(SolverLoopCtx& c)
                         }
                     }
                 }
-                // Reinit a hair PAST the root: an element whose equation flips at
-                // the surface (ideal switch) is still in its old mode exactly at
-                // the root, and a reinit there would re-solve the old topology.
-                const double rootBack = 1.0e-9 * std::max(1.0, std::fabs(ar.t));
-                const double tRoot = ar.t + rootBack;
                 SimDiagnostic rdiag;
                 if (!backend->reinit(tRoot, xvec.data(), rdiag)) {
                     return buildOutputJson("error",
