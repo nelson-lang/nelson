@@ -103,6 +103,10 @@ struct TarArchive::Impl
         }
         // ustar, with pax records for long or non-ASCII names and big sizes.
         archive_write_set_format_pax_restricted(writer);
+        // Entry names are UTF-8 bytes set as plain pathnames. hdrcharset=BINARY
+        // makes the pax writer emit them verbatim instead of converting through
+        // the C locale, which yields a NULL path (crash) or mojibake.
+        archive_write_set_options(writer, "hdrcharset=BINARY");
         if (addFilter(writer, compression) != ARCHIVE_OK) {
             fail(ZipErrorCode::UnsupportedCompression,
                 "This compression is not available in this build.");
@@ -151,7 +155,7 @@ struct TarArchive::Impl
             fail(ZipErrorCode::InvalidArgument, "tar entry name is empty.");
         }
         struct archive_entry* item = archive_entry_new();
-        archive_entry_set_pathname_utf8(item, name.c_str());
+        archive_entry_set_pathname(item, name.c_str());
         archive_entry_set_filetype(item, isDirectory ? AE_IFDIR : AE_IFREG);
         archive_entry_set_perm(item, mode & 07777);
         archive_entry_set_size(item, static_cast<la_int64_t>(size));

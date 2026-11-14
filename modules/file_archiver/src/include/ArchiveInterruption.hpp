@@ -17,7 +17,7 @@
 // calling thread, the loops call throwIfInterrupted().
 namespace Nelson::ArchiveInterruption {
 //=============================================================================
-class Interrupted : public std::runtime_error
+class NLSFILE_ARCHIVER_IMPEXP Interrupted : public std::runtime_error
 {
 public:
     Interrupted() : std::runtime_error("Archive operation interrupted.") { }

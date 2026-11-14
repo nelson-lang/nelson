@@ -32,7 +32,7 @@ enum class StreamErrorCode
     WriteFailed
 };
 //=============================================================================
-class StreamError : public std::runtime_error
+class NLSFILE_ARCHIVER_IMPEXP StreamError : public std::runtime_error
 {
 public:
     StreamError(StreamErrorCode code, const std::string& message)

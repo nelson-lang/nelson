@@ -1032,6 +1032,11 @@ syncAxisLabelColor(GOAxis* axis, const std::wstring& labelName, const std::wstri
     }
     text->setThreeVectorDefault(GO_COLOR_PROPERTY_NAME_STR, rgb[0], rgb[1], rgb[2]);
     markTextFontChanged(text, GO_COLOR_PROPERTY_NAME_STR);
+    // The axis color is an automatic push, not a user set, so mark ColorMode as
+    // changed (without altering its value) so updateState does not read the color
+    // change as a user set and flip the label's ColorMode. This preserves an auto
+    // label as auto (openfig restore) and a user-colored label as manual.
+    markTextFontChanged(text, GO_COLOR_MODE_PROPERTY_NAME_STR);
 }
 //=============================================================================
 static void
