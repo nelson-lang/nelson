@@ -79,6 +79,7 @@ Nelson 2.0 is a major release. Existing scripts run faster, larger projects can 
 - `filewrite` is about 6 times faster on large text.
 - `patch` no longer widens manual axes limits (`XLim`, `YLim`, `ZLim`) to include the new patch.
 - `xlim`, `ylim` and `zlim` accept and return `datetime` limits on datetime axes; `image`, `imagesc` and `imshow` fix manual limits to the image and leave a held axes unchanged.
+- `drawnow`, `pause`, `figure`, `waitfor` and the prompt run every pending graphics and timer callback instead of one per call.
 
 ### Removed
 

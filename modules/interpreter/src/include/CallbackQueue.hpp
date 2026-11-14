@@ -78,7 +78,7 @@ public:
         if (!eval || !eval->haveEventsLoop()) {
             return false;
         }
-        return process(eval);
+        return processPending(eval);
     }
     bool
     processCallbackNow(Evaluator* eval)

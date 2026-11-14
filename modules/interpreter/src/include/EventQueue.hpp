@@ -53,7 +53,7 @@ public:
         if (!eval) {
             return false;
         }
-        return process(eval);
+        return processPending(eval);
     }
     ~EventQueue() { clearAllQueues(); }
 };

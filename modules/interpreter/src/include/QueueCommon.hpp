@@ -170,6 +170,26 @@ namespace detail {
             return true;
         }
         //=============================================================================
+        // Runs the callbacks waiting at entry (one re-queued meanwhile waits for the next drain).
+        bool
+        processPending(Evaluator* eval)
+        {
+            size_t budget = 0;
+            {
+                std::lock_guard<std::mutex> lock(m_mutex);
+                budget = waitingCallbacks.size();
+            }
+            bool executed = false;
+            // At least one pass: a blocked 'cancel' waiting callback is dropped by process().
+            do {
+                if (!process(eval)) {
+                    break;
+                }
+                executed = true;
+            } while (--budget > 0);
+            return executed;
+        }
+        //=============================================================================
         std::mutex m_mutex;
         std::vector<CallbackType> waitingCallbacks;
         std::vector<CallbackType> inProgressCallbacks;
