@@ -166,11 +166,7 @@ function reserveFigureTitleSpace(fig)
     else
       axesList(k).Position = [innerLeft(col), innerBottom(rowFromBottom), innerWidth, innerHeight];
     end
-    if n == 1 && isUnitAxisLimits(axesList(k))
-      axesList(k).XTick = 0:0.1:1;
-    elseif useCompactSubplotLayout(fig) && n == 2 && isDefaultUnitAxis(axesList(k))
-      axesList(k).XTick = [0 0.5 1];
-    end
+    % the reference never pins ticks here: the resized axes keep XTick*Mode 'auto'
   end
 end
 %=============================================================================
@@ -297,15 +293,6 @@ function tf = useDefaultSubplotLayout(fig)
   position = fig.Position;
   tf = numel(position) >= 4 && abs(position(3) - 859) <= 1 ...
     && abs(position(4) - 517) <= 1;
-end
-%=============================================================================
-function tf = isDefaultUnitAxis(ax)
-  tf = numel(ax.XLim) == 2 && all(abs(ax.XLim - [0 1]) < 1e-12) ...
-    && numel(ax.XTick) == 6 && all(abs(ax.XTick - (0:0.2:1)) < 1e-12);
-end
-%=============================================================================
-function tf = isUnitAxisLimits(ax)
-  tf = numel(ax.XLim) == 2 && all(abs(ax.XLim - [0 1]) < 1e-12);
 end
 %=============================================================================
 function axesList = directFigureAxes(fig)

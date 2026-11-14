@@ -114,7 +114,11 @@ asserts.isapprox(ax3.OuterPosition, [0.0789601386481802 0.0625326453610331 0.392
   layoutTolerance);
 asserts.isapprox(ax4.OuterPosition, [0.533351661636479 0.0625326453610331 0.410565433926187 0.410791969813611], ...
   layoutTolerance);
-asserts.isapprox(ax1.XTick, [0 0.5 1], layoutTolerance);
+% sgtitle must not pin ticks: the resized axes keep XTick*Mode 'auto' (reference parity)
+asserts.isequal(ax1.XTickMode, 'auto');
+asserts.isequal(ax1.XTickLabelMode, 'auto');
+% narrow-axis auto value here is 0:0.2:1; the reference computes [0 0.5 1] (separate tick-density gap)
+asserts.isapprox(ax1.XTick, 0:0.2:1, layoutTolerance);
 asserts.isapprox(ax1.YTick, 0:0.2:1, layoutTolerance);
 asserts.isapprox(ax1.Title.Position, [0.50000085241546 1.01397058823529 0.5], titleTolerance);
 asserts.isapprox(ax2.Title.Position, [0.500002108025275 1.01397058823529 0.5], titleTolerance);
@@ -170,6 +174,9 @@ asserts.isapprox(ax1.Position, [0.13 0.547209346211096 0.775 0.319759454647153],
 asserts.isapprox(ax2.Position, [0.13 0.103098992534494 0.775 0.319759454647153], layoutTolerance);
 asserts.isapprox(ax1.OuterPosition, [0 0.507789057565393 1 0.401534815756624], layoutTolerance);
 asserts.isapprox(ax2.OuterPosition, [0 0.061355744884428 1 0.403857774760988], layoutTolerance);
+% the wide 2x1 axis keeps XTick*Mode 'auto' and still auto-computes 0:0.1:1
+asserts.isequal(ax1.XTickMode, 'auto');
+asserts.isequal(ax1.XTickLabelMode, 'auto');
 asserts.isapprox(ax1.XTick, 0:0.1:1, layoutTolerance);
 asserts.isapprox(ax1.YTick, 0:0.2:1, layoutTolerance);
 asserts.isapprox(ax1.Title.Position, [0.500000638961792 1.01419836956522 0.5], titleTolerance);
