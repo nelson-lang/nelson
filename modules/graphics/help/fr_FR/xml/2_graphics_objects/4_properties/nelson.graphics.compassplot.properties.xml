@@ -7,7 +7,7 @@
   <description>
     <p>Cette page documente les propriétés visibles retournées par <b>properties</b> pour un objet graphique <b>compassplot</b>.</p>
     <table>
-      <tr><th>Propriété</th><th>Action</th><th>Type et valeurs prises en charge</th></tr>
+      <tr><th>Propriete</th><th>Action</th><th>Type et valeurs prises en charge</th></tr>
       <tr><td><b>AffectAutoLimits</b></td><td>contrôle si l'objet contribue aux limites automatiques des axes.</td><td>Type: texte scalaire ou vecteur ligne de caractères. Valeurs prises en charge: 'on', 'off'.</td></tr>
       <tr><td><b>AlignVertexCenters</b></td><td>met à jour l'alignement du rendu des lignes au prochain rafraîchissement.</td><td>Type: texte scalaire ou vecteur ligne de caractères. Valeurs prises en charge: 'on', 'off'.</td></tr>
       <tr><td><b>Annotation</b></td><td>met à jour les métadonnées d'annotation des outils graphiques.</td><td>Type: objet d'annotation graphique ou handle vide. Valeurs prises en charge: objet d'annotation associé ou handle graphique vide.</td></tr>
