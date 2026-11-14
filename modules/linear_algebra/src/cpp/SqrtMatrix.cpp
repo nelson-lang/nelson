@@ -25,6 +25,48 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+// A complex product where an exactly-zero operand annihilates to zero, even against an
+// infinity (plain 0 * Inf is NaN), and a real operand (zero imaginary part) multiplies
+// through its real part only so it never forms a 0 * Inf cross term. A nilpotent or singular
+// matrix's triangular root holds infinities; the unitary Schur back-transform must not let
+// them spread NaN into entries the unitary factor zeroes out.
+template <class T>
+static inline std::complex<T>
+robustComplexProduct(const std::complex<T>& a, const std::complex<T>& b)
+{
+    if ((a.real() == (T)0 && a.imag() == (T)0) || (b.real() == (T)0 && b.imag() == (T)0)) {
+        return std::complex<T>((T)0, (T)0);
+    }
+    if (a.imag() == (T)0) {
+        return std::complex<T>(a.real() * b.real(), a.real() * b.imag());
+    }
+    if (b.imag() == (T)0) {
+        return std::complex<T>(a.real() * b.real(), a.imag() * b.real());
+    }
+    return a * b;
+}
+//=============================================================================
+// Matrix product built on robustComplexProduct, used only for the back-transform of a
+// non-finite triangular root so the normal finite path keeps Eigen's fast product.
+template <class T>
+static Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>
+robustMatrixProduct(const Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>& A,
+    const Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>& B)
+{
+    using MatrixType = Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>;
+    MatrixType C = MatrixType::Zero(A.rows(), B.cols());
+    for (Eigen::Index j = 0; j < B.cols(); ++j) {
+        for (Eigen::Index i = 0; i < A.rows(); ++i) {
+            std::complex<T> sum((T)0, (T)0);
+            for (Eigen::Index k = 0; k < A.cols(); ++k) {
+                sum += robustComplexProduct(A(i, k), B(k, j));
+            }
+            C(i, j) = sum;
+        }
+    }
+    return C;
+}
+//=============================================================================
 template <class T>
 ArrayOf
 sqrtmComplex(ArrayOf& A)
@@ -86,7 +128,25 @@ sqrtmComplex(ArrayOf& A)
             }
         }
     }
-    matR = matU * sqrtT * matU.adjoint();
+    bool sqrtHasNonFinite = false;
+    for (Eigen::Index j = 0; j < order && !sqrtHasNonFinite; ++j) {
+        for (Eigen::Index i = 0; i < order; ++i) {
+            if (!std::isfinite(static_cast<double>(sqrtT(i, j).real()))
+                || !std::isfinite(static_cast<double>(sqrtT(i, j).imag()))) {
+                sqrtHasNonFinite = true;
+                break;
+            }
+        }
+    }
+    if (sqrtHasNonFinite) {
+        // Keep the infinities of a nilpotent/singular root from turning into NaN where the
+        // unitary factor has zeros: multiply with the zero-annihilating product instead.
+        MatrixType matUdense = matU;
+        MatrixType matUadj = matU.adjoint();
+        matR = robustMatrixProduct<T>(robustMatrixProduct<T>(matUdense, sqrtT), matUadj);
+    } else {
+        matR = matU * sqrtT * matU.adjoint();
+    }
     if (isSingular) {
         Warning(
             "Nelson:sqrtm:SingularMatrix", "Matrix is singular and may not have a square root.");
