@@ -8,45 +8,99 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = subplot(varargin)
+  varargout = {};
+  if ((nargin == 2) && ischar(varargin{1}) && strcmp(lower(varargin{1}), 'position'))
+    ax = axes('OuterPosition', varargin{2});
+    if (nargout > 0)
+      varargout{1} = ax;
+    end
+    return;
+  end
+  [m, n, p, ax, reuseAx, extraArgs] = parseSubplotArguments(varargin);
+  position = subplotCellPosition(m, n, p);
+  [fig, reuseAx] = placeReusedAxes(reuseAx, position);
+  [children, found] = clearOverlappingCells(fig, position, reuseAx);
+  if (~isempty(reuseAx))
+    axes(reuseAx);
+    ax = reuseAx;
+  elseif (~found || isempty(ax))
+    ax = axes('Position', position, 'LineStyleOrder', '-', 'Box', 'off');
+  end
+  if (~isempty(extraArgs))
+    set(ax, extraArgs{:});
+  end
+  if (isscalar(p) && isgraphics(ax, 'axes') && isSameGrid(children, ax, [m, n]))
+    % auto FontSize of a grid cell follows the grid size
+    ax.SubplotGrid_Hidden = [m, n];
+  end
+  fig.NextPlot = 'add';
+  if (nargout > 0)
+    varargout{1} = ax;
+  end
+end
+%=============================================================================
+function [m, n, p, ax, reuseAx, extraArgs] = parseSubplotArguments(args)
   m = 1;
   n = 1;
   p = 1;
   ax = [];
-  if ((nargin == 2) && ischar(varargin{1}))
-    if (strcmp(lower(varargin{1}), 'position'))
-      ax = axes('OuterPosition', varargin{2});
-      if (nargout > 0)
-        varargout{1} = ax;
-      end;
-      return;
-    end
+  reuseAx = [];
+  extraArgs = {};
+  nargs = numel(args);
+  if (nargs == 1)
+    [m, n, p, ax] = parseSingleArgument(args{1});
+    return;
   end
-  if (nargin == 1)
-    if (ischar(varargin{1}))
-      str = varargin{1};
-      if (length(str) ~= 3)
-        error('Nelson:subplot:unknownCommandOption', 'Unknown command option.');
-      end
-      m = double(str(1)) - double('0');
-      n = double(str(2)) - double('0');
-      p = double(str(3)) - double('0');
-    else
-      axes(varargin{1}(1));
-      ax = varargin{1}(1);
+  if (nargs >= 1)
+    m = round(args{1}(1));
+  end
+  if (nargs >= 2)
+    n = round(args{2}(1));
+  end
+  if (nargs >= 3)
+    p = round(args{3});
+    p = p(:);
+  end
+  if (nargs >= 4)
+    [reuseAx, extraArgs] = parseFourthArgument(args);
+  end
+end
+%=============================================================================
+function [m, n, p, ax] = parseSingleArgument(arg)
+  m = 1;
+  n = 1;
+  p = 1;
+  ax = [];
+  if (ischar(arg))
+    if (length(arg) ~= 3)
+      error('Nelson:subplot:unknownCommandOption', 'Unknown command option.');
     end
+    m = double(arg(1)) - double('0');
+    n = double(arg(2)) - double('0');
+    p = double(arg(3)) - double('0');
   else
-    if (nargin >= 1)
-      m = round(varargin{1}(1));
-    end
-    if (nargin >= 2)
-      n = round(varargin{2}(1));
-    end
-    if (nargin >= 3)
-      p = round(varargin{3});
-      p = p(:);
-    end
+    axes(arg(1));
+    ax = arg(1);
   end
-
+end
+%=============================================================================
+function [reuseAx, extraArgs] = parseFourthArgument(args)
+  reuseAx = [];
+  fourth = args{4};
+  if (isSubplotAxesHandle(fourth))
+    % subplot(m, n, p, ax): convert the existing axes into this cell
+    reuseAx = fourth;
+    extraArgs = args(5:end);
+    return;
+  end
+  % a 'replace'/'align'/'v6' option, or name/value pairs for the new axes
+  extraArgs = args(4:end);
+  if (ischar(extraArgs{1}) && any(strcmpi(extraArgs{1}, {'replace', 'align', 'v6'})))
+    extraArgs(1) = [];
+  end
+end
+%=============================================================================
+function position = subplotCellPosition(m, n, p)
   row = round(fix((p - 1) ./ n) + 1);
   col = round(mod(p - 1, n) + 1);
   position = subplotPosition(m, n, row, col);
@@ -54,34 +108,51 @@ function varargout = subplot(varargin)
     position = [min(position(:, 1:2)), max(position(:, 3:4))];
   end
   position = [position(1), position(2), position(3) - position(1), position(4) - position(2)];
-  fig = gcf();
+end
+%=============================================================================
+function [fig, reuseAx] = placeReusedAxes(reuseAx, position)
+  if (~isempty(reuseAx))
+    % place the given axes into the cell before the overlap pass so it survives
+    fig = ancestor(reuseAx, 'figure');
+    reuseAx.Units = 'normalized';
+    reuseAx.Position = position;
+  else
+    fig = gcf();
+  end
+end
+%=============================================================================
+function [children, found] = clearOverlappingCells(fig, position, reuseAx)
   children = allchild(fig);
   found = false;
   childrenToDelete = [];
   for (i = 1:length(children))
-    if (isgraphics(children(i), 'axes'))
-      currentPosition = children(i).Position;
-      if (all(abs(currentPosition - position) < 1e-12))
-        axes(children(i));
-        found = true;
-      elseif (intersectionBetweenRectangles(currentPosition, position))
-        childrenToDelete = [childrenToDelete, i];
-      end
+    if (~isempty(reuseAx) && isequal(children(i), reuseAx))
+      continue;
+    end
+    if (~(isgraphics(children(i), 'axes') || isgraphics(children(i), 'polaraxes')))
+      continue;
+    end
+    currentPosition = children(i).Position;
+    if (isempty(reuseAx) && all(abs(currentPosition - position) < 1e-12))
+      axes(children(i));
+      found = true;
+    elseif (intersectionBetweenRectangles(currentPosition, position))
+      childrenToDelete = [childrenToDelete, i];
     end
   end
   children(childrenToDelete) = [];
   fig.Children = children;
-  if (~found || isempty(ax))
-    ax = axes('Position', position, 'LineStyleOrder', '-', 'Box', 'off');
+end
+%=============================================================================
+function tf = isSubplotAxesHandle(value)
+  % true for a scalar axes/polaraxes/uiaxes handle passed as subplot(m, n, p, ax)
+  tf = false;
+  if (ischar(value) || isstring(value) || ~isscalar(value))
+    return;
   end
-  if isscalar(p) && isSameGrid(children, ax, [m, n])
-    % auto FontSize of a grid cell follows the grid size
-    ax.SubplotGrid_Hidden = [m, n];
+  if (isgraphics(value, 'axes') || isgraphics(value, 'polaraxes') || isgraphics(value, 'uiaxes'))
+    tf = true;
   end
-  fig.NextPlot = 'add';
-  if (nargout > 0)
-    varargout{1} = ax;
-  end;
 end
 %=============================================================================
 function tf = isSameGrid(children, ax, grid)
