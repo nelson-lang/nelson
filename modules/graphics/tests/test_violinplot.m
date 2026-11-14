@@ -98,7 +98,8 @@ axis tight;
 drawnow();
 asserts.isapprox(gca().YLim, [-2.781836918 8.781836918], 1e-9);
 close(f);
-f = figure('Visible', 'off');
+% Wide enough for the 2-unit step, whatever the default figure size.
+f = figure('Visible', 'off', 'Position', [50 50 700 420]);
 h = violinplot([1 2 3; 4 5 6], 'Orientation', 'horizontal');
 drawnow();
 asserts.isapprox(gca().XLim, [-6 14], 1e-12);

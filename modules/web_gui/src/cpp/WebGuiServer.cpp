@@ -990,7 +990,8 @@ WebGuiServer::openFigureWindowOnMainThread(long long handle, int width, int heig
         const std::wstring modulesDir
             = NelsonConfiguration::getInstance()->getNelsonModulesDirectory();
         if (!modulesDir.empty()) {
-            const std::wstring iconBase = modulesDir + L"/graphics/resources/icon-mathematical-plot";
+            const std::wstring iconBase
+                = modulesDir + L"/graphics/resources/icon-mathematical-plot";
             webui_set_icon_file(win, wstring_to_utf8(iconBase + L".png").c_str());
             prepareWebUiWindowIcon(win, iconBase + L".ico");
         }

@@ -25,6 +25,8 @@ target_include_directories(webview_helpers_tests
   PRIVATE
     "${WEBVIEW_DIR}/src/include"
     "${WEBVIEW_DIR}/src/webui/include"
+    "${NELSON_SOURCE_ROOT}/modules/nelson_manager/src/include"
+    "${NELSON_SOURCE_ROOT}/modules/characters_encoding/src/include"
 )
 target_include_directories(webview_examples_catalog_tests
   PRIVATE

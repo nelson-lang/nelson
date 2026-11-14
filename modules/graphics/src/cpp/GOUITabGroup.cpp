@@ -158,11 +158,12 @@ GOUITabGroup::contentRect(RenderInterface& gc)
 void
 GOUITabGroup::paintChrome(RenderInterface& gc)
 {
-    // The WebFigureBridge emits the tab header as live HTML controls. Painting
-    // the native header into the canvas as well creates a second, displaced
-    // row (and clips the live row when the group touches the canvas edge).
-    // Native Qt rendering keeps the existing chrome path below.
-    if (dynamic_cast<RenderWeb*>(&gc) != nullptr) {
+    // A live web page shows the tab header as HTML controls. Painting the header
+    // into its canvas as well creates a second, displaced row (and clips the live
+    // row when the group touches the canvas edge). A capture (saveas, getframe of a
+    // hidden figure) has no page: the header is drawn here, like on the native path.
+    auto* web = dynamic_cast<RenderWeb*>(&gc);
+    if (web != nullptr && web->hasLiveControls()) {
         return;
     }
     const std::vector<GOUITab*> tabs = tabsOf(this);

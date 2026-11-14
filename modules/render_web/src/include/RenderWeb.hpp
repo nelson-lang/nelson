@@ -225,6 +225,19 @@ public:
     {
         m_alwaysIncludeRawImagePayload = enabled;
     }
+    // A live page draws the controls as HTML elements over its canvas: a container then
+    // leaves the chrome those elements already show (the tab bar) out of the display list.
+    // A capture has no such page and gets everything drawn.
+    void
+    setLiveControls(bool enabled)
+    {
+        m_liveControls = enabled;
+    }
+    bool
+    hasLiveControls() const
+    {
+        return m_liveControls;
+    }
     uint64_t
     displaySignature(bool includeImagePayload = true) const;
     uint64_t
@@ -558,6 +571,7 @@ private:
     tryPushWebGlSurface(const std::vector<std::vector<coloredPoint>>& faces, bool flatfaces,
         const std::vector<std::vector<coloredPoint>>& edges, meshStyle meshstyle, double lineWidth,
         const std::wstring& lineStyle, uint64_t geometryToken);
+    bool m_liveControls = false;
 };
 //=============================================================================
 // Qt-free software rasterizer for a web display list (the primitives RenderWeb

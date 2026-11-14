@@ -589,6 +589,8 @@ extern "C"
         // resize re-fetch), so the pixels must travel with every such list.
         // Streaming animation frames keep the dedup: their client is persistent.
         renderer.setAlwaysIncludeRawImagePayload(!compactAnimationEnabled);
+        // The page draws the controls itself, tab bars included.
+        renderer.setLiveControls(true);
         fig->paintMe(renderer);
         renderer.flush3d(); // emit any 3D primitives still buffered after the paint
         const auto profilePaintDone = WebProfileClock::now();
