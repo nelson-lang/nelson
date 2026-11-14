@@ -33,6 +33,15 @@ private:
     uint64_t m_setOrder = 0;
 };
 //=============================================================================
+// [left bottom width height] given by the user: finite, width and height not negative.
+class GORectanglePositionProperty : public GOFourVectorProperty
+{
+public:
+    GORectanglePositionProperty() = default;
+    ~GORectanglePositionProperty() override = default;
+    void set(ArrayOf) override;
+};
+//=============================================================================
 // Position kept zero-based in pixels, seen one-based through get and set.
 class GOPixelOriginPositionProperty : public GOFourVectorProperty
 {

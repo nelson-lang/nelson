@@ -35,6 +35,10 @@ function varargout = newplot(varargin)
     fig = gr.CurrentFigure;
   end
 
+  if isscalar(ax) && isgraphics(ax, 'heatmap')
+    ax = releaseChartAxes(ax);
+  end
+
   figNextPlot = lower(fig.NextPlot);
   if (applyFigureNextPlot && any(strcmp(figNextPlot, {'replace', 'replacechildren', 'replaceall'})))
     clf(fig);
@@ -64,6 +68,15 @@ function varargout = newplot(varargin)
   end
   if (nargout == 1)
     varargout{1} = h;
+  end
+end
+%=============================================================================
+function ax = releaseChartAxes(chart)
+  % a new plot takes the place of a heatmap: its colorbar goes, its axes is reused
+  state = chart.UserData;
+  ax = state.Axes;
+  if isfield(state, 'Colorbar') && isscalar(state.Colorbar) && isgraphics(state.Colorbar)
+    delete(state.Colorbar);
   end
 end
 %=============================================================================

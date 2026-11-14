@@ -75,6 +75,7 @@
 #include "__web_figure_key_event__Builtin.hpp"
 #include "__web_figure_pan__Builtin.hpp"
 #include "__web_figure_size__Builtin.hpp"
+#include "__size_changed_deferred__Builtin.hpp"
 #include "__web_flush_callbacks__Builtin.hpp"
 #include "__web_figure_reference__Builtin.hpp"
 #include "__web_raster_png__Builtin.hpp"
@@ -131,6 +132,7 @@
 #include "graphics_object_eqBuiltin.hpp"
 #include "graphics_object_deleteBuiltin.hpp"
 #include "isgraphicsBuiltin.hpp"
+#include "getpixelpositionBuiltin.hpp"
 #include "grootBuiltin.hpp"
 #include "isValidGraphicsPropertyBuiltin.hpp"
 #include "canonicalGraphicsPropertyBuiltin.hpp"
@@ -314,6 +316,8 @@ static const nlsGateway gateway[] = {
     { "__web_figure_reference__",
         (ptrBuiltin)Nelson::GraphicsGateway::__web_figure_reference__Builtin, 1, 2, CPP_BUILTIN,
         NLS_OVERLOAD_AUTO_OFF },
+    { "__size_changed_deferred__",
+        (ptrBuiltin)Nelson::GraphicsGateway::__size_changed_deferred__Builtin, 0, 0, CPP_BUILTIN },
     { "__web_figure_size__", (ptrBuiltin)Nelson::GraphicsGateway::__web_figure_size__Builtin, 1, 3,
         CPP_BUILTIN, NLS_OVERLOAD_AUTO_OFF },
     { "__web_flush_callbacks__",
@@ -387,6 +391,8 @@ static const nlsGateway gateway[] = {
         NLS_OVERLOAD_AUTO_OFF },
     //=============================================================================
     { "isgraphics", (ptrBuiltin)Nelson::GraphicsGateway::isgraphicsBuiltin, 1, 1, CPP_BUILTIN },
+    { "getpixelposition", (ptrBuiltin)Nelson::GraphicsGateway::getpixelpositionBuiltin, 1, 2,
+        CPP_BUILTIN },
     { "groot", (ptrBuiltin)Nelson::GraphicsGateway::grootBuiltin, 1, 0, CPP_BUILTIN },
     { "gobjects", (ptrBuiltin)Nelson::GraphicsGateway::gobjectsBuiltin, 1, -1, CPP_BUILTIN },
     { "setappdata", (ptrBuiltin)Nelson::GraphicsGateway::setappdataBuiltin, 0, 3, CPP_BUILTIN },

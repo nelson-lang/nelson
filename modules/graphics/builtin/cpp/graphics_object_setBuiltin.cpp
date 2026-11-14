@@ -23,6 +23,7 @@
 #include "GOAxis.hpp"
 #include "GOFigure.hpp"
 #include "GOHelpers.hpp"
+#include "SizeChangedDispatcher.hpp"
 #include "GORoot.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "GOFiguresManager.hpp"
@@ -52,6 +53,9 @@ removeChildReference(go_handle parentHandle, go_handle childHandle);
 //=============================================================================
 static void
 setParent(GraphicsObject* fp, ArrayOf newParent);
+//=============================================================================
+static void
+setHeatmapParent(GraphicsObject* fp, go_handle goNewParent, ArrayOf newParent);
 //=============================================================================
 static bool
 setTiledLayoutProperty(GraphicsObject* fp, const std::wstring& propname, ArrayOf value);
@@ -138,6 +142,15 @@ isPolarStateSync(const std::wstring& propname, const ArrayOf& value);
 static bool
 isHeatmapChartProperty(const std::wstring& propname);
 //=============================================================================
+static bool
+isChartHostProperty(GraphicsObject* fp, const std::wstring& propname);
+//=============================================================================
+static GraphicsObject*
+chartFromValue(const ArrayOf& value);
+//=============================================================================
+static ArrayOf
+chartsAsStoredChildren(GraphicsObject* fp, const ArrayOf& children);
+//=============================================================================
 static void
 refreshHeatmapChart(GraphicsObject* chartObject);
 //=============================================================================
@@ -183,6 +196,8 @@ graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
     nelson_handle* gobjects = (nelson_handle*)(argIn[0].dataPointer());
     indexType nbElements = argIn[0].elementCount();
+    // A resize made by this call runs its SizeChangedFcn before the call returns.
+    SizeChangedScope sizeChangedScope;
     // Struct and name/value cell forms expand to one name/value list per handle.
     const std::vector<ArrayOfVector> pairsPerHandle = expandNameValueArguments(argIn, nbElements);
     for (indexType k = 0; k < nbElements; k++) {
@@ -240,6 +255,31 @@ graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
                     objectChanged = true;
                 } else if (propname == GO_PARENT_PROPERTY_NAME_STR) {
                     setParent(fp, pairs[ptr + 1]);
+                    objectChanged = true;
+                    // The colorbar of a moved heatmap is rebuilt in the new container.
+                    heatmapRefreshNeeded
+                        = heatmapRefreshNeeded || fp->isType(GO_PROPERTY_VALUE_HEATMAP_STR);
+                } else if (fp->isType(GO_PROPERTY_VALUE_FIGURE_STR)
+                    && propname == GO_CURRENT_AXES_PROPERTY_NAME_STR
+                    && chartFromValue(pairs[ptr + 1])) {
+                    // A chart made current: the axes that draws it is the stored current axes.
+                    GraphicsObject* chart = chartFromValue(pairs[ptr + 1]);
+                    ArrayOfVector hostArguments;
+                    hostArguments << argIn[0];
+                    hostArguments << ArrayOf::characterArray(propname);
+                    hostArguments << graphicsObjectHandle(
+                        findGraphicsObjectHandle(chart->getParentAxis()));
+                    graphics_object_setBuiltin(0, hostArguments);
+                } else if (isChartHostProperty(fp, propname)) {
+                    // The position given to a heatmap is applied to the axes that draws it,
+                    // which validates it, then kept by the chart.
+                    ArrayOfVector hostArguments;
+                    hostArguments << graphicsObjectHandle(
+                        findGraphicsObjectHandle(fp->getParentAxis()));
+                    hostArguments << ArrayOf::characterArray(propname);
+                    hostArguments << pairs[ptr + 1];
+                    graphics_object_setBuiltin(0, hostArguments);
+                    fp->findProperty(propname)->set(pairs[ptr + 1]);
                     objectChanged = true;
                 } else if (fp->getType() == GO_PROPERTY_VALUE_TILED_LAYOUT_STR) {
                     objectChanged
@@ -343,6 +383,8 @@ graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
                             }
                         }
                         savedPropertyValues.clear();
+                        // The restored values are the state already applied: nothing is pending.
+                        fp->clearAllChanged();
                         RaiseError(formatI18nMessage(Nelson::resolveMessageTemplate(
                                                          L"Nelson:graphics:gotErrorProperty",
                                                          L"Got error for property: %s"),
@@ -1097,6 +1139,10 @@ setParent(GraphicsObject* fp, ArrayOf newParent)
 {
 
     go_handle goNewParent = newParent.asGraphicsObjectScalar();
+    if (fp->isType(GO_PROPERTY_VALUE_HEATMAP_STR)) {
+        setHeatmapParent(fp, goNewParent, newParent);
+        return;
+    }
     validateGO(goNewParent);
     go_handle childHandle = findGraphicsObjectHandle(fp);
     if (childHandle == HANDLE_UNASSIGNED_OBJECT) {
@@ -1120,6 +1166,96 @@ setParent(GraphicsObject* fp, ArrayOf newParent)
         removeChildReference(oldParents[0], childHandle);
     }
     addChildReference(goNewParent, childHandle);
+}
+//=============================================================================
+// A Children list read from a container names a chart for its host axes and colorbar:
+// the stored list gets them back.
+static ArrayOf
+chartsAsStoredChildren(GraphicsObject* fp, const ArrayOf& children)
+{
+    if (children.dataClass() != NLS_GO_HANDLE || children.isEmpty()) {
+        return children;
+    }
+    const int64* handles = static_cast<const int64*>(children.dataPointer());
+    const indexType count = children.elementCount();
+    std::vector<int64> stored;
+    bool changed = false;
+    for (indexType k = 0; k < count; ++k) {
+        GraphicsObject* object
+            = handles[k] >= HANDLE_OFFSET_OBJECT && !isDeletedGraphicsObject(handles[k])
+            ? findGraphicsObject(handles[k], false)
+            : nullptr;
+        std::vector<int64> owned = chartOwnedHandles(object);
+        if (owned.empty() || object->getParentAxis() == fp) {
+            stored.push_back(handles[k]);
+        } else {
+            stored.insert(stored.end(), owned.begin(), owned.end());
+            changed = true;
+        }
+    }
+    if (!changed) {
+        return children;
+    }
+    auto* dp = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_GO_HANDLE, stored.size());
+    ArrayOf ret = ArrayOf(NLS_GO_HANDLE, Dimensions(stored.size(), 1), dp);
+    for (size_t k = 0; k < stored.size(); ++k) {
+        dp[k] = stored[k];
+    }
+    return ret;
+}
+//=============================================================================
+// The heatmap a property value names, nullptr for anything else.
+static GraphicsObject*
+chartFromValue(const ArrayOf& value)
+{
+    if (!value.isGraphicsObject()) {
+        return nullptr;
+    }
+    ArrayOfVector arguments;
+    arguments << value;
+    return targetedChart(arguments);
+}
+//=============================================================================
+// True for the properties of a heatmap that its host axes holds.
+static bool
+isChartHostProperty(GraphicsObject* fp, const std::wstring& propname)
+{
+    if (!fp->isType(GO_PROPERTY_VALUE_HEATMAP_STR) || !fp->getParentAxis()) {
+        return false;
+    }
+    return propname == GO_POSITION_PROPERTY_NAME_STR
+        || propname == GO_INNER_POSITION_PROPERTY_NAME_STR
+        || propname == GO_OUTER_POSITION_PROPERTY_NAME_STR || propname == GO_UNITS_PROPERTY_NAME_STR
+        || propname == GO_POSITION_CONSTRAINT_PROPERTY_NAME_STR;
+}
+//=============================================================================
+// A heatmap moves with its host axes, and only to a figure, a ui container or a layout.
+static void
+setHeatmapParent(GraphicsObject* fp, go_handle goNewParent, ArrayOf newParent)
+{
+    GraphicsObject* container = nullptr;
+    if (goNewParent != HANDLE_ROOT_OBJECT) {
+        try {
+            container = graphicsObjectFromHandle(goNewParent, false);
+        } catch (const NelsonException&) {
+            container = nullptr;
+        }
+    }
+    const bool validContainer = container
+        && (container->isType(GO_PROPERTY_VALUE_FIGURE_STR)
+            || container->isType(GO_PROPERTY_VALUE_UIPANEL_STR)
+            || container->isType(GO_PROPERTY_VALUE_UITAB_STR)
+            || container->isType(GO_PROPERTY_VALUE_UIBUTTONGROUP_STR)
+            || container->isType(GO_PROPERTY_VALUE_UIGRIDLAYOUT_STR)
+            || container->isType(GO_PROPERTY_VALUE_TILED_LAYOUT_STR));
+    if (!validContainer) {
+        Error(L"Nelson:heatmap:invalidParent",
+            L"Parent must be a figure, a ui container or a tiled layout.");
+    }
+    GraphicsObject* host = fp->getParentAxis();
+    if (host) {
+        setParent(host, newParent);
+    }
 }
 //=============================================================================
 static void
@@ -1170,8 +1306,9 @@ removeChildReference(go_handle parentHandle, go_handle childHandle)
 }
 //=============================================================================
 static void
-setChildren(GraphicsObject* fp, ArrayOf childrenToAdd)
+setChildren(GraphicsObject* fp, ArrayOf childrenGiven)
 {
+    ArrayOf childrenToAdd = chartsAsStoredChildren(fp, childrenGiven);
     const int64* dp = static_cast<const int64*>(childrenToAdd.dataPointer());
     for (int i = 0; i < childrenToAdd.elementCount(); i++) {
         validateGO(dp[i]);

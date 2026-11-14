@@ -10,6 +10,13 @@
 function varargout = title(varargin)
   narginchk(1, 10000);
   nargoutchk(0, 2);
+  [handled, chartOutput] = chartConvenience('title', varargin);
+  if handled
+    if nargout > 0
+      varargout{1} = chartOutput;
+    end
+    return
+  end
 
   if (isgraphics(varargin{1}, 'tiledlayout'))
     if nargin < 2

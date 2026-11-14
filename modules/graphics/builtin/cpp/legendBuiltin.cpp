@@ -676,6 +676,10 @@ legendBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 0);
     nargoutcheck(nLhs, 0, 4);
+    if (targetedChart(argIn)) {
+        Error(L"Nelson:heatmap:unsupportedFunction", L"Using %s with heatmap is not supported.",
+            std::wstring(L"legend"));
+    }
 
     size_t index = 0;
     int64 peerHandle = HANDLE_UNASSIGNED_OBJECT;

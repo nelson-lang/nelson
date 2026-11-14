@@ -218,9 +218,9 @@ GOHeatmapChart::GOHeatmapChart() : GOGroup()
     registerProperty(new GOHeatmapFontSizeProperty, GO_FONT_SIZE_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_FONT_NAME_PROPERTY_NAME_STR);
     registerProperty(new GOUnitsProperty, GO_UNITS_PROPERTY_NAME_STR);
-    registerProperty(new GOFourVectorProperty, GO_POSITION_PROPERTY_NAME_STR);
-    registerProperty(new GOFourVectorProperty, GO_INNER_POSITION_PROPERTY_NAME_STR);
-    registerProperty(new GOFourVectorProperty, GO_OUTER_POSITION_PROPERTY_NAME_STR);
+    registerProperty(new GORectanglePositionProperty, GO_POSITION_PROPERTY_NAME_STR);
+    registerProperty(new GORectanglePositionProperty, GO_INNER_POSITION_PROPERTY_NAME_STR);
+    registerProperty(new GORectanglePositionProperty, GO_OUTER_POSITION_PROPERTY_NAME_STR);
     registerProperty(new GORestrictedStringProperty({ GO_PROPERTY_VALUE_SCALED_STR,
                          GO_PROPERTY_VALUE_LOG_STR, GO_PROPERTY_VALUE_DIRECT_STR }),
         GO_COLOR_SCALING_PROPERTY_NAME_STR);

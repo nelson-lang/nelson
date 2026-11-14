@@ -152,12 +152,49 @@ filterHandleVisibleChildren(const ArrayOf& children)
     return ret;
 }
 //=============================================================================
+// A chart stands for its host axes and its colorbar in a Children list.
+static ArrayOf
+presentChartsInArray(const ArrayOf& children)
+{
+    if (children.dataClass() != NLS_GO_HANDLE || children.isEmpty()) {
+        return children;
+    }
+    const auto* handles = static_cast<const nelson_handle*>(children.dataPointer());
+    const indexType count = children.elementCount();
+    std::vector<int64> stored(handles, handles + count);
+    std::vector<int64> presented = presentCharts(stored);
+    if (presented == stored) {
+        return children;
+    }
+    auto* dp = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_GO_HANDLE, presented.size());
+    ArrayOf ret = ArrayOf(NLS_GO_HANDLE, Dimensions(presented.size(), 1), dp);
+    for (size_t k = 0; k < presented.size(); ++k) {
+        dp[k] = presented[k];
+    }
+    return ret;
+}
+//=============================================================================
 static ArrayOf
 propertyValueForUser(
     Evaluator* eval, GraphicsObject* fp, GOGenericProperty* property, const std::wstring& propname)
 {
+    // A heatmap is drawn in a host axes: its Parent is the container of that axes.
+    if (fp->isType(GO_PROPERTY_VALUE_HEATMAP_STR)
+        && StringHelpers::iequals(propname, GO_PARENT_PROPERTY_NAME_STR)) {
+        GraphicsObject* host = fp->getParentAxis();
+        GOGenericProperty* hostParent
+            = host ? host->findProperty(GO_PARENT_PROPERTY_NAME_STR, false) : nullptr;
+        if (hostParent) {
+            return hostParent->get();
+        }
+    }
     ArrayOf value = property->get();
+    if (fp->isType(GO_PROPERTY_VALUE_FIGURE_STR)
+        && StringHelpers::iequals(propname, GO_CURRENT_AXES_PROPERTY_NAME_STR)) {
+        return presentChartsInArray(value);
+    }
     if (StringHelpers::iequals(propname, GO_CHILDREN_PROPERTY_NAME_STR)) {
+        value = presentChartsInArray(value);
         if (stacksChildren(fp)) {
             value = reverseGraphicsObjectArray(value);
         }

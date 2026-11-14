@@ -29,10 +29,11 @@ function __heatmap_refresh__(h)
     catch
     end
   end
-  ax = ancestor(h, 'axes');
-  if isempty(ax)
+  % Parent reports the container: the host axes is kept in the chart state
+  if ~isfield(state, 'Axes') || ~isgraphics(state.Axes, 'axes')
     return
   end
+  ax = state.Axes;
   heatmapDrawContents(ax, h, state.ColorData, state.XData, state.YData, opts);
 end
 %=============================================================================

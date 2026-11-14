@@ -47,10 +47,38 @@ function varargout = heatmap(varargin)
 end
 %=============================================================================
 function [parent, args] = parseParent(args)
+  % leading parent, else the last 'Parent' name-value pair
   parent = [];
-  if ~isempty(args) && isscalar(args{1}) && (isgraphics(args{1}, 'axes') || isgraphics(args{1}, 'hggroup'))
-    parent = args{1};
+  if ~isempty(args) && isGraphicsValue(args{1})
+    parent = validateParent(args{1});
     args = args(2:end);
+    return
+  end
+  for k = (numel(args) - 1):-1:2
+    if ischar(args{k}) && strcmpi(args{k}, 'Parent') && isGraphicsValue(args{k + 1})
+      parent = validateParent(args{k + 1});
+      args([k, k + 1]) = [];
+      return
+    end
+  end
+end
+%=============================================================================
+function tf = isGraphicsValue(value)
+  % true for graphics objects, deleted ones included
+  tf = ~isnumeric(value) && strncmp(class(value), 'nelson.', 7) && ~istable(value);
+end
+%=============================================================================
+function parent = validateParent(parent)
+  invalidParent = 'Parent must be a figure, a ui container or a tiled layout.';
+  if ~isscalar(parent)
+    error('Nelson:heatmap:invalidParent', invalidParent);
+  end
+  if ~isgraphics(parent)
+    error('Nelson:heatmap:deletedParent', 'Parent is a deleted graphics object.');
+  end
+  types = {'figure', 'uipanel', 'uitab', 'uibuttongroup', 'uigridlayout', 'tiledlayout'};
+  if ~any(strcmp(get(parent, 'Type'), types))
+    error('Nelson:heatmap:invalidParent', invalidParent);
   end
 end
 %=============================================================================
@@ -323,14 +351,69 @@ end
 %=============================================================================
 function [ax, group] = createHeatmapGroup(parent, chartArgs)
   if isempty(parent)
+    refuseHold();
     ax = newplot();
-    group = __heatmapchart__('Parent', ax, chartArgs{:});
-  elseif isgraphics(parent, 'hggroup')
-    group = __heatmapchart__('Parent', parent, chartArgs{:});
-    ax = ancestor(parent, 'axes');
   else
-    ax = parent;
-    group = __heatmapchart__('Parent', ax, chartArgs{:});
+    ax = axesInParent(parent);
+  end
+  % the chart starts at the place of the axes that draws it
+  group = __heatmapchart__('Parent', ax, chartArgs{:}, 'Units', ax.Units, 'Position', ax.Position);
+end
+%=============================================================================
+function ax = axesInParent(parent)
+  % the chart takes the place of the current axes of the container, else a new axes
+  ax = currentAxesOf(parent);
+  if ~isempty(ax)
+    legend(ax, 'off');
+    colorbar(ax, 'off');
+    ax = newplot(ax);
+  elseif isgraphics(parent, 'tiledlayout')
+    ax = nexttile(parent);
+  else
+    ax = axes('Parent', parent);
+  end
+end
+%=============================================================================
+function ax = currentAxesOf(parent)
+  % the current axes of the figure when the container holds it, else its latest axes;
+  % a chart counts for the axes that draws it
+  ax = [];
+  fig = ancestor(parent, 'figure');
+  current = fig.CurrentAxes;
+  if isscalar(current) && isAxesOrChart(current) && isequal(current.Parent, parent)
+    ax = drawingAxes(current);
+    return
+  end
+  children = get(parent, 'Children');
+  for k = 1:numel(children)
+    if isAxesOrChart(children(k))
+      ax = drawingAxes(children(k));
+      return
+    end
+  end
+end
+%=============================================================================
+function tf = isAxesOrChart(object)
+  tf = isgraphics(object, 'axes') || isgraphics(object, 'heatmap');
+end
+%=============================================================================
+function ax = drawingAxes(object)
+  ax = object;
+  if isgraphics(object, 'heatmap')
+    ax = object.UserData.Axes;
+  end
+end
+%=============================================================================
+function refuseHold()
+  % a heatmap replaces the current axes: it cannot be added to a held one
+  fig = get(groot, 'CurrentFigure');
+  if isempty(fig)
+    return
+  end
+  current = fig.CurrentAxes;
+  if isscalar(current) && isgraphics(current, 'axes') ...
+      && strcmp(fig.NextPlot, 'add') && strcmp(current.NextPlot, 'add')
+    error('Nelson:heatmap:holdOn', 'Adding a heatmap to an axes is not supported. Turn hold off.');
   end
 end
 %=============================================================================

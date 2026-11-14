@@ -106,6 +106,23 @@ stacksChildren(GraphicsObject* object);
 NLSGRAPHICS_IMPEXP std::vector<int64>
 reportedChildren(GraphicsObject* object);
 //=============================================================================
+// The heatmap chart drawn by this axes, -1 when the axes hosts none.
+NLSGRAPHICS_IMPEXP int64
+chartOfHostAxes(int64 axesHandle);
+//=============================================================================
+// What a heatmap chart owns besides its own content: its colorbar, then its host axes.
+NLSGRAPHICS_IMPEXP std::vector<int64>
+chartOwnedHandles(GraphicsObject* chart);
+//=============================================================================
+// Children as the user sees them: a chart stands for its host axes and its colorbar.
+NLSGRAPHICS_IMPEXP std::vector<int64>
+presentCharts(const std::vector<int64>& handles);
+//=============================================================================
+// Heatmap a convenience call acts on: its first argument when that is a heatmap, the chart
+// the current axes draws when no graphics object is given, nullptr otherwise.
+NLSGRAPHICS_IMPEXP GraphicsObject*
+targetedChart(const ArrayOfVector& argIn);
+//=============================================================================
 NLSGRAPHICS_IMPEXP bool
 isVisibleGraphicsHandle(int64 handle);
 //=============================================================================

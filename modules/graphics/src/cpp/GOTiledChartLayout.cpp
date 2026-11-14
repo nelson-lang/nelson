@@ -128,9 +128,9 @@ GOTiledChartLayout::registerProperties()
     registerProperty(new GOGObjectsProperty, GO_X_LABEL_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_Y_LABEL_PROPERTY_NAME_STR);
 
-    registerProperty(new GOFourVectorProperty, GO_OUTER_POSITION_PROPERTY_NAME_STR);
-    registerProperty(new GOFourVectorProperty, GO_INNER_POSITION_PROPERTY_NAME_STR);
-    registerProperty(new GOFourVectorProperty, GO_POSITION_PROPERTY_NAME_STR);
+    registerProperty(new GORectanglePositionProperty, GO_OUTER_POSITION_PROPERTY_NAME_STR);
+    registerProperty(new GORectanglePositionProperty, GO_INNER_POSITION_PROPERTY_NAME_STR);
+    registerProperty(new GORectanglePositionProperty, GO_POSITION_PROPERTY_NAME_STR);
     {
         static const wchar_t* pcVals[] = { L"outerposition", L"innerposition", nullptr };
         registerProperty(

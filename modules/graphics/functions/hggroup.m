@@ -21,10 +21,10 @@ function varargout = hggroup(varargin)
         error('Nelson:hggroup:groupCanBeOnly', 'Group can be only a child of axes or hggroup.');
       end
     else
-      ax = gca();
+      ax = [];
     end
   else
-    ax = gca();
+    ax = [];
   end
 
   inputAsStruct = struct(inputArguments{:});
@@ -33,6 +33,10 @@ function varargout = hggroup(varargin)
     rmfield(inputAsStruct, 'Parent');
   end
   inputArguments = reshape([fieldnames(inputAsStruct)'; struct2cell(inputAsStruct)'], 1, []);
+  % the current axes is only the fallback: asking for it can create one
+  if isempty(ax)
+    ax = gca();
+  end
 
   h = __hggroup__('Parent', ax, inputArguments{:});
 

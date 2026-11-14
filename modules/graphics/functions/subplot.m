@@ -129,7 +129,9 @@ function [children, found] = clearOverlappingCells(fig, position, reuseAx)
     if (~isempty(reuseAx) && isequal(children(i), reuseAx))
       continue;
     end
-    if (~(isgraphics(children(i), 'axes') || isgraphics(children(i), 'polaraxes')))
+    % a heatmap occupies the place of the axes that draws it
+    if (~(isgraphics(children(i), 'axes') || isgraphics(children(i), 'polaraxes') ...
+        || isgraphics(children(i), 'heatmap')))
       continue;
     end
     currentPosition = children(i).Position;

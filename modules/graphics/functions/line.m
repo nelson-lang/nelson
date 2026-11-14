@@ -24,9 +24,16 @@ function varargout = line(varargin)
     ax = inputArguments{1};
     inputArguments = inputArguments(2:end);
   else
-    ax = gca();
+    ax = [];
   end
   [ax, inputArguments] = extractParentProperty(ax, inputArguments);
+  % the current axes is only the fallback: asking for it can create one
+  if isempty(ax)
+    ax = gca();
+    if isgraphics(ax, 'heatmap')
+      error('Nelson:heatmap:invalidChild', _('A heatmap cannot hold a %s.'), 'line');
+    end
+  end
 
   % When the caller does not pin an explicit Color, line() draws with the next
   % color of the axes ColorOrder and advances the shared color index, matching

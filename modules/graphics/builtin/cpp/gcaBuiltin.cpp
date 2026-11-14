@@ -33,7 +33,9 @@ gcaBuiltin(int nLhs, const ArrayOfVector& argIn)
         current = fig->findGoProperty(GO_CURRENT_AXES_PROPERTY_NAME_STR);
         fig->setRenderingStateInvalid(true);
     }
-    retval << graphicsObjectHandle(current);
+    // The chart an axes draws is the current axes for the user.
+    const int64 chart = chartOfHostAxes(current);
+    retval << graphicsObjectHandle(chart == -1 ? current : chart);
     return retval;
 }
 //=============================================================================

@@ -42,6 +42,7 @@
 #include "RenderWeb.hpp"
 #include "UIItemsHelpers.h"
 #include "GOUIHTML.h"
+#include "SizeChangedDispatcher.hpp"
 #include "GOUIRadioButton.h"
 #include "MainThreadTaskQueue.hpp"
 #include "GOUITable.h"
@@ -75,6 +76,7 @@ GOUIComponent::GOUIComponent() = default;
 GOUIComponent::~GOUIComponent()
 {
     setRestrictedStringDefault(GO_BEING_DELETED_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
+    forgetSizeChangedState(this);
     deleteWidget();
 }
 //=============================================================================
@@ -87,6 +89,8 @@ GOUIComponent::updateState()
         && uiComponentBindingFactory) {
         binding = uiComponentBindingFactory(this);
     }
+    // Before the children are refreshed: a shown container releases what it holds in one ordered pass.
+    notifyContainerShown(this);
     bool isNewWidget = false;
     if (binding && !binding->exists()) {
         isNewWidget = binding->create();
@@ -94,7 +98,12 @@ GOUIComponent::updateState()
     if (!binding || !binding->exists()) {
         onUnitsChanged(isNewWidget);
         syncSimplePositionTriplet(this);
+        warnSizeChangedFcnDisabled(this);
         clearAllChanged();
+        // No widget reports the geometry of a web container: compare its pixel size here.
+        if (parentGoWindow && parentGoWindow->isHeadlessHost()) {
+            uiNotifyWebContainerGeometry(this);
+        }
         return;
     }
     {
@@ -102,10 +111,16 @@ GOUIComponent::updateState()
         onUnitsChanged(isNewWidget);
         binding->applyCommonProperties(isNewWidget);
         binding->applyState(isNewWidget);
+        warnSizeChangedFcnDisabled(this);
         clearAllChanged();
     }
-    if (binding->consumeGeometryChange()) {
+    const bool resized = binding->consumeGeometryChange();
+    // A uifigure container also reports a pure move.
+    const bool moved = consumeContainerMove(this);
+    if (resized) {
         onGeometryChanged();
+    } else if (moved) {
+        notifySizeChanged(this);
     }
 }
 //=============================================================================

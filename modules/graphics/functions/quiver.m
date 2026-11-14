@@ -49,7 +49,7 @@ function keepBox = quiverKeepBox(parent)
   keepBox = false;
   if isempty(parent)
     fig = groot().CurrentFigure;
-    if ~isempty(fig) && ~isempty(fig.CurrentAxes)
+    if ~isempty(fig) && isscalar(fig.CurrentAxes) && isgraphics(fig.CurrentAxes, 'axes')
       keepBox = strcmp(fig.CurrentAxes.NextPlot, 'add');
     end
   elseif isgraphics(parent, 'axes')

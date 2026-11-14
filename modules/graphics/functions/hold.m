@@ -9,6 +9,10 @@
 %=============================================================================
 function hold(varargin)
   narginchk(0, 2);
+  [handled, chartOutput] = chartConvenience('hold', varargin);
+  if handled
+    return
+  end
   switch nargin()
     case 0
       ax = gca();

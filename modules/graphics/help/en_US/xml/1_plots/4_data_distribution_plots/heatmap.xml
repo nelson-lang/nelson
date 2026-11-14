@@ -44,7 +44,7 @@
     </param_input_item>
     <param_input_item>
       <param_name>parent</param_name>
-      <param_description>Axes or hggroup parent.</param_description>
+      <param_description>Parent: figure, uifigure, uipanel, uitab, uibuttongroup, uigridlayout or tiledlayout. It can also be given as the <b>Parent</b> name/value pair.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>propertyName</param_name>
@@ -63,8 +63,11 @@
   </param_output>
   <description>
     <p><b>heatmap</b> displays a numeric matrix as a scaled color image with row and column labels. For table input, categories are sorted and the color data is aggregated by category pair.</p>
+    <p>The chart takes the place of the current axes of <b>parent</b> (or of the chart drawn before), with its legend and colorbar; the other children of the container are kept. Without an axes, a new one is created, in the next tile for a tiled layout. The current figure is not changed. An axes or a group is not a valid parent.</p>
+    <p>The chart is a child of that container: it is what <b>Children</b>, <b>allchild</b>, <b>findobj</b>, <b>gca</b> and the figure <b>CurrentAxes</b> report, and its <b>Parent</b> property is the container. Assigning <b>Parent</b> moves the chart, assigning <b>Position</b>, <b>InnerPosition</b>, <b>OuterPosition</b> or <b>Units</b> places it, and <b>delete</b> removes it with its colorbar. The axes that draws the chart is not listed; it is the <b>Axes</b> field of <b>UserData</b>.</p>
+    <p>On a heatmap, <b>title</b>, <b>xlabel</b>, <b>ylabel</b>, <b>grid</b>, <b>colormap</b>, <b>clim</b> and <b>colorbar</b> set the matching chart property. <b>hold</b>, <b>axis</b>, <b>cla</b>, <b>legend</b>, <b>line</b> and <b>text</b> are not supported, and a heatmap cannot be added to a held axes. A new plot or <b>subplot</b> takes the place of the chart.</p>
     <p>With <b>heatmap(tbl, xvar, yvar)</b>, color data contains counts and <b>ColorMethod</b> is <b>count</b>. With <b>ColorVariable</b>, color data contains means and <b>ColorMethod</b> is <b>mean</b>.</p>
-    <p>This implementation returns a <b>heatmap</b> chart object. The chart <b>UserData</b> contains the fields <b>ChartType</b>, <b>Image</b>, <b>Grid</b>, <b>CellLabels</b>, <b>Colorbar</b>, <b>XData</b>, <b>YData</b>, <b>ColorData</b>, <b>SourceTable</b>, <b>XVariable</b>, <b>YVariable</b>, <b>ColorVariable</b>, <b>ColorMethod</b>, and <b>Options</b>.</p>
+    <p>This implementation returns a <b>heatmap</b> chart object. The chart <b>UserData</b> contains the fields <b>ChartType</b>, <b>Axes</b>, <b>Image</b>, <b>Grid</b>, <b>CellLabels</b>, <b>Colorbar</b>, <b>XData</b>, <b>YData</b>, <b>ColorData</b>, <b>SourceTable</b>, <b>XVariable</b>, <b>YVariable</b>, <b>ColorVariable</b>, <b>ColorMethod</b>, and <b>Options</b>.</p>
     <p>Supported name/value properties are <b>Title</b>, <b>XLabel</b>, <b>YLabel</b>, <b>SourceTable</b>, <b>XVariable</b>, <b>YVariable</b>, <b>ColorVariable</b>, <b>ColorMethod</b>, <b>XData</b>, <b>YData</b>, <b>XDisplayLabels</b>, <b>YDisplayLabels</b>, <b>ColorLimits</b>, <b>Colormap</b>, <b>ColorbarVisible</b>, <b>GridVisible</b>, <b>CellLabelFormat</b>, <b>CellLabelColor</b>, <b>MissingDataLabel</b>, <b>FontColor</b>, <b>FontSize</b>, and <b>Visible</b>.</p>
   </description>
   <examples>

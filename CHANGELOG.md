@@ -53,6 +53,7 @@ Nelson 2.0 is a major release. Existing scripts run faster, larger projects can 
 
 - Pie, donut, bubble, polar, and box charts, `isosurface`, annotations, and lighting.
 - `uifigure` components: panels, tabs, grids, sliders, gauges, tables, and trees.
+- `getpixelposition` and `setpixelposition`: read and set the position of a figure, container, control, or axes in pixels, whatever its `Units`.
 
 #### Interoperability
 
@@ -79,6 +80,9 @@ Nelson 2.0 is a major release. Existing scripts run faster, larger projects can 
 - `filewrite` is about 6 times faster on large text.
 - `patch` no longer widens manual axes limits (`XLim`, `YLim`, `ZLim`) to include the new patch.
 - `xlim`, `ylim` and `zlim` accept and return `datetime` limits on datetime axes; `image`, `imagesc` and `imshow` fix manual limits to the image and leave a held axes unchanged.
+- `'characters'` units of figures, axes and UI components use a 7 by 15 point cell (28/3 by 20 pixels), as the root `ScreenSize` already did, instead of 8 by 16 pixels.
+- `Position`, `InnerPosition` and `OuterPosition` of figures, axes, charts, layouts, legends, colorbars, `uicontrol` and UI components, and `Position` of `rectangle`, accept only four finite numeric values with a non-negative width and height.
+- `heatmap` takes a figure, a UI container or a tiled layout as parent (no longer an axes), as first argument or with `'Parent'`, replaces the current axes of that container and is reported as a child of the container (`Children`, `findobj`, `gca`, `Parent`); `title`, `xlabel`, `ylabel`, `grid`, `colormap`, `clim` and `colorbar` act on the chart, `delete` removes it with its colorbar; `line` and `hggroup` given a `'Parent'` no longer create an axes in the current figure.
 - `drawnow`, `pause`, `figure`, `waitfor` and the prompt run every pending graphics and timer callback instead of one per call.
 
 ### Removed

@@ -40,7 +40,7 @@ function varargout = plot(varargin)
   keepBox = false;
   if isempty(go)
     fig = groot().CurrentFigure;
-    if ~isempty(fig) && ~isempty(fig.CurrentAxes)
+    if ~isempty(fig) && isscalar(fig.CurrentAxes) && isgraphics(fig.CurrentAxes, 'axes')
       keepBox = strcmp(fig.CurrentAxes.NextPlot, 'add');
     end
     go = newplot();

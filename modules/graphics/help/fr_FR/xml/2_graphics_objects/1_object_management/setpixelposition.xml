@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>setpixelposition</keyword>
+  <short_description>Définit la position d'un objet graphique en pixels.</short_description>
+  <syntax>
+    <syntax_item>setpixelposition(h, position)</syntax_item>
+    <syntax_item>setpixelposition(h, position, recursive)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>h</param_name>
+      <param_description>un objet graphique scalaire, ou le numéro d'une figure. Rien n'est fait pour une valeur vide.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>position</param_name>
+      <param_description>un vecteur réel de quatre éléments [gauche bas largeur hauteur] en pixels.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>recursive</param_name>
+      <param_description>un scalaire logique : false (par défaut) quand la position est relative au parent, true quand elle est relative à la figure.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>setpixelposition(h, position)</b> définit la <b>Position</b> de <b>h</b> à partir d'une position en pixels relative à son parent, le premier pixel du parent valant 1. Les <b>Units</b> de <b>h</b> sont conservées : <b>Position</b> est stockée convertie dans ces unités.</p>
+    <p><b>setpixelposition(h, position, true)</b> prend une position relative à la figure qui contient <b>h</b> : les valeurs gauche et bas que <b>getpixelposition(parent, true)</b> renvoie pour le conteneur parent sont d'abord soustraites.</p>
+    <p>Pour une figure, la position est relative à l'écran.</p>
+    <p>Une erreur est levée pour un objet sans <b>Position</b> à quatre éléments, comme une ligne ou la racine.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure('Visible', 'off', 'Position', [100 100 500 400]);
+p = uipanel(f, 'Units', 'pixels', 'Position', [50 60 300 200]);
+b = uicontrol(p, 'Units', 'normalized', 'Position', [0 0 0.5 0.5]);
+setpixelposition(b, [21 31 100 40]);
+b.Position
+getpixelposition(b)
+setpixelposition(b, [70 90 100 40], true);
+getpixelposition(b)
+close(f);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/getpixelposition">getpixelposition</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/figure">figure</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/3_ui_controls/uipanel">uipanel</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -51,9 +51,9 @@ GOParallelPlot::GOParallelPlot() : GOGroup()
     registerProperty(new GOStringProperty, GO_TITLE_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_FONT_NAME_PROPERTY_NAME_STR);
     registerProperty(new GOUnitsProperty, GO_UNITS_PROPERTY_NAME_STR);
-    registerProperty(new GOFourVectorProperty, GO_OUTER_POSITION_PROPERTY_NAME_STR);
-    registerProperty(new GOFourVectorProperty, GO_INNER_POSITION_PROPERTY_NAME_STR);
-    registerProperty(new GOFourVectorProperty, GO_POSITION_PROPERTY_NAME_STR);
+    registerProperty(new GORectanglePositionProperty, GO_OUTER_POSITION_PROPERTY_NAME_STR);
+    registerProperty(new GORectanglePositionProperty, GO_INNER_POSITION_PROPERTY_NAME_STR);
+    registerProperty(new GORectanglePositionProperty, GO_POSITION_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_POSITION_CONSTRAINT_PROPERTY_NAME_STR);
     registerProperty(new GOLayoutOptionsProperty, GO_LAYOUT_PROPERTY_NAME_STR);
     sortProperties();

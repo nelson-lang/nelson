@@ -376,25 +376,115 @@ stacksChildren(GraphicsObject* object)
         || object->isType(GO_PROPERTY_VALUE_UIBUTTONGROUP_STR);
 }
 //=============================================================================
-static bool
-isOpaqueChartHostAxis(int64 handle)
+int64
+chartOfHostAxes(int64 axesHandle)
 {
-    GraphicsObject* axis = graphicsObjectFromHandle(handle, false);
+    if (axesHandle < HANDLE_OFFSET_OBJECT || isDeletedGraphicsObject(axesHandle)) {
+        return -1;
+    }
+    GraphicsObject* axis = findGraphicsObject(axesHandle, false);
     if (!axis || !axis->isType(GO_PROPERTY_VALUE_AXES_STR)) {
-        return false;
+        return -1;
     }
     auto* children = dynamic_cast<GOGObjectsProperty*>(
         axis->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false));
     if (!children) {
-        return false;
+        return -1;
     }
     for (int64 childHandle : children->data()) {
         GraphicsObject* child = findGraphicsObject(childHandle, false);
         if (child && child->isType(GO_PROPERTY_VALUE_HEATMAP_STR)) {
-            return true;
+            return childHandle;
         }
     }
-    return false;
+    return -1;
+}
+//=============================================================================
+std::vector<int64>
+chartOwnedHandles(GraphicsObject* chart)
+{
+    std::vector<int64> owned;
+    if (!chart || !chart->isType(GO_PROPERTY_VALUE_HEATMAP_STR)) {
+        return owned;
+    }
+    GOAxis* host = chart->getParentAxis();
+    if (!host) {
+        return owned;
+    }
+    // The drawing code records the colorbar it created in the chart state.
+    GOGenericProperty* userData = chart->findProperty(GO_USER_DATA_PROPERTY_NAME_STR, false);
+    if (userData) {
+        ArrayOf state = userData->get();
+        if (state.isStruct() && state.isScalar() && state.isField("Colorbar")) {
+            ArrayOf colorbar = state.field("Colorbar");
+            if (colorbar.isGraphicsObject() && colorbar.isScalar()) {
+                const int64 handle = *static_cast<const int64*>(colorbar.dataPointer());
+                if (handle >= HANDLE_OFFSET_OBJECT && !isDeletedGraphicsObject(handle)) {
+                    owned.push_back(handle);
+                }
+            }
+        }
+    }
+    owned.push_back(findGraphicsObjectHandle(host));
+    return owned;
+}
+//=============================================================================
+GraphicsObject*
+targetedChart(const ArrayOfVector& argIn)
+{
+    if (!argIn.empty() && argIn[0].isGraphicsObject()) {
+        if (!argIn[0].isScalar()) {
+            return nullptr;
+        }
+        const int64 handle = *static_cast<const int64*>(argIn[0].dataPointer());
+        if (handle < HANDLE_OFFSET_OBJECT || isDeletedGraphicsObject(handle)) {
+            return nullptr;
+        }
+        GraphicsObject* object = findGraphicsObject(handle, false);
+        return object && object->isType(GO_PROPERTY_VALUE_HEATMAP_STR) ? object : nullptr;
+    }
+    if (getCurrentFigure() == -1) {
+        return nullptr;
+    }
+    GOFigure* fig = getCurrentGOFigure();
+    if (!fig) {
+        return nullptr;
+    }
+    const int64 chart = chartOfHostAxes(fig->findGoProperty(GO_CURRENT_AXES_PROPERTY_NAME_STR));
+    return chart == -1 ? nullptr : findGraphicsObject(chart, false);
+}
+//=============================================================================
+std::vector<int64>
+presentCharts(const std::vector<int64>& handles)
+{
+    std::vector<int64> charts(handles.size(), -1);
+    std::unordered_set<int64> hidden;
+    bool anyChart = false;
+    for (size_t k = 0; k < handles.size(); ++k) {
+        charts[k] = chartOfHostAxes(handles[k]);
+        if (charts[k] == -1) {
+            continue;
+        }
+        anyChart = true;
+        for (int64 owned : chartOwnedHandles(findGraphicsObject(charts[k], false))) {
+            if (owned != handles[k]) {
+                hidden.insert(owned);
+            }
+        }
+    }
+    if (!anyChart) {
+        return handles;
+    }
+    std::vector<int64> presented;
+    presented.reserve(handles.size());
+    for (size_t k = 0; k < handles.size(); ++k) {
+        if (charts[k] != -1) {
+            presented.push_back(charts[k]);
+        } else if (hidden.find(handles[k]) == hidden.end()) {
+            presented.push_back(handles[k]);
+        }
+    }
+    return presented;
 }
 //=============================================================================
 std::vector<int64>
@@ -420,11 +510,7 @@ reportedChildren(GraphicsObject* object)
     if (!children) {
         return {};
     }
-    std::vector<int64> handles(children->data());
-    if (object->isType(GO_PROPERTY_VALUE_FIGURE_STR)) {
-        handles.erase(
-            std::remove_if(handles.begin(), handles.end(), isOpaqueChartHostAxis), handles.end());
-    }
+    std::vector<int64> handles = presentCharts(children->data());
     if (stacksChildren(object)) {
         std::reverse(handles.begin(), handles.end());
     }

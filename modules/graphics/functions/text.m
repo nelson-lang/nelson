@@ -37,7 +37,7 @@ function varargout = text(varargin)
 
   narginchk(3, 10000);
   if isempty(parent)
-    parent = gca();
+    parent = currentAxesForText();
   end
 
   if isnumeric(inputArguments{1})
@@ -103,7 +103,14 @@ function [parent, inputArguments] = extractParentProperty(parent, inputArguments
     parent = inputArguments{parentIndex + 1};
     inputArguments(parentIndex:parentIndex + 1) = [];
   elseif isempty(parent)
-    parent = gca();
+    parent = currentAxesForText();
+  end
+end
+%=============================================================================
+function ax = currentAxesForText()
+  ax = gca();
+  if isgraphics(ax, 'heatmap')
+    error('Nelson:heatmap:invalidChild', _('A heatmap cannot hold a %s.'), 'text');
   end
 end
 %=============================================================================

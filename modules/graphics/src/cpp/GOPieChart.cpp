@@ -229,9 +229,9 @@ GOPieChart::constructProperties()
     registerProperty(new GOOnOffProperty, GO_VISIBLE_PROPERTY_NAME_STR);
     registerProperty(new GOHandleVisibilityProperty, GO_HANDLE_VISIBILITY_PROPERTY_NAME_STR);
     registerProperty(new GOUnitsProperty, GO_UNITS_PROPERTY_NAME_STR);
-    registerProperty(new GOFourVectorProperty, GO_OUTER_POSITION_PROPERTY_NAME_STR);
-    registerProperty(new GOFourVectorProperty, GO_INNER_POSITION_PROPERTY_NAME_STR);
-    registerProperty(new GOFourVectorProperty, GO_POSITION_PROPERTY_NAME_STR);
+    registerProperty(new GORectanglePositionProperty, GO_OUTER_POSITION_PROPERTY_NAME_STR);
+    registerProperty(new GORectanglePositionProperty, GO_INNER_POSITION_PROPERTY_NAME_STR);
+    registerProperty(new GORectanglePositionProperty, GO_POSITION_PROPERTY_NAME_STR);
     registerProperty(new GORestrictedStringProperty(POSITION_CONSTRAINT_DICT),
         GO_POSITION_CONSTRAINT_PROPERTY_NAME_STR);
     registerProperty(new GOLayoutOptionsProperty, GO_LAYOUT_PROPERTY_NAME_STR);

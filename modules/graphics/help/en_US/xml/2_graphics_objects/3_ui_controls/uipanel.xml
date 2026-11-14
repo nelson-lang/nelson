@@ -28,6 +28,7 @@
   <description>
     <p><b>p = uipanel</b> creates a panel container in a new figure (uifigure). A panel groups UI components; children are positioned relative to the panel. Main properties: <b>Title</b>, <b>TitlePosition</b> ('lefttop', 'centertop', 'righttop'), <b>BackgroundColor</b>, <b>ForegroundColor</b>, <b>BorderType</b> ('line', 'none'), <b>BorderWidth</b>, <b>BorderColor</b>, <b>Position</b>, <b>Scrollable</b>, <b>AutoResizeChildren</b>, <b>SizeChangedFcn</b>.</p>
     <p>In a figure, a new panel fills its parent: <b>Units</b> is 'normalized' and <b>Position</b> is [0 0 1 1]. In a uifigure, <b>Units</b> is 'pixels' and <b>Position</b> is [20 20 260 221].</p>
+    <p><b>SizeChangedFcn</b> runs when the panel size changes, before the statement that resized it returns; in a uifigure it also runs when the panel moves. It runs once at creation when given to <b>uipanel</b> and never while <b>AutoResizeChildren</b> is 'on', the default in a uifigure ('off' in a figure). Nothing runs while the figure, the panel or a container holding the panel is invisible: the callback runs once when the figure is shown, and once when the panel, or the container that was hiding it, is shown if the panel was created or resized meanwhile.</p>
   </description>
   <used_function />
   <bibliography />

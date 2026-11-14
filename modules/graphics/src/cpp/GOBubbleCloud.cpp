@@ -70,9 +70,9 @@ GOBubbleCloud::GOBubbleCloud() : GOGroup()
     registerProperty(new GOAutoFlatColorProperty, GO_FACE_COLOR_PROPERTY_NAME_STR);
     registerProperty(new GOColorProperty, GO_EDGE_COLOR_PROPERTY_NAME_STR);
     registerProperty(new GOUnitsProperty, GO_UNITS_PROPERTY_NAME_STR);
-    registerProperty(new GOFourVectorProperty, GO_OUTER_POSITION_PROPERTY_NAME_STR);
-    registerProperty(new GOFourVectorProperty, GO_INNER_POSITION_PROPERTY_NAME_STR);
-    registerProperty(new GOFourVectorProperty, GO_POSITION_PROPERTY_NAME_STR);
+    registerProperty(new GORectanglePositionProperty, GO_OUTER_POSITION_PROPERTY_NAME_STR);
+    registerProperty(new GORectanglePositionProperty, GO_INNER_POSITION_PROPERTY_NAME_STR);
+    registerProperty(new GORectanglePositionProperty, GO_POSITION_PROPERTY_NAME_STR);
     registerProperty(new GOSourceTableProperty, GO_SOURCE_TABLE_PROPERTY_NAME_STR);
     registerProperty(new GOArrayOfProperty, GO_SIZE_VARIABLE_PROPERTY_NAME_STR);
     registerProperty(new GOArrayOfProperty, GO_LABEL_VARIABLE_PROPERTY_NAME_STR);

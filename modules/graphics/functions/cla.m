@@ -10,6 +10,10 @@
 function varargout = cla(varargin)
   narginchk(0, 2);
   nargoutchk(0, 1);
+  [handled, chartOutput] = chartConvenience('cla', varargin);
+  if handled
+    return
+  end
   args = varargin;
   doReset = false;
   if (~isempty(args) && (ischar(args{end}) || isstring(args{end})) ...

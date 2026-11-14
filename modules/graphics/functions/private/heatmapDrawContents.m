@@ -34,6 +34,7 @@ function state = heatmapDrawContents(ax, group, colorData, xLabels, yLabels, opt
 
   state = struct();
   state.ChartType = 'heatmap';
+  state.Axes = ax;
   state.Image = imageHandle;
   state.MissingCells = missingHandles;
   state.Grid = gridHandles;

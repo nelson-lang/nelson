@@ -34,7 +34,16 @@ Nelson::GraphicsGateway::graphics_object_deleteBuiltin(int nLhs, const ArrayOfVe
             Error(L"Nelson:delete:cannotDeleteRoot", L"Cannot delete root graphics object.");
         } else if (handle >= HANDLE_OFFSET_OBJECT) {
             if (!isDeletedGraphicsObject(handle)) {
-                deleteGraphicsObject(handle, true, true);
+                // A heatmap goes with its colorbar and the axes that draws it.
+                std::vector<int64> owned = chartOwnedHandles(findGraphicsObject(handle, false));
+                for (int64 ownedHandle : owned) {
+                    if (!isDeletedGraphicsObject(ownedHandle)) {
+                        deleteGraphicsObject(ownedHandle, true, true);
+                    }
+                }
+                if (!isDeletedGraphicsObject(handle)) {
+                    deleteGraphicsObject(handle, true, true);
+                }
             }
         } else {
             deleteFigure(handle);

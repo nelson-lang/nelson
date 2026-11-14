@@ -262,6 +262,8 @@
     <ClCompile Include="..\cpp\grootBuiltin.cpp" />
     <ClCompile Include="..\cpp\is2DBuiltin.cpp" />
     <ClCompile Include="..\cpp\isgraphicsBuiltin.cpp" />
+    <ClCompile Include="..\cpp\getpixelpositionBuiltin.cpp" />
+    <ClCompile Include="..\cpp\__size_changed_deferred__Builtin.cpp" />
     <ClCompile Include="..\cpp\isValidGraphicsPropertyBuiltin.cpp" />
     <ClCompile Include="..\cpp\canonicalGraphicsPropertyBuiltin.cpp" />
     <ClCompile Include="..\cpp\legendBuiltin.cpp" />
@@ -428,6 +430,8 @@
     <ClInclude Include="..\include\grootBuiltin.hpp" />
     <ClInclude Include="..\include\is2DBuiltin.hpp" />
     <ClInclude Include="..\include\isgraphicsBuiltin.hpp" />
+    <ClInclude Include="..\include\getpixelpositionBuiltin.hpp" />
+    <ClInclude Include="..\include\__size_changed_deferred__Builtin.hpp" />
     <ClInclude Include="..\include\isValidGraphicsPropertyBuiltin.hpp" />
     <ClInclude Include="..\include\canonicalGraphicsPropertyBuiltin.hpp" />
     <ClInclude Include="..\include\legendBuiltin.hpp" />

@@ -20,6 +20,7 @@
 #include "GOFiguresManager.hpp"
 #include "GOGObjectsProperty.hpp"
 #include "GOHelpers.hpp"
+#include "graphics_object_setBuiltin.hpp"
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
 #include "GOText.hpp"
@@ -298,6 +299,24 @@ colorbarBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 0);
     nargoutcheck(nLhs, 0, 1);
+    // On a heatmap the colorbar is the ColorbarVisible property of the chart.
+    if (GraphicsObject* chart = targetedChart(argIn)) {
+        const bool hide = !argIn.empty() && isStringScalar(argIn.back())
+            && isDeleteCommand(argIn.back().asWideString());
+        ArrayOfVector chartArguments;
+        chartArguments << graphicsObjectHandle(findGraphicsObjectHandle(chart));
+        chartArguments << ArrayOf::characterArray(
+            std::wstring(GO_COLORBAR_VISIBLE_PROPERTY_NAME_STR));
+        chartArguments << ArrayOf::characterArray(
+            std::wstring(hide ? GO_PROPERTY_VALUE_OFF_STR : GO_PROPERTY_VALUE_ON_STR));
+        graphics_object_setBuiltin(0, chartArguments);
+        ArrayOfVector retval;
+        std::vector<int64> owned = chartOwnedHandles(chart);
+        if (nLhs > 0 && owned.size() == 2) {
+            retval << graphicsObjectHandle(owned[0]);
+        }
+        return retval;
+    }
 
     size_t index = 0;
     int64 targetHandle = 0;

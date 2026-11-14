@@ -181,9 +181,9 @@ GOWordCloudChart::GOWordCloudChart()
         GO_LAYOUT_NUM_PROPERTY_NAME_STR);
     addProperty(this, new GOWordCloudTitleProperty, GO_TITLE_PROPERTY_NAME_STR);
     addProperty(this, new GOStringProperty, GO_TITLE_FONT_NAME_PROPERTY_NAME_STR);
-    addProperty(this, new GOFourVectorProperty, GO_OUTER_POSITION_PROPERTY_NAME_STR);
-    addProperty(this, new GOFourVectorProperty, GO_INNER_POSITION_PROPERTY_NAME_STR);
-    addProperty(this, new GOFourVectorProperty, GO_POSITION_PROPERTY_NAME_STR);
+    addProperty(this, new GORectanglePositionProperty, GO_OUTER_POSITION_PROPERTY_NAME_STR);
+    addProperty(this, new GORectanglePositionProperty, GO_INNER_POSITION_PROPERTY_NAME_STR);
+    addProperty(this, new GORectanglePositionProperty, GO_POSITION_PROPERTY_NAME_STR);
     addProperty(this, new GOUnitsProperty, GO_UNITS_PROPERTY_NAME_STR);
     addProperty(this, new GORestrictedStringProperty(POSITION_CONSTRAINT_VALUES),
         GO_POSITION_CONSTRAINT_PROPERTY_NAME_STR);

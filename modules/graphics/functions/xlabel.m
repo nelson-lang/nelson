@@ -13,6 +13,13 @@ function varargout = xlabel(varargin)
     error('Nelson:notEnoughInputs', 'Not enough input arguments.');
   end
   inputArguments = convertStringToCharArgs(varargin);
+  [handled, chartOutput] = chartConvenience('xlabel', inputArguments);
+  if handled
+    if nargout > 0
+      varargout{1} = chartOutput;
+    end
+    return
+  end
   if (isscalar(inputArguments{1}) && isgraphics(inputArguments{1}, 'tiledlayout'))
     t = inputArguments{1};
     inputArguments = inputArguments(2:end);

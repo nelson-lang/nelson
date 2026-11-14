@@ -8,6 +8,10 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = axis(varargin);
+  [handled, chartOutput] = chartConvenience('axis', varargin);
+  if handled
+    return
+  end
   if (length(varargin) > 0)
     if (isgraphics(varargin{1}, 'axes'))
       ax = varargin{1};

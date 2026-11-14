@@ -77,6 +77,12 @@ addFourVector(GraphicsObject* go, const std::wstring& name)
 }
 //=============================================================================
 static void
+addRectanglePosition(GraphicsObject* go, const std::wstring& name)
+{
+    addProperty(go, new GORectanglePositionProperty, name);
+}
+//=============================================================================
+static void
 addPixelOriginPosition(GraphicsObject* go, const std::wstring& name)
 {
     addProperty(go, new GOPixelOriginPositionProperty(go), name);
@@ -278,7 +284,7 @@ registerAxesProperties(GraphicsObject* go)
             std::numeric_limits<double>::min(), std::numeric_limits<double>::infinity()),
         GO_GRID_LINE_WIDTH_PROPERTY_NAME_STR);
     addAutoManual(go, GO_GRID_LINE_WIDTH_MODE_PROPERTY_NAME_STR);
-    addFourVector(go, GO_INNER_POSITION_PROPERTY_NAME_STR);
+    addRectanglePosition(go, GO_INNER_POSITION_PROPERTY_NAME_STR);
     addArray(go, GO_INTERACTION_OPTIONS_PROPERTY_NAME_STR);
     addArray(go, GO_INTERACTIONS_PROPERTY_NAME_STR);
     // hidden flag read by the figure navigation; defaults to 'on'
@@ -496,10 +502,10 @@ static void
 registerStackedLineChartProperties(GraphicsObject* go)
 {
     addProperty(go, new GOHandleVisibilityProperty, GO_HANDLE_VISIBILITY_PROPERTY_NAME_STR);
-    addFourVector(go, GO_INNER_POSITION_PROPERTY_NAME_STR);
+    addRectanglePosition(go, GO_INNER_POSITION_PROPERTY_NAME_STR);
     addLayoutOptions(go, GO_LAYOUT_PROPERTY_NAME_STR);
-    addFourVector(go, GO_OUTER_POSITION_PROPERTY_NAME_STR);
-    addFourVector(go, GO_POSITION_PROPERTY_NAME_STR);
+    addRectanglePosition(go, GO_OUTER_POSITION_PROPERTY_NAME_STR);
+    addRectanglePosition(go, GO_POSITION_PROPERTY_NAME_STR);
     addString(go, GO_POSITION_CONSTRAINT_PROPERTY_NAME_STR);
     addUnits(go, GO_UNITS_PROPERTY_NAME_STR);
 }

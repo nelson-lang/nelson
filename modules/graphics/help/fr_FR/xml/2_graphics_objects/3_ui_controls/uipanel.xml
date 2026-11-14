@@ -28,6 +28,7 @@
   <description>
     <p><b>p = uipanel</b> crée un panneau dans une nouvelle figure (uifigure). Un panneau regroupe des composants UI ; les enfants sont positionnés relativement au panneau. Propriétés principales : <b>Title</b>, <b>TitlePosition</b> ('lefttop', 'centertop', 'righttop'), <b>BackgroundColor</b>, <b>ForegroundColor</b>, <b>BorderType</b> ('line', 'none'), <b>BorderWidth</b>, <b>BorderColor</b>, <b>Position</b>, <b>Scrollable</b>, <b>AutoResizeChildren</b>, <b>SizeChangedFcn</b>.</p>
     <p>Dans une figure, un nouveau panneau remplit son parent : <b>Units</b> vaut 'normalized' et <b>Position</b> vaut [0 0 1 1]. Dans une uifigure, <b>Units</b> vaut 'pixels' et <b>Position</b> vaut [20 20 260 221].</p>
+    <p><b>SizeChangedFcn</b> s'exécute quand la taille du panneau change, avant le retour de l'instruction qui l'a redimensionné ; dans une uifigure il s'exécute aussi quand le panneau est déplacé. Il s'exécute une fois à la création s'il est passé à <b>uipanel</b> et jamais tant que <b>AutoResizeChildren</b> vaut 'on', la valeur par défaut dans une uifigure ('off' dans une figure). Rien ne s'exécute tant que la figure, le panneau ou un conteneur qui contient le panneau est invisible : le callback s'exécute une fois quand la figure est affichée, et une fois quand le panneau, ou le conteneur qui le masquait, est affiché si le panneau a été créé ou redimensionné entre-temps.</p>
   </description>
   <used_function />
   <bibliography />

@@ -24,9 +24,9 @@ function c = kindCount(f, kind)
 end
 %=============================================================================
 f = figure('Visible', 'off');
-ax = axes('Parent', f);
 data = [1 2 3; 4 NaN 6; 7 8 9];
-h = heatmap(ax, data);
+h = heatmap(f, data);
+ax = h.UserData.Axes;
 drawnow();
 %=============================================================================
 % changing the cell-label format rebuilds the labels (render changes)

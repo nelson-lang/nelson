@@ -10,6 +10,13 @@
 function varargout = colormap(varargin)
   narginchk(0, 2);
   nargoutchk(0, 1);
+  [handled, chartOutput] = chartConvenience('colormap', varargin);
+  if handled
+    if nargout > 0
+      varargout{1} = chartOutput;
+    end
+    return
+  end
   if (nargin == 0)
     m = colorMapNoRhs();
   else

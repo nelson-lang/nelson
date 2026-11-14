@@ -234,7 +234,7 @@ GOLegend::constructProperties()
     registerProperty(
         new GOLegendLowerStringProperty(LEGEND_DIRECTION_DICT), GO_DIRECTION_PROPERTY_NAME_STR);
     registerProperty(new GOAutoManualProperty, GO_DIRECTION_MODE_PROPERTY_NAME_STR);
-    registerProperty(new GOFourVectorProperty, GO_POSITION_PROPERTY_NAME_STR);
+    registerProperty(new GORectanglePositionProperty, GO_POSITION_PROPERTY_NAME_STR);
     registerProperty(new GOStringVectorProperty(true, false, true), GO_STRING_PROPERTY_NAME_STR);
     registerProperty(new GOColorProperty, GO_TEXT_COLOR_PROPERTY_NAME_STR);
     registerProperty(new GOUnitsProperty, GO_UNITS_PROPERTY_NAME_STR);

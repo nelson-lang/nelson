@@ -31,7 +31,7 @@ asserts.istrue(isempty(s.MissingCells));
 asserts.isequal(numel(s.CellLabels), numel(C));
 asserts.isequal(numel(s.Grid), 1);
 asserts.istrue(isgraphics(s.Colorbar, 'colorbar'));
-ax = ancestor(h, 'axes');
+ax = h.UserData.Axes;
 asserts.isequal(ax.XLim, [0.5 3.5]);
 asserts.isequal(ax.YLim, [0.5 2.5]);
 asserts.isequal(ax.XTick, 1:3);
@@ -58,7 +58,7 @@ h = heatmap({'A', 'B', 'C'}, {'R1', 'R2'}, C, ...
   'Title', 'Demo', 'XLabel', 'Columns', 'YLabel', 'Rows', ...
   'ColorLimits', [0 10], 'ColorbarVisible', 'off', 'GridVisible', 'off');
 s = h.UserData;
-ax = ancestor(h, 'axes');
+ax = h.UserData.Axes;
 asserts.isequal(h.Title, 'Demo');
 asserts.isequal(h.XLabel, 'Columns');
 asserts.isequal(h.YLabel, 'Rows');
@@ -120,10 +120,12 @@ close(f);
 %=============================================================================
 f = figure('Visible', 'off');
 ax = axes();
-h = heatmap(ax, [7 8; 9 10], 'XData', [10 20], 'YData', {'Low', 'High'}, ...
+h = heatmap(f, [7 8; 9 10], 'XData', [10 20], 'YData', {'Low', 'High'}, ...
   'CellLabelFormat', '%0.1f', 'Colormap', gray(8));
 s = h.UserData;
-asserts.isequal(h.Parent, ax);
+% the chart takes the place of the current axes and reports the figure as parent
+asserts.isequal(s.Axes, ax);
+asserts.isequal(h.Parent, f);
 asserts.isequal(h.Type, 'heatmap');
 asserts.isequal(h.XData, {'10'; '20'});
 asserts.isequal(h.YData, {'Low'; 'High'});
@@ -152,7 +154,7 @@ close(f);
 f = figure('Visible', 'off');
 C = peaks(12);
 h = heatmap(C);
-ax = ancestor(h, 'axes');
+ax = h.UserData.Axes;
 asserts.isequal(ax.CLim, [min(C(:)) max(C(:))]);
 asserts.isequal(h.ColorLimits, [min(C(:)) max(C(:))]);
 asserts.isequal(h.UserData.Image.CDataMapping, 'scaled');

@@ -9,6 +9,13 @@
 %=============================================================================
 function varargout = clim(varargin)
   varargin = convertStringToCharArgs(varargin);
+  [handled, chartOutput] = chartConvenience('clim', varargin);
+  if handled
+    if nargout > 0
+      varargout{1} = chartOutput;
+    end
+    return
+  end
   if ((nargin > 0) && isscalar(varargin{1}) && isgraphics(varargin{1}))
     handle = varargin{1};
     varargin(1) = [];

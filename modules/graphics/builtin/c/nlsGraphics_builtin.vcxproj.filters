@@ -240,6 +240,12 @@
     <ClCompile Include="..\cpp\isgraphicsBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\getpixelpositionBuiltin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\__size_changed_deferred__Builtin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\cpp\isValidGraphicsPropertyBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -623,6 +629,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\isgraphicsBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\getpixelpositionBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\__size_changed_deferred__Builtin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\isValidGraphicsPropertyBuiltin.hpp">

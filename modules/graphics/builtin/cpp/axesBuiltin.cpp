@@ -90,6 +90,17 @@ axesBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 1);
 
     if (argIn.size() == 1) {
+        // axes(h) on a chart activates the axes that draws it and answers the chart.
+        if (GraphicsObject* chart = targetedChart(argIn)) {
+            ArrayOfVector hostArguments;
+            hostArguments << graphicsObjectHandle(findGraphicsObjectHandle(chart->getParentAxis()));
+            activateOrCreateAxesFromHandle(0, hostArguments);
+            ArrayOfVector retval;
+            if (nLhs > 0) {
+                retval << argIn[0];
+            }
+            return retval;
+        }
         return activateOrCreateAxesFromHandle(nLhs, argIn);
     }
     ArrayOfVector t(argIn);

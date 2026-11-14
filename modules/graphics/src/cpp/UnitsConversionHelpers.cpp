@@ -15,8 +15,9 @@ namespace Nelson {
 const double DEFAULT_DPI = 96.0;
 const double POINTS_PER_INCH = 72.0;
 const double CM_PER_INCH = 2.54;
-const double CHAR_WIDTH_PIXELS = 8.0;
-const double CHAR_HEIGHT_PIXELS = 16.0;
+// Character cell of the reference: 7 x 15 points, the cell the root ScreenSize uses.
+const double CHAR_WIDTH_PIXELS = 7.0 * DEFAULT_DPI / POINTS_PER_INCH;
+const double CHAR_HEIGHT_PIXELS = 15.0 * DEFAULT_DPI / POINTS_PER_INCH;
 const double DATA_UNIT_PIXELS = 1.0;
 //=============================================================================
 struct UnitConversionFactors

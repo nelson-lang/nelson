@@ -211,7 +211,7 @@ GOColorBar::constructProperties()
     registerProperty(new GOAutoManualProperty, GO_LIMITS_MODE_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty, GO_LINE_WIDTH_PROPERTY_NAME_STR);
     registerProperty(new GOColorBarLocationProperty, GO_LOCATION_PROPERTY_NAME_STR);
-    registerProperty(new GOFourVectorProperty, GO_POSITION_PROPERTY_NAME_STR);
+    registerProperty(new GORectanglePositionProperty, GO_POSITION_PROPERTY_NAME_STR);
     registerProperty(new GOInOutProperty, GO_AXIS_LOCATION_PROPERTY_NAME_STR);
     registerProperty(new GOAutoManualProperty, GO_AXIS_LOCATION_MODE_PROPERTY_NAME_STR);
     registerProperty(new GOColorBarTickDirectionProperty, GO_TICK_DIRECTION_PROPERTY_NAME_STR);

@@ -11,6 +11,13 @@ function varargout = caxis(varargin)
   narginchk(0, 2);
   nargoutchk(0, 1);
   args = convertStringToCharArgs(varargin);
+  [handled, chartOutput] = chartConvenience('caxis', args);
+  if handled
+    if nargout > 0
+      varargout{1} = chartOutput;
+    end
+    return
+  end
   if nargout == 0
     clim(args{:});
     varargout = {};

@@ -10,6 +10,10 @@
 function varargout = grid(varargin)
   narginchk(0, 2);
   nargoutchk(0, 0);
+  [handled, chartOutput] = chartConvenience('grid', varargin);
+  if handled
+    return
+  end
 
   if (nargin == 0)
     ax = gca();
