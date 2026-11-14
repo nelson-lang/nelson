@@ -127,5 +127,8 @@ if(NOT WITHOUT_FILE_ARCHIVER_MODULE)
     ${module_name}
     EXTRA_TEST_PATTERNS
     "*.zip"
+    "*.7z"
+    "*.cpio"
+    "*.gz"
   )
 endif()
