@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>fill3</keyword>
-  <short_description>Creer des patchs 3-D remplis.</short_description>
+  <short_description>Créer des patchs 3-D remplis.</short_description>
   <syntax>
     <syntax_item>fill3(X, Y, Z, C)</syntax_item>
     <syntax_item>fill3(X1, Y1, Z1, C1, ..., Xn, Yn, Zn, Cn)</syntax_item>
@@ -14,19 +14,19 @@
   <param_input>
     <param_input_item>
       <param_name>X</param_name>
-      <param_description>Coordonnees x : vecteur ou matrice.</param_description>
+      <param_description>Coordonnées x : vecteur ou matrice.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Y</param_name>
-      <param_description>Coordonnees y : vecteur ou matrice.</param_description>
+      <param_description>Coordonnées y : vecteur ou matrice.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Z</param_name>
-      <param_description>Coordonnees z : vecteur ou matrice.</param_description>
+      <param_description>Coordonnées z : vecteur ou matrice.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>C</param_name>
-      <param_description>Donnees de couleur ou specification de couleur.</param_description>
+      <param_description>Données de couleur ou spécification de couleur.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -36,7 +36,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>fill3</b> cree des polygones remplis en coordonnees 3-D. Chaque groupe d'entrees cree un ou plusieurs objets patch et accepte les proprietes nom-valeur de patch.</p>
+    <p><b>fill3</b> crée des polygones remplis en coordonnées 3-D. Chaque groupe d'entrées crée un ou plusieurs objets patch et accepte les propriétés nom-valeur de patch.</p>
   </description>
   <examples>
     <example_item>

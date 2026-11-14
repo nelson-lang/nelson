@@ -4,76 +4,76 @@
   <language>fr_FR</language>
   <keyword>width</keyword>
   <keyword_alias>block:width</keyword_alias>
-  <short_description>Sort le nombre d elements (largeur) de son signal d entree, sous forme scalaire.</short_description>
+  <short_description>Sort le nombre d éléments (largeur) de son signal d entrée, sous forme scalaire.</short_description>
   <syntax>
     <syntax_item>Type de bloc : width</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
-      <param_name>ports d entree</param_name>
-      <param_description>1 port(s) d entree declare(s).</param_description>
+      <param_name>ports d'entrée</param_name>
+      <param_description>1 port(s) d entrée déclare(s).</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>ports de sortie</param_name>
-      <param_description>1 port(s) de sortie declare(s).</param_description>
+      <param_description>1 port(s) de sortie déclare(s).</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>Sort le nombre d elements (largeur) de son signal d entree, sous forme scalaire.</p>
+    <p>Sort le nombre d éléments (largeur) de son signal d entrée, sous forme scalaire.</p>
     <table border="1">
       <tbody>
         <tr><td>Module</td><td><code>nflow_blocks</code></td></tr>
-        <tr><td>Bibliotheque</td><td>Utilitaires</td></tr>
+        <tr><td>Bibliothèque</td><td>Utilitaires</td></tr>
         <tr><td>Type</td><td><code>width</code></td></tr>
-        <tr><td>Libelle</td><td>Width</td></tr>
+        <tr><td>Libellé</td><td>Width</td></tr>
       </tbody>
     </table>
     <p><img src="../../../../libraries/utility/exports/width.svg" align="middle"/></p>
     <p><b>Description</b></p>
-    <p>Sort le nombre d'elements du signal d'entree sous forme de constante scalaire (Width). Aide a la modelisation / introspection, p. ex. piloter un gain ou une borne de boucle par la largeur d'un bus ou d'un vecteur. La sortie est toujours scalaire quelle que soit la largeur d'entree. Interpreteur seul : le generateur de code aplatit les signaux vectoriels en fils scalaires avant l'emission par bloc, donc un modele contenant un bloc width est signale comme non generable.</p>
+    <p>Sort le nombre d'éléments du signal d'entrée sous forme de constante scalaire (Width). Aide a la modélisation / introspection, p. ex. piloter un gain ou une borne de boucle par la largeur d'un bus ou d'un vecteur. La sortie est toujours scalaire quelle que soit la largeur d'entrée. Interpréteur seul : le générateur de code aplatit les signaux vectoriels en fils scalaires avant l'émission par bloc, donc un modèle contenant un bloc width est signalé comme non générable.</p>
     <p><b>Ports</b></p>
-    <p><b>Entree(s)</b></p>
+    <p><b>Entrée(s)</b></p>
     <table border="1">
-      <thead><tr><th>Port</th><th>Role</th><th>Cote</th><th>Position</th></tr></thead>
+      <thead><tr><th>Port</th><th>Rôle</th><th>Cote</th><th>Position</th></tr></thead>
       <tbody>
-        <tr><td>Port_1</td><td>Signal numerique lu par le bloc.</td><td>gauche</td><td>x=0, y=25</td></tr>
+        <tr><td>Port_1</td><td>Signal numérique lu par le bloc.</td><td>gauche</td><td>x=0, y=25</td></tr>
       </tbody>
     </table>
     <p><b>Sortie(s)</b></p>
     <table border="1">
-      <thead><tr><th>Port</th><th>Role</th><th>Cote</th><th>Position</th></tr></thead>
+      <thead><tr><th>Port</th><th>Rôle</th><th>Cote</th><th>Position</th></tr></thead>
       <tbody>
-        <tr><td>Port_1</td><td>Signal numerique produit par le bloc.</td><td>droite</td><td>x=80, y=25</td></tr>
+        <tr><td>Port_1</td><td>Signal numérique produit par le bloc.</td><td>droite</td><td>x=80, y=25</td></tr>
       </tbody>
     </table>
-    <p><b>Parametres</b></p>
+    <p><b>Paramètres</b></p>
     <table border="1">
-      <thead><tr><th>Parametre</th><th>Valeur par defaut</th></tr></thead>
+      <thead><tr><th>Paramètre</th><th>Valeur par défaut</th></tr></thead>
       <tbody>
         <tr><td><i>aucun</i></td><td></td></tr>
       </tbody>
     </table>
-    <p><b>Caracteristiques du bloc</b></p>
+    <p><b>Caractéristiques du bloc</b></p>
     <table border="1">
       <tbody>
         <tr><td>Type de bloc</td><td>width</td></tr>
         <tr><td>Famille</td><td>Utilitaires</td></tr>
         <tr><td>Taille rendue</td><td>80 x 50</td></tr>
         <tr><td>Phases</td><td>ALGEBRAIC</td></tr>
-        <tr><td>Etat interne ou historique</td><td>non</td></tr>
-        <tr><td>Type de donnees du signal</td><td>valeurs numeriques double</td></tr>
+        <tr><td>État interne ou historique</td><td>non</td></tr>
+        <tr><td>Type de données du signal</td><td>valeurs numériques double</td></tr>
       </tbody>
     </table>
     <p><b>Algorithmes</b></p>
     <ul>
-      <li>ALGEBRAIC : out = nombre d'elements du signal d'entree (scalaire).</li>
+      <li>ALGEBRAIC : out = nombre d'éléments du signal d'entrée (scalaire).</li>
     </ul>
-    <p><b>Capacites etendues</b></p>
-    <p>Execution native seulement (ce bloc n'est pas genere en code).</p>
-    <p><b>Sources d implementation</b></p>
-    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <p><b>Capacités étendues</b></p>
+    <p>Exécution native seulement (ce bloc n'est pas généré en code).</p>
+    <p><b>Sources d implémentation</b></p>
+    <p>Génération de code : prise en charge pour C et Rust.</p>
     <source_code label="Manifest" path="modules/nflow_blocks/libraries/utility/library.json" language="json"/>
     <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/routing/width.cpp" language="cpp"/>
   </description>

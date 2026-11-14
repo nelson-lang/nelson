@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>addgateway</keyword>
-  <short_description>Ajoute dynamiquement des builtins au moment de l&apos;execution.</short_description>
+  <short_description>Ajoute dynamiquement des builtins au moment de l&apos;exécution.</short_description>
   <syntax>
     <syntax_item>addgateway(dyn_lib_path)</syntax_item>
     <syntax_item>addgateway(dyn_lib_path, mode)</syntax_item>
@@ -13,22 +13,22 @@
     <param_input_item>
       <param_name>dyn_lib_path</param_name>
       <param_description
-      >chaine : chemin d&apos;une bibliotheque dynamique preparee pour Nelson.</param_description>
+      >chaîne : chemin d&apos;une bibliothèque dynamique préparée pour Nelson.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>mode</param_name>
       <param_description
-      >chaine : <b>auto</b> utilise le cache gateway et le lazy-loading quand c&apos;est possible, <b>loaded</b> force le chargement immediat.</param_description>
+      >chaîne : <b>auto</b> utilise le cache gateway et le lazy-loading quand c&apos;est possible, <b>loaded</b> force le chargement immédiat.</param_description>
     </param_input_item>
   </param_input>
   <description>
     <p>
-      <b>addgateway(dyn_lib_path)</b> ajoute dynamiquement des builtins au moment de l&apos;execution.</p>
-    <p>La bibliotheque dynamique doit fournir <b>GetGatewayDescriptor</b> et <b>AddGateway</b>.</p>
-    <p>Par defaut, le mode <b>auto</b> enregistre les builtins lazy depuis le cache quand c&apos;est possible. Utiliser <b>loaded</b> force le chargement immediat de la bibliotheque dynamique.</p>
-    <p>Les descriptors de gateway sont stockes dans un cache unique, <b>prefdir()/gateway_cache.json</b>. Nelson reconstruit automatiquement l&apos;entree du cache quand la bibliotheque dynamique est modifiee.</p>
-    <p>Definir <b>NELSON_GATEWAY_TRACE=1</b> affiche les decisions de cache et de chargement des gateways. Definir <b>NELSON_GATEWAY_FORCE_LOADED=1</b> force le chargement immediat de toutes les gateways.</p>
-    <p>Si la gateway est deja chargee, aucune erreur ni avertissement ne sera leve.</p>
+      <b>addgateway(dyn_lib_path)</b> ajoute dynamiquement des builtins au moment de l&apos;exécution.</p>
+    <p>La bibliothèque dynamique doit fournir <b>GetGatewayDescriptor</b> et <b>AddGateway</b>.</p>
+    <p>Par défaut, le mode <b>auto</b> enregistre les builtins lazy depuis le cache quand c&apos;est possible. Utiliser <b>loaded</b> force le chargement immédiat de la bibliothèque dynamique.</p>
+    <p>Les descriptors de gateway sont stockés dans un cache unique, <b>prefdir()/gateway_cache.json</b>. Nelson reconstruit automatiquement l&apos;entrée du cache quand la bibliothèque dynamique est modifiée.</p>
+    <p>Définir <b>NELSON_GATEWAY_TRACE=1</b> affiche les décisions de cache et de chargement des gateways. Définir <b>NELSON_GATEWAY_FORCE_LOADED=1</b> force le chargement immédiat de toutes les gateways.</p>
+    <p>Si la gateway est déjà chargée, aucune erreur ni avertissement ne sera levé.</p>
   </description>
   <used_function />
   <bibliography />

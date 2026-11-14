@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>grayconnected</keyword>
-  <short_description>Selectionne une region en niveaux de gris connectee depuis un pixel germe.</short_description>
+  <short_description>Sélectionne une région en niveaux de gris connectée depuis un pixel germe.</short_description>
   <syntax>
     <syntax_item>BW = grayconnected(I, row, col)</syntax_item>
     <syntax_item>BW = grayconnected(I, row, col, tolerance)</syntax_item>
@@ -12,7 +12,7 @@
   <param_input>
     <param_input_item>
       <param_name>I</param_name>
-      <param_description>Image 2-D numerique ou logique, reelle et finie.</param_description>
+      <param_description>Image 2-D numérique ou logique, réelle et finie.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>row</param_name>
@@ -24,29 +24,29 @@
     </param_input_item>
     <param_input_item>
       <param_name>tolerance</param_name>
-      <param_description>Tolerance non negative en unites d'intensite normalisee. La valeur par defaut est 0.32.</param_description>
+      <param_description>Tolérance non négative en unités d'intensité normalisée. La valeur par défaut est 0.32.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>conn</param_name>
-      <param_description>Connectivite, soit 4, 8, ou une matrice 3-by-3 equivalente. La valeur par defaut est 8.</param_description>
+      <param_description>Connectivité, soit 4, 8, ou une matrice 3-by-3 équivalente. La valeur par défaut est 8.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>BW</param_name>
-      <param_description>Masque logique contenant les pixels connectes dont l'intensite reste dans la tolerance autour du germe.</param_description>
+      <param_description>Masque logique contenant les pixels connectés dont l'intensité reste dans la tolérance autour du germe.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>grayconnected fait croitre une region connectee depuis un pixel germe. Un pixel est inclus lorsque son intensite normalisee differe de celle du germe d'au plus la tolerance et qu'il est connecte au germe par des pixels inclus.</p>
-    <p>Les entrees entieres et logiques sont converties en valeurs double precision normalisees pour la comparaison de tolerance. La sortie est toujours logique.</p>
+    <p>grayconnected fait croître une région connectée depuis un pixel germe. Un pixel est inclus lorsque son intensité normalisée diffère de celle du germe d'au plus la tolérance et qu'il est connecté au germe par des pixels inclus.</p>
+    <p>Les entrées entières et logiques sont converties en valeurs double précision normalisées pour la comparaison de tolérance. La sortie est toujours logique.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Faire croitre une region en niveaux de gris depuis un pixel germe</example_item_description>
+      <example_item_description>Faire croître une région en niveaux de gris depuis un pixel germe</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[[X,Y]=meshgrid(linspace(-1,1,96),linspace(-1,1,64));

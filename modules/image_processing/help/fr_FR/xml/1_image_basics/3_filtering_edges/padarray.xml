@@ -12,29 +12,29 @@
   <param_input>
     <param_input_item>
       <param_name>A</param_name>
-      <param_description>Image 2-D numerique/logique ou image RGB a completer par padding.</param_description>
+      <param_description>Image 2-D numérique/logique ou image RGB à compléter par padding.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>padSize</param_name>
-      <param_description>Scalaire entier non negatif ou vecteur a deux elements qui definit le padding en lignes et colonnes.</param_description>
+      <param_description>Scalaire entier non négatif ou vecteur à deux éléments qui définit le padding en lignes et colonnes.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>method</param_name>
-      <param_description>Methode de padding : constante numerique/logique, replicate, symmetric ou circular.</param_description>
+      <param_description>Méthode de padding : constante numérique/logique, replicate, symmetric ou circular.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>direction</param_name>
-      <param_description>Direction du padding : pre, post ou both. La valeur par defaut est both.</param_description>
+      <param_description>Direction du padding : pre, post ou both. La valeur par défaut est both.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>B</param_name>
-      <param_description>Image ou tableau complete par padding, avec preservation de la classe d'entree.</param_description>
+      <param_description>Image ou tableau complété par padding, avec preservation de la classe d'entrée.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>Ajoute des marges a un tableau pour le filtrage ou la morphologie. Les methodes prises en charge incluent les constantes numeriques, replicate, symmetric et circular. La direction peut etre pre, post ou both. Les options textuelles sont insensibles a la casse.</p>
+    <p>Ajoute des marges a un tableau pour le filtrage ou la morphologie. Les méthodes prises en charge incluent les constantes numériques, replicate, symmetric et circular. La direction peut être pre, post ou both. Les options textuelles sont insensibles à la casse.</p>
   </description>
   <used_function />
   <bibliography />

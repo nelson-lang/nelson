@@ -16,7 +16,7 @@
     </param_input_item>
     <param_input_item>
       <param_name>Name, Value</param_name>
-      <param_description>Arguments nom-valeur, dans un ordre quelconque : 'VariableNames' (tableau de chaines ou tableau de cellules de vecteurs de caracteres, un nom par colonne de C), 'RowNames' (tableau de chaines ou tableau de cellules de noms non vides, un nom par ligne de C), 'DimensionNames' (deux noms). Les noms sont insensibles a la casse.</param_description>
+      <param_description>Arguments nom-valeur, dans un ordre quelconque : 'VariableNames' (tableau de chaînes ou tableau de cellules de vecteurs de caractères, un nom par colonne de C), 'RowNames' (tableau de chaînes ou tableau de cellules de noms non vides, un nom par ligne de C), 'DimensionNames' (deux noms). Les noms sont insensibles à la casse.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -35,7 +35,7 @@
         &quot;Var1&quot;, &quot;Var2&quot;, ... , &quot;VarN&quot;
       </b>, où<b>N</b> est le nombre de colonnes dans le tableau de cellules.</p>
     <p>
-      <b>T = cell2table(C, Name, Value)</b> cree la table avec les arguments nom-valeur <b>VariableNames</b>, <b>RowNames</b> et <b>DimensionNames</b>. Ces valeurs sont validees comme celles passees a <b>table</b> ; tout autre nom provoque une erreur.</p>
+      <b>T = cell2table(C, Name, Value)</b> crée la table avec les arguments nom-valeur <b>VariableNames</b>, <b>RowNames</b> et <b>DimensionNames</b>. Ces valeurs sont validées comme celles passées à <b>table</b> ; tout autre nom provoque une erreur.</p>
   </description>
   <used_function />
   <bibliography />

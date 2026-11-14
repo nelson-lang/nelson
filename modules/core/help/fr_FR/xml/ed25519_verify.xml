@@ -39,7 +39,7 @@
     <param_output_item>
       <param_name>tf</param_name>
       <param_description
-      >logique : vrai si la signature est valide pour le message et la clé publique.</param_description>
+      >logique : vrai si la signature est validé pour le message et la clé publique.</param_description>
     </param_output_item>
   </param_output>
   <description>

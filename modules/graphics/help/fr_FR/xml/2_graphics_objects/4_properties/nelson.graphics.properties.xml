@@ -3,10 +3,10 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>proprietes des objets graphiques</keyword>
-  <short_description>Reference des proprietes des objets graphiques.</short_description>
+  <short_description>Référence des propriétés des objets graphiques.</short_description>
   <description>
-    <p>Cette section contient les pages de reference des proprietes visibles des objets graphiques.</p>
-    <p>Utiliser <b>properties</b> avec un objet graphique pour lister les proprietes prises en charge par cet objet.</p>
+    <p>Cette section contient les pages de référence des propriétés visibles des objets graphiques.</p>
+    <p>Utiliser <b>properties</b> avec un objet graphique pour lister les propriétés prises en charge par cet objet.</p>
   </description>
   <used_function />
   <bibliography />

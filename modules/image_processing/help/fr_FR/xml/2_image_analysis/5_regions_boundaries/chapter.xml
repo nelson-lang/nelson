@@ -3,8 +3,8 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <module_name>image_processing</module_name>
-  <chapter>Regions et frontieres</chapter>
+  <chapter>Regions et frontières</chapter>
   <chapter_description>
-    <p>Fonctions pour les composants connexes, les etiquettes, les mesures de regions, la selection et le suivi de frontieres.</p>
+    <p>Fonctions pour les composants connexes, les étiquettes, les mesures de regions, la sélection et le suivi de frontières.</p>
   </chapter_description>
 </xmldoc>

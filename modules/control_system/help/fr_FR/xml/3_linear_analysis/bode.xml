@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>bode</keyword>
   <short_description
-  >Diagramme de Bode de la rÃƒÂ©ponse en frÃƒÂ©quence, donnÃƒÂ©es de magnitude et de phase.</short_description>
+  >Diagramme de Bode de la réponse en fréquence, données de magnitude et de phase.</short_description>
   <syntax>
     <syntax_item>bode()</syntax_item>
     <syntax_item>bode(H)</syntax_item>
@@ -16,7 +16,7 @@
   <param_input>
     <param_input_item>
       <param_name>H</param_name>
-      <param_description>un modÃƒÂ¨le lti.</param_description>
+      <param_description>un modèle lti.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>wIn</param_name>

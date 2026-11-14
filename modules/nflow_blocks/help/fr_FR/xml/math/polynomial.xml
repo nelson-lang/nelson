@@ -4,77 +4,77 @@
   <language>fr_FR</language>
   <keyword>polynomial</keyword>
   <keyword_alias>block:polynomial</keyword_alias>
-  <short_description>Evalue un polynome de Coefficients constants (puissance la plus haute d abord).</short_description>
+  <short_description>Évalue un polynôme de Coefficients constants (puissance la plus haute d abord).</short_description>
   <syntax>
     <syntax_item>Type de bloc : polynomial</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
-      <param_name>ports d entree</param_name>
-      <param_description>1 port(s) d entree declare(s).</param_description>
+      <param_name>ports d'entrée</param_name>
+      <param_description>1 port(s) d entrée déclare(s).</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>ports de sortie</param_name>
-      <param_description>1 port(s) de sortie declare(s).</param_description>
+      <param_description>1 port(s) de sortie déclare(s).</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>Evalue un polynome de Coefficients constants (puissance la plus haute d abord).</p>
+    <p>Évalue un polynôme de Coefficients constants (puissance la plus haute d abord).</p>
     <table border="1">
       <tbody>
         <tr><td>Module</td><td><code>nflow_blocks</code></td></tr>
-        <tr><td>Bibliotheque</td><td>Operations mathematiques</td></tr>
+        <tr><td>Bibliothèque</td><td>Opérations mathématiques</td></tr>
         <tr><td>Type</td><td><code>polynomial</code></td></tr>
-        <tr><td>Libelle</td><td>Polynomial</td></tr>
+        <tr><td>Libellé</td><td>Polynomial</td></tr>
       </tbody>
     </table>
     <p><img src="../../../../libraries/math/exports/polynomial.svg" align="middle"/></p>
     <p><b>Description</b></p>
-    <p>Evalue un polynome de <code>Coefficients</code> constants (puissance la plus haute d'abord, ordre polyval) a l'entree par la methode de Horner. Pour Coefficients = [a b c], out = a*u^2 + b*u + c. Retour algebrique pur, element par element ; la forme de Horner est deroulee sur les coefficients statiques dans le code genere.</p>
+    <p>Évalue un polynôme de <code>Coefficients</code> constants (puissance la plus haute d'abord, ordre polyval) a l'entrée par la méthode de Horner. Pour Coefficients = [a b c], out = a*u^2 + b*u + c. Retour algébrique pur, élément par élément ; la forme de Horner est déroulée sur les coefficients statiques dans le code génère.</p>
     <p><b>Ports</b></p>
-    <p><b>Entree(s)</b></p>
+    <p><b>Entrée(s)</b></p>
     <table border="1">
-      <thead><tr><th>Port</th><th>Role</th><th>Cote</th><th>Position</th></tr></thead>
+      <thead><tr><th>Port</th><th>Rôle</th><th>Cote</th><th>Position</th></tr></thead>
       <tbody>
-        <tr><td>Port_1</td><td>Signal numerique lu par le bloc.</td><td>gauche</td><td>x=0, y=40</td></tr>
+        <tr><td>Port_1</td><td>Signal numérique lu par le bloc.</td><td>gauche</td><td>x=0, y=40</td></tr>
       </tbody>
     </table>
     <p><b>Sortie(s)</b></p>
     <table border="1">
-      <thead><tr><th>Port</th><th>Role</th><th>Cote</th><th>Position</th></tr></thead>
+      <thead><tr><th>Port</th><th>Rôle</th><th>Cote</th><th>Position</th></tr></thead>
       <tbody>
-        <tr><td>Port_1</td><td>Signal numerique produit par le bloc.</td><td>droite</td><td>x=80, y=40</td></tr>
+        <tr><td>Port_1</td><td>Signal numérique produit par le bloc.</td><td>droite</td><td>x=80, y=40</td></tr>
       </tbody>
     </table>
-    <p><b>Parametres</b></p>
+    <p><b>Paramètres</b></p>
     <table border="1">
-      <thead><tr><th>Parametre</th><th>Valeur par defaut</th></tr></thead>
+      <thead><tr><th>Paramètre</th><th>Valeur par défaut</th></tr></thead>
       <tbody>
         <tr><td><code>Coefficients</code></td><td>[1 0 0]</td></tr>
       </tbody>
     </table>
-    <p><b>Caracteristiques du bloc</b></p>
+    <p><b>Caractéristiques du bloc</b></p>
     <table border="1">
       <tbody>
         <tr><td>Type de bloc</td><td>polynomial</td></tr>
-        <tr><td>Famille</td><td>Operations mathematiques</td></tr>
+        <tr><td>Famille</td><td>Opérations mathématiques</td></tr>
         <tr><td>Taille rendue</td><td>80 x 80</td></tr>
         <tr><td>Phases</td><td>ALGEBRAIC</td></tr>
-        <tr><td>Etat interne ou historique</td><td>non</td></tr>
-        <tr><td>Type de donnees du signal</td><td>valeurs numeriques double</td></tr>
+        <tr><td>État interne ou historique</td><td>non</td></tr>
+        <tr><td>Type de données du signal</td><td>valeurs numériques double</td></tr>
       </tbody>
     </table>
     <p><b>Algorithmes</b></p>
     <ul>
-      <li>ALGEBRAIC : evaluation de Horner acc = c[0] ; acc = acc*u + c[k] pour k = 1..n-1.</li>
+      <li>ALGEBRAIC : évaluation de Horner acc = c[0] ; acc = acc*u + c[k] pour k = 1..n-1.</li>
     </ul>
-    <p><b>Equation ou regle</b></p>
+    <p><b>Équation ou règle</b></p>
     <latex>y = \sum_{k=0}^{n-1} c_k\, u^{\,n-1-k}</latex>
-    <p><b>Capacites etendues</b></p>
-    <p><b>Sources d implementation</b></p>
-    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <p><b>Capacités étendues</b></p>
+    <p><b>Sources d implémentation</b></p>
+    <p>Génération de code : prise en charge pour C et Rust.</p>
     <source_code label="Manifest" path="modules/nflow_blocks/libraries/math/library.json" language="json"/>
     <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/math/polynomial.cpp" language="cpp"/>
   </description>

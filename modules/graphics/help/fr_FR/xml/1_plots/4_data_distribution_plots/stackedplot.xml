@@ -27,11 +27,11 @@
     </param_input_item>
     <param_input_item>
       <param_name>vars</param_name>
-      <param_description>variables a afficher : noms, indices numeriques, selecteur logique ou cellule de groupes.</param_description>
+      <param_description>variables à afficher : noms, indices numériques, sélecteur logique ou cellule de groupes.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>X, Y</param_name>
-      <param_description>tableaux numeriques, logiques, datetime ou duration.</param_description>
+      <param_description>tableaux numériques, logiques, datetime ou duration.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -41,18 +41,18 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>stackedplot</b> cree un axe par variable selectionnee et retourne un objet <b>StackedLineChart</b>.</p>
-    <p>Pour les timetables, les temps de ligne sont utilises comme valeurs x. Pour les tables, les numeros de ligne sont utilises sauf si <b>XVariable</b> est fourni.</p>
-    <p>Plusieurs tables ou timetables peuvent etre fournies. Les variables de meme nom sont combinees dans le meme axe y par defaut. Utiliser <b>CombineMatchingNames</b> avec la valeur <b>false</b> pour placer les variables de meme nom dans des axes separes.</p>
-    <p><b>LineSpec</b> definit le style de ligne, le marqueur et la couleur pour toutes les lignes tracees. Une figure parent peut etre fournie comme premier argument.</p>
-    <p>Utiliser des groupes de variables comme <b>{{'A','B'}, 'C'}</b> pour tracer plusieurs variables dans un meme axe empile.</p>
-    <p>Les variables de table non prises en charge sont ignorees. Une erreur est emise s'il ne reste aucune variable tracable. Jusqu'a 25 variables peuvent etre affichees.</p>
-    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.stackedplot.properties">proprietes de stackedplot</link> pour la liste complete des proprietes.</p>
+    <p><b>stackedplot</b> crée un axe par variable sélectionnée et retourne un objet <b>StackedLineChart</b>.</p>
+    <p>Pour les timetables, les temps de ligne sont utilisés comme valeurs x. Pour les tables, les numéros de ligne sont utilisés sauf si <b>XVariable</b> est fourni.</p>
+    <p>Plusieurs tables ou timetables peuvent être fournies. Les variables de même nom sont combinées dans le même axe y par défaut. Utiliser <b>CombineMatchingNames</b> avec la valeur <b>false</b> pour placer les variables de même nom dans des axes séparés.</p>
+    <p><b>LineSpec</b> définit le style de ligne, le marqueur et la couleur pour toutes les lignes tracées. Une figure parent peut être fournie comme premier argument.</p>
+    <p>Utiliser des groupes de variables comme <b>{{'A','B'}, 'C'}</b> pour tracer plusieurs variables dans un même axe empile.</p>
+    <p>Les variables de table non prises en charge sont ignorées. Une erreur est émise s'il ne reste aucune variable traçable. Jusqu'a 25 variables peuvent être affichées.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.stackedplot.properties">proprietes de stackedplot</link> pour la liste complète des propriétés.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Tracer des variables selectionnees depuis une table et modifier les proprietes du graphique.</example_item_description>
+      <example_item_description>Tracer des variables sélectionnées depuis une table et modifier les propriétés du graphique.</example_item_description>
       <example_item_data runnable="gui"><![CDATA[
 close all
 Temperature = [19.4; 20.1; 21.7; 23.2; 22.6; 20.9];
@@ -86,7 +86,7 @@ s.Title = 'Weather over time';
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Tracer des variables groupees dans un meme axe.</example_item_description>
+      <example_item_description>Tracer des variables groupées dans un même axe.</example_item_description>
       <example_item_data runnable="gui"><![CDATA[
 close all
 Time = (1:6)';
@@ -116,7 +116,7 @@ s.GridVisible = 'on';
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Tracer des tableaux numeriques.</example_item_description>
+      <example_item_description>Tracer des tableaux numériques.</example_item_description>
       <example_item_data runnable="gui"><![CDATA[
 close all
 X = (0:0.5:5)';
@@ -127,7 +127,7 @@ s.AxesProperties(1).YScale = 'linear';
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Definir des proprietes de haut niveau du graphique.</example_item_description>
+      <example_item_description>Définir des propriétés de haut niveau du graphique.</example_item_description>
       <example_item_data runnable="gui"><![CDATA[
 close all
 Temperature = [19.4; 20.1; 21.7; 23.2; 22.6; 20.9];
@@ -145,7 +145,7 @@ s.Color = [0 0 1];
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Tracer des variables correspondantes depuis deux tables dans les memes axes.</example_item_description>
+      <example_item_description>Tracer des variables correspondantes depuis deux tables dans les mêmes axes.</example_item_description>
       <example_item_data runnable="gui"><![CDATA[
 close all
 Time = (1:6)';
@@ -162,7 +162,7 @@ s = stackedplot(T1, T2, {'Temperature', 'Rain'}, '--o', ...
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Placer les variables correspondantes dans des axes separes.</example_item_description>
+      <example_item_description>Placer les variables correspondantes dans des axes séparés.</example_item_description>
       <example_item_data runnable="gui"><![CDATA[
 close all
 Time = (1:4)';
@@ -175,7 +175,7 @@ s = stackedplot({T1, T2}, {'Value'}, ...
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Creer un graphique empile dans une figure indiquee.</example_item_description>
+      <example_item_description>Créer un graphique empile dans une figure indiquée.</example_item_description>
       <example_item_data runnable="gui"><![CDATA[
 close all
 f = figure();

@@ -11,8 +11,8 @@
     <p>Toutes les dimensions autres que la dimension de concaténation doivent être compatibles.</p>
     <p><img src="../../../../libraries/utility/exports/concatenate.svg" align="middle"/></p>
     <p><b>Extended Capabilities</b></p>
-    <p><b>Implementation Sources</b></p>
-    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <p><b>Implémentation Sources</b></p>
+    <p>Génération de code : prise en charge pour C et Rust.</p>
     <source_code label="Manifest" path="modules/nflow_blocks/libraries/utility/library.json" language="json"/>
     <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/routing/concatenate.cpp" language="cpp"/>
   </description>

@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>movstd</keyword>
-  <short_description>Ecart type mobile.</short_description>
+  <short_description>Écart type mobile.</short_description>
   <syntax>
     <syntax_item>R = movstd(A, window)</syntax_item>
     <syntax_item>R = movstd(A, window, d)</syntax_item>
@@ -36,7 +36,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>movstd</b> calcule les ecarts types sur une fenetre mobile centree.</p>
+    <p><b>movstd</b> calcule les écarts types sur une fenêtre mobile centrée.</p>
   </description>
   <used_function />
   <bibliography />

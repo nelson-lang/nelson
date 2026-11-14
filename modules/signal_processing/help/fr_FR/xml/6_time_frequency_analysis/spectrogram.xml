@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>spectrogram</keyword>
-  <short_description>Spectrogramme par transformees de Fourier locales.</short_description>
+  <short_description>Spectrogramme par transformées de Fourier locales.</short_description>
   <syntax>
     <syntax_item>[S, F, T] = spectrogram(X)</syntax_item>
     <syntax_item>[S, F, T, P] = spectrogram(X, window, noverlap, NFFT, Fs)</syntax_item>
@@ -11,15 +11,15 @@
   <param_input>
     <param_input_item>
       <param_name>X</param_name>
-      <param_description>signal d'entree.</param_description>
+      <param_description>signal d'entrée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>window</param_name>
-      <param_description>vecteur de fenetre ou longueur.</param_description>
+      <param_description>vecteur de fenêtre ou longueur.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>noverlap</param_name>
-      <param_description>nombre d'echantillons de recouvrement.</param_description>
+      <param_description>nombre d'échantillons de recouvrement.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>NFFT</param_name>
@@ -27,7 +27,7 @@
     </param_input_item>
     <param_input_item>
       <param_name>Fs</param_name>
-      <param_description>frequence d'echantillonnage.</param_description>
+      <param_description>fréquence d'échantillonnage.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -37,7 +37,7 @@
     </param_output_item>
     <param_output_item>
       <param_name>F</param_name>
-      <param_description>vecteur de frequences.</param_description>
+      <param_description>vecteur de fréquences.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>T</param_name>
@@ -45,11 +45,11 @@
     </param_output_item>
     <param_output_item>
       <param_name>P</param_name>
-      <param_description>estimation de densite spectrale de puissance.</param_description>
+      <param_description>estimation de densité spectrale de puissance.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>spectrogram</b> decoupe le signal en segments fenetres recouvrants et calcule une FFT pour chaque segment.</p>
+    <p><b>spectrogram</b> découpe le signal en segments fenêtres recouvrants et calcule une FFT pour chaque segment.</p>
   </description>
   <examples>
     <example_item>
@@ -61,7 +61,7 @@
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Afficher le spectrogramme (transformee de Fourier a court terme).</example_item_description>
+      <example_item_description>Afficher le spectrogramme (transformée de Fourier a court terme).</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[spectrogram(sin((0:255)' * 0.1), 64, 32, 128, 10);]]></example_item_data>
       <example_item_img
         src="../../images/spectrogram.svg"

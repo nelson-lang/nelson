@@ -77,7 +77,7 @@
         </tr>
       </tbody>
     </table>
-    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <p>Génération de code : prise en charge pour C et Rust.</p>
     <source_code label="Manifeste" path="modules/nflow_blocks/libraries/userdefined/library.json" language="json"/>
     <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/userdefined/expression.cpp" language="cpp"/>
   </description>

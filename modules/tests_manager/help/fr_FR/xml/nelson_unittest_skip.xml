@@ -11,7 +11,7 @@
   </syntax>
   <description>
     <p><b>nelson.unittest.skip</b> marque le test courant comme ignore. <b>skip_testsuite</b> est l'alias de
-      compatibilite.</p>
+      compatibilité.</p>
   </description>
   <see_also>
     <see_also_item><link linkend="${tests_manager}skip_testsuite">skip_testsuite</link></see_also_item>

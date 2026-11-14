@@ -3,12 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>rowexch</keyword>
-  <short_description>Plan D-optimal par echange de lignes.</short_description>
+  <short_description>Plan D-optimal par échange de lignes.</short_description>
   <syntax>
     <syntax_item>dRE = rowexch(nfactors, nruns)</syntax_item>
     <syntax_item>[dRE, X] = rowexch(nfactors, nruns, modelspec)</syntax_item>
   </syntax>
-  <description><p><b>rowexch</b> genere des candidats avec candgen et selectionne un sous-ensemble D-optimal avec candexch.</p></description>
+  <description><p><b>rowexch</b> génère des candidats avec candgen et sélectionne un sous-ensemble D-optimal avec candexch.</p></description>
   <used_function>
     <link linkend="${statistics}candgen">candgen</link>
     <link linkend="${statistics}candexch">candexch</link>
@@ -19,7 +19,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Creer un plan D-optimal de trois essais depuis des lignes candidates.</example_item_description>
+      <example_item_description>Créer un plan D-optimal de trois essais depuis des lignes candidates.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[rng(5);
 [dRE, X] = rowexch(2, 3, 'linear', 'Display', 'off', 'AvoidDuplicates', true);
 dRE

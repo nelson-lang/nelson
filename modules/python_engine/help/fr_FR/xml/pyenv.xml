@@ -31,7 +31,7 @@
     <p>
       <b>Version</b> : string : version de Python</p>
     <p>
-      <b>Executable</b> : string : nom de l&apos;exécutable Python</p>
+      <b>Exécutable</b> : string : nom de l&apos;exécutable Python</p>
     <p>
       <b>Library</b> : string : fichier de bibliothèque partagée</p>
     <p>
@@ -59,7 +59,7 @@
       <b>__NELSON_PYTHON_HOME__</b> : exemple &quot;/usr&quot;
     </p>
     <p
-    >Toutes les variables d&apos;environnement doivent exister et être valides pour être prises en compte.</p>
+    >Toutes les variables d&apos;environnement doivent exister et être validés pour être prises en compte.</p>
     <p />
     <p>Sous Windows, la fonction<b>pyenv(&apos;Version&apos;, &apos;3.11&apos;)</b> recherche dans le Registre Windows la version de Python associée à la version spécifiée. Elle recherche d&apos;abord dans HKCU, puis dans HKLM si non trouvée.</p>
   </description>

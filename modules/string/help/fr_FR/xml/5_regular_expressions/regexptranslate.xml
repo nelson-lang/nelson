@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>regexptranslate</keyword>
-  <short_description>Traduit du texte en expression reguliere.</short_description>
+  <short_description>Traduit du texte en expression régulière.</short_description>
   <syntax>
     <syntax_item>newStr = regexptranslate(op, str)</syntax_item>
     <syntax_item>newStr = regexptranslate(&apos;flexible&apos;, str, expression)</syntax_item>
@@ -27,7 +27,7 @@
   </param_output>
   <description>
     <p>
-      <b>regexptranslate</b> echappe les caracteres speciaux ou traduit les jokers en syntaxe d&apos;expression reguliere.</p>
+      <b>regexptranslate</b> échappe les caractères spéciaux ou traduit les jokers en syntaxe d&apos;expression régulière.</p>
   </description>
   <used_function />
   <bibliography />

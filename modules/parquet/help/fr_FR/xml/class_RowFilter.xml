@@ -12,7 +12,7 @@
   <param_input>
     <param_input_item>
       <param_name>names</param_name>
-      <param_description>noms de variables specifies comme tableau de chaines ou cellule de vecteurs de caracteres.</param_description>
+      <param_description>noms de variables spécifiés comme tableau de chaînes ou cellule de vecteurs de caractères.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>T</param_name>
@@ -30,9 +30,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>nelson.io.RowFilter</b> stocke les noms de variables et l&apos;expression utilisee pour selectionner des lignes.</p>
-    <p>Les noms de variables sont accessibles par notation par point. Les operateurs relationnels et logiques creent une expression de filtre. L&apos;expression est evaluee quand <b>apply</b> est appele ou quand l&apos;objet est utilise comme argument <b>RowFilter</b> pour les fonctions de lecture Parquet.</p>
-    <p>La methode <b>variables</b> retourne les noms references par l&apos;expression.</p>
+    <p><b>nelson.io.RowFilter</b> stocke les noms de variables et l&apos;expression utilisée pour sélectionner des lignes.</p>
+    <p>Les noms de variables sont accessibles par notation par point. Les opérateurs relationnels et logiques créent une expression de filtre. L&apos;expression est évaluée quand <b>apply</b> est appelé ou quand l&apos;objet est utilisé comme argument <b>RowFilter</b> pour les fonctions de lecture Parquet.</p>
+    <p>La méthode <b>variables</b> retourne les noms références par l&apos;expression.</p>
   </description>
   <used_function />
   <bibliography />

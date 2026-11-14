@@ -3,12 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>extractAfter</keyword>
-  <short_description>Extrait le texte apres une limite.</short_description>
+  <short_description>Extrait le texte après une limite.</short_description>
   <syntax>
     <syntax_item>R = extractAfter(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>extractAfter</b> Extrait le texte apres une limite.</p>
+    <p><b>extractAfter</b> Extrait le texte après une limite.</p>
   </description>
   <used_function />
   <bibliography />

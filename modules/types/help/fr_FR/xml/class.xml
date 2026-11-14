@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>class</keyword>
-  <short_description>Renvoie le nom de classe d&apos;une variable ou cree un objet nomme ancien style.</short_description>
+  <short_description>Renvoie le nom de classe d&apos;une variable ou crée un objet nomme ancien style.</short_description>
   <syntax>
     <syntax_item>name = class(var)</syntax_item>
     <syntax_item>obj = class(st, className)</syntax_item>
@@ -19,13 +19,13 @@
     </param_input_item>
     <param_input_item>
       <param_name>className</param_name>
-      <param_description>un nom de classe sous forme de chaine</param_description>
+      <param_description>un nom de classe sous forme de chaîne</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>name</param_name>
-      <param_description>une chaine</param_description>
+      <param_description>une chaîne</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>obj</param_name>
@@ -36,23 +36,23 @@
   <description>
     <p>
       <b>class(var)</b> renvoie le nom de classe de <b>var</b>.</p>
-    <p>Pour les tableaux sparse, <b>class</b> renvoie la classe de valeur stockee, par exemple <b>double</b> ou <b>logical</b>. Utiliser <b>issparse</b> pour tester le stockage sparse.</p>
-    <p>Pour les objets classdef valeur et handle, <b>class</b> renvoie le nom de la classe classdef, avec le paquet si necessaire.</p>
+    <p>Pour les tableaux sparse, <b>class</b> renvoie la classe de valeur stockée, par exemple <b>double</b> ou <b>logical</b>. Utiliser <b>issparse</b> pour tester le stockage sparse.</p>
+    <p>Pour les objets classdef valeur et handle, <b>class</b> renvoie le nom de la classe classdef, avec le paquet si nécessaire.</p>
     <p>
-      <b>class(st, className)</b> conserve la creation d&apos;objets Nelson ancien style et reste independant des definitions classdef.</p>
+      <b>class(st, className)</b> conserve la création d&apos;objets Nelson ancien style et reste independant des définitions classdef.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Renvoie le nom d&apos;une classe integree.</example_item_description>
+      <example_item_description>Renvoie le nom d&apos;une classe intégrée.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[A = 3;
 name = class(A)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Renvoie la classe de valeur stockee d&apos;un tableau sparse.</example_item_description>
+      <example_item_description>Renvoie la classe de valeur stockée d&apos;un tableau sparse.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[S = sparse([2 0 3]);
 name = class(S)
 tf = issparse(S)]]></example_item_data>
@@ -98,7 +98,7 @@ delete(h)]]></example_item_data>
     </history_item>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>les tableaux sparse indiquent leur classe de valeur stockee</history_description>
+      <history_description>les tableaux sparse indiquent leur classe de valeur stockée</history_description>
     </history_item>
   </history>
   <authors>

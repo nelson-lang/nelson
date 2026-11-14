@@ -11,8 +11,8 @@
     <syntax_item>[p, h, stats] = signrank(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>signrank</b> effectue un test apparie des rangs signes de Wilcoxon. Si <b>y</b> est omis, les valeurs de <b>x</b> sont testees contre zero. Si <b>y</b> est un scalaire, les valeurs de <b>x</b> sont testees contre ce scalaire.</p>
-    <p>Les arguments nom-valeur incluent <b>Alpha</b>, <b>Tail</b> et <b>Method</b>. Les differences nulles et <b>NaN</b> sont omises.</p>
+    <p><b>signrank</b> effectue un test apparie des rangs signes de Wilcoxon. Si <b>y</b> est omis, les valeurs de <b>x</b> sont testées contre zéro. Si <b>y</b> est un scalaire, les valeurs de <b>x</b> sont testées contre ce scalaire.</p>
+    <p>Les arguments nom-valeur incluent <b>Alpha</b>, <b>Tail</b> et <b>Method</b>. Les différences nulles et <b>NaN</b> sont omises.</p>
   </description>
   <examples>
     <example_item>

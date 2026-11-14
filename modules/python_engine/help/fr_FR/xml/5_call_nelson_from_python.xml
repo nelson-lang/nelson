@@ -15,109 +15,109 @@
   </syntax>
   <description>
     <p>
-      Le paquet Python <b>nelson.engine</b> demarre ou connecte un processus
-      Nelson depuis Python et expose les fonctions Nelson comme des methodes
+      Le paquet Python <b>nelson.engine</b> démarre ou connecte un processus
+      Nelson depuis Python et expose les fonctions Nelson comme des méthodes
       Python.</p>
     <p>
-      Le paquet peut etre utilise depuis une installation Nelson ou depuis un
-      arbre de compilation lorsque la bibliotheque engine de Nelson est
-      disponible. Si la decouverte automatique echoue, definissez
+      Le paquet peut être utilisé depuis une installation Nelson ou depuis un
+      arbre de compilation lorsque la bibliothèque engine de Nelson est
+      disponible. Si la découverte automatique échoue, définissez
       <b>NELSON_ROOT</b> ou <b>NELSON_ENGINE_LIBRARY</b> avant d&apos;importer le
       paquet.</p>
     <p>
-      <b>start_nelson</b> demarre une session Nelson possedee par Python.
+      <b>start_nelson</b> démarre une session Nelson possédée par Python.
       <b>quit</b> ou <b>close</b> ferme cette session. <b>connect_nelson</b>
-      s&apos;attache a une session existante et se detache sans fermer le processus
+      s&apos;attache à une session existante et se détache sans fermer le processus
       cible.</p>
     <p>
-      Definissez <b>background=True</b> pour demarrer ou connecter la session de
-      maniere asynchrone. La valeur retournee est un objet <b>FutureResult</b>
-      avec les methodes <b>result</b>, <b>done</b>, <b>cancel</b> et
+      Définissez <b>background=True</b> pour démarrer ou connecter la session de
+      manière asynchrone. La valeur retournée est un objet <b>FutureResult</b>
+      avec les méthodes <b>result</b>, <b>done</b>, <b>cancel</b> et
       <b>cancelled</b>.</p>
     <p>
-      Utilisez <b>nargout</b> pour controler les valeurs retournees. Avec
+      Utilisez <b>nargout</b> pour contrôler les valeurs retournées. Avec
       <b>nargout=0</b>, les appels retournent <b>None</b>. Avec
       <b>nargout=1</b>, ils retournent une valeur. Avec <b>nargout&gt;1</b>,
       ils retournent un tuple.</p>
     <p>
-      Les appels de fonctions sont synchrones par defaut. Passez
-      <b>background=True</b> pour appeler une fonction Nelson de maniere
-      asynchrone. L&apos;appel retourne immediatement un <b>FutureResult</b>;
+      Les appels de fonctions sont synchrones par défaut. Passez
+      <b>background=True</b> pour appeler une fonction Nelson de manière
+      asynchrone. L&apos;appel retourne immédiatement un <b>FutureResult</b>;
       utilisez <b>result(timeout=None)</b>, <b>done</b>, <b>cancel</b> et
-      <b>cancelled</b> pour inspecter ou controler l&apos;execution.</p>
+      <b>cancelled</b> pour inspecter ou contrôler l&apos;exécution.</p>
     <p>
-      <b>FutureResult.result(timeout)</b> leve
-      <b>nelson.engine.TimeoutError</b> si le resultat n&apos;est pas pret avant le
-      timeout, <b>CancelledError</b> si l&apos;appel a ete annule, et propage les
-      erreurs d&apos;execution Nelson de l&apos;appel asynchrone.</p>
+      <b>FutureResult.result(timeout)</b> lève
+      <b>nelson.engine.TimeoutError</b> si le résultat n&apos;est pas prêt avant le
+      timeout, <b>CancelledError</b> si l&apos;appel a été annulé, et propage les
+      erreurs d&apos;exécution Nelson de l&apos;appel asynchrone.</p>
     <p>
-      Les echanges de donnees prennent en charge les scalaires, chaines,
-      booleens, tableaux numeriques, classes de tableaux Nelson et tableaux
-      NumPy lorsque NumPy est installe. Les types non pris en charge produisent
-      des erreurs explicites au lieu d&apos;etre convertis silencieusement. Nelson
+      Les échanges de données prennent en charge les scalaires, chaînes,
+      booléens, tableaux numériques, classes de tableaux Nelson et tableaux
+      NumPy lorsque NumPy est installé. Les types non pris en charge produisent
+      des erreurs explicites au lieu d&apos;être convertis silencieusement. Nelson
       fournit un type timetable, mais sa conversion vers et depuis les objets
-      Python n&apos;est pas encore exposee.</p>
+      Python n&apos;est pas encore exposée.</p>
     <p>
       Conversions Python vers Nelson: <b>bool</b> devient logical, <b>int</b> et
       <b>float</b> deviennent des scalaires double, <b>complex</b> devient un
       double complexe, <b>str</b> devient char, les listes et tuples deviennent
       des tableaux double sauf s&apos;ils contiennent des valeurs complexes, les
-      <b>dict</b> Python avec des cles valides deviennent des structs scalaires,
+      <b>dict</b> Python avec des clés valides deviennent des structs scalaires,
       <b>nelson.cell</b> devient un tableau de cellules, <b>nelson.table</b> et
       les DataFrame pandas deviennent des tables Nelson, et <b>nelson.sparse</b>
-      est cree avec la fonction Nelson <b>sparse</b>. Les index de DataFrame
-      pandas qui ne sont pas le RangeIndex par defaut, y compris les valeurs
-      DatetimeIndex, sont preserves comme noms de lignes de table Nelson et ne
+      est créé avec la fonction Nelson <b>sparse</b>. Les index de DataFrame
+      pandas qui ne sont pas le RangeIndex par défaut, y compris les valeurs
+      DatetimeIndex, sont préservés comme noms de lignes de table Nelson et ne
       sont pas convertis en timetables. Les tableaux NumPy conservent les dtypes
       bool, entiers, flottants et complexes courants lorsque NumPy est
-      installe.</p>
+      installé.</p>
     <p>
       Conversions Nelson vers Python: les tableaux char deviennent
-      <b>nelson.char</b>, les tableaux denses numeriques et logical deviennent
+      <b>nelson.char</b>, les tableaux denses numériques et logical deviennent
       des objets tableaux Python Nelson, les tableaux complexes conservent leurs
-      parties reelle et imaginaire, et les matrices sparse deviennent
+      parties réelle et imaginaire, et les matrices sparse deviennent
       <b>nelson.sparse</b>. Les structs scalaires deviennent
       <b>nelson.struct</b>, les tableaux de cellules deviennent
       <b>nelson.cell</b>, et les tables deviennent des DataFrame pandas si pandas
-      est installe ou <b>nelson.table</b> sinon. Les lectures sparse utilisent un
-      chemin de compatibilite base sur <b>full</b> lorsque la serialisation IPC
+      est installé ou <b>nelson.table</b> sinon. Les lectures sparse utilisent un
+      chemin de compatibilité base sur <b>full</b> lorsque la sérialisation IPC
       sparse directe n&apos;est pas disponible. Les tableaux de structs non
-      scalaires, les graphiques et autres handles d&apos;objets surs sont retournes
-      comme des valeurs <b>nelson.engine.NelsonObject</b> qui peuvent etre
-      repassees au meme moteur, par exemple pour selectionner ou fermer une
-      figure. Les handles d&apos;objets fournissent aussi des methodes pratiques
-      <b>get</b> et <b>set</b> pour les proprietes Nelson lorsque l&apos;objet Nelson
+      scalaires, les graphiques et autres handles d&apos;objets sûrs sont retournés
+      comme des valeurs <b>nelson.engine.NelsonObject</b> qui peuvent être
+      repassées au même moteur, par exemple pour sélectionner ou fermer une
+      figure. Les handles d&apos;objets fournissent aussi des méthodes pratiques
+      <b>get</b> et <b>set</b> pour les propriétés Nelson lorsque l&apos;objet Nelson
       sous-jacent les prend en charge.</p>
     <p>
-      Pas encore completement pris en charge: conversion des tableaux de structs
+      Pas encore complètement pris en charge: conversion des tableaux de structs
       non scalaires en objets mapping Python natifs, imbrication profonde de
-      tables, et dispatch direct arbitraire de methodes d&apos;objets depuis Python.
+      tables, et dispatch direct arbitraire de méthodes d&apos;objets depuis Python.
       La conversion timetable vers et depuis les objets Python n&apos;est pas encore
-      exposee. Les
-      dictionnaires Python dont les cles ne sont pas des noms de champs valides
-      sont transferes via la construction de dictionnaires Nelson lors d&apos;une
+      exposée. Les
+      dictionnaires Python dont les clés ne sont pas des noms de champs valides
+      sont transférés via la construction de dictionnaires Nelson lors d&apos;une
       affectation au workspace. Les conversions d&apos;objets non prises en charge
       produisent des erreurs explicites ou retournent des handles d&apos;objets
       Nelson lorsqu&apos;une conversion sure n&apos;est pas disponible.</p>
     <p>
-      Les workflows de tables peuvent souvent etre adaptes en convertissant les
-      donnees tabulaires en tableaux pris en charge avant de traverser la
-      frontiere engine. Par exemple, triez ou filtrez les valeurs dans des listes
-      Python, puis repassez les donnees numeriques selectionnees sous forme de
+      Les workflows de tables peuvent souvent être adaptés en convertissant les
+      données tabulaires en tableaux pris en charge avant de traverser la
+      frontière engine. Par exemple, triez ou filtrez les valeurs dans des listes
+      Python, puis repassez les données numériques sélectionnées sous forme de
       tableaux <b>nelson.double</b> pour les calculs ou les graphiques Nelson.</p>
     <p>
       Les classes de tableaux Nelson incluent <b>nelson.double</b>,
       <b>nelson.single</b>, les tableaux entiers signes et non signes,
       <b>nelson.logical</b>, <b>nelson.sparse</b> et <b>nelson.char</b>. Les
-      tableaux utilisent l&apos;indexation Python a base zero et preservent le
+      tableaux utilisent l&apos;indexation Python a base zéro et préservent le
       stockage column-major de Nelson pour les transferts vers le moteur.</p>
     <p>
-      Le paquet <b>nelson.engine</b> demarre ou se connecte a un processus Nelson
-      separe. Pour le cas intra-processus, lorsque Python est execute depuis Nelson
+      Le paquet <b>nelson.engine</b> démarre ou se connecte a un processus Nelson
+      sépare. Pour le cas intra-processus, lorsque Python est exécuté depuis Nelson
       avec <b linkend="${python_engine}pyrun">pyrun</b> ou <b
         linkend="${python_engine}pyrunfile">pyrunfile</b>, un handle de fonction
-      Nelson peut etre encapsule en appelable Python avec <b
-        linkend="${python_engine}pyfunction">pyfunction</b> puis rappele de maniere
+      Nelson peut être encapsulé en appelable Python avec <b
+        linkend="${python_engine}pyfunction">pyfunction</b> puis rappele de manière
       synchrone depuis le code Python (par exemple comme scoreur, noyau ou
       transformateur scikit-learn). Ce rappel est mono-thread et requiert
       <b>n_jobs=1</b>.</p>
@@ -125,7 +125,7 @@
   <examples>
     <example_item>
       <example_item_type>python</example_item_type>
-      <example_item_description>Demarrer Nelson, appeler une fonction et fermer la session.</example_item_description>
+      <example_item_description>Démarrer Nelson, appeler une fonction et fermer la session.</example_item_description>
       <example_item_data><![CDATA[import nelson.engine
 
 eng = nelson.engine.start_nelson()
@@ -134,7 +134,7 @@ eng.quit()]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>python</example_item_type>
-      <example_item_description>Appeler une fonction Nelson de maniere asynchrone.</example_item_description>
+      <example_item_description>Appeler une fonction Nelson de manière asynchrone.</example_item_description>
       <example_item_data><![CDATA[import nelson.engine
 
 eng = nelson.engine.start_nelson()
@@ -146,7 +146,7 @@ eng.quit()]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>python</example_item_type>
-      <example_item_description>Evaluer des commandes et echanger des variables du workspace.</example_item_description>
+      <example_item_description>Évaluer des commandes et échanger des variables du workspace.</example_item_description>
       <example_item_data><![CDATA[import nelson
 import nelson.engine
 
@@ -202,7 +202,7 @@ eng.quit()]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>python</example_item_type>
-      <example_item_description>Appeler une fonction utilisateur apres avoir ajoute son dossier au path Nelson.</example_item_description>
+      <example_item_description>Appeler une fonction utilisateur après avoir ajouté son dossier au path Nelson.</example_item_description>
       <example_item_data><![CDATA[import nelson.engine
 
 eng = nelson.engine.start_nelson()
@@ -212,7 +212,7 @@ eng.quit()]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>python</example_item_type>
-      <example_item_description>Executer un script. Les scripts utilisent normalement nargout=0.</example_item_description>
+      <example_item_description>Exécuter un script. Les scripts utilisent normalement nargout=0.</example_item_description>
       <example_item_data><![CDATA[import nelson.engine
 
 eng = nelson.engine.start_nelson()
@@ -241,7 +241,7 @@ eng.quit()]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>python</example_item_type>
-      <example_item_description>Trier des donnees dans Python et les tracer avec Nelson.</example_item_description>
+      <example_item_description>Trier des données dans Python et les tracer avec Nelson.</example_item_description>
       <example_item_data><![CDATA[import nelson
 import nelson.engine
 

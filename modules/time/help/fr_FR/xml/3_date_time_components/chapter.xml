@@ -5,6 +5,6 @@
   <module_name>time</module_name>
   <chapter>Composants de date et heure</chapter>
   <chapter_description>
-    <p>Fonctions pour extraire et separer les composants de date et heure.</p>
+    <p>Fonctions pour extraire et séparer les composants de date et heure.</p>
   </chapter_description>
 </xmldoc>

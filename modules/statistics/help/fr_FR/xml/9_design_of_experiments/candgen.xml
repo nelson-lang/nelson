@@ -3,12 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>candgen</keyword>
-  <short_description>Generer un ensemble candidat pour les plans.</short_description>
+  <short_description>Générer un ensemble candidat pour les plans.</short_description>
   <syntax>
     <syntax_item>dC = candgen(nfactors)</syntax_item>
     <syntax_item>[dC, C] = candgen(nfactors, modelspec)</syntax_item>
   </syntax>
-  <description><p><b>candgen</b> genere un ensemble candidat factoriel complet a partir des bornes des facteurs et sa matrice de modele.</p></description>
+  <description><p><b>candgen</b> génère un ensemble candidat factoriel complet à partir des bornes des facteurs et sa matrice de modèle.</p></description>
   <used_function>
     <link linkend="${statistics}x2fx">x2fx</link>
     <link linkend="${statistics}candexch">candexch</link>
@@ -19,7 +19,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Generer un ensemble candidat factoriel complet et sa matrice de modele lineaire.</example_item_description>
+      <example_item_description>Générer un ensemble candidat factoriel complet et sa matrice de modèle linéaire.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[F = candgen(2)
 [F, C] = candgen(2, 'linear')]]></example_item_data>
     </example_item>

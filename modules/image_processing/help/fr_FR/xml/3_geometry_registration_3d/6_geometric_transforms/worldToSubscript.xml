@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>worldToSubscript</keyword>
-  <short_description>Convertit des coordonnees monde en indices d'image.</short_description>
+  <short_description>Convertit des coordonnées monde en indices d'image.</short_description>
   <syntax>
     <syntax_item>[row, column] = worldToSubscript(R, xWorld, yWorld)</syntax_item>
     <syntax_item>[row, column, plane] = worldToSubscript(R, xWorld, yWorld, zWorld)</syntax_item>
@@ -11,28 +11,28 @@
   <param_input>
     <param_input_item>
       <param_name>R</param_name>
-      <param_description>Structure de reference spatiale 2-D ou 3-D creee par imref2d ou imref3d.</param_description>
+      <param_description>Structure de référence spatiale 2-D ou 3-D créée par imref2d ou imref3d.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>xWorld, yWorld, zWorld</param_name>
-      <param_description>Coordonnees monde. La coordonnee Z est utilisee uniquement avec les references 3-D.</param_description>
+      <param_description>Coordonnées monde. La coordonnée Z est utilisée uniquement avec les références 3-D.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>row, column, plane</param_name>
-      <param_description>Indices les plus proches. Les points hors de l'image referencee renvoient des indices NaN.</param_description>
+      <param_description>Indices les plus proches. Les points hors de l'image référencée renvoient des indices NaN.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>Convertit les coordonnees monde en indices ligne, colonne et eventuellement plan les plus proches.</p>
+    <p>Convertit les coordonnées monde en indices ligne, colonne et éventuellement plan les plus proches.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Convertir des coordonnees monde en ligne et colonne</example_item_description>
+      <example_item_description>Convertir des coordonnées monde en ligne et colonne</example_item_description>
       <example_item_data><![CDATA[R = imref2d([2 3], 2, 3);
 [row, column] = worldToSubscript(R, [2 8], [3 6])]]></example_item_data>
     </example_item>

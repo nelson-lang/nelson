@@ -16,18 +16,18 @@
   <param_output>
     <param_output_item>
       <param_name>YCBCR</param_name>
-      <param_description>Image ou colormap YCbCr. Les entrees uint8, uint16 et single conservent leur classe ; les autres entrees renvoient double.</param_description>
+      <param_description>Image ou colormap YCbCr. Les entrées uint8, uint16 et single conservent leur classe ; les autres entrées renvoient double.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>Convertit des valeurs couleur RGB en valeurs YCbCr. Les entrees peuvent etre des images m-by-n-by-3 ou des colormaps double c-by-3 avec des valeurs dans l intervalle [0, 1].</p>
+    <p>Convertit des valeurs couleur RGB en valeurs YCbCr. Les entrées peuvent être des images m-by-n-by-3 ou des colormaps double c-by-3 avec des valeurs dans l intervalle [0, 1].</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Afficher la luminance apres conversion RGB vers YCbCr</example_item_description>
+      <example_item_description>Afficher la luminance après conversion RGB vers YCbCr</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[RGB=zeros(64,64,3);

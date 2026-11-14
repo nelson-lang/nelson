@@ -9,8 +9,8 @@
     <syntax_item>[V, C] = voronoin(P, options)</syntax_item>
   </syntax>
   <description>
-    <p><b>voronoin</b> calcule les sommets et cellules de Voronoi pour les points d'entree.</p>
-    <p><b>V</b> contient les sommets et <b>C</b> est un tableau de cellules d'indices a partir de un.</p>
+    <p><b>voronoin</b> calcule les sommets et cellules de Voronoi pour les points d'entrée.</p>
+    <p><b>V</b> contient les sommets et <b>C</b> est un tableau de cellules d'indices à partir de un.</p>
   </description>
   <examples>
     <example_item>

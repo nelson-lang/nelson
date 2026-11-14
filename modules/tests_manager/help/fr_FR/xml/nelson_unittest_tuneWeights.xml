@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>nelson.unittest.tuneWeights</keyword>
-  <short_description>Calibrer les poids de planification avec les durees mesurees.</short_description>
+  <short_description>Calibrer les poids de planification avec les durées mesurées.</short_description>
   <syntax>
     <syntax_item>proposal = nelson.unittest.tuneWeights(results)</syntax_item>
     <syntax_item>proposal = nelson.unittest.tuneWeights(results, 'Apply', true)</syntax_item>
@@ -12,60 +12,60 @@
   <param_input>
     <param_input_item>
       <param_name>results</param_name>
-      <param_description>TestRunResult retourne par nelson.unittest.run.</param_description>
+      <param_description>TestRunResult retourné par nelson.unittest.run.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>targets</param_name>
       <param_description>nom de module, dossier, fichier, tableau de cellules de cibles, TestSuite ou
-        TestPlan. Les cibles sont executees une fois pour mesurer leurs durees.</param_description>
+        TestPlan. Les cibles sont exécutées une fois pour mesurer leurs durées.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Apply</param_name>
-      <param_description>scalaire logique. La valeur par defaut est false. Avec true, les tags
-        &lt;--WEIGHT N--&gt; sont ajoutes, modifies ou supprimes dans les fichiers mesures.</param_description>
+      <param_description>scalaire logique. La valeur par défaut est false. Avec true, les tags
+        &lt;--WEIGHT N--&gt; sont ajoutés, modifiés ou supprimés dans les fichiers mesures.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>MaxWeight</param_name>
-      <param_description>entier positif limitant les poids generes. La valeur par defaut est 64.</param_description>
+      <param_description>entier positif limitant les poids générés. La valeur par défaut est 64.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Name, Value</param_name>
-      <param_description>les autres options sont transmises a nelson.unittest.run quand des cibles sont
+      <param_description>les autres options sont transmises à nelson.unittest.run quand des cibles sont
         fournies.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>proposal</param_name>
-      <param_description>structure WeightTuningResult contenant fichiers mesures, durees, anciens et nouveaux
-        poids, actions et resume.</param_description>
+      <param_description>structure WeightTuningResult contenant fichiers mesures, durées, anciens et nouveaux
+        poids, actions et résume.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>results</param_name>
-      <param_description>TestRunResult utilise pour la calibration.</param_description>
+      <param_description>TestRunResult utilisé pour la calibration.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>nelson.unittest.tuneWeights</b> calcule des poids statiques de planification depuis les durees
-      mesurees. Aucun cache de durees n&apos;est cree ou consulte.</p>
-    <p>Le comportement par defaut est une simulation. Les fichiers sources sont modifies uniquement avec
-      <b>Apply</b> egal a true.</p>
-    <p>Seuls les tests reussis et les benches termines sont eligibles. Les echecs, skips, timeouts, resultats
-      manquants et fichiers supprimes sont ignores.</p>
-    <p>Les durees sont normalisees separement pour chaque module et pour les categories test et bench. La
-      duree mediane correspond au poids 1. Les durees superieures sont quantifiees en puissances de deux et
-      limitees par <b>MaxWeight</b>. Cette quantification evite les modifications dues a de petites variations.</p>
-    <p>Le poids genere 1 est implicite : un tag de poids existant est supprime. Les autres poids ajoutent ou
-      remplacent un seul tag d&apos;entete tout en conservant le style de fin de ligne.</p>
-    <p>Fournir des cibles les execute une fois avant de produire la proposition. Ce run de calibration prepare
-      les executions suivantes ; l&apos;utiliser comme prepass obligatoire executerait les memes tests deux fois.</p>
-    <p>Si les tags de reutilisation sont aussi calibres, les appliquer d'abord. La calibration des poids doit
-      utiliser un nouveau run effectue avec la configuration finale de reutilisation des processus.</p>
+    <p><b>nelson.unittest.tuneWeights</b> calcule des poids statiques de planification depuis les durées
+      mesurées. Aucun cache de durées n&apos;est créé ou consulte.</p>
+    <p>Le comportement par défaut est une simulation. Les fichiers sources sont modifiés uniquement avec
+      <b>Apply</b> égal à true.</p>
+    <p>Seuls les tests réussis et les benches terminés sont éligibles. Les échecs, skips, timeouts, résultats
+      manquants et fichiers supprimés sont ignorés.</p>
+    <p>Les durées sont normalisées séparément pour chaque module et pour les catégories test et bench. La
+      durée médiane correspond au poids 1. Les durées supérieures sont quantifiées en puissances de deux et
+      limitées par <b>MaxWeight</b>. Cette quantification évite les modifications dues a de petites variations.</p>
+    <p>Le poids génère 1 est implicite : un tag de poids existant est supprimé. Les autres poids ajoutent ou
+      remplacent un seul tag d&apos;en-tête tout en conservant le style de fin de ligne.</p>
+    <p>Fournir des cibles les exécute une fois avant de produire la proposition. Ce run de calibration prépare
+      les exécutions suivantes ; l&apos;utiliser comme prepass obligatoire executerait les mêmes tests deux fois.</p>
+    <p>Si les tags de réutilisation sont aussi calibrés, les appliquer d'abord. La calibration des poids doit
+      utiliser un nouveau run effectue avec la configuration finale de réutilisation des processus.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Verifier puis appliquer une proposition issue d&apos;un run existant.</example_item_description>
+      <example_item_description>Vérifier puis appliquer une proposition issue d&apos;un run existant.</example_item_description>
       <example_item_data><![CDATA[
 results = nelson.unittest.run({'interpreter', 'statistics'});
 proposal = nelson.unittest.tuneWeights(results);
@@ -74,7 +74,7 @@ proposal = nelson.unittest.tuneWeights(results, 'Apply', true);
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Calibrer les poids des tests d'un module, verifier la proposition, puis appliquer les memes mesures sans nouveau run.</example_item_description>
+      <example_item_description>Calibrer les poids des tests d'un module, vérifier la proposition, puis appliquer les mêmes mesures sans nouveau run.</example_item_description>
       <example_item_data><![CDATA[
 [proposal, results] = nelson.unittest.tuneWeights('interpreter', ...
   'Kind', 'test', 'Workers', 16);

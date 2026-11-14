@@ -3,12 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>convertContainedStringsToChars</keyword>
-  <short_description>Convertit les tableaux de chaines contenus en vecteurs de caracteres.</short_description>
+  <short_description>Convertit les tableaux de chaînes contenus en vecteurs de caractères.</short_description>
   <syntax>
     <syntax_item>R = convertContainedStringsToChars(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>convertContainedStringsToChars</b> Convertit les tableaux de chaines contenus en vecteurs de caracteres.</p>
+    <p><b>convertContainedStringsToChars</b> Convertit les tableaux de chaînes contenus en vecteurs de caractères.</p>
   </description>
   <used_function />
   <bibliography />

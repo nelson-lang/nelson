@@ -11,7 +11,7 @@
     <syntax_item>h = surfc(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>surfc</b> affiche une surface et des lignes de contour projetees a la base de la surface.</p>
+    <p><b>surfc</b> affiche une surface et des lignes de contour projetées a la base de la surface.</p>
   </description>
   <examples>
     <example_item>

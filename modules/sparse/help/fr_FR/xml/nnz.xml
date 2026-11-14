@@ -11,7 +11,7 @@
     <param_input_item>
       <param_name>M</param_name>
       <param_description
-      >tableau numerique, logique ou caractere, sparse ou plein.</param_description>
+      >tableau numérique, logique ou caractère, sparse ou plein.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -24,9 +24,9 @@
     <p>
       <b>nnz</b> retourne le nombre d&apos;éléments non nuls dans une matrice.</p>
     <p>
-      Les entrees pleines peuvent etre multidimensionnelles. Les entrees sparse sont 2-D et peuvent stocker des valeurs double, single, logiques, double complexes ou single complexes.</p>
+      Les entrées pleines peuvent être multidimensionnelles. Les entrées sparse sont 2-D et peuvent stocker des valeurs double, single, logiques, double complexes ou single complexes.</p>
     <p>
-      Pour les matrices sparse, <b>nnz</b> compte seulement les valeurs reellement non nulles. Les valeurs nulles stockees sont ignorees.</p>
+      Pour les matrices sparse, <b>nnz</b> compte seulement les valeurs réellement non nulles. Les valeurs nulles stockées sont ignorées.</p>
   </description>
   <used_function />
   <bibliography />
@@ -64,7 +64,7 @@ n = nnz(S)]]></example_item_data>
   <history>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>comportement sparse single et valeurs nulles stockees documentes</history_description>
+      <history_description>comportement sparse single et valeurs nulles stockées documentes</history_description>
     </history_item>
     <history_item>
       <history_version>1.0.0</history_version>

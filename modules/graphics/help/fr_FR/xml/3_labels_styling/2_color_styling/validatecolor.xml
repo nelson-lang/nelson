@@ -29,9 +29,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>La fonction<b>validatecolor</b> est une fonction de validation des couleurs qui vérifie si une couleur donnée est valide selon les standards de Nelson.</p>
+    <p>La fonction<b>validatecolor</b> est une fonction de validation des couleurs qui vérifie si une couleur donnée est validé selon les standards de Nelson.</p>
     <p
-    >Elle prend un argument de couleur en entrée et retourne une erreur si la couleur n&apos;est pas valide.</p>
+    >Elle prend un argument de couleur en entrée et retourne une erreur si la couleur n&apos;est pas validé.</p>
     <p>Les codes couleur hexadécimaux utilisent six ('#FF8800') ou trois ('#F80') chiffres hexadécimaux.</p>
   </description>
   <used_function />

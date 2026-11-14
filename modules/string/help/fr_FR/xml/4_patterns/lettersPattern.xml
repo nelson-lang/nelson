@@ -3,12 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>lettersPattern</keyword>
-  <short_description>Motif pour les caracteres alphabetiques.</short_description>
+  <short_description>Motif pour les caractères alphabétiques.</short_description>
   <syntax>
     <syntax_item>R = lettersPattern(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>lettersPattern</b> Motif pour les caracteres alphabetiques.</p>
+    <p><b>lettersPattern</b> Motif pour les caractères alphabétiques.</p>
   </description>
   <used_function />
   <bibliography />

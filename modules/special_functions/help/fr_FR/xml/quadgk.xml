@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>quadgk</keyword>
-  <short_description>Evalue numeriquement une integrale par quadrature Gauss-Kronrod.</short_description>
+  <short_description>Évalue numériquement une intégrale par quadrature Gauss-Kronrod.</short_description>
   <syntax>
     <syntax_item>q = quadgk(fun, a, b)</syntax_item>
     <syntax_item>[q, errbnd] = quadgk(fun, a, b)</syntax_item>
@@ -11,16 +11,16 @@
   </syntax>
   <param_input>
     <param_input_item><param_name>fun</param_name><param_description>Integrande : handle de fonction.</param_description></param_input_item>
-    <param_input_item><param_name>a, b</param_name><param_description>Bornes d&apos;integration. Les bornes complexes finies sont integrees sur des segments droits.</param_description></param_input_item>
+    <param_input_item><param_name>a, b</param_name><param_description>Bornes d&apos;intégration. Les bornes complexes finies sont intégrées sur des segments droits.</param_description></param_input_item>
     <param_input_item><param_name>name, value</param_name><param_description>Options : &apos;RelTol&apos;, &apos;AbsTol&apos;, &apos;Waypoints&apos; et &apos;MaxIntervalCount&apos;.</param_description></param_input_item>
   </param_input>
   <param_output>
-    <param_output_item><param_name>q</param_name><param_description>Integrale calculee.</param_description></param_output_item>
+    <param_output_item><param_name>q</param_name><param_description>Intégrale calculée.</param_description></param_output_item>
     <param_output_item><param_name>errbnd</param_name><param_description>Borne approximative de l&apos;erreur absolue.</param_description></param_output_item>
   </param_output>
   <description>
-    <p><b>quadgk</b> integre une integrande scalaire vectorisee avec une quadrature Gauss-Kronrod adaptive.</p>
-    <p><b>Waypoints</b> decoupe l&apos;integrale en sous-intervalles. Des points complexes definissent un contour polygonal.</p>
+    <p><b>quadgk</b> intègre une integrande scalaire vectorisée avec une quadrature Gauss-Kronrod adaptive.</p>
+    <p><b>Waypoints</b> découpe l&apos;intégrale en sous-intervalles. Des points complexes définissent un contour polygonal.</p>
   </description>
   <used_function />
   <bibliography />

@@ -16,8 +16,8 @@
   <description>
     <p>
       <b>groot</b> retourne l&apos;objet racine graphique.</p>
-    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.groot.properties">proprietes de groot</link> pour la liste complete des proprietes.</p><p>
-      Les valeurs par defaut racine utilisent des noms de la forme <b>Default</b><i>Objet</i><i>Propriete</i>. Par exemple, <b>set(groot(), &apos;DefaultFigureColormap&apos;, cmap)</b> change la colormap des nouvelles figures. Utiliser la valeur <b>&apos;remove&apos;</b> restaure la valeur d&apos;usine.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.groot.properties">proprietes de groot</link> pour la liste complète des propriétés.</p><p>
+      Les valeurs par défaut racine utilisent des noms de la forme <b>Default</b><i>Objet</i><i>Propriété</i>. Par exemple, <b>set(groot(), &apos;DefaultFigureColormap&apos;, cmap)</b> change la colormap des nouvelles figures. Utiliser la valeur <b>&apos;remove&apos;</b> restaure la valeur d&apos;usine.</p>
   </description>
   <used_function />
   <bibliography />

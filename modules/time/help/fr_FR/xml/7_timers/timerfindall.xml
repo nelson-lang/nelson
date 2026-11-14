@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>timerfindall</keyword>
-  <short_description>Trouver tous les objets timer qui correspondent a des criteres de proprietes, y compris les timers caches.</short_description>
+  <short_description>Trouver tous les objets timer qui correspondent à des critères de propriétés, y compris les timers caches.</short_description>
   <syntax>
     <syntax_item>out = timerfindall()</syntax_item>
     <syntax_item>out = timerfindall(&apos;PropertyName&apos;, PropertyValue, ...)</syntax_item>
@@ -13,26 +13,26 @@
   <param_input>
     <param_input_item>
       <param_name>t</param_name>
-      <param_description>Tableau d&apos;objets timer utilise comme source de recherche.</param_description>
+      <param_description>Tableau d&apos;objets timer utilisé comme source de recherche.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>PropertyName, PropertyValue</param_name>
-      <param_description>Criteres de proprietes. Les timers retournes doivent correspondre a toutes les valeurs demandees.</param_description>
+      <param_description>Critères de propriétés. Les timers retournés doivent correspondre à toutes les valeurs demandées.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>values</param_name>
-      <param_description>Structure scalaire dont les champs contiennent les criteres de proprietes.</param_description>
+      <param_description>Structure scalaire dont les champs contiennent les critères de propriétés.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>out</param_name>
-      <param_description>Tableau d&apos;objets timer correspondants, y compris les objets dont la propriete <b>ObjectVisibility</b> vaut <b>off</b>.</param_description>
+      <param_description>Tableau d&apos;objets timer correspondants, y compris les objets dont la propriété <b>ObjectVisibility</b> vaut <b>off</b>.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>timerfindall</b> retourne les objets timer qui correspondent a tous les criteres de proprietes specifies. Contrairement a <b>timerfind</b>, elle inclut les timers caches.</p>
-    <p>Elle peut aussi retourner les objets timer dont la variable d&apos;origine est sortie de portee, jusqu&apos;a leur suppression.</p>
+    <p><b>timerfindall</b> retourne les objets timer qui correspondent à tous les critères de propriétés spécifiés. Contrairement a <b>timerfind</b>, elle inclut les timers caches.</p>
+    <p>Elle peut aussi retourner les objets timer dont la variable d&apos;origine est sortie de portée, jusqu&apos;a leur suppression.</p>
   </description>
   <used_function />
   <bibliography />
@@ -49,7 +49,7 @@ delete(t);]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Utiliser une structure de criteres.</example_item_description>
+      <example_item_description>Utiliser une structure de critères.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[t = timer('Name', 'criteriaTimer', ...
   'Tag', 'criteria', ...
   'TimerFcn', @(src, event) disp('criteria'));

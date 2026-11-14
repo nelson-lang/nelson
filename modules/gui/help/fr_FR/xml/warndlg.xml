@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>warndlg</keyword>
-  <short_description>Cree une boite de dialogue d'avertissement.</short_description>
+  <short_description>Crée une boîte de dialogue d'avertissement.</short_description>
   <syntax>
     <syntax_item>h = warndlg</syntax_item>
     <syntax_item>h = warndlg(message)</syntax_item>
@@ -30,7 +30,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Creer une boite d avertissement.</example_item_description>
+      <example_item_description>Créer une boîte d avertissement.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[f = warndlg('Check the input value.', 'Warning', 'non-modal');
 drawnow();]]></example_item_data>
       <example_item_img
@@ -60,7 +60,7 @@ close(h)]]></example_item_data>
   <history>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>version aide API dialogue mise a jour.</history_description>
+      <history_description>version aide API dialogue mise à jour.</history_description>
     </history_item>
   </history>
   <authors>

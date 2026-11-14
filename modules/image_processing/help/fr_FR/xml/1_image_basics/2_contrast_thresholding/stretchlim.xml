@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>stretchlim</keyword>
-  <short_description>Determine les limites pour etirer le contraste.</short_description>
+  <short_description>Détermine les limites pour étirer le contraste.</short_description>
   <syntax>
     <syntax_item>limits = stretchlim(I)</syntax_item>
     <syntax_item>limits = stretchlim(I, tol)</syntax_item>
@@ -11,11 +11,11 @@
   <param_input>
     <param_input_item>
       <param_name>I</param_name>
-      <param_description>Image d'entree en niveaux de gris ou RGB.</param_description>
+      <param_description>Image d'entrée en niveaux de gris ou RGB.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>tol</param_name>
-      <param_description>Tolerance scalaire ou vecteur de tolerance a deux elements dans l'intervalle [0, 1].</param_description>
+      <param_description>Tolérance scalaire ou vecteur de tolérance a deux éléments dans l'intervalle [0, 1].</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -25,14 +25,14 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>Determine les limites pour etirer le contraste.</p>
+    <p>Détermine les limites pour étirer le contraste.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Etirer le contraste avec des limites calculees</example_item_description>
+      <example_item_description>Étirer le contraste avec des limites calculées</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[I=0.2+0.6*repmat(linspace(0,1,96),64,1);

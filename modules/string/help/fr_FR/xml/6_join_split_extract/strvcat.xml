@@ -3,12 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>strvcat</keyword>
-  <short_description>Concatene verticalement le texte.</short_description>
+  <short_description>Concatène verticalement le texte.</short_description>
   <syntax>
     <syntax_item>R = strvcat(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>strvcat</b> Concatene verticalement le texte.</p>
+    <p><b>strvcat</b> Concatène verticalement le texte.</p>
   </description>
   <used_function />
   <bibliography />

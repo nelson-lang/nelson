@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>eventtable</keyword>
-  <short_description>Creer une table d'evenements pour un timetable.</short_description>
+  <short_description>Créer une table d'événements pour un timetable.</short_description>
   <syntax>
     <syntax_item>E = eventtable(eventTimes)</syntax_item>
     <syntax_item>E = eventtable(TT)</syntax_item>
@@ -15,22 +15,22 @@
     <syntax_item>E = eventtable(___, 'EventEndsVariable', name)</syntax_item>
   </syntax>
   <param_input>
-    <param_input_item><param_name>eventTimes</param_name><param_description>Vecteur datetime ou duration contenant les temps de debut des evenements.</param_description></param_input_item>
-    <param_input_item><param_name>TT</param_name><param_description>Timetable dont les temps de lignes deviennent les temps d'evenements et dont les variables deviennent les variables d'evenements.</param_description></param_input_item>
-    <param_input_item><param_name>labels</param_name><param_description>Etiquettes d'evenements. Une valeur scalaire est etendue a tous les evenements.</param_description></param_input_item>
-    <param_input_item><param_name>lengths</param_name><param_description>Valeurs duration qui indiquent les durees d'evenements.</param_description></param_input_item>
-    <param_input_item><param_name>ends</param_name><param_description>Valeurs datetime ou duration qui indiquent les fins d'evenements.</param_description></param_input_item>
-    <param_input_item><param_name>name</param_name><param_description>Nom ou indice d'une variable du timetable d'entree contenant les etiquettes, durees ou fins d'evenements. Valide seulement si la premiere entree est un timetable.</param_description></param_input_item>
+    <param_input_item><param_name>eventTimes</param_name><param_description>Vecteur datetime ou duration contenant les temps de début des événements.</param_description></param_input_item>
+    <param_input_item><param_name>TT</param_name><param_description>Timetable dont les temps de lignes deviennent les temps d'événements et dont les variables deviennent les variables d'événements.</param_description></param_input_item>
+    <param_input_item><param_name>labels</param_name><param_description>Étiquettes d'événements. Une valeur scalaire est étendue à tous les événements.</param_description></param_input_item>
+    <param_input_item><param_name>lengths</param_name><param_description>Valeurs duration qui indiquent les durées d'événements.</param_description></param_input_item>
+    <param_input_item><param_name>ends</param_name><param_description>Valeurs datetime ou duration qui indiquent les fins d'événements.</param_description></param_input_item>
+    <param_input_item><param_name>name</param_name><param_description>Nom ou indice d'une variable du timetable d'entrée contenant les étiquettes, durées ou fins d'événements. Valide seulement si la première entrée est un timetable.</param_description></param_input_item>
   </param_input>
   <param_output>
-    <param_output_item><param_name>E</param_name><param_description>Eventtable : un timetable dont les temps de lignes sont les temps d'evenements.</param_description></param_output_item>
+    <param_output_item><param_name>E</param_name><param_description>Eventtable : un timetable dont les temps de lignes sont les temps d'événements.</param_description></param_output_item>
   </param_output>
   <description>
-    <p><b>eventtable</b> cree une eventtable qui peut etre attachee a un timetable avec <b>Properties.Events</b> ; <b>syncevents</b> copie ensuite ses variables dans le timetable.</p>
-    <p>Quand l'entree est un vecteur de temps, les etiquettes, durees et fins d'evenements sont indiquees par des arguments nom-valeur. Les variables supplementaires sont fournies en creant d'abord un timetable puis en le passant a <b>eventtable</b> : toute entree positionnelle apres la premiere est une erreur.</p>
-    <p>Une eventtable est un timetable : les temps d'evenements sont ses temps de lignes (<b>E.Properties.RowTimes</b>, ou <b>E.Time</b>) et non une variable ; <b>size</b>, <b>width</b>, l'indexation et la concatenation se comportent comme pour un timetable.</p>
-    <p><b>E.Properties</b> commence par <b>EventLabelsVariable</b>, <b>EventLengthsVariable</b> et <b>EventEndsVariable</b>, les noms des variables contenant les etiquettes, durees et fins d'evenements ([] si non definies). On peut leur affecter un nom ou un indice de variable, ou []. Une variable renommee ou supprimee n'est plus utilisee.</p>
-    <p>Creee a partir de temps d'evenements sans etiquettes, l'eventtable recoit les etiquettes "Event 1", "Event 2", ... dans une variable <b>EventLabels</b>. Creee a partir d'un timetable, aucune variable ne sert d'etiquettes sauf indication contraire.</p>
+    <p><b>eventtable</b> crée une eventtable qui peut être attachée à un timetable avec <b>Properties.Events</b> ; <b>syncevents</b> copie ensuite ses variables dans le timetable.</p>
+    <p>Quand l'entrée est un vecteur de temps, les étiquettes, durées et fins d'événements sont indiquées par des arguments nom-valeur. Les variables supplémentaires sont fournies en créant d'abord un timetable puis en le passant a <b>eventtable</b> : toute entrée positionnelle après la première est une erreur.</p>
+    <p>Une eventtable est un timetable : les temps d'événements sont ses temps de lignes (<b>E.Properties.RowTimes</b>, ou <b>E.Time</b>) et non une variable ; <b>size</b>, <b>width</b>, l'indexation et la concaténation se comportent comme pour un timetable.</p>
+    <p><b>E.Properties</b> commence par <b>EventLabelsVariable</b>, <b>EventLengthsVariable</b> et <b>EventEndsVariable</b>, les noms des variables contenant les étiquettes, durées et fins d'événements ([] si non définies). On peut leur affecter un nom ou un indice de variable, ou []. Une variable renommée ou supprimée n'est plus utilisée.</p>
+    <p>Créée à partir de temps d'événements sans étiquettes, l'eventtable reçoit les étiquettes "Event 1", "Event 2", ... dans une variable <b>EventLabels</b>. Créée à partir d'un timetable, aucune variable ne sert d'étiquettes sauf indication contraire.</p>
   </description>
   <used_function />
   <bibliography />

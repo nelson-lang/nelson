@@ -14,9 +14,9 @@
     <syntax_item>h = streamline(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>streamline</b> trace des chemins dans des champs vectoriels 2-D ou 3-D depuis les points de depart fournis.</p>
-    <p><b>streamline(vertices)</b> trace des sommets de lignes de courant pre-calcules fournis sous forme de tableau de cellules. Chaque cellule contient un tableau numerique N-by-2 ou N-by-3.</p>
-    <p>L'entree optionnelle <b>options</b> vaut <b>[stepsize]</b> ou <b>[stepsize, maxvert]</b>. <b>stepsize</b> se compte en cellules de grille et vaut 0.1 par defaut. <b>maxvert</b> est le nombre maximal de sommets a produire, point de depart compris, et vaut 500 par defaut.</p>
+    <p><b>streamline</b> trace des chemins dans des champs vectoriels 2-D ou 3-D depuis les points de départ fournis.</p>
+    <p><b>streamline(vertices)</b> trace des sommets de lignes de courant pre-calculés fournis sous forme de tableau de cellules. Chaque cellule contient un tableau numérique N-by-2 ou N-by-3.</p>
+    <p>L'entrée optionnelle <b>options</b> vaut <b>[stepsize]</b> ou <b>[stepsize, maxvert]</b>. <b>stepsize</b> se compte en cellules de grille et vaut 0.1 par défaut. <b>maxvert</b> est le nombre maximal de sommets à produire, point de départ compris, et vaut 500 par défaut.</p>
   </description>
   <examples>
     <example_item>

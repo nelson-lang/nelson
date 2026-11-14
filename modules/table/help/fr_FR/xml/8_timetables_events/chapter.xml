@@ -3,8 +3,8 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <module_name>table</module_name>
-  <chapter>Timetables et evenements</chapter>
+  <chapter>Timetables et événements</chapter>
   <chapter_description>
-    <p>Fonctions pour intervalles de timetable, evenements, synchronisation et retiming.</p>
+    <p>Fonctions pour intervalles de timetable, événements, synchronisation et retiming.</p>
   </chapter_description>
 </xmldoc>

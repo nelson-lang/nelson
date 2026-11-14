@@ -11,13 +11,13 @@
   <param_input>
     <param_input_item>
       <param_name>filename</param_name>
-      <param_description>une chaine : nom de fichier .xlsx.</param_description>
+      <param_description>une chaîne : nom de fichier .xlsx.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>status</param_name>
-      <param_description>chaine de statut du format, ou chaine vide si le fichier ne peut pas etre lu.</param_description>
+      <param_description>chaîne de statut du format, ou chaîne vide si le fichier ne peut pas être lu.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>sheets</param_name>
@@ -25,11 +25,11 @@
     </param_output_item>
     <param_output_item>
       <param_name>format</param_name>
-      <param_description>chaine de format.</param_description>
+      <param_description>chaîne de format.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>xlsfinfo</b> retourne les metadonnees des fichiers .xlsx pris en charge par le backend Open XML.</p>
+    <p><b>xlsfinfo</b> retourne les métadonnées des fichiers .xlsx pris en charge par le backend Open XML.</p>
   </description>
   <used_function />
   <bibliography />

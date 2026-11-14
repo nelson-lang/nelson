@@ -5,6 +5,6 @@
   <module_name>linear_algebra</module_name>
   <chapter>Fonctions matricielles</chapter>
   <chapter_description>
-    <p>Fonctions qui evaluent des fonctions elementaires sur des matrices.</p>
+    <p>Fonctions qui évaluent des fonctions élémentaires sur des matrices.</p>
   </chapter_description>
 </xmldoc>

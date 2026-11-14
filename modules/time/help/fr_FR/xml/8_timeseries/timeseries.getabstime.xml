@@ -3,24 +3,24 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>timeseries.getabstime</keyword>
-  <short_description>Renvoie les temps d'echantillon absolus.</short_description>
+  <short_description>Renvoie les temps d'échantillon absolus.</short_description>
   <syntax>
     <syntax_item>times = getabstime(ts)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>ts</param_name>
-      <param_description>Objet timeseries en entree.</param_description>
+      <param_description>Objet timeseries en entrée.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>times</param_name>
-      <param_description>Temps d'echantillon absolus sous forme de chaines de date.</param_description>
+      <param_description>Temps d'échantillon absolus sous forme de chaînes de date.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>getabstime</b> Convertit les temps d'echantillon numeriques en chaines de date absolue avec TimeInfo.StartDate et TimeInfo.Units.</p>
+    <p><b>getabstime</b> Convertit les temps d'échantillon numériques en chaînes de date absolue avec TimeInfo.StartDate et TimeInfo.Units.</p>
   </description>
   <used_function />
   <bibliography />

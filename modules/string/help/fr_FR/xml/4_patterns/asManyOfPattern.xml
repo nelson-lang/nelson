@@ -3,12 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>asManyOfPattern</keyword>
-  <short_description>Repete le motif autant de fois que possible.</short_description>
+  <short_description>Répète le motif autant de fois que possible.</short_description>
   <syntax>
     <syntax_item>R = asManyOfPattern(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>asManyOfPattern</b> Repete le motif autant de fois que possible.</p>
+    <p><b>asManyOfPattern</b> Répète le motif autant de fois que possible.</p>
   </description>
   <used_function />
   <bibliography />

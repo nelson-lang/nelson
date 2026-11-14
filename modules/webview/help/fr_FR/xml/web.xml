@@ -14,7 +14,7 @@
   <param_input>
     <param_input_item>
       <param_name>url</param_name>
-      <param_description>chaine : adresse web, chemin local, URL file ou URL text.</param_description>
+      <param_description>chaîne : adresse web, chemin local, URL file ou URL text.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>option</param_name>
@@ -24,19 +24,19 @@
   <param_output>
     <param_output_item>
       <param_name>stat</param_name>
-      <param_description>0 en cas de succes, valeur non nulle sinon.</param_description>
+      <param_description>0 en cas de succès, valeur non nulle sinon.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>h</param_name>
-      <param_description>handle du visualiseur HTML, ou vide lorsque le navigateur systeme est utilise.</param_description>
+      <param_description>handle du visualiseur HTML, ou vide lorsque le navigateur système est utilisé.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>url</param_name>
-      <param_description>entree courante du visualiseur HTML, ou chaine vide lorsque le navigateur systeme est utilise.</param_description>
+      <param_description>entrée courante du visualiseur HTML, ou chaîne vide lorsque le navigateur système est utilisé.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>web</b> ouvre les adresses externes dans le navigateur systeme et ouvre le contenu HTML local ou inline dans le visualiseur HTML Nelson.</p>
+    <p><b>web</b> ouvre les adresses externes dans le navigateur système et ouvre le contenu HTML local ou inline dans le visualiseur HTML Nelson.</p>
   </description>
   <used_function />
   <bibliography />

@@ -3,12 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>strsplit</keyword>
-  <short_description>Decoupe un vecteur de caracteres aux delimiteurs.</short_description>
+  <short_description>Découpe un vecteur de caractères aux délimiteurs.</short_description>
   <syntax>
     <syntax_item>R = strsplit(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>strsplit</b> Decoupe un vecteur de caracteres aux delimiteurs.</p>
+    <p><b>strsplit</b> Découpe un vecteur de caractères aux délimiteurs.</p>
   </description>
   <used_function />
   <bibliography />

@@ -3,12 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>findstr</keyword>
-  <short_description>Recherche un vecteur de caracteres dans un autre.</short_description>
+  <short_description>Recherche un vecteur de caractères dans un autre.</short_description>
   <syntax>
     <syntax_item>R = findstr(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>findstr</b> Recherche un vecteur de caracteres dans un autre.</p>
+    <p><b>findstr</b> Recherche un vecteur de caractères dans un autre.</p>
   </description>
   <used_function />
   <bibliography />

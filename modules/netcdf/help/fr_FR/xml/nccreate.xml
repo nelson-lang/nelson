@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>nccreate</keyword>
-  <short_description>Cree une variable dans un fichier netCDF.</short_description>
+  <short_description>Crée une variable dans un fichier netCDF.</short_description>
   <syntax>
     <syntax_item>nccreate(filename, varname, 'Dimensions', dimensions)</syntax_item>
     <syntax_item>nccreate(filename, varname, 'Dimensions', dimensions, 'Datatype', datatype)</syntax_item>
@@ -11,7 +11,7 @@
   <param_input>
     <param_input_item>
       <param_name>filename</param_name>
-      <param_description>Chemin du fichier netCDF a creer, ouvrir ou modifier.</param_description>
+      <param_description>Chemin du fichier netCDF à créer, ouvrir ou modifier.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>varname</param_name>
@@ -33,8 +33,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>nccreate definit une variable et ses dimensions dans un fichier netCDF local.</p>
-    <p>Si le fichier n'existe pas, il est cree avant la definition de la variable.</p>
+    <p>nccreate définit une variable et ses dimensions dans un fichier netCDF local.</p>
+    <p>Si le fichier n'existe pas, il est créé avant la définition de la variable.</p>
   </description>
   <used_function />
   <bibliography />

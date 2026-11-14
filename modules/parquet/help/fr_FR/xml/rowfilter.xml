@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>rowfilter</keyword>
-  <short_description>Creer une expression de filtre de lignes.</short_description>
+  <short_description>Créer une expression de filtre de lignes.</short_description>
   <syntax>
     <syntax_item>rf = rowfilter(names)</syntax_item>
     <syntax_item>rf = rowfilter(T)</syntax_item>
@@ -12,15 +12,15 @@
   <param_input>
     <param_input_item>
       <param_name>names</param_name>
-      <param_description>noms de variables specifies comme tableau de chaines ou cellule de vecteurs de caracteres.</param_description>
+      <param_description>noms de variables spécifiés comme tableau de chaînes ou cellule de vecteurs de caractères.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>T</param_name>
-      <param_description>une table ou timetable dont les noms de variables sont utilises par le filtre.</param_description>
+      <param_description>une table ou timetable dont les noms de variables sont utilisés par le filtre.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>info</param_name>
-      <param_description>un objet <b>nelson.io.parquet.ParquetInfo</b> dont les noms de variables sont utilises par le filtre.</param_description>
+      <param_description>un objet <b>nelson.io.parquet.ParquetInfo</b> dont les noms de variables sont utilisés par le filtre.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -30,9 +30,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>rowfilter</b> cree un objet filtre qui expose les noms de variables avec la notation par point.</p>
-    <p>Utilisez les operateurs relationnels <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;</b>, <b>&lt;=</b>, <b>==</b> et <b>~=</b> pour creer des comparaisons. Utilisez les operateurs logiques <b>&amp;</b>, <b>|</b> et <b>~</b> pour combiner les expressions.</p>
-    <p>L&apos;objet obtenu peut etre passe a <b>parquetread</b> ou <b>parquetDatastore</b> avec la paire nom-valeur <b>RowFilter</b>. Il peut aussi etre applique directement a une table avec <b>rf.apply(T)</b>.</p>
+    <p><b>rowfilter</b> crée un objet filtre qui expose les noms de variables avec la notation par point.</p>
+    <p>Utilisez les opérateurs relationnels <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;</b>, <b>&lt;=</b>, <b>==</b> et <b>~=</b> pour créer des comparaisons. Utilisez les opérateurs logiques <b>&amp;</b>, <b>|</b> et <b>~</b> pour combiner les expressions.</p>
+    <p>L&apos;objet obtenu peut être passé à <b>parquetread</b> ou <b>parquetDatastore</b> avec la paire nom-valeur <b>RowFilter</b>. Il peut aussi être appliqué directement a une table avec <b>rf.apply(T)</b>.</p>
   </description>
   <used_function />
   <bibliography />

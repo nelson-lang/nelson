@@ -4,10 +4,10 @@
   <language>fr_FR</language>
   <module_name>netcdf</module_name>
   <chapter>netCDF</chapter>
-  <short_description>Lire, ecrire, creer et inspecter des sources de donnees netCDF.</short_description>
+  <short_description>Lire, écrire, créer et inspecter des sources de données netCDF.</short_description>
   <description>
-    <p>Le module netCDF fournit des fonctions haut niveau pour les fichiers et des interfaces bas niveau autour de la bibliotheque C netCDF.</p>
-    <p>Les fonctions haut niveau utilisent des noms de fichiers et de variables. Les fonctions bas niveau utilisent les identifiants numeriques retournes par netcdf.create, netcdf.open, netcdf.defDim, netcdf.defVar et les appels associes.</p>
-    <p>Utilisez les fonctions haut niveau pour les lectures et ecritures courantes. Utilisez les fonctions bas niveau lorsqu'un controle precis des groupes, du mode definition, du stockage, des attributs ou des types utilisateur est necessaire.</p>
+    <p>Le module netCDF fournit des fonctions haut niveau pour les fichiers et des interfaces bas niveau autour de la bibliothèque C netCDF.</p>
+    <p>Les fonctions haut niveau utilisent des noms de fichiers et de variables. Les fonctions bas niveau utilisent les identifiants numériques retournés par netcdf.create, netcdf.open, netcdf.defDim, netcdf.defVar et les appels associés.</p>
+    <p>Utilisez les fonctions haut niveau pour les lectures et écritures courantes. Utilisez les fonctions bas niveau lorsqu'un contrôle précis des groupes, du mode définition, du stockage, des attributs ou des types utilisateur est nécessaire.</p>
   </description>
 </xmldoc>

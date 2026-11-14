@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>waitbar</keyword>
-  <short_description>Cree ou met a jour une figure de progression.</short_description>
+  <short_description>Crée ou met à jour une figure de progression.</short_description>
   <syntax>
     <syntax_item>h = waitbar(x)</syntax_item>
     <syntax_item>h = waitbar(x, message)</syntax_item>
@@ -30,7 +30,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Creer et mettre a jour une barre d attente.</example_item_description>
+      <example_item_description>Créer et mettre à jour une barre d attente.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[h = waitbar(0.25, 'Starting');
 pause(0.1);
 h = waitbar(0.75, h, 'Almost done');]]></example_item_data>
@@ -61,7 +61,7 @@ close(h)]]></example_item_data>
   <history>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>version aide API dialogue mise a jour.</history_description>
+      <history_description>version aide API dialogue mise à jour.</history_description>
     </history_item>
   </history>
   <authors>

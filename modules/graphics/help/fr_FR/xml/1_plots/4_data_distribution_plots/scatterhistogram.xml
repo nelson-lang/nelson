@@ -11,13 +11,13 @@
     <syntax_item>h = scatterhistogram(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>scatterhistogram</b> cree un nuage de points et affiche les histogrammes des distributions x et y.</p>
-    <p>L'objet retourne a le type <b>scatterhistogram</b>. Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.scatterhistogram.properties">proprietes de scatterhistogram</link> pour la liste complete des proprietes.</p>
+    <p><b>scatterhistogram</b> crée un nuage de points et affiche les histogrammes des distributions x et y.</p>
+    <p>L'objet retourne à le type <b>scatterhistogram</b>. Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.scatterhistogram.properties">proprietes de scatterhistogram</link> pour la liste complète des propriétés.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Creer un nuage avec histogrammes marginaux.</example_item_description>
+      <example_item_description>Créer un nuage avec histogrammes marginaux.</example_item_description>
       <example_item_data><![CDATA[rng(0);
 x = randn(200, 1);
 y = 0.5 * x + randn(200, 1);

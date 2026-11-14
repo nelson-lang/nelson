@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>linkage</keyword>
-  <short_description>Arbre de classification hierarchique ascendante.</short_description>
+  <short_description>Arbre de classification hiérarchique ascendante.</short_description>
   <syntax>
     <syntax_item>Z = linkage(X)</syntax_item>
     <syntax_item>Z = linkage(X, method)</syntax_item>
@@ -12,8 +12,8 @@
     <syntax_item>Z = linkage(D, method)</syntax_item>
   </syntax>
   <description>
-    <p><b>linkage</b> construit un arbre de classification hierarchique a partir des lignes de <b>X</b> ou d'un vecteur de distances condense <b>D</b>.</p>
-    <p>Les methodes prises en charge sont single, complete, average, weighted, centroid, median et ward.</p>
+    <p><b>linkage</b> construit un arbre de classification hiérarchique à partir des lignes de <b>X</b> ou d'un vecteur de distances condensé <b>D</b>.</p>
+    <p>Les méthodes prises en charge sont single, complète, average, weighted, centroid, median et ward.</p>
   </description>
   <examples>
     <example_item>

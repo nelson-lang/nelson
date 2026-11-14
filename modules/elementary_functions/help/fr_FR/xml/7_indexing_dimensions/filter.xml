@@ -50,8 +50,8 @@
     >Cette fonction de transfert est définie par les coefficients du numérateur (<b>b</b>) et du dénominateur (<b>a</b>).</p>
     <p>Si le premier coefficient de <b>a</b> (a(1)) est différent de 1, le filtre normalise les coefficients par a(1). Il est essentiel que a(1) soit non nul.</p>
     <p>Lorsque <b>x</b> est un vecteur, la fonction renvoie un vecteur de même taille contenant les données filtrées.</p>
-    <p>Les entrees sparse ne sont pas prises en charge.</p>
-    <p>Les conditions initiales et finales ont l&apos;ordre du filtre comme premiere dimension, suivi des dimensions de <b>x</b> sauf la dimension filtree.</p>
+    <p>Les entrées sparse ne sont pas prises en charge.</p>
+    <p>Les conditions initiales et finales ont l&apos;ordre du filtre comme première dimension, suivi des dimensions de <b>x</b> sauf la dimension filtrée.</p>
   </description>
   <used_function />
   <bibliography />
@@ -88,7 +88,7 @@ legend('Input Data', 'Filtered Data');
     </history_item>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>documentation des conditions initiales et finales, du support de dimension et de la validation des entrees sparse</history_description>
+      <history_description>documentation des conditions initiales et finales, du support de dimension et de la validation des entrées sparse</history_description>
     </history_item>
   </history>
   <authors>

@@ -3,12 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>letterBoundary</keyword>
-  <short_description>Limite pour le texte alphabetique.</short_description>
+  <short_description>Limite pour le texte alphabétique.</short_description>
   <syntax>
     <syntax_item>R = letterBoundary(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>letterBoundary</b> Limite pour le texte alphabetique.</p>
+    <p><b>letterBoundary</b> Limite pour le texte alphabétique.</p>
   </description>
   <used_function />
   <bibliography />

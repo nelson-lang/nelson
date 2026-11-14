@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>friedman</keyword>
-  <short_description>Test de Friedman pour donnees en blocs.</short_description>
+  <short_description>Test de Friedman pour données en blocs.</short_description>
   <syntax>
     <syntax_item>p = friedman(X)</syntax_item>
     <syntax_item>p = friedman(X, reps)</syntax_item>
@@ -11,8 +11,8 @@
     <syntax_item>[p, tbl, stats] = friedman(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>friedman</b> effectue un test non parametrique des effets de traitements en colonnes pour des donnees en blocs. Les lignes sont les blocs et les colonnes sont les traitements.</p>
-    <p>Lorsque <b>reps</b> est superieur a un, chaque bloc occupe <b>reps</b> lignes consecutives. <b>displayopt</b> peut valoir <b>'on'</b> ou <b>'off'</b>.</p>
+    <p><b>friedman</b> effectue un test non paramétrique des effets de traitements en colonnes pour des données en blocs. Les lignes sont les blocs et les colonnes sont les traitements.</p>
+    <p>Lorsque <b>reps</b> est supérieur à un, chaque bloc occupé <b>reps</b> lignes consécutives. <b>displayopt</b> peut valoir <b>'on'</b> ou <b>'off'</b>.</p>
   </description>
   <examples>
     <example_item>

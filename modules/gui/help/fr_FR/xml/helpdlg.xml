@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>helpdlg</keyword>
-  <short_description>Cree une boite de dialogue d'aide.</short_description>
+  <short_description>Crée une boîte de dialogue d'aide.</short_description>
   <syntax>
     <syntax_item>h = helpdlg</syntax_item>
     <syntax_item>h = helpdlg(message)</syntax_item>
@@ -29,7 +29,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Creer une boite d aide.</example_item_description>
+      <example_item_description>Créer une boîte d aide.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[h = helpdlg('Use the OK button to close this dialog.', 'Help');]]></example_item_data>
       <example_item_img
         src="../images/helpdlg_example.svg"
@@ -58,7 +58,7 @@ close(h)]]></example_item_data>
   <history>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>version aide API dialogue mise a jour.</history_description>
+      <history_description>version aide API dialogue mise à jour.</history_description>
     </history_item>
   </history>
   <authors>

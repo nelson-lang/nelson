@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>interpn</keyword>
-  <short_description>Interpolation de donnees grillees N-D au format ndgrid</short_description>
+  <short_description>Interpolation de données grillées N-D au format ndgrid</short_description>
   <syntax>
     <syntax_item>Vq = interpn(X1, X2, ..., Xn, V, Xq1, Xq2, ..., Xqn)</syntax_item>
     <syntax_item>Vq = interpn(V, Xq1, Xq2, ..., Xqn)</syntax_item>
@@ -19,30 +19,30 @@
     </param_input_item>
     <param_input_item>
       <param_name>V</param_name>
-      <param_description>Valeurs : tableau reel ou complexe. Les dimensions supplementaires representent plusieurs jeux de donnees sur la meme grille.</param_description>
+      <param_description>Valeurs : tableau réel ou complexe. Les dimensions supplémentaires représentent plusieurs jeux de données sur la même grille.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Xq1, ..., Xqn</param_name>
-      <param_description>Points de requete.</param_description>
+      <param_description>Points de requête.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>method</param_name>
       <param_description>
-        &apos;linear&apos;, &apos;nearest&apos;, &apos;pchip&apos;, &apos;cubic&apos;, &apos;makima&apos; ou &apos;spline&apos;. PCHIP est reserve au 1-D.</param_description>
+        &apos;linear&apos;, &apos;nearest&apos;, &apos;pchip&apos;, &apos;cubic&apos;, &apos;makima&apos; ou &apos;spline&apos;. PCHIP est réservé au 1-D.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>Vq</param_name>
-      <param_description>Valeurs interpolees.</param_description>
+      <param_description>Valeurs interpolées.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>
-      <b>interpn</b> interpole des donnees grillees N-D avec les conventions ndgrid. La grille par defaut est 1:size(V,i) dans chaque dimension.</p>
-    <p>Les methodes cubiques utilisent un stencil natif tensoriel a quatre points, avec repli lineaire sur les dimensions qui ont moins de quatre echantillons. PCHIP reste reserve a la syntaxe interpn 1-D.</p>
+      <b>interpn</b> interpole des données grillées N-D avec les conventions ndgrid. La grille par défaut est 1:size(V,i) dans chaque dimension.</p>
+    <p>Les méthodes cubiques utilisent un stencil natif tensoriel a quatre points, avec repli linéaire sur les dimensions qui ont moins de quatre échantillons. PCHIP reste réserve à la syntaxe interpn 1-D.</p>
     <p>
-      <b>interpn(V)</b> et <b>interpn(V,k)</b> raffinent la grille par defaut. Les tableaux de requete de meme taille sont traites comme des points disperses; des vecteurs d&apos;orientations mixtes definissent une grille complete.</p>
+      <b>interpn(V)</b> et <b>interpn(V,k)</b> raffinent la grille par défaut. Les tableaux de requête de même taille sont traités comme des points dispersés; des vecteurs d&apos;orientations mixtes définissent une grille complète.</p>
   </description>
   <examples>
     <example_item>

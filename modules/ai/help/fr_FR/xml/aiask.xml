@@ -10,13 +10,13 @@
   </syntax>
   <description>
     <p><b>aiask</b> appelle un fournisseur IA configure tel qu'Ollama ou un endpoint HTTP compatible OpenAI.</p>
-    <p>Pour Ollama, <b>aiask</b> utilise par defaut l'endpoint HTTP local <b>http://127.0.0.1:11434/api/generate</b> et envoie des requetes sans streaming.</p>
+    <p>Pour Ollama, <b>aiask</b> utilisé par défaut l'endpoint HTTP local <b>http://127.0.0.1:11434/api/generate</b> et envoie des requêtes sans streaming.</p>
     <p>Cette fonction interroge le fournisseur directement depuis Nelson. Elle n'expose pas les outils MCP. Utiliser <b>mcpserver</b> lorsqu'un agent externe doit appeler les outils Nelson.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Interroger un modele Ollama local avec l'endpoint par defaut.</example_item_description>
+      <example_item_description>Interroger un modèle Ollama local avec l'endpoint par défaut.</example_item_description>
       <example_item_data runnable="false"><![CDATA[
 % Dans un terminal, demarrer Ollama et telecharger un modele:
 %   ollama serve
@@ -36,7 +36,7 @@ answer = aiask('Ecris une fonction y = vector_mean(x). Utilise y = mean(x).', op
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Retourner le texte genere et la reponse Ollama brute.</example_item_description>
+      <example_item_description>Retourner le texte génère et la réponse Ollama brute.</example_item_description>
       <example_item_data runnable="false"><![CDATA[
 opts = aioptions('Provider', 'ollama', 'Model', 'llama3.2');
 [text, response] = aiask('Explique la difference entre plot et semilogy dans Nelson.', opts);
@@ -46,7 +46,7 @@ disp(response.total_duration)
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Utiliser le premier modele Ollama local avec une reponse limitee.</example_item_description>
+      <example_item_description>Utiliser le premier modèle Ollama local avec une réponse limitée.</example_item_description>
       <example_item_data runnable="false"><![CDATA[
 models = aimodels();
 opts = aioptions('Provider', 'ollama', ...

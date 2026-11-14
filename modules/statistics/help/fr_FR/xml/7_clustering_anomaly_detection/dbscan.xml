@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>dbscan</keyword>
-  <short_description>Regroupement spatial fonde sur la densite.</short_description>
+  <short_description>Regroupement spatial fonde sur la densité.</short_description>
   <syntax>
     <syntax_item>idx = dbscan(X, epsilon, minpts)</syntax_item>
     <syntax_item>idx = dbscan(X, epsilon, minpts, &apos;Distance&apos;, distance)</syntax_item>
@@ -17,45 +17,45 @@
   <param_input>
     <param_input_item>
       <param_name>X</param_name>
-      <param_description>matrice numerique reelle pleine. Chaque ligne est une observation et chaque colonne est une variable. Une entree vide avec zero ligne est acceptee et renvoie des sorties vides.</param_description>
+      <param_description>matrice numérique réelle pleine. Chaque ligne est une observation et chaque colonne est une variable. Une entrée vide avec zéro ligne est acceptée et renvoie des sorties vides.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>D</param_name>
-      <param_description>donnees de distances pre-calculees, reelles et pleines. D peut etre une matrice carree n-par-n ou un vecteur contenant les distances du triangle inferieur dans l'ordre des colonnes : d(2,1), d(3,1), ..., d(n,1), d(3,2), ..., d(n,n-1).</param_description>
+      <param_description>données de distances pre-calculées, réelles et pleines. D peut être une matrice carrée n-par-n ou un vecteur contenant les distances du triangle inférieur dans l'ordre des colonnes : d(2,1), d(3,1), ..., d(n,1), d(3,2), ..., d(n,n-1).</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>B</param_name>
-      <param_description>donnees logiques de voisinage pre-calculees. Les valeurs true indiquent les observations voisines. B peut etre une matrice carree ou le meme format vectoriel compact que D. La diagonale est toujours consideree comme true, car chaque observation est voisine d'elle-meme.</param_description>
+      <param_description>données logiques de voisinage pre-calculées. Les valeurs true indiquent les observations voisines. B peut être une matrice carrée ou le même format vectoriel compact que D. La diagonale est toujours considérée comme true, car chaque observation est voisine d'elle-même.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>epsilon</param_name>
-      <param_description>scalaire positif, rayon du voisinage. Une distance exactement egale a epsilon appartient au voisinage. Utiliser [] seulement lorsque l'entree pre-calculee est logique.</param_description>
+      <param_description>scalaire positif, rayon du voisinage. Une distance exactement égale à epsilon appartient au voisinage. Utiliser [] seulement lorsque l'entrée pre-calculée est logique.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>minpts</param_name>
-      <param_description>entier positif, nombre minimal d'observations dans un epsilon-voisinage pour obtenir un point coeur. L'observation elle-meme est incluse dans ce compte.</param_description>
+      <param_description>entier positif, nombre minimal d'observations dans un epsilon-voisinage pour obtenir un point coeur. L'observation elle-même est incluse dans ce compte.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>distance</param_name>
-      <param_description>nom de distance ou handle de fonction. Les noms peuvent etre abreges lorsque l'abreviation n'est pas ambigue.</param_description>
+      <param_description>nom de distance ou handle de fonction. Les noms peuvent être abrégés lorsque l'abréviation n'est pas ambiguë.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>p</param_name>
-      <param_description>scalaire positif utilise seulement avec &apos;minkowski&apos;. L'exposant par defaut vaut 2.</param_description>
+      <param_description>scalaire positif utilise seulement avec &apos;minkowski&apos;. L'exposant par défaut vaut 2.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>scale</param_name>
-      <param_description>vecteur positif fini utilise seulement avec &apos;seuclidean&apos;. Sa longueur doit correspondre au nombre de colonnes de X. Si ce parametre est omis, l'echelle est calculee depuis X.</param_description>
+      <param_description>vecteur positif fini utilise seulement avec &apos;seuclidean&apos;. Sa longueur doit correspondre au nombre de colonnes de X. Si ce paramètre est omis, l'échelle est calculée depuis X.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>cov</param_name>
-      <param_description>matrice symetrique definie positive utilisee seulement avec &apos;mahalanobis&apos;. Sa taille doit correspondre au nombre de colonnes de X. Si ce parametre est omis, la matrice de covariance est calculee depuis X.</param_description>
+      <param_description>matrice symétrique définie positive utilisée seulement avec &apos;mahalanobis&apos;. Sa taille doit correspondre au nombre de colonnes de X. Si ce paramètre est omis, la matrice de covariance est calculée depuis X.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>idx</param_name>
-      <param_description>vecteur colonne double contenant les etiquettes de groupes. Les etiquettes commencent a 1 dans l'ordre de decouverte. Les observations de bruit valent -1.</param_description>
+      <param_description>vecteur colonne double contenant les étiquettes de groupes. Les étiquettes commencent a 1 dans l'ordre de découverte. Les observations de bruit valent -1.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>corepts</param_name>
@@ -63,12 +63,12 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>dbscan</b> regroupe les observations par connectivite de densite. L'algorithme recherche d'abord les observations situees a une distance inferieure ou egale a epsilon d'une observation candidate. Une candidate devient un point coeur lorsque ce voisinage contient au moins minpts observations. Les groupes sont ensuite etendus depuis les points coeur et incluent les points coeur et les points de bord atteignables par densite.</p>
-    <p>La comparaison des distances est inclusive : distance &lt;= epsilon. Ce detail est important pour les points situes exactement sur la limite du rayon. Les points qui ne sont atteignables depuis aucun point coeur sont renvoyes comme bruit avec l'etiquette -1.</p>
-    <p>Les distances integrees prises en charge sont &apos;euclidean&apos;, &apos;squaredeuclidean&apos;, &apos;seuclidean&apos;, &apos;cityblock&apos;, &apos;chebychev&apos;, &apos;minkowski&apos;, &apos;mahalanobis&apos;, &apos;cosine&apos;, &apos;correlation&apos;, &apos;spearman&apos;, &apos;hamming&apos;, &apos;jaccard&apos; et &apos;precomputed&apos;. Les distances integrees sont en general plus rapides qu'un handle de fonction.</p>
-    <p>Un handle de fonction de distance doit accepter deux entrees : une observation ligne et la matrice complete des donnees. Il doit renvoyer une distance numerique reelle pour chaque ligne de X. Le resultat peut etre un vecteur ligne ou colonne.</p>
-    <p>Pour &apos;squaredeuclidean&apos;, epsilon est compare a la distance euclidienne au carre. Pour une entree numerique &apos;precomputed&apos;, epsilon est requis et compare aux valeurs stockees dans D. Pour une entree logique &apos;precomputed&apos;, epsilon doit etre [], car B encode deja la relation de voisinage.</p>
-    <p>L'ordre des etiquettes suit l'ordre de decouverte des groupes a partir des lignes d'entree. Les observations de bord atteignables depuis plusieurs groupes sont affectees au premier groupe decouvert qui les atteint.</p>
+    <p><b>dbscan</b> regroupe les observations par connectivité de densité. L'algorithme recherche d'abord les observations situées a une distance inférieure ou égale à epsilon d'une observation candidate. Une candidate devient un point coeur lorsque ce voisinage contient au moins minpts observations. Les groupes sont ensuite étendus depuis les points coeur et incluent les points coeur et les points de bord atteignables par densité.</p>
+    <p>La comparaison des distances est inclusive : distance &lt;= epsilon. Ce détail est important pour les points situés exactement sur la limite du rayon. Les points qui ne sont atteignables depuis aucun point coeur sont renvoyés comme bruit avec l'étiquette -1.</p>
+    <p>Les distances intégrées prises en charge sont &apos;euclidean&apos;, &apos;squaredeuclidean&apos;, &apos;seuclidean&apos;, &apos;cityblock&apos;, &apos;chebychev&apos;, &apos;minkowski&apos;, &apos;mahalanobis&apos;, &apos;cosine&apos;, &apos;corrélation&apos;, &apos;spearman&apos;, &apos;hamming&apos;, &apos;jaccard&apos; et &apos;precomputed&apos;. Les distances intégrées sont en général plus rapides qu'un handle de fonction.</p>
+    <p>Un handle de fonction de distance doit accepter deux entrées : une observation ligne et la matrice complète des données. Il doit renvoyer une distance numérique réelle pour chaque ligne de X. Le résultat peut être un vecteur ligne ou colonne.</p>
+    <p>Pour &apos;squaredeuclidean&apos;, epsilon est comparé à la distance euclidienne au carré. Pour une entrée numérique &apos;precomputed&apos;, epsilon est requis et compare aux valeurs stockées dans D. Pour une entrée logique &apos;precomputed&apos;, epsilon doit être [], car B encode déjà la relation de voisinage.</p>
+    <p>L'ordre des étiquettes suit l'ordre de découverte des groupes à partir des lignes d'entrée. Les observations de bord atteignables depuis plusieurs groupes sont affectées au premier groupe découvert qui les atteint.</p>
   </description>
   <used_function>
     <link linkend="${statistics}pdist2">pdist2</link>
@@ -88,7 +88,7 @@
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Renvoyer seulement les etiquettes de groupes.</example_item_description>
+      <example_item_description>Renvoyer seulement les étiquettes de groupes.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[X = [0 0; 0 0.1; 5 5; 5 5.1];
@@ -112,7 +112,7 @@ idx = dbscan(X, 1, 2)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Regrouper des lignes dupliquees avec un tres petit rayon.</example_item_description>
+      <example_item_description>Regrouper des lignes dupliquées avec un très petit rayon.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[X = [1 1; 1 1; 1 1; 5 5];
@@ -120,7 +120,7 @@ idx = dbscan(X, 1, 2)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Utiliser la distance euclidienne au carre.</example_item_description>
+      <example_item_description>Utiliser la distance euclidienne au carré.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[X = [0 0; 0.1 0.05; 5 5; 5.05 5.05];
@@ -152,7 +152,7 @@ idx = dbscan(X, 0.2, 2, 'Distance', 'minkowski', 'P', 1)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Utiliser la distance euclidienne standardisee avec une echelle explicite.</example_item_description>
+      <example_item_description>Utiliser la distance euclidienne standardisée avec une échelle explicite.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[X = [0 0; 0.1 0.05; 5 5; 5.05 5.05];
@@ -168,7 +168,7 @@ idx = dbscan(X, 0.2, 2, 'Distance', 'mahalanobis', 'Cov', eye(2))]]></example_it
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Utiliser la distance cosinus pour regrouper les observations de meme direction.</example_item_description>
+      <example_item_description>Utiliser la distance cosinus pour regrouper les observations de même direction.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[X = [1 0; 2 0; 0 1; 0 2];
@@ -176,7 +176,7 @@ idx = dbscan(X, 0.01, 2, 'Distance', 'cosine')]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Utiliser la distance de correlation.</example_item_description>
+      <example_item_description>Utiliser la distance de corrélation.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[X = [1 2; 2 3; 10 9; 11 10];
@@ -208,7 +208,7 @@ idx = dbscan(X, 0.01, 2, 'Distance', 'jaccard')]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Utiliser un handle de fonction de distance personnalise.</example_item_description>
+      <example_item_description>Utiliser un handle de fonction de distance personnalisé.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[X = [0 0; 0 0.1; 5 5; 5 5.1; 10 10];
@@ -217,7 +217,7 @@ idx = dbscan(X, 0.2, 2, 'Distance', f)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Utiliser une matrice carree de distances pre-calculees.</example_item_description>
+      <example_item_description>Utiliser une matrice carrée de distances pre-calculées.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[X = [0; 0.1; 5; 5.1; 10];
@@ -226,7 +226,7 @@ idx = dbscan(D, 0.2, 2, 'Distance', 'precomputed')]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Utiliser un vecteur compact de distances pre-calculees.</example_item_description>
+      <example_item_description>Utiliser un vecteur compact de distances pre-calculées.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[Dv = [0.1 5 5.1 10 4.9 5 9.9 0.1 5 4.9];
@@ -234,7 +234,7 @@ idx = dbscan(Dv, 0.2, 2, 'Distance', 'precomputed')]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Utiliser une matrice logique de voisinage pre-calculee.</example_item_description>
+      <example_item_description>Utiliser une matrice logique de voisinage pre-calculée.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[B = [true true false; true true true; false true true];
@@ -242,7 +242,7 @@ idx = dbscan(B, [], 2, 'Distance', 'precomputed')]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Utiliser un vecteur logique compact de voisinages pre-calcules.</example_item_description>
+      <example_item_description>Utiliser un vecteur logique compact de voisinages pre-calculés.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[Bv = [true false false true false true];
@@ -278,7 +278,7 @@ ylabel('x2');]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Tracer des groupes de formes et tailles differentes.</example_item_description>
+      <example_item_description>Tracer des groupes de formes et tailles différentes.</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
@@ -334,7 +334,7 @@ ylabel('x2');]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Tracer des groupes en arcs separes.</example_item_description>
+      <example_item_description>Tracer des groupes en arcs séparés.</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
@@ -363,7 +363,7 @@ ylabel('x2');]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Tracer un ruban ondule et un ilot dense.</example_item_description>
+      <example_item_description>Tracer un ruban ondule et un îlot dense.</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
@@ -416,7 +416,7 @@ ylabel('x2');]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Regrouper deux anneaux avec la distance par defaut.</example_item_description>
+      <example_item_description>Regrouper deux anneaux avec la distance par défaut.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[N = 90;
@@ -426,7 +426,7 @@ idx = dbscan(X, 1, 5)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Traiter une matrice de donnees vide.</example_item_description>
+      <example_item_description>Traiter une matrice de données vide.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[idx = dbscan(zeros(0, 2), 1, 2)]]></example_item_data>

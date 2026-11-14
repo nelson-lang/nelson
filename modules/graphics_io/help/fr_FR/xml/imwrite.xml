@@ -67,7 +67,7 @@
       <b>Comment</b> : texte enregistré lorsque le codec sélectionné prend cette métadonnée en charge.</p>
     <p>
       <b>Author</b> : auteur enregistré lorsque le codec sélectionné prend cette métadonnée en charge.</p>
-    <p>PNG, JPEG et TIFF enregistrent <b>Comment</b> et <b>Author</b> ; GIF enregistre
+    <p>PNG, JPEG et TIFF enregistrent <b>Comment</b> et <b>Author</b> ; GIF enregistré
     <b>Comment</b>. Les autres codecs ignorent ces propriétés sans faire échouer l&apos;écriture.</p>
     <p />
     <p>Propriétés pour le format <b>gif</b> :</p>

@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>caldiff</keyword>
-  <short_description>Renvoie les differences calendaires entre valeurs datetime adjacentes.</short_description>
+  <short_description>Renvoie les différences calendaires entre valeurs datetime adjacentes.</short_description>
   <syntax>
     <syntax_item>c = caldiff(t)</syntax_item>
     <syntax_item>c = caldiff(t, components)</syntax_item>
@@ -13,18 +13,18 @@
   <param_input>
     <param_input_item>
       <param_name>inputs</param_name>
-      <param_description>Un tableau datetime, un selecteur optionnel de composants et une dimension optionnelle.</param_description>
+      <param_description>Un tableau datetime, un sélecteur optionnel de composants et une dimension optionnelle.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>output</param_name>
-      <param_description>Un tableau calendarDuration avec un element de moins selon la dimension choisie.</param_description>
+      <param_description>Un tableau calendarDuration avec un élément de moins selon la dimension choisie.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>Renvoie les differences calendaires entre valeurs datetime adjacentes.</p>
-    <p>caldiff calcule les differences adjacentes par paires en deleguant chaque intervalle a between.</p>
+    <p>Renvoie les différences calendaires entre valeurs datetime adjacentes.</p>
+    <p>caldiff calcule les différences adjacentes par paires en déléguant chaque intervalle a between.</p>
     <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
     <p><b>ArithmeticMethod</b> ('default', 'endofmonth' avec le seul composant 'months', 'endofquarter' avec le seul composant 'quarters') compte les mois ou trimestres en gardant les fins de mois ou de trimestre, et devient la méthode arithmétique du résultat (voir <b>calendarDuration</b>).</p>
   </description>

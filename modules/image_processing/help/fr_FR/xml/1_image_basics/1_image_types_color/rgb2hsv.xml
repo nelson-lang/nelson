@@ -21,15 +21,15 @@
   <param_output>
     <param_output_item>
       <param_name>HSV</param_name>
-      <param_description>Image HSV. La sortie est single uniquement lorsque l'image d'entree est single ; sinon elle est double.</param_description>
+      <param_description>Image HSV. La sortie est single uniquement lorsque l'image d'entrée est single ; sinon elle est double.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>hsvmap</param_name>
-      <param_description>Colormap HSV avec le meme nombre de lignes que map.</param_description>
+      <param_description>Colormap HSV avec le même nombre de lignes que map.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>Convertit des valeurs couleur RGB en valeurs HSV. Les images RGB doivent etre des tableaux reels double, single, uint8 ou uint16. Les valeurs d images RGB flottantes sont converties sans clipping. Les images RGB vides conservent leur taille.</p>
+    <p>Convertit des valeurs couleur RGB en valeurs HSV. Les images RGB doivent être des tableaux réels double, single, uint8 ou uint16. Les valeurs d images RGB flottantes sont converties sans clipping. Les images RGB vides conservent leur taille.</p>
     <p>Une colormap RGB double avec des valeurs dans [0, 1] est convertie ligne par ligne.</p>
   </description>
   <used_function />
@@ -37,7 +37,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Afficher le canal teinte apres conversion RGB vers HSV</example_item_description>
+      <example_item_description>Afficher le canal teinte après conversion RGB vers HSV</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[RGB=zeros(64,64,3);

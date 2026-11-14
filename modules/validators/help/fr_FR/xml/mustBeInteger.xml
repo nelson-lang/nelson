@@ -26,7 +26,7 @@
   <description>
     <p>
       <b>mustBeInteger</b> vérifie que la valeur est entière ou renvoie une erreur.</p>
-    <p>Le contrôle utilise <b>isfinite</b>, <b>floor</b> et <b>==</b> : tout type qui les implémente est accepté (char, duration, ...), sans restriction numérique, logique ou réelle. Les valeurs vides sont acceptées.</p>
+    <p>Le contrôle utilisé <b>isfinite</b>, <b>floor</b> et <b>==</b> : tout type qui les implémente est accepté (char, duration, ...), sans restriction numérique, logique ou réelle. Les valeurs vides sont acceptées.</p>
   </description>
   <used_function />
   <bibliography />

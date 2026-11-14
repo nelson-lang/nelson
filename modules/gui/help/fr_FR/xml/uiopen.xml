@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>uiopen</keyword>
-  <short_description>Charge un fichier selectionne depuis une boite de dialogue.</short_description>
+  <short_description>Charge un fichier sélectionne depuis une boîte de dialogue.</short_description>
   <syntax>
     <syntax_item>uiopen</syntax_item>
     <syntax_item>uiopen(filter)</syntax_item>
@@ -23,7 +23,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Apercu d une boite d ouverture de fichier.</example_item_description>
+      <example_item_description>Aperçu d une boîte d ouverture de fichier.</example_item_description>
       <example_item_data><![CDATA[f = dialog('Name', 'Open file', 'WindowStyle', 'normal', 'Position', [100 100 420 250]);
 uicontrol(f, 'Style', 'edit', 'String', pwd(), 'Position', [28 186 350 24]);
 uicontrol(f, 'Style', 'listbox', 'String', {'data.nh5', 'session.mat', 'figure.fig'}, 'Value', 1, 'Position', [28 70 350 105]);
@@ -52,7 +52,7 @@ uicontrol(f, 'Style', 'pushbutton', 'String', 'Cancel', 'Position', [304 28 70 2
   <history>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>version aide API dialogue mise a jour.</history_description>
+      <history_description>version aide API dialogue mise à jour.</history_description>
     </history_item>
   </history>
   <authors>

@@ -3,14 +3,14 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>grp2idx</keyword>
-  <short_description>Cree un vecteur d'indices depuis une variable de groupe.</short_description>
+  <short_description>Crée un vecteur d'indices depuis une variable de groupe.</short_description>
   <syntax>
     <syntax_item>[g, gN] = grp2idx(s)</syntax_item>
     <syntax_item>[g, gN, gL] = grp2idx(s)</syntax_item>
   </syntax>
   <description>
-    <p><b>grp2idx</b> convertit une variable de groupe en indices numeriques.</p>
-    <p><b>gN</b> est un tableau de cellules de noms de groupes. <b>gL</b> contient les niveaux de groupes dans un type proche de l'entree lorsque c'est possible. Les valeurs de groupe manquantes produisent des indices <b>NaN</b>.</p>
+    <p><b>grp2idx</b> convertit une variable de groupe en indices numériques.</p>
+    <p><b>gN</b> est un tableau de cellules de noms de groupes. <b>gL</b> contient les niveaux de groupes dans un type proche de l'entrée lorsque c'est possible. Les valeurs de groupe manquantes produisent des indices <b>NaN</b>.</p>
   </description>
   <examples>
     <example_item>

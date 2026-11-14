@@ -3,18 +3,18 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>netcdf.inqVarID</keyword>
-  <short_description>Retourne l'identifiant associe a un nom de variable.</short_description>
+  <short_description>Retourne l'identifiant associé à un nom de variable.</short_description>
   <syntax>
     <syntax_item>varid = netcdf.inqVarID(ncid, varname)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>ncid</param_name>
-      <param_description>Identifiant numerique d'un fichier ou groupe netCDF ouvert.</param_description>
+      <param_description>Identifiant numérique d'un fichier ou groupe netCDF ouvert.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>varid</param_name>
-      <param_description>Identifiant numerique d'une variable netCDF.</param_description>
+      <param_description>Identifiant numérique d'une variable netCDF.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>varname</param_name>
@@ -22,7 +22,7 @@
     </param_input_item>
     <param_input_item>
       <param_name>xtype</param_name>
-      <param_description>Constante numerique de type netCDF.</param_description>
+      <param_description>Constante numérique de type netCDF.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>dimids</param_name>
@@ -30,18 +30,18 @@
     </param_input_item>
     <param_input_item>
       <param_name>data</param_name>
-      <param_description>Tableau Nelson a lire ou a ecrire.</param_description>
+      <param_description>Tableau Nelson à lire ou à écrire.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>varid</param_name>
-      <param_description>Identifiant numerique de la variable netCDF.</param_description>
+      <param_description>Identifiant numérique de la variable netCDF.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>netcdf.inqVarID expose une operation bas niveau de la bibliotheque netCDF.</p>
-    <p>Ces fonctions utilisent des identifiants numeriques et suivent les conventions netCDF, notamment pour les indices, les modes et les constantes.</p>
+    <p>netcdf.inqVarID expose une opération bas niveau de la bibliothèque netCDF.</p>
+    <p>Ces fonctions utilisent des identifiants numériques et suivent les conventions netCDF, notamment pour les indices, les modes et les constantes.</p>
   </description>
   <used_function />
   <bibliography />

@@ -11,12 +11,12 @@
     <syntax_item>[h, ax, bigax, p, pax] = plotmatrix(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>plotmatrix</b> cree une grille de graphiques deux a deux pour les colonnes de matrices numeriques. Avec une seule matrice, la diagonale inclut des histogrammes retournes dans <b>p</b>, tandis que <b>h</b> contient les objets line des nuages de points.</p>
+    <p><b>plotmatrix</b> crée une grille de graphiques deux a deux pour les colonnes de matrices numériques. Avec une seule matrice, la diagonale inclut des histogrammes retournés dans <b>p</b>, tandis que <b>h</b> contient les objets line des nuages de points.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Creer une matrice de graphiques pour trois variables.</example_item_description>
+      <example_item_description>Créer une matrice de graphiques pour trois variables.</example_item_description>
       <example_item_data><![CDATA[X = [1 2 3; 2 3 5; 3 5 8; 4 7 13; 5 11 21];
 plotmatrix(X);]]></example_item_data>
       <example_item_img src="../../../../images/plotmatrix_1.svg" align="middle" generate="true" />

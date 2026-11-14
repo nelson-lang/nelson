@@ -3,8 +3,8 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <module_name>statistics</module_name>
-  <chapter>Regression</chapter>
+  <chapter>Régression</chapter>
   <chapter_description>
-    <p>Fonctions de regression, correlation et prediction supervisee.</p>
+    <p>Fonctions de régression, corrélation et prédiction supervisée.</p>
   </chapter_description>
 </xmldoc>

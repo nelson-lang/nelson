@@ -15,12 +15,12 @@
     <syntax_item>plot(SHP)</syntax_item>
   </syntax>
   <description>
-    <p><b>alphaShape</b> stocke des points et parametres alpha pour les requetes de frontiere et de forme.</p>
+    <p><b>alphaShape</b> stocke des points et paramètres alpha pour les requêtes de frontière et de forme.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Creer et tracer un alpha shape.</example_item_description>
+      <example_item_description>Créer et tracer un alpha shape.</example_item_description>
       <example_item_data runnable="gui"><![CDATA[[x, y] = meshgrid(linspace(-1, 1, 16));
 P = [x(:), y(:)];
 P(hypot(P(:, 1), P(:, 2)) > 1, :) = [];

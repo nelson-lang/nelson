@@ -8,7 +8,7 @@
     <syntax_item>dCE2 = daugment(dCE, mruns)</syntax_item>
     <syntax_item>[dCE2, X] = daugment(dCE, mruns, modelspec)</syntax_item>
   </syntax>
-  <description><p><b>daugment</b> augmente un plan existant en selectionnant des lignes supplementaires depuis les candidats generes.</p></description>
+  <description><p><b>daugment</b> augmente un plan existant en sélectionnant des lignes supplémentaires depuis les candidats générés.</p></description>
   <used_function>
     <link linkend="${statistics}candgen">candgen</link>
     <link linkend="${statistics}candexch">candexch</link>

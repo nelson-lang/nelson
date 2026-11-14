@@ -3,8 +3,8 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <module_name>linear_algebra</module_name>
-  <chapter>Proprietes matricielles</chapter>
+  <chapter>Propriétés matricielles</chapter>
   <chapter_description>
-    <p>Fonctions pour estimations de conditionnement, controles de structure et proprietes matricielles.</p>
+    <p>Fonctions pour estimations de conditionnement, contrôles de structure et propriétés matricielles.</p>
   </chapter_description>
 </xmldoc>

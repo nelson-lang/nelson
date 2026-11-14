@@ -11,30 +11,30 @@
   <param_input>
     <param_input_item>
       <param_name>parent</param_name>
-      <param_description>Handle de figure UI parent, generalement cree avec uifigure.</param_description>
+      <param_description>Handle de figure UI parent, généralement crée avec uifigure.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>message</param_name>
-      <param_description>Texte du message affiche dans la boite d'alerte. Utiliser un vecteur de caracteres, une chaine scalaire ou un tableau de cellules de lignes de texte.</param_description>
+      <param_description>Texte du message affiche dans la boîte d'alerte. Utiliser un vecteur de caractères, une chaîne scalaire ou un tableau de cellules de lignes de texte.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>title</param_name>
-      <param_description>Titre de la boite de dialogue.</param_description>
+      <param_description>Titre de la boîte de dialogue.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Name, Value</param_name>
-      <param_description>Paires optionnelles. L'option 'Icon' selectionne le style d'icone, par exemple 'info', 'warning', 'error' ou 'question'.</param_description>
+      <param_description>Paires optionnelles. L'option 'Icon' sélectionne le style d'icône, par exemple 'info', 'warning', 'error' ou 'question'.</param_description>
     </param_input_item>
   </param_input>
   <description>
-    <p>uialert affiche un message d'alerte modal associe a une figure UI.</p>
+    <p>uialert affiche un message d'alerte modal associé à une figure UI.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Apercu rendu pour l'image d'aide.</example_item_description>
+      <example_item_description>Aperçu rendu pour l'image d'aide.</example_item_description>
       <example_item_data><![CDATA[f = figure('Name', 'Alert preview', 'Position', [100 100 420 260], 'Color', [1 1 1]);
 axis([0 1 0 1]); axis off; hold on;
 patch([0.06 0.94 0.94 0.06], [0.12 0.12 0.88 0.88], [0.97 0.98 0.99], 'EdgeColor', [0.62 0.65 0.68]);
@@ -70,7 +70,7 @@ close(f)]]></example_item_data>
   <history>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>version aide API dialogue mise a jour.</history_description>
+      <history_description>version aide API dialogue mise à jour.</history_description>
     </history_item>
   </history>
   <authors>

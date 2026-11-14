@@ -22,14 +22,14 @@
   </param_output>
   <description>
     <p>
-      <b>nelson.display.DisplayFormatOptions</b> stocke les options de format d&apos;affichage utilisees par <b>format</b>.</p>
-    <p>L&apos;objet a trois proprietes publiques : <b>NumericFormat</b>, <b>LineSpacing</b> et <b>TruncateMatrices</b>.</p>
+      <b>nelson.display.DisplayFormatOptions</b> stocke les options de format d&apos;affichage utilisées par <b>format</b>.</p>
+    <p>L&apos;objet a trois propriétés publiques : <b>NumericFormat</b>, <b>LineSpacing</b> et <b>TruncateMatrices</b>.</p>
     <p>
       <b>NumericFormat</b> peut valoir <b>short</b>, <b>long</b>, <b>shortE</b>, <b>longE</b>, <b>shortG</b>, <b>longG</b>, <b>shortEng</b>, <b>longEng</b>, <b>+</b>, <b>bank</b>, <b>hex</b> ou <b>rational</b>.</p>
     <p>
       <b>LineSpacing</b> peut valoir <b>compact</b> ou <b>loose</b>.</p>
     <p>
-      <b>TruncateMatrices</b> peut valoir <b>on</b> ou <b>off</b>. Dans la fenetre de commande graphique, <b>on</b> tronque les grandes matrices 2D numeriques, logiques et sparse lorsque leur affichage complet depasse la zone visible.</p>
+      <b>TruncateMatrices</b> peut valoir <b>on</b> ou <b>off</b>. Dans la fenêtre de commande graphique, <b>on</b> tronque les grandes matrices 2D numériques, logiques et sparse lorsque leur affichage complet dépasse la zone visible.</p>
   </description>
   <used_function />
   <bibliography />

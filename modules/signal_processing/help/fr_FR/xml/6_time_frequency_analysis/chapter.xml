@@ -3,8 +3,8 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <module_name>signal_processing</module_name>
-  <chapter>Analyse temps-frequence</chapter>
+  <chapter>Analyse temps-fréquence</chapter>
   <chapter_description>
-    <p>Fonctions de representation temps-frequence et temps court.</p>
+    <p>Fonctions de représentation temps-fréquence et temps court.</p>
   </chapter_description>
 </xmldoc>

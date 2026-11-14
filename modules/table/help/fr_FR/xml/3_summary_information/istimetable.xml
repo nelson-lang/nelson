@@ -3,14 +3,14 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>istimetable</keyword>
-  <short_description>Determiner si l&apos;entree est une timetable.</short_description>
+  <short_description>Déterminer si l&apos;entrée est une timetable.</short_description>
   <syntax>
     <syntax_item>tf = istimetable(A)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>A</param_name>
-      <param_description>Tableau d&apos;entree.</param_description>
+      <param_description>Tableau d&apos;entrée.</param_description>
     </param_input_item>
   </param_input>
   <param_output>

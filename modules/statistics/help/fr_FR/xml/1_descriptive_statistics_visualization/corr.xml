@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>corr</keyword>
-  <short_description>Correlation lineaire ou de rang.</short_description>
+  <short_description>Corrélation linéaire ou de rang.</short_description>
   <syntax>
     <syntax_item>rho = corr(X)</syntax_item>
     <syntax_item>rho = corr(X, Y)</syntax_item>

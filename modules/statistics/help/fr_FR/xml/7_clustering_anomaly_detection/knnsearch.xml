@@ -10,7 +10,7 @@
     <syntax_item>[idx, D] = knnsearch(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>knnsearch</b> trouve les lignes de <b>X</b> les plus proches de chaque ligne de requete de <b>Y</b> avec une recherche exhaustive native.</p>
+    <p><b>knnsearch</b> trouve les lignes de <b>X</b> les plus proches de chaque ligne de requête de <b>Y</b> avec une recherche exhaustive native.</p>
     <p>Les options prises en charge incluent K, Distance, IncludeTies, NSMethod, SortIndices, P, Scale, Cov, BucketSize et CacheSize. Quand IncludeTies vaut true, les sorties sont des tableaux de cellules.</p>
   </description>
   <examples>

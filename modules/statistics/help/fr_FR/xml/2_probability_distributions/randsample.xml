@@ -3,14 +3,14 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>randsample</keyword>
-  <short_description>Echantillon aleatoire depuis une population.</short_description>
+  <short_description>Échantillon aléatoire depuis une population.</short_description>
   <syntax>
     <syntax_item>y = randsample(n, k)</syntax_item>
     <syntax_item>y = randsample(population, k)</syntax_item>
     <syntax_item>y = randsample(..., replacement)</syntax_item>
     <syntax_item>y = randsample(population, k, true, w)</syntax_item>
   </syntax>
-  <description><p><b>randsample</b> tire des valeurs avec le generateur aleatoire de Nelson. Le tirage pondere est pris en charge avec remise.</p></description>
+  <description><p><b>randsample</b> tire des valeurs avec le générateur aléatoire de Nelson. Le tirage pondère est pris en charge avec remise.</p></description>
   <used_function>
     <link linkend="${random}rng">rng</link>
     <link linkend="${statistics}bootstrp">bootstrp</link>
@@ -19,13 +19,13 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Tirer un echantillon reproductible sans remise.</example_item_description>
+      <example_item_description>Tirer un échantillon reproductible sans remise.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[rng(10);
 y = randsample(10, 4)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Tirer un echantillon pondere avec remise.</example_item_description>
+      <example_item_description>Tirer un échantillon pondère avec remise.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[population = [10 20 30];
 w = [0 0 1];
 y = randsample(population, 5, true, w)]]></example_item_data>

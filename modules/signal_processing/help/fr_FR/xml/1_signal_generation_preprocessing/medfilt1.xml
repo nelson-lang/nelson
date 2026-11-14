@@ -13,11 +13,11 @@
   <param_input>
     <param_input_item>
       <param_name>X</param_name>
-      <param_description>signal d'entree.</param_description>
+      <param_description>signal d'entrée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>N</param_name>
-      <param_description>longueur de fenetre.</param_description>
+      <param_description>longueur de fenêtre.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>DIM</param_name>
@@ -35,11 +35,11 @@
   <param_output>
     <param_output_item>
       <param_name>Y</param_name>
-      <param_description>signal filtre par mediane.</param_description>
+      <param_description>signal filtre par médiane.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>medfilt1</b> remplace chaque echantillon par une mediane locale.</p>
+    <p><b>medfilt1</b> remplace chaque échantillon par une médiane locale.</p>
   </description>
   <examples>
     <example_item>

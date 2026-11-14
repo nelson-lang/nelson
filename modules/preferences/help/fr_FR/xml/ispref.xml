@@ -33,7 +33,7 @@
     <p
     ><b>tf = ispref(group)</b> retourne <b>true</b> si le groupe de préférences existe, et <b>false</b> sinon.</p>
     <p
-    ><b>tf = ispref(group, pref)</b> retourne <b>true</b> si la préférence existe dans le groupe. Avec plusieurs noms, le résultat est un tableau logique avec un élément par nom. Un groupe absent donne <b>false</b> pour chaque nom, sans lever d'erreur.</p>
+    ><b>tf = ispref(group, pref)</b> retourne <b>true</b> si la préférence existe dans le groupe. Avec plusieurs noms, le résultat est un tableau logique avec un élément par nom. Un groupe absent donné <b>false</b> pour chaque nom, sans lever d'erreur.</p>
     <p
     >Une erreur est levée si un nom de groupe ou de préférence n'est pas un nom de variable valide.</p>
   </description>

@@ -43,7 +43,7 @@
     <p>
       <b>axes(cax)</b> rend les axes courants. Sa figure devient la figure courante et est rendue visible. Cette forme ne renvoie aucune sortie.</p>
     <p>Un clic sur un axe le rend automatiquement courant.</p>
-    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.axes.properties">proprietes de axes</link> pour la liste complete des proprietes.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.axes.properties">proprietes de axes</link> pour la liste complète des propriétés.</p>
   </description>
   <used_function />
   <bibliography />
@@ -107,7 +107,7 @@ plot(ax2, x, y2);]]></example_item_data>
     <history_item>
       <history_version>--</history_version>
       <history_description
-      >Mise a jour de la documentation des proprietes d&apos;axes.</history_description>
+      >Mise à jour de la documentation des propriétés d&apos;axes.</history_description>
     </history_item>
   </history>
   <authors>

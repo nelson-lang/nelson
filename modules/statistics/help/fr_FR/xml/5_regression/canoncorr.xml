@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>canoncorr</keyword>
-  <short_description>Analyse de correlation canonique.</short_description>
+  <short_description>Analyse de corrélation canonique.</short_description>
   <syntax>
     <syntax_item>[A, B] = canoncorr(X, Y)</syntax_item>
     <syntax_item>[A, B, r] = canoncorr(X, Y)</syntax_item>
@@ -11,9 +11,9 @@
     <syntax_item>[A, B, r, U, V, stats] = canoncorr(X, Y)</syntax_item>
   </syntax>
   <description>
-    <p><b>canoncorr</b> calcule les coefficients canoniques pour deux matrices reelles ayant les memes lignes d'observation.</p>
-    <p>Le vecteur r contient les correlations canoniques d'echantillon. U et V contiennent les scores canoniques centres. La structure stats contient les champs Wilks, df1, df2, F, pF, chisq, pChisq, dfe et p.</p>
-    <p>Si une matrice d'entree est de rang deficient, les lignes de coefficients dependantes sont mises a zero.</p>
+    <p><b>canoncorr</b> calcule les coefficients canoniques pour deux matrices réelles ayant les mêmes lignes d'observation.</p>
+    <p>Le vecteur r contient les correlations canoniques d'échantillon. U et V contiennent les scores canoniques centres. La structure stats contient les champs Wilks, df1, df2, F, pF, chisq, pChisq, dfe et p.</p>
+    <p>Si une matrice d'entrée est de rang déficient, les lignes de coefficients dépendantes sont mises à zéro.</p>
   </description>
   <examples>
     <example_item>

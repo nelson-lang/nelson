@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>executable</keyword>
-  <short_description>Executables pour demarrer le logiciel Nelson.</short_description>
+  <short_description>Exécutables pour démarrer le logiciel Nelson.</short_description>
   <syntax>
     <syntax_item>nelson arg1 ... argn</syntax_item>
     <syntax_item>nelson-cli arg1 ... argn</syntax_item>
@@ -17,47 +17,47 @@
   <param_input>
     <param_input_item>
       <param_name>--cli</param_name>
-      <param_description>selectionne <b>nelson-cli</b> quand l&apos;option est passee au lanceur <b>nelson</b>.</param_description>
+      <param_description>sélectionne <b>nelson-cli</b> quand l&apos;option est passée au lanceur <b>nelson</b>.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>--adv-cli</param_name>
-      <param_description>selectionne <b>nelson-adv-cli</b> quand l&apos;option est passee au lanceur <b>nelson</b>.</param_description>
+      <param_description>sélectionne <b>nelson-adv-cli</b> quand l&apos;option est passée au lanceur <b>nelson</b>.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>--gui</param_name>
-      <param_description>selectionne <b>nelson-gui</b> quand l&apos;option est passee au lanceur <b>nelson</b>.</param_description>
+      <param_description>sélectionne <b>nelson-gui</b> quand l&apos;option est passée au lanceur <b>nelson</b>.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>--webview</param_name>
-      <param_description>selectionne <b>nelson-webview</b> en mode webview desktop quand l&apos;option est passee au lanceur <b>nelson</b>. Passee directement a <b>nelson-adv-cli</b>, c&apos;est au contraire une option qui rend les figures avec le backend web (RenderWeb), sans fenetre figure Qt, tout en conservant le REPL terminal.</param_description>
+      <param_description>sélectionne <b>nelson-webview</b> en mode webview desktop quand l&apos;option est passée au lanceur <b>nelson</b>. Passée directement a <b>nelson-adv-cli</b>, c&apos;est au contraire une option qui rend les figures avec le backend web (RenderWeb), sans fenêtre figure Qt, tout en conservant le REPL terminal.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>--web</param_name>
-      <param_description>selectionne <b>nelson-webview</b> en mode serveur HTTP quand l&apos;option est passee au lanceur <b>nelson</b>. La meme option selectionne le mode serveur pour l&apos;executable direct <b>nelson-webview</b>.</param_description>
+      <param_description>sélectionne <b>nelson-webview</b> en mode serveur HTTP quand l&apos;option est passée au lanceur <b>nelson</b>. La même option sélectionne le mode serveur pour l&apos;exécutable direct <b>nelson-webview</b>.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>--url hote</param_name>
-      <param_description>fixe l&apos;hote HTTP. Cette option est valide uniquement avec <b>--web</b>, <b>--webview</b>, ou l&apos;executable direct <b>nelson-webview</b>.</param_description>
+      <param_name>--url hôte</param_name>
+      <param_description>fixe l&apos;hôte HTTP. Cette option est validé uniquement avec <b>--web</b>, <b>--webview</b>, ou l&apos;exécutable direct <b>nelson-webview</b>.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>--port port</param_name>
-      <param_description>fixe le port web entre 1 et 65535. Cette option est valide uniquement avec <b>--web</b>, <b>--webview</b>, ou l&apos;executable direct <b>nelson-webview</b>.</param_description>
+      <param_description>fixe le port web entre 1 et 65535. Cette option est validé uniquement avec <b>--web</b>, <b>--webview</b>, ou l&apos;exécutable direct <b>nelson-webview</b>.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>--</param_name>
-      <param_description>arrete l&apos;analyse des options Nelson. Les arguments apres ce separateur sont renvoyes par <b>argv('user')</b>.</param_description>
+      <param_description>arrête l&apos;analyse des options Nelson. Les arguments après ce séparateur sont renvoyés par <b>argv('user')</b>.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>-e, --execute command</param_name>
-      <param_description>execute une commande Nelson apres le demarrage. Les options <b>-e</b> et <b>-f</b> sont mutuellement exclusives.</param_description>
+      <param_description>exécute une commande Nelson après le démarrage. Les options <b>-e</b> et <b>-f</b> sont mutuellement exclusives.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>-f, --file filename</param_name>
-      <param_description>execute un fichier script Nelson apres le demarrage. Les options <b>-e</b> et <b>-f</b> sont mutuellement exclusives.</param_description>
+      <param_description>exécute un fichier script Nelson après le démarrage. Les options <b>-e</b> et <b>-f</b> sont mutuellement exclusives.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>-F, --file-ipc filename</param_name>
-      <param_description>execute un fichier script Nelson dans un processus Nelson existant ou en cree un. Mode GUI uniquement.</param_description>
+      <param_description>exécute un fichier script Nelson dans un processus Nelson existant ou en crée un. Mode GUI uniquement.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>--help, -h</param_name>
@@ -73,7 +73,7 @@
     </param_input_item>
     <param_input_item>
       <param_name>--open, -o filename1 [filename2 ...]</param_name>
-      <param_description>ouvre un ou plusieurs fichiers valides existants dans l&apos;editeur de texte. Mode GUI uniquement.</param_description>
+      <param_description>ouvre un ou plusieurs fichiers valides existants dans l&apos;éditeur de texte. Mode GUI uniquement.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>--mat, -m filename1 [filename2 ...]</param_name>
@@ -81,63 +81,63 @@
     </param_input_item>
     <param_input_item>
       <param_name>--no-startup</param_name>
-      <param_description>desactive le script principal de demarrage de Nelson.</param_description>
+      <param_description>désactive le script principal de démarrage de Nelson.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>--no-user-modules</param_name>
-      <param_description>desactive le chargement des modules utilisateur.</param_description>
+      <param_description>désactive le chargement des modules utilisateur.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>--no-user-startup</param_name>
-      <param_description>desactive le script de demarrage utilisateur.</param_description>
+      <param_description>désactive le script de démarrage utilisateur.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>--minimize</param_name>
-      <param_description>minimise la fenetre principale. Mode GUI uniquement.</param_description>
+      <param_description>minimise la fenêtre principale. Mode GUI uniquement.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>--no-ipc</param_name>
-      <param_description>desactive les fonctionnalites interprocessus.</param_description>
+      <param_description>désactive les fonctionnalités interprocessus.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>--without-file-watcher</param_name>
-      <param_description>desactive la surveillance de fichiers pour cette session.</param_description>
+      <param_description>désactive la surveillance de fichiers pour cette session.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>--no-audio</param_name>
-      <param_description>desactive le code de demarrage du module audio.</param_description>
+      <param_description>désactive le code de démarrage du module audio.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>--without-python</param_name>
-      <param_description>desactive le code de demarrage du module python_engine.</param_description>
+      <param_description>désactive le code de démarrage du module python_engine.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>--language, -l lang</param_name>
-      <param_description>fixe la langue de la session. Actuellement, lang peut etre : fr_FR en_US.</param_description>
+      <param_description>fixe la langue de la session. Actuellement, lang peut être : fr_FR en_US.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>--quiet, -q</param_name>
-      <param_description>demarre sans afficher la banniere ni la version.</param_description>
+      <param_description>démarre sans afficher la bannière ni la version.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>--timeout seconds</param_name>
-      <param_description>termine le processus Nelson apres le nombre positif de secondes indique.</param_description>
+      <param_description>termine le processus Nelson après le nombre positif de secondes indiqué.</param_description>
     </param_input_item>
   </param_input>
   <description>
     <p>
-      <b>nelson-cli</b> : terminal basique, sans dependance au framework gui, sans historique, sans completion.</p>
+      <b>nelson-cli</b> : terminal basique, sans dépendance au framework gui, sans historique, sans complétion.</p>
     <p>
-      <b>nelson-adv-cli</b> : terminal avance, sans console graphique, historique et completion disponibles.</p>
+      <b>nelson-adv-cli</b> : terminal avance, sans console graphique, historique et complétion disponibles.</p>
     <p>
-      <b>nelson-gui</b> : console graphique, historique et completion disponibles.</p>
-    <p><b>nelson --webview</b> et <b>nelson-webview</b> ouvrent une webview desktop native par defaut avec un port localhost prive qui n&apos;est pas affiche. Fournir <b>--url</b> ou <b>--port</b> garde la webview ouverte et publie la meme session a l&apos;adresse HTTP selectionnee. Si la webview native est indisponible, Nelson s&apos;arrete avec une erreur.</p>
-    <p><b>nelson --web</b> et <b>nelson-webview --web</b> demarrent un serveur HTTP sans ouvrir de fenetre desktop et affichent l&apos;URL servie.</p>
-    <p>Les selecteurs de mode <b>--cli</b>, <b>--adv-cli</b>, <b>--gui</b>, <b>--webview</b> et le <b>--web</b> du lanceur sont valides uniquement pour le lanceur generique <b>nelson</b>. Les executables directs comme <b>nelson-cli</b>, <b>nelson-adv-cli</b> et <b>nelson-gui</b> les refusent avant <b>--</b>. La seule exception est <b>nelson-adv-cli --webview</b>, ou <b>--webview</b> est accepte comme option qui bascule le backend des figures vers le rendu web (RenderWeb).</p>
-    <p>Apres <b>--</b>, les selecteurs de mode sont des arguments utilisateur normaux et peuvent etre lus avec <b>argv('user')</b>.</p>
-    <p>Les arguments de demarrage de modules comme <b>--no-audio</b> et <b>--without-python</b> restent visibles dans <b>argv()</b> pour compatibilite. Les nouveaux constructeurs de commandes doivent placer les arguments utilisateur apres <b>--</b> et les lire avec <b>argv('user')</b>.</p>
-    <p>Les guillemets utilises pour grouper les arguments sont interpretes par le systeme d&apos;exploitation ou le shell avant le demarrage de Nelson. Utiliser une forme portable comme <b>nelson-cli -e &quot;disp('hello world'); quit&quot;</b>.</p>
-    <p>Si Nelson est installe sur Windows, la variable d&apos;environnement <b>NELSON_RUNTIME_PATH</b> est definie et peut etre utilisee pour appeler <b>&quot;%NELSON_RUNTIME_PATH%\nelson.bat&quot;</b>.</p>
+      <b>nelson-gui</b> : console graphique, historique et complétion disponibles.</p>
+    <p><b>nelson --webview</b> et <b>nelson-webview</b> ouvrent une webview desktop native par défaut avec un port localhost privé qui n&apos;est pas affiché. Fournir <b>--url</b> ou <b>--port</b> garde la webview ouverte et publie la même session a l&apos;adresse HTTP sélectionnée. Si la webview native est indisponible, Nelson s&apos;arrête avec une erreur.</p>
+    <p><b>nelson --web</b> et <b>nelson-webview --web</b> démarrent un serveur HTTP sans ouvrir de fenêtre desktop et affichent l&apos;URL servie.</p>
+    <p>Les sélecteurs de mode <b>--cli</b>, <b>--adv-cli</b>, <b>--gui</b>, <b>--webview</b> et le <b>--web</b> du lanceur sont validés uniquement pour le lanceur générique <b>nelson</b>. Les exécutables directs comme <b>nelson-cli</b>, <b>nelson-adv-cli</b> et <b>nelson-gui</b> les refusent avant <b>--</b>. La seule exception est <b>nelson-adv-cli --webview</b>, ou <b>--webview</b> est accepté comme option qui bascule le backend des figures vers le rendu web (RenderWeb).</p>
+    <p>Après <b>--</b>, les sélecteurs de mode sont des arguments utilisateur normaux et peuvent être lus avec <b>argv('user')</b>.</p>
+    <p>Les arguments de démarrage de modules comme <b>--no-audio</b> et <b>--without-python</b> restent visibles dans <b>argv()</b> pour compatibilité. Les nouveaux constructeurs de commandes doivent placer les arguments utilisateur après <b>--</b> et les lire avec <b>argv('user')</b>.</p>
+    <p>Les guillemets utilisés pour grouper les arguments sont interprétés par le système d&apos;exploitation ou le shell avant le démarrage de Nelson. Utiliser une forme portable comme <b>nelson-cli -e &quot;disp('hello world'); quit&quot;</b>.</p>
+    <p>Si Nelson est installé sur Windows, la variable d&apos;environnement <b>NELSON_RUNTIME_PATH</b> est définie et peut être utilisée pour appeler <b>&quot;%NELSON_RUNTIME_PATH%\nelson.bat&quot;</b>.</p>
   </description>
   <used_function />
   <bibliography />
@@ -185,7 +185,7 @@
     </history_item>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>options de ligne de commande standardisees : les selecteurs de mode utilisent desormais la forme a double tiret (--cli, --adv-cli, --gui) et les options en plusieurs mots utilisent le kebab-case (--no-startup, --no-user-startup, --no-user-modules, --no-ipc, --no-audio, --without-file-watcher, --without-python, --without-julia)</history_description>
+      <history_description>options de ligne de commande standardisées : les sélecteurs de mode utilisent désormais la forme a double tiret (--cli, --adv-cli, --gui) et les options en plusieurs mots utilisent le kebab-case (--no-startup, --no-user-startup, --no-user-modules, --no-ipc, --no-audio, --without-file-watcher, --without-python, --without-julia)</history_description>
     </history_item>
   </history>
   <authors>

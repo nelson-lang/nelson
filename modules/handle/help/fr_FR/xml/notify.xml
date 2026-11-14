@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>notify</keyword>
-  <short_description>Notifie les ecouteurs d&apos;un evenement classdef.</short_description>
+  <short_description>Notifie les écouteurs d&apos;un événement classdef.</short_description>
   <syntax>
     <syntax_item>notify(obj, eventName)</syntax_item>
     <syntax_item>notify(obj, eventName, eventData)</syntax_item>
@@ -15,24 +15,24 @@
     </param_input_item>
     <param_input_item>
       <param_name>eventName</param_name>
-      <param_description>un nom d&apos;evenement sous forme de chaine</param_description>
+      <param_description>un nom d&apos;événement sous forme de chaîne</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>eventData</param_name>
-      <param_description>donnees d&apos;evenement optionnelles transmises aux callbacks</param_description>
+      <param_description>données d&apos;événement optionnelles transmises aux callbacks</param_description>
     </param_input_item>
   </param_input>
   <description>
     <p>
-      <b>notify</b> execute les callbacks enregistres pour un evenement d&apos;objet handle classdef.</p>
-    <p>Les callbacks recoivent l&apos;objet source et les donnees d&apos;evenement fournies.</p>
+      <b>notify</b> exécute les callbacks enregistrés pour un événement d&apos;objet handle classdef.</p>
+    <p>Les callbacks reçoivent l&apos;objet source et les données d&apos;événement fournies.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Notifier les ecouteurs d&apos;un evenement.</example_item_description>
+      <example_item_description>Notifier les écouteurs d&apos;un événement.</example_item_description>
       <example_item_data runnable="false"><![CDATA[d = [tempdir(), 'nelson_help_notify/'];
 mkdir(d);
 filewrite([d, '/NelsonHelpNotifyCounter.m'], ["classdef NelsonHelpNotifyCounter < handle"; "  events"; "    CountChanged"; "  end"; "end"]);
@@ -58,7 +58,7 @@ delete(counter)]]></example_item_data>
   <history>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>support de notification d&apos;evenements classdef ajoute</history_description>
+      <history_description>support de notification d&apos;événements classdef ajouté</history_description>
     </history_item>
   </history>
   <authors>

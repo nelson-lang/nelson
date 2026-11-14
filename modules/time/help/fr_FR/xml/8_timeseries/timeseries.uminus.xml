@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>timeseries.uminus</keyword>
-  <short_description>Change le signe des donnees timeseries.</short_description>
+  <short_description>Change le signe des données timeseries.</short_description>
   <syntax>
     <syntax_item>tsOut = uminus(ts)</syntax_item>
     <syntax_item>tsOut = -ts</syntax_item>
@@ -11,17 +11,17 @@
   <param_input>
     <param_input_item>
       <param_name>ts</param_name>
-      <param_description>Objet timeseries en entree.</param_description>
+      <param_description>Objet timeseries en entrée.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>tsOut</param_name>
-      <param_description>Objet timeseries de sortie dont le signe des donnees est change.</param_description>
+      <param_description>Objet timeseries de sortie dont le signe des données est changé.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>uminus</b> Change le signe de la propriete Data et preserve le temps et les metadonnees.</p>
+    <p><b>uminus</b> Change le signe de la propriété Data et préserve le temps et les métadonnées.</p>
   </description>
   <used_function />
   <bibliography />

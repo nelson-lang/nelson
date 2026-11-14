@@ -10,18 +10,18 @@
   <param_input>
     <param_input_item>
       <param_name>inputs</param_name>
-      <param_description>Valeurs datetime, numeros de date serie ou entrees compatibles date.</param_description>
+      <param_description>Valeurs datetime, numéros de date série ou entrées compatibles date.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>output</param_name>
-      <param_description>Un tableau double ou chaque date vaut annee*10000 + mois*100 + jour.</param_description>
+      <param_description>Un tableau double ou chaque date vaut année*10000 + mois*100 + jour.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>Convertit des dates en nombres calendaires yyyymmdd.</p>
-    <p>yyyymmdd est utile pour des cles de date compactes et triables lorsque l heure n est pas necessaire.</p>
+    <p>yyyymmdd est utile pour des clés de date compactés et triables lorsque l heure n est pas nécessaire.</p>
     <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
   </description>
   <used_function />

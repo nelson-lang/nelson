@@ -11,7 +11,7 @@
   <param_input>
     <param_input_item>
       <param_name>input ports</param_name>
-      <param_description>2 port(s) d entree declare(s).</param_description>
+      <param_description>2 port(s) d entrée déclare(s).</param_description>
     </param_input_item>
   </param_input>
   <description>
@@ -25,7 +25,7 @@
           </td>
         </tr>
         <tr>
-          <td>Bibliotheque</td>
+          <td>Bibliothèque</td>
           <td>Blocs puits</td>
         </tr>
         <tr>
@@ -35,7 +35,7 @@
           </td>
         </tr>
         <tr>
-          <td>Libelle</td>
+          <td>Libellé</td>
           <td>XY Scope</td>
         </tr>
       </tbody>
@@ -51,13 +51,13 @@
       <b>Ports</b>
     </p>
     <p>
-      <b>Entree(s)</b>
+      <b>Entrée(s)</b>
     </p>
     <table border="1">
       <thead>
         <tr>
           <th>Port</th>
-          <th>Role</th>
+          <th>Rôle</th>
           <th>Cote</th>
           <th>Position</th>
         </tr>
@@ -65,13 +65,13 @@
       <tbody>
         <tr>
           <td>Port_1</td>
-          <td>Signal numerique lu par le bloc.</td>
+          <td>Signal numérique lu par le bloc.</td>
           <td>left</td>
           <td>x=0, y=50</td>
         </tr>
         <tr>
           <td>Port_2</td>
-          <td>Signal numerique lu par le bloc.</td>
+          <td>Signal numérique lu par le bloc.</td>
           <td>left</td>
           <td>x=0, y=110</td>
         </tr>
@@ -80,15 +80,15 @@
     <p>
       <b>Sortie(s)</b>
     </p>
-    <p>Ce bloc ne declare aucune sortie.</p>
+    <p>Ce bloc ne déclare aucune sortie.</p>
     <p>
-      <b>Parametres</b>
+      <b>Paramètres</b>
     </p>
     <table border="1">
       <thead>
         <tr>
-          <th>Parametre</th>
-          <th>Valeur par defaut</th>
+          <th>Paramètre</th>
+          <th>Valeur par défaut</th>
         </tr>
       </thead>
       <tbody>
@@ -137,9 +137,9 @@
       </tbody>
     </table>
     <p>
-      <b>Cles de l inspecteur</b>
+      <b>Clés de l inspecteur</b>
     </p>
-    <p>Ces cles serialisees sont exposees par l inspecteur du bloc.</p>
+    <p>Ces clés sérialisées sont exposées par l inspecteur du bloc.</p>
     <ul>
       <li>
         <code>xMin</code>
@@ -164,7 +164,7 @@
       </li>
     </ul>
     <p>
-      <b>Caracteristiques du bloc</b>
+      <b>Caractéristiques du bloc</b>
     </p>
     <table border="1">
       <tbody>
@@ -185,16 +185,16 @@
           <td>INIT, AFTER_STEP</td>
         </tr>
         <tr>
-          <td>Traversee directe</td>
+          <td>Traversée directe</td>
           <td>voir Algorithmes</td>
         </tr>
         <tr>
-          <td>Etat ou historique interne</td>
-          <td>non observe dans le code documente</td>
+          <td>État ou historique interne</td>
+          <td>non observé dans le code documente</td>
         </tr>
         <tr>
-          <td>Type de donnees signaux</td>
-          <td>valeurs numeriques double</td>
+          <td>Type de données signaux</td>
+          <td>valeurs numériques double</td>
         </tr>
       </tbody>
     </table>
@@ -203,16 +203,16 @@
     </p>
     <ul>
       <li>INIT efface xSeries et ySeries.</li>
-      <li>AFTER_STEP ajoute l entree 1 a xSeries et l entree 2 a ySeries; les entrees absentes ajoutent NaN.</li>
+      <li>AFTER_STEP ajoute l entrée 1 a xSeries et l entrée 2 a ySeries; les entrées absentes ajoutent NaN.</li>
       <li>Le bloc n a pas de sortie.</li>
     </ul>
     <p>
-      <b>Capacites et limites</b>
+      <b>Capacités et limites</b>
     </p>
-    <p>La page decrit le comportement runtime natif observe dans les sources C++ du module. Les phases declarees indiquent quand le moteur de simulation appelle le bloc.</p>
-    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <p>La page décrit le comportement runtime natif observé dans les sources C++ du module. Les phases déclarées indiquent quand le moteur de simulation appelle le bloc.</p>
+    <p>Génération de code : prise en charge pour C et Rust.</p>
     <p>
-      <b>Sources d implementation</b>
+      <b>Sources d implémentation</b>
     </p>
     <source_code label="Manifest" path="modules/nflow_blocks/libraries/sink/library.json" language="json"/>
     <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/sink/xyScope.cpp" language="cpp"/>

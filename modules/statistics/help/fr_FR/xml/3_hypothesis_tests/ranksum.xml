@@ -10,8 +10,8 @@
     <syntax_item>[p, h, stats] = ranksum(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>ranksum</b> effectue un test de somme des rangs a deux echantillons. Les observations <b>NaN</b> sont omises dans chaque vecteur d'entree.</p>
-    <p>Les arguments nom-valeur incluent <b>Alpha</b>, <b>Tail</b> et <b>Method</b>. Les queues prises en charge sont both, right et left. Les methodes prises en charge sont auto, exact et approximate.</p>
+    <p><b>ranksum</b> effectue un test de somme des rangs a deux échantillons. Les observations <b>NaN</b> sont omises dans chaque vecteur d'entrée.</p>
+    <p>Les arguments nom-valeur incluent <b>Alpha</b>, <b>Tail</b> et <b>Method</b>. Les queues prises en charge sont both, right et left. Les méthodes prises en charge sont auto, exact et approximate.</p>
   </description>
   <examples>
     <example_item>

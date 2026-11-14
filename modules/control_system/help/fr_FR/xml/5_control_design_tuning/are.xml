@@ -3,20 +3,20 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>are</keyword>
-  <short_description>Solution d&apos;equation algebrique de Riccati.</short_description>
+  <short_description>Solution d&apos;équation algébrique de Riccati.</short_description>
   <syntax>
     <syntax_item>X = are(A, B, C)</syntax_item>
   </syntax>
   <param_input>
-    <param_input_item><param_name>A</param_name><param_description>matrice d&apos;etat carree.</param_description></param_input_item>
-    <param_input_item><param_name>B</param_name><param_description>matrice symetrique non negative du terme quadratique.</param_description></param_input_item>
-    <param_input_item><param_name>C</param_name><param_description>matrice symetrique de ponderation d&apos;etat.</param_description></param_input_item>
+    <param_input_item><param_name>A</param_name><param_description>matrice d&apos;état carrée.</param_description></param_input_item>
+    <param_input_item><param_name>B</param_name><param_description>matrice symétrique non négative du terme quadratique.</param_description></param_input_item>
+    <param_input_item><param_name>C</param_name><param_description>matrice symétrique de pondération d&apos;état.</param_description></param_input_item>
   </param_input>
   <param_output>
     <param_output_item><param_name>X</param_name><param_description>solution stabilisante.</param_description></param_output_item>
   </param_output>
   <description>
-    <p><b>are</b> resout <b>A&apos; * X + X * A - X * B * X + C = 0</b>.</p>
+    <p><b>are</b> résout <b>A&apos; * X + X * A - X * B * X + C = 0</b>.</p>
   </description>
   <examples>
     <example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="cli"><![CDATA[

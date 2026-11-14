@@ -47,7 +47,7 @@
     <p>
       <b>xmlDocument</b> est la classe de l'objet retourné par <b>xmlread</b>. Il peut être passé à <b>xmlwrite</b> et à <b>xslt</b>, et il offre un petit accès en lecture seule au contenu, à la manière d'un document DOM.</p>
     <p
-    >L'objet conserve le contenu XML sous forme de texte dans sa propriété cachée <b>Text</b>. Le constructeur enregistre <b>text</b> sans le vérifier : un contenu XML mal formé ne provoque une erreur qu'à l'appel d'une méthode.</p>
+    >L'objet conserve le contenu XML sous forme de texte dans sa propriété cachée <b>Text</b>. Le constructeur enregistré <b>text</b> sans le vérifier : un contenu XML mal formé ne provoque une erreur qu'à l'appel d'une méthode.</p>
     <p>Méthodes :</p>
     <ul>
       <li>

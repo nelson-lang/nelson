@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>boxchart</keyword>
-  <short_description>Afficher une boite a moustaches pour donnees numeriques groupees.</short_description>
+  <short_description>Afficher une boîte a moustaches pour données numériques groupées.</short_description>
   <syntax>
     <syntax_item>boxchart(ydata)</syntax_item>
     <syntax_item>boxchart(xgroupdata, ydata)</syntax_item>
@@ -15,14 +15,14 @@
     <syntax_item>h = boxchart(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>boxchart</b> affiche des boites pour des donnees numeriques. La valeur retournee est un ou plusieurs objets graphiques dont <b>Type</b> vaut <b>boxchart</b>.</p>
-    <p>Le graphe calcule les quartiles, la mediane, les moustaches, les caps, les valeurs aberrantes et les notches optionnelles pour chaque groupe numerique. Les valeurs NaN sont ignorees pendant le calcul des statistiques.</p>
-    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.boxchart.properties">proprietes de boxchart</link> pour la liste complete des proprietes.</p>
+    <p><b>boxchart</b> affiche des boîtes pour des données numériques. La valeur retournée est un ou plusieurs objets graphiques dont <b>Type</b> vaut <b>boxchart</b>.</p>
+    <p>Le graphe calcule les quartiles, la médiane, les moustaches, les caps, les valeurs aberrantes et les notches optionnelles pour chaque groupe numérique. Les valeurs NaN sont ignorées pendant le calcul des statistiques.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.boxchart.properties">proprietes de boxchart</link> pour la liste complète des propriétés.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Boite simple.</example_item_description>
+      <example_item_description>Boîte simple.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[f = figure();
 boxchart([1 2 3 4 12], 'BoxFaceColor', [0.2 0.5 0.8]);
 ]]></example_item_data>
@@ -30,7 +30,7 @@ boxchart([1 2 3 4 12], 'BoxFaceColor', [0.2 0.5 0.8]);
     </example_item>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Boite groupee.</example_item_description>
+      <example_item_description>Boîte groupée.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[f = figure();
 g = categorical({'A', 'A', 'A', 'B', 'B', 'B'});
 y = [1 2 8 4 5 15];
@@ -51,7 +51,7 @@ boxchart(x, y, 'GroupByColor', c);
     </example_item>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Boites pour les colonnes d'une matrice.</example_item_description>
+      <example_item_description>Boîtes pour les colonnes d'une matrice.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[f = figure();
 Y = magic(10);
 boxchart(Y);
@@ -74,7 +74,7 @@ ylabel('Value');
     </example_item>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Marqueur de valeur aberrante et charnieres de boite.</example_item_description>
+      <example_item_description>Marqueur de valeur aberrante et charnieres de boîte.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[f = figure();
 boxchart([1 2 3 4 100]);
 xlabel('Sample');

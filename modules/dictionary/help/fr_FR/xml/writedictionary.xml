@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>writedictionary</keyword>
-  <short_description>Ecrit un dictionnaire dans un fichier.</short_description>
+  <short_description>Écrit un dictionnaire dans un fichier.</short_description>
   <syntax>
     <syntax_item>writedictionary(d, filename)</syntax_item>
     <syntax_item>writedictionary(d, filename, Name, Value)</syntax_item>
@@ -11,7 +11,7 @@
   <param_input>
     <param_input_item>
       <param_name>d</param_name>
-      <param_description>scalaire : objet dictionnaire configure.</param_description>
+      <param_description>scalaire : objet dictionnaire configuré.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>filename</param_name>
@@ -20,28 +20,28 @@
   </param_input>
   <description>
     <p>
-      <b>writedictionary(d, filename)</b> ecrit le dictionnaire configure <b>d</b> dans un fichier JSON.</p>
+      <b>writedictionary(d, filename)</b> écrit le dictionnaire configuré <b>d</b> dans un fichier JSON.</p>
     <p>
-      Les cles du dictionnaire sont ecrites comme noms de membres de l&apos;objet JSON. Les cles doivent etre des scalaires texte, numeriques ou logiques. Les valeurs peuvent etre des scalaires, tableaux, cellules, structures ou tableaux de structures lorsqu&apos;elles peuvent etre representees comme valeurs JSON.</p>
+      Les clés du dictionnaire sont écrites comme noms de membres de l&apos;objet JSON. Les clés doivent être des scalaires texte, numériques ou logiques. Les valeurs peuvent être des scalaires, tableaux, cellules, structures ou tableaux de structures lorsqu&apos;elles peuvent être représentées comme valeurs JSON.</p>
     <p>
-      <b>writedictionary(d, filename, Name, Value)</b> personnalise l&apos;ecriture. Les options supportees sont :</p>
+      <b>writedictionary(d, filename, Name, Value)</b> personnalise l&apos;écriture. Les options supportées sont :</p>
     <ul>
       <li>
-        <b>FileType :</b> type de fichier. Les valeurs supportees sont <code>&apos;auto&apos;</code> et <code>&apos;json&apos;</code>. Seuls les fichiers dictionnaire JSON sont actuellement supportes.</li>
+        <b>FileType :</b> type de fichier. Les valeurs supportées sont <code>&apos;auto&apos;</code> et <code>&apos;json&apos;</code>. Seuls les fichiers dictionnaire JSON sont actuellement supportés.</li>
       <li>
-        <b>PrettyPrint :</b> scalaire logique. Si vrai, ecrit un JSON indente. La valeur par defaut est <code>true</code>.</li>
+        <b>PrettyPrint :</b> scalaire logique. Si vrai, écrit un JSON indenté. La valeur par défaut est <code>true</code>.</li>
       <li>
-        <b>PreserveInfAndNaN :</b> scalaire logique. Si vrai, ecrit les jetons <code>NaN</code>, <code>Infinity</code> et <code>-Infinity</code> pour les valeurs numeriques non finies. La valeur par defaut est <code>true</code>.</li>
+        <b>PreserveInfAndNaN :</b> scalaire logique. Si vrai, écrit les jetons <code>NaN</code>, <code>Infinity</code> et <code>-Infinity</code> pour les valeurs numériques non finies. La valeur par défaut est <code>true</code>.</li>
     </ul>
     <p>
-      La persistance MAT et NH5 des variables dictionnaire est geree par <b>savemat</b>/<b>loadmat</b> et <b>savenh5</b>/<b>loadnh5</b>.</p>
+      La persistance MAT et NH5 des variables dictionnaire est gérée par <b>savemat</b>/<b>loadmat</b> et <b>savenh5</b>/<b>loadnh5</b>.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Ecriture puis lecture d&apos;un dictionnaire JSON.</example_item_description>
+      <example_item_description>Écriture puis lecture d&apos;un dictionnaire JSON.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[filename = [tempdir(), 'products.json'];
@@ -51,7 +51,7 @@ r = readdictionary(filename)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Ecriture de valeurs heterogenes.</example_item_description>
+      <example_item_description>Écriture de valeurs hétérogènes.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[filename = [tempdir(), 'mixed_dictionary.json'];

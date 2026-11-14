@@ -4,15 +4,15 @@
   <language>fr_FR</language>
   <keyword>compiler.runtime.Dependencies</keyword>
   <keyword_alias>compiler.runtime.Dependencies</keyword_alias>
-  <short_description>Inspecter les fichiers runtime selectionnes.</short_description>
+  <short_description>Inspecter les fichiers runtime sélectionnés.</short_description>
   <syntax><syntax_item>dependencies = result.RuntimeDependencies</syntax_item><syntax_item>required = dependencies.Required</syntax_item><syntax_item>optional = dependencies.Optional</syntax_item></syntax>
   <description>
-    <p>Les resultats des constructions autonomes renvoient cet objet. L'obtenir via result.RuntimeDependencies plutot que l'instancier directement. Required et Optional sont des proprietes tables en lecture seule.</p>
-    <p>Dans Nelson, ces tables utilisent les colonnes Source, RelativePath et SHA256. Source est un nom absolu sur la machine de build ; RelativePath est sa destination dans le runtime selectionne ; SHA256 est l'empreinte capturee.</p>
-    <p>Required contient la fermeture des bibliotheques natives, les fichiers des modules retenus, les ressources et les notices de redistribution de l'instantane runtime. Optional est vide pour la fermeture minimale, car aucun fichier runtime facultatif supplementaire n'est selectionne.</p>
-    <p>Ces tables decrivent des exigences en fichiers, pas un runtime installe ou un installateur. L'ordre de demarrage des modules et les inventaires generes appartiennent a l'instantane interne ; ce ne sont pas des lignes de fichiers copies supplementaires.</p>
-    <p>L'instantane est capture au build sans copier le runtime. Les sources peuvent ensuite changer ou disparaitre. Les consommateurs doivent les verifier avant distribution ; les empreintes ne sont pas des signatures et les tables peuvent reveler des chemins locaux.</p>
-    <p>Le rapport buildresult.json conserve cet inventaire et l'ordre des modules necessaires a la preparation de la distribution. Fusionner des rapports exige les memes architecture, version de runtime, identite du moteur et ordre de demarrage. Les sources runtime doivent encore correspondre aux empreintes capturees avant copie ; les identites de destination en conflit sont refusees.</p>
+    <p>Les résultats des constructions autonomes renvoient cet objet. L'obtenir via result.RuntimeDependencies plutôt que l'instancier directement. Required et Optional sont des propriétés tables en lecture seule.</p>
+    <p>Dans Nelson, ces tables utilisent les colonnes Source, RelativePath et SHA256. Source est un nom absolu sur la machine de build ; RelativePath est sa destination dans le runtime sélectionne ; SHA256 est l'empreinte capturée.</p>
+    <p>Required contient la fermeture des bibliothèques natives, les fichiers des modules retenus, les ressources et les notices de redistribution de l'instantané runtime. Optional est vide pour la fermeture minimale, car aucun fichier runtime facultatif supplémentaire n'est sélectionné.</p>
+    <p>Ces tables décrivent des exigences en fichiers, pas un runtime installe ou un installateur. L'ordre de démarrage des modules et les inventaires générés appartiennent à l'instantané interne ; ce ne sont pas des lignes de fichiers copies supplémentaires.</p>
+    <p>L'instantané est capturé au build sans copier le runtime. Les sources peuvent ensuite changer ou disparaitre. Les consommateurs doivent les vérifier avant distribution ; les empreintes ne sont pas des signatures et les tables peuvent reveler des chemins locaux.</p>
+    <p>Le rapport buildresult.json conserve cet inventaire et l'ordre des modules nécessaires a la préparation de la distribution. Fusionner des rapports exige les mêmes architecture, version de runtime, identité du moteur et ordre de démarrage. Les sources runtime doivent encore correspondre aux empreintes capturées avant copie ; les identités de destination en conflit sont refusées.</p>
   </description>
   <used_function />
   <bibliography />

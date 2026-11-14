@@ -117,7 +117,7 @@
     index non par défaut est déplacé dans une variable <b>index</b> en tête,
     tandis qu'un <b>RangeIndex</b> par défaut est ignoré. Une
     <b>py.pandas.Series</b> devient une table avec une seule variable nommée
-    d'après la Series (une Series sans nom utilise l'étiquette de colonne
+    d'après la Séries (une Séries sans nom utilise l'étiquette de colonne
     <b>0</b>). Les étiquettes de colonnes qui ne sont pas des noms de variables
     Nelson valides sont rendues valides, et les étiquettes d'origine sont
     conservées dans <b>VariableDescriptions</b> de la table. Les colonnes

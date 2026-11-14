@@ -21,7 +21,7 @@
   <description>
     <p><b>integral3</b> évalue une intégrale triple sur un domaine rectangulaire ou borné par des fonctions.</p>
     <p>Les appels finis vectorisés utilisent une règle de Gauss-Kronrod en tuiles. Les bornes infinies et <b>Method</b> égal à <b>'iterated'</b> utilisent une quadrature adaptative imbriquée.</p>
-    <p><b>Waypoints</b> indique des points d&apos;intérêt du domaine d&apos;intégration, comme des extrema locaux ou des discontinuités, que l&apos;intégrateur utilise dans son maillage initial : un tableau à trois colonnes <b>[x y z]</b> de points, ou un tableau de cellules <b>{x y z}</b> de vecteurs de grille. Les intervalles en x, y et z sont découpés aux coordonnées correspondantes des points de passage. Les points de passage doivent être réels et finis. N&apos;utilisez pas de points de passage pour indiquer des singularités ; découpez plutôt le domaine.</p>
+    <p><b>Waypoints</b> indique des points d&apos;intérêt du domaine d&apos;intégration, comme des extrema locaux ou des discontinuités, que l&apos;intégrateur utilisé dans son maillage initial : un tableau à trois colonnes <b>[x y z]</b> de points, ou un tableau de cellules <b>{x y z}</b> de vecteurs de grille. Les intervalles en x, y et z sont découpés aux coordonnées correspondantes des points de passage. Les points de passage doivent être réels et finis. N&apos;utilisez pas de points de passage pour indiquer des singularités ; découpez plutôt le domaine.</p>
   </description>
   <used_function />
   <bibliography />

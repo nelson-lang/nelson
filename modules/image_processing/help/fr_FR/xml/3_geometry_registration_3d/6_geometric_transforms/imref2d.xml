@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>imref2d</keyword>
-  <short_description>Cree une structure de reference spatiale 2-D.</short_description>
+  <short_description>Crée une structure de référence spatiale 2-D.</short_description>
   <syntax>
     <syntax_item>R = imref2d()</syntax_item>
     <syntax_item>R = imref2d(imageSize)</syntax_item>
@@ -13,36 +13,36 @@
   <param_input>
     <param_input_item>
       <param_name>imageSize</param_name>
-      <param_description>Vecteur d'entiers positifs qui definit la taille de l'image en lignes et colonnes.</param_description>
+      <param_description>Vecteur d'entiers positifs qui définit la taille de l'image en lignes et colonnes.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>pixelExtentInWorldX, pixelExtentInWorldY</param_name>
-      <param_description>Pas de pixel scalaires positifs et finis en coordonnees monde.</param_description>
+      <param_description>Pas de pixel scalaires positifs et finis en coordonnées monde.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>xWorldLimits</param_name>
-      <param_description>Deux valeurs finies croissantes qui definissent les limites monde selon les colonnes.</param_description>
+      <param_description>Deux valeurs finies croissantes qui définissent les limites monde selon les colonnes.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>yWorldLimits</param_name>
-      <param_description>Deux valeurs finies croissantes qui definissent les limites monde selon les lignes.</param_description>
+      <param_description>Deux valeurs finies croissantes qui définissent les limites monde selon les lignes.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>R</param_name>
-      <param_description>Structure de reference spatiale 2-D avec taille d'image, limites intrinseques, limites monde, etendues monde et pas de pixel.</param_description>
+      <param_description>Structure de référence spatiale 2-D avec taille d'image, limites intrinseques, limites monde, étendues monde et pas de pixel.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>Cree une structure de reference spatiale 2-D avec taille d image, limites monde, limites intrinseques, etendues monde et pas de pixel. La structure peut etre utilisee comme valeur OutputView pour imwarp ou comme reference source dans imwarp.</p>
+    <p>Crée une structure de référence spatiale 2-D avec taille d image, limites monde, limites intrinseques, étendues monde et pas de pixel. La structure peut être utilisée comme valeur OutputView pour imwarp ou comme référence source dans imwarp.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Transformer une image dans une vue referencee plus grande</example_item_description>
+      <example_item_description>Transformer une image dans une vue référencée plus grande</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[I=zeros(48,48); I(16:32,16:32)=1;
@@ -58,7 +58,7 @@ subplot(1,2,2); imagesc(J); title('Referenced');]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Creer une reference depuis les pas de pixel</example_item_description>
+      <example_item_description>Créer une référence depuis les pas de pixel</example_item_description>
       <example_item_data><![CDATA[R = imref2d([2 3], 2, 3);
 R.XWorldLimits
 R.YWorldLimits]]></example_item_data>

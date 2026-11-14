@@ -25,8 +25,8 @@
     <p>
       <b>res = det(x)</b> retourne le déterminant de la matrice carrée x.</p>
     <p>
-      Les matrices sparse single et sparse single complexes sont prises en charge. Le resultat
-      conserve la precision single lorsque l'entree est single.</p>
+      Les matrices sparse single et sparse single complexes sont prises en charge. Le résultat
+      conserve la précision single lorsque l'entrée est single.</p>
   </description>
   <used_function />
   <bibliography />
@@ -42,7 +42,7 @@ D = det(A)
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Determinant d'une matrice sparse single.</example_item_description>
+      <example_item_description>Déterminant d'une matrice sparse single.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[A = sparse(single([4 1; 2 3]));
 D = det(A)]]></example_item_data>
     </example_item>

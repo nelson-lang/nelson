@@ -12,12 +12,12 @@
     <syntax_item>[idx, bary] = pointLocation(TR, Q)</syntax_item>
   </syntax>
   <description>
-    <p><b>triangulation</b> stocke des points et une liste de connectivite et fournit des requetes topologiques.</p>
+    <p><b>triangulation</b> stocke des points et une liste de connectivité et fournit des requêtes topologiques.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Creer une triangulation et localiser un point.</example_item_description>
+      <example_item_description>Créer une triangulation et localiser un point.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[P = [0 0; 1 0; 1 1; 0 1];
 T = delaunayn(P);
 TR = triangulation(T, P);

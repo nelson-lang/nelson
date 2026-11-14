@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>xlsread</keyword>
-  <short_description>Lire les donnees d&apos;un fichier tableur Open XML.</short_description>
+  <short_description>Lire les données d&apos;un fichier tableur Open XML.</short_description>
   <syntax>
     <syntax_item>num = xlsread(filename)</syntax_item>
     <syntax_item>num = xlsread(filename, sheet)</syntax_item>
@@ -13,7 +13,7 @@
   <param_input>
     <param_input_item>
       <param_name>filename</param_name>
-      <param_description>une chaine : nom de fichier .xlsx.</param_description>
+      <param_description>une chaîne : nom de fichier .xlsx.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>sheet</param_name>
@@ -27,7 +27,7 @@
   <param_output>
     <param_output_item>
       <param_name>num</param_name>
-      <param_description>matrice numerique. Les cellules texte donnent NaN.</param_description>
+      <param_description>matrice numérique. Les cellules texte donnent NaN.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>txt</param_name>
@@ -35,18 +35,18 @@
     </param_output_item>
     <param_output_item>
       <param_name>raw</param_name>
-      <param_description>cellule contenant les valeurs importees.</param_description>
+      <param_description>cellule contenant les valeurs importées.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>xlsread</b> importe les donnees de fichiers .xlsx avec le backend Open XML.</p>
+    <p><b>xlsread</b> importe les données de fichiers .xlsx avec le backend Open XML.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Lire une plage numerique.</example_item_description>
+      <example_item_description>Lire une plage numérique.</example_item_description>
       <example_item_data runnable="cli">filename = [tempdir(), &apos;xlsread_example.xlsx&apos;]; xlswrite(filename, [1 2; 3 4], &apos;Data&apos;, &apos;B2&apos;); [num, txt, raw] = xlsread(filename, &apos;Data&apos;, &apos;B2:C3&apos;)</example_item_data>
     </example_item>
   </examples>
@@ -58,7 +58,7 @@
   <history>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>support .xlsx Open XML ajoute.</history_description>
+      <history_description>support .xlsx Open XML ajouté.</history_description>
     </history_item>
   </history>
   <authors>

@@ -3,8 +3,8 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <module_name>statistics</module_name>
-  <chapter>Distributions de probabilites</chapter>
+  <chapter>Distributions de probabilités</chapter>
   <chapter_description>
-    <p>Fonctions de distribution pour densite, probabilite cumulee, probabilite inverse, ajustement, vraisemblance, tirage aleatoire et statistiques de synthese.</p>
+    <p>Fonctions de distribution pour densité, probabilité cumulée, probabilité inverse, ajustement, vraisemblance, tirage aléatoire et statistiques de synthèse.</p>
   </chapter_description>
 </xmldoc>

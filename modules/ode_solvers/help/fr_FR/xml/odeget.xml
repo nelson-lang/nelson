@@ -10,15 +10,15 @@
   </syntax>
   <description>
     <p>
-      <b>odeget</b> renvoie une option nommee ou une valeur par defaut.</p>
+      <b>odeget</b> renvoie une option nommée ou une valeur par défaut.</p>
     <table style="width:100%">
       <tr>
         <th>Appel</th>
-        <th>Role</th>
+        <th>Rôle</th>
       </tr>
       <tr>
         <td><b>value = *get(options,name)</b></td>
-        <td>Retourne la valeur stockee pour <b>name</b>.</td>
+        <td>Retourne la valeur stockée pour <b>name</b>.</td>
       </tr>
       <tr>
         <td><b>value = *get(options,name,default)</b></td>

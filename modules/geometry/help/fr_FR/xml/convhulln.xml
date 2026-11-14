@@ -11,12 +11,12 @@
   </syntax>
   <description>
     <p><b>convhulln</b> calcule les facettes de l'enveloppe convexe de la matrice de points <b>P</b>.</p>
-    <p>Les lignes de <b>K</b> contiennent des indices de points a partir de un.</p>
+    <p>Les lignes de <b>K</b> contiennent des indices de points à partir de un.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Enveloppe convexe d'un carre.</example_item_description>
+      <example_item_description>Enveloppe convexe d'un carré.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[P = [0 0; 1 0; 1 1; 0 1];
 [K, A] = convhulln(P)]]></example_item_data>
     </example_item>

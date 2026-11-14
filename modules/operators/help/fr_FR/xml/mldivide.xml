@@ -32,13 +32,13 @@
     <p>Pour une matrice <b>A</b> dense rectangulaire, la solution au sens des moindres carrés vient d&apos;une factorisation QR avec pivot sur les colonnes. Quand <b>A</b> est de rang déficient, la solution de base est retournée : les colonnes dépendantes reçoivent la valeur 0 et l&apos;avertissement <b>Nelson:rankDeficientMatrix</b> donne le rang et la tolérance <b>max(m, n) * eps * abs(R(1, 1))</b> (dix fois plus grande pour des données complexes). Utilisez <b>pinv</b> pour obtenir plutôt la solution de norme minimale.</p>
     <p>Quand le résultat est complexe et que toutes ses parties imaginaires sont nulles, il est retourné sous forme de tableau réel.</p>
     <p>
-      Pour les matrices sparse flottantes, Nelson utilise les solveurs sparse Eigen disponibles. Les systemes symetriques definis positifs utilisent des chemins de Cholesky sparse, les systemes hermitiens ou symetriques indefinis peuvent utiliser LDLT sparse, les systemes carres generaux utilisent LU sparse, et les systemes rectangulaires utilisent QR sparse ou un repli iteratif de moindres carres.</p>
+      Pour les matrices sparse flottantes, Nelson utilise les solveurs sparse Eigen disponibles. Les systèmes symétriques définis positifs utilisent des chemins de Cholesky sparse, les systèmes hermitiens ou symétriques indéfinis peuvent utiliser LDLT sparse, les systèmes carrés généraux utilisent LU sparse, et les systèmes rectangulaires utilisent QR sparse ou un repli itératif de moindres carrés.</p>
     <p>
-      Les matrices sparse double, single, double complexes et single complexes sont prises en charge. Les entrees reelles et complexes compatibles sont promues vers la classe complexe correspondante. Les seconds membres sparse conservent le stockage sparse lorsque le resultat peut etre represente de cette maniere.</p>
+      Les matrices sparse double, single, double complexes et single complexes sont prises en charge. Les entrées réelles et complexes compatibles sont promues vers la classe complexe correspondante. Les seconds membres sparse conservent le stockage sparse lorsque le résultat peut être représenté de cette manière.</p>
     <p>
-      Les systemes sparse rectangulaires retournent une solution de moindres carres pour les systemes surdetermines et une solution sparse compatible pour les systemes sous-determines lorsque le systeme est exactement satisfiable.</p>
+      Les systèmes sparse rectangulaires retournent une solution de moindres carrés pour les systèmes surdetermines et une solution sparse compatible pour les systèmes sous-déterminés lorsque le système est exactement satisfiable.</p>
     <p>
-      Les diagonales singulieres et les systemes sparse structurellement nuls emettent des avertissements clairs et retournent des valeurs <b>Inf</b> ou <b>NaN</b> lorsque les divisions scalaires les imposent.</p>
+      Les diagonales singulières et les systèmes sparse structurellement nuls émettent des avertissements clairs et retournent des valeurs <b>Inf</b> ou <b>NaN</b> lorsque les divisions scalaires les imposent.</p>
     <p>Lorsqu&apos;un opérande est une table ou une timetable et que l&apos;autre est un scalaire, <b>A \ B</b> est une opération élément par élément appliquée à chaque variable, identique à <b>A .\ B</b> : les noms de variables, les unités et les temps de ligne sont conservés. Toute autre combinaison avec une table ou une timetable (deux tables, ou une table et un tableau non scalaire) provoque une erreur : utilisez <b>.\</b> à la place.</p>
   </description>
   <used_function />
@@ -55,14 +55,14 @@ A \ B]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Resolution sparse single.</example_item_description>
+      <example_item_description>Résolution sparse single.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[A = sparse(single([4 1; 2 3]));
 b = single([1; 2]);
 x = A \ b]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Resolution sparse single complexe avec second membre sparse.</example_item_description>
+      <example_item_description>Résolution sparse single complexe avec second membre sparse.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[A = sparse(single([3 + 1i 1; 0 2 - 1i]));
 B = sparse(single([4 + 2i 0; 3 - 1i 1]));
 X = A \ B
@@ -70,7 +70,7 @@ full(A * X)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Resolution sparse single complexe hermitienne indefinie.</example_item_description>
+      <example_item_description>Résolution sparse single complexe hermitienne indéfinie.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[A = sparse(single([0 1 + 2i; 1 - 2i 3]));
 B = sparse(single([1 + 1i 0; 2 - 1i 1]));
 X = A \ B
@@ -78,7 +78,7 @@ full(A * X)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Resolution sparse rectangulaire au sens des moindres carres.</example_item_description>
+      <example_item_description>Résolution sparse rectangulaire au sens des moindres carrés.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[A = sparse([1 0; 0 1; 1 1; 2 -1]);
 b = [1; 2; 4; 1];
 x = A \ b
@@ -86,7 +86,7 @@ norm(A * x - b)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Systeme sparse sous-determine avec solution sparse exacte.</example_item_description>
+      <example_item_description>Système sparse sous-détermine avec solution sparse exacte.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[A = sparse([1 2 0; 0 4 3]);
 b = sparse([8; 18]);
 x = A \ b
@@ -128,7 +128,7 @@ x2 = [1 2; 2 4; 3 6] \ [1; 1; 1]]]></example_item_data>
     </history_item>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>documentation des resolutions sparse Eigen pour les cas single, single complexes, carres, rectangulaires, sous-determines et avec second membre sparse.</history_description>
+      <history_description>documentation des resolutions sparse Eigen pour les cas single, single complexes, carrés, rectangulaires, sous-déterminés et avec second membre sparse.</history_description>
     </history_item>
     <history_item>
       <history_version>2.0.0</history_version>

@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>cummax</keyword>
-  <short_description>Maximum cumulatif des elements d'un tableau.</short_description>
+  <short_description>Maximum cumulatif des éléments d'un tableau.</short_description>
   <syntax>
     <syntax_item>R = cummax(A)</syntax_item>
     <syntax_item>R = cummax(A, d)</syntax_item>

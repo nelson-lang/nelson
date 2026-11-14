@@ -3,18 +3,18 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>unstack</keyword>
-  <short_description>Deplie des lignes en variables de table.</short_description>
+  <short_description>Déplie des lignes en variables de table.</short_description>
   <syntax>
     <syntax_item>U = unstack(S, dataVar, indicatorVar)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>S</param_name>
-      <param_description>Table empilee.</param_description>
+      <param_description>Table empilée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>dataVar</param_name>
-      <param_description>Nom de la variable de donnees.</param_description>
+      <param_description>Nom de la variable de données.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>indicatorVar</param_name>
@@ -24,12 +24,12 @@
   <param_output>
     <param_output_item>
       <param_name>U</param_name>
-      <param_description>Table depliee.</param_description>
+      <param_description>Table dépliée.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>
-      <b>unstack</b> cree des variables a partir des valeurs d'une variable indicatrice.</p>
+      <b>unstack</b> crée des variables à partir des valeurs d'une variable indicatrice.</p>
   </description>
   <used_function />
   <bibliography />

@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>withtol</keyword>
-  <short_description>Tolerance temporelle pour l&apos;indexation des lignes d&apos;une timetable.</short_description>
+  <short_description>Tolérance temporelle pour l&apos;indexation des lignes d&apos;une timetable.</short_description>
   <syntax>
     <syntax_item>S = withtol(rowTimes, tol)</syntax_item>
   </syntax>
@@ -15,9 +15,9 @@
     <param_output_item><param_name>S</param_name><param_description>Indice de lignes de timetable.</param_description></param_output_item>
   </param_output>
   <description>
-    <p><b>withtol</b> cree un indice de lignes qui selectionne les lignes d&apos;une timetable dont les instants sont a moins de <b>tol</b> des instants de <b>rowTimes</b> (bornes incluses). Les lignes sont listees instant par instant, dans l&apos;ordre de <b>rowTimes</b>.</p>
+    <p><b>withtol</b> crée un indice de lignes qui sélectionne les lignes d&apos;une timetable dont les instants sont à moins de <b>tol</b> des instants de <b>rowTimes</b> (bornes incluses). Les lignes sont listées instant par instant, dans l&apos;ordre de <b>rowTimes</b>.</p>
     <p>Il s&apos;utilise dans <b>TT(S, vars)</b>, <b>TT{S, vars}</b>, <b>TT.name(S)</b>, ainsi que dans les affectations et suppressions.</p>
-    <p>La tolerance doit etre inferieure a la moitie du plus petit intervalle entre instants distincts de <b>rowTimes</b>, pour qu&apos;aucune ligne ne soit selectionnee deux fois. Les instants doivent avoir le meme type que les instants de la timetable.</p>
+    <p>La tolérance doit être inférieure à la moitié du plus petit intervalle entre instants distincts de <b>rowTimes</b>, pour qu&apos;aucune ligne ne soit sélectionnée deux fois. Les instants doivent avoir le même type que les instants de la timetable.</p>
   </description>
   <used_function />
   <bibliography />

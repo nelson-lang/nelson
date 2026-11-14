@@ -15,20 +15,20 @@
     <syntax_item>h = fimplicit(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>fimplicit</b> echantillonne <b>fun(x,y)</b> et trace le contour de niveau zero comme objet graphique <b>implicitfunctionline</b>.</p>
-    <p>Quand un tableau de cellules de fonctions est fourni, un objet <b>implicitfunctionline</b> est cree pour chaque fonction et le tableau de handles retourne est un vecteur colonne.</p>
-    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.implicitfunctionline.properties">proprietes de implicitfunctionline</link> pour la liste complete des proprietes.</p>
+    <p><b>fimplicit</b> échantillonne <b>fun(x,y)</b> et trace le contour de niveau zéro comme objet graphique <b>implicitfunctionline</b>.</p>
+    <p>Quand un tableau de cellules de fonctions est fourni, un objet <b>implicitfunctionline</b> est créé pour chaque fonction et le tableau de handles retourne est un vecteur colonne.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.implicitfunctionline.properties">proprietes de implicitfunctionline</link> pour la liste complète des propriétés.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Tracer un cercle unite.</example_item_description>
+      <example_item_description>Tracer un cercle unité.</example_item_description>
       <example_item_data><![CDATA[fimplicit(@(x, y) x.^2 + y.^2 - 1, [-2 2 -2 2]);]]></example_item_data>
       <example_item_img src="../../../../images/fimplicit_1.svg" align="middle" generate="true" />
     </example_item>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Utiliser un style de ligne et des proprietes de ligne.</example_item_description>
+      <example_item_description>Utiliser un style de ligne et des propriétés de ligne.</example_item_description>
       <example_item_data><![CDATA[h = fimplicit(@(x, y) x.^2 + y.^2 - 1, [-2 2], '--r', 'LineWidth', 2);]]></example_item_data>
       <example_item_img src="../../../../images/fimplicit_2.svg" align="middle" generate="true" />
     </example_item>

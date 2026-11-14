@@ -3,14 +3,14 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>nelson.io.parquet.ParquetInfo</keyword>
-  <short_description>Objet de metadonnees retourne par parquetinfo.</short_description>
+  <short_description>Objet de métadonnées retourné par parquetinfo.</short_description>
   <syntax>
     <syntax_item>info = parquetinfo(filename)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>filename</param_name>
-      <param_description>une chaine : fichier Parquet a inspecter.</param_description>
+      <param_description>une chaîne : fichier Parquet à inspecter.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -20,9 +20,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>nelson.io.parquet.ParquetInfo</b> stocke les metadonnees retournees par <b>parquetinfo</b>.</p>
-    <p>Les proprietes sont <b>Filename</b>, <b>FileSize</b>, <b>NumRows</b>, <b>NumVariables</b>, <b>NumRowGroups</b>, <b>RowGroups</b>, <b>Variables</b>, <b>CreatedBy</b> et la propriete dependante <b>VariableNames</b>.</p>
-    <p><b>RowGroups</b> est une table contenant les metadonnees des groupes de lignes. <b>Variables</b> est une structure contenant les noms de variables, les types Parquet et les informations de compression.</p>
+    <p><b>nelson.io.parquet.ParquetInfo</b> stocke les métadonnées retournées par <b>parquetinfo</b>.</p>
+    <p>Les propriétés sont <b>Filename</b>, <b>FileSize</b>, <b>NumRows</b>, <b>NumVariables</b>, <b>NumRowGroups</b>, <b>RowGroups</b>, <b>Variables</b>, <b>CreatedBy</b> et la propriété dépendante <b>VariableNames</b>.</p>
+    <p><b>RowGroups</b> est une table contenant les métadonnées des groupes de lignes. <b>Variables</b> est une structure contenant les noms de variables, les types Parquet et les informations de compression.</p>
   </description>
   <used_function />
   <bibliography />

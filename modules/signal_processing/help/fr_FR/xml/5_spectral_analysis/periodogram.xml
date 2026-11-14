@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>periodogram</keyword>
-  <short_description>Estimation de densite spectrale de puissance par periodogramme.</short_description>
+  <short_description>Estimation de densité spectrale de puissance par périodogramme.</short_description>
   <syntax>
     <syntax_item>[Pxx, F] = periodogram(X)</syntax_item>
     <syntax_item>[Pxx, F] = periodogram(X, WINDOW, NFFT, Fs)</syntax_item>
@@ -13,11 +13,11 @@
   <param_input>
     <param_input_item>
       <param_name>X</param_name>
-      <param_description>signal d'entree.</param_description>
+      <param_description>signal d'entrée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>WINDOW</param_name>
-      <param_description>vecteur de fenetre ou longueur.</param_description>
+      <param_description>vecteur de fenêtre ou longueur.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>NFFT</param_name>
@@ -25,11 +25,11 @@
     </param_input_item>
     <param_input_item>
       <param_name>Fs</param_name>
-      <param_description>frequence d'echantillonnage.</param_description>
+      <param_description>fréquence d'échantillonnage.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>FREQRANGE</param_name>
-      <param_description>"onesided", "twosided", "centered", "half" ou "whole". "half" est traite comme "onesided" et "whole" comme "twosided".</param_description>
+      <param_description>"onesided", "twosided", "centered", "half" ou "whole". "half" est traité comme "onesided" et "whole" comme "twosided".</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>SPECTRUMTYPE</param_name>
@@ -39,15 +39,15 @@
   <param_output>
     <param_output_item>
       <param_name>Pxx</param_name>
-      <param_description>estimation de densite spectrale de puissance ou de spectre de puissance.</param_description>
+      <param_description>estimation de densité spectrale de puissance ou de spectre de puissance.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>F</param_name>
-      <param_description>vecteur de frequences.</param_description>
+      <param_description>vecteur de fréquences.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>periodogram</b> estime la repartition de puissance d'un signal en frequence.</p>
+    <p><b>periodogram</b> estime la répartition de puissance d'un signal en fréquence.</p>
   </description>
   <examples>
     <example_item>
@@ -59,7 +59,7 @@
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Tracer l'estimation de la densite spectrale de puissance.</example_item_description>
+      <example_item_description>Tracer l'estimation de la densité spectrale de puissance.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[periodogram(sin((0:127)' * 0.1), [], 128, 10);]]></example_item_data>
       <example_item_img
         src="../../images/periodogram.svg"

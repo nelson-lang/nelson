@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>uiaxes</keyword>
-  <short_description>Crée des axes pour les applications de style App Designer.</short_description>
+  <short_description>Crée des axes pour les applications de style App Désigner.</short_description>
   <syntax>
     <syntax_item>ax = uiaxes()</syntax_item>
     <syntax_item>ax = uiaxes(parent)</syntax_item>

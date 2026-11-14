@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>bwmorph</keyword>
-  <short_description>Applique des operations morphologiques aux images binaires.</short_description>
+  <short_description>Applique des opérations morphologiques aux images binaires.</short_description>
   <syntax>
     <syntax_item>BW2 = bwmorph(BW, operation)</syntax_item>
     <syntax_item>BW2 = bwmorph(BW, operation, n)</syntax_item>
@@ -11,35 +11,35 @@
   <param_input>
     <param_input_item>
       <param_name>BW</param_name>
-      <param_description>Image binaire 2-D numerique ou logique. Les valeurs non nulles sont traitees comme true.</param_description>
+      <param_description>Image binaire 2-D numérique ou logique. Les valeurs non nulles sont traitées comme true.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>operation</param_name>
       <param_description
-      >Nom d operation : 'clean', 'fill', 'majority', 'remove', 'endpoints', 'branchpoints', 'spur', 'bridge', 'thin', 'skel', 'dilate', 'erode', 'open', 'close', 'tophat' ou 'bothat'.</param_description>
+      >Nom d opération : 'clean', 'fill', 'majority', 'remove', 'endpoints', 'branchpoints', 'spur', 'bridge', 'thin', 'skel', 'dilate', 'erode', 'open', 'close', 'tophat' ou 'bothat'.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>n</param_name>
-      <param_description>Nombre d iterations. Il doit etre un scalaire entier positif ou nul, ou Inf. La valeur par defaut est 1.</param_description>
+      <param_description>Nombre d itérations. Il doit être un scalaire entier positif ou nul, ou Inf. La valeur par défaut est 1.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>BW2</param_name>
-      <param_description>Image logique apres application de l operation demandee.</param_description>
+      <param_description>Image logique après application de l opération demandée.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>Applique des operations morphologiques binaires a une image 2-D.</p>
-    <p>Dilate, erode, open, close, tophat et bothat utilisent un voisinage carre 3-by-3.</p>
-    <p>Le nombre d iterations n peut etre un entier positif ou nul, ou Inf.</p>
+    <p>Applique des opérations morphologiques binaires a une image 2-D.</p>
+    <p>Dilate, erode, open, close, tophat et bothat utilisent un voisinage carré 3-by-3.</p>
+    <p>Le nombre d itérations n peut être un entier positif ou nul, ou Inf.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Supprimer des extremites dans une ligne binaire</example_item_description>
+      <example_item_description>Supprimer des extrémités dans une ligne binaire</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[BW=false(64,64); BW(32,12:52)=true; BW(20:32,32)=true;

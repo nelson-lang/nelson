@@ -13,11 +13,11 @@
   <param_input>
     <param_input_item>
       <param_name>A, B</param_name>
-      <param_description>tableaux numeriques.</param_description>
+      <param_description>tableaux numériques.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>dimA, dimB</param_name>
-      <param_description>vecteurs listant les dimensions de A et de B a contracter. size(A, dimA(k)) doit etre egal a size(B, dimB(k)).</param_description>
+      <param_description>vecteurs listant les dimensions de A et de B a contracter. size(A, dimA(k)) doit être égal à size(B, dimB(k)).</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>value</param_name>
@@ -27,14 +27,14 @@
   <param_output>
     <param_output_item>
       <param_name>C</param_name>
-      <param_description>produit tensoriel. Ses dimensions sont les dimensions non contractees de A suivies des dimensions non contractees de B.</param_description>
+      <param_description>produit tensoriel. Ses dimensions sont les dimensions non contractées de A suivies des dimensions non contractées de B.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>tensorprod(A, B)</b> retourne le produit exterieur de A et de B, un tableau de taille [size(A) size(B)].</p>
+    <p><b>tensorprod(A, B)</b> retourne le produit extérieur de A et de B, un tableau de taille [size(A) size(B)].</p>
     <p><b>tensorprod(A, B, dimA, dimB)</b> contracte (somme les produits sur) les dimensions dimA de A avec les dimensions dimB de B. Pour des matrices, <b>tensorprod(A, B, 2, 1)</b> est le produit matriciel A*B.</p>
-    <p><b>tensorprod(A, B, 'all')</b> contracte toutes les dimensions et retourne le produit interieur complet ; A et B doivent avoir la meme taille.</p>
-    <p><b>'NumDimensionsA'</b> precise le nombre de dimensions de A afin de pouvoir contracter les dimensions singleton finales.</p>
+    <p><b>tensorprod(A, B, 'all')</b> contracte toutes les dimensions et retourne le produit intérieur complet ; A et B doivent avoir la même taille.</p>
+    <p><b>'NumDimensionsA'</b> précise le nombre de dimensions de A afin de pouvoir contracter les dimensions singleton finales.</p>
   </description>
   <used_function />
   <bibliography />

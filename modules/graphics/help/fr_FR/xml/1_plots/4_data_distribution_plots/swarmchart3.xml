@@ -11,13 +11,13 @@
     <syntax_item>h = swarmchart3(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>swarmchart3</b> affiche des points 3-D avec un objet scatter. L'objet retourne conserve les donnees <b>XData</b>, <b>YData</b> et <b>ZData</b> originales et utilise les proprietes de jitter de scatter pour les positions x et y affichees.</p>
-    <p>Les proprietes prises en charge sont <b>XJitter</b>, <b>XJitterWidth</b>, <b>YJitter</b>, <b>YJitterWidth</b> et <b>ColorVariable</b>.</p>
+    <p><b>swarmchart3</b> affiche des points 3-D avec un objet scatter. L'objet retourne conserve les données <b>XData</b>, <b>YData</b> et <b>ZData</b> originales et utilise les propriétés de jitter de scatter pour les positions x et y affichées.</p>
+    <p>Les propriétés prises en charge sont <b>XJitter</b>, <b>XJitterWidth</b>, <b>YJitter</b>, <b>YJitterWidth</b> et <b>ColorVariable</b>.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Afficher des observations groupees 3-D.</example_item_description>
+      <example_item_description>Afficher des observations groupées 3-D.</example_item_description>
       <example_item_data><![CDATA[swarmchart3([1 1 2 2], [1 2 1 2], [4 5 6 7], 40, [0 0.4 0.8], 'filled');]]></example_item_data>
       <example_item_img src="../../../../images/swarmchart3_1.svg" align="middle" generate="true" />
     </example_item>

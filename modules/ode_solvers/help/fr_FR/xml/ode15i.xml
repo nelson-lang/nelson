@@ -3,25 +3,25 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>ode15i</keyword>
-  <short_description>Entree de solveur EDO implicite.</short_description>
+  <short_description>Entrée de solveur EDO implicite.</short_description>
   <syntax>
     <syntax_item>[t, y] = ode15i(odefun, tspan, y0, yp0)</syntax_item>
   </syntax>
   <description>
     <p>
-      <b>ode15i</b> resout les problemes residuels de la forme <b>F(t,y,yp)=0</b>.</p>
+      <b>ode15i</b> résout les problèmes résiduels de la forme <b>F(t,y,yp)=0</b>.</p>
     <table style="width:100%">
       <tr>
-        <th>Element</th>
-        <th>Details</th>
+        <th>Élément</th>
+        <th>Détails</th>
       </tr>
       <tr>
-        <td>Forme du probleme</td>
-        <td>Residu implicite <b>F(t,y,yp)=0</b>.</td>
+        <td>Forme du problème</td>
+        <td>Résidu implicite <b>F(t,y,yp)=0</b>.</td>
       </tr>
       <tr>
-        <td>Entrees</td>
-        <td><b>odefun</b>, <b>tspan</b>, <b>y0</b>, <b>yp0</b>, et options creees avec <b>odeset</b>.</td>
+        <td>Entrées</td>
+        <td><b>odefun</b>, <b>tspan</b>, <b>y0</b>, <b>yp0</b>, et options créées avec <b>odeset</b>.</td>
       </tr>
       <tr>
         <td>Sorties</td>
@@ -29,7 +29,7 @@
       </tr>
       <tr>
         <td>Initialisation</td>
-        <td>Utilisez <b>decic</b> pour ajuster des conditions initiales coherentes.</td>
+        <td>Utilisez <b>decic</b> pour ajuster des conditions initiales cohérentes.</td>
       </tr>
     </table>
   </description>

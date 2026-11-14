@@ -12,7 +12,7 @@
     <param_input_item>
       <param_name>M</param_name>
       <param_description
-      >tableau numerique, logique ou caractere, sparse ou plein.</param_description>
+      >tableau numérique, logique ou caractère, sparse ou plein.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -25,9 +25,9 @@
     <p>
       <b>nzmax</b> retourne la quantité de stockage allouée pour les éléments non nuls.</p>
     <p>
-      Pour les tableaux pleins, <b>nzmax</b> retourne <b>numel(M)</b>. Pour les matrices sparse, il retourne la capacite de stockage sparse reservee, qui peut etre superieure a <b>nnz(M)</b>.</p>
+      Pour les tableaux pleins, <b>nzmax</b> retourne <b>numel(M)</b>. Pour les matrices sparse, il retourne la capacité de stockage sparse réservée, qui peut être supérieure à <b>nnz(M)</b>.</p>
     <p>
-      Les matrices sparse double, single, logiques, double complexes et single complexes sont prises en charge. Les valeurs nulles stockees peuvent contribuer a la capacite reservee meme si <b>nnz</b> les ignore.</p>
+      Les matrices sparse double, single, logiques, double complexes et single complexes sont prises en charge. Les valeurs nulles stockées peuvent contribuer a la capacité réservée même si <b>nnz</b> les ignore.</p>
   </description>
   <used_function />
   <bibliography />
@@ -65,7 +65,7 @@ nzmax(sp)]]></example_item_data>
   <history>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>comportement sparse single et stockage reserve documentes</history_description>
+      <history_description>comportement sparse single et stockage réserve documentes</history_description>
     </history_item>
     <history_item>
       <history_version>1.0.0</history_version>

@@ -5,6 +5,6 @@
   <module_name>image_processing</module_name>
   <chapter>Analyse et segmentation d'images</chapter>
   <chapter_description>
-    <p>Fonctions pour morphologie, composants connexes, suivi de frontieres, mesures de regions, reconstruction et segmentation.</p>
+    <p>Fonctions pour morphologie, composants connexes, suivi de frontières, mesures de regions, reconstruction et segmentation.</p>
   </chapter_description>
 </xmldoc>

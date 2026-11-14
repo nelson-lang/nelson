@@ -3,14 +3,14 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>evalclusters</keyword>
-  <short_description>Evaluer des solutions de clustering.</short_description>
+  <short_description>Évaluer des solutions de clustering.</short_description>
   <syntax>
     <syntax_item>eva = evalclusters(X, clust, criterion)</syntax_item>
     <syntax_item>eva = evalclusters(X, clust, criterion, Name, Value)</syntax_item>
   </syntax>
   <description>
-    <p><b>evalclusters</b> evalue des solutions de clustering pour les lignes de <b>X</b>.</p>
-    <p>Les criteres pris en charge sont silhouette, CalinskiHarabasz et DaviesBouldin. L'entree de clustering peut etre une matrice d'etiquettes, kmeans, linkage ou un handle de fonction. Le resultat est une structure avec les proprietes d'evaluation.</p>
+    <p><b>evalclusters</b> évalue des solutions de clustering pour les lignes de <b>X</b>.</p>
+    <p>Les critères pris en charge sont silhouette, CalinskiHarabasz et DaviesBouldin. L'entrée de clustering peut être une matrice d'étiquettes, kmeans, linkage ou un handle de fonction. Le résultat est une structure avec les propriétés d'évaluation.</p>
   </description>
   <examples>
     <example_item>

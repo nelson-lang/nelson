@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>lookupND</keyword>
 <keyword_alias>block:lookupND</keyword_alias>
-  <short_description>Table de consultation n-D interpolee.</short_description>
+  <short_description>Table de consultation n-D interpolée.</short_description>
   <syntax>
     <syntax_item>Block type: lookupND</syntax_item>
   </syntax>
@@ -21,7 +21,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>Table de consultation n-D interpolee.</p>
+    <p>Table de consultation n-D interpolée.</p>
     <table border="1">
       <tbody>
         <tr>
@@ -49,11 +49,11 @@
     <p>
       <b>Description</b>
     </p>
-    <p>N entrees (une coordonnee par dimension, NumberOfTableDimensions) indexent une Table statique column-major ; interpolation multilineaire = melange pondere des 2^N coins.</p>
-    <p>La page decrit le comportement runtime natif observe dans les sources C++ du module. Les phases declarees indiquent quand le moteur de simulation appelle le bloc.</p>
-    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <p>N entrées (une coordonnée par dimension, NumberOfTableDimensions) indexent une Table statique column-major ; interpolation multilineaire = mélange pondère des 2^N coins.</p>
+    <p>La page décrit le comportement runtime natif observé dans les sources C++ du module. Les phases déclarées indiquent quand le moteur de simulation appelle le bloc.</p>
+    <p>Génération de code : prise en charge pour C et Rust.</p>
     <p>
-      <b>Sources d implementation</b>
+      <b>Sources d implémentation</b>
     </p>
     <source_code label="Manifest" path="modules/nflow_blocks/libraries/lookup/library.json" language="json"/>
     <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/lookup/lookupND.cpp" language="cpp"/>

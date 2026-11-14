@@ -3,14 +3,14 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>cluster</keyword>
-  <short_description>Construire des classes depuis un arbre hierarchique.</short_description>
+  <short_description>Construire des classes depuis un arbre hiérarchique.</short_description>
   <syntax>
     <syntax_item>T = cluster(Z, &apos;MaxClust&apos;, maxclust)</syntax_item>
     <syntax_item>T = cluster(Z, &apos;Cutoff&apos;, cutoff, &apos;Criterion&apos;, &apos;distance&apos;)</syntax_item>
   </syntax>
   <description>
-    <p><b>cluster</b> affecte les observations a des classes en coupant un arbre hierarchique.</p>
-    <p>Cette version prend en charge le critere distance avec MaxClust ou Cutoff.</p>
+    <p><b>cluster</b> affecte les observations a des classes en coupant un arbre hiérarchique.</p>
+    <p>Cette version prend en charge le critère distance avec MaxClust ou Cutoff.</p>
   </description>
   <examples>
     <example_item>

@@ -11,9 +11,9 @@
     <syntax_item>[y, idx] = nanmax(X, [], dim)</syntax_item>
   </syntax>
   <description>
-    <p><b>nanmax</b> renvoie le maximum apres suppression des valeurs <b>NaN</b> ; une tranche uniquement composee de <b>NaN</b> donne <b>NaN</b>.</p>
-    <p><b>nanmax(X, Y)</b> renvoie le maximum element par element de <b>X</b> et <b>Y</b>, en ignorant les <b>NaN</b>.</p>
-    <p>La deuxieme sortie optionnelle <b>idx</b> contient les indices des maxima. Equivalent a <b>max(X, ..., 'omitnan')</b>.</p>
+    <p><b>nanmax</b> renvoie le maximum après suppression des valeurs <b>NaN</b> ; une tranche uniquement composée de <b>NaN</b> donne <b>NaN</b>.</p>
+    <p><b>nanmax(X, Y)</b> renvoie le maximum élément par élément de <b>X</b> et <b>Y</b>, en ignorant les <b>NaN</b>.</p>
+    <p>La deuxième sortie optionnelle <b>idx</b> contient les indices des maxima. Équivalent à <b>max(X, ..., 'omitnan')</b>.</p>
   </description>
   <examples>
     <example_item>

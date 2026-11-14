@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>uisetcolor</keyword>
-  <short_description>Ouvre une boite de dialogue de selection de couleur.</short_description>
+  <short_description>Ouvre une boîte de dialogue de sélection de couleur.</short_description>
   <syntax>
     <syntax_item>c = uisetcolor</syntax_item>
     <syntax_item>c = uisetcolor(initialColor)</syntax_item>
@@ -29,7 +29,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Apercu d une boite de selection de couleur.</example_item_description>
+      <example_item_description>Aperçu d une boîte de sélection de couleur.</example_item_description>
       <example_item_data><![CDATA[f = dialog('Name', 'Choose color', 'WindowStyle', 'normal', 'Position', [100 100 380 210]);
 uicontrol(f, 'Style', 'text', 'String', 'Current color', 'Position', [35 146 120 22]);
 uicontrol(f, 'Style', 'text', 'String', ' ', 'BackgroundColor', [0 0.45 0.74], 'Position', [180 130 90 48]);
@@ -56,7 +56,7 @@ if ~isequal(c, 0), disp(c); end]]></example_item_data>
   <history>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>version aide API dialogue mise a jour.</history_description>
+      <history_description>version aide API dialogue mise à jour.</history_description>
     </history_item>
   </history>
   <authors>

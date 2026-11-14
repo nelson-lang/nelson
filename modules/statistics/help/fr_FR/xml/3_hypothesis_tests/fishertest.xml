@@ -10,7 +10,7 @@
     <syntax_item>[h, p, stats] = fishertest(x, Name, Value)</syntax_item>
   </syntax>
   <description>
-    <p><b>fishertest</b> effectue le test exact de Fisher pour un tableau de contingence 2 par 2. L&apos;entree peut etre une matrice numerique ou une table contenant des effectifs entiers non negatifs.</p>
+    <p><b>fishertest</b> effectue le test exact de Fisher pour un tableau de contingence 2 par 2. L&apos;entrée peut être une matrice numérique ou une table contenant des effectifs entiers non négatifs.</p>
     <p>Les arguments nom-valeur incluent <b>Alpha</b> et <b>Tail</b>. La sortie <b>stats</b> contient <b>OddsRatio</b> et <b>ConfidenceInterval</b>.</p>
   </description>
   <examples>

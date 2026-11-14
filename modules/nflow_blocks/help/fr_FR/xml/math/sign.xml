@@ -54,7 +54,7 @@
     <p>
       <b>Sources d’implémentation</b>
     </p>
-    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <p>Génération de code : prise en charge pour C et Rust.</p>
     <source_code label="Manifest" path="modules/nflow_blocks/libraries/math/library.json" language="json"/>
     <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/math/sign.cpp" language="cpp"/>
   </description>

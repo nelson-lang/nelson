@@ -12,8 +12,8 @@
     <syntax_item>[p, h, stats] = signtest(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>signtest</b> effectue un test des signes pour une mediane ou une difference appariee. Si <b>y</b> est omis, les valeurs de <b>x</b> sont testees contre zero. Si <b>y</b> est un scalaire, les valeurs de <b>x</b> sont testees contre ce scalaire.</p>
-    <p>Les arguments nom-valeur incluent <b>Alpha</b>, <b>Method</b> et <b>Tail</b>. Les differences nulles et les valeurs <b>NaN</b> sont omises.</p>
+    <p><b>signtest</b> effectue un test des signes pour une médiane ou une différence appariée. Si <b>y</b> est omis, les valeurs de <b>x</b> sont testées contre zéro. Si <b>y</b> est un scalaire, les valeurs de <b>x</b> sont testées contre ce scalaire.</p>
+    <p>Les arguments nom-valeur incluent <b>Alpha</b>, <b>Method</b> et <b>Tail</b>. Les différences nulles et les valeurs <b>NaN</b> sont omises.</p>
   </description>
   <examples>
     <example_item>

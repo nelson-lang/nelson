@@ -25,7 +25,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>tf = allunique(A)</b> renvoie <b>true</b> si tous les éléments de <b>A</b> sont distincts. Les valeurs <b>NaN</b> sont toutes distinctes et un tableau vide donne <b>true</b>.</p>
+    <p><b>tf = allunique(A)</b> renvoie <b>true</b> si tous les éléments de <b>A</b> sont distincts. Les valeurs <b>NaN</b> sont toutes distinctes et un tableau vide donné <b>true</b>.</p>
     <p><b>tf = allunique(A, 'rows')</b> compare les lignes de <b>A</b>.</p>
   </description>
   <used_function />
@@ -45,7 +45,7 @@ allunique([1 2 2])]]></example_item_data>
       <link linkend="${data_analysis}numunique">numunique</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${elementary_functions}unique">unique</link>
+      <link linkend="${data_analysis}unique">unique</link>
     </see_also_item>
   </see_also>
   <history>

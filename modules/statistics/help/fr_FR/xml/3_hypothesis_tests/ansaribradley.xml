@@ -3,14 +3,14 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>ansaribradley</keyword>
-  <short_description>Test d&apos;Ansari-Bradley pour dispersion egale.</short_description>
+  <short_description>Test d&apos;Ansari-Bradley pour dispersion égale.</short_description>
   <syntax>
     <syntax_item>h = ansaribradley(x, y)</syntax_item>
     <syntax_item>h = ansaribradley(x, y, Name, Value)</syntax_item>
     <syntax_item>[h, p, stats] = ansaribradley(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>ansaribradley</b> effectue un test non parametrique a deux echantillons pour une dispersion egale. Les vecteurs peuvent avoir des longueurs differentes. Les tableaux sont testes le long d&apos;une dimension choisie et doivent correspondre hors de cette dimension.</p>
+    <p><b>ansaribradley</b> effectue un test non paramétrique a deux échantillons pour une dispersion égale. Les vecteurs peuvent avoir des longueurs différentes. Les tableaux sont testés le long d&apos;une dimension choisie et doivent correspondre hors de cette dimension.</p>
     <p>Les arguments nom-valeur incluent <b>Alpha</b>, <b>Dim</b>, <b>Tail</b> et <b>Method</b>. La sortie <b>stats</b> contient <b>W</b> et <b>Wstar</b>.</p>
   </description>
   <examples>

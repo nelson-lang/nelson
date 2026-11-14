@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>years</keyword>
-  <short_description>Cree des durees depuis des annees ou convertit des durees en annees.</short_description>
+  <short_description>Crée des durées depuis des années ou convertit des durées en années.</short_description>
   <syntax>
     <syntax_item>d = years(x)</syntax_item>
     <syntax_item>x = years(d)</syntax_item>
@@ -11,18 +11,18 @@
   <param_input>
     <param_input_item>
       <param_name>inputs</param_name>
-      <param_description>Nombres d annees numeriques ou tableaux duration.</param_description>
+      <param_description>Nombres d années numériques ou tableaux duration.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>output</param_name>
-      <param_description>Un tableau duration pour une entree numerique, ou des nombres d annees double pour une entree duration.</param_description>
+      <param_description>Un tableau duration pour une entrée numérique, ou des nombres d années double pour une entrée duration.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>Cree des durees depuis des annees ou convertit des durees en annees.</p>
-    <p>Une annee vaut 365.2425 jours pour la conversion en temps ecoule. Pour l arithmetique calendaire par annees, utilisez calyears.</p>
+    <p>Crée des durées depuis des années ou convertit des durées en années.</p>
+    <p>Une année vaut 365.2425 jours pour la conversion en temps écoule. Pour l arithmétique calendaire par années, utilisez calyears.</p>
     <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
   </description>
   <used_function />

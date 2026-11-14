@@ -24,7 +24,7 @@
   <description>
     <p>
       <b>test_makeref</b> crée un fichier &apos;.ref&apos; à partir d&apos;un fichier de test.</p>
-    <p><b>test_makeref</b> est un wrapper de compatibilite au dessus de <b>nelson.unittest.makeref</b>.</p>
+    <p><b>test_makeref</b> est un wrapper de compatibilité au dessus de <b>nelson.unittest.makeref</b>.</p>
     <p>Le fichier de test doit contenir la balise &lt;--CHECK REF--&gt;.</p>
   </description>
   <used_function />

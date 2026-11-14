@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>spaugment</keyword>
-  <short_description>Construit une matrice sparse augmentee pour les moindres carres.</short_description>
+  <short_description>Construit une matrice sparse augmentée pour les moindres carrés.</short_description>
   <syntax>
     <syntax_item>S = spaugment(A)</syntax_item>
     <syntax_item>S = spaugment(A, c)</syntax_item>
@@ -11,24 +11,24 @@
   <param_input>
     <param_input_item>
       <param_name>A</param_name>
-      <param_description>matrice 2-D numerique ou logique non vide, sparse ou pleine.</param_description>
+      <param_description>matrice 2-D numérique ou logique non vide, sparse ou pleine.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>c</param_name>
-      <param_description>facteur d'echelle du residu. Le premier element est utilise. La valeur par defaut est max(max(abs(A))) / 1000.</param_description>
+      <param_description>facteur d'échelle du résidu. Le premier élément est utilisé. La valeur par défaut est max(max(abs(A))) / 1000.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>S</param_name>
-      <param_description>matrice sparse augmentee.</param_description>
+      <param_description>matrice sparse augmentée.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p><b>spaugment</b> construit la matrice sparse <b>[c * I, A; A', 0]</b>.</p>
-    <p>Cette matrice est utile pour reecrire des problemes sparse de moindres carres sous forme de systemes symetriques indefinis.</p>
-    <p>Les entrees double, single, logiques, double complexes et single complexes sont prises en charge. La sortie est sparse, et les entrees sparse numeriques single conservent la classe single.</p>
-    <p>Les valeurs nulles stockees dans <b>A</b> sparse sont ignorees par les operations sparse utilisees pour former la matrice augmentee.</p>
+    <p>Cette matrice est utile pour réécrire des problèmes sparse de moindres carrés sous forme de systèmes symétriques indéfinis.</p>
+    <p>Les entrées double, single, logiques, double complexes et single complexes sont prises en charge. La sortie est sparse, et les entrées sparse numériques single conservent la classe single.</p>
+    <p>Les valeurs nulles stockées dans <b>A</b> sparse sont ignorées par les opérations sparse utilisées pour former la matrice augmentée.</p>
   </description>
   <used_function />
   <bibliography />

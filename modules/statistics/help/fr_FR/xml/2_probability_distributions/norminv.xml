@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>norminv</keyword>
-  <short_description>Inverse de la fonction de repartition normale</short_description>
+  <short_description>Inverse de la fonction de répartition normale</short_description>
   <syntax>
     <syntax_item>x = norminv(p)</syntax_item>
     <syntax_item>x = norminv(p, mu, sigma)</syntax_item>
@@ -13,23 +13,23 @@
   <param_input>
     <param_input_item>
       <param_name>p</param_name>
-      <param_description>scalaire reel ou tableau : probabilites.</param_description>
+      <param_description>scalaire réel ou tableau : probabilités.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>mu</param_name>
-      <param_description>scalaire reel ou tableau, 0 par defaut : moyenne.</param_description>
+      <param_description>scalaire réel ou tableau, 0 par défaut : moyenne.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>sigma</param_name>
-      <param_description>scalaire reel positif ou tableau, 1 par defaut : ecart-type.</param_description>
+      <param_description>scalaire réel positif ou tableau, 1 par défaut : écart-type.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>pCov</param_name>
-      <param_description>matrice de covariance 2-par-2 pour les parametres estimes.</param_description>
+      <param_description>matrice de covariance 2-par-2 pour les paramètres estimes.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>alpha</param_name>
-      <param_description>scalaire dans (0,1), 0.05 par defaut : niveau de signification.</param_description>
+      <param_description>scalaire dans (0,1), 0.05 par défaut : niveau de signification.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -39,16 +39,16 @@
     </param_output_item>
     <param_output_item>
       <param_name>xLo</param_name>
-      <param_description>borne inferieure de confiance.</param_description>
+      <param_description>borne inférieure de confiance.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>xUp</param_name>
-      <param_description>borne superieure de confiance.</param_description>
+      <param_description>borne supérieure de confiance.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>norminv</b> evalue les quantiles de la loi normale.</p>
-    <p>Les probabilites hors de [0,1] retournent NaN. Les probabilites 0 et 1 retournent les bornes infinies.</p>
+    <p><b>norminv</b> évalue les quantiles de la loi normale.</p>
+    <p>Les probabilités hors de [0,1] retournent NaN. Les probabilités 0 et 1 retournent les bornes infinies.</p>
   </description>
   <examples>
     <example_item>

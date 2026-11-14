@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>fplot</keyword>
-  <short_description>Trace une expression ou une fonction parametrique.</short_description>
+  <short_description>Trace une expression ou une fonction paramétrique.</short_description>
   <syntax>
     <syntax_item>fplot(f)</syntax_item>
     <syntax_item>fplot(f, [xmin xmax])</syntax_item>
@@ -17,19 +17,19 @@
   <param_input>
     <param_input_item>
       <param_name>f</param_name>
-      <param_description>fonction evaluee sur les valeurs x.</param_description>
+      <param_description>fonction évaluée sur les valeurs x.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>xfun</param_name>
-      <param_description>fonction evaluee sur le parametre pour produire les donnees x.</param_description>
+      <param_description>fonction évaluée sur le paramètre pour produire les données x.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>yfun</param_name>
-      <param_description>fonction evaluee sur le parametre pour produire les donnees y.</param_description>
+      <param_description>fonction évaluée sur le paramètre pour produire les données y.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>lineSpec</param_name>
-      <param_description>specification de style, marqueur et couleur.</param_description>
+      <param_description>spécification de style, marqueur et couleur.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>propertyName</param_name>
@@ -37,7 +37,7 @@
     </param_input_item>
     <param_input_item>
       <param_name>propertyValue</param_name>
-      <param_description>valeur d'une propriete de l'objet line.</param_description>
+      <param_description>valeur d'une propriété de l'objet line.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>ax</param_name>
@@ -51,9 +51,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>fplot</b> echantillonne des fonctions sur un intervalle fini et trace le resultat comme un objet graphique de fonction. L'intervalle par defaut est [-5 5].</p>
-    <p>Pour y = f(x), <b>fplot</b> retourne un objet <b>functionline</b>. Pour les courbes parametriques, il retourne un objet <b>parameterizedfunctionline</b>.</p>
-    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.functionline.properties">proprietes de functionline</link> et <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.parameterizedfunctionline.properties">proprietes de parameterizedfunctionline</link> pour les listes completes des proprietes.</p>
+    <p><b>fplot</b> échantillonne des fonctions sur un intervalle fini et trace le résultat comme un objet graphique de fonction. L'intervalle par défaut est [-5 5].</p>
+    <p>Pour y = f(x), <b>fplot</b> retourne un objet <b>functionline</b>. Pour les courbes paramétriques, il retourne un objet <b>parameterizedfunctionline</b>.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.functionline.properties">proprietes de functionline</link> et <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.parameterizedfunctionline.properties">proprietes de parameterizedfunctionline</link> pour les listes complètes des propriétés.</p>
   </description>
   <examples>
     <example_item>

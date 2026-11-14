@@ -32,7 +32,7 @@
   <description>
     <p><b>sim</b> simule le modèle <b>model</b> et retourne ses résultats.</p>
     <p>Les blocs From Workspace lisent leur signal dans le workspace de base : définissez ces variables avant d'appeler <b>sim</b>. Les blocs To Workspace écrivent leur résultat dans le workspace de base (comme lors d'un run interactif) et sont aussi exposés comme champs de <b>out</b> (par exemple <b>out.simout</b>).</p>
-    <p>C'est un raccourci au-dessus du moteur headless <b>__nflow_simulate__</b> : il lit le document du modèle, applique les surcharges optionnelles <b>StopTime</b> / <b>SampleTime</b>, lance le moteur et collecte les résultats.</p>
+    <p>C'est un raccourci au-dessus du moteur headless <b>__nflow_simulate__</b> : il lit le document du modèle, applique les surchargés optionnelles <b>StopTime</b> / <b>SampleTime</b>, lance le moteur et collecte les résultats.</p>
     <p><b>Callback StopFcn.</b> Si le modèle porte un champ de premier niveau <b>stopFcn</b> (un texte de commandes Nelson), il s'exécute dans le workspace de base une fois la simulation arrêtée, avec le résultat exposé comme <b>out</b>. Il ne se déclenche que lors d'un run de simulation (jamais au chargement du modèle) et s'exécute même sans sortie demandée : un modèle dont le <b>stopFcn</b> est <b>NFlow.plotScopes(out)</b> ouvre ainsi ses scopes automatiquement. Le bouton Run de l'éditeur nflow déclenche le même <b>stopFcn</b>. Un callback en échec émet un avertissement sans interrompre le run déjà terminé.</p>
   </description>
   <used_function />

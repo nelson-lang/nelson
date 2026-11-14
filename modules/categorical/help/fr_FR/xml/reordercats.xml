@@ -3,23 +3,23 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>reordercats</keyword>
-  <short_description>Reordonner les categories d'un tableau categoriel.</short_description>
+  <short_description>Reordonner les catégories d'un tableau catégoriel.</short_description>
   <syntax>
     <syntax_item>B = reordercats(A)</syntax_item>
     <syntax_item>B = reordercats(A, newOrder)</syntax_item>
   </syntax>
   <param_input>
-    <param_input_item><param_name>A</param_name><param_description>Tableau categoriel d'entree.</param_description></param_input_item>
-    <param_input_item><param_name>newOrder</param_name><param_description>Nouvel ordre des categories, specifie par noms ou par positions numeriques.</param_description></param_input_item>
+    <param_input_item><param_name>A</param_name><param_description>Tableau catégoriel d'entrée.</param_description></param_input_item>
+    <param_input_item><param_name>newOrder</param_name><param_description>Nouvel ordre des catégories, spécifié par noms ou par positions numériques.</param_description></param_input_item>
   </param_input>
-  <param_output><param_output_item><param_name>B</param_name><param_description>Tableau categoriel avec les memes valeurs affichees que <b>A</b> et une liste de categories reordonnee.</param_description></param_output_item></param_output>
+  <param_output><param_output_item><param_name>B</param_name><param_description>Tableau catégoriel avec les mêmes valeurs affichées que <b>A</b> et une liste de catégories réordonnée.</param_description></param_output_item></param_output>
   <description>
-    <p><b>reordercats</b> modifie l'ordre des categories. Si <b>newOrder</b> est omis, les categories sont triees par nom.</p>
+    <p><b>reordercats</b> modifie l'ordre des catégories. Si <b>newOrder</b> est omis, les catégories sont triées par nom.</p>
     <p>Pour les tableaux ordinaux, le nouvel ordre modifie les comparaisons et l'ordre de tri.</p>
   </description>
   <examples>
-    <example_item><example_item_type>nelson</example_item_type><example_item_description>Specifier un nouvel ordre.</example_item_description><example_item_data runnable="cli"><![CDATA[A = categorical({'red','blue'}, {'red','blue'}); B = reordercats(A, {'blue','red'}); categories(B)]]></example_item_data></example_item>
-    <example_item><example_item_type>nelson</example_item_type><example_item_description>Trier les categories par nom.</example_item_description><example_item_data runnable="cli"><![CDATA[A = categorical({'plane','car','train'}); B = reordercats(A); categories(B)]]></example_item_data></example_item>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description>Spécifier un nouvel ordre.</example_item_description><example_item_data runnable="cli"><![CDATA[A = categorical({'red','blue'}, {'red','blue'}); B = reordercats(A, {'blue','red'}); categories(B)]]></example_item_data></example_item>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description>Trier les catégories par nom.</example_item_description><example_item_data runnable="cli"><![CDATA[A = categorical({'plane','car','train'}); B = reordercats(A); categories(B)]]></example_item_data></example_item>
   </examples>
   <see_also>
     <see_also_item><link linkend="${categorical}categories">categories</link></see_also_item>

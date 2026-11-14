@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>partialcorri</keyword>
-  <short_description>Coefficients de correlation partielle ajustes sur des variables internes.</short_description>
+  <short_description>Coefficients de corrélation partielle ajustés sur des variables internes.</short_description>
   <syntax>
     <syntax_item>rho = partialcorri(Y, X)</syntax_item>
     <syntax_item>rho = partialcorri(Y, X, Z)</syntax_item>
@@ -12,7 +12,7 @@
   </syntax>
   <description>
     <p><b>partialcorri</b> calcule les correlations partielles entre chaque colonne de <b>Y</b> et chaque colonne de <b>X</b>, en ajustant sur les autres colonnes de <b>X</b>.</p>
-    <p>Quand <b>Z</b> est fourni, <b>X</b> et <b>Y</b> sont aussi controles par <b>Z</b>. Les options prises en charge sont <b>Type</b>, <b>Rows</b> et <b>Tail</b>.</p>
+    <p>Quand <b>Z</b> est fourni, <b>X</b> et <b>Y</b> sont aussi contrôles par <b>Z</b>. Les options prises en charge sont <b>Type</b>, <b>Rows</b> et <b>Tail</b>.</p>
   </description>
   <examples>
     <example_item>

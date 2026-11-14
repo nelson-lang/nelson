@@ -3,8 +3,8 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <module_name>graphics</module_name>
-  <chapter>Etiquettes et style</chapter>
+  <chapter>Étiquettes et style</chapter>
   <chapter_description>
-    <p>Fonctions pour les etiquettes, annotations, apparence des axes, couleurs, interactions, vues camera et eclairage.</p>
+    <p>Fonctions pour les étiquettes, annotations, apparence des axes, couleurs, interactions, vues caméra et éclairage.</p>
   </chapter_description>
 </xmldoc>

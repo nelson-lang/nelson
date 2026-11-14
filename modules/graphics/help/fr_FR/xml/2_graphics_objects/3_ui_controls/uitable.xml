@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>uitable</keyword>
-  <short_description>Crée un composant table (style App Designer).</short_description>
+  <short_description>Crée un composant table (style App Désigner).</short_description>
   <syntax>
     <syntax_item>h = uitable()</syntax_item>
     <syntax_item>h = uitable(parent)</syntax_item>
@@ -26,7 +26,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>t = uitable</b> crée une table. <b>Data</b> accepte des tableaux numériques, logiques ou cell. Propriétés : <b>ColumnName</b> ('numbered' ou cell), <b>RowName</b>, <b>ColumnWidth</b>, <b>ColumnEditable</b>, <b>ColumnSortable</b>, <b>ColumnFormat</b>, <b>RowStriping</b>, <b>Selection</b>/<b>SelectionType</b>/<b>Multiselect</b>, <b>DisplayData</b> (lecture seule). Callbacks : <b>CellEditCallback</b> (event : Indices, EditData, NewData), <b>SelectionChangedFcn</b>.</p>
+    <p><b>t = uitable</b> crée une table. <b>Data</b> accepte des tableaux numériques, logiques ou cell. Propriétés : <b>ColumnName</b> ('numbered' ou cell), <b>RowName</b>, <b>ColumnWidth</b>, <b>ColumnEditable</b>, <b>ColumnSortable</b>, <b>ColumnFormat</b>, <b>RowStriping</b>, <b>Sélection</b>/<b>SelectionType</b>/<b>Multiselect</b>, <b>DisplayData</b> (lecture seule). Callbacks : <b>CellEditCallback</b> (event : Indices, EditData, NewData), <b>SelectionChangedFcn</b>.</p>
   </description>
   <used_function />
   <bibliography />

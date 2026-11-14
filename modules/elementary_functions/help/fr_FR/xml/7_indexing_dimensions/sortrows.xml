@@ -12,17 +12,17 @@
   <param_input>
     <param_input_item>
       <param_name>A</param_name>
-      <param_description>tableau dont les lignes sont triees.</param_description>
+      <param_description>tableau dont les lignes sont triées.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>col</param_name>
-      <param_description>indice de colonne ou vecteur d&apos;indices de colonnes. Un indice negatif demande l&apos;ordre decroissant pour cette cle.</param_description>
+      <param_description>indice de colonne ou vecteur d&apos;indices de colonnes. Un indice négatif demande l&apos;ordre décroissant pour cette clé.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>B</param_name>
-      <param_description>tableau dont les lignes sont triees selon les cles selectionnees.</param_description>
+      <param_description>tableau dont les lignes sont triées selon les clés sélectionnées.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>index</param_name>
@@ -31,8 +31,8 @@
   </param_output>
   <description>
     <p>Les lignes dont les clés sélectionnées sont égales conservent leur ordre initial, y compris pour les clés textuelles en cellule triées par ordre décroissant.</p>
-    <p>sortrows trie les lignes d&apos;un tableau en utilisant une ou plusieurs colonnes comme cles.</p>
-    <p>Les indices de colonnes negatifs demandent un ordre decroissant pour la cle correspondante.</p>
+    <p>sortrows trie les lignes d&apos;un tableau en utilisant une ou plusieurs colonnes comme clés.</p>
+    <p>Les indices de colonnes négatifs demandent un ordre décroissant pour la clé correspondante.</p>
   </description>
   <used_function>
     <used_function_item>sort</used_function_item>
@@ -40,7 +40,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Trier les lignes par la premiere colonne croissante et la deuxieme colonne decroissante.</example_item_description>
+      <example_item_description>Trier les lignes par la première colonne croissante et la deuxième colonne décroissante.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[A = [2 3; 1 4; 2 1];
 [B, index] = sortrows(A, [1 -2])]]></example_item_data>
     </example_item>

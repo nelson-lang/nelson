@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>isValidGraphicsProperty</keyword>
   <short_description
-  >Vérifie si le nom de propriété est valide.</short_description>
+  >Vérifie si le nom de propriété est validé.</short_description>
   <syntax>
     <syntax_item
     >tf = isValidGraphicsProperty(typename, propertyname)</syntax_item>

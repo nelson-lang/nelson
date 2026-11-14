@@ -10,7 +10,7 @@
   <param_input>
     <param_input_item>
       <param_name>inputs</param_name>
-      <param_description>Valeurs datetime, numeros de date serie ou entrees compatibles date.</param_description>
+      <param_description>Valeurs datetime, numéros de date série ou entrées compatibles date.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -21,7 +21,7 @@
   </param_output>
   <description>
     <p>Teste si des dates tombent un samedi ou un dimanche.</p>
-    <p>isweekend utilise la numerotation weekday ou dimanche et samedi sont des jours de weekend.</p>
+    <p>isweekend utilise la numérotation weekday ou dimanche et samedi sont des jours de weekend.</p>
     <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
   </description>
   <used_function />

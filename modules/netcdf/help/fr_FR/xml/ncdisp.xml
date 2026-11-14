@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>ncdisp</keyword>
-  <short_description>Affiche le contenu d'une source de donnees netCDF.</short_description>
+  <short_description>Affiche le contenu d'une source de données netCDF.</short_description>
   <syntax>
     <syntax_item>ncdisp(filename)</syntax_item>
     <syntax_item>ncdisp(filename, location)</syntax_item>
@@ -12,7 +12,7 @@
   <param_input>
     <param_input_item>
       <param_name>filename</param_name>
-      <param_description>Chemin du fichier netCDF a creer, ouvrir ou modifier.</param_description>
+      <param_description>Chemin du fichier netCDF à créer, ouvrir ou modifier.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>location</param_name>
@@ -20,7 +20,7 @@
     </param_input_item>
     <param_input_item>
       <param_name>mode</param_name>
-      <param_description>Mode numerique construit avec les constantes netCDF lorsque necessaire.</param_description>
+      <param_description>Mode numérique construit avec les constantes netCDF lorsque nécessaire.</param_description>
     </param_input_item>
   </param_input>
   <param_output>

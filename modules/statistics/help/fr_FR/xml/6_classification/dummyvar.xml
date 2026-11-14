@@ -3,13 +3,13 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>dummyvar</keyword>
-  <short_description>Cree des variables indicatrices depuis des variables de groupe.</short_description>
+  <short_description>Crée des variables indicatrices depuis des variables de groupe.</short_description>
   <syntax>
     <syntax_item>D = dummyvar(group)</syntax_item>
   </syntax>
   <description>
-    <p><b>dummyvar</b> cree une matrice numerique de colonnes indicatrices pour les variables de groupe dans <b>group</b>.</p>
-    <p>Chaque colonne de matrice numerique, vecteur categoriel, vecteur texte ou element de cellule dans <b>group</b> contribue un bloc de variables indicatrices. Les valeurs de groupe manquantes produisent des lignes <b>NaN</b> dans leur bloc.</p>
+    <p><b>dummyvar</b> crée une matrice numérique de colonnes indicatrices pour les variables de groupe dans <b>group</b>.</p>
+    <p>Chaque colonne de matrice numérique, vecteur catégoriel, vecteur texte ou élément de cellule dans <b>group</b> contribue un bloc de variables indicatrices. Les valeurs de groupe manquantes produisent des lignes <b>NaN</b> dans leur bloc.</p>
   </description>
   <examples>
     <example_item>

@@ -26,7 +26,7 @@
     <p>
       Le test porte sur le stockage sparse, pas sur la classe des valeurs. Les tableaux sparse double, single, logiques, double complexes et single complexes retournent tous vrai.</p>
     <p>
-      Les tableaux pleins retournent faux meme lorsqu'ils contiennent principalement des valeurs nulles.</p>
+      Les tableaux pleins retournent faux même lorsqu'ils contiennent principalement des valeurs nulles.</p>
   </description>
   <used_function />
   <bibliography />

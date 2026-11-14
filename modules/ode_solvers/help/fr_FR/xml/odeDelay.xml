@@ -3,33 +3,33 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>odeDelay</keyword>
-  <short_description>Objet de definition des delais pour les workflows EDO.</short_description>
+  <short_description>Objet de définition des délais pour les workflows EDO.</short_description>
   <syntax>
     <syntax_item>D = odeDelay()</syntax_item>
     <syntax_item>D = odeDelay(name, value)</syntax_item>
   </syntax>
   <description>
     <p>
-      <b>odeDelay</b> stocke les reglages lies aux equations avec retard resolues par l'objet <b>ode</b>.</p>
+      <b>odeDelay</b> stocke les réglages liés aux équations avec retard résolues par l'objet <b>ode</b>.</p>
     <table style="width:100%">
       <tr>
         <th>Objet</th>
-        <th>Role</th>
-        <th>Utilise par</th>
+        <th>Rôle</th>
+        <th>Utilisé par</th>
       </tr>
       <tr>
         <td><b>odeDelay</b></td>
-        <td>Stocke une definition reutilisable pour le workflow objet <b>ode</b>.</td>
-        <td>La propriete correspondante de <b>ode</b> et <b>solve</b>.</td>
+        <td>Stocke une définition reutilisable pour le workflow objet <b>ode</b>.</td>
+        <td>La propriété correspondante de <b>ode</b> et <b>solve</b>.</td>
       </tr>
       <tr>
         <td>Validation</td>
-        <td>Verifie les noms et formes supportes au moment de la construction.</td>
-        <td>Les tests et erreurs restent explicites avant integration.</td>
+        <td>Vérifie les noms et formes supportés au moment de la construction.</td>
+        <td>Les tests et erreurs restent explicites avant intégration.</td>
       </tr>
     </table>
-    <p>Le perimetre actuel prend en charge les entrees <b>ValueDelay</b> et <b>SlopeDelay</b> constantes positives ou fonctions, avec un <b>History</b> numerique ou fonction. Les fonctions de retard sont evaluees comme <b>d(t,y)</b> ou <b>d(t,y,p)</b> et doivent referencer un etat passe deja connu. La fonction EDO recoit les valeurs retardees avec <b>f(t, y, z)</b>. Quand des retards de pente sont presents, elle recoit <b>f(t, y, z, zp)</b>, ou les colonnes de <b>zp</b> contiennent les pentes retardees.</p>
-    <p>Les evenements, matrices de masse et sensibilites directes sont pris en charge pour les equations avec retard explicites ou lineairement implicites. Les sensibilites adjointes, parties complexes separees et equations avec retard pleinement implicites ne sont pas encore prises en charge et signalent des erreurs explicites.</p>
+    <p>Le périmètre actuel prend en charge les entrées <b>ValueDelay</b> et <b>SlopeDelay</b> constantes positives ou fonctions, avec un <b>History</b> numérique ou fonction. Les fonctions de retard sont évaluées comme <b>d(t,y)</b> ou <b>d(t,y,p)</b> et doivent référencer un état passe déjà connu. La fonction EDO reçoit les valeurs retardées avec <b>f(t, y, z)</b>. Quand des retards de pente sont présents, elle reçoit <b>f(t, y, z, zp)</b>, ou les colonnes de <b>zp</b> contiennent les pentes retardées.</p>
+    <p>Les événements, matrices de masse et sensibilités directes sont pris en charge pour les équations avec retard explicites ou linéairement implicites. Les sensibilités adjointes, parties complexes séparées et équations avec retard pleinement implicites ne sont pas encore prises en charge et signalent des erreurs explicites.</p>
   </description>
   <see_also>
     <see_also_item>

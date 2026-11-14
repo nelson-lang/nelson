@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>enableDefaultInteractivity</keyword>
-  <short_description>Active les interactions integrees des axes.</short_description>
+  <short_description>Active les interactions intégrées des axes.</short_description>
   <syntax>
     <syntax_item>enableDefaultInteractivity(ax)</syntax_item>
   </syntax>
@@ -16,11 +16,11 @@
   </param_input>
   <description>
     <p
-    ><b>enableDefaultInteractivity(ax)</b> reactive les interactions integrees des axes <b>ax</b> apres qu'elles ont ete desactivees avec <b
+    ><b>enableDefaultInteractivity(ax)</b> réactive les interactions intégrées des axes <b>ax</b> après qu'elles ont été désactivées avec <b
       >disableDefaultInteractivity</b>.</p>
     <p
-    >Avec les interactions integrees activees, glisser le curseur sur les axes deplace le contenu (ou le fait pivoter pour une vue 3-D) et la molette zoome.</p>
-    <p>C'est l'etat par defaut d'un nouvel axes.</p>
+    >Avec les interactions intégrées activées, glisser le curseur sur les axes déplace le contenu (ou le fait pivoter pour une vue 3-D) et la molette zoome.</p>
+    <p>C'est l'état par défaut d'un nouvel axes.</p>
   </description>
   <used_function />
   <bibliography />

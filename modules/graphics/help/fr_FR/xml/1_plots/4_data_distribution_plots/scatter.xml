@@ -41,7 +41,7 @@
     <param_input_item>
       <param_name>propertyName</param_name>
       <param_description
-      >Une chaine scalaire ou un vecteur ligne de caracteres. Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.scatter.properties">proprietes de scatter</link> pour la liste des proprietes.</param_description>
+      >Une chaîne scalaire ou un vecteur ligne de caractères. Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.scatter.properties">proprietes de scatter</link> pour la liste des propriétés.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>propertyValue</param_name>
@@ -66,7 +66,7 @@
     >Cela vous permet de superposer ou de comparer plusieurs ensembles de données dans le même graphique.</p>
     <p />
     <p />
-    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.scatter.properties">proprietes de scatter</link> pour la liste complete des proprietes.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.scatter.properties">proprietes de scatter</link> pour la liste complète des propriétés.</p>
   </description>
   <used_function />
   <bibliography />
@@ -257,7 +257,7 @@ hold off;
     <history_item>
       <history_version>1.14.0</history_version>
       <history_description
-      >Scatter est un objet graphique avec des proprietes.</history_description>
+      >Scatter est un objet graphique avec des propriétés.</history_description>
     </history_item>
   </history>
   <authors>

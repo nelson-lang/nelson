@@ -7,11 +7,11 @@
   <short_description>Construire et empaqueter une application macOS native.</short_description>
   <syntax><syntax_item>compiler.package.installer(result, 'Options', options)</syntax_item></syntax>
   <description>
-    <p>Ce tutoriel s'execute sous macOS avec les outils Apple en ligne de commande installes. Il construit une application graphique, cree un .pkg produit natif contenant son runtime minimal prive et verifie le contenu du paquet. Executer les blocs dans une meme session Nelson.</p>
-    <p>Ouvrir le .pkg genere depuis Finder pour une installation normale. La cible par defaut est /Applications/MacGraphDemo et peut demander une autorisation administrateur. Pour un test automatise, choisir un DefaultInstallationDir absolu isole et appeler /usr/sbin/installer avec une cible appropriee.</p>
-    <p>L'application graphique installee est un bundle .app. Son runtime prive contient les dylib, bundles de frameworks, plugins Qt de plateforme, images et icones ainsi que les ressources Nelson selectionnes. L'application n'a besoin ni de ses sources .m ni du module compiler a l'execution.</p>
-    <p>Le paquet produit ici n'est pas signe. Les signatures ad hoc locales des binaires reecrits ne remplacent pas une signature Developer ID Application ou Developer ID Installer. Une distribution hors de la machine locale requiert le processus Apple de signature et notarisation adapte ; ce tutoriel ne revendique pas une validation Gatekeeper.</p>
-    <p>Utiliser RuntimeDelivery='none' lorsqu'un runtime compatible est installe separement. compiler.runtime.customInstaller cree son .pkg de runtime partage natif. Le telechargement web automatique est indisponible.</p>
+    <p>Ce tutoriel s'exécute sous macOS avec les outils Apple en ligne de commande installés. Il construit une application graphique, crée un .pkg produit natif contenant son runtime minimal privé et vérifie le contenu du paquet. Exécuter les blocs dans une même session Nelson.</p>
+    <p>Ouvrir le .pkg génère depuis Finder pour une installation normale. La cible par défaut est /Applications/MacGraphDemo et peut demander une autorisation administrateur. Pour un test automatise, choisir un DefaultInstallationDir absolu isole et appeler /usr/sbin/installer avec une cible appropriée.</p>
+    <p>L'application graphique installée est un bundle .app. Son runtime privé contient les dylib, bundles de frameworks, plugins Qt de plateforme, images et icônes ainsi que les ressources Nelson sélectionnés. L'application n'a besoin ni de ses sources .m ni du module compiler à l'exécution.</p>
+    <p>Le paquet produit ici n'est pas signé. Les signatures ad hoc locales des binaires réécrits ne remplacent pas une signature Developer ID Application ou Developer ID Installer. Une distribution hors de la machine locale requiert le processus Apple de signature et notarisation adapté ; ce tutoriel ne revendique pas une validation Gatekeeper.</p>
+    <p>Utiliser RuntimeDelivery='none' lorsqu'un runtime compatible est installé séparément. compiler.runtime.customInstaller crée son .pkg de runtime partage natif. Le téléchargement web automatique est indisponible.</p>
   </description>
   <used_function />
   <bibliography />
@@ -33,7 +33,7 @@ filewrite(entry,[ ...
 'function close_demo(source,event,f); delete(f); end', newline()]);
 result = compiler.build.standaloneApplication(entry, ...
   'OutputDir', fullfile(work, 'build'));]]></example_item_data></example_item>
-    <example_item><example_item_type>nelson</example_item_type><example_item_description>Creer et inspecter le paquet</example_item_description><example_item_data><![CDATA[options = compiler.package.InstallerOptions(result, ...
+    <example_item><example_item_type>nelson</example_item_type><example_item_description>Créer et inspecter le paquet</example_item_description><example_item_data><![CDATA[options = compiler.package.InstallerOptions(result, ...
   'ApplicationName', 'Mac Graph Demo', ...
   'InstallerName', 'Mac Graph Demo', ...
   'DefaultInstallationDir', '/Applications/MacGraphDemo', ...
@@ -46,7 +46,7 @@ if status ~= 0 || ~contains(listing, '.app/Contents/MacOS')
   error('Le bundle applicatif macOS manque dans le paquet.');
 end
 disp(package);]]></example_item_data></example_item>
-    <example_item><example_item_type>nelson</example_item_type><example_item_description>Creer le paquet du runtime partage</example_item_description><example_item_data><![CDATA[compiler.runtime.customInstaller('Mac Graph Runtime', result, ...
+    <example_item><example_item_type>nelson</example_item_type><example_item_description>Créer le paquet du runtime partagé</example_item_description><example_item_data><![CDATA[compiler.runtime.customInstaller('Mac Graph Runtime', result, ...
   'RuntimeDelivery', 'installer', ...
   'OutputDir', fullfile(work, 'runtime distribution'));
 runtimePackage = fullfile(work, 'runtime distribution', 'Mac Graph Runtime.pkg');

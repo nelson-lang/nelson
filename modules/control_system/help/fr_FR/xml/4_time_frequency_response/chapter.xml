@@ -3,8 +3,8 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <module_name>control_system</module_name>
-  <chapter>Reponses temporelles et frequentielles</chapter>
+  <chapter>Réponses temporelles et fréquentielles</chapter>
   <chapter_description>
-    <p>Fonctions de simulation et de reponse pour systemes dynamiques.</p>
+    <p>Fonctions de simulation et de réponse pour systèmes dynamiques.</p>
   </chapter_description>
 </xmldoc>

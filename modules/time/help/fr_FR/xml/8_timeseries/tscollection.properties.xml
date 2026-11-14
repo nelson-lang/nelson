@@ -3,13 +3,13 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>tscollection.properties</keyword>
-  <short_description>Fonction pour objets de serie temporelle.</short_description>
+  <short_description>Fonction pour objets de série temporelle.</short_description>
   <syntax>
     <syntax_item>properties(...)</syntax_item>
   </syntax>
   <description>
     <p>
-      <b>properties</b> opere sur les objets timeseries ou tscollection.</p>
+      <b>properties</b> opère sur les objets timeseries ou tscollection.</p>
   </description>
   <used_function />
   <bibliography />

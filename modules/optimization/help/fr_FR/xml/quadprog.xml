@@ -39,7 +39,7 @@
   </param_output>
   <description>
     <p><b>quadprog</b> r&#233;sout des programmes quadratiques convexes denses avec contraintes lin&#233;aires et bornes par une strat&#233;gie active-set.</p>
-    <p>La forme structure accepte <b>H</b>, <b>f</b>, <b>Aineq</b> ou <b>A</b>, <b>bineq</b> ou <b>b</b>, <b>Aeq</b>, <b>beq</b>, <b>lb</b>, <b>ub</b>, <b>x0</b> et <b>options</b>. Les expressions quadratiques problem-based compil&#233;es par <b>prob2struct</b> sont dirig&#233;es vers <b>quadprog</b>.</p>
+    <p>La forme structure accepté <b>H</b>, <b>f</b>, <b>Aineq</b> ou <b>A</b>, <b>bineq</b> ou <b>b</b>, <b>Aeq</b>, <b>beq</b>, <b>lb</b>, <b>ub</b>, <b>x0</b> et <b>options</b>. Les expressions quadratiques problem-based compil&#233;es par <b>prob2struct</b> sont dirig&#233;es vers <b>quadprog</b>.</p>
   </description>
   <used_function>
     <used_function_item>optimoptions</used_function_item>

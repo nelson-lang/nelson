@@ -3,28 +3,28 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>timeseries.addevent</keyword>
-  <short_description>Ajoute un evenement a un objet timeseries.</short_description>
+  <short_description>Ajoute un événement a un objet timeseries.</short_description>
   <syntax>
     <syntax_item>tsOut = addevent(ts, eventObj)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>ts</param_name>
-      <param_description>Objet timeseries en entree.</param_description>
+      <param_description>Objet timeseries en entrée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>eventObj</param_name>
-      <param_description>Evenement cree avec tsdata.event.</param_description>
+      <param_description>Événement crée avec tsdata.event.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>tsOut</param_name>
-      <param_description>Objet timeseries en sortie avec l'evenement ajoute.</param_description>
+      <param_description>Objet timeseries en sortie avec l'événement ajouté.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>addevent</b> Ajoute un evenement nomme a la liste Events d'un objet timeseries. Les temps des evenements utilisent le meme axe temporel que la serie.</p>
+    <p><b>addevent</b> Ajoute un événement nomme a la liste Events d'un objet timeseries. Les temps des événements utilisent le même axe temporel que la série.</p>
   </description>
   <used_function />
   <bibliography />

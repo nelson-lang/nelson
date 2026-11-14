@@ -11,8 +11,8 @@
     <p>L'entrée et la sortie doivent contenir le même nombre d'éléments. Une différence est signalée dans les diagnostics de simulation.</p>
     <p><img src="../../../../libraries/utility/exports/reshape.svg" align="middle"/></p>
     <p><b>Extended Capabilities</b></p>
-    <p><b>Implementation Sources</b></p>
-    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <p><b>Implémentation Sources</b></p>
+    <p>Génération de code : prise en charge pour C et Rust.</p>
     <source_code label="Manifest" path="modules/nflow_blocks/libraries/utility/library.json" language="json"/>
     <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/routing/reshape.cpp" language="cpp"/>
   </description>

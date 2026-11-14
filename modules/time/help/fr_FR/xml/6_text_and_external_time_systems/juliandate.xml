@@ -21,7 +21,7 @@
   </param_output>
   <description>
     <p>Convertit des valeurs datetime en dates juliennes.</p>
-    <p>La conversion ajoute le decalage de date julienne aux numeros de date serie Nelson.</p>
+    <p>La conversion ajoute le décalage de date julienne aux numéros de date série Nelson.</p>
     <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
   </description>
   <used_function />

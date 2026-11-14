@@ -3,15 +3,15 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>fsrftest</keyword>
-  <short_description>Classement des predicteurs avec des tests F de regression univaries.</short_description>
+  <short_description>Classement des prédicteurs avec des tests F de régression univaries.</short_description>
   <syntax>
     <syntax_item>idx = fsrftest(X, y)</syntax_item>
     <syntax_item>[idx, scores] = fsrftest(X, y)</syntax_item>
     <syntax_item>[idx, scores] = fsrftest(X, y, Name, Value)</syntax_item>
   </syntax>
   <description>
-    <p><b>fsrftest</b> classe les predicteurs en appliquant un test F de regression independant a chaque colonne de X.</p>
-    <p>Les options nom-valeur supportees sont CategoricalPredictors, NumBins, UseMissing et Weights. idx contient les indices des predicteurs par score decroissant. scores contient un score par predicteur.</p>
+    <p><b>fsrftest</b> classe les prédicteurs en appliquant un test F de régression independant à chaque colonne de X.</p>
+    <p>Les options nom-valeur supportées sont CategoricalPredictors, NumBins, UseMissing et Weights. idx contient les indices des prédicteurs par score décroissant. scores contient un score par prédicteur.</p>
   </description>
   <examples>
     <example_item>

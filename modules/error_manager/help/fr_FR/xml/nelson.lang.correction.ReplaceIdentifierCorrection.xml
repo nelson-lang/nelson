@@ -25,8 +25,8 @@
   </param_output>
   <description>
     <p>Utilisez les objets <b>nelson.lang.correction.ReplaceIdentifierCorrection</b> dans les fonctions qui levent un objet MException.</p>
-    <p><b>correction = nelson.lang.correction.ReplaceIdentifierCorrection(identifier, replacement)</b> cree une correction qui suggere de remplacer <b>identifier</b> par <b>replacement</b> dans l&apos;appel de fonction qui a leve l&apos;objet MException.</p>
-    <p>Les proprietes en lecture seule <b>Identifier</b> et <b>Replacement</b> contiennent l&apos;identifiant incorrect et l&apos;identifiant de remplacement.</p>
+    <p><b>correction = nelson.lang.correction.ReplaceIdentifierCorrection(identifier, replacement)</b> crée une correction qui suggere de remplacer <b>identifier</b> par <b>replacement</b> dans l&apos;appel de fonction qui a levé l&apos;objet MException.</p>
+    <p>Les propriétés en lecture seule <b>Identifier</b> et <b>Replacement</b> contiennent l&apos;identifiant incorrect et l&apos;identifiant de remplacement.</p>
   </description>
   <used_function />
   <bibliography />

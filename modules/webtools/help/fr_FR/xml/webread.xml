@@ -53,7 +53,7 @@ res = webread(url,weboptions('ContentType','json'));
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>More demos</example_item_description>
+      <example_item_description>More démos</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[edit([modulepath('webtools'),'/examples/webread_demo_1.m'])

@@ -96,7 +96,7 @@
         </tr>
       </tbody>
     </table>
-    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <p>Génération de code : prise en charge pour C et Rust.</p>
     <source_code label="Manifeste" path="modules/nflow_blocks/libraries/sink/library.json" language="json"/>
     <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/sink/toWorkspace.cpp" language="cpp"/>
   </description>
@@ -105,7 +105,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Ouvrir la démo To Workspace (journalise une sinusoïde dans 'simout')</example_item_description>
+      <example_item_description>Ouvrir la démo To Workspace (journalisé une sinusoïde dans 'simout')</example_item_description>
       <example_item_data><![CDATA[open_system([modulepath('nflow_blocks'), '/examples/workspace/To_Workspace_Demo.nflow']);]]></example_item_data>
     </example_item>
   </examples>

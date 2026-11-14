@@ -57,7 +57,7 @@
     <p
     >La propriété <b>RequestMethod</b> de <b>options</b> choisit la méthode HTTP : 'get', 'post', 'put', 'delete' ou 'patch'. Avec 'auto', une requête avec corps utilise POST et une requête sans corps utilise GET. La propriété <b>Timeout</b> de <b>options</b> limite le temps de connexion et la durée pendant laquelle le transfert peut rester bloqué, et non la durée du téléchargement complet. Lorsque la propriété <b>MediaType</b> de <b>options</b> vaut 'auto', la requête est envoyée avec le Content-Type 'application/x-www-form-urlencoded'.</p>
     <p
-    >Un code d'erreur HTTP supprime <b>filename</b> et provoque l'erreur <b>Nelson:webREST:httpError</b>. Une défaillance réseau provoque l'erreur <b>Nelson:webREST:curlError</b>.</p>
+    >Un code d'erreur HTTP supprimé <b>filename</b> et provoque l'erreur <b>Nelson:webREST:httpError</b>. Une défaillance réseau provoque l'erreur <b>Nelson:webREST:curlError</b>.</p>
   </description>
   <used_function />
   <bibliography />

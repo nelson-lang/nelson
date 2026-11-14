@@ -3,29 +3,29 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>nelson.unittest.select</keyword>
-  <short_description>Filtrer une suite de tests decouverte.</short_description>
+  <short_description>Filtrer une suite de tests découverte.</short_description>
   <syntax>
     <syntax_item>selected = nelson.unittest.select(suite, Name, Value)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>suite</param_name>
-      <param_description>TestSuite retournee par nelson.unittest.discover.</param_description>
+      <param_description>TestSuite retournée par nelson.unittest.discover.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Name, Value</param_name>
-      <param_description>options de selection : Name, Module, File, Kind, Tags, ExcludeTags, Match et
+      <param_description>options de sélection : Name, Module, File, Kind, Tags, ExcludeTags, Match et
         Exclude.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>selected</param_name>
-      <param_description>TestSuite filtree conservant les metadonnees de filtrage.</param_description>
+      <param_description>TestSuite filtrée conservant les métadonnées de filtrage.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>nelson.unittest.select</b> applique les filtres de selection sans executer les tests.</p>
+    <p><b>nelson.unittest.select</b> applique les filtres de sélection sans exécuter les tests.</p>
     <p><b>Kind</b> accepte <b>test</b>, <b>bug</b>, <b>bench</b>, <b>all_tests</b> et <b>all</b>.</p>
   </description>
   <examples>

@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>kurtosis</keyword>
-  <short_description>Aplatissement d'un jeu de donnees.</short_description>
+  <short_description>Aplatissement d'un jeu de données.</short_description>
   <syntax>
     <syntax_item>k = kurtosis(X)</syntax_item>
     <syntax_item>k = kurtosis(X, flag)</syntax_item>
@@ -12,8 +12,8 @@
     <syntax_item>k = kurtosis(X, flag, 'all')</syntax_item>
   </syntax>
   <description>
-    <p><b>kurtosis</b> calcule l'aplatissement d'echantillon de donnees numeriques. Les valeurs <b>NaN</b> sont omises.</p>
-    <p><b>flag</b> vaut 1 par defaut. Mettre <b>flag</b> a 0 applique la correction de biais.</p>
+    <p><b>kurtosis</b> calcule l'aplatissement d'échantillon de données numériques. Les valeurs <b>NaN</b> sont omises.</p>
+    <p><b>flag</b> vaut 1 par défaut. Mettre <b>flag</b> a 0 applique la correction de biais.</p>
   </description>
   <examples>
     <example_item>

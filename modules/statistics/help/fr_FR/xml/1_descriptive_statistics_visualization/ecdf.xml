@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>ecdf</keyword>
-  <short_description>Fonction de repartition empirique.</short_description>
+  <short_description>Fonction de répartition empirique.</short_description>
   <syntax>
     <syntax_item>[f, x] = ecdf(y)</syntax_item>
     <syntax_item>[f, x] = ecdf(y, Name, Value)</syntax_item>
@@ -12,7 +12,7 @@
     <syntax_item>ecdf(ax, ...)</syntax_item>
   </syntax>
   <description>
-    <p><b>ecdf</b> calcule les valeurs empiriques de distribution a partir d&apos;un echantillon.</p>
+    <p><b>ecdf</b> calcule les valeurs empiriques de distribution à partir d&apos;un échantillon.</p>
     <p>Les arguments nom-valeur incluent Function, Censoring, Frequency, Alpha et Bounds. Les types de fonction pris en charge sont cdf, survivor et cumhazard. Bounds peut valoir on ou off pour le trace.</p>
   </description>
   <examples>

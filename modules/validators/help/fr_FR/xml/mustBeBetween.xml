@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>mustBeBetween</keyword>
-  <short_description>Valide que tous les elements sont compris dans une plage specifiee.</short_description>
+  <short_description>Valide que tous les éléments sont compris dans une plage spécifiée.</short_description>
   <syntax>
     <syntax_item>mustBeBetween(A, lower, upper)</syntax_item>
     <syntax_item>mustBeBetween(A, lower, upper, intervalType)</syntax_item>
@@ -13,11 +13,11 @@
   <param_input>
     <param_input_item>
       <param_name>A</param_name>
-      <param_description>tableau ou table a valider.</param_description>
+      <param_description>tableau ou table à valider.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>lower, upper</param_name>
-      <param_description>bornes inferieure et superieure.</param_description>
+      <param_description>bornes inférieure et supérieure.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>intervalType</param_name>
@@ -30,12 +30,12 @@
     </param_input_item>
     <param_input_item>
       <param_name>argPosition</param_name>
-      <param_description>entier positif optionnel : position de l&apos;argument d&apos;entree.</param_description>
+      <param_description>entier positif optionnel : position de l&apos;argument d&apos;entrée.</param_description>
     </param_input_item>
   </param_input>
   <description>
     <p>
-      <b>mustBeBetween</b> leve une erreur si un element selectionne de <b>A</b> est en dehors de l&apos;intervalle defini par <b>lower</b> et <b>upper</b>. L&apos;intervalle par defaut est ferme.</p>
+      <b>mustBeBetween</b> lève une erreur si un élément sélectionne de <b>A</b> est en dehors de l&apos;intervalle défini par <b>lower</b> et <b>upper</b>. L&apos;intervalle par défaut est fermé.</p>
   </description>
   <examples>
     <example_item>

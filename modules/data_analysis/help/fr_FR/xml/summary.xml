@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>summary</keyword>
-  <short_description>Resumer les variables de table ou les valeurs categorielles.</short_description>
+  <short_description>Resumer les variables de table ou les valeurs catégorielles.</short_description>
   <syntax>
     <syntax_item>S = summary(T)</syntax_item>
     <syntax_item>summary(A)</syntax_item>
@@ -11,23 +11,23 @@
   <param_input>
     <param_input_item>
       <param_name>T</param_name>
-      <param_description>Table d'entree.</param_description>
+      <param_description>Table d'entrée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>A</param_name>
-      <param_description>Tableau categoriel d'entree.</param_description>
+      <param_description>Tableau catégoriel d'entrée.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>S</param_name>
-      <param_description>Structure contenant les informations de resume des variables de table.</param_description>
+      <param_description>Structure contenant les informations de résume des variables de table.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p><b>summary</b> retourne la taille et le type de chaque variable de table.</p>
-    <p>Les variables numeriques de table incluent aussi le minimum, le maximum, la moyenne, la mediane, l'ecart type et le nombre de valeurs manquantes.</p>
-    <p>Pour les tableaux categoriels, <b>summary</b> affiche le nombre d'elements pour chaque categorie et pour les valeurs non definies.</p>
+    <p>Les variables numériques de table incluent aussi le minimum, le maximum, la moyenne, la médiane, l'écart type et le nombre de valeurs manquantes.</p>
+    <p>Pour les tableaux catégoriels, <b>summary</b> affiche le nombre d'éléments pour chaque catégorie et pour les valeurs non définies.</p>
   </description>
   <used_function />
   <bibliography />
@@ -42,7 +42,7 @@ S = summary(T)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Afficher les comptes categoriels.</example_item_description>
+      <example_item_description>Afficher les comptes catégoriels.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[A = categorical({'red','blue','red',''});

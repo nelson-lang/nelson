@@ -21,15 +21,15 @@
   <param_output>
     <param_output_item>
       <param_name>RGB</param_name>
-      <param_description>Image RGB. La sortie est single uniquement lorsque l'image d'entree est single ; sinon elle est double.</param_description>
+      <param_description>Image RGB. La sortie est single uniquement lorsque l'image d'entrée est single ; sinon elle est double.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>rgbmap</param_name>
-      <param_description>Colormap RGB avec le meme nombre de lignes que hsvmap.</param_description>
+      <param_description>Colormap RGB avec le même nombre de lignes que hsvmap.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>Convertit des valeurs couleur HSV en valeurs RGB. Les entrees HSV doivent etre des tableaux reels double, single ou logical. Les canaux saturation et valeur sont convertis sans clipping. Les images HSV vides conservent leur taille.</p>
+    <p>Convertit des valeurs couleur HSV en valeurs RGB. Les entrées HSV doivent être des tableaux réels double, single ou logical. Les canaux saturation et valeur sont convertis sans clipping. Les images HSV vides conservent leur taille.</p>
     <p>Les colormaps HSV non vides a trois colonnes et avec des valeurs dans [0, 1] sont converties ligne par ligne.</p>
   </description>
   <used_function />

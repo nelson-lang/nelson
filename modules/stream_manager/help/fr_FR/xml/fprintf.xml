@@ -29,7 +29,7 @@
     <param_output_item>
       <param_name>R</param_name>
       <param_description
-      >un entier : nombre d&apos;octets ecrits dans un fichier, ou nombre de caracteres visibles affiches a l&apos;ecran.</param_description>
+      >un entier : nombre d&apos;octets écrits dans un fichier, ou nombre de caractères visibles affichés a l&apos;écran.</param_description>
     </param_output_item>
   </param_output>
   <description>
@@ -39,7 +39,7 @@
     <p>Si fid vaut 1, la sortie est redirigée vers stdout.</p>
     <p>Si fid vaut 2, la sortie est redirigée vers stderr.</p>
     <p
-    >Lorsque la sortie est envoyee a l&apos;ecran, les sequences d&apos;echappement ANSI SGR peuvent styliser le texte : gras, italique, souligne, barre, couleurs de premier plan et couleurs d&apos;arriere-plan. Ces sequences sont interpretees pour l&apos;affichage stdout et stderr, mais elles sont ecrites telles quelles lorsque la sortie est envoyee dans un fichier.</p>
+    >Lorsque la sortie est envoyée a l&apos;écran, les séquences d&apos;échappement ANSI SGR peuvent styliser le texte : gras, italique, souligne, barre, couleurs de premier plan et couleurs d&apos;arrière-plan. Ces séquences sont interprétées pour l&apos;affichage stdout et stderr, mais elles sont écrites telles quelles lorsque la sortie est envoyée dans un fichier.</p>
     <p>Le paramètre <b>format</b> suit la syntaxe C de <b>fprintf</b>.</p>
     <table style="width:100%">
       <tr>
@@ -70,12 +70,12 @@
       <tr>
         <td>Integer</td>
         <td>%x</td>
-        <td>Hexadecimal (lowercase)</td>
+        <td>Hexadécimal (lowercase)</td>
       </tr>
       <tr>
         <td>Integer</td>
         <td>%X</td>
-        <td>Hexadecimal (uppercase)</td>
+        <td>Hexadécimal (uppercase)</td>
       </tr>
       <tr>
         <td>Floating-point number</td>
@@ -142,7 +142,7 @@ fprintf(2, "an value %g.", pi);]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Afficher du texte stylise avec des sequences d&apos;echappement ANSI SGR</example_item_description>
+      <example_item_description>Afficher du texte stylise avec des séquences d&apos;échappement ANSI SGR</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[esc = char(27);
@@ -150,7 +150,7 @@ fprintf([esc, '[1;34mTexte bleu gras', esc, '[0m\n']);]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Afficher du texte truecolor avec des sequences d&apos;echappement ANSI SGR</example_item_description>
+      <example_item_description>Afficher du texte truecolor avec des séquences d&apos;échappement ANSI SGR</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[esc = char(27);
@@ -204,7 +204,7 @@ fprintf(1, ' %d %%', 10)]]></example_item_data>
     </history_item>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>Les sequences d&apos;echappement ANSI SGR sont rendues pour la sortie ecran.</history_description>
+      <history_description>Les séquences d&apos;échappement ANSI SGR sont rendues pour la sortie écran.</history_description>
     </history_item>
   </history>
   <authors>

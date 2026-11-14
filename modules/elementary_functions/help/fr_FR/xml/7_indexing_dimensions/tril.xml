@@ -31,8 +31,8 @@
     <p>
       <b>R = tril(M, k)</b> renvoie les éléments situés sur et au-dessous de la k-ième diagonale de M.</p>
     <p>
-      Les matrices sparse single et sparse single complexes sont prises en charge. Le resultat
-      conserve le stockage sparse et la precision de l'entree.</p>
+      Les matrices sparse single et sparse single complexes sont prises en charge. Le résultat
+      conserve le stockage sparse et la précision de l'entrée.</p>
   </description>
   <used_function />
   <bibliography />
@@ -47,7 +47,7 @@ r = tril(x)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Partie triangulaire inferieure sparse single.</example_item_description>
+      <example_item_description>Partie triangulaire inférieure sparse single.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[S = sparse(single([1 2; 3 4]));
 R = tril(S)]]></example_item_data>
     </example_item>

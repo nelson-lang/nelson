@@ -3,12 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>alphanumericBoundary</keyword>
-  <short_description>Limite pour le texte alphanumerique.</short_description>
+  <short_description>Limite pour le texte alphanumérique.</short_description>
   <syntax>
     <syntax_item>R = alphanumericBoundary(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>alphanumericBoundary</b> Limite pour le texte alphanumerique.</p>
+    <p><b>alphanumericBoundary</b> Limite pour le texte alphanumérique.</p>
   </description>
   <used_function />
   <bibliography />

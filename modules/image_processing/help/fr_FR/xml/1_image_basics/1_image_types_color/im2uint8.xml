@@ -11,11 +11,11 @@
   <param_input>
     <param_input_item>
       <param_name>I</param_name>
-      <param_description>Image d'entree. Les classes d'intensite prises en charge sont double, single, logical, uint8, uint16 et int16.</param_description>
+      <param_description>Image d'entrée. Les classes d'intensité prises en charge sont double, single, logical, uint8, uint16 et int16.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>'indexed'</param_name>
-      <param_description>Mode optionnel pour les images indexees. Les entrees flottantes utilisent des indices en base un et les entrees entieres utilisent des indices en base zero.</param_description>
+      <param_description>Mode optionnel pour les images indexées. Les entrées flottantes utilisent des indices en base un et les entrées entières utilisent des indices en base zéro.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -26,7 +26,7 @@
   </param_output>
   <description>
     <p>Convertit une image en entier non signe 8 bits.</p>
-    <p>Pour les images indexees, les entrees entieres sont traitees comme des indices base zero et les entrees double comme des indices base un.</p>
+    <p>Pour les images indexées, les entrées entières sont traitées comme des indices base zéro et les entrées double comme des indices base un.</p>
   </description>
   <used_function />
   <bibliography />

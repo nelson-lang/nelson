@@ -3,28 +3,28 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>timeseries.getdatasamples</keyword>
-  <short_description>Renvoie les echantillons de donnees par indice.</short_description>
+  <short_description>Renvoie les échantillons de données par indice.</short_description>
   <syntax>
     <syntax_item>data = getdatasamples(ts, indices)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>ts</param_name>
-      <param_description>Objet timeseries en entree.</param_description>
+      <param_description>Objet timeseries en entrée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>indices</param_name>
-      <param_description>Indices d'echantillons.</param_description>
+      <param_description>Indices d'échantillons.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>data</param_name>
-      <param_description>Echantillons de donnees extraits.</param_description>
+      <param_description>Échantillons de données extraits.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>getdatasamples</b> Extrait les valeurs de donnees pour les indices d'echantillons demandes sans renvoyer d'enveloppe timeseries.</p>
+    <p><b>getdatasamples</b> Extrait les valeurs de données pour les indices d'échantillons demandes sans renvoyer d'enveloppe timeseries.</p>
   </description>
   <used_function />
   <bibliography />

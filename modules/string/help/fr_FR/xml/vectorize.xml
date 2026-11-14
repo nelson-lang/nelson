@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright><language>fr_FR</language><keyword>vectorize</keyword>
-  <short_description>Insere des operateurs element par element dans une expression texte.</short_description>
+  <short_description>Insère des opérateurs élément par élément dans une expression texte.</short_description>
   <syntax><syntax_item>s = vectorize(expr)</syntax_item></syntax>
   <param_input><param_input_item><param_name>expr</param_name><param_description>Expression sous forme de texte.</param_description></param_input_item></param_input>
-  <param_output><param_output_item><param_name>s</param_name><param_description>Expression vectorisee sous forme de texte.</param_description></param_output_item></param_output>
-  <description><p><b>vectorize</b> prefixe les operateurs puissance, multiplication et division par des points lorsque necessaire.</p></description>
+  <param_output><param_output_item><param_name>s</param_name><param_description>Expression vectorisée sous forme de texte.</param_description></param_output_item></param_output>
+  <description><p><b>vectorize</b> préfixe les opérateurs puissance, multiplication et division par des points lorsque nécessaire.</p></description>
   <used_function /><bibliography />
   <examples><example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="cli"><![CDATA[s = vectorize('x^2 + y*z')]]></example_item_data></example_item></examples>
   <see_also>

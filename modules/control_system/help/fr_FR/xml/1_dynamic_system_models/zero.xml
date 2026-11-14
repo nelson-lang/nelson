@@ -22,7 +22,7 @@
     <param_output_item>
       <param_name>gain</param_name>
       <param_description
-      >Zero-pole-gain du système dynamique.</param_description>
+      >Zéro-pôle-gain du système dynamique.</param_description>
     </param_output_item>
   </param_output>
   <description>

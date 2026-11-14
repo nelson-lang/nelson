@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>optim.problemdef.OptimizationProblem</keyword>
-  <short_description>Objet probleme d&apos;optimisation.</short_description>
+  <short_description>Objet problème d&apos;optimisation.</short_description>
   <syntax>
     <syntax_item>prob = optimproblem</syntax_item>
     <syntax_item>prob = optimproblem(Name, Value)</syntax_item>
@@ -16,21 +16,21 @@
     </param_input_item>
     <param_input_item>
       <param_name>Constraints</param_name>
-      <param_description>structure de contraintes d&apos;optimisation nommees.</param_description>
+      <param_description>structure de contraintes d&apos;optimisation nommées.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Name, Value</param_name>
-      <param_description>proprietes du probleme comme Objective, Description et ObjectiveSense.</param_description>
+      <param_description>propriétés du problème comme Objective, Description et ObjectiveSense.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>prob</param_name>
-      <param_description>objet probleme d&apos;optimisation.</param_description>
+      <param_description>objet problème d&apos;optimisation.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>sol</param_name>
-      <param_description>structure solution renvoyee par solve.</param_description>
+      <param_description>structure solution renvoyée par solve.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>fval</param_name>
@@ -39,7 +39,7 @@
   </param_output>
   <description>
     <p>optim.problemdef.OptimizationProblem stocke un objectif, des contraintes, des variables, le sens de l&apos;objectif et une description.</p>
-    <p>Utilisez optimproblem pour creer l&apos;objet et solve pour calculer une solution.</p>
+    <p>Utilisez optimproblem pour créer l&apos;objet et solve pour calculer une solution.</p>
   </description>
   <used_function>
     <used_function_item>optimproblem</used_function_item>
@@ -49,7 +49,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Creer et resoudre un petit probleme contraint.</example_item_description>
+      <example_item_description>Créer et résoudre un petit problème contraint.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[x = optimvar('x', 2, 1, 'LowerBound', 0);
 prob = optimproblem('Objective', (x(1) - 1)^2 + (x(2) - 2)^2);
 prob.Constraints.limit = x(1) + x(2) <= 4;

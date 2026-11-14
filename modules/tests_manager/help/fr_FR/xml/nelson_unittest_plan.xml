@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>nelson.unittest.plan</keyword>
-  <short_description>Creer un plan d'execution pour une suite de tests.</short_description>
+  <short_description>Créer un plan d'exécution pour une suite de tests.</short_description>
   <syntax>
     <syntax_item>plan = nelson.unittest.plan(suite)</syntax_item>
     <syntax_item>plan = nelson.unittest.plan(suite, Name, Value)</syntax_item>
@@ -11,8 +11,8 @@
   <param_input>
     <param_input_item>
       <param_name>suite</param_name>
-      <param_description>TestSuite retournee par nelson.unittest.discover ou
-        nelson.unittest.select, ou cibles acceptees par nelson.unittest.discover (nom de module,
+      <param_description>TestSuite retournée par nelson.unittest.discover ou
+        nelson.unittest.select, ou cibles acceptées par nelson.unittest.discover (nom de module,
         fichier, dossier ou tableau de cellules de ceux-ci).</param_description>
     </param_input_item>
     <param_input_item>
@@ -29,8 +29,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>nelson.unittest.plan</b> prepare les cas selectionnes pour l'execution.</p>
-    <p>Les benchs et les tests qui exigent une execution sequentielle sont separes des tests parallelisables.</p>
+    <p><b>nelson.unittest.plan</b> prépare les cas sélectionnés pour l'exécution.</p>
+    <p>Les benchs et les tests qui exigent une exécution séquentielle sont séparés des tests parallelisables.</p>
   </description>
   <examples>
     <example_item>

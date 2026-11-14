@@ -44,7 +44,7 @@
     <p
     >Notez que l&apos;option &apos;rows&apos; ne prend pas en charge les cellules de tableaux.</p>
     <p>
-      <b>C = unique(A, &apos;stable&apos;)</b> renvoie les valeurs uniques dans l&apos;ordre de premiere apparition.</p>
+      <b>C = unique(A, &apos;stable&apos;)</b> renvoie les valeurs uniques dans l&apos;ordre de première apparition.</p>
     <p>
       <b>C = unique(..., &apos;TreatMissingAsDistinct&apos;, false)</b> considère chaque valeur manquante répétée comme un doublon : au plus une valeur manquante figure dans <b>C</b>. Par défaut (true), chaque valeur manquante de <b>A</b> figure dans <b>C</b>. Avec &apos;rows&apos;, deux lignes sont des doublons si elles ont des valeurs manquantes dans les mêmes colonnes et des valeurs non manquantes égales dans les autres colonnes. Cette option s&apos;applique aux données numériques, string, categorical et table, et ne peut pas être combinée avec &apos;legacy&apos;.</p>
     <p>

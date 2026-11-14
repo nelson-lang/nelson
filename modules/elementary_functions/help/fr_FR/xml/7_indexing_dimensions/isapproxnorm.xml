@@ -28,9 +28,9 @@
   </param_output>
   <description>
     <p><b
-      >TF = isapproxnorm(A, B, precision)</b> compare A et B en tant que tableaux entiers et retourne une seule valeur logique.</p>
+      >TF = isapproxnorm(A, B, precision)</b> compare À et B en tant que tableaux entiers et retourne une seule valeur logique.</p>
     <p
-    >A et B sont approximativement égaux si norm(A - B, 'fro') &lt;= precision * min(norm(A, 'fro'), norm(B, 'fro')).</p>
+    >A et B sont approximativement égaux si norm(A - B, 'fro') &lt;= précision * min(norm(A, 'fro'), norm(B, 'fro')).</p>
     <p
     >Les parties réelles et imaginaires sont contrôlées séparément. Les valeurs NaN, Inf et -Inf doivent être aux mêmes positions dans A et B, puis sont exclues des normes.</p>
     <p

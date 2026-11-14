@@ -10,7 +10,7 @@
   <param_input>
     <param_input_item>
       <param_name>inputs</param_name>
-      <param_description>Deux entrees datetime ou compatibles date avec tailles identiques ou expansion scalaire.</param_description>
+      <param_description>Deux entrées datetime ou compatibles date avec tailles identiques ou expansion scalaire.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -21,7 +21,7 @@
   </param_output>
   <description>
     <p>Renvoie les mois calendaires entiers entre deux dates.</p>
-    <p>Le resultat compte les mois calendaires complets et ajuste lorsque le jour du second argument precede le premier.</p>
+    <p>Le résultat compte les mois calendaires complets et ajuste lorsque le jour du second argument precede le premier.</p>
     <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
   </description>
   <used_function />

@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>fitrknn</keyword>
-  <short_description>Ajuste un modele de regression par k plus proches voisins.</short_description>
+  <short_description>Ajuste un modèle de régression par k plus proches voisins.</short_description>
   <syntax>
     <syntax_item>mdl = fitrknn(X, Y)</syntax_item>
     <syntax_item>mdl = fitrknn(X, Y, Name, Value)</syntax_item>
@@ -11,8 +11,8 @@
     <syntax_item>[yfit, D] = predict(mdl, Xnew)</syntax_item>
   </syntax>
   <description>
-    <p><b>fitrknn</b> cree un objet <b>RegressionKNN</b> a partir des predicteurs numeriques <b>X</b> et de la reponse numerique <b>Y</b>.</p>
-    <p>Les arguments nom-valeur incluent <b>NumNeighbors</b>, <b>Distance</b>, <b>DistanceWeight</b>, <b>Standardize</b>, <b>P</b>, <b>Scale</b>, <b>PredictorNames</b> et <b>ResponseName</b>. La prediction retourne les moyennes ponderees des reponses voisines.</p>
+    <p><b>fitrknn</b> crée un objet <b>RegressionKNN</b> à partir des prédicteurs numériques <b>X</b> et de la réponse numérique <b>Y</b>.</p>
+    <p>Les arguments nom-valeur incluent <b>NumNeighbors</b>, <b>Distance</b>, <b>DistanceWeight</b>, <b>Standardize</b>, <b>P</b>, <b>Scale</b>, <b>PredictorNames</b> et <b>ResponseName</b>. La prédiction retourne les moyennes pondérées des réponses voisines.</p>
   </description>
   <examples>
     <example_item>

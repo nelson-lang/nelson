@@ -7,10 +7,10 @@
   <short_description>Tutoriel : un runtime pour plusieurs applications.</short_description>
   <syntax><syntax_item>compiler.runtime.customInstaller(name, [first, second], 'RuntimeDelivery', 'installer')</syntax_item></syntax>
   <description>
-    <p>Executer ces trois blocs dans l'ordre sous Windows, avec Inno Setup 6 sur la machine de construction. L'installateur produit contient le runtime requis par les deux applications, mais pas les applications. Distribuer separement leurs Results.Files.</p>
-    <p>Cet exemple installe dans un repertoire temporaire prive avec /PORTABLE=1 et le selectionne explicitement par NELSONC_RUNTIME_ROOT. Une installation normale enregistree est decouverte automatiquement par les lanceurs actuels. Le desinstalleur local dans target retire le runtime partage et conserve les executables des applications.</p>
-    <p>Le bloc 3 utilise les arguments non interactifs du runtime. Pour employer un fichier de reponses, ecrire agreeToLicense=yes, destinationFolder=la cible absolue et outputFile=un nouveau journal sur des lignes separees, puis appeler l'installateur avec -inputfile suivi du chemin du fichier. Conserver /CURRENTUSER /PORTABLE=1 pour cet exemple isole ; omettre /PORTABLE=1 pour enregistrer un runtime partage.</p>
-    <p>Si le processus d'installation est interrompu, relancer la commande d'installation du bloc 3 avec le meme installateur et la meme cible. Ne pas supprimer .nelson-runtime-update. L'installateur verifie son journal de reprise et termine l'installation avant le lancement des applications. Un autre paquet est refuse tant qu'une mise a jour incomplete subsiste. Les fichiers modifies ou donnees de reprise alterees exigent une inspection, pas un remplacement force ; voir compiler.runtime.customInstaller pour les limites et repertoires de reprise conserves.</p>
+    <p>Exécuter ces trois blocs dans l'ordre sous Windows, avec Inno Setup 6 sur la machine de construction. L'installateur produit contient le runtime requis par les deux applications, mais pas les applications. Distribuer séparément leurs Results.Files.</p>
+    <p>Cet exemple installe dans un répertoire temporaire privé avec /PORTABLE=1 et le sélectionne explicitement par NELSONC_RUNTIME_ROOT. Une installation normale enregistrée est découverte automatiquement par les lanceurs actuels. Le desinstalleur local dans target retire le runtime partage et conserve les exécutables des applications.</p>
+    <p>Le bloc 3 utilise les arguments non interactifs du runtime. Pour employer un fichier de réponses, écrire agreeToLicense=yes, destinationFolder=la cible absolue et outputFile=un nouveau journal sur des lignes séparées, puis appeler l'installateur avec -inputfile suivi du chemin du fichier. Conserver /CURRENTUSER /PORTABLE=1 pour cet exemple isole ; omettre /PORTABLE=1 pour enregistrer un runtime partagé.</p>
+    <p>Si le processus d'installation est interrompu, relancer la commande d'installation du bloc 3 avec le même installateur et la même cible. Ne pas supprimer .nelson-runtime-update. L'installateur vérifie son journal de reprise et termine l'installation avant le lancement des applications. Un autre paquet est refusé tant qu'une mise à jour incomplète subsiste. Les fichiers modifiés ou données de reprise altérées exigent une inspection, pas un remplacement force ; voir compiler.runtime.customInstaller pour les limites et répertoires de reprise conservés.</p>
   </description>
   <used_function />
   <bibliography />
@@ -24,11 +24,11 @@ filewrite(entryA, 'function shared_one(); disp(''SHARED_ONE_OK''); end');
 filewrite(entryB, 'function shared_two(); disp(sin(0)); disp(''SHARED_TWO_OK''); end');
 first = compiler.build.standaloneApplication(entryA, 'OutputDir', fullfile(work, 'one'));
 second = compiler.build.standaloneApplication(entryB, 'OutputDir', fullfile(work, 'two'));]]></example_item_data></example_item>
-    <example_item><example_item_type>nelson</example_item_type><example_item_description>2. Regrouper leur runtime partage</example_item_description><example_item_data runnable="false"><![CDATA[compiler.runtime.customInstaller('SharedRuntime', [first, second], ...
+    <example_item><example_item_type>nelson</example_item_type><example_item_description>2. Regrouper leur runtime partagé</example_item_description><example_item_data runnable="false"><![CDATA[compiler.runtime.customInstaller('SharedRuntime', [first, second], ...
   'RuntimeDelivery', 'installer', 'OptionalDependencies', 'none', ...
   'OutputDir', fullfile(work, 'installer'));
 installer = fullfile(work, 'installer', 'SharedRuntime.exe');]]></example_item_data></example_item>
-    <example_item><example_item_type>nelson</example_item_type><example_item_description>3. Installer et executer les applications</example_item_description><example_item_data runnable="false"><![CDATA[target = fullfile(work, 'runtime');
+    <example_item><example_item_type>nelson</example_item_type><example_item_description>3. Installer et exécuter les applications</example_item_description><example_item_data runnable="false"><![CDATA[target = fullfile(work, 'runtime');
 [status, output] = system(['"', installer, ...
   '" -agreeToLicense yes -destinationFolder "', target, '" /CURRENTUSER /PORTABLE=1'], 90);
 asserts.istrue(status == 0, output);

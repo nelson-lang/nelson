@@ -12,8 +12,8 @@
     <syntax_item>[h, p, stats] = runstest(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>runstest</b> teste si les valeurs d&apos;un vecteur apparaissent dans un ordre aleatoire. Le test par defaut compte les runs au-dessus et au-dessous de la moyenne de <b>x</b>. Une valeur scalaire <b>v</b> peut etre fournie comme reference. Le mode <b>ud</b> compte les runs de montee et descente.</p>
-    <p>Les arguments nom-valeur incluent <b>Alpha</b>, <b>Method</b> et <b>Tail</b>. Les valeurs <b>NaN</b> et les valeurs exactement egales a la reference sont omises.</p>
+    <p><b>runstest</b> teste si les valeurs d&apos;un vecteur apparaissent dans un ordre aléatoire. Le test par défaut compte les runs au-dessus et au-dessous de la moyenne de <b>x</b>. Une valeur scalaire <b>v</b> peut être fournie comme référence. Le mode <b>ud</b> compte les runs de montée et descente.</p>
+    <p>Les arguments nom-valeur incluent <b>Alpha</b>, <b>Method</b> et <b>Tail</b>. Les valeurs <b>NaN</b> et les valeurs exactement égales à la référence sont omises.</p>
   </description>
   <examples>
     <example_item>

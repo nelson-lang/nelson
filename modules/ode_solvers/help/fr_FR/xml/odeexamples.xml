@@ -3,42 +3,42 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>odeexamples</keyword>
-  <short_description>Point d'entree des exemples EDO.</short_description>
+  <short_description>Point d'entrée des exemples EDO.</short_description>
   <syntax>
     <syntax_item>odeexamples()</syntax_item>
   </syntax>
   <description>
     <p>
-      <b>odeexamples</b> ouvre la page d'aide des workflows EDO, qui contient des exemples executables et des tutoriels.</p>
+      <b>odeexamples</b> ouvre la page d'aide des workflows EDO, qui contient des exemples exécutables et des tutoriels.</p>
     <table style="width:100%">
   <tr><th>Exemple</th><th>Objectif</th><th>Sortie</th></tr>
-  <tr><td>ODE de base</td><td>Resolution de valeur initiale et sortie dense.</td><td>Courbes de solution et valeurs echantillonnees.</td></tr>
-  <tr><td>Evenements et matrice de masse</td><td>Localisation d'evenements, matrices de masse et options solveur.</td><td>Points d'evenement et traces diagnostiques.</td></tr>
-  <tr><td>Fonctionnalites DDE/BVP ajoutees</td><td>Equations a retard et problemes aux limites.</td><td>Traces et structures de solution.</td></tr>
+  <tr><td>ODE de base</td><td>Résolution de valeur initiale et sortie dense.</td><td>Courbes de solution et valeurs échantillonnées.</td></tr>
+  <tr><td>Événements et matrice de masse</td><td>Localisation d'événements, matrices de masse et options solveur.</td><td>Points d'événement et traces diagnostiques.</td></tr>
+  <tr><td>Fonctionnalités DDE/BVP ajoutées</td><td>Équations a retard et problèmes aux limites.</td><td>Traces et structures de solution.</td></tr>
 </table>
-    <p>Le repertoire <b>ode_solvers/examples</b> contient aussi des scripts complets pour les evenements et l'interpolation, les equations totalement implicites, les sensibilites avec retard, les workflows DDE/BVP et le preconditionnement creux SUNDIALS optionnel.</p>
+    <p>Le répertoire <b>ode_solvers/examples</b> contient aussi des scripts complets pour les événements et l'interpolation, les équations totalement implicites, les sensibilités avec retard, les workflows DDE/BVP et le preconditionnement creux SUNDIALS optionnel.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Ouvrir le point d'entree des exemples.</example_item_description>
+      <example_item_description>Ouvrir le point d'entrée des exemples.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[odeexamples()]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Executer l'exemple evenements et interpolation.</example_item_description>
+      <example_item_description>Exécuter l'exemple événements et interpolation.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[rootPath = modulepath('ode_solvers', 'root');
 run([rootPath, '/examples/ode_object_event_interpolation_example.m'])]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Executer l'exemple DDE et BVP.</example_item_description>
+      <example_item_description>Exécuter l'exemple DDE et BVP.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[rootPath = modulepath('ode_solvers', 'root');
 run([rootPath, '/examples/dde_bvp_added_features_example.m'])]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Executer l'exemple SUNDIALS optionnel avec preconditionnement creux.</example_item_description>
+      <example_item_description>Exécuter l'exemple SUNDIALS optionnel avec preconditionnement creux.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[rootPath = modulepath('ode_solvers', 'root');
 run([rootPath, '/examples/ode_sundials_sparse_preconditioner_example.m'])]]></example_item_data>
     </example_item>

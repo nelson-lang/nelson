@@ -3,12 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>namedPattern</keyword>
-  <short_description>Motif nomme.</short_description>
+  <short_description>Motif nommé.</short_description>
   <syntax>
     <syntax_item>R = namedPattern(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>namedPattern</b> Motif nomme.</p>
+    <p><b>namedPattern</b> Motif nommé.</p>
   </description>
   <used_function />
   <bibliography />

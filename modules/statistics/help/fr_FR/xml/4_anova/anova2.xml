@@ -11,8 +11,8 @@
     <syntax_item>[p, tbl, stats] = anova2(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>anova2</b> effectue une analyse de variance equilibree a deux facteurs. Les lignes representent les niveaux du facteur ligne et les colonnes les niveaux du facteur colonne.</p>
-    <p>Lorsque <b>reps</b> est superieur a un, chaque niveau du facteur ligne occupe <b>reps</b> lignes consecutives. Les p-values retournees testent les colonnes, les lignes et l'interaction. Sans repetition, l'interaction n'est pas estimee.</p>
+    <p><b>anova2</b> effectue une analyse de variance équilibrée a deux facteurs. Les lignes représentent les niveaux du facteur ligne et les colonnes les niveaux du facteur colonne.</p>
+    <p>Lorsque <b>reps</b> est supérieur à un, chaque niveau du facteur ligne occupé <b>reps</b> lignes consécutives. Les p-values retournées testent les colonnes, les lignes et l'interaction. Sans repetition, l'interaction n'est pas estimée.</p>
     <p><b>displayopt</b> peut valoir <b>'on'</b> ou <b>'off'</b>.</p>
   </description>
   <examples>

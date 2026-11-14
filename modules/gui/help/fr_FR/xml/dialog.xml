@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>dialog</keyword>
-  <short_description>Cree une fenetre de dialogue de type figure.</short_description>
+  <short_description>Crée une fenêtre de dialogue de type figure.</short_description>
   <syntax>
     <syntax_item>f = dialog</syntax_item>
     <syntax_item>f = dialog(Name, Value)</syntax_item>
@@ -11,7 +11,7 @@
   <param_input>
     <param_input_item>
       <param_name>Name, Value</param_name>
-      <param_description>Paires nom-valeur de proprietes de figure. dialog applique MenuBar = 'none', ToolBar = 'auto', NumberTitle = 'off', Resize = 'off' et WindowStyle = 'modal' avant les proprietes fournies. Les proprietes courantes incluent 'Name', 'Position', 'Visible', 'WindowStyle', 'Resize' et 'CloseRequestFcn'.</param_description>
+      <param_description>Paires nom-valeur de propriétés de figure. dialog applique MenuBar = 'none', ToolBar = 'auto', NumberTitle = 'off', Resize = 'off' et WindowStyle = 'modal' avant les propriétés fournies. Les propriétés courantes incluent 'Name', 'Position', 'Visible', 'WindowStyle', 'Resize' et 'CloseRequestFcn'.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -28,7 +28,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Creer une boite de dialogue avec des controles.</example_item_description>
+      <example_item_description>Créer une boîte de dialogue avec des contrôles.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[f = dialog('Name', 'Settings', 'WindowStyle', 'normal', 'Position', [100 100 300 150]);
 uicontrol(f, 'Style', 'text', 'String', 'Dialog content', 'Position', [30 82 150 22]);
 uicontrol(f, 'Style', 'pushbutton', 'String', 'Close', 'Position', [200 30 70 24]);]]></example_item_data>
@@ -56,7 +56,7 @@ close(f)]]></example_item_data>
   <history>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>version aide API dialogue mise a jour.</history_description>
+      <history_description>version aide API dialogue mise à jour.</history_description>
     </history_item>
   </history>
   <authors>

@@ -3,39 +3,39 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>addprop</keyword>
-  <short_description>Ajoute une propriete personnalisee a une table.</short_description>
+  <short_description>Ajoute une propriété personnalisée a une table.</short_description>
   <syntax>
     <syntax_item>TB = addprop(TA, name, type)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>TA</param_name>
-      <param_description>Table d'entree.</param_description>
+      <param_description>Table d'entrée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>name</param_name>
-      <param_description>Nom de la propriete personnalisee.</param_description>
+      <param_description>Nom de la propriété personnalisée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>type</param_name>
-      <param_description>Type de propriete personnalisee : <b>'table'</b> ou <b>'variable'</b>.</param_description>
+      <param_description>Type de propriété personnalisée : <b>'table'</b> ou <b>'variable'</b>.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>TB</param_name>
-      <param_description>Table avec propriete personnalisee ajoutee.</param_description>
+      <param_description>Table avec propriété personnalisée ajoutée.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>addprop</b> ajoute une propriete personnalisee dans <b>T.Properties.CustomProperties</b>. Le type suit les proprietes personnalisees de table: <b>'table'</b> ou <b>'variable'</b>.</p>
+    <p><b>addprop</b> ajoute une propriété personnalisée dans <b>T.Properties.CustomProperties</b>. Le type suit les propriétés personnalisées de table: <b>'table'</b> ou <b>'variable'</b>.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Ajouter une propriete personnalisee</example_item_description>
+      <example_item_description>Ajouter une propriété personnalisée</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[T = table([1; 2], 'VariableNames', {'A'});

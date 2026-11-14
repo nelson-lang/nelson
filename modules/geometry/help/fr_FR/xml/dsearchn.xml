@@ -11,7 +11,7 @@
     <syntax_item>idx = dsearchn(P, T, Q, outind)</syntax_item>
   </syntax>
   <description>
-    <p><b>dsearchn</b> retourne le point le plus proche dans <b>P</b> pour chaque point de requete.</p>
+    <p><b>dsearchn</b> retourne le point le plus proche dans <b>P</b> pour chaque point de requête.</p>
   </description>
   <examples>
     <example_item>

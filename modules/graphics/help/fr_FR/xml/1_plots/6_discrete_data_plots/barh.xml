@@ -20,7 +20,7 @@
   <param_input>
     <param_input_item>
       <param_name>X</param_name>
-      <param_description>positions des barres : scalaire, vecteur, tableau categorical, tableau de chaines ou cellule d'etiquettes.</param_description>
+      <param_description>positions des barres : scalaire, vecteur, tableau categorical, tableau de chaînes ou cellule d'étiquettes.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Y</param_name>
@@ -28,7 +28,7 @@
     </param_input_item>
     <param_input_item>
       <param_name>width</param_name>
-      <param_description>largeur des barres, scalaire, 0.8 par defaut.</param_description>
+      <param_description>largeur des barres, scalaire, 0.8 par défaut.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>color</param_name>
@@ -36,23 +36,23 @@
     </param_input_item>
     <param_input_item>
       <param_name>tbl</param_name>
-      <param_description>table ou timetable contenant les variables tracees.</param_description>
+      <param_description>table ou timetable contenant les variables tracées.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>xvar</param_name>
-      <param_description>variable de table utilisee pour les positions ou les etiquettes des barres.</param_description>
+      <param_description>variable de table utilisée pour les positions ou les étiquettes des barres.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>yvar</param_name>
-      <param_description>une ou plusieurs variables numeriques de table utilisees pour les valeurs.</param_description>
+      <param_description>une ou plusieurs variables numériques de table utilisées pour les valeurs.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>propertyName</param_name>
-      <param_description>nom d'une propriete de l'objet bar.</param_description>
+      <param_description>nom d'une propriété de l'objet bar.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>propertyValue</param_name>
-      <param_description>valeur d'une propriete de l'objet bar.</param_description>
+      <param_description>valeur d'une propriété de l'objet bar.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>ax</param_name>
@@ -66,8 +66,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>barh</b> cree un diagramme en barres horizontales. Une matrice cree des barres groupees par defaut. Utiliser <b>'stacked'</b> pour empiler les colonnes dans chaque groupe.</p>
-    <p>Avec une table, selectionner une variable pour les etiquettes ou positions et une ou plusieurs variables numeriques pour les valeurs.</p>
+    <p><b>barh</b> crée un diagramme en barres horizontales. Une matrice crée des barres groupées par défaut. Utiliser <b>'stacked'</b> pour empiler les colonnes dans chaque groupe.</p>
+    <p>Avec une table, sélectionner une variable pour les étiquettes ou positions et une ou plusieurs variables numériques pour les valeurs.</p>
   </description>
   <examples>
     <example_item>
@@ -81,7 +81,7 @@ barh(y);
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Barres horizontales groupees.</example_item_description>
+      <example_item_description>Barres horizontales groupées.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[f = figure();
 y = [1 2; 3 4; 5 6];
 barh(y, 'grouped');
@@ -90,7 +90,7 @@ barh(y, 'grouped');
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Barres horizontales empilees avec valeurs positives et negatives.</example_item_description>
+      <example_item_description>Barres horizontales empilées avec valeurs positives et négatives.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[f = figure();
 y = [3 -2 5; -4 1 -3];
 barh(y, 'stacked');

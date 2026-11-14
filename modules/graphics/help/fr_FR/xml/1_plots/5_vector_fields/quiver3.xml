@@ -16,19 +16,19 @@
   <param_input>
     <param_input_item>
       <param_name>X, Y, Z</param_name>
-      <param_description>Coordonnees des bases des fleches, sous forme de scalaires, vecteurs, matrices ou tableaux de meme taille que les composantes.</param_description>
+      <param_description>Coordonnées des bases des flèches, sous forme de scalaires, vecteurs, matrices ou tableaux de même taille que les composantes.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>U, V, W</param_name>
-      <param_description>Composantes vectorielles, sous forme de tableaux numeriques de meme taille.</param_description>
+      <param_description>Composantes vectorielles, sous forme de tableaux numériques de même taille.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>scale</param_name>
-      <param_description>Facteur d'echelle automatique. Utiliser 0 pour desactiver l'echelle automatique.</param_description>
+      <param_description>Facteur d'échelle automatique. Utiliser 0 pour désactiver l'échelle automatique.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>LineSpec</param_name>
-      <param_description>Specification de style de ligne, marqueur et couleur.</param_description>
+      <param_description>Spécification de style de ligne, marqueur et couleur.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>parent</param_name>
@@ -36,11 +36,11 @@
     </param_input_item>
     <param_input_item>
       <param_name>propertyName</param_name>
-      <param_description>Nom de propriete sous forme de chaine scalaire ou de vecteur de caracteres.</param_description>
+      <param_description>Nom de propriété sous forme de chaîne scalaire ou de vecteur de caractères.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>propertyValue</param_name>
-      <param_description>Valeur de propriete.</param_description>
+      <param_description>Valeur de propriété.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -50,9 +50,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>quiver3(Z,U,V,W)</b> trace des fleches 3-D sur une grille x-y reguliere en utilisant <b>Z</b> comme donnees de coordonnee z.</p>
-    <p><b>quiver3(X,Y,Z,U,V,W)</b> trace les fleches aux coordonnees donnees par <b>X</b>, <b>Y</b> et <b>Z</b>.</p>
-    <p>L'objet retourne a le type <b>quiver</b>. Ses proprietes publiques incluent <b>XData</b>, <b>YData</b>, <b>ZData</b>, <b>UData</b>, <b>VData</b>, <b>WData</b>, <b>AutoScale</b>, <b>AutoScaleFactor</b>, <b>ScaleFactor</b>, <b>Color</b>, <b>LineStyle</b>, <b>LineWidth</b>, <b>Marker</b>, <b>MarkerSize</b>, <b>MaxHeadSize</b>, <b>ShowArrowHead</b>, <b>Alignment</b>, <b>DisplayName</b> et les proprietes graphiques communes.</p>
+    <p><b>quiver3(Z,U,V,W)</b> trace des flèches 3-D sur une grille x-y régulière en utilisant <b>Z</b> comme données de coordonnée z.</p>
+    <p><b>quiver3(X,Y,Z,U,V,W)</b> trace les flèches aux coordonnées données par <b>X</b>, <b>Y</b> et <b>Z</b>.</p>
+    <p>L'objet retourne à le type <b>quiver</b>. Ses propriétés publiques incluent <b>XData</b>, <b>YData</b>, <b>ZData</b>, <b>UData</b>, <b>VData</b>, <b>WData</b>, <b>AutoScale</b>, <b>AutoScaleFactor</b>, <b>ScaleFactor</b>, <b>Color</b>, <b>LineStyle</b>, <b>LineWidth</b>, <b>Marker</b>, <b>MarkerSize</b>, <b>MaxHeadSize</b>, <b>ShowArrowHead</b>, <b>Alignment</b>, <b>DisplayName</b> et les propriétés graphiques communes.</p>
   </description>
   <used_function />
   <bibliography />
@@ -70,7 +70,7 @@
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Desactiver l'echelle automatique et styliser les fleches.</example_item_description>
+      <example_item_description>Désactiver l'échelle automatique et styliser les flèches.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[x = [0 1 2];
  y = [0 1 0];
  z = [0 0 1];
@@ -82,7 +82,7 @@
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Tracer les normales de surface sous forme de fleches 3-D.</example_item_description>
+      <example_item_description>Tracer les normales de surface sous forme de flèches 3-D.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[[X,Y] = meshgrid(-2:0.25:2,-1:0.2:1);
  Z = X.*exp(-X.^2 - Y.^2);
  [U,V,W] = surfnorm(X,Y,Z);

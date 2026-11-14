@@ -65,7 +65,7 @@
     >Si vous souhaitez spécifier si le cercle à l&apos;extrémité de chaque tige doit être rempli, vous pouvez utiliser <b>stem(...,&apos;fill&apos;)</b>.</p>
     <p>De plus, en utilisant <b>stem(..., LineSpec)</b>, vous pouvez définir le style de ligne, le symbole du marqueur et la couleur des tiges et du marqueur supérieur.</p>
     <p>Consultez <b>LineSpec</b> pour plus de détails sur la personnalisation de l&apos;apparence du graphique stem.</p>
-    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.stem.properties">nelson.graphics.stem.properties</link> pour les proprietes prises en charge de l'objet stem.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.stem.properties">nelson.graphics.stem.properties</link> pour les propriétés prises en charge de l'objet stem.</p>
   </description>
   <used_function />
   <bibliography />

@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>wrapTo2Pi</keyword>
-  <short_description>Ramene un angle en radians dans [0, 2*pi].</short_description>
+  <short_description>Ramène un angle en radians dans [0, 2*pi].</short_description>
   <syntax>
     <syntax_item>beta = wrapTo2Pi(alpha)</syntax_item>
   </syntax>
@@ -16,11 +16,11 @@
   <param_output>
     <param_output_item>
       <param_name>beta</param_name>
-      <param_description>angle ramene en radians, dans [0, 2*pi].</param_description>
+      <param_description>angle ramène en radians, dans [0, 2*pi].</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>wrapTo2Pi(alpha)</b> ramene les angles en radians dans l'intervalle <b>[0, 2*pi]</b>. Les multiples positifs de 2*pi donnent 2*pi, et zero donne 0.</p>
+    <p><b>wrapTo2Pi(alpha)</b> ramène les angles en radians dans l'intervalle <b>[0, 2*pi]</b>. Les multiples positifs de 2*pi donnent 2*pi, et zéro donne 0.</p>
   </description>
   <used_function />
   <bibliography />

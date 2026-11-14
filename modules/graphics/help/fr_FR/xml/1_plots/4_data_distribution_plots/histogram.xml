@@ -57,7 +57,7 @@
   <description>
     <p><b>histogram</b> regroupe des données numériques en classes et affiche les valeurs sous forme de barres ou d'escaliers.</p>
     <p>Lorsque <b>C</b> est un tableau catégoriel, <b>histogram</b> trace une barre par catégorie, dont la hauteur est le nombre d'éléments de cette catégorie. Les barres sont affichées dans l'ordre des catégories (celui renvoyé par <b>categories</b>) et les noms des catégories servent d'étiquettes de graduation. Un second argument peut indiquer les catégories à afficher et leur ordre.</p>
-    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.histogram.properties">proprietes de histogram</link> pour la liste complete des proprietes.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.histogram.properties">proprietes de histogram</link> pour la liste complète des propriétés.</p>
   </description>
   <examples>
     <example_item>

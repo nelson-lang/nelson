@@ -11,8 +11,8 @@
     <syntax_item>[h, p, kstat, critval] = lillietest(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>lillietest</b> effectue un test d&apos;adequation bilateral de Lilliefors avec parametres estimes a partir de l&apos;echantillon. Les observations <b>NaN</b> sont omises.</p>
-    <p>Les arguments nom-valeur incluent <b>Alpha</b>, <b>Distribution</b> et <b>MCTol</b>. Les distributions prises en charge sont normal, exponential et extreme value. <b>MCTol</b> est accepte pour la compatibilite de syntaxe; cette implementation utilise une approximation deterministe.</p>
+    <p><b>lillietest</b> effectue un test d&apos;adequation bilateral de Lilliefors avec paramètres estimes à partir de l&apos;échantillon. Les observations <b>NaN</b> sont omises.</p>
+    <p>Les arguments nom-valeur incluent <b>Alpha</b>, <b>Distribution</b> et <b>MCTol</b>. Les distributions prises en charge sont normal, exponential et extrême value. <b>MCTol</b> est accepté pour la compatibilité de syntaxe; cette implémentation utilise une approximation déterministe.</p>
   </description>
   <examples>
     <example_item>

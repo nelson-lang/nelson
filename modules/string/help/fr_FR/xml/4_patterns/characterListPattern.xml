@@ -3,12 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>characterListPattern</keyword>
-  <short_description>Motif pour les caracteres enumeres.</short_description>
+  <short_description>Motif pour les caractères énumérés.</short_description>
   <syntax>
     <syntax_item>R = characterListPattern(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>characterListPattern</b> Motif pour les caracteres enumeres.</p>
+    <p><b>characterListPattern</b> Motif pour les caractères énumérés.</p>
   </description>
   <used_function />
   <bibliography />

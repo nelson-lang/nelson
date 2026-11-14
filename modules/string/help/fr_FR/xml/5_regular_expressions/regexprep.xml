@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>regexprep</keyword>
-  <short_description>Remplace du texte avec une expression reguliere.</short_description>
+  <short_description>Remplace du texte avec une expression régulière.</short_description>
   <syntax>
     <syntax_item>newStr = regexprep(str, expression, replace)</syntax_item>
     <syntax_item>newStr = regexprep(..., option)</syntax_item>
@@ -11,26 +11,26 @@
   <param_input>
     <param_input_item>
       <param_name>str</param_name>
-      <param_description>texte d&apos;entree.</param_description>
+      <param_description>texte d&apos;entrée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>expression</param_name>
-      <param_description>expression reguliere.</param_description>
+      <param_description>expression régulière.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>replace</param_name>
-      <param_description>texte de remplacement. Les jetons $1 et $&amp; sont acceptes.</param_description>
+      <param_description>texte de remplacement. Les jetons $1 et $&amp; sont acceptés.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>newStr</param_name>
-      <param_description>texte apres remplacement.</param_description>
+      <param_description>texte après remplacement.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>
-      <b>regexprep</b> remplace les occurrences trouvees par une expression reguliere.</p>
+      <b>regexprep</b> remplace les occurrences trouvées par une expression régulière.</p>
   </description>
   <used_function />
   <bibliography />

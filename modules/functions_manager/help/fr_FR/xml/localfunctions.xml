@@ -15,8 +15,8 @@
   </param_output>
   <description>
     <p>
-      <b>localfunctions</b> retourne un tableau de cellules de handles vers les fonctions locales definies dans le fichier courant.</p>
-    <p>Si le contexte courant n&apos;est pas un fichier avec des fonctions locales, le resultat est un tableau de cellules vide.</p>
+      <b>localfunctions</b> retourne un tableau de cellules de handles vers les fonctions locales définies dans le fichier courant.</p>
+    <p>Si le contexte courant n&apos;est pas un fichier avec des fonctions locales, le résultat est un tableau de cellules vide.</p>
   </description>
   <used_function />
   <bibliography />

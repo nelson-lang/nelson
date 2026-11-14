@@ -4,76 +4,76 @@
   <language>fr_FR</language>
   <keyword>busAssignment</keyword>
   <keyword_alias>block:busAssignment</keyword_alias>
-  <short_description>Remplace des membres choisis d un bus et laisse passer le reste inchange.</short_description>
+  <short_description>Remplace des membres choisis d un bus et laisse passer le reste inchangé.</short_description>
   <syntax>
     <syntax_item>Type de bloc : busAssignment</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
-      <param_name>ports d entree</param_name>
-      <param_description>2 port(s) d entree declare(s).</param_description>
+      <param_name>ports d'entrée</param_name>
+      <param_description>2 port(s) d entrée déclare(s).</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>ports de sortie</param_name>
-      <param_description>1 port(s) de sortie declare(s).</param_description>
+      <param_description>1 port(s) de sortie déclare(s).</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>Remplace des membres choisis d un bus et laisse passer le reste inchange.</p>
+    <p>Remplace des membres choisis d un bus et laisse passer le reste inchangé.</p>
     <table border="1">
       <tbody>
         <tr><td>Module</td><td><code>nflow_blocks</code></td></tr>
-        <tr><td>Bibliotheque</td><td>Utilitaires</td></tr>
+        <tr><td>Bibliothèque</td><td>Utilitaires</td></tr>
         <tr><td>Type</td><td><code>busAssignment</code></td></tr>
-        <tr><td>Libelle</td><td>Bus Assignment</td></tr>
+        <tr><td>Libellé</td><td>Bus Assignment</td></tr>
       </tbody>
     </table>
     <p><img src="../../../../libraries/utility/exports/busAssignment.svg" align="middle"/></p>
     <p><b>Description</b></p>
-    <p>Remplace des membres choisis d'un bus et laisse passer le reste (Bus Assignment). Le port 0 est le bus de base ; son type fixe le type du bus de sortie ; les ports 1..N portent les signaux de remplacement, un par chemin dans <code>AssignedSignals</code>. La sortie est un bus du meme type : une copie complete de la base ou la region empaquetee de chaque membre assigne est ecrasee par l'entree de remplacement correspondante. Le miroir de busSelector ; toutes les voies de stockage (reel / imaginaire / int64) sont preservees. Simulation seule, comme les autres blocs de routage de bus.</p>
+    <p>Remplace des membres choisis d'un bus et laisse passer le reste (Bus Assignment). Le port 0 est le bus de base ; son type fixe le type du bus de sortie ; les ports 1..N portent les signaux de remplacement, un par chemin dans <code>AssignedSignals</code>. La sortie est un bus du même type : une copie complète de la base ou la région empaquetée de chaque membre assigne est écrasée par l'entrée de remplacement correspondante. Le miroir de busSelector ; toutes les voies de stockage (réel / imaginaire / int64) sont préservées. Simulation seule, comme les autres blocs de routage de bus.</p>
     <p><b>Ports</b></p>
-    <p><b>Entree(s)</b></p>
+    <p><b>Entrée(s)</b></p>
     <table border="1">
-      <thead><tr><th>Port</th><th>Role</th><th>Cote</th><th>Position</th></tr></thead>
+      <thead><tr><th>Port</th><th>Rôle</th><th>Cote</th><th>Position</th></tr></thead>
       <tbody>
-        <tr><td>Port_1</td><td>Signal numerique lu par le bloc.</td><td>gauche</td><td>x=0, y=20</td></tr>
-        <tr><td>Port_2</td><td>Signal numerique lu par le bloc.</td><td>gauche</td><td>x=0, y=40</td></tr>
+        <tr><td>Port_1</td><td>Signal numérique lu par le bloc.</td><td>gauche</td><td>x=0, y=20</td></tr>
+        <tr><td>Port_2</td><td>Signal numérique lu par le bloc.</td><td>gauche</td><td>x=0, y=40</td></tr>
       </tbody>
     </table>
     <p><b>Sortie(s)</b></p>
     <table border="1">
-      <thead><tr><th>Port</th><th>Role</th><th>Cote</th><th>Position</th></tr></thead>
+      <thead><tr><th>Port</th><th>Rôle</th><th>Cote</th><th>Position</th></tr></thead>
       <tbody>
-        <tr><td>Port_1</td><td>Signal numerique produit par le bloc.</td><td>droite</td><td>x=90, y=30</td></tr>
+        <tr><td>Port_1</td><td>Signal numérique produit par le bloc.</td><td>droite</td><td>x=90, y=30</td></tr>
       </tbody>
     </table>
-    <p><b>Parametres</b></p>
+    <p><b>Paramètres</b></p>
     <table border="1">
-      <thead><tr><th>Parametre</th><th>Valeur par defaut</th></tr></thead>
+      <thead><tr><th>Paramètre</th><th>Valeur par défaut</th></tr></thead>
       <tbody>
         <tr><td><code>AssignedSignals</code></td><td>[]</td></tr>
       </tbody>
     </table>
-    <p><b>Caracteristiques du bloc</b></p>
+    <p><b>Caractéristiques du bloc</b></p>
     <table border="1">
       <tbody>
         <tr><td>Type de bloc</td><td>busAssignment</td></tr>
         <tr><td>Famille</td><td>Utilitaires</td></tr>
         <tr><td>Taille rendue</td><td>90 x 60</td></tr>
         <tr><td>Phases</td><td>ALGEBRAIC</td></tr>
-        <tr><td>Etat interne ou historique</td><td>non</td></tr>
-        <tr><td>Type de donnees du signal</td><td>valeurs numeriques double</td></tr>
+        <tr><td>État interne ou historique</td><td>non</td></tr>
+        <tr><td>Type de données du signal</td><td>valeurs numériques double</td></tr>
       </tbody>
     </table>
     <p><b>Algorithmes</b></p>
     <ul>
-      <li>ALGEBRAIC : out = copie du bus de base ; pour chaque chemin assigne k, ecraser sa region empaquetee par l'entree de remplacement k.</li>
+      <li>ALGEBRAIC : out = copie du bus de base ; pour chaque chemin assigne k, écraser sa région empaquetée par l'entrée de remplacement k.</li>
     </ul>
-    <p><b>Capacites etendues</b></p>
-    <p><b>Sources d implementation</b></p>
-    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <p><b>Capacités étendues</b></p>
+    <p><b>Sources d implémentation</b></p>
+    <p>Génération de code : prise en charge pour C et Rust.</p>
     <source_code label="Manifest" path="modules/nflow_blocks/libraries/utility/library.json" language="json"/>
     <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/routing/busAssignment.cpp" language="cpp"/>
   </description>

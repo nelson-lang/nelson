@@ -3,14 +3,14 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>quarter</keyword>
-  <short_description>Extrait les numeros de trimestre de valeurs de date et heure.</short_description>
+  <short_description>Extrait les numéros de trimestre de valeurs de date et heure.</short_description>
   <syntax>
     <syntax_item>q = quarter(t)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>inputs</param_name>
-      <param_description>Valeurs datetime, numeros de date serie ou entrees compatibles date.</param_description>
+      <param_description>Valeurs datetime, numéros de date série ou entrées compatibles date.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -20,8 +20,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>Extrait les numeros de trimestre de valeurs de date et heure.</p>
-    <p>quarter est calcule depuis le mois calendaire avec ceil(month(t)/3).</p>
+    <p>Extrait les numéros de trimestre de valeurs de date et heure.</p>
+    <p>quarter est calculé depuis le mois calendaire avec ceil(month(t)/3).</p>
     <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
   </description>
   <used_function />

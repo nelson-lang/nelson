@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>nelson.lang.WeakReference</keyword>
-  <short_description>Reference faible vers un objet handle.</short_description>
+  <short_description>Référence faible vers un objet handle.</short_description>
   <syntax>
     <syntax_item>w = nelson.lang.WeakReference()</syntax_item>
     <syntax_item>w = nelson.lang.WeakReference(handleObject)</syntax_item>
@@ -20,7 +20,7 @@
   <param_output>
     <param_output_item>
       <param_name>w</param_name>
-      <param_description>un handle scalaire de reference faible.</param_description>
+      <param_description>un handle scalaire de référence faible.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>h</param_name>
@@ -28,23 +28,23 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>nelson.lang.WeakReference</b> stocke une reference faible vers un objet handle scalaire.</p>
-    <p>La reference faible ne maintient pas la cible en vie. Si toutes les references fortes vers la cible sont effacees, <b>w.Handle</b> retourne un handle invalide avec le nom de classe de la cible.</p>
-    <p>Si la cible a ete supprimee, <b>w.Handle</b> retourne aussi un handle invalide avec le nom de classe de la cible.</p>
-    <p>La propriete dependante <b>Handle</b> peut etre lue et affectee. L&apos;affectation remplace la cible faible.</p>
-    <p>La propriete dependante <b>ValidHandle</b> retourne la cible vivante. Si la cible est absente, expiree ou supprimee, la lecture de <b>ValidHandle</b> leve une erreur.</p>
-    <p>Une reference faible creee sans entree retourne un handle invalide <b>nelson.lang.HandlePlaceholder</b> via <b>Handle</b>.</p>
-    <p>Lire <b>Handle</b> depuis une reference faible vivante retourne une valeur handle forte normale. Conserver cette valeur dans une variable maintient la cible en vie jusqu&apos;a ce que cette variable soit effacee ou remplacee.</p>
-    <p>L&apos;affectation d&apos;un handle invalide est autorisee. La reference faible memorise alors la classe du handle et retourne un handle invalide de cette classe.</p>
-    <p>La cible affectee doit etre un handle scalaire. Les valeurs numeriques, strings, structs, cellules et tableaux de handles de plus d&apos;un element sont refuses.</p>
-    <p>Utiliser <b>isvalid(w.Handle)</b> quand une cible absente est une condition ordinaire. Utiliser <b>w.ValidHandle</b> quand une cible absente doit etre traitee comme une erreur.</p>
-    <p><b>nelson.lang.WeakReference</b> est elle-meme un objet handle. Supprimer ou effacer l&apos;objet reference faible ne supprime pas l&apos;objet cible.</p>
-    <p>L&apos;objet reference faible ne stocke que l&apos;identite du handle cible et le nom de classe de repli. Il ne copie pas les proprietes ni les donnees de la cible.</p>
+    <p><b>nelson.lang.WeakReference</b> stocke une référence faible vers un objet handle scalaire.</p>
+    <p>La référence faible ne maintient pas la cible en vie. Si toutes les références fortes vers la cible sont effacées, <b>w.Handle</b> retourne un handle invalide avec le nom de classe de la cible.</p>
+    <p>Si la cible a été supprimée, <b>w.Handle</b> retourne aussi un handle invalide avec le nom de classe de la cible.</p>
+    <p>La propriété dépendante <b>Handle</b> peut être lue et affectée. L&apos;affectation remplace la cible faible.</p>
+    <p>La propriété dépendante <b>ValidHandle</b> retourne la cible vivante. Si la cible est absente, expirée ou supprimée, la lecture de <b>ValidHandle</b> lève une erreur.</p>
+    <p>Une référence faible créée sans entrée retourne un handle invalide <b>nelson.lang.HandlePlaceholder</b> via <b>Handle</b>.</p>
+    <p>Lire <b>Handle</b> depuis une référence faible vivante retourne une valeur handle forte normale. Conserver cette valeur dans une variable maintient la cible en vie jusqu&apos;a ce que cette variable soit effacée ou remplacée.</p>
+    <p>L&apos;affectation d&apos;un handle invalide est autorisée. La référence faible mémorise alors la classe du handle et retourne un handle invalide de cette classe.</p>
+    <p>La cible affectée doit être un handle scalaire. Les valeurs numériques, strings, structs, cellules et tableaux de handles de plus d&apos;un élément sont refusés.</p>
+    <p>Utiliser <b>isvalid(w.Handle)</b> quand une cible absente est une condition ordinaire. Utiliser <b>w.ValidHandle</b> quand une cible absente doit être traitée comme une erreur.</p>
+    <p><b>nelson.lang.WeakReference</b> est elle-même un objet handle. Supprimer ou effacer l&apos;objet référence faible ne supprime pas l&apos;objet cible.</p>
+    <p>L&apos;objet référence faible ne stocke que l&apos;identité du handle cible et le nom de classe de repli. Il ne copie pas les propriétés ni les données de la cible.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Creer une reference faible vide.</example_item_description>
+      <example_item_description>Créer une référence faible vide.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[w = nelson.lang.WeakReference();
 h = w.Handle;
 class(h)
@@ -52,7 +52,7 @@ isvalid(h)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Observer que la reference faible ne maintient pas la cible en vie.</example_item_description>
+      <example_item_description>Observer que la référence faible ne maintient pas la cible en vie.</example_item_description>
       <example_item_data runnable="false"><![CDATA[d = [tempdir(), 'nelson_help_weak_reference/'];
 mkdir(d);
 filewrite([d, '/NelsonHelpWeakTarget.m'], ["classdef NelsonHelpWeakTarget < handle"; "  properties"; "    Value = 10"; "  end"; "end"]);
@@ -68,7 +68,7 @@ class(h)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Maintenir la cible en vie avec un handle fort retourne par Handle.</example_item_description>
+      <example_item_description>Maintenir la cible en vie avec un handle fort retourné par Handle.</example_item_description>
       <example_item_data runnable="false"><![CDATA[d = [tempdir(), 'nelson_help_weak_reference_strong/'];
 mkdir(d);
 filewrite([d, '/NelsonHelpWeakStrongTarget.m'], ["classdef NelsonHelpWeakStrongTarget < handle"; "  properties"; "    Value = 20"; "  end"; "end"]);
@@ -84,7 +84,7 @@ isvalid(w.Handle)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Utiliser ValidHandle quand une cible invalide doit etre traitee comme une erreur.</example_item_description>
+      <example_item_description>Utiliser ValidHandle quand une cible invalide doit être traitée comme une erreur.</example_item_description>
       <example_item_data runnable="false"><![CDATA[d = [tempdir(), 'nelson_help_weak_reference_valid/'];
 mkdir(d);
 filewrite([d, '/NelsonHelpWeakValidTarget.m'], ["classdef NelsonHelpWeakValidTarget < handle"; "end"]);

@@ -15,23 +15,23 @@
   <param_input>
     <param_input_item>
       <param_name>I</param_name>
-      <param_description>Image d'entree.</param_description>
+      <param_description>Image d'entrée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>T</param_name>
-      <param_description>Seuil numerique. Il peut etre scalaire ou de meme taille que I.</param_description>
+      <param_description>Seuil numérique. Il peut être scalaire ou de même taille que I.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>method</param_name>
-      <param_description>Methode de binarisation : 'global' ou 'adaptive'.</param_description>
+      <param_description>Méthode de binarisation : 'global' ou 'adaptive'.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>'Sensitivity'</param_name>
-      <param_description>Sensibilite transmise au seuillage adaptatif.</param_description>
+      <param_description>Sensibilité transmise au seuillage adaptatif.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>'ForegroundPolarity'</param_name>
-      <param_description>Polarite du premier plan pour le seuillage adaptatif : 'bright' ou 'dark'.</param_description>
+      <param_description>Polarité du premier plan pour le seuillage adaptatif : 'bright' ou 'dark'.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -41,7 +41,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>Binarise une image avec un seuil. La methode globale utilise graythresh quand aucun seuil n est fourni. Un seuil numerique peut etre scalaire ou de meme taille que l entree. La methode adaptive utilise adaptthresh et prend en charge une polarite de premier plan bright ou dark.</p>
+    <p>Binarise une image avec un seuil. La méthode globale utilise graythresh quand aucun seuil n est fourni. Un seuil numérique peut être scalaire ou de même taille que l entrée. La méthode adaptive utilise adaptthresh et prend en charge une polarité de premier plan bright ou dark.</p>
   </description>
   <used_function />
   <bibliography />

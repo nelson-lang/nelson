@@ -3,12 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>digitBoundary</keyword>
-  <short_description>Limite pour le texte numerique.</short_description>
+  <short_description>Limite pour le texte numérique.</short_description>
   <syntax>
     <syntax_item>R = digitBoundary(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>digitBoundary</b> Limite pour le texte numerique.</p>
+    <p><b>digitBoundary</b> Limite pour le texte numérique.</p>
   </description>
   <used_function />
   <bibliography />

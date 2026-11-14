@@ -34,7 +34,7 @@
     <param_input_item>
       <param_name>propertyName</param_name>
       <param_description
-      >Chaine scalaire ou vecteur ligne de caracteres. Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.line.properties">proprietes de line</link> pour la liste des proprietes.</param_description>
+      >Chaîne scalaire ou vecteur ligne de caractères. Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.line.properties">proprietes de line</link> pour la liste des propriétés.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>propertyValue</param_name>
@@ -272,7 +272,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Abscisses par defaut avec les indices :</example_item_description>
+      <example_item_description>Abscisses par défaut avec les indices :</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure()
@@ -298,7 +298,7 @@ plot(x, sin(x))]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Plusieurs courbes avec abscisses partagees :</example_item_description>
+      <example_item_description>Plusieurs courbes avec abscisses partagées :</example_item_description>
       <example_item_data
       ><![CDATA[f = figure()
 x = [0:0.1:2*pi]';
@@ -325,7 +325,7 @@ plot(x ,y, '--rs', LineWidth=2, MarkerEdgeColor='k', MarkerFaceColor='g', Marker
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Ajout d&apos;un titre et d&apos;etiquettes d&apos;axes :</example_item_description>
+      <example_item_description>Ajout d&apos;un titre et d&apos;étiquettes d&apos;axes :</example_item_description>
       <example_item_data
       ><![CDATA[f = figure();
 x = linspace(0, 10, 150);

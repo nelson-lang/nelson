@@ -15,19 +15,19 @@
   <param_input>
     <param_input_item>
       <param_name>Z</param_name>
-      <param_description>Hauteurs des tiges : vecteur ou matrice numerique.</param_description>
+      <param_description>Hauteurs des tiges : vecteur ou matrice numérique.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>X</param_name>
-      <param_description>Coordonnees X : vecteur ou matrice numerique.</param_description>
+      <param_description>Coordonnées X : vecteur ou matrice numérique.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Y</param_name>
-      <param_description>Coordonnees Y : vecteur ou matrice numerique.</param_description>
+      <param_description>Coordonnées Y : vecteur ou matrice numérique.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>LineSpec</param_name>
-      <param_description>Specification de style de ligne, marqueur et couleur.</param_description>
+      <param_description>Spécification de style de ligne, marqueur et couleur.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>parent</param_name>
@@ -42,7 +42,7 @@
   </param_output>
   <description>
     <p><b>stem3</b> affiche des tiges verticales de z = 0 aux valeurs de <b>Z</b>, avec des marqueurs aux sommets.</p>
-    <p>L'objet retourne est un objet graphique <b>stem</b>. Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.stem.properties">nelson.graphics.stem.properties</link> pour les proprietes prises en charge.</p>
+    <p>L'objet retourne est un objet graphique <b>stem</b>. Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.stem.properties">nelson.graphics.stem.properties</link> pour les propriétés prises en charge.</p>
   </description>
   <examples>
     <example_item>
@@ -54,7 +54,7 @@ stem3(Z);]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Specifier les coordonnees et remplir les marqueurs.</example_item_description>
+      <example_item_description>Spécifier les coordonnées et remplir les marqueurs.</example_item_description>
       <example_item_data><![CDATA[t = 0:0.2:2*pi;
 stem3(cos(t), sin(t), t, 'r--', 'filled');]]></example_item_data>
       <example_item_img src="../../../../images/stem3_2.svg" align="middle" generate="true" />

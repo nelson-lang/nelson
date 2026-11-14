@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>polaraxes</keyword>
-  <short_description>Cree des axes configures pour les traces polaires.</short_description>
+  <short_description>Crée des axes configurés pour les traces polaires.</short_description>
   <syntax>
     <syntax_item>polaraxes()</syntax_item>
     <syntax_item>polaraxes(propertyName, propertyValue, ...)</syntax_item>
@@ -12,31 +12,31 @@
   <param_input>
     <param_input_item>
       <param_name>propertyName</param_name>
-      <param_description>Nom de propriete d&apos;axes : chaine scalaire ou vecteur ligne de caracteres.</param_description>
+      <param_description>Nom de propriété d&apos;axes : chaîne scalaire ou vecteur ligne de caractères.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>propertyValue</param_name>
-      <param_description>Valeur affectee a la propriete d&apos;axes precedente.</param_description>
+      <param_description>Valeur affectée à la propriété d&apos;axes précédente.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>ax</param_name>
-      <param_description>Objet graphique axes initialise pour les traces polaires.</param_description>
+      <param_description>Objet graphique axes initialisé pour les traces polaires.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>polaraxes</b> cree un objet axes et l&apos;initialise pour le rendu en coordonnees polaires.</p>
-    <p>L&apos;etat polaire est stocke sur l&apos;axes et contient les limites radiales, les limites angulaires, les graduations, les etiquettes, les handles de grille et les handles de donnees tracees.</p>
-    <p>L&apos;objet reste un objet graphique axes. Utiliser <b>polarplot</b> pour ajouter des donnees polaires, puis <b>rlim</b>, <b>rticks</b>, <b>rticklabels</b>, <b>thetalim</b>, <b>thetaticks</b> et <b>thetaticklabels</b> pour personnaliser les decorations polaires.</p>
-    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.polaraxes.properties">proprietes de polaraxes</link> pour la liste complete des proprietes.</p>
+    <p><b>polaraxes</b> crée un objet axes et l&apos;initialise pour le rendu en coordonnées polaires.</p>
+    <p>L&apos;état polaire est stocké sur l&apos;axes et contient les limites radiales, les limites angulaires, les graduations, les étiquettes, les handles de grille et les handles de données tracées.</p>
+    <p>L&apos;objet reste un objet graphique axes. Utiliser <b>polarplot</b> pour ajouter des données polaires, puis <b>rlim</b>, <b>rticks</b>, <b>rticklabels</b>, <b>thetalim</b>, <b>thetaticks</b> et <b>thetaticklabels</b> pour personnaliser les decorations polaires.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.polaraxes.properties">proprietes de polaraxes</link> pour la liste complète des propriétés.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Creer un axes polaire et tracer dedans.</example_item_description>
+      <example_item_description>Créer un axes polaire et tracer dedans.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[
 ax = polaraxes();
 theta = linspace(0, 2*pi, 80);

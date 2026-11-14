@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>animatedline</keyword>
-  <short_description>Creer une ligne animee.</short_description>
+  <short_description>Créer une ligne animée.</short_description>
   <syntax>
     <syntax_item>an = animatedline()</syntax_item>
     <syntax_item>an = animatedline(x, y)</syntax_item>
@@ -14,7 +14,7 @@
   <param_input>
     <param_input_item>
       <param_name>x, y, z</param_name>
-      <param_description>coordonnees numeriques: scalaires ou tableaux avec le meme nombre d'elements.</param_description>
+      <param_description>coordonnées numériques: scalaires ou tableaux avec le même nombre d'éléments.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>ax</param_name>
@@ -22,11 +22,11 @@
     </param_input_item>
     <param_input_item>
       <param_name>propertyName</param_name>
-      <param_description>chaine scalaire ou vecteur de caracteres.</param_description>
+      <param_description>chaîne scalaire ou vecteur de caractères.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>propertyValue</param_name>
-      <param_description>valeur de propriete.</param_description>
+      <param_description>valeur de propriété.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -36,12 +36,12 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>animatedline</b> cree une ligne animee sans point stocke.</p>
-    <p><b>animatedline(x, y)</b> cree une ligne animee initialisee avec des coordonnees deux dimensions.</p>
-    <p><b>animatedline(x, y, z)</b> cree une ligne animee initialisee avec des coordonnees trois dimensions.</p>
-    <p>Utilisez <b>addpoints</b>, <b>clearpoints</b> et <b>getpoints</b> pour modifier ou lire les coordonnees stockees.</p>
-    <p><b>MaximumNumPoints</b> limite le nombre de points stockes et conserve les points les plus recents.</p>
-    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.animatedline.properties">proprietes de animatedline</link> pour la liste complete des proprietes.</p>
+    <p><b>animatedline</b> crée une ligne animée sans point stocké.</p>
+    <p><b>animatedline(x, y)</b> crée une ligne animée initialisée avec des coordonnées deux dimensions.</p>
+    <p><b>animatedline(x, y, z)</b> crée une ligne animée initialisée avec des coordonnées trois dimensions.</p>
+    <p>Utilisez <b>addpoints</b>, <b>clearpoints</b> et <b>getpoints</b> pour modifier ou lire les coordonnées stockées.</p>
+    <p><b>MaximumNumPoints</b> limite le nombre de points stockés et conserve les points les plus récents.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.animatedline.properties">proprietes de animatedline</link> pour la liste complète des propriétés.</p>
   </description>
   <used_function />
   <bibliography />

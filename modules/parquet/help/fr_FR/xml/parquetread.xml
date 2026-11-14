@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>parquetread</keyword>
-  <short_description>Lire des donnees de table depuis un fichier Parquet.</short_description>
+  <short_description>Lire des données de table depuis un fichier Parquet.</short_description>
   <syntax>
     <syntax_item>T = parquetread(filename)</syntax_item>
     <syntax_item>T = parquetread(filename, Name, Value)</syntax_item>
@@ -11,11 +11,11 @@
   <param_input>
     <param_input_item>
       <param_name>filename</param_name>
-      <param_description>une chaine : fichier Parquet a lire.</param_description>
+      <param_description>une chaîne : fichier Parquet à lire.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Name, Value</param_name>
-      <param_description>arguments optionnels specifies sous forme de paires nom-valeur.</param_description>
+      <param_description>arguments optionnels spécifiés sous forme de paires nom-valeur.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -27,8 +27,8 @@
   <description>
     <p><b>T = parquetread(filename)</b> lit un fichier Parquet local et retourne son contenu sous forme de table.</p>
     <p><b>T = parquetread(filename, Name, Value)</b> personnalise la lecture. Les noms pris en charge sont <b>OutputType</b>, <b>SelectedVariableNames</b>, <b>RowTimes</b>, <b>StartTime</b>, <b>SampleRate</b>, <b>TimeStep</b>, <b>RowGroups</b>, <b>RowFilter</b> et <b>VariableNamingRule</b>.</p>
-    <p><b>OutputType</b> peut valoir <b>&apos;table&apos;</b> ou <b>&apos;timetable&apos;</b>. Pour creer une timetable, les temps de lignes peuvent etre fournis par <b>RowTimes</b>, generes avec <b>StartTime</b> et <b>SampleRate</b>, generes avec <b>StartTime</b> et <b>TimeStep</b>, ou pris depuis la premiere variable du fichier.</p>
-    <p><b>SelectedVariableNames</b> limite les variables retournees. <b>RowGroups</b> limite les groupes de lignes lus. <b>RowFilter</b> accepte un objet <b>nelson.io.RowFilter</b> et l&apos;applique a la table retournee.</p>
+    <p><b>OutputType</b> peut valoir <b>&apos;table&apos;</b> ou <b>&apos;timetable&apos;</b>. Pour créer une timetable, les temps de lignes peuvent être fournis par <b>RowTimes</b>, générés avec <b>StartTime</b> et <b>SampleRate</b>, générés avec <b>StartTime</b> et <b>TimeStep</b>, ou pris depuis la première variable du fichier.</p>
+    <p><b>SelectedVariableNames</b> limite les variables retournées. <b>RowGroups</b> limite les groupes de lignes lus. <b>RowFilter</b> accepte un objet <b>nelson.io.RowFilter</b> et l&apos;applique à la table retournée.</p>
   </description>
   <used_function />
   <bibliography />

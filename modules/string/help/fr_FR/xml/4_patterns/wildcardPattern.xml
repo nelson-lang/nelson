@@ -3,12 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>wildcardPattern</keyword>
-  <short_description>Motif pour le texte avec caracteres generiques.</short_description>
+  <short_description>Motif pour le texte avec caractères génériques.</short_description>
   <syntax>
     <syntax_item>R = wildcardPattern(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>wildcardPattern</b> Motif pour le texte avec caracteres generiques.</p>
+    <p><b>wildcardPattern</b> Motif pour le texte avec caractères génériques.</p>
   </description>
   <used_function />
   <bibliography />

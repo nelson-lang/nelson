@@ -76,7 +76,7 @@
     <p
     >Sauf si vous avez des besoins spécifiques ou devez dissiper une ambiguïté entre types, vous n&apos;avez souvent pas besoin de préciser explicitement le type des littéraux numériques.</p>
     <p
-    >Cependant, lorsque vous créez un tableau numérique de grands entiers dans Nelson, surtout lorsqu&apos;ils dépassent la précision maximale représentable par double (plus grands que flintmax), Nelson stocke par défaut ces valeurs en double précision à virgule flottante.</p>
+    >Cependant, lorsque vous créez un tableau numérique de grands entiers dans Nelson, surtout lorsqu&apos;ils dépassent la précision maximale représentable par double (plus grands que flintmax), Nelson stocké par défaut ces valeurs en double précision à virgule flottante.</p>
   </description>
   <examples>
     <example_item>

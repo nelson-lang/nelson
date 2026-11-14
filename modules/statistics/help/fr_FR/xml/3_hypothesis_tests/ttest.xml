@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>ttest</keyword>
-  <short_description>Test t a un echantillon ou apparie</short_description>
+  <short_description>Test t a un échantillon ou apparie</short_description>
   <syntax>
     <syntax_item>h = ttest(x)</syntax_item>
     <syntax_item>h = ttest(x, m)</syntax_item>
@@ -13,19 +13,19 @@
   <param_input>
     <param_input_item>
       <param_name>x</param_name>
-      <param_description>tableau reel : donnees d'echantillon.</param_description>
+      <param_description>tableau réel : données d'échantillon.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>m</param_name>
-      <param_description>scalaire reel, 0 par defaut : moyenne supposee.</param_description>
+      <param_description>scalaire réel, 0 par défaut : moyenne supposée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>y</param_name>
-      <param_description>tableau reel de meme taille que x : echantillon apparie.</param_description>
+      <param_description>tableau réel de même taille que x : échantillon apparie.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>alpha</param_name>
-      <param_description>scalaire dans (0,1), 0.05 par defaut : niveau de signification.</param_description>
+      <param_description>scalaire dans (0,1), 0.05 par défaut : niveau de signification.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>tail</param_name>
@@ -39,7 +39,7 @@
   <param_output>
     <param_output_item>
       <param_name>h</param_name>
-      <param_description>tableau logique : decision du test.</param_description>
+      <param_description>tableau logique : décision du test.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>p</param_name>
@@ -47,7 +47,7 @@
     </param_output_item>
     <param_output_item>
       <param_name>ci</param_name>
-      <param_description>tableau a 2 lignes : intervalles de confiance de la difference moyenne.</param_description>
+      <param_description>tableau a 2 lignes : intervalles de confiance de la différence moyenne.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>stats</param_name>
@@ -55,8 +55,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>ttest</b> effectue un test t le long de la premiere dimension non singleton sauf si <b>Dim</b> est specifie.</p>
-    <p>Les valeurs NaN sont ignorees dans chaque tranche testee.</p>
+    <p><b>ttest</b> effectue un test t le long de la première dimension non singleton sauf si <b>Dim</b> est spécifié.</p>
+    <p>Les valeurs NaN sont ignorées dans chaque tranche testée.</p>
   </description>
   <examples>
     <example_item>

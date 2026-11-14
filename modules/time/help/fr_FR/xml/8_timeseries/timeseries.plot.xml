@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>timeseries.plot</keyword>
-  <short_description>Trace les donnees timeseries en fonction du temps.</short_description>
+  <short_description>Trace les données timeseries en fonction du temps.</short_description>
   <syntax>
     <syntax_item>h = plot(ts)</syntax_item>
     <syntax_item>h = plot(ax, ts)</syntax_item>
@@ -12,7 +12,7 @@
   <param_input>
     <param_input_item>
       <param_name>ts</param_name>
-      <param_description>Objet timeseries en entree.</param_description>
+      <param_description>Objet timeseries en entrée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>ax</param_name>
@@ -30,7 +30,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>plot</b> Trace le temps des echantillons sur l'axe x et les donnees timeseries sur l'axe y. L'interpolation par maintien d'ordre zero utilise un trace en escalier.</p>
+    <p><b>plot</b> Trace le temps des échantillons sur l'axe x et les données timeseries sur l'axe y. L'interpolation par maintien d'ordre zéro utilise un trace en escalier.</p>
   </description>
   <used_function />
   <bibliography />

@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>affine3d</keyword>
-  <short_description>Cree une structure de transformation affine 3-D.</short_description>
+  <short_description>Crée une structure de transformation affine 3-D.</short_description>
   <syntax>
     <syntax_item>tform = affine3d()</syntax_item>
     <syntax_item>tform = affine3d(T)</syntax_item>
@@ -11,7 +11,7 @@
   <param_input>
     <param_input_item>
       <param_name>T</param_name>
-      <param_description>Matrice de transformation affine 4-by-4 ou 3-by-4, finie et non singuliere, en convention vecteur ligne. Si elle est omise, la transformation identite est retournee.</param_description>
+      <param_description>Matrice de transformation affine 4-by-4 ou 3-by-4, finie et non singulière, en convention vecteur ligne. Si elle est omise, la transformation identité est retournée.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -21,14 +21,14 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>Cree une structure de transformation affine 3-D contenant une matrice T en convention vecteur ligne. Les translations sont stockees dans la derniere ligne.</p>
+    <p>Crée une structure de transformation affine 3-D contenant une matrice T en convention vecteur ligne. Les translations sont stockées dans la dernière ligne.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Creer une translation 3-D</example_item_description>
+      <example_item_description>Créer une translation 3-D</example_item_description>
       <example_item_data><![CDATA[tform = affine3d([1 0 0 0; 0 1 0 0; 0 0 1 0; 4 5 6 1]);
 tform.T]]></example_item_data>
     </example_item>

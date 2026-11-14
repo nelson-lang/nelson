@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>histfit</keyword>
-  <short_description>Histogramme avec courbe de distribution ajustee.</short_description>
+  <short_description>Histogramme avec courbe de distribution ajustée.</short_description>
   <syntax>
     <syntax_item>histfit(data)</syntax_item>
     <syntax_item>histfit(data, nbins)</syntax_item>
@@ -12,8 +12,8 @@
     <syntax_item>h = histfit(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>histfit</b> affiche un histogramme et superpose une courbe de densite ajustee, mise a l&apos;echelle sur les comptes de l&apos;histogramme.</p>
-    <p>La distribution par defaut est normale. Les noms de distribution pris en charge incluent normal, kernel, exponential, gamma, beta, extreme value, half normal, lognormal, logistic, loglogistic, rayleigh et weibull.</p>
+    <p><b>histfit</b> affiche un histogramme et superpose une courbe de densité ajustée, mise à l&apos;échelle sur les comptes de l&apos;histogramme.</p>
+    <p>La distribution par défaut est normale. Les noms de distribution pris en charge incluent normal, kernel, exponential, gamma, beta, extrême value, half normal, lognormal, logistic, loglogistic, rayleigh et weibull.</p>
   </description>
   <examples>
     <example_item>

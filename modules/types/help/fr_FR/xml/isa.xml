@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>isa</keyword>
-  <short_description>Renvoie true si une variable a la classe ou le type demande.</short_description>
+  <short_description>Renvoie true si une variable a la classe ou le type demandé.</short_description>
   <syntax>
     <syntax_item>res = isa(var, className)</syntax_item>
   </syntax>
@@ -14,7 +14,7 @@
     </param_input_item>
     <param_input_item>
       <param_name>className</param_name>
-      <param_description>un nom de classe ou de type sous forme de chaine</param_description>
+      <param_description>un nom de classe ou de type sous forme de chaîne</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -27,22 +27,22 @@
     <p>
       <b>isa</b> renvoie un logique 1 quand <b>var</b> est une instance de <b>className</b>, et 0 sinon.</p>
     <p>
-      <b>className</b> peut etre un nom de type Nelson comme <b>double</b>, <b>cell</b>, <b>numeric</b>, <b>float</b> ou <b>integer</b>.</p>
-    <p>Pour les objets classdef, <b>isa</b> accepte le nom de classe et les noms de superclasses supportes, y compris <b>handle</b> pour les classes handle.</p>
-    <p>Pour les tableaux sparse, <b>isa</b> teste la classe de valeur stockee, par exemple <b>double</b> ou <b>logical</b>. Utiliser <b>issparse</b> pour tester le stockage sparse.</p>
+      <b>className</b> peut être un nom de type Nelson comme <b>double</b>, <b>cell</b>, <b>numeric</b>, <b>float</b> ou <b>integer</b>.</p>
+    <p>Pour les objets classdef, <b>isa</b> accepte le nom de classe et les noms de superclasses supportés, y compris <b>handle</b> pour les classes handle.</p>
+    <p>Pour les tableaux sparse, <b>isa</b> teste la classe de valeur stockée, par exemple <b>double</b> ou <b>logical</b>. Utiliser <b>issparse</b> pour tester le stockage sparse.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Tester un type numerique.</example_item_description>
+      <example_item_description>Tester un type numérique.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[A = 3;
 res = isa(A, 'double')]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Tester la classe de valeur stockee d&apos;un tableau sparse.</example_item_description>
+      <example_item_description>Tester la classe de valeur stockée d&apos;un tableau sparse.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[S = sparse([2 0 3]);
 isDouble = isa(S, 'double')
 isSparse = issparse(S)]]></example_item_data>
@@ -86,7 +86,7 @@ delete(obj)]]></example_item_data>
     </history_item>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>les tableaux sparse sont testes par classe de valeur stockee</history_description>
+      <history_description>les tableaux sparse sont testés par classe de valeur stockée</history_description>
     </history_item>
   </history>
   <authors>

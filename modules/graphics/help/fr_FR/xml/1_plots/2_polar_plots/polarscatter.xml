@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>polarscatter</keyword>
-  <short_description>Affiche des points en coordonnees polaires.</short_description>
+  <short_description>Affiche des points en coordonnées polaires.</short_description>
   <syntax>
     <syntax_item>polarscatter(theta, rho)</syntax_item>
     <syntax_item>polarscatter(theta, rho, taille)</syntax_item>
@@ -13,8 +13,8 @@
     <syntax_item>h = polarscatter(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>polarscatter</b> affiche des marqueurs a partir de valeurs d'angle et de rayon.</p>
-    <p>L'entree table selectionne les donnees d'angle et de rayon depuis les variables de <b>tbl</b>. Plusieurs variables selectionnees creent plusieurs objets <b>scatter</b>.</p>
+    <p><b>polarscatter</b> affiche des marqueurs à partir de valeurs d'angle et de rayon.</p>
+    <p>L'entrée table sélectionne les données d'angle et de rayon depuis les variables de <b>tbl</b>. Plusieurs variables sélectionnées créent plusieurs objets <b>scatter</b>.</p>
   </description>
   <examples>
     <example_item>
@@ -27,7 +27,7 @@ polarscatter(theta, rho, 49, 'r', 'filled');]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Creer un nuage polaire depuis une table.</example_item_description>
+      <example_item_description>Créer un nuage polaire depuis une table.</example_item_description>
       <example_item_data><![CDATA[t = table([0; pi/4; pi/2], [1; 2; 3], 'VariableNames', {'theta', 'rho'});
 h = polarscatter(t, 'theta', 'rho', 'filled');]]></example_item_data>
       <example_item_img src="../../../../images/polarscatter_2.svg" align="middle" generate="true" />

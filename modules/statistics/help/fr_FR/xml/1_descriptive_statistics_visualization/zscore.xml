@@ -13,8 +13,8 @@
     <syntax_item>[Z, mu, sigma] = zscore(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>zscore</b> centre et reduit des donnees numeriques en soustrayant la moyenne puis en divisant par l'ecart type.</p>
-    <p><b>flag</b> vaut 0 pour l'ecart type d'echantillon et 1 pour l'ecart type de population. Les echantillons contenant <b>NaN</b> retournent des scores <b>NaN</b>. Les echantillons constants retournent des scores nuls.</p>
+    <p><b>zscore</b> centre et réduit des données numériques en soustrayant la moyenne puis en divisant par l'écart type.</p>
+    <p><b>flag</b> vaut 0 pour l'écart type d'échantillon et 1 pour l'écart type de population. Les échantillons contenant <b>NaN</b> retournent des scores <b>NaN</b>. Les échantillons constants retournent des scores nuls.</p>
   </description>
   <examples>
     <example_item>

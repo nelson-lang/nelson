@@ -5,6 +5,6 @@
   <module_name>graphics</module_name>
   <chapter>Images</chapter>
   <chapter_description>
-    <p>Fonctions pour afficher des images, convertir des frames et lire des frames enregistrees.</p>
+    <p>Fonctions pour afficher des images, convertir des frames et lire des frames enregistrées.</p>
   </chapter_description>
 </xmldoc>

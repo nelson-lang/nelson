@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>interp3</keyword>
-  <short_description>Interpolation de donnees grillees 3-D au format meshgrid</short_description>
+  <short_description>Interpolation de données grillées 3-D au format meshgrid</short_description>
   <syntax>
     <syntax_item>Vq = interp3(X, Y, Z, V, Xq, Yq, Zq)</syntax_item>
     <syntax_item>Vq = interp3(V, Xq, Yq, Zq)</syntax_item>
@@ -19,11 +19,11 @@
     </param_input_item>
     <param_input_item>
       <param_name>V</param_name>
-      <param_description>Valeurs : tableau 3-D reel ou complexe.</param_description>
+      <param_description>Valeurs : tableau 3-D réel ou complexe.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Xq, Yq, Zq</param_name>
-      <param_description>Points de requete.</param_description>
+      <param_description>Points de requête.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>method</param_name>
@@ -34,15 +34,15 @@
   <param_output>
     <param_output_item>
       <param_name>Vq</param_name>
-      <param_description>Valeurs interpolees.</param_description>
+      <param_description>Valeurs interpolées.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>
-      <b>interp3</b> interpole des donnees grillees 3-D avec les conventions meshgrid. La grille par defaut est X=1:size(V,2), Y=1:size(V,1), Z=1:size(V,3).</p>
-    <p>Les methodes cubiques utilisent un stencil natif tensoriel a quatre points, avec repli lineaire sur les dimensions qui ont moins de quatre echantillons.</p>
+      <b>interp3</b> interpole des données grillées 3-D avec les conventions meshgrid. La grille par défaut est X=1:size(V,2), Y=1:size(V,1), Z=1:size(V,3).</p>
+    <p>Les méthodes cubiques utilisent un stencil natif tensoriel a quatre points, avec repli linéaire sur les dimensions qui ont moins de quatre échantillons.</p>
     <p>
-      <b>interp3(V)</b> et <b>interp3(V,k)</b> raffinent la grille par defaut. Les vecteurs de grille doivent etre strictement monotones.</p>
+      <b>interp3(V)</b> et <b>interp3(V,k)</b> raffinent la grille par défaut. Les vecteurs de grille doivent être strictement monotones.</p>
   </description>
   <examples>
     <example_item>

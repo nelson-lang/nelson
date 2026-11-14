@@ -10,7 +10,7 @@
   </syntax>
   <description>
     <p><b>delaunayn</b> calcule une triangulation de Delaunay pour les points de <b>P</b>.</p>
-    <p>Les lignes de <b>T</b> contiennent des indices a partir de un dans <b>P</b>.</p>
+    <p>Les lignes de <b>T</b> contiennent des indices à partir de un dans <b>P</b>.</p>
   </description>
   <examples>
     <example_item>

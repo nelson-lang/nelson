@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>parquetDatastore</keyword>
-  <short_description>Creer un datastore pour un ou plusieurs fichiers Parquet.</short_description>
+  <short_description>Créer un datastore pour un ou plusieurs fichiers Parquet.</short_description>
   <syntax>
     <syntax_item>pds = parquetDatastore(location)</syntax_item>
     <syntax_item>pds = parquetDatastore(location, Name, Value)</syntax_item>
@@ -11,11 +11,11 @@
   <param_input>
     <param_input_item>
       <param_name>location</param_name>
-      <param_description>un nom de fichier, un dossier, un motif avec jokers, un tableau de chaines ou une cellule de vecteurs de caracteres.</param_description>
+      <param_description>un nom de fichier, un dossier, un motif avec jokers, un tableau de chaînes ou une cellule de vecteurs de caractères.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Name, Value</param_name>
-      <param_description>arguments optionnels specifies sous forme de paires nom-valeur.</param_description>
+      <param_description>arguments optionnels spécifiés sous forme de paires nom-valeur.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -25,10 +25,10 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>pds = parquetDatastore(location)</b> cree un datastore qui lit les fichiers Parquet locaux de l&apos;emplacement indique.</p>
-    <p>Lorsque <b>location</b> est un dossier, les fichiers qui se terminent par <b>.parquet</b> dans ce dossier sont selectionnes. Les motifs avec jokers peuvent selectionner plusieurs fichiers.</p>
+    <p><b>pds = parquetDatastore(location)</b> crée un datastore qui lit les fichiers Parquet locaux de l&apos;emplacement indiqué.</p>
+    <p>Lorsque <b>location</b> est un dossier, les fichiers qui se terminent par <b>.parquet</b> dans ce dossier sont sélectionnés. Les motifs avec jokers peuvent sélectionner plusieurs fichiers.</p>
     <p>Les paires nom-valeur prises en charge sont <b>ReadSize</b>, <b>SelectedVariableNames</b>, <b>OutputType</b>, <b>RowTimes</b>, <b>RowFilter</b> et <b>VariableNamingRule</b>.</p>
-    <p>Le datastore lit un fichier a la fois. Utilisez <b>hasdata</b>, <b>read</b>, <b>readall</b>, <b>preview</b> et <b>reset</b> pour parcourir les donnees.</p>
+    <p>Le datastore lit un fichier à la fois. Utilisez <b>hasdata</b>, <b>read</b>, <b>readall</b>, <b>preview</b> et <b>reset</b> pour parcourir les données.</p>
   </description>
   <used_function />
   <bibliography />

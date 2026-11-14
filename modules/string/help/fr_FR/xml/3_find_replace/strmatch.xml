@@ -3,12 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>strmatch</keyword>
-  <short_description>Recherche les chaines qui commencent par un texte.</short_description>
+  <short_description>Recherche les chaînes qui commencent par un texte.</short_description>
   <syntax>
     <syntax_item>R = strmatch(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>strmatch</b> Recherche les chaines qui commencent par un texte.</p>
+    <p><b>strmatch</b> Recherche les chaînes qui commencent par un texte.</p>
   </description>
   <used_function />
   <bibliography />

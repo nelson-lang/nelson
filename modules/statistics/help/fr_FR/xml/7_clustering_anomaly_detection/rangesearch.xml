@@ -3,14 +3,14 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>rangesearch</keyword>
-  <short_description>Trouver tous les voisins dans une distance donnee.</short_description>
+  <short_description>Trouver tous les voisins dans une distance donnée.</short_description>
   <syntax>
     <syntax_item>idx = rangesearch(X, Y, r)</syntax_item>
     <syntax_item>idx = rangesearch(X, Y, r, Name, Value)</syntax_item>
     <syntax_item>[idx, D] = rangesearch(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>rangesearch</b> trouve toutes les lignes de <b>X</b> dont la distance a chaque ligne de requete de <b>Y</b> n'est pas superieure a <b>r</b>.</p>
+    <p><b>rangesearch</b> trouve toutes les lignes de <b>X</b> dont la distance à chaque ligne de requête de <b>Y</b> n'est pas supérieure à <b>r</b>.</p>
     <p>La recherche est exhaustive et native. Les sorties sont des tableaux de cellules colonnes. Les options prises en charge incluent Distance, NSMethod, SortIndices, P, Scale, Cov, BucketSize et CacheSize.</p>
   </description>
   <examples>

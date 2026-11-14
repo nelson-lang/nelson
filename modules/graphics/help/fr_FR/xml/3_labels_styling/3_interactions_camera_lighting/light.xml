@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>light</keyword>
-  <short_description>Cree un objet lumiere dans des axes.</short_description>
+  <short_description>Crée un objet lumière dans des axes.</short_description>
   <syntax>
     <syntax_item>light()</syntax_item>
     <syntax_item>light(ax, ...)</syntax_item>
@@ -17,11 +17,11 @@
     </param_input_item>
     <param_input_item>
       <param_name>propertyName</param_name>
-      <param_description>Nom de propriete de light.</param_description>
+      <param_description>Nom de propriété de light.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>propertyValue</param_name>
-      <param_description>Valeur de propriete de light.</param_description>
+      <param_description>Valeur de propriété de light.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -31,8 +31,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>light</b> cree une lumiere qui agit sur les surfaces et les patchs du meme axe lorsque leur eclairage est actif.</p>
-    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.light.properties">proprietes de light</link> pour la liste complete des proprietes.</p>
+    <p><b>light</b> crée une lumière qui agit sur les surfaces et les patchs du même axe lorsque leur éclairage est actif.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.light.properties">proprietes de light</link> pour la liste complète des propriétés.</p>
   </description>
   <examples>
     <example_item>

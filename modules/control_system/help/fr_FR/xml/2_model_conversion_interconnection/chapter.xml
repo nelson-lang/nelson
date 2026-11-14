@@ -3,8 +3,8 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <module_name>control_system</module_name>
-  <chapter>Conversion et interconnexion de modeles</chapter>
+  <chapter>Conversion et interconnexion de modèles</chapter>
   <chapter_description>
-    <p>Fonctions pour conversion, composition, selection et interconnexion de modeles.</p>
+    <p>Fonctions pour conversion, composition, sélection et interconnexion de modèles.</p>
   </chapter_description>
 </xmldoc>

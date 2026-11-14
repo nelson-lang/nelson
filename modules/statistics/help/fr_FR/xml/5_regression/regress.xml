@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>regress</keyword>
-  <short_description>Regression lineaire multiple.</short_description>
+  <short_description>Régression linéaire multiple.</short_description>
   <syntax>
     <syntax_item>b = regress(y, X)</syntax_item>
     <syntax_item>[b, bint] = regress(y, X)</syntax_item>
@@ -13,8 +13,8 @@
     <syntax_item>[...] = regress(y, X, alpha)</syntax_item>
   </syntax>
   <description>
-    <p><b>regress</b> estime les coefficients d'un modele de regression lineaire multiple du vecteur reponse <b>y</b> sur la matrice de predicteurs <b>X</b>.</p>
-    <p>Les lignes contenant des valeurs <b>NaN</b> dans <b>y</b> ou <b>X</b> sont ignorees pendant l'ajustement. Ajouter une colonne de uns dans <b>X</b> pour ajuster une constante.</p>
+    <p><b>regress</b> estime les coefficients d'un modèle de régression linéaire multiple du vecteur réponse <b>y</b> sur la matrice de prédicteurs <b>X</b>.</p>
+    <p>Les lignes contenant des valeurs <b>NaN</b> dans <b>y</b> ou <b>X</b> sont ignorées pendant l'ajustement. Ajouter une colonne de uns dans <b>X</b> pour ajuster une constante.</p>
   </description>
   <examples>
     <example_item>

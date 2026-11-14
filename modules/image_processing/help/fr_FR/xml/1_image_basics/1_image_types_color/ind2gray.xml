@@ -3,14 +3,14 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>ind2gray</keyword>
-  <short_description>Convertit une image indexee en niveaux de gris avec une palette.</short_description>
+  <short_description>Convertit une image indexée en niveaux de gris avec une palette.</short_description>
   <syntax>
     <syntax_item>I = ind2gray(X, map)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>X</param_name>
-      <param_description>Image indexee.</param_description>
+      <param_description>Image indexée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>map</param_name>
@@ -20,18 +20,18 @@
   <param_output>
     <param_output_item>
       <param_name>I</param_name>
-      <param_description>Image en niveaux de gris double obtenue depuis l'image RGB indexee.</param_description>
+      <param_description>Image en niveaux de gris double obtenue depuis l'image RGB indexée.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>Convertit une image indexee en niveaux de gris avec une palette.</p>
+    <p>Convertit une image indexée en niveaux de gris avec une palette.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Convertir une image indexee en niveaux de gris</example_item_description>
+      <example_item_description>Convertir une image indexée en niveaux de gris</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[X=repmat(uint8(0:63),64,1);

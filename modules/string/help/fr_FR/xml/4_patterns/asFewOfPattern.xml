@@ -3,12 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>asFewOfPattern</keyword>
-  <short_description>Repete le motif le moins de fois possible.</short_description>
+  <short_description>Répète le motif le moins de fois possible.</short_description>
   <syntax>
     <syntax_item>R = asFewOfPattern(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>asFewOfPattern</b> Repete le motif le moins de fois possible.</p>
+    <p><b>asFewOfPattern</b> Répète le motif le moins de fois possible.</p>
   </description>
   <used_function />
   <bibliography />

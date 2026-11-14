@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>clusterdata</keyword>
-  <short_description>Regrouper les observations depuis les donnees.</short_description>
+  <short_description>Regrouper les observations depuis les données.</short_description>
   <syntax>
     <syntax_item>T = clusterdata(X, &apos;MaxClust&apos;, maxclust)</syntax_item>
     <syntax_item>T = clusterdata(X, &apos;Cutoff&apos;, cutoff, &apos;Criterion&apos;, &apos;distance&apos;)</syntax_item>
@@ -11,8 +11,8 @@
     <syntax_item>T = clusterdata(..., &apos;Distance&apos;, metric)</syntax_item>
   </syntax>
   <description>
-    <p><b>clusterdata</b> regroupe les lignes de <b>X</b> en construisant un arbre hierarchique puis en le coupant en classes.</p>
-    <p>Cette version prend en charge le critere distance avec MaxClust ou Cutoff. Les options Linkage et Distance sont transmises a <b>linkage</b>.</p>
+    <p><b>clusterdata</b> regroupe les lignes de <b>X</b> en construisant un arbre hiérarchique puis en le coupant en classes.</p>
+    <p>Cette version prend en charge le critère distance avec MaxClust ou Cutoff. Les options Linkage et Distance sont transmises à <b>linkage</b>.</p>
   </description>
   <examples>
     <example_item>

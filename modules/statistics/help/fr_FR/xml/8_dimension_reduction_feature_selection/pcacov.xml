@@ -10,8 +10,8 @@
     <syntax_item>[coeff, latent, explained] = pcacov(V)</syntax_item>
   </syntax>
   <description>
-    <p><b>pcacov</b> effectue une analyse en composantes principales sur une matrice de covariance carree.</p>
-    <p>Les coefficients sont retournes en colonnes, ordonnees par variance decroissante. Le vecteur latent contient les valeurs propres de V, et explained contient le pourcentage de variance totale represente par chaque composante.</p>
+    <p><b>pcacov</b> effectue une analyse en composantes principales sur une matrice de covariance carrée.</p>
+    <p>Les coefficients sont retournés en colonnes, ordonnées par variance décroissante. Le vecteur latent contient les valeurs propres de V, et explained contient le pourcentage de variance totale représenté par chaque composante.</p>
   </description>
   <examples>
     <example_item>

@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>affine2d</keyword>
-  <short_description>Cree une structure de transformation affine 2-D.</short_description>
+  <short_description>Crée une structure de transformation affine 2-D.</short_description>
   <syntax>
     <syntax_item>tform = affine2d()</syntax_item>
     <syntax_item>tform = affine2d(T)</syntax_item>
@@ -11,7 +11,7 @@
   <param_input>
     <param_input_item>
       <param_name>T</param_name>
-      <param_description>Matrice affine 3-by-3 ou 2-by-3, finie et non singuliere, en convention vecteur ligne. La derniere colonne doit etre [0; 0; 1] apres expansion. Si elle est omise, la transformation identite est retournee.</param_description>
+      <param_description>Matrice affine 3-by-3 ou 2-by-3, finie et non singulière, en convention vecteur ligne. La dernière colonne doit être [0; 0; 1] après expansion. Si elle est omise, la transformation identité est retournée.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -21,7 +21,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>Cree une structure de transformation affine 2-D contenant une matrice T en convention vecteur ligne. La structure peut etre passee a imwarp.</p>
+    <p>Crée une structure de transformation affine 2-D contenant une matrice T en convention vecteur ligne. La structure peut être passée à imwarp.</p>
   </description>
   <used_function />
   <bibliography />

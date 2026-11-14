@@ -5,6 +5,6 @@
   <module_name>signal_processing</module_name>
   <chapter>Analyse spectrale</chapter>
   <chapter_description>
-    <p>Fonctions de spectre de puissance, fenetres et conversions d echelle.</p>
+    <p>Fonctions de spectre de puissance, fenêtres et conversions d échelle.</p>
   </chapter_description>
 </xmldoc>

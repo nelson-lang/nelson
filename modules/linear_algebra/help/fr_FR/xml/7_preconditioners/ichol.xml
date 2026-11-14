@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>ichol</keyword>
-  <short_description>Factorisation de Cholesky incomplete.</short_description>
+  <short_description>Factorisation de Cholesky incomplète.</short_description>
   <syntax>
     <syntax_item>L = ichol(A)</syntax_item>
     <syntax_item>L = ichol(A, opts)</syntax_item>
@@ -11,7 +11,7 @@
   <param_input>
     <param_input_item>
       <param_name>A</param_name>
-      <param_description>une matrice carree sparse flottante reelle symetrique ou complexe hermitienne.</param_description>
+      <param_description>une matrice carrée sparse flottante réelle symétrique ou complexe hermitienne.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>opts</param_name>
@@ -21,21 +21,21 @@
   <param_output>
     <param_output_item>
       <param_name>L</param_name>
-      <param_description>facteur sparse triangulaire inferieur ou superieur de Cholesky incomplet.</param_description>
+      <param_description>facteur sparse triangulaire inférieur ou supérieur de Cholesky incomplet.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>ichol</b> calcule un facteur sparse triangulaire inferieur <b>L</b> utilisable comme preconditionneur.</p>
-    <p>La matrice d'entree doit etre symetrique definie positive pour les donnees reelles ou hermitienne definie positive pour les donnees complexes.</p>
-    <p><b>opts.type</b> peut valoir &apos;nofill&apos; ou &apos;ict&apos;. La valeur par defaut est &apos;nofill&apos;.</p>
-    <p><b>opts.droptol</b> est un scalaire positif ou nul utilise par le mode &apos;ict&apos;. La valeur par defaut est <b>0</b>. Les entrees dont le module est inferieur au seuil relatif a l'echelle de colonne sont supprimees du facteur incomplet.</p>
-    <p><b>opts.diagcomp</b> applique une compensation diagonale relative avant la factorisation. Cela peut rendre utilisables comme preconditionneurs des matrices definies positives limites ou des matrices hermitiennes difficiles, sans modifier la matrice sparse d'entree.</p>
-    <p><b>opts.michol</b> peut valoir &apos;on&apos; ou &apos;off&apos;. En mode &apos;ict&apos;, la variante modifiee reporte les entrees structurelles abandonnees sur la diagonale afin de mieux conserver les sommes de lignes.</p>
-    <p><b>opts.shape</b> peut valoir &apos;lower&apos; ou &apos;upper&apos;. La valeur par defaut est &apos;lower&apos;.</p>
-    <p>Les valeurs textuelles d'options comme <b>opts.type</b>, <b>opts.michol</b> et <b>opts.shape</b> peuvent etre des vecteurs lignes de caracteres ou des string scalars.</p>
-    <p>Les matrices sparse double, single, double complexes et single complexes sont prises en charge. Le facteur retourne conserve la classe numerique d'entree.</p>
-    <p>Le facteur peut etre utilise directement comme preconditionneur pour <b>pcg</b>, par exemple <b>pcg(A, b, tol, maxit, L, L')</b>.</p>
-    <p>Les matrices non symetriques, non hermitiennes, avec diagonale structurellement nulle, ou non definies positives sont rejetees avec un message explicite.</p>
+    <p><b>ichol</b> calcule un facteur sparse triangulaire inférieur <b>L</b> utilisable comme préconditionneur.</p>
+    <p>La matrice d'entrée doit être symétrique définie positive pour les données réelles ou hermitienne définie positive pour les données complexes.</p>
+    <p><b>opts.type</b> peut valoir &apos;nofill&apos; ou &apos;ict&apos;. La valeur par défaut est &apos;nofill&apos;.</p>
+    <p><b>opts.droptol</b> est un scalaire positif ou nul utilisé par le mode &apos;ict&apos;. La valeur par défaut est <b>0</b>. Les entrées dont le module est inférieur au seuil relatif à l'échelle de colonne sont supprimées du facteur incomplet.</p>
+    <p><b>opts.diagcomp</b> applique une compensation diagonale relative avant la factorisation. Cela peut rendre utilisables comme préconditionneurs des matrices définies positives limites ou des matrices hermitiennes difficiles, sans modifier la matrice sparse d'entrée.</p>
+    <p><b>opts.michol</b> peut valoir &apos;on&apos; ou &apos;off&apos;. En mode &apos;ict&apos;, la variante modifiée reporte les entrées structurelles abandonnées sur la diagonale afin de mieux conserver les sommes de lignes.</p>
+    <p><b>opts.shape</b> peut valoir &apos;lower&apos; ou &apos;upper&apos;. La valeur par défaut est &apos;lower&apos;.</p>
+    <p>Les valeurs textuelles d'options comme <b>opts.type</b>, <b>opts.michol</b> et <b>opts.shape</b> peuvent être des vecteurs lignes de caractères ou des string scalars.</p>
+    <p>Les matrices sparse double, single, double complexes et single complexes sont prises en charge. Le facteur retourne conserve la classe numérique d'entrée.</p>
+    <p>Le facteur peut être utilisé directement comme préconditionneur pour <b>pcg</b>, par exemple <b>pcg(A, b, tol, maxit, L, L')</b>.</p>
+    <p>Les matrices non symétriques, non hermitiennes, avec diagonale structurellement nulle, ou non définies positives sont rejetées avec un message explicite.</p>
   </description>
   <used_function />
   <bibliography />
@@ -50,7 +50,7 @@ full(L * L')
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>ICT avec suppression d'entrees.</example_item_description>
+      <example_item_description>ICT avec suppression d'entrées.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[A = sparse([4 -1 0; -1 4 -1; 0 -1 3]);
 opts.type = 'ict';
 opts.droptol = 0.6;
@@ -100,7 +100,7 @@ full(L * L')
     </history_item>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>prise en charge des matrices sparse single et sparse single complexes, du mode ict, de diagcomp, de shape, des options string scalar et de l'utilisation comme preconditionneur.</history_description>
+      <history_description>prise en charge des matrices sparse single et sparse single complexes, du mode ict, de diagcomp, de shape, des options string scalar et de l'utilisation comme préconditionneur.</history_description>
     </history_item>
   </history>
   <authors>

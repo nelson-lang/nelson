@@ -16,7 +16,7 @@
   <param_input>
     <param_input_item>
       <param_name>new_style</param_name>
-      <param_description>une chaine ou un vecteur de caracteres</param_description>
+      <param_description>une chaîne ou un vecteur de caractères</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>fmt</param_name>
@@ -33,13 +33,13 @@
     <p>
       <b>format(new_style)</b> modifie le format d&apos;affichage et l&apos;impression des nombres pour la session courante.</p>
     <p>
-      <b>format(&apos;default&apos;)</b> reinitialise le format par defaut (short, loose, truncateMatrices on).</p>
+      <b>format(&apos;default&apos;)</b> réinitialise le format par défaut (short, loose, truncateMatrices on).</p>
     <p>
       <b>fmt = format()</b> retourne un objet <b>nelson.display.DisplayFormatOptions</b> avec les valeurs courantes de <b>NumericFormat</b>, <b>LineSpacing</b> et <b>TruncateMatrices</b>.</p>
     <p>
       <b>format(fmt)</b> restaure le format d&apos;affichage stocke dans un objet <b>nelson.display.DisplayFormatOptions</b>.</p>
     <p />
-    <p>Formats numeriques pris en charge :</p>
+    <p>Formats numériques pris en charge :</p>
     <p><b>short</b></p>
     <p><b>long</b></p>
     <p><b>shortE</b></p>

@@ -31,7 +31,7 @@
     <p>
       <b>Version</b>: string: Julia version</p>
     <p>
-      <b>Executable</b>: string: Name of Julia executable file</p>
+      <b>Exécutable</b>: string: Name of Julia executable file</p>
     <p>
       <b>Library</b>: string: Shared library file</p>
     <p>
@@ -40,7 +40,7 @@
       <b>Status</b>: Process status: &quot;NotLoaded&quot; (default), &quot;Loaded&quot;, &quot;Terminated&quot;
     </p>
     <p>
-      <b>ExecutionMode</b>: Execution mode: &quot;InProcess&quot; (default) or &quot;OutOfProcess&quot;
+      <b>ExecutionMode</b>: Exécution mode: &quot;InProcess&quot; (default) or &quot;OutOfProcess&quot;
     </p>
     <p />
     <p
@@ -59,7 +59,7 @@
       <b>__NELSON_JULIA_HOME__</b>: exemple &quot;/usr&quot;
     </p>
     <p
-    >Toutes les variables d&apos;environnement doivent exister et être valides pour être prises en compte.</p>
+    >Toutes les variables d&apos;environnement doivent exister et être validés pour être prises en compte.</p>
     <p />
   </description>
   <used_function />

@@ -3,30 +3,30 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>ppval</keyword>
-  <short_description>Evalue une forme polynomiale par morceaux</short_description>
+  <short_description>Évalue une forme polynomiale par morceaux</short_description>
   <syntax>
     <syntax_item>vq = ppval(pp, xq)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>pp</param_name>
-      <param_description>Structure polynomiale par morceaux, par exemple la structure retournee par interp1(..., &apos;pp&apos;).</param_description>
+      <param_description>Structure polynomiale par morceaux, par exemple la structure retournée par interp1(..., &apos;pp&apos;).</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>xq</param_name>
-      <param_description>Points de requete.</param_description>
+      <param_description>Points de requête.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>vq</param_name>
-      <param_description>Valeurs du polynome par morceaux aux points xq.</param_description>
+      <param_description>Valeurs du polynôme par morceaux aux points xq.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>
-      <b>ppval</b> evalue une structure polynomiale par morceaux. La structure contient les ruptures, les coefficients, le nombre de morceaux, l&apos;ordre et la dimension de sortie.</p>
-    <p>Pour le flux d&apos;interpolation, creez pp avec <b>interp1(x, v, method, &apos;pp&apos;)</b>, puis evaluez-la avec <b>ppval</b>.</p>
+      <b>ppval</b> évalue une structure polynomiale par morceaux. La structure contient les ruptures, les coefficients, le nombre de morceaux, l&apos;ordre et la dimension de sortie.</p>
+    <p>Pour le flux d&apos;interpolation, créez pp avec <b>interp1(x, v, method, &apos;pp&apos;)</b>, puis évaluez-la avec <b>ppval</b>.</p>
   </description>
   <used_function />
   <examples>

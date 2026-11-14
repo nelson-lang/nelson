@@ -54,7 +54,7 @@
   </param_output>
   <description>
     <p
-    >Résoudre pour X l&apos;équation de Sylvester discrète X + A X B = C, où A, B, C et X sont respectivement des matrices N-by-N, M-by-M, N-by-M et N-by-M générales. Une méthode Hessenberg-Schur, qui réduit A en forme Hessenberg supérieure H = U&apos; A U et B&apos; en forme de Schur réelle S = Z&apos; B&apos; Z (avec U, Z orthogonales), est utilisée.</p>
+    >Résoudre pour X l&apos;équation de Sylvester discrète X + A X B = C, où A, B, C et X sont respectivement des matrices N-by-N, M-by-M, N-by-M et N-by-M générales. Une méthode Hessenberg-Schur, qui réduit À en forme Hessenberg supérieure H = U&apos; A U et B&apos; en forme de Schur réelle S = Z&apos; B&apos; Z (avec U, Z orthogonales), est utilisée.</p>
   </description>
   <used_function>SB04QD</used_function>
   <bibliography

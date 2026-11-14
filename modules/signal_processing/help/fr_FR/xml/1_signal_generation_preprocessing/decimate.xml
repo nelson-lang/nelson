@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>decimate</keyword>
-  <short_description>Filtre passe-bas puis sous-echantillonne un vecteur.</short_description>
+  <short_description>Filtre passe-bas puis sous-échantillonne un vecteur.</short_description>
   <syntax>
     <syntax_item>Y = decimate(X, Q)</syntax_item>
     <syntax_item>Y = decimate(X, Q, N)</syntax_item>
@@ -13,25 +13,25 @@
   <param_input>
     <param_input_item>
       <param_name>X</param_name>
-      <param_description>vecteur d'entree non vide.</param_description>
+      <param_description>vecteur d'entrée non vide.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Q</param_name>
-      <param_description>facteur entier de decimation strictement superieur a un.</param_description>
+      <param_description>facteur entier de décimation strictement supérieur à un.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>N</param_name>
-      <param_description>ordre du filtre. L'ordre par defaut vaut 8 en mode IIR et 30 en mode FIR.</param_description>
+      <param_description>ordre du filtre. L'ordre par défaut vaut 8 en mode IIR et 30 en mode FIR.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>Y</param_name>
-      <param_description>vecteur decime.</param_description>
+      <param_description>vecteur décimé.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>decimate</b> applique un filtre passe-bas anti-repliement puis conserve un echantillon sur Q. Le mode par defaut utilise un filtre IIR de Chebyshev type I avec filtrage aller-retour a phase nulle. Le mode <b>'fir'</b> utilise un filtre passe-bas FIR fenetre et compense son delai avant le sous-echantillonnage.</p>
+    <p><b>decimate</b> applique un filtre passe-bas anti-repliement puis conserve un échantillon sur Q. Le mode par défaut utilise un filtre IIR de Chebyshev type I avec filtrage aller-retour a phase nulle. Le mode <b>'fir'</b> utilise un filtre passe-bas FIR fenêtre et compense son délai avant le sous-échantillonnage.</p>
   </description>
   <examples>
     <example_item>

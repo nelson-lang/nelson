@@ -3,12 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>strtok</keyword>
-  <short_description>Selectionne le premier jeton dans le texte.</short_description>
+  <short_description>Sélectionne le premier jeton dans le texte.</short_description>
   <syntax>
     <syntax_item>R = strtok(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>strtok</b> Selectionne le premier jeton dans le texte.</p>
+    <p><b>strtok</b> Sélectionne le premier jeton dans le texte.</p>
   </description>
   <used_function />
   <bibliography />

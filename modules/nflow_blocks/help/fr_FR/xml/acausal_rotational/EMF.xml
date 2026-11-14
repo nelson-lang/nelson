@@ -4,14 +4,14 @@
   <language>fr_FR</language>
   <keyword>EMF</keyword>
   <keyword_alias>block:EMF</keyword_alias>
-  <short_description>Convertisseur electromecanique (moteur/generateur) : force contre-electromotrice v = k w, couple tau = k i.</short_description>
+  <short_description>Convertisseur électromécanique (moteur/générateur) : force contre-électromotrice v = k w, couple tau = k i.</short_description>
   <syntax>
     <syntax_item>Type de bloc : EMF</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>broches physiques</param_name>
-      <param_description>3 broche(s) physique(s) non orientee(s) ; 0 entree(s) de signal.</param_description>
+      <param_description>3 broche(s) physique(s) non orientée(s) ; 0 entrée(s) de signal.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -21,20 +21,20 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>Composant acausal (Rotation (acausal)). Convertisseur electromecanique (moteur/generateur) : force contre-electromotrice v = k w, couple tau = k i.</p>
+    <p>Composant acausal (Rotation (acausal)). Convertisseur électromécanique (moteur/générateur) : force contre-électromotrice v = k w, couple tau = k i.</p>
     <table border="1">
       <tbody>
         <tr><td>Module</td><td><code>nflow_blocks</code></td></tr>
-        <tr><td>Bibliotheque</td><td>Rotation (acausal)</td></tr>
+        <tr><td>Bibliothèque</td><td>Rotation (acausal)</td></tr>
         <tr><td>Type</td><td><code>EMF</code></td></tr>
-        <tr><td>Libelle</td><td>EMF</td></tr>
-        <tr><td>Solveur</td><td>Abaisse vers <code>mechanicalTranslationalIsland</code>. Solveur de reference <code>dae</code> (differentiel-algebrique) ; la boucle a pas fixe et les solveurs explicites natifs (<code>ode1</code>/<code>ode4</code>/<code>ode45</code>) sont egalement pris en charge (un ilot multicorps articule necessite <code>dae</code>).</td></tr>
+        <tr><td>Libellé</td><td>EMF</td></tr>
+        <tr><td>Solveur</td><td>Abaisse vers <code>mechanicalTranslationalIsland</code>. Solveur de référence <code>dae</code> (différentiel-algébrique) ; la boucle à pas fixe et les solveurs explicites natifs (<code>ode1</code>/<code>ode4</code>/<code>ode45</code>) sont également pris en charge (un îlot multicorps articulé nécessite <code>dae</code>).</td></tr>
       </tbody>
     </table>
     <p>
       <img src="../../../../libraries/acausal_rotational/exports/EMF.svg" align="middle"/>
     </p>
-    <p><b>Sources d implementation</b></p>
+    <p><b>Sources d implémentation</b></p>
     <source_code label="Manifest" path="modules/nflow_blocks/libraries/acausal_rotational/library.json" language="json"/>
     <source_code label="Catalog" path="modules/nflow_blocks/functions/+NFlow/+internal/acausalCatalog.m" language="matlab" start="entry('EMF'" end="');"/>
   </description>

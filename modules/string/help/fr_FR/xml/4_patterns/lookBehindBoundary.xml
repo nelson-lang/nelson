@@ -3,12 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>lookBehindBoundary</keyword>
-  <short_description>Limite apres un motif.</short_description>
+  <short_description>Limite après un motif.</short_description>
   <syntax>
     <syntax_item>R = lookBehindBoundary(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>lookBehindBoundary</b> Limite apres un motif.</p>
+    <p><b>lookBehindBoundary</b> Limite après un motif.</p>
   </description>
   <used_function />
   <bibliography />

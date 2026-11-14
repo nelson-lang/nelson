@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>timer</keyword>
   <keyword_alias>objet timer</keyword_alias>
-  <short_description>Creer un objet timer qui execute des commandes apres un delai ou a intervalles repetes.</short_description>
+  <short_description>Créer un objet timer qui exécute des commandes après un délai ou a intervalles répétés.</short_description>
   <syntax>
     <syntax_item>t = timer()</syntax_item>
     <syntax_item>t = timer(&apos;PropertyName&apos;, PropertyValue, ...)</syntax_item>
@@ -12,11 +12,11 @@
   <param_input>
     <param_input_item>
       <param_name>PropertyName</param_name>
-      <param_description>Nom de propriete de timer.</param_description>
+      <param_description>Nom de propriété de timer.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>PropertyValue</param_name>
-      <param_description>Valeur affectee a la propriete de timer.</param_description>
+      <param_description>Valeur affectée à la propriété de timer.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -26,18 +26,18 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>timer</b> cree un objet timer. Un objet timer peut executer un callback une seule fois, apres un delai, a une date future, ou de maniere repetee jusqu&apos;a atteindre le nombre de taches demande ou jusqu&apos;a son arret.</p>
-    <p>Le callback a executer est stocke dans la propriete <b>TimerFcn</b>. Le callback peut etre un handle de fonction, un tableau de cellules dont le premier element est un handle de fonction, un vecteur de caracteres ou une chaine scalaire. Les callbacks par handle de fonction recoivent l&apos;objet timer et une structure d&apos;evenement.</p>
-    <p>Les objets timer restent enregistres apres la sortie de portee de la variable qui les contenait. Utilisez <b>delete</b> lorsqu&apos;un timer n&apos;est plus necessaire.</p>
-    <p>Les proprietes importantes d&apos;un timer sont listees ci-dessous.</p>
+    <p><b>timer</b> crée un objet timer. Un objet timer peut exécuter un callback une seule fois, après un délai, a une date future, ou de manière répétée jusqu&apos;a atteindre le nombre de tâches demande ou jusqu&apos;a son arrêt.</p>
+    <p>Le callback à exécuter est stocké dans la propriété <b>TimerFcn</b>. Le callback peut être un handle de fonction, un tableau de cellules dont le premier élément est un handle de fonction, un vecteur de caractères ou une chaîne scalaire. Les callbacks par handle de fonction reçoivent l&apos;objet timer et une structure d&apos;événement.</p>
+    <p>Les objets timer restent enregistrés après la sortie de portée de la variable qui les contenait. Utilisez <b>delete</b> lorsqu&apos;un timer n&apos;est plus nécessaire.</p>
+    <p>Les propriétés importantes d&apos;un timer sont listées ci-dessous.</p>
     <table border="1">
       <tr>
-        <th>Propriete</th>
+        <th>Propriété</th>
         <th>Description</th>
       </tr>
       <tr>
         <td>BusyMode</td>
-        <td>Action utilisee lorsque les callbacks d&apos;un timer a cadence fixe ne peuvent pas s&apos;executer immediatement : <b>drop</b>, <b>queue</b> ou <b>error</b>.</td>
+        <td>Action utilisée lorsque les callbacks d&apos;un timer a cadence fixe ne peuvent pas s&apos;exécuter immédiatement : <b>drop</b>, <b>queue</b> ou <b>error</b>.</td>
       </tr>
       <tr>
         <td>ExecutionMode</td>
@@ -45,19 +45,19 @@
       </tr>
       <tr>
         <td>Period</td>
-        <td>Temps en secondes entre deux executions repetees du timer.</td>
+        <td>Temps en secondes entre deux exécutions répétées du timer.</td>
       </tr>
       <tr>
         <td>StartDelay</td>
-        <td>Delai en secondes avant la premiere execution du timer.</td>
+        <td>Délai en secondes avant la première exécution du timer.</td>
       </tr>
       <tr>
         <td>TasksToExecute</td>
-        <td>Nombre de fois ou <b>TimerFcn</b> doit etre execute. La valeur par defaut est <b>Inf</b>.</td>
+        <td>Nombre de fois ou <b>TimerFcn</b> doit être exécuté. La valeur par défaut est <b>Inf</b>.</td>
       </tr>
       <tr>
         <td>TasksExecuted</td>
-        <td>Compteur en lecture seule des executions de callback terminees.</td>
+        <td>Compteur en lecture seule des exécutions de callback terminées.</td>
       </tr>
       <tr>
         <td>Running</td>
@@ -65,17 +65,17 @@
       </tr>
       <tr>
         <td>ObjectVisibility</td>
-        <td>Visibilite utilisee par <b>timerfind</b>. Les timers caches sont quand meme retournes par <b>timerfindall</b>.</td>
+        <td>Visibilité utilisée par <b>timerfind</b>. Les timers caches sont quand même retournés par <b>timerfindall</b>.</td>
       </tr>
     </table>
-    <p>Utilisez <b>start</b> pour demarrer un timer immediatement, <b>startat</b> pour le demarrer a une date et une heure donnees, <b>stop</b> pour l&apos;arreter, <b>wait</b> pour bloquer jusqu&apos;a son arret et <b>delete</b> pour le supprimer lorsqu&apos;il n&apos;est plus necessaire.</p>
+    <p>Utilisez <b>start</b> pour démarrer un timer immédiatement, <b>startat</b> pour le démarrer a une date et une heure données, <b>stop</b> pour l&apos;arrêter, <b>wait</b> pour bloquer jusqu&apos;a son arrêt et <b>delete</b> pour le supprimer lorsqu&apos;il n&apos;est plus nécessaire.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Creer un timer a execution unique apres un court delai.</example_item_description>
+      <example_item_description>Créer un timer a exécution unique après un court délai.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[t = timer('StartDelay', 0.1, ...
   'TimerFcn', @(src, event) disp('timer fired'));
 start(t);
@@ -84,7 +84,7 @@ delete(t);]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Creer un timer qui s&apos;execute trois fois et affiche le compteur d&apos;execution.</example_item_description>
+      <example_item_description>Créer un timer qui s&apos;exécute trois fois et affiche le compteur d&apos;exécution.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[t = timer('ExecutionMode', 'fixedSpacing', ...
   'Period', 0.05, ...
   'TasksToExecute', 3, ...

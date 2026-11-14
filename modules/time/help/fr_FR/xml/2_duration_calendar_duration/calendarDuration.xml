@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>calendarDuration</keyword>
-  <short_description>Cree des durees calendaires avec composants mois, jours et temps.</short_description>
+  <short_description>Crée des durées calendaires avec composants mois, jours et temps.</short_description>
   <syntax>
     <syntax_item>c = calendarDuration(y, mo, d)</syntax_item>
     <syntax_item>c = calendarDuration(y, mo, d, h, mi, s)</syntax_item>
@@ -14,7 +14,7 @@
   <param_input>
     <param_input_item>
       <param_name>inputs</param_name>
-      <param_description>Annees calendaires, mois, jours et composants horaires optionnels, ou tableaux numeriques.</param_description>
+      <param_description>Années calendaires, mois, jours et composants horaires optionnels, ou tableaux numériques.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>fmt</param_name>
@@ -28,8 +28,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>Cree des durees calendaires avec composants mois, jours et temps.</p>
-    <p>Les durees calendaires conservent la semantique calendrier lors des additions avec datetime. Les calculs par mois bornent les jours a la fin du mois si necessaire.</p>
+    <p>Crée des durées calendaires avec composants mois, jours et temps.</p>
+    <p>Les durées calendaires conservent la sémantique calendrier lors des additions avec datetime. Les calculs par mois bornent les jours à la fin du mois si nécessaire.</p>
     <p>La propriété <b>Format</b> choisit les unités affichées : 'y' années, 'q' trimestres, 'm' mois, 'w' semaines, 'd' jours, 't' temps. Elle doit contenir 'm', 'd' et 't' ; un format sans ces lettres est complété avec un avertissement (par exemple 'ymd' devient 'ymdt'). Le format par défaut est 'ymdt', <b>calweeks</b> renvoie 'ymwdt' et <b>calquarters</b> renvoie 'qmdt'.</p>
     <p>La concaténation et l'addition de durées calendaires utilisent toutes les unités présentes dans les formats des opérandes.</p>
     <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>

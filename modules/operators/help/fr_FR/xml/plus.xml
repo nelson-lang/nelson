@@ -56,7 +56,7 @@ plus([1, 2], 1)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Ajouter un code caractere et une valeur numerique.</example_item_description>
+      <example_item_description>Ajouter un code caractère et une valeur numérique.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[char(65) + 1

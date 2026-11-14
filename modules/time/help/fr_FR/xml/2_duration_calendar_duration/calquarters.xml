@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>calquarters</keyword>
-  <short_description>Cree des durees calendaires contenant des trimestres calendaires.</short_description>
+  <short_description>Crée des durées calendaires contenant des trimestres calendaires.</short_description>
   <syntax>
     <syntax_item>c = calquarters(x)</syntax_item>
     <syntax_item>c = calquarters(x, 'ArithmeticMethod', method)</syntax_item>
@@ -11,7 +11,7 @@
   <param_input>
     <param_input_item>
       <param_name>inputs</param_name>
-      <param_description>Nombres numeriques de trimestres.</param_description>
+      <param_description>Nombres numériques de trimestres.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -21,8 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>Cree des durees calendaires contenant des trimestres calendaires.</p>
-    <p>Utilisez calquarters pour les decalages calendaires bases sur les mois. Cela differe de days ou duration car la longueur des mois varie.</p>
+    <p>Crée des durées calendaires contenant des trimestres calendaires.</p>
+    <p>Utilisez calquarters pour les décalages calendaires bases sur les mois. Cela diffère de days ou duration car la longueur des mois varie.</p>
     <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
     <p><b>ArithmeticMethod</b> peut valoir 'default' ou 'endofquarter' (voir <b>calendarDuration</b>) : avec 'endofquarter', une fin de trimestre reste une fin de trimestre quand la durée calendaire est ajoutée à un datetime.</p>
   </description>

@@ -15,7 +15,7 @@
     <syntax_item>[V, C] = voronoiDiagram(DT)</syntax_item>
   </syntax>
   <description>
-    <p><b>delaunayTriangulation</b> construit un objet de triangulation depuis des points et fournit des requetes geometriques associees.</p>
+    <p><b>delaunayTriangulation</b> construit un objet de triangulation depuis des points et fournit des requêtes géométriques associées.</p>
   </description>
   <examples>
     <example_item>

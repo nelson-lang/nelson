@@ -18,25 +18,25 @@
     </param_input_item>
     <param_input_item>
       <param_name>filename</param_name>
-      <param_description>un vecteur de caracteres ou une chaine scalaire : nom du fichier a supprimer. Le caractere generique * est accepte.</param_description>
+      <param_description>un vecteur de caractères ou une chaîne scalaire : nom du fichier à supprimer. Le caractère générique * est accepté.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>filenames</param_name>
-      <param_description>un tableau de chaines ou un tableau de cellules de vecteurs de caracteres : noms des fichiers a supprimer. Chaque element peut contenir le caractere generique *.</param_description>
+      <param_description>un tableau de chaînes ou un tableau de cellules de vecteurs de caractères : noms des fichiers à supprimer. Chaque élément peut contenir le caractère générique *.</param_description>
     </param_input_item>
   </param_input>
   <description>
     <p>
-      <b>delete(h)</b> invalide les objets handle references par h et libere leurs ressources natives.</p>
-    <p>Une fois supprimes, tous les alias vers les memes objets deviennent invalides.</p>
-    <p>Pour les objets handle classdef, <b>delete</b> appelle la methode destructeur de la classe quand elle existe et notifie <b>ObjectBeingDestroyed</b> avant que l&apos;objet devienne invalide.</p>
-    <p>Pour les tableaux de handles, chaque element valide est invalide.</p>
+      <b>delete(h)</b> invalide les objets handle références par h et libère leurs ressources natives.</p>
+    <p>Une fois supprimés, tous les alias vers les mêmes objets deviennent invalides.</p>
+    <p>Pour les objets handle classdef, <b>delete</b> appelle la méthode destructeur de la classe quand elle existe et notifie <b>ObjectBeingDestroyed</b> avant que l&apos;objet devienne invalide.</p>
+    <p>Pour les tableaux de handles, chaque élément valide est invalide.</p>
     <p>Pour supprimer seulement une variable, utilisez la fonction <link linkend="${memory_manager}clear">clear</link>. Les autres alias restent valides jusqu&apos;a l&apos;appel a delete.</p>
     <p>
-      <b>delete(filename)</b> supprime definitivement le fichier <b>filename</b> du disque. Les dossiers ne sont pas supprimes (voir <b>rmdir</b>).</p>
+      <b>delete(filename)</b> supprime définitivement le fichier <b>filename</b> du disque. Les dossiers ne sont pas supprimés (voir <b>rmdir</b>).</p>
     <p>
-      <b>delete(filenames)</b> supprime plusieurs fichiers donnes sous forme de tableau de chaines ou de tableau de cellules de vecteurs de caracteres. Plusieurs noms de fichiers peuvent aussi etre passes en arguments separes.</p>
-    <p>Chaque nom de fichier peut contenir le caractere generique <b>*</b>. Quand aucun fichier ne correspond a un nom, un avertissement (identifiant <b>Nelson:FileNotFound</b>) est affiche et les autres fichiers sont tout de meme supprimes.</p>
+      <b>delete(filenames)</b> supprime plusieurs fichiers donnés sous forme de tableau de chaînes ou de tableau de cellules de vecteurs de caractères. Plusieurs noms de fichiers peuvent aussi être passés en arguments séparés.</p>
+    <p>Chaque nom de fichier peut contenir le caractère générique <b>*</b>. Quand aucun fichier ne correspond à un nom, un avertissement (identifiant <b>Nelson:FileNotFound</b>) est affiché et les autres fichiers sont tout de même supprimés.</p>
   </description>
   <used_function />
   <bibliography />
@@ -98,7 +98,7 @@ isvalid(b)]]></example_item_data>
     </history_item>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>les fichiers peuvent etre supprimes avec un tableau de chaines ou un tableau de cellules de noms de fichiers</history_description>
+      <history_description>les fichiers peuvent être supprimés avec un tableau de chaînes ou un tableau de cellules de noms de fichiers</history_description>
     </history_item>
   </history>
   <authors>

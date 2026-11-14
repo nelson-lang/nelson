@@ -14,19 +14,19 @@
     <syntax_item>h = fimplicit3(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>fimplicit3</b> echantillonne <b>fun(x,y,z)</b> sur une grille reguliere et affiche une surface de niveau zero approchee comme objet graphique <b>implicitfunctionsurface</b>.</p>
-    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.implicitfunctionsurface.properties">proprietes de implicitfunctionsurface</link> pour la liste complete des proprietes.</p>
+    <p><b>fimplicit3</b> échantillonne <b>fun(x,y,z)</b> sur une grille régulière et affiche une surface de niveau zéro approchée comme objet graphique <b>implicitfunctionsurface</b>.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.implicitfunctionsurface.properties">proprietes de implicitfunctionsurface</link> pour la liste complète des propriétés.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Tracer une approximation de sphere.</example_item_description>
+      <example_item_description>Tracer une approximation de sphère.</example_item_description>
       <example_item_data><![CDATA[fimplicit3(@(x, y, z) x.^2 + y.^2 + z.^2 - 1, [-1.5 1.5]);]]></example_item_data>
       <example_item_img src="../../../../images/fimplicit3_1.svg" align="middle" generate="true" />
     </example_item>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Utiliser un style de ligne et des proprietes de surface.</example_item_description>
+      <example_item_description>Utiliser un style de ligne et des propriétés de surface.</example_item_description>
       <example_item_data><![CDATA[h = fimplicit3(@(x, y, z) x.^2 + y.^2 + z.^2 - 1, [-1.5 1.5], 'r', 'FaceAlpha', 0.5);]]></example_item_data>
       <example_item_img src="../../../../images/fimplicit3_2.svg" align="middle" generate="true" />
     </example_item>

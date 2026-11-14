@@ -27,14 +27,14 @@
     <p>
       <b>IM = im2double(I)</b> convertit l&apos;image d&apos;entrée I au format en précision double. L&apos;image d&apos;entrée IM peut être une image en niveaux de gris, en couleurs vraies ou binaire. Lors de la conversion, <b>im2double</b> remet à l&apos;échelle les valeurs de pixels depuis leur format entier d&apos;origine vers une plage flottante [0, 1].</p>
     <p>Pour une image indexée, <b>IM = im2double(I, &apos;indexed&apos;)</b> convertit également l&apos;image I en précision double, mais ajoute un décalage de 1 aux valeurs de pixels lors de la conversion depuis les types entiers.</p>
-    <p>Les images indexees peuvent etre des tableaux uint8, uint16, double, single ou logical.</p>
+    <p>Les images indexées peuvent être des tableaux uint8, uint16, double, single ou logical.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Convertir une image uint8 en precision double</example_item_description>
+      <example_item_description>Convertir une image uint8 en précision double</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[I=reshape(uint8(linspace(1,255,100)),[10 10]);

@@ -23,65 +23,65 @@
     </param_input_item>
     <param_input_item>
       <param_name>Name, Value</param_name>
-      <param_description>options de selection, planification, execution et reporting.</param_description>
+      <param_description>options de sélection, planification, exécution et reporting.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>suite</param_name>
-      <param_description>structure TestSuite contenant les entrees TestCase decouvertes.</param_description>
+      <param_description>structure TestSuite contenant les entrées TestCase découvertes.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>plan</param_name>
-      <param_description>structure TestPlan contenant les tests selectionnes, le shard, les workers et les
+      <param_description>structure TestPlan contenant les tests sélectionnés, le shard, les workers et les
         groupes de ressources.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>results</param_name>
-      <param_description>structure TestRunResult contenant le resume, les cas normalises, la registry et les
-        donnees brutes de compatibilite.</param_description>
+      <param_description>structure TestRunResult contenant le résume, les cas normalises, la registry et les
+        données brutes de compatibilité.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>Le namespace <b>nelson.unittest</b> fournit l&apos;API moderne du runner de tests.</p>
-    <p>Le runner separe la decouverte, la selection, la planification, l&apos;execution et le reporting tout
-      en conservant les wrappers de compatibilite <b>test_run</b>, <b>test_makeref</b> et <b>skip_testsuite</b>.</p>
-    <p><b>test_run</b>, <b>test_makeref</b> et <b>skip_testsuite</b> sont des points d&apos;entree de
-      compatibilite implementes au dessus de ce namespace.</p>
-    <p>Les details internes du runner sont prives et ne font pas partie de l&apos;API utilisateur.</p>
-    <p>Chaque test et chaque bench est execute dans un processus enfant supervise par le runner. Il n&apos;existe
-      pas de mode d&apos;execution in-process pour les tests ou les benches.</p>
+    <p>Le runner sépare la découverte, la sélection, la planification, l&apos;exécution et le reporting tout
+      en conservant les wrappers de compatibilité <b>test_run</b>, <b>test_makeref</b> et <b>skip_testsuite</b>.</p>
+    <p><b>test_run</b>, <b>test_makeref</b> et <b>skip_testsuite</b> sont des points d&apos;entrée de
+      compatibilité implémentés au dessus de ce namespace.</p>
+    <p>Les détails internes du runner sont privés et ne font pas partie de l&apos;API utilisateur.</p>
+    <p>Chaque test et chaque bench est exécuté dans un processus enfant supervise par le runner. Il n&apos;existe
+      pas de mode d&apos;exécution in-process pour les tests ou les benches.</p>
     <p>Le superviseur natif capture les sorties, applique les timeouts et retourne des diagnostics comme
       commande, pid, timeout, raison et job id.</p>
-    <p>Les cas normalises exposent ces details natifs dans <b>results.cases(k).diagnostics</b>. La structure
+    <p>Les cas normalises exposent ces détails natifs dans <b>results.cases(k).diagnostics</b>. La structure
       diagnostics contient <b>kind</b>, <b>index</b>, <b>metadata</b>, <b>job_id</b>, <b>pid</b>,
       <b>timeout</b>, <b>reason</b>, <b>executable</b> et <b>process_arguments</b>.</p>
-    <p>Les options de selection incluent <b>Name</b>, <b>Module</b>, <b>File</b>, <b>Kind</b>, <b>Tags</b>,
+    <p>Les options de sélection incluent <b>Name</b>, <b>Module</b>, <b>File</b>, <b>Kind</b>, <b>Tags</b>,
       <b>ExcludeTags</b>, <b>Match</b> et <b>Exclude</b>.</p>
     <p><b>Kind</b> accepte <b>test</b>, <b>bug</b>, <b>bench</b>, <b>all_tests</b> et <b>all</b>.</p>
-    <p>Les options d&apos;execution incluent <b>Workers</b>, <b>Timeout</b>, <b>StopOnFail</b>, <b>Retry</b>,
+    <p>Les options d&apos;exécution incluent <b>Workers</b>, <b>Timeout</b>, <b>StopOnFail</b>, <b>Retry</b>,
       <b>RetryOnlyOn</b>, <b>Shuffle</b>, <b>Seed</b>, <b>ShardIndex</b> et <b>ShardCount</b>.</p>
-    <p>La reutilisation de processus est explicite. Les fichiers de test et de bench sans tag
-      <b>&lt;--REUSE PROCESS--&gt;</b> sont executes dans des processus enfants separes. Les fichiers tagues
-      peuvent reutiliser le meme processus enfant quand leur mode et leurs ressources le permettent.</p>
-    <p>Le superviseur natif planifie les fichiers avec une file dynamique ponderee. Utilisez
-      <b>&lt;--WEIGHT N--&gt;</b> pour definir un poids de planification positif.</p>
-    <p><b>nelson.unittest.tuneWeights</b> peut calculer puis appliquer explicitement ces poids versionnes dans
-      les sources depuis un TestRunResult. Cette fonction n&apos;utilise pas de cache de durees et simule les
-      changements par defaut.</p>
-    <p><b>nelson.unittest.tuneReuse</b> peut auditer les tags de reutilisation existants ou proposer explicitement
-      des ajouts. La fonction utilise des campagnes natives isolees et reutilisees avec des ordres deterministes,
-      ne consulte aucun cache et simule les changements par defaut.</p>
-    <p>Si un worker reutilisable tague crashe ou ne retourne aucun resultat, le runner relance une fois le
+    <p>La réutilisation de processus est explicite. Les fichiers de test et de bench sans tag
+      <b>&lt;--REUSE PROCESS--&gt;</b> sont exécutés dans des processus enfants séparés. Les fichiers tagués
+      peuvent réutiliser le même processus enfant quand leur mode et leurs ressources le permettent.</p>
+    <p>Le superviseur natif planifie les fichiers avec une file dynamique pondérée. Utilisez
+      <b>&lt;--WEIGHT N--&gt;</b> pour définir un poids de planification positif.</p>
+    <p><b>nelson.unittest.tuneWeights</b> peut calculer puis appliquer explicitement ces poids versionnés dans
+      les sources depuis un TestRunResult. Cette fonction n&apos;utilise pas de cache de durées et simule les
+      changements par défaut.</p>
+    <p><b>nelson.unittest.tuneReuse</b> peut auditer les tags de réutilisation existants ou proposer explicitement
+      des ajouts. La fonction utilise des campagnes natives isolées et réutilisées avec des ordres déterministes,
+      ne consulte aucun cache et simule les changements par défaut.</p>
+    <p>Si un worker reutilisable tague crashe ou ne retourne aucun résultat, le runner relance une fois le
       fichier avec le chemin isole. Les timeouts sont rapportes directement.</p>
-    <p>La decouverte relit toujours les metadonnees et les tags courants. Les resultats sont affiches
-      progressivement dans un ordre stable avec un temps d&apos;execution sur chaque ligne.</p>
-    <p><b>LogDir</b> ecrit un fichier log JSON par cas de test normalise quand il est demande.</p>
-    <p>Les formats de rapport supportes sont <b>console</b>, <b>json</b>, <b>junit</b>, <b>tap</b> et
+    <p>La découverte relit toujours les métadonnées et les tags courants. Les résultats sont affichés
+      progressivement dans un ordre stable avec un temps d&apos;exécution sur chaque ligne.</p>
+    <p><b>LogDir</b> écrit un fichier log JSON par cas de test normalise quand il est demandé.</p>
+    <p>Les formats de rapport supportés sont <b>console</b>, <b>json</b>, <b>junit</b>, <b>tap</b> et
       <b>html</b>. JUnit produit du XML, TAP suit TAP13 et HTML produit un rapport autonome dans un fichier
       unique.</p>
-    <p>Les rapports HTML incluent les cas les plus lents, un resume par module, des tables de cas triables,
-      des filtres rapides, des commandes de reproduction, les donnees JSON embarquees et un sidecar JSON a cote
+    <p>Les rapports HTML incluent les cas les plus lents, un résumé par module, des tables de cas triables,
+      des filtres rapides, des commandes de reproduction, les données JSON embarquées et un sidecar JSON à cote
       du fichier HTML.</p>
   </description>
   <examples>

@@ -55,8 +55,8 @@
   <description>
     <p>
       <b>text</b> crée du texte.</p>
-    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.text.properties">proprietes de text</link> pour la liste complete des proprietes.</p>
-    <p>La propriété <b>Interpreter</b> choisit comment la chaîne <b>String</b> est analysée : <b>&apos;tex&apos;</b> (par défaut) affiche un sous-ensemble du balisage TeX (les caractères spéciaux ci-dessous, ainsi que les exposants <b>^{ }</b> et les indices <b>_{ }</b>) ; <b>&apos;none&apos;</b> affiche le texte tel quel.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.text.properties">proprietes de text</link> pour la liste complète des propriétés.</p>
+    <p>La propriété <b>Interpréter</b> choisit comment la chaîne <b>String</b> est analysée : <b>&apos;tex&apos;</b> (par défaut) affiche un sous-ensemble du balisage TeX (les caractères spéciaux ci-dessous, ainsi que les exposants <b>^{ }</b> et les indices <b>_{ }</b>) ; <b>&apos;none&apos;</b> affiche le texte tel quel.</p>
     <p>La valeur <b>&apos;latex&apos;</b> est acceptée, mais un moteur de mise en page LaTeX complet (<b>\frac</b>, <b>\sqrt</b>, <b>\int</b> avec bornes, matrices, etc.) n&apos;est pas encore implémenté. Elle se rabat sur le pipeline <b>&apos;tex&apos;</b> après suppression d&apos;une paire de délimiteurs mathématiques <b>$...$</b> entourants, de sorte que les symboles connus et les exposants/indices sont rendus tandis que les constructions non prises en charge apparaissent sous forme de texte source. Un interpréteur LaTeX complet est prévu pour une version future.</p>
     <p
     >listes des caractères spéciaux pris en charge par l&apos;interpréteur &apos;tex&apos; :</p>

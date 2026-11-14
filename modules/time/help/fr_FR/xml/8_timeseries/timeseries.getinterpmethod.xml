@@ -3,24 +3,24 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>timeseries.getinterpmethod</keyword>
-  <short_description>Renvoie le nom de la methode d'interpolation.</short_description>
+  <short_description>Renvoie le nom de la méthode d'interpolation.</short_description>
   <syntax>
     <syntax_item>method = getinterpmethod(ts)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>ts</param_name>
-      <param_description>Objet timeseries en entree.</param_description>
+      <param_description>Objet timeseries en entrée.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>method</param_name>
-      <param_description>Nom de la methode d'interpolation.</param_description>
+      <param_description>Nom de la méthode d'interpolation.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>getinterpmethod</b> Lit la methode d'interpolation stockee dans ts.DataInfo.Interpolation.</p>
+    <p><b>getinterpmethod</b> Lit la méthode d'interpolation stockée dans ts.DataInfo.Interpolation.</p>
   </description>
   <used_function />
   <bibliography />

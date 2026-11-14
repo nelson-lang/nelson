@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>rlim</keyword>
-  <short_description>Definit ou retourne les limites radiales des axes polaires.</short_description>
+  <short_description>Définit ou retourne les limites radiales des axes polaires.</short_description>
   <syntax>
     <syntax_item>lims = rlim()</syntax_item>
     <syntax_item>rlim([rmin, rmax])</syntax_item>
@@ -15,11 +15,11 @@
   <param_input>
     <param_input_item>
       <param_name>[rmin, rmax]</param_name>
-      <param_description>Vecteur a deux elements. La seconde valeur doit etre superieure a la premiere.</param_description>
+      <param_description>Vecteur à deux éléments. La seconde valeur doit être supérieure à la première.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>&apos;auto&apos;</param_name>
-      <param_description>Active la selection automatique des limites radiales a partir des donnees tracees.</param_description>
+      <param_description>Active la sélection automatique des limites radiales à partir des données tracées.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>&apos;manual&apos;</param_name>
@@ -37,7 +37,7 @@
   <param_output>
     <param_output_item>
       <param_name>lims</param_name>
-      <param_description>Vecteur a deux elements : [rmin, rmax].</param_description>
+      <param_description>Vecteur à deux éléments : [rmin, rmax].</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>m</param_name>
@@ -45,15 +45,15 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>rlim</b> retourne ou definit les limites radiales de l&apos;axes polaire courant.</p>
-    <p>La definition de limites numeriques passe le mode radial a <b>manual</b>. Le mode <b>auto</b> recalcule les limites lors du rafraichissement de l&apos;axes polaire.</p>
+    <p><b>rlim</b> retourne ou définit les limites radiales de l&apos;axes polaire courant.</p>
+    <p>La définition de limites numériques passe le mode radial a <b>manual</b>. Le mode <b>auto</b> recalcule les limites lors du rafraîchissement de l&apos;axes polaire.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Definir les limites radiales.</example_item_description>
+      <example_item_description>Définir les limites radiales.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[
 theta = linspace(0, 2*pi, 100);
 polarplot(theta, 2 + sin(theta));

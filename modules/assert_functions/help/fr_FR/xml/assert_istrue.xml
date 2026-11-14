@@ -11,16 +11,16 @@
     <syntax_item>[res, msg] = assert_istrue(condition, message)</syntax_item>
   </syntax>
   <param_input>
-    <param_input_item><param_name>condition</param_name><param_description>Scalaire ou tableau logique a tester. Chaque entree doit etre true.</param_description></param_input_item>
-    <param_input_item><param_name>message</param_name><param_description>Message d'echec personnalise optionnel.</param_description></param_input_item>
+    <param_input_item><param_name>condition</param_name><param_description>Scalaire ou tableau logique à tester. Chaque entrée doit être true.</param_description></param_input_item>
+    <param_input_item><param_name>message</param_name><param_description>Message d'échec personnalisé optionnel.</param_description></param_input_item>
   </param_input>
   <param_output>
-    <param_output_item><param_name>res</param_name><param_description>true si l'assertion reussit, false sinon.</param_description></param_output_item>
-    <param_output_item><param_name>msg</param_name><param_description>Message d'echec de l'assertion, vide en cas de succes.</param_description></param_output_item>
+    <param_output_item><param_name>res</param_name><param_description>true si l'assertion réussit, false sinon.</param_description></param_output_item>
+    <param_output_item><param_name>msg</param_name><param_description>Message d'échec de l'assertion, vide en cas de succès.</param_description></param_output_item>
   </param_output>
   <description>
-    <p><b>assert_istrue</b> est conservee pour compatibilite.</p>
-    <p>Pour la documentation complete, utiliser <link linkend="${assert_functions}asserts.istrue">asserts.istrue</link>.</p>
+    <p><b>assert_istrue</b> est conservée pour compatibilité.</p>
+    <p>Pour la documentation complète, utiliser <link linkend="${assert_functions}asserts.istrue">asserts.istrue</link>.</p>
   </description>
   <used_function />
   <bibliography />
@@ -34,7 +34,7 @@
   </see_also>
   <history>
     <history_item><history_version>1.0.0</history_version><history_description>version initiale</history_description></history_item>
-    <history_item><history_version>2.0.0</history_version><history_description>documentee comme nom historique de asserts.istrue</history_description></history_item>
+    <history_item><history_version>2.0.0</history_version><history_description>documentée comme nom historique de asserts.istrue</history_description></history_item>
   </history>
   <authors><author_item>Allan CORNET</author_item></authors>
 </xmldoc>

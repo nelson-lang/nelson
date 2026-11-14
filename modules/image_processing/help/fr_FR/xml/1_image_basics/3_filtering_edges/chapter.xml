@@ -5,6 +5,6 @@
   <module_name>image_processing</module_name>
   <chapter>Filtrage et contours</chapter>
   <chapter_description>
-    <p>Fonctions pour le filtrage spatial, le filtrage gaussien ou median, le remplissage, les noyaux de filtre et la detection de contours.</p>
+    <p>Fonctions pour le filtrage spatial, le filtrage gaussien ou median, le remplissage, les noyaux de filtre et la détection de contours.</p>
   </chapter_description>
 </xmldoc>

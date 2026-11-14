@@ -63,12 +63,12 @@
       <tr>
         <td>Integer</td>
         <td>%x</td>
-        <td>Hexadecimal (lowercase)</td>
+        <td>Hexadécimal (lowercase)</td>
       </tr>
       <tr>
         <td>Integer</td>
         <td>%X</td>
-        <td>Hexadecimal (uppercase)</td>
+        <td>Hexadécimal (uppercase)</td>
       </tr>
       <tr>
         <td>Floating-point number</td>

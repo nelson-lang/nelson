@@ -56,7 +56,7 @@
     <p>
       <b>contour(X, Y, Z)</b> permet à l&apos;utilisateur de spécifier les coordonnées x et y correspondant aux valeurs de la matrice Z. Cela permet un contrôle plus précis du positionnement du tracé de contours sur le plan x-y.</p>
     <p>Les matrices X et Y fournissent les coordonnées, tandis que Z contient les valeurs de hauteur pour générer le tracé de contours.</p>
-    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.contour.properties">proprietes de contour</link> pour la liste complete des proprietes.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.contour.properties">proprietes de contour</link> pour la liste complète des propriétés.</p>
   </description>
   <used_function />
   <bibliography />
@@ -127,7 +127,7 @@
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Lignes de contour avec etiquettes.</example_item_description>
+      <example_item_description>Lignes de contour avec étiquettes.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[
 [X, Y, Z] = peaks;
 
@@ -171,7 +171,7 @@ clabel(C, h);
     </history_item>
     <history_item>
       <history_version>--</history_version>
-      <history_description>Ajout de la propriete BeingDeleted.</history_description>
+      <history_description>Ajout de la propriété BeingDeleted.</history_description>
     </history_item>
   </history>
   <authors>

@@ -12,12 +12,12 @@
     <syntax_item>h = trisurf(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>trisurf</b> trace une surface triangulaire 3-D depuis une matrice de connectivite ou un objet de triangulation.</p>
+    <p><b>trisurf</b> trace une surface triangulaire 3-D depuis une matrice de connectivité ou un objet de triangulation.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Tracer les facettes de l'enveloppe convexe de points 3-D aleatoires.</example_item_description>
+      <example_item_description>Tracer les facettes de l'enveloppe convexe de points 3-D aléatoires.</example_item_description>
       <example_item_data runnable="gui"><![CDATA[rng(0);
 P = randn(30, 3);
 T = convhulln(P);

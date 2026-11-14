@@ -23,7 +23,7 @@
   </param_output>
   <description>
     <p>
-      <b>leapyear</b> determines leap years.</p>
+      <b>leapyear</b> déterminés leap years.</p>
     <p>Leap years is done by Gregorian calendar rules.</p>
   </description>
   <used_function />

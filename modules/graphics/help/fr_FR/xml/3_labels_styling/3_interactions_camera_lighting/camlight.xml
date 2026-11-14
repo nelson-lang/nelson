@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>camlight</keyword>
-  <short_description>Cree ou positionne une lumiere par rapport a la camera.</short_description>
+  <short_description>Crée ou positionne une lumière par rapport à la caméra.</short_description>
   <syntax>
     <syntax_item>camlight()</syntax_item>
     <syntax_item>camlight('headlight')</syntax_item>
@@ -13,7 +13,7 @@
     <syntax_item>go = camlight(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>camlight</b> place une lumiere infinie depuis la camera courante ou une position angulaire.</p>
+    <p><b>camlight</b> place une lumière infinie depuis la caméra courante ou une position angulaire.</p>
   </description>
   <examples>
     <example_item>

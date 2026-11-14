@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>ClassificationEnsemble</keyword>
-  <short_description>Modele d&apos;ensemble pour la classification.</short_description>
+  <short_description>Modèle d&apos;ensemble pour la classification.</short_description>
   <syntax>
     <syntax_item>mdl = fitcensemble(X, Y)</syntax_item>
     <syntax_item>label = predict(mdl, Xnew)</syntax_item>
@@ -12,34 +12,34 @@
   <param_input>
     <param_input_item>
       <param_name>X</param_name>
-      <param_description>matrice numerique : les lignes sont les observations et les colonnes sont les predicteurs.</param_description>
+      <param_description>matrice numérique : les lignes sont les observations et les colonnes sont les prédicteurs.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Y</param_name>
-      <param_description>vecteur : etiquettes de classes, une etiquette pour chaque ligne de X.</param_description>
+      <param_description>vecteur : étiquettes de classes, une étiquette pour chaque ligne de X.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Name, Value</param_name>
-      <param_description>arguments nom-valeur optionnels acceptes par la fonction d&apos;ajustement correspondante.</param_description>
+      <param_description>arguments nom-valeur optionnels acceptés par la fonction d&apos;ajustement correspondante.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>mdl</param_name>
-      <param_description>objet modele de classification renvoye par la fonction d&apos;ajustement.</param_description>
+      <param_description>objet modèle de classification renvoyé par la fonction d&apos;ajustement.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>label</param_name>
-      <param_description>etiquettes de classes predites pour de nouvelles observations.</param_description>
+      <param_description>étiquettes de classes prédites pour de nouvelles observations.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>score</param_name>
-      <param_description>scores de classes ou valeurs apparentees aux probabilites a posteriori lorsque le modele les fournit.</param_description>
+      <param_description>scores de classes ou valeurs apparentées aux probabilités a posteriori lorsque le modèle les fournit.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>ClassificationEnsemble stocke un modele de classification qui combine plusieurs apprenants faibles.</p>
-    <p>Creez cet objet avec fitcensemble. Utilisez predict pour agreger les reponses des apprenants sur de nouvelles observations.</p>
+    <p>ClassificationEnsemble stocke un modèle de classification qui combine plusieurs apprenants faibles.</p>
+    <p>Créez cet objet avec fitcensemble. Utilisez predict pour agreger les réponses des apprenants sur de nouvelles observations.</p>
   </description>
   <used_function>
     <used_function_item>fitcensemble</used_function_item>
@@ -48,7 +48,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Entrainer un petit ensemble de classification et classer deux observations.</example_item_description>
+      <example_item_description>Entraîner un petit ensemble de classification et classer deux observations.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[X = [0 0; 0 1; 1 0; 5 5; 5 6; 6 5];
 Y = [1; 1; 1; 2; 2; 2];
 mdl = fitcensemble(X, Y, 'NumLearningCycles', 3);

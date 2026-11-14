@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>residue</keyword>
-  <short_description>Decomposition en fractions simples (residus)</short_description>
+  <short_description>Décomposition en fractions simples (résidus)</short_description>
   <syntax>
     <syntax_item>[r, p, k] = residue(b, a)</syntax_item>
     <syntax_item>[b, a] = residue(r, p, k)</syntax_item>
@@ -11,19 +11,19 @@
   <param_input>
     <param_input_item>
       <param_name>b</param_name>
-      <param_description>vecteur : coefficients du polynome numerateur.</param_description>
+      <param_description>vecteur : coefficients du polynôme numérateur.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>a</param_name>
-      <param_description>vecteur : coefficients du polynome denominateur.</param_description>
+      <param_description>vecteur : coefficients du polynôme dénominateur.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>r</param_name>
-      <param_description>vecteur colonne : residus.</param_description>
+      <param_description>vecteur colonne : résidus.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>p</param_name>
-      <param_description>vecteur colonne : poles.</param_description>
+      <param_description>vecteur colonne : pôles.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>k</param_name>
@@ -33,11 +33,11 @@
   <param_output>
     <param_output_item>
       <param_name>r</param_name>
-      <param_description>vecteur colonne : residus.</param_description>
+      <param_description>vecteur colonne : résidus.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>p</param_name>
-      <param_description>vecteur colonne : poles.</param_description>
+      <param_description>vecteur colonne : pôles.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>k</param_name>
@@ -46,11 +46,11 @@
   </param_output>
   <description>
     <p>
-      <b>residue</b> calcule la decomposition en fractions simples du rapport de deux polynomes b(s) / a(s).</p>
-    <p>Avec deux entrees, la fonction retourne les residus r, les poles p et le terme direct k tels que</p>
+      <b>residue</b> calcule la décomposition en fractions simples du rapport de deux polynômes b(s) / a(s).</p>
+    <p>Avec deux entrées, la fonction retourne les résidus r, les pôles p et le terme direct k tels que</p>
     <p>b(s) / a(s) = r(1) / (s - p(1)) + ... + r(n) / (s - p(n)) + k(s).</p>
-    <p>Pour un pole de multiplicite m repete dans p, les termes correspondants sont r(j) / (s - p) ^ 1, ..., r(j + m - 1) / (s - p) ^ m.</p>
-    <p>Avec trois entrees, <b>residue</b> effectue l&apos;operation inverse et retourne le numerateur b et le denominateur a de la fraction rationnelle equivalente.</p>
+    <p>Pour un pôle de multiplicité m répète dans p, les termes correspondants sont r(j) / (s - p) ^ 1, ..., r(j + m - 1) / (s - p) ^ m.</p>
+    <p>Avec trois entrées, <b>residue</b> effectue l&apos;opération inverse et retourne le numérateur b et le dénominateur a de la fraction rationnelle équivalente.</p>
   </description>
   <used_function />
   <examples>

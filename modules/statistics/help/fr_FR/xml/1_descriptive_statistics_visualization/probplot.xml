@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>probplot</keyword>
-  <short_description>Trace de probabilite.</short_description>
+  <short_description>Trace de probabilité.</short_description>
   <syntax>
     <syntax_item>probplot(y)</syntax_item>
     <syntax_item>probplot(y, cens)</syntax_item>
@@ -13,8 +13,8 @@
     <syntax_item>h = probplot(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>probplot</b> cree un trace de probabilite pour des donnees d&apos;echantillon.</p>
-    <p>La distribution par defaut est normale. Les noms de distribution pris en charge incluent normal, exponential, extreme value, half normal, lognormal, logistic, loglogistic, rayleigh et weibull. La valeur retournee contient les handles des lignes des points et, sauf avec noref, les lignes de reference.</p>
+    <p><b>probplot</b> crée un trace de probabilité pour des données d&apos;échantillon.</p>
+    <p>La distribution par défaut est normale. Les noms de distribution pris en charge incluent normal, exponential, extrême value, half normal, lognormal, logistic, loglogistic, rayleigh et weibull. La valeur retournée contient les handles des lignes des points et, sauf avec noref, les lignes de référence.</p>
   </description>
   <examples>
     <example_item>

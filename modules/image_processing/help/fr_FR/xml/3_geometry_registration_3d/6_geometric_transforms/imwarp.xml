@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>imwarp</keyword>
-  <short_description>Transforme une image ou un volume avec une matrice numerique.</short_description>
+  <short_description>Transforme une image ou un volume avec une matrice numérique.</short_description>
   <syntax>
     <syntax_item>J = imwarp(I, T)</syntax_item>
     <syntax_item>J = imwarp(I, RI, T)</syntax_item>
@@ -19,11 +19,11 @@
     </param_input_item>
     <param_input_item>
       <param_name>RI, RV</param_name>
-      <param_description>Reference spatiale source optionnelle, imref2d pour les images ou imref3d pour les volumes.</param_description>
+      <param_description>Référence spatiale source optionnelle, imref2d pour les images ou imref3d pour les volumes.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>T</param_name>
-      <param_description>Matrice de transformation numerique ou structure de transformation affine/projective.</param_description>
+      <param_description>Matrice de transformation numérique ou structure de transformation affine/projective.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Name, Value</param_name>
@@ -33,19 +33,19 @@
   <param_output>
     <param_output_item>
       <param_name>J</param_name>
-      <param_description>Image ou volume transforme, avec preservation de la classe pour les classes image courantes.</param_description>
+      <param_description>Image ou volume transformé, avec preservation de la classe pour les classes image courantes.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>R</param_name>
-      <param_description>Reference spatiale de sortie.</param_description>
+      <param_description>Référence spatiale de sortie.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>Transforme une image avec une matrice projective 3-by-3, une matrice affine 2-by-3, ou une structure.</p>
-    <p>Une structure imref2d peut etre fournie apres l image pour definir les coordonnees monde source.</p>
-    <p>Les methodes d interpolation 2-D supportees sont nearest, linear, bilinear et cubic.</p>
-    <p>OutputView peut etre un vecteur de taille, same, full, ou une structure imref2d.</p>
-    <p>FillValues peut etre scalaire ou contenir une valeur par canal image, avec des valeurs numeriques ou logiques.</p>
+    <p>Une structure imref2d peut être fournie après l image pour définir les coordonnées monde source.</p>
+    <p>Les méthodes d interpolation 2-D supportées sont nearest, linear, bilinear et cubic.</p>
+    <p>OutputView peut être un vecteur de taille, same, full, ou une structure imref2d.</p>
+    <p>FillValues peut être scalaire ou contenir une valeur par canal image, avec des valeurs numériques ou logiques.</p>
     <p>Pour les volumes 3-D, imwarp accepte affine3d ou une matrice affine 4-by-4.</p>
     <p>Les appels 3-D supportent imref3d, l interpolation nearest ou linear, et des FillValues scalaires.</p>
   </description>

@@ -4,79 +4,79 @@
   <language>fr_FR</language>
   <keyword>bitwiseOperator</keyword>
   <keyword_alias>block:bitwiseOperator</keyword_alias>
-  <short_description>AND/OR/XOR/NAND/NOR/NOT bit-a-bit de l entree avec un BitMask constant.</short_description>
+  <short_description>AND/OR/XOR/NAND/NOR/NOT bit-a-bit de l entrée avec un BitMask constant.</short_description>
   <syntax>
     <syntax_item>Type de bloc : bitwiseOperator</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
-      <param_name>ports d entree</param_name>
-      <param_description>1 port(s) d entree declare(s).</param_description>
+      <param_name>ports d'entrée</param_name>
+      <param_description>1 port(s) d entrée déclare(s).</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>ports de sortie</param_name>
-      <param_description>1 port(s) de sortie declare(s).</param_description>
+      <param_description>1 port(s) de sortie déclare(s).</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>AND/OR/XOR/NAND/NOR/NOT bit-a-bit de l entree avec un BitMask constant.</p>
+    <p>AND/OR/XOR/NAND/NOR/NOT bit-a-bit de l entrée avec un BitMask constant.</p>
     <table border="1">
       <tbody>
         <tr><td>Module</td><td><code>nflow_blocks</code></td></tr>
-        <tr><td>Bibliotheque</td><td>Logique / Operations sur les bits</td></tr>
+        <tr><td>Bibliothèque</td><td>Logique / Opérations sur les bits</td></tr>
         <tr><td>Type</td><td><code>bitwiseOperator</code></td></tr>
-        <tr><td>Libelle</td><td>Bitwise Operator</td></tr>
+        <tr><td>Libellé</td><td>Bitwise Operator</td></tr>
       </tbody>
     </table>
     <p><img src="../../../../libraries/logic/exports/bitwiseOperator.svg" align="middle"/></p>
     <p><b>Description</b></p>
-    <p>Reinterprete l'entree (entiere) comme un entier non signe sur <code>NumBits</code> bits et applique l'<code>Operation</code> bit-a-bit choisie avec le <code>BitMask</code> constant. NOT ignore le masque. Le resultat est re-masque sur <code>NumBits</code> bits et renvoye en double. Element par element.</p>
+    <p>Réinterprète l'entrée (entière) comme un entier non signe sur <code>NumBits</code> bits et applique l'<code>Operation</code> bit-a-bit choisie avec le <code>BitMask</code> constant. NOT ignore le masque. Le résultat est re-masque sur <code>NumBits</code> bits et renvoye en double. Élément par élément.</p>
     <p><b>Ports</b></p>
-    <p><b>Entree(s)</b></p>
+    <p><b>Entrée(s)</b></p>
     <table border="1">
-      <thead><tr><th>Port</th><th>Role</th><th>Cote</th><th>Position</th></tr></thead>
+      <thead><tr><th>Port</th><th>Rôle</th><th>Cote</th><th>Position</th></tr></thead>
       <tbody>
-        <tr><td>Port_1</td><td>Signal numerique lu par le bloc.</td><td>gauche</td><td>x=0, y=40</td></tr>
+        <tr><td>Port_1</td><td>Signal numérique lu par le bloc.</td><td>gauche</td><td>x=0, y=40</td></tr>
       </tbody>
     </table>
     <p><b>Sortie(s)</b></p>
     <table border="1">
-      <thead><tr><th>Port</th><th>Role</th><th>Cote</th><th>Position</th></tr></thead>
+      <thead><tr><th>Port</th><th>Rôle</th><th>Cote</th><th>Position</th></tr></thead>
       <tbody>
-        <tr><td>Port_1</td><td>Signal numerique produit par le bloc.</td><td>droite</td><td>x=90, y=40</td></tr>
+        <tr><td>Port_1</td><td>Signal numérique produit par le bloc.</td><td>droite</td><td>x=90, y=40</td></tr>
       </tbody>
     </table>
-    <p><b>Parametres</b></p>
+    <p><b>Paramètres</b></p>
     <table border="1">
-      <thead><tr><th>Parametre</th><th>Valeur par defaut</th></tr></thead>
+      <thead><tr><th>Paramètre</th><th>Valeur par défaut</th></tr></thead>
       <tbody>
         <tr><td><code>Operation</code></td><td>AND</td></tr>
         <tr><td><code>BitMask</code></td><td>0</td></tr>
         <tr><td><code>NumBits</code></td><td>32</td></tr>
       </tbody>
     </table>
-    <p><b>Caracteristiques du bloc</b></p>
+    <p><b>Caractéristiques du bloc</b></p>
     <table border="1">
       <tbody>
         <tr><td>Type de bloc</td><td>bitwiseOperator</td></tr>
-        <tr><td>Famille</td><td>Logique / Operations sur les bits</td></tr>
+        <tr><td>Famille</td><td>Logique / Opérations sur les bits</td></tr>
         <tr><td>Taille rendue</td><td>90 x 80</td></tr>
         <tr><td>Phases</td><td>ALGEBRAIC</td></tr>
-        <tr><td>Etat interne ou historique</td><td>non</td></tr>
-        <tr><td>Type de donnees du signal</td><td>valeurs numeriques double</td></tr>
+        <tr><td>État interne ou historique</td><td>non</td></tr>
+        <tr><td>Type de données du signal</td><td>valeurs numériques double</td></tr>
       </tbody>
     </table>
     <p><b>Algorithmes</b></p>
     <ul>
       <li>ALGEBRAIC : x = (uint)round(u) &amp; fullmask ; out = op(x, BitMask) &amp; fullmask, avec fullmask = 2^NumBits - 1.</li>
     </ul>
-    <p><b>Equation ou regle</b></p>
+    <p><b>Équation ou règle</b></p>
     <latex>y = (u \star \text{BitMask}) \,\&amp;\, (2^{\text{NumBits}}-1)</latex>
-    <p><b>Capacites etendues</b></p>
-    <p><b>Sources d implementation</b></p>
-    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <p><b>Capacités étendues</b></p>
+    <p><b>Sources d implémentation</b></p>
+    <p>Génération de code : prise en charge pour C et Rust.</p>
     <source_code label="Manifest" path="modules/nflow_blocks/libraries/logic/library.json" language="json"/>
     <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/logic/bitwiseOperator.cpp" language="cpp"/>
   </description>

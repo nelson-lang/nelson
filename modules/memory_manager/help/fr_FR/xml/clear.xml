@@ -23,12 +23,12 @@
   <param_input>
     <param_input_item>
       <param_name>variable_name</param_name>
-      <param_description>un vecteur de caracteres ou un scalaire string : nom de variable.</param_description>
+      <param_description>un vecteur de caractères ou un scalaire string : nom de variable.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>-regexp</param_name>
       <param_description
-      >efface les variables de l&apos;espace de travail courant dont le nom correspond a l&apos;une des expressions regulieres.</param_description>
+      >efface les variables de l&apos;espace de travail courant dont le nom correspond à l&apos;une des expressions régulières.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>global</param_name>
@@ -56,7 +56,7 @@
     <param_input_item>
       <param_name>classes</param_name>
       <param_description
-      >efface les variables classdef vivantes, les metadonnees classdef et le cache des methodes de classe generees.</param_description>
+      >efface les variables classdef vivantes, les métadonnées classdef et le cache des méthodes de classe générées.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>function_name</param_name>
@@ -74,9 +74,9 @@
     >Supprime des variables de l&apos;espace de travail courant ou d&apos;une portée spécifiée. Sans argument, supprime toutes les variables de l&apos;espace de travail courant.</p>
     <p>À utiliser avec prudence : cette opération ne peut pas être annulée.</p>
     <p>
-      <b>clear('-regexp', ...)</b> efface les variables de l&apos;espace de travail courant dont le nom correspond a l&apos;une des expressions regulieres donnees.</p>
+      <b>clear('-regexp', ...)</b> efface les variables de l&apos;espace de travail courant dont le nom correspond à l&apos;une des expressions régulières données.</p>
     <p>
-      <b>clear classes</b> efface les variables classdef vivantes et recharge les definitions classdef depuis le disque lors de la prochaine utilisation.</p>
+      <b>clear classes</b> efface les variables classdef vivantes et recharge les définitions classdef depuis le disque lors de la prochaine utilisation.</p>
   </description>
   <used_function />
   <bibliography />
@@ -94,7 +94,7 @@ exist('A', 'var')]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Effacer des variables avec une expression reguliere.</example_item_description>
+      <example_item_description>Effacer des variables avec une expression régulière.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[MonValue = 1;
 TueValue = 2;
 KeepValue = 3;
@@ -103,7 +103,7 @@ who]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Recharger une definition classdef depuis le disque.</example_item_description>
+      <example_item_description>Recharger une définition classdef depuis le disque.</example_item_description>
       <example_item_data runnable="false"><![CDATA[clear classes
 d = [tempdir(), 'nelson_help_clear_classdef_fr/'];
 mkdir(d);

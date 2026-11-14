@@ -3,18 +3,18 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>dde23</keyword>
-  <short_description>Resout des equations a retard constant.</short_description>
+  <short_description>Résout des équations a retard constant.</short_description>
   <syntax>
     <syntax_item>sol = dde23(ddefun, delays, history, tspan)</syntax_item>
     <syntax_item>sol = dde23(ddefun, delays, history, tspan, options)</syntax_item>
   </syntax>
   <description>
     <p>
-      <b>dde23</b> resout des equations a retard ou chaque retard est un lag positif constant. La fonction derivee est appelee comme <b>f(t,y,z)</b>, avec les etats retardes en colonnes de <b>z</b>.</p>
+      <b>dde23</b> résout des équations a retard ou chaque retard est un lag positif constant. La fonction dérivée est appelée comme <b>f(t,y,z)</b>, avec les états retardes en colonnes de <b>z</b>.</p>
     <table style="width:100%">
       <tr>
-        <th>Element</th>
-        <th>Details</th>
+        <th>Élément</th>
+        <th>Détails</th>
       </tr>
       <tr>
         <td>Type de retard</td>
@@ -26,7 +26,7 @@
       </tr>
       <tr>
         <td>Historique</td>
-        <td>Scalaire, vecteur, structure de solution ou fonction selon la forme appelee.</td>
+        <td>Scalaire, vecteur, structure de solution ou fonction selon la forme appelée.</td>
       </tr>
       <tr>
         <td>Solution</td>
@@ -37,7 +37,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Exemple complet des fonctionnalites DDE et BVP ajoutees.</example_item_description>
+      <example_item_description>Exemple complet des fonctionnalités DDE et BVP ajoutées.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[rootPath = modulepath('ode_solvers', 'root');
 run([rootPath, '/examples/dde_bvp_added_features_example.m'])]]></example_item_data>
     </example_item>

@@ -17,7 +17,7 @@
     <p>Un bloc <b>équation</b> contient une formule LaTeX et l'affiche en ligne, à côté de votre texte. Par exemple <code>f(x) = \sin(x)\,e^{-\lambda x}</code> est composé comme une expression mathématique. Les équations servent uniquement à l'affichage ; elles ne sont pas évaluées.</p>
 
     <p><b>Cellules de code</b></p>
-    <p>Une <b>cellule de code</b> contient du code Nelson. Sa marge de gauche a trois boutons d'exécution : exécuter cette cellule, exécuter jusqu'à cette cellule, et exécuter la section (une cellule de code avec le texte et les contrôles au-dessus, jusqu'au titre précédent). La barre d'outils ajoute <b>Run all</b> pour tout le document.</p>
+    <p>Une <b>cellule de code</b> contient du code Nelson. Sa marge de gauche a trois boutons d'exécution : exécuter cette cellule, exécuter jusqu'à cette cellule, et exécuter la section (une cellule de code avec le texte et les contrôles au-dessus, jusqu'au titre précédent). La barre d'outils ajouté <b>Run all</b> pour tout le document.</p>
     <p>Quand vous modifiez une cellule, les cellules dont le résultat peut être périmé sont marquées. <b>Exécuter les périmées</b> ré-exécute seulement celles-ci et les cellules qui en dépendent, au lieu de tout le document. <b>Effacer</b> supprime toutes les sorties enregistrées.</p>
 
     <p><b>Tâche interactive</b></p>

@@ -3,12 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>split</keyword>
-  <short_description>Decoupe le texte aux delimiteurs.</short_description>
+  <short_description>Découpe le texte aux délimiteurs.</short_description>
   <syntax>
     <syntax_item>R = split(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>split</b> Decoupe le texte aux delimiteurs.</p>
+    <p><b>split</b> Découpe le texte aux délimiteurs.</p>
   </description>
   <used_function />
   <bibliography />

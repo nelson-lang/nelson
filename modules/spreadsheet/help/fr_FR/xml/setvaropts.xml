@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>setvaropts</keyword>
-  <short_description>Definir les options d&apos;importation des variables selectionnees.</short_description>
+  <short_description>Définir les options d&apos;importation des variables sélectionnées.</short_description>
   <syntax>
     <syntax_item>opts = setvaropts(opts, selection, Name, Value)</syntax_item>
     <syntax_item>opts = setvaropts(opts, selection, Name1, Value1, Name2, Value2, ...)</syntax_item>
@@ -11,11 +11,11 @@
   <param_input>
     <param_input_item>
       <param_name>opts</param_name>
-      <param_description>un objet d&apos;options d&apos;importation (texte delimite ou feuille de calcul).</param_description>
+      <param_description>un objet d&apos;options d&apos;importation (texte délimite ou feuille de calcul).</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>selection</param_name>
-      <param_description>noms de variables (chaine de caracteres, tableau de chaines ou cellule) ou indices numeriques.</param_description>
+      <param_description>noms de variables (chaîne de caractères, tableau de chaînes ou cellule) ou indices numériques.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Name, Value</param_name>
@@ -25,12 +25,12 @@
   <param_output>
     <param_output_item>
       <param_name>opts</param_name>
-      <param_description>l&apos;objet d&apos;options d&apos;importation mis a jour.</param_description>
+      <param_description>l&apos;objet d&apos;options d&apos;importation mis à jour.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>setvaropts</b> definit les options d&apos;importation par variable pour les variables selectionnees d&apos;un objet d&apos;options d&apos;importation et retourne l&apos;objet mis a jour.</p>
-    <p>La selection est validee par rapport aux noms de variables declares. Definir l&apos;option 'Type' met aussi a jour l&apos;entree correspondante de <b>VariableTypes</b>.</p>
+    <p><b>setvaropts</b> définit les options d&apos;importation par variable pour les variables sélectionnées d&apos;un objet d&apos;options d&apos;importation et retourne l&apos;objet mis à jour.</p>
+    <p>La sélection est validée par rapport aux noms de variables déclarés. Définir l&apos;option 'Type' met aussi à jour l&apos;entrée correspondante de <b>VariableTypes</b>.</p>
   </description>
   <used_function />
   <bibliography />

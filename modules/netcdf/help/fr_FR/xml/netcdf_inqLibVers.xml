@@ -3,25 +3,25 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>netcdf.inqLibVers</keyword>
-  <short_description>Retourne les informations de version de la bibliotheque netCDF.</short_description>
+  <short_description>Retourne les informations de version de la bibliothèque netCDF.</short_description>
   <syntax>
     <syntax_item>version = netcdf.inqLibVers()</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>none</param_name>
-      <param_description>Cette fonction ne requiert aucun argument d'entree.</param_description>
+      <param_description>Cette fonction ne requiert aucun argument d'entrée.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>version</param_name>
-      <param_description>Chaine de version de la bibliotheque netCDF.</param_description>
+      <param_description>Chaîne de version de la bibliothèque netCDF.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>netcdf.inqLibVers expose une operation bas niveau de la bibliotheque netCDF.</p>
-    <p>Ces fonctions utilisent des identifiants numeriques et suivent les conventions netCDF, notamment pour les indices, les modes et les constantes.</p>
+    <p>netcdf.inqLibVers expose une opération bas niveau de la bibliothèque netCDF.</p>
+    <p>Ces fonctions utilisent des identifiants numériques et suivent les conventions netCDF, notamment pour les indices, les modes et les constantes.</p>
   </description>
   <used_function />
   <bibliography />

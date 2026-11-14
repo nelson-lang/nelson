@@ -15,12 +15,12 @@
     </param_output_item>
     <param_output_item>
       <param_name>pyValue</param_name>
-      <param_description>objet Python renvoye par la fonction appelee.</param_description>
+      <param_description>objet Python renvoyé par la fonction appelée.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>py renvoie un objet proxy utilise pour acceder aux fonctions integrees et aux modules Python depuis Nelson.</p>
-    <p>Utilisez l&apos;acces par attribut sur l&apos;objet renvoye pour importer des modules ou appeler des fonctions Python.</p>
+    <p>py renvoie un objet proxy utilisé pour accéder aux fonctions intégrées et aux modules Python depuis Nelson.</p>
+    <p>Utilisez l&apos;accès par attribut sur l&apos;objet renvoyé pour importer des modules ou appeler des fonctions Python.</p>
   </description>
   <used_function>
     <used_function_item>pyenv</used_function_item>
@@ -28,7 +28,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Appeler une fonction integree Python via le proxy d&apos;espace de noms.</example_item_description>
+      <example_item_description>Appeler une fonction intégrée Python via le proxy d&apos;espace de noms.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[p = py();
 pyValue = p.int(42)]]></example_item_data>
     </example_item>

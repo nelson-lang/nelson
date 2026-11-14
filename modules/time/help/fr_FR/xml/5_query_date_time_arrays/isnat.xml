@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>isnat</keyword>
-  <short_description>Teste les elements datetime not-a-time.</short_description>
+  <short_description>Teste les éléments datetime not-a-time.</short_description>
   <syntax>
     <syntax_item>tf = isnat(t)</syntax_item>
   </syntax>
@@ -16,12 +16,12 @@
   <param_output>
     <param_output_item>
       <param_name>output</param_name>
-      <param_description>Un tableau logique avec true lorsque les dates serie datetime sont NaN.</param_description>
+      <param_description>Un tableau logique avec true lorsque les dates série datetime sont NaN.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>Teste les elements datetime not-a-time.</p>
-    <p>isnat rejette les entrees non datetime. C est le test de valeur manquante propre a datetime et il conserve la forme des donnees datetime.</p>
+    <p>Teste les éléments datetime not-a-time.</p>
+    <p>isnat rejette les entrées non datetime. C est le test de valeur manquante propre a datetime et il conserve la forme des données datetime.</p>
     <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
   </description>
   <used_function />

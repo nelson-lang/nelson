@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>discretize</keyword>
-  <short_description>Regrouper des donnees numeriques en intervalles.</short_description>
+  <short_description>Regrouper des données numériques en intervalles.</short_description>
   <syntax>
     <syntax_item>Y = discretize(X, edges)</syntax_item>
     <syntax_item>Y = discretize(X, edges, values)</syntax_item>
@@ -12,20 +12,20 @@
     <syntax_item>C = discretize(D, 'hour', 'categorical', format)</syntax_item>
   </syntax>
   <description>
-    <p><b>discretize</b> affecte chaque valeur numerique de <b>X</b> a un intervalle defini par des bornes consecutives.</p>
-    <p>Les valeurs datetime peuvent etre regroupees par mois calendaire avec des libelles categoriels mois-annee.</p>
-    <p>Les valeurs duration peuvent etre regroupees par heure avec des libelles d'intervalles formates en minutes ou en temps.</p>
+    <p><b>discretize</b> affecte chaque valeur numérique de <b>X</b> a un intervalle défini par des bornes consécutives.</p>
+    <p>Les valeurs datetime peuvent être regroupées par mois calendaire avec des libellés catégoriels mois-année.</p>
+    <p>Les valeurs duration peuvent être regroupées par heure avec des libellés d'intervalles formatés en minutes ou en temps.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Creer des intervalles categoriels.</example_item_description>
+      <example_item_description>Créer des intervalles catégoriels.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[X = [5 15 25 NaN];
 C = discretize(X, [0 10 20 30], 'categorical', {'small', 'medium', 'large'})]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Regrouper des donnees normalement distribuees en intervalles categoriels.</example_item_description>
+      <example_item_description>Regrouper des données normalement distribuées en intervalles catégoriels.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[rng(1);
 X = randn(1000, 1);
 edges = std(X) * (-3:3);

@@ -4,24 +4,24 @@
   <language>fr_FR</language>
   <keyword>integrator</keyword>
   <keyword_alias>block:integrator</keyword_alias>
-  <short_description>Integre l entree dans le temps avec bornes optionnelles.</short_description>
+  <short_description>Intègre l entrée dans le temps avec bornes optionnelles.</short_description>
   <syntax>
     <syntax_item>Block type: integrator</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>input ports</param_name>
-      <param_description>1 port(s) d entree declare(s).</param_description>
+      <param_description>1 port(s) d entrée déclare(s).</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>output ports</param_name>
-      <param_description>1 port(s) de sortie declare(s).</param_description>
+      <param_description>1 port(s) de sortie déclare(s).</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>Integre l entree dans le temps avec bornes optionnelles.</p>
+    <p>Intègre l entrée dans le temps avec bornes optionnelles.</p>
     <table border="1">
       <tbody>
         <tr>
@@ -31,7 +31,7 @@
           </td>
         </tr>
         <tr>
-          <td>Bibliotheque</td>
+          <td>Bibliothèque</td>
           <td>Blocs continus</td>
         </tr>
         <tr>
@@ -41,7 +41,7 @@
           </td>
         </tr>
         <tr>
-          <td>Libelle</td>
+          <td>Libellé</td>
           <td>Integrator</td>
         </tr>
       </tbody>
@@ -52,18 +52,18 @@
     <p>
       <b>Description</b>
     </p>
-    <p>Integre l entree dans le temps avec bornes optionnelles.</p>
+    <p>Intègre l entrée dans le temps avec bornes optionnelles.</p>
     <p>
       <b>Ports</b>
     </p>
     <p>
-      <b>Entree(s)</b>
+      <b>Entrée(s)</b>
     </p>
     <table border="1">
       <thead>
         <tr>
           <th>Port</th>
-          <th>Role</th>
+          <th>Rôle</th>
           <th>Cote</th>
           <th>Position</th>
         </tr>
@@ -71,7 +71,7 @@
       <tbody>
         <tr>
           <td>Port_1</td>
-          <td>Signal numerique lu par le bloc.</td>
+          <td>Signal numérique lu par le bloc.</td>
           <td>left</td>
           <td>x=0, y=40</td>
         </tr>
@@ -84,7 +84,7 @@
       <thead>
         <tr>
           <th>Port</th>
-          <th>Role</th>
+          <th>Rôle</th>
           <th>Cote</th>
           <th>Position</th>
         </tr>
@@ -92,20 +92,20 @@
       <tbody>
         <tr>
           <td>Port_1</td>
-          <td>Signal numerique produit par le bloc.</td>
+          <td>Signal numérique produit par le bloc.</td>
           <td>right</td>
           <td>x=80, y=40</td>
         </tr>
       </tbody>
     </table>
     <p>
-      <b>Parametres</b>
+      <b>Paramètres</b>
     </p>
     <table border="1">
       <thead>
         <tr>
-          <th>Parametre</th>
-          <th>Valeur par defaut</th>
+          <th>Paramètre</th>
+          <th>Valeur par défaut</th>
         </tr>
       </thead>
       <tbody>
@@ -130,9 +130,9 @@
       </tbody>
     </table>
     <p>
-      <b>Cles de l inspecteur</b>
+      <b>Clés de l inspecteur</b>
     </p>
-    <p>Ces cles serialisees sont exposees par l inspecteur du bloc.</p>
+    <p>Ces clés sérialisées sont exposées par l inspecteur du bloc.</p>
     <ul>
       <li>
         <code>initial</code>
@@ -145,7 +145,7 @@
       </li>
     </ul>
     <p>
-      <b>Caracteristiques du bloc</b>
+      <b>Caractéristiques du bloc</b>
     </p>
     <table border="1">
       <tbody>
@@ -166,16 +166,16 @@
           <td>INIT, OUTPUT, UPDATE</td>
         </tr>
         <tr>
-          <td>Traversee directe</td>
+          <td>Traversée directe</td>
           <td>voir Algorithmes</td>
         </tr>
         <tr>
-          <td>Etat ou historique interne</td>
-          <td>non observe dans le code documente</td>
+          <td>État ou historique interne</td>
+          <td>non observé dans le code documente</td>
         </tr>
         <tr>
-          <td>Type de donnees signaux</td>
-          <td>valeurs numeriques double</td>
+          <td>Type de données signaux</td>
+          <td>valeurs numériques double</td>
         </tr>
       </tbody>
     </table>
@@ -184,20 +184,20 @@
     </p>
     <ul>
       <li>INIT borne initial entre min et max.</li>
-      <li>OUTPUT emet l etat courant. UPDATE ajoute dt * entree et borne le resultat.</li>
-      <li>Les valeurs natives par defaut pour min et max sont moins et plus l infini.</li>
+      <li>OUTPUT émet l état courant. UPDATE ajoute dt * entrée et borne le résultat.</li>
+      <li>Les valeurs natives par défaut pour min et max sont moins et plus l infini.</li>
     </ul>
     <p>
-      <b>Equation ou regle</b>
+      <b>Équation ou règle</b>
     </p>
     <latex>x_{k+1} = \operatorname{clamp}(x_k + dt\,u_k,\,min,\,max),\quad y = x</latex>
     <p>
-      <b>Capacites et limites</b>
+      <b>Capacités et limites</b>
     </p>
-    <p>La page decrit le comportement runtime natif observe dans les sources C++ du module. Les phases declarees indiquent quand le moteur de simulation appelle le bloc.</p>
-    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <p>La page décrit le comportement runtime natif observé dans les sources C++ du module. Les phases déclarées indiquent quand le moteur de simulation appelle le bloc.</p>
+    <p>Génération de code : prise en charge pour C et Rust.</p>
     <p>
-      <b>Sources d implementation</b>
+      <b>Sources d implémentation</b>
     </p>
     <source_code label="Manifest" path="modules/nflow_blocks/libraries/continuous/library.json" language="json"/>
     <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/continuous/integrator.cpp" language="cpp"/>

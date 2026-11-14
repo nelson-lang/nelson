@@ -72,7 +72,7 @@
     <p
     >Lors du redimensionnement, imresize applique le facteur d&apos;échelle aux dimensions ligne et colonne sauf si un vecteur à deux éléments est spécifié. Si la taille de sortie n&apos;est pas entière, imresize arrondit vers le haut en utilisant la fonction ceil.</p>
     <p
-    >Pour les images indexées, imresize retourne par défaut l&apos;image redimensionnée et une colormap optimisée. La colormap originale peut être retournée en utilisant l&apos;argument nom-valeur &apos;Colormap&apos;.</p>
+    >Pour les images indexées, imresize retourné par défaut l&apos;image redimensionnée et une colormap optimisée. La colormap originale peut être retournée en utilisant l&apos;argument nom-valeur &apos;Colormap&apos;.</p>
     <p>Les méthodes d&apos;interpolation prises en charge incluent :</p>
     <ul>
       <li>

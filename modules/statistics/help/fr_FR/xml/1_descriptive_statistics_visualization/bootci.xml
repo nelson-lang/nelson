@@ -13,33 +13,33 @@
   <param_input>
     <param_input_item>
       <param_name>nboot</param_name>
-      <param_description>entier positif indiquant le nombre d&apos;echantillons bootstrap.</param_description>
+      <param_description>entier positif indiquant le nombre d&apos;échantillons bootstrap.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>bootfun</param_name>
-      <param_description>fonction appliquee a chaque echantillon bootstrap.</param_description>
+      <param_description>fonction appliquée à chaque échantillon bootstrap.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>d</param_name>
-      <param_description>vecteur ou matrice numerique ou logique. Les lignes sont tirees avec remise.</param_description>
+      <param_description>vecteur ou matrice numérique ou logique. Les lignes sont tirées avec remise.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>type</param_name>
-      <param_description>type d&apos;intervalle : &apos;bca&apos;, &apos;normal&apos;, &apos;percentile&apos; ou &apos;cper&apos;. Les intervalles studentises sont reserves a une implementation future.</param_description>
+      <param_description>type d&apos;intervalle : &apos;bca&apos;, &apos;normal&apos;, &apos;percentile&apos; ou &apos;cper&apos;. Les intervalles studentisés sont réservés a une implémentation future.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>ci</param_name>
-      <param_description>tableau a deux lignes contenant les bornes inferieures et superieures.</param_description>
+      <param_description>tableau à deux lignes contenant les bornes inférieures et supérieures.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>bootstat</param_name>
-      <param_description>statistiques bootstrap, une ligne par echantillon.</param_description>
+      <param_description>statistiques bootstrap, une ligne par échantillon.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>bootci</b> tire des echantillons bootstrap avec le generateur aleatoire de Nelson et calcule des intervalles de confiance pour les statistiques renvoyees par une fonction.</p>
+    <p><b>bootci</b> tire des échantillons bootstrap avec le générateur aléatoire de Nelson et calcule des intervalles de confiance pour les statistiques renvoyées par une fonction.</p>
   </description>
   <used_function>
     <link linkend="${statistics}bootstrp">bootstrp</link>

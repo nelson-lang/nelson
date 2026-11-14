@@ -14,19 +14,19 @@
   <param_input>
     <param_input_item>
       <param_name>I</param_name>
-      <param_description>Image d'entree.</param_description>
+      <param_description>Image d'entrée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>sensitivity</param_name>
-      <param_description>Valeur scalaire de sensibilite. La valeur par defaut est 0.5.</param_description>
+      <param_description>Valeur scalaire de sensibilité. La valeur par défaut est 0.5.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>'ForegroundPolarity'</param_name>
-      <param_description>Polarite du premier plan, 'bright' ou 'dark'.</param_description>
+      <param_description>Polarité du premier plan, 'bright' ou 'dark'.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>'NeighborhoodSize'</param_name>
-      <param_description>Taille de voisinage a deux elements utilisee pour les statistiques locales.</param_description>
+      <param_description>Taille de voisinage a deux éléments utilisée pour les statistiques locales.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>'Statistic'</param_name>
@@ -40,7 +40,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>Calcule une image de seuil local pour binarisation adaptative. Les polarites de premier plan prises en charge sont bright et dark. Les statistiques prises en charge sont mean, gaussian et median.</p>
+    <p>Calcule une image de seuil local pour binarisation adaptative. Les polarités de premier plan prises en charge sont bright et dark. Les statistiques prises en charge sont mean, gaussian et median.</p>
   </description>
   <used_function />
   <bibliography />

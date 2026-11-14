@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>bwboundaries</keyword>
-  <short_description>Trouve les pixels de frontiere des regions binaires.</short_description>
+  <short_description>Trouve les pixels de frontière des regions binaires.</short_description>
   <syntax>
     <syntax_item>B = bwboundaries(BW)</syntax_item>
     <syntax_item>B = bwboundaries(BW, conn)</syntax_item>
@@ -12,25 +12,25 @@
   <param_input>
     <param_input_item>
       <param_name>BW</param_name>
-      <param_description>Image binaire d'entree. Les valeurs non nulles sont traitees comme true.</param_description>
+      <param_description>Image binaire d'entrée. Les valeurs non nulles sont traitées comme true.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>conn</param_name>
-      <param_description>Connectivite, 4 ou 8.</param_description>
+      <param_description>Connectivité, 4 ou 8.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>option</param_name>
-      <param_description>Option de frontiere : 'holes' ou 'noholes'.</param_description>
+      <param_description>Option de frontière : 'holes' ou 'noholes'.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>B</param_name>
-      <param_description>Cell array de matrices de coordonnees de frontiere.</param_description>
+      <param_description>Cell array de matrices de coordonnées de frontière.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>L</param_name>
-      <param_description>Matrice d'etiquettes pour les composantes de premier plan.</param_description>
+      <param_description>Matrice d'étiquettes pour les composantes de premier plan.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>n</param_name>
@@ -38,14 +38,14 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>Trouve les coordonnees de perimetre des regions binaires connexes. Les connectivites prises en charge sont 4 et 8. L option 'holes' ajoute les frontieres des trous remplis.</p>
+    <p>Trouve les coordonnées de périmètre des regions binaires connexes. Les connectivités prises en charge sont 4 et 8. L option 'holes' ajoute les frontières des trous remplis.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Afficher les frontieres de regions binaires</example_item_description>
+      <example_item_description>Afficher les frontières de regions binaires</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[BW=false(64,64); BW(10:28,10:30)=true; BW(36:54,38:56)=true;

@@ -3,12 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>pad</keyword>
-  <short_description>Complete le texte jusqu'a la largeur demandee.</short_description>
+  <short_description>Complète le texte jusqu'a la largeur demandée.</short_description>
   <syntax>
     <syntax_item>R = pad(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>pad</b> Complete le texte jusqu'a la largeur demandee.</p>
+    <p><b>pad</b> Complète le texte jusqu'a la largeur demandée.</p>
   </description>
   <used_function />
   <bibliography />

@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>thetaticklabels</keyword>
-  <short_description>Definit ou retourne les etiquettes angulaires des axes polaires.</short_description>
+  <short_description>Définit ou retourne les étiquettes angulaires des axes polaires.</short_description>
   <syntax>
     <syntax_item>labels = thetaticklabels()</syntax_item>
     <syntax_item>thetaticklabels(labels)</syntax_item>
@@ -15,19 +15,19 @@
   <param_input>
     <param_input_item>
       <param_name>labels</param_name>
-      <param_description>Tableau de cellules, tableau de chaines, vecteur de caracteres ou valeurs numeriques converties en etiquettes.</param_description>
+      <param_description>Tableau de cellules, tableau de chaînes, vecteur de caractères ou valeurs numériques converties en étiquettes.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>&apos;auto&apos;</param_name>
-      <param_description>Genere les etiquettes angulaires depuis les valeurs de graduation angulaire.</param_description>
+      <param_description>Génère les étiquettes angulaires depuis les valeurs de graduation angulaire.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>&apos;manual&apos;</param_name>
-      <param_description>Conserve les etiquettes angulaires courantes.</param_description>
+      <param_description>Conserve les étiquettes angulaires courantes.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>&apos;mode&apos;</param_name>
-      <param_description>Retourne le mode des etiquettes angulaires.</param_description>
+      <param_description>Retourne le mode des étiquettes angulaires.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>ax</param_name>
@@ -37,7 +37,7 @@
   <param_output>
     <param_output_item>
       <param_name>labels</param_name>
-      <param_description>Tableau de cellules d&apos;etiquettes angulaires.</param_description>
+      <param_description>Tableau de cellules d&apos;étiquettes angulaires.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>m</param_name>
@@ -45,15 +45,15 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>thetaticklabels</b> retourne ou definit les etiquettes affichees a cote des graduations angulaires.</p>
-    <p>La definition d&apos;etiquettes passe le mode a <b>manual</b>. Le nombre d&apos;etiquettes affichees est aligne sur le nombre de graduations angulaires visibles.</p>
+    <p><b>thetaticklabels</b> retourne ou définit les étiquettes affichées à cote des graduations angulaires.</p>
+    <p>La définition d&apos;étiquettes passe le mode a <b>manual</b>. Le nombre d&apos;étiquettes affichées est aligne sur le nombre de graduations angulaires visibles.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Definir des etiquettes angulaires personnalisees.</example_item_description>
+      <example_item_description>Définir des étiquettes angulaires personnalisées.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[
 polarplot(linspace(0, 2*pi, 80), ones(1, 80));
 thetaticks(0:90:360);

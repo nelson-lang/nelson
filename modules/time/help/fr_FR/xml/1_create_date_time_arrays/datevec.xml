@@ -13,7 +13,7 @@
     <param_input_item>
       <param_name>dv</param_name>
       <param_description
-      >un scalaire, vecteur, tableau multidimensionnel ou matrice sparse double : numero de date serie.</param_description>
+      >un scalaire, vecteur, tableau multidimensionnel ou matrice sparse double : numéro de date série.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -31,7 +31,7 @@
   <description>
     <p>
       <b>datevec</b> convertit un numéro de date série en vecteur date.</p>
-    <p>Pour une entree sparse, <b>datevec</b> convertit les valeurs non nulles stockees et renvoie des sorties denses.</p>
+    <p>Pour une entrée sparse, <b>datevec</b> convertit les valeurs non nulles stockées et renvoie des sorties denses.</p>
     <p
     >Pour mesurer les performances, il est préférable d&apos;utiliser les fonctions tic et toc.</p>
   </description>
@@ -66,7 +66,7 @@ V = datevec(sparse([720840, now()]))
     </history_item>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>entree sparse double prise en charge nativement</history_description>
+      <history_description>entrée sparse double prise en charge nativement</history_description>
     </history_item>
   </history>
   <authors>

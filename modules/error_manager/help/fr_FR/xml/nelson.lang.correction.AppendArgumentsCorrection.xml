@@ -10,7 +10,7 @@
   <param_input>
     <param_input_item>
       <param_name>arguments</param_name>
-      <param_description>arguments suggeres, specifies sous forme de chaine, vecteur de caracteres ou tableau cellulaire de vecteurs de caracteres.</param_description>
+      <param_description>arguments suggeres, spécifiés sous forme de chaîne, vecteur de caractères ou tableau cellulaire de vecteurs de caractères.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -21,8 +21,8 @@
   </param_output>
   <description>
     <p>Utilisez les objets <b>nelson.lang.correction.AppendArgumentsCorrection</b> dans les fonctions qui levent un objet MException.</p>
-    <p><b>correction = nelson.lang.correction.AppendArgumentsCorrection(arguments)</b> cree une correction qui suggere d&apos;ajouter les arguments d&apos;entree <b>arguments</b> a l&apos;appel de fonction qui a leve l&apos;objet MException.</p>
-    <p>La propriete en lecture seule <b>Arguments</b> contient les arguments suggeres.</p>
+    <p><b>correction = nelson.lang.correction.AppendArgumentsCorrection(arguments)</b> crée une correction qui suggere d&apos;ajouter les arguments d&apos;entrée <b>arguments</b> a l&apos;appel de fonction qui a levé l&apos;objet MException.</p>
+    <p>La propriété en lecture seule <b>Arguments</b> contient les arguments suggeres.</p>
   </description>
   <used_function />
   <bibliography />

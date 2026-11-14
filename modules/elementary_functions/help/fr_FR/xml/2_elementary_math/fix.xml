@@ -23,8 +23,8 @@
     <p>
       <b>fix</b> renvoie une matrice d&apos;entiers obtenue en arrondissant chaque élément vers zéro.</p>
     <p>
-      Les entrees sparse single et sparse single complexes sont prises en charge. Seules les
-      entrees non nulles stockees sont arrondies et le resultat conserve le stockage sparse.</p>
+      Les entrées sparse single et sparse single complexes sont prises en charge. Seules les
+      entrées non nulles stockées sont arrondies et le résultat conserve le stockage sparse.</p>
   </description>
   <used_function />
   <bibliography />
@@ -36,7 +36,7 @@
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Arrondi vers zero d'une matrice sparse single.</example_item_description>
+      <example_item_description>Arrondi vers zéro d'une matrice sparse single.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[S = sparse(single([1.2 0; -2.7 3.1]));
 C = fix(S)]]></example_item_data>
     </example_item>
@@ -59,7 +59,7 @@ C = fix(S)]]></example_item_data>
     </history_item>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>prise en charge des entrees sparse single et sparse single complexes.</history_description>
+      <history_description>prise en charge des entrées sparse single et sparse single complexes.</history_description>
     </history_item>
   </history>
   <authors>

@@ -26,7 +26,7 @@
     <p>
       <b>expm(x)</b> calcule l&apos;exponentielle matricielle de x.</p>
     <p
-    >Le calcul est effectué en bloc-diagonalant d&apos;abord x puis en appliquant une approximation de Pade sur chaque bloc.</p>
+    >Le calcul est effectué en bloc-diagonalant d&apos;abord x puis en appliquant une approximation de Padé sur chaque bloc.</p>
   </description>
   <used_function />
   <bibliography />

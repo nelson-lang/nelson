@@ -3,12 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>isstrprop</keyword>
-  <short_description>Determine les categories de caracteres.</short_description>
+  <short_description>Détermine les catégories de caractères.</short_description>
   <syntax>
     <syntax_item>R = isstrprop(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>isstrprop</b> Determine les categories de caracteres.</p>
+    <p><b>isstrprop</b> Détermine les catégories de caractères.</p>
   </description>
   <used_function />
   <bibliography />

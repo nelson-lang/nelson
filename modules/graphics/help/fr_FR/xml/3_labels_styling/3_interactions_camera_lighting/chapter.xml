@@ -3,8 +3,8 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <module_name>graphics</module_name>
-  <chapter>Interactions, vues camera et eclairage</chapter>
+  <chapter>Interactions, vues caméra et éclairage</chapter>
   <chapter_description>
-    <p>Fonctions pour les graphiques interactifs, callbacks, vues camera et eclairage.</p>
+    <p>Fonctions pour les graphiques interactifs, callbacks, vues caméra et éclairage.</p>
   </chapter_description>
 </xmldoc>

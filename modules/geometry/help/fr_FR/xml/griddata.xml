@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>griddata</keyword>
-  <short_description>Interpolation de donnees dispersees</short_description>
+  <short_description>Interpolation de données dispersées</short_description>
   <syntax>
     <syntax_item>Vq = griddata(P, V, xq, yq)</syntax_item>
     <syntax_item>Vq = griddata(x, y, V, xq, yq)</syntax_item>
@@ -12,12 +12,12 @@
     <syntax_item>[Xq, Yq, Vq] = griddata(x, y, V, xq, yq)</syntax_item>
   </syntax>
   <description>
-    <p><b>griddata</b> interpole des echantillons disperses aux coordonnees de requete.</p>
+    <p><b>griddata</b> interpole des échantillons dispersés aux coordonnées de requête.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Interpolation lineaire de donnees dispersees planes.</example_item_description>
+      <example_item_description>Interpolation linéaire de données dispersées planes.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[x = [0; 1; 1; 0];
 y = [0; 0; 1; 1];
 V = x + y;

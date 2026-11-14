@@ -22,7 +22,7 @@
   <description>
     <p>
       <b>isobject</b> renvoie un logique 1 si <b>var</b> est un objet Nelson, et 0 sinon.</p>
-    <p>Les objets valeur classdef et les objets handle classdef sont indiques comme objets.</p>
+    <p>Les objets valeur classdef et les objets handle classdef sont indiqués comme objets.</p>
   </description>
   <used_function />
   <bibliography />

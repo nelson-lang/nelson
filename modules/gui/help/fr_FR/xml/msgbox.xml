@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>msgbox</keyword>
-  <short_description>Cree une boite de dialogue de message.</short_description>
+  <short_description>Crée une boîte de dialogue de message.</short_description>
   <syntax>
     <syntax_item>h = msgbox(message)</syntax_item>
     <syntax_item>h = msgbox(message, title)</syntax_item>
@@ -31,7 +31,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Creer une boite de message.</example_item_description>
+      <example_item_description>Créer une boîte de message.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[h = msgbox({'Operation', 'completed'}, 'Status', 'help', 'non-modal');]]></example_item_data>
       <example_item_img
         src="../images/msgbox_example.svg"
@@ -63,7 +63,7 @@ close(h)]]></example_item_data>
   <history>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>version aide API dialogue mise a jour.</history_description>
+      <history_description>version aide API dialogue mise à jour.</history_description>
     </history_item>
   </history>
   <authors>

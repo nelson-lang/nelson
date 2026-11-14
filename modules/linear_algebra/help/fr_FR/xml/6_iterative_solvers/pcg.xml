@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>pcg</keyword>
-  <short_description>Methode des gradients conjugues preconditionnes.</short_description>
+  <short_description>Méthode des gradients conjugues préconditionnés.</short_description>
   <syntax>
     <syntax_item>x = pcg(A, b)</syntax_item>
     <syntax_item>x = pcg(A, b, tol, maxit)</syntax_item>
@@ -21,11 +21,11 @@
     </param_input_item>
     <param_input_item>
       <param_name>tol</param_name>
-      <param_description>tolerance de convergence scalaire reelle finie. La valeur par defaut est 1e-6.</param_description>
+      <param_description>tolérance de convergence scalaire réelle finie. La valeur par défaut est 1e-6.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>maxit</param_name>
-      <param_description>nombre maximal d&apos;iterations, entier positif ou nul.</param_description>
+      <param_description>nombre maximal d&apos;itérations, entier positif ou nul.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>M1, M2</param_name>
@@ -39,29 +39,29 @@
   <param_output>
     <param_output_item>
       <param_name>x</param_name>
-      <param_description>vecteur solution calcule.</param_description>
+      <param_description>vecteur solution calculé.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>flag</param_name>
-      <param_description>0 si la convergence est atteinte, 1 si maxit est atteint, 4 en cas de rupture numerique.</param_description>
+      <param_description>0 si la convergence est atteinte, 1 si maxit est atteint, 4 en cas de rupture numérique.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>relres</param_name>
-      <param_description>norme relative du residu.</param_description>
+      <param_description>norme relative du résidu.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>iter</param_name>
-      <param_description>nombre d&apos;iterations.</param_description>
+      <param_description>nombre d&apos;itérations.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>resvec</param_name>
-      <param_description>historique des normes de residu.</param_description>
+      <param_description>historique des normes de résidu.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>pcg</b> resout <b>A * x = b</b> avec la methode des gradients conjugues preconditionnes.</p>
-    <p>La methode est destinee aux matrices sparse flottantes symetriques ou hermitiennes definies positives.</p>
-    <p>Les matrices sparse single et sparse single complexes sont prises en charge. Si <b>M1</b>, <b>M2</b> ou <b>x0</b> est complexe, le calcul utilise le chemin complexe adapte.</p>
+    <p><b>pcg</b> résout <b>A * x = b</b> avec la méthode des gradients conjugues préconditionnés.</p>
+    <p>La méthode est destinée aux matrices sparse flottantes symétriques ou hermitiennes définies positives.</p>
+    <p>Les matrices sparse single et sparse single complexes sont prises en charge. Si <b>M1</b>, <b>M2</b> ou <b>x0</b> est complexe, le calcul utilise le chemin complexe adapté.</p>
   </description>
   <used_function />
   <bibliography />
@@ -85,7 +85,7 @@ L = ichol(A);
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Resolution sparse single complexe avec ichol.</example_item_description>
+      <example_item_description>Résolution sparse single complexe avec ichol.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[A = sparse(single([4 1i; -1i 3]));
 b = single([1; 2]);
 L = ichol(A);
@@ -107,7 +107,7 @@ L = ichol(A);
     </history_item>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>prise en charge des donnees sparse single et sparse single complexes.</history_description>
+      <history_description>prise en charge des données sparse single et sparse single complexes.</history_description>
     </history_item>
     <history_item>
       <history_version>2.0.0</history_version>

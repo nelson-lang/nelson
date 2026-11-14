@@ -4,24 +4,24 @@
   <language>fr_FR</language>
   <keyword>min</keyword>
   <keyword_alias>block:min</keyword_alias>
-  <short_description>Produit le minimum de deux entrees.</short_description>
+  <short_description>Produit le minimum de deux entrées.</short_description>
   <syntax>
     <syntax_item>Block type: min</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>input ports</param_name>
-      <param_description>2 port(s) d entree declare(s).</param_description>
+      <param_description>2 port(s) d entrée déclare(s).</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>output ports</param_name>
-      <param_description>1 port(s) de sortie declare(s).</param_description>
+      <param_description>1 port(s) de sortie déclare(s).</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>Produit le minimum de deux entrees.</p>
+    <p>Produit le minimum de deux entrées.</p>
     <table border="1">
       <tbody>
         <tr>
@@ -31,8 +31,8 @@
           </td>
         </tr>
         <tr>
-          <td>Bibliotheque</td>
-          <td>Blocs mathematiques</td>
+          <td>Bibliothèque</td>
+          <td>Blocs mathématiques</td>
         </tr>
         <tr>
           <td>Type</td>
@@ -41,7 +41,7 @@
           </td>
         </tr>
         <tr>
-          <td>Libelle</td>
+          <td>Libellé</td>
           <td>Min</td>
         </tr>
       </tbody>
@@ -52,18 +52,18 @@
     <p>
       <b>Description</b>
     </p>
-    <p>Produit le minimum de deux entrees.</p>
+    <p>Produit le minimum de deux entrées.</p>
     <p>
       <b>Ports</b>
     </p>
     <p>
-      <b>Entree(s)</b>
+      <b>Entrée(s)</b>
     </p>
     <table border="1">
       <thead>
         <tr>
           <th>Port</th>
-          <th>Role</th>
+          <th>Rôle</th>
           <th>Cote</th>
           <th>Position</th>
         </tr>
@@ -71,13 +71,13 @@
       <tbody>
         <tr>
           <td>Port_1</td>
-          <td>Signal numerique lu par le bloc.</td>
+          <td>Signal numérique lu par le bloc.</td>
           <td>left</td>
           <td>x=0, y=30</td>
         </tr>
         <tr>
           <td>Port_2</td>
-          <td>Signal numerique lu par le bloc.</td>
+          <td>Signal numérique lu par le bloc.</td>
           <td>left</td>
           <td>x=0, y=50</td>
         </tr>
@@ -90,7 +90,7 @@
       <thead>
         <tr>
           <th>Port</th>
-          <th>Role</th>
+          <th>Rôle</th>
           <th>Cote</th>
           <th>Position</th>
         </tr>
@@ -98,18 +98,18 @@
       <tbody>
         <tr>
           <td>Port_1</td>
-          <td>Signal numerique produit par le bloc.</td>
+          <td>Signal numérique produit par le bloc.</td>
           <td>right</td>
           <td>x=80, y=40</td>
         </tr>
       </tbody>
     </table>
     <p>
-      <b>Parametres</b>
+      <b>Paramètres</b>
     </p>
-    <p>Aucun parametre de bloc n est declare dans le manifest.</p>
+    <p>Aucun paramètre de bloc n est déclaré dans le manifest.</p>
     <p>
-      <b>Caracteristiques du bloc</b>
+      <b>Caractéristiques du bloc</b>
     </p>
     <table border="1">
       <tbody>
@@ -119,7 +119,7 @@
         </tr>
         <tr>
           <td>Famille</td>
-          <td>Blocs mathematiques</td>
+          <td>Blocs mathématiques</td>
         </tr>
         <tr>
           <td>Taille graphique</td>
@@ -130,16 +130,16 @@
           <td>ALGEBRAIC</td>
         </tr>
         <tr>
-          <td>Traversee directe</td>
+          <td>Traversée directe</td>
           <td>oui</td>
         </tr>
         <tr>
-          <td>Etat ou historique interne</td>
-          <td>non observe dans le code documente</td>
+          <td>État ou historique interne</td>
+          <td>non observé dans le code documente</td>
         </tr>
         <tr>
-          <td>Type de donnees signaux</td>
-          <td>valeurs numeriques double</td>
+          <td>Type de données signaux</td>
+          <td>valeurs numériques double</td>
         </tr>
       </tbody>
     </table>
@@ -147,20 +147,20 @@
       <b>Algorithmes</b>
     </p>
     <ul>
-      <li>Bloc algebrique. L entree 1 est requise.</li>
-      <li>L entree 2 vaut 0 par defaut si elle est deconnectee.</li>
+      <li>Bloc algébrique. L entrée 1 est requise.</li>
+      <li>L entrée 2 vaut 0 par défaut si elle est déconnectée.</li>
     </ul>
     <p>
-      <b>Equation ou regle</b>
+      <b>Équation ou règle</b>
     </p>
     <latex>y = \min(u_1, u_2)</latex>
     <p>
-      <b>Capacites et limites</b>
+      <b>Capacités et limites</b>
     </p>
-    <p>La page decrit le comportement runtime natif observe dans les sources C++ du module. Les phases declarees indiquent quand le moteur de simulation appelle le bloc.</p>
-    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <p>La page décrit le comportement runtime natif observé dans les sources C++ du module. Les phases déclarées indiquent quand le moteur de simulation appelle le bloc.</p>
+    <p>Génération de code : prise en charge pour C et Rust.</p>
     <p>
-      <b>Sources d implementation</b>
+      <b>Sources d implémentation</b>
     </p>
     <source_code label="Manifest" path="modules/nflow_blocks/libraries/math/library.json" language="json"/>
     <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/math/min.cpp" language="cpp"/>

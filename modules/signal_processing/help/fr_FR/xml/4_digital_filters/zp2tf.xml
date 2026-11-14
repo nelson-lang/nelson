@@ -65,7 +65,7 @@ k = 1;
     </history_item>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>exemple de documentation executable en CLI</history_description>
+      <history_description>exemple de documentation exécutable en CLI</history_description>
     </history_item>
   </history>
   <authors>

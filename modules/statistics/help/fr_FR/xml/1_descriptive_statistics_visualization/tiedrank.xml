@@ -11,8 +11,8 @@
     <syntax_item>[R, tieadj] = tiedrank(X, kendall, bidirectional)</syntax_item>
   </syntax>
   <description>
-    <p><b>tiedrank</b> calcule les rangs selon la premiere dimension et attribue le rang moyen aux valeurs ex aequo. Les valeurs <b>NaN</b> sont ignorees et gardent un rang <b>NaN</b>.</p>
-    <p>Lorsque <b>kendall</b> est vrai, <b>tieadj</b> contient les trois termes d'ajustement des ex aequo pour la correlation de rang de Kendall. Lorsque <b>bidirectional</b> est vrai, les rangs sont attribues depuis les deux extremites des donnees triees.</p>
+    <p><b>tiedrank</b> calcule les rangs selon la première dimension et attribue le rang moyen aux valeurs ex aequo. Les valeurs <b>NaN</b> sont ignorées et gardent un rang <b>NaN</b>.</p>
+    <p>Lorsque <b>kendall</b> est vrai, <b>tieadj</b> contient les trois termes d'ajustement des ex aequo pour la corrélation de rang de Kendall. Lorsque <b>bidirectional</b> est vrai, les rangs sont attribues depuis les deux extrémités des données triées.</p>
   </description>
   <examples>
     <example_item>

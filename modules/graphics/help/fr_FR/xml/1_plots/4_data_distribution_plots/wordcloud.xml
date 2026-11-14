@@ -12,16 +12,16 @@
     <syntax_item>h = wordcloud(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>wordcloud</b> cree un graphique de nuage de mots dont les tailles de police dependent de poids numeriques ou de comptes de categories et retourne un objet graphique <b>wordcloud</b>.</p>
-    <p><b>wordcloud(tbl, wordvar, sizevar)</b> utilise la variable de table <b>wordvar</b> comme libelles et <b>sizevar</b> comme poids numeriques.</p>
-    <p>L'objet retourne stocke les mots affiches dans <b>WordData</b> et leurs poids dans <b>SizeData</b>.</p>
-    <p>La page <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.wordcloud.properties">proprietes wordcloud</link> liste les proprietes d'objet prises en charge.</p>
-    <p>Les proprietes prises en charge sont <b>MaxDisplayWords</b>, <b>Color</b>, <b>HighlightColor</b>, <b>Shape</b>, <b>LayoutNum</b>, <b>SizePower</b>, <b>FontName</b>, <b>TitleFontName</b>, <b>Box</b>, <b>Title</b>, <b>OuterPosition</b>, <b>InnerPosition</b>, <b>Position</b>, <b>Units</b> et <b>PositionConstraint</b>.</p>
+    <p><b>wordcloud</b> crée un graphique de nuage de mots dont les tailles de police dépendent de poids numériques ou de comptes de catégories et retourne un objet graphique <b>wordcloud</b>.</p>
+    <p><b>wordcloud(tbl, wordvar, sizevar)</b> utilise la variable de table <b>wordvar</b> comme libellés et <b>sizevar</b> comme poids numériques.</p>
+    <p>L'objet retourne stocke les mots affichés dans <b>WordData</b> et leurs poids dans <b>SizeData</b>.</p>
+    <p>La page <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.wordcloud.properties">proprietes wordcloud</link> liste les propriétés d'objet prises en charge.</p>
+    <p>Les propriétés prises en charge sont <b>MaxDisplayWords</b>, <b>Color</b>, <b>HighlightColor</b>, <b>Shape</b>, <b>LayoutNum</b>, <b>SizePower</b>, <b>FontName</b>, <b>TitleFontName</b>, <b>Box</b>, <b>Title</b>, <b>OuterPosition</b>, <b>InnerPosition</b>, <b>Position</b>, <b>Units</b> et <b>PositionConstraint</b>.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Afficher des termes ponderes depuis une table.</example_item_description>
+      <example_item_description>Afficher des termes pondérés depuis une table.</example_item_description>
       <example_item_data><![CDATA[terms = {'solver'; 'matrix'; 'plot'; 'graphics'; 'signal'; 'model'; 'tests'; 'data'; 'script'; 'analysis'};
 counts = [42; 37; 31; 29; 22; 18; 16; 13; 11; 8];
 T = table(terms, counts, 'VariableNames', {'Term', 'Count'});

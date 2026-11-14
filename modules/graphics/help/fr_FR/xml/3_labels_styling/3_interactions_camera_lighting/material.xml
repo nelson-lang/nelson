@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>material</keyword>
-  <short_description>Definit les proprietes de materiau.</short_description>
+  <short_description>Définit les propriétés de matériau.</short_description>
   <syntax>
     <syntax_item>material(name)</syntax_item>
     <syntax_item>material(ax, name)</syntax_item>
@@ -16,11 +16,11 @@
     </param_input_item>
     <param_input_item>
       <param_name>values</param_name>
-      <param_description>Quatre ou cinq coefficients de materiau.</param_description>
+      <param_description>Quatre ou cinq coefficients de matériau.</param_description>
     </param_input_item>
   </param_input>
   <description>
-    <p><b>material</b> modifie les coefficients ambiant, diffus, speculaire, exposant et reflectance.</p>
+    <p><b>material</b> modifie les coefficients ambiant, diffus, spéculaire, exposant et reflectance.</p>
   </description>
   <examples>
     <example_item>

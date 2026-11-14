@@ -13,15 +13,15 @@
   <param_input>
     <param_input_item>
       <param_name>X</param_name>
-      <param_description>tableau numerique ou logique contenant les donnees a repartir en classes.</param_description>
+      <param_description>tableau numérique ou logique contenant les données a répartir en classes.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>nbins</param_name>
-      <param_description>scalaire entier positif : nombre de classes demande.</param_description>
+      <param_description>scalaire entier positif : nombre de classes demandé.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>edges</param_name>
-      <param_description>vecteur numerique strictement croissant definissant les bornes des classes.</param_description>
+      <param_description>vecteur numérique strictement croissant définissant les bornes des classes.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -31,16 +31,16 @@
     </param_output_item>
     <param_output_item>
       <param_name>edges</param_name>
-      <param_description>bornes de classes utilisees pour le comptage.</param_description>
+      <param_description>bornes de classes utilisées pour le comptage.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>bin</param_name>
-      <param_description>tableau de meme taille que X contenant l&apos;indice de classe de chaque element.</param_description>
+      <param_description>tableau de même taille que X contenant l&apos;indice de classe de chaque élément.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>histcounts compte les elements de X qui appartiennent a des classes consecutives d&apos;histogramme.</p>
-    <p>Vous pouvez specifier un nombre de classes ou un vecteur de bornes strictement croissantes. La derniere classe inclut sa borne droite.</p>
+    <p>histcounts compte les éléments de X qui appartiennent à des classes consécutives d&apos;histogramme.</p>
+    <p>Vous pouvez spécifier un nombre de classes ou un vecteur de bornes strictement croissantes. La dernière classe inclut sa borne droite.</p>
   </description>
   <used_function>
     <used_function_item>histcounts</used_function_item>

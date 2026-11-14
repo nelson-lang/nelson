@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>nelson.compiler.BuildResult</keyword>
   <keyword_alias>nelson.compiler.BuildResult</keyword_alias>
-  <short_description>Consulter le resultat d'une construction applicative.</short_description>
+  <short_description>Consulter le résultat d'une construction applicative.</short_description>
   <syntax>
     <syntax_item>result = nelson.compiler.build(options)</syntax_item>
     <syntax_item>result = ncc(options)</syntax_item>
@@ -12,20 +12,20 @@
     <syntax_item>values = struct(result)</syntax_item>
   </syntax>
   <param_input>
-    <param_input_item><param_name>report</param_name><param_description>Structure scalaire contenant Executable, RuntimeDirectory, DependencyPlan, RuntimePlan, Manifest et SHA256.</param_description></param_input_item>
+    <param_input_item><param_name>report</param_name><param_description>Structure scalaire contenant Exécutable, RuntimeDirectory, DependencyPlan, RuntimePlan, Manifest et SHA256.</param_description></param_input_item>
     <param_input_item><param_name>options</param_name><param_description>Objet scalaire nelson.compiler.BuildOptions.</param_description></param_input_item>
   </param_input>
-  <param_output><param_output_item><param_name>result</param_name><param_description>Resultat scalaire avec proprietes en lecture seule.</param_description></param_output_item></param_output>
+  <param_output><param_output_item><param_name>result</param_name><param_description>Résultat scalaire avec propriétés en lecture seule.</param_description></param_output_item></param_output>
   <description>
-    <p>Obtenir normalement ce resultat avec <b>ncc(options)</b> ou <b>nelson.compiler.build(options)</b>. Le constructeur encapsule un rapport existant : il ne construit rien, ne verifie pas les fichiers et n'authentifie pas leur contenu.</p>
+    <p>Obtenir normalement ce résultat avec <b>ncc(options)</b> ou <b>nelson.compiler.build(options)</b>. Le constructeur encapsule un rapport existant : il ne construit rien, ne vérifie pas les fichiers et n'authentifie pas leur contenu.</p>
     <p><b>BuildType</b> : standaloneApplication, ou standaloneWindowsApplication lorsque options.NoConsole vaut true.</p>
-    <p><b>Files</b> : cellule de chemins a distribuer, contenant Executable et, en mode bundled, RuntimeDirectory. Ce n'est ni un inventaire recursif ni un installateur.</p>
-    <p><b>Executable</b> : chemin absolu de l'executable natif. <b>RuntimeDirectory</b> : dossier runtime voisin, ou vide en mode installed. Deplacer ensemble l'executable bundled et son dossier runtime sans les renommer.</p>
-    <p><b>Options</b> : copie valeur de la configuration. Les modifications ulterieures des options de l'appelant ne modifient pas le resultat.</p>
-    <p><b>DependencyPlan</b> : analyse des dependances applicatives resolues. <b>RuntimePlan</b> : besoins du runtime et inventaire des fichiers selectionnes en mode bundled. Ces informations permettent de comprendre les modules et fichiers inclus.</p>
-    <p><b>Manifest</b> : manifeste applicatif embarque decrivant les entrees de l'archive et les besoins du runtime. <b>SHA256</b> : empreinte de l'executable produit, pas une signature d'editeur.</p>
-    <p><b>struct(result)</b> convertit le resultat en structure scalaire, y compris Options. Le rapport peut contenir des chemins absolus de la machine de construction ; les examiner avant publication. Ce resultat decrit le paquet applicatif actuel, pas un installateur.</p>
-    <p>Lorsque Options.EmbedArchive vaut false, Files contient aussi l'archive .nca entre l'executable et l'eventuel dossier runtime. SHA256 reste l'empreinte de l'executable ; l'integrite de l'archive est verifiee au lancement.</p>
+    <p><b>Files</b> : cellule de chemins à distribuer, contenant Exécutable et, en mode bundled, RuntimeDirectory. Ce n'est ni un inventaire récursif ni un installateur.</p>
+    <p><b>Exécutable</b> : chemin absolu de l'exécutable natif. <b>RuntimeDirectory</b> : dossier runtime voisin, ou vide en mode installed. Déplacer ensemble l'exécutable bundled et son dossier runtime sans les renommer.</p>
+    <p><b>Options</b> : copie valeur de la configuration. Les modifications ultérieures des options de l'appelant ne modifient pas le résultat.</p>
+    <p><b>DependencyPlan</b> : analyse des dépendances applicatives résolues. <b>RuntimePlan</b> : besoins du runtime et inventaire des fichiers sélectionnés en mode bundled. Ces informations permettent de comprendre les modules et fichiers inclus.</p>
+    <p><b>Manifest</b> : manifeste applicatif embarque décrivant les entrées de l'archive et les besoins du runtime. <b>SHA256</b> : empreinte de l'exécutable produit, pas une signature d'éditeur.</p>
+    <p><b>struct(result)</b> convertit le résultat en structure scalaire, y compris Options. Le rapport peut contenir des chemins absolus de la machine de construction ; les examiner avant publication. Ce résultat décrit le paquet applicatif actuel, pas un installateur.</p>
+    <p>Lorsque Options.EmbedArchive vaut false, Files contient aussi l'archive .nca entre l'exécutable et l'éventuel dossier runtime. SHA256 reste l'empreinte de l'exécutable ; l'intégrité de l'archive est vérifiée au lancement.</p>
   </description>
   <used_function />
   <bibliography />

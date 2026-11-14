@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>tzoffset</keyword>
-  <short_description>Renvoie les decalages UTC pour des valeurs datetime avec fuseau horaire.</short_description>
+  <short_description>Renvoie les décalages UTC pour des valeurs datetime avec fuseau horaire.</short_description>
   <syntax>
     <syntax_item>d = tzoffset(t)</syntax_item>
     <syntax_item>[d, dst] = tzoffset(t)</syntax_item>
@@ -11,7 +11,7 @@
   <param_input>
     <param_input_item>
       <param_name>t</param_name>
-      <param_description>Un tableau datetime dont TimeZone est vide, un decalage fixe, local ou un nom de fuseau supporte.</param_description>
+      <param_description>Un tableau datetime dont TimeZone est vide, un décalage fixe, local ou un nom de fuseau supporté.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -25,8 +25,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>Renvoie les decalages UTC pour des valeurs datetime avec fuseau horaire.</p>
-    <p>Les decalages de fuseaux nommes sont lus depuis la base timezone embarquee. Les decalages fixes comme +02:30 sont analyses directement.</p>
+    <p>Renvoie les décalages UTC pour des valeurs datetime avec fuseau horaire.</p>
+    <p>Les décalages de fuseaux nommés sont lus depuis la base timezone embarquée. Les décalages fixes comme +02:30 sont analysés directement.</p>
     <p>Les éléments NaT, ou les tableaux datetime sans fuseau horaire, donnent des décalages NaN.</p>
     <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
   </description>

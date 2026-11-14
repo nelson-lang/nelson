@@ -111,7 +111,7 @@
         <td>
           <b>DiffuseStrength</b>
         </td>
-        <td>Intensité de la lumière diffuse : scalaire dans [0, 1].</td>
+        <td>Intensité de la lumière diffusé : scalaire dans [0, 1].</td>
       </tr>
       <tr>
         <td>
@@ -209,7 +209,7 @@
         <td>
           <b>SpecularExponent</b>
         </td>
-        <td>Taille de la tache spéculaire : scalaire supérieur ou égal à 1.</td>
+        <td>Taille de la tâche spéculaire : scalaire supérieur ou égal à 1.</td>
       </tr>
       <tr>
         <td>
@@ -353,7 +353,7 @@ axis square]]></example_item_data>
     </history_item>
     <history_item>
       <history_version>--</history_version>
-      <history_description>Ajout de la propriete BeingDeleted.</history_description>
+      <history_description>Ajout de la propriété BeingDeleted.</history_description>
     </history_item>
   </history>
   <authors>

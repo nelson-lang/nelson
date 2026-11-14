@@ -12,15 +12,15 @@
   <param_input>
     <param_input_item>
       <param_name>X</param_name>
-      <param_description>Coordonnees x : vecteur ou matrice.</param_description>
+      <param_description>Coordonnées x : vecteur ou matrice.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Y</param_name>
-      <param_description>Coordonnees y : vecteur ou matrice.</param_description>
+      <param_description>Coordonnées y : vecteur ou matrice.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Z</param_name>
-      <param_description>Coordonnees z : matrice numerique.</param_description>
+      <param_description>Coordonnées z : matrice numérique.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>levels</param_name>
@@ -35,8 +35,8 @@
   </param_output>
   <description>
     <p>
-      <b>contourc</b> calcule la matrice de contours utilisee par les fonctions de trace, sans creer de figure, d&apos;axes ou d&apos;objet graphique.</p>
-    <p>Chaque segment commence par une colonne d&apos;en-tete. La premiere ligne contient le niveau et la deuxieme le nombre de points. Les colonnes suivantes contiennent les coordonnees x et y.</p>
+      <b>contourc</b> calcule la matrice de contours utilisée par les fonctions de trace, sans créer de figure, d&apos;axes ou d&apos;objet graphique.</p>
+    <p>Chaque segment commence par une colonne d&apos;en-tête. La première ligne contient le niveau et la deuxième le nombre de points. Les colonnes suivantes contiennent les coordonnées x et y.</p>
   </description>
   <examples>
     <example_item>

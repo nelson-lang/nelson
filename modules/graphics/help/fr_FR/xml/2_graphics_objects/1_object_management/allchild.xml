@@ -21,7 +21,7 @@
   </param_output>
   <description>
     <p><b>allchild</b> retourne les enfants directs quelle que soit la valeur de <b>HandleVisibility</b>.</p>
-    <p>Pour <b>groot</b>, il retourne toutes les figures dans l&apos;ordre des enfants de la racine, y compris les figures masquees dans la propriete <b>Children</b> lorsque <b>ShowHiddenHandles</b> vaut <b>&apos;off&apos;</b>.</p>
+    <p>Pour <b>groot</b>, il retourne toutes les figures dans l&apos;ordre des enfants de la racine, y compris les figures masquées dans la propriété <b>Children</b> lorsque <b>ShowHiddenHandles</b> vaut <b>&apos;off&apos;</b>.</p>
   </description>
   <used_function />
   <bibliography />

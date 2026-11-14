@@ -10,12 +10,12 @@
     <syntax_item>T = delaunay(x, y, z)</syntax_item>
   </syntax>
   <description>
-    <p><b>delaunay</b> calcule une triangulation de Delaunay a partir de vecteurs de coordonnees ou d'une matrice de points.</p>
+    <p><b>delaunay</b> calcule une triangulation de Delaunay à partir de vecteurs de coordonnées ou d'une matrice de points.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Tracer les triangles de Delaunay de points plans aleatoires.</example_item_description>
+      <example_item_description>Tracer les triangles de Delaunay de points plans aléatoires.</example_item_description>
       <example_item_data runnable="gui"><![CDATA[rng default;
 x = rand([20, 1]);
 y = rand([20, 1]);

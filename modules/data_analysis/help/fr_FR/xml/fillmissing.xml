@@ -68,7 +68,7 @@
   <param_output>
     <param_output_item>
       <param_name>B</param_name>
-      <param_description>Donnees avec valeurs manquantes remplies.</param_description>
+      <param_description>Données avec valeurs manquantes remplies.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>TF</param_name>

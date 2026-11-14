@@ -16,15 +16,15 @@
   <param_input>
     <param_input_item>
       <param_name>X</param_name>
-      <param_description>Coordonnees x : vecteur ou matrice.</param_description>
+      <param_description>Coordonnées x : vecteur ou matrice.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Y</param_name>
-      <param_description>Coordonnees y : vecteur ou matrice.</param_description>
+      <param_description>Coordonnées y : vecteur ou matrice.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Z</param_name>
-      <param_description>Coordonnees z : matrice numerique.</param_description>
+      <param_description>Coordonnées z : matrice numérique.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>levels</param_name>
@@ -51,8 +51,8 @@
   </param_output>
   <description>
     <p>
-      <b>contourf</b> trace des bandes de contours remplies pour les valeurs de <b>Z</b>. La matrice retournee correspond a la propriete <b>ContourMatrix</b> de l&apos;objet.</p>
-    <p>L&apos;objet contour prend en charge les proprietes de ligne, de remplissage, de transparence, d&apos;etiquetage et de niveaux, notamment <b>FaceColor</b>, <b>FaceAlpha</b>, <b>ShowText</b>, <b>LabelColor</b>, <b>LabelSpacing</b>, <b>LabelFormat</b>, <b>TextList</b>, <b>TextStep</b> et <b>ZLocation</b>.</p>
+      <b>contourf</b> trace des bandes de contours remplies pour les valeurs de <b>Z</b>. La matrice retournée correspond à la propriété <b>ContourMatrix</b> de l&apos;objet.</p>
+    <p>L&apos;objet contour prend en charge les propriétés de ligne, de remplissage, de transparence, d&apos;étiquetage et de niveaux, notamment <b>FaceColor</b>, <b>FaceAlpha</b>, <b>ShowText</b>, <b>LabelColor</b>, <b>LabelSpacing</b>, <b>LabelFormat</b>, <b>TextList</b>, <b>TextStep</b> et <b>ZLocation</b>.</p>
   </description>
   <examples>
     <example_item>

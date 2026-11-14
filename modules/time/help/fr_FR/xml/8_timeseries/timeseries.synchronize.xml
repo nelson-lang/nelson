@@ -21,15 +21,15 @@
   <param_output>
     <param_output_item>
       <param_name>ts1Out</param_name>
-      <param_description>Premier objet timeseries reechantillonne sur le vecteur de temps commun.</param_description>
+      <param_description>Premier objet timeseries rééchantillonne sur le vecteur de temps commun.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>ts2Out</param_name>
-      <param_description>Second objet timeseries reechantillonne sur le vecteur de temps commun.</param_description>
+      <param_description>Second objet timeseries rééchantillonne sur le vecteur de temps commun.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>synchronize</b> Construit un vecteur de temps commun a partir de tous les objets d'entree et reechantillonne chaque serie sur ce vecteur.</p>
+    <p><b>synchronize</b> Construit un vecteur de temps commun à partir de tous les objets d'entrée et rééchantillonne chaque série sur ce vecteur.</p>
   </description>
   <used_function />
   <bibliography />

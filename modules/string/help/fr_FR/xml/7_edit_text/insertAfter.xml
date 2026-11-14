@@ -3,12 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>insertAfter</keyword>
-  <short_description>Insere du texte apres une limite.</short_description>
+  <short_description>Insère du texte après une limite.</short_description>
   <syntax>
     <syntax_item>R = insertAfter(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>insertAfter</b> Insere du texte apres une limite.</p>
+    <p><b>insertAfter</b> Insère du texte après une limite.</p>
   </description>
   <used_function />
   <bibliography />

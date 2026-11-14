@@ -17,7 +17,7 @@
     </param_output_item>
     <param_output_item>
       <param_name>txt</param_name>
-      <param_description>a string: complete license text.</param_description>
+      <param_description>a string: complète license text.</param_description>
     </param_output_item>
   </param_output>
   <description>

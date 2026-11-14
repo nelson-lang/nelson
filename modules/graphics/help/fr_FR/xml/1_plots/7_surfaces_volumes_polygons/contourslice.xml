@@ -15,10 +15,10 @@
     <syntax_item>h = contourslice(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>contourslice</b> calcule des lignes de contour sur les coupes demandees et retourne un vecteur colonne d'objets patch.</p>
-    <p>L'entree <b>levels</b> peut etre un nombre scalaire de niveaux de contour ou un vecteur de valeurs de contour. Une valeur de coupe egale a <b>NaN</b> selectionne toutes les coupes dans cette direction.</p>
-    <p>Lorsque <b>XI</b>, <b>YI</b> et <b>ZI</b> sont des matrices, les contours sont traces sur la surface definie par ces matrices.</p>
-    <p>L'entree optionnelle <b>method</b> peut valoir <b>'nearest'</b>, <b>'linear'</b> ou <b>'cubic'</b>. La methode par defaut pour les coupes alignees sur les axes est <b>'nearest'</b>; la methode par defaut pour les coupes de surface est <b>'linear'</b>.</p>
+    <p><b>contourslice</b> calcule des lignes de contour sur les coupes demandées et retourne un vecteur colonne d'objets patch.</p>
+    <p>L'entrée <b>levels</b> peut être un nombre scalaire de niveaux de contour ou un vecteur de valeurs de contour. Une valeur de coupe égale à <b>NaN</b> sélectionne toutes les coupes dans cette direction.</p>
+    <p>Lorsque <b>XI</b>, <b>YI</b> et <b>ZI</b> sont des matrices, les contours sont tracés sur la surface définie par ces matrices.</p>
+    <p>L'entrée optionnelle <b>method</b> peut valoir <b>'nearest'</b>, <b>'linear'</b> ou <b>'cubic'</b>. La méthode par défaut pour les coupes alignées sur les axes est <b>'nearest'</b>; la méthode par défaut pour les coupes de surface est <b>'linear'</b>.</p>
   </description>
   <examples>
     <example_item>
@@ -36,7 +36,7 @@ grid on;]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Specifier les niveaux de contour et ajouter une barre de couleurs.</example_item_description>
+      <example_item_description>Spécifier les niveaux de contour et ajouter une barre de couleurs.</example_item_description>
       <example_item_data><![CDATA[[X, Y, Z] = meshgrid(-2:.2:2);
 V = X .* exp(-X.^2 - Y.^2 - Z.^2);
 xslice = [-1.2, 0.8, 2];

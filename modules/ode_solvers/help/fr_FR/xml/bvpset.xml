@@ -3,22 +3,22 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>bvpset</keyword>
-  <short_description>Cree ou met a jour des options BVP.</short_description>
+  <short_description>Crée ou met à jour des options BVP.</short_description>
   <syntax>
     <syntax_item>options = bvpset()</syntax_item>
     <syntax_item>options = bvpset(name, value)</syntax_item>
   </syntax>
   <description>
     <p>
-      <b>bvpset</b> cree des options pour les solveurs de problemes aux limites.</p>
+      <b>bvpset</b> crée des options pour les solveurs de problèmes aux limites.</p>
     <table style="width:100%">
       <tr>
         <th>Option</th>
-        <th>Role</th>
+        <th>Rôle</th>
       </tr>
       <tr>
         <td><b>RelTol</b>, <b>AbsTol</b></td>
-        <td>Tolerances de resolution.</td>
+        <td>Tolérances de résolution.</td>
       </tr>
       <tr>
         <td><b>NMax</b></td>
@@ -26,19 +26,19 @@
       </tr>
       <tr>
         <td><b>FJacobian</b>, <b>BCJacobian</b></td>
-        <td>Jacobiens analytiques pour l equation et les conditions aux limites.</td>
+        <td>Jacobiens analytiques pour l équation et les conditions aux limites.</td>
       </tr>
       <tr>
         <td><b>Vectorized</b>, <b>SingularTerm</b>, <b>Stats</b></td>
         <td>Vectorisation, terme singulier et affichage des statistiques.</td>
       </tr>
     </table>
-    <p>Les noms pris en charge incluent <b>AbsTol</b>, <b>RelTol</b>, <b>NMax</b>, <b>Stats</b>, <b>Vectorized</b>, <b>FJacobian</b>, <b>BCJacobian</b> et <b>SingularTerm</b>. <b>FJacobian</b> et <b>BCJacobian</b> sont utilises ensemble par l'iteration de Newton quand les deux callbacks sont presents.</p>
+    <p>Les noms pris en charge incluent <b>AbsTol</b>, <b>RelTol</b>, <b>NMax</b>, <b>Stats</b>, <b>Vectorized</b>, <b>FJacobian</b>, <b>BCJacobian</b> et <b>SingularTerm</b>. <b>FJacobian</b> et <b>BCJacobian</b> sont utilisés ensemble par l'itération de Newton quand les deux callbacks sont présents.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Exemple complet des fonctionnalites DDE et BVP ajoutees.</example_item_description>
+      <example_item_description>Exemple complet des fonctionnalités DDE et BVP ajoutées.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[rootPath = modulepath('ode_solvers', 'root');
 run([rootPath, '/examples/dde_bvp_added_features_example.m'])]]></example_item_data>
     </example_item>

@@ -41,14 +41,14 @@
     </table>
     <p><img src="../images/nflow_dashboard_library.png" align="middle" /></p>
     <p><b>Créer une liaison</b></p>
-    <p>Sélectionnez un bloc Dashboard, puis choisissez sa cible dans l'inspecteur. L'état sous le sélecteur indique <b>Liaison valide</b>, <b>Non connecté</b> ou une erreur précise. Les liaisons utilisent des identifiants de blocs stables : l'enregistrement, le rechargement, le renommage, la copie et les sous-systèmes imbriqués ne dépendent pas des libellés affichés.</p>
+    <p>Sélectionnez un bloc Dashboard, puis choisissez sa cible dans l'inspecteur. L'état sous le sélecteur indiqué <b>Liaison valide</b>, <b>Non connecté</b> ou une erreur précise. Les liaisons utilisent des identifiants de blocs stables : l'enregistrement, le rechargement, le renommage, la copie et les sous-systèmes imbriqués ne dépendent pas des libellés affichés.</p>
     <table>
       <tr><th>Cible</th><th>Blocs concernés</th><th>Configuration et application</th></tr>
       <tr><td>Signal</td><td>Tous les blocs d'affichage</td><td>Choisissez une sortie de bloc, son port à base un et le traitement Sample ou Frame. La valeur est lue après chaque pas majeur.</td></tr>
       <tr><td>Paramètre</td><td>Tous les contrôles sauf Callback Button</td><td>Choisissez un bloc, un paramètre numérique réglable et éventuellement un élément scalaire. Une modification validée est visible au pas majeur suivant.</td></tr>
       <tr><td>Variable</td><td>Tous les contrôles sauf Callback Button</td><td>Choisissez l'espace Diagram, Base ou Global, une variable numérique et éventuellement un élément scalaire.</td></tr>
     </table>
-    <p>Utilisez une notation d'élément à base un, par exemple <b>(2)</b> ou <b>(2,3)</b>. Un champ d'élément vide sélectionne la cible complète et n'est valide que si elle est scalaire. Les blocs, ports, variables ou éléments absents, les valeurs non numériques et les cibles non réglables sont rejetés avant la simulation.</p>
+    <p>Utilisez une notation d'élément à base un, par exemple <b>(2)</b> ou <b>(2,3)</b>. Un champ d'élément vide sélectionne la cible complète et n'est validé que si elle est scalaire. Les blocs, ports, variables ou éléments absents, les valeurs non numériques et les cibles non réglables sont rejetés avant la simulation.</p>
     <p><img src="../images/nflow_dashboard_binding.png" align="middle" /></p>
     <p><b>Manipuler les contrôles</b></p>
     <p>Les contrôles restent utilisables lorsque la simulation est en cours, en pause ou arrêtée. Un geste commencé sur un contrôle lui reste attribué jusqu'au relâchement, même si la simulation se termine pendant le geste. Faites glisser le corps du bloc en dehors du contrôle pour déplacer le bloc. Slider et Knob acceptent le déplacement au pointeur, les flèches pour les petits incréments et Origine ou Fin pour atteindre leurs limites. Les contrôles natifs Edit et Combo Box perdent le focus lorsque l'arrière-plan du diagramme est sélectionné.</p>

@@ -3,14 +3,14 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>relieff</keyword>
-  <short_description>Classement d'importance des predicteurs avec ReliefF.</short_description>
+  <short_description>Classement d'importance des prédicteurs avec ReliefF.</short_description>
   <syntax>
     <syntax_item>[idx, weights] = relieff(X, y, k)</syntax_item>
     <syntax_item>[idx, weights] = relieff(X, y, k, Name, Value)</syntax_item>
   </syntax>
   <description>
-    <p><b>relieff</b> classe les predicteurs avec ReliefF par plus proches voisins pour la classification ou avec un score de type RReliefF pour la regression.</p>
-    <p>Les options nom-valeur supportees sont Method, Prior, Updates, CategoricalX et Sigma. idx contient les indices des predicteurs par importance decroissante. weights contient un score par predicteur.</p>
+    <p><b>relieff</b> classe les prédicteurs avec ReliefF par plus proches voisins pour la classification ou avec un score de type RReliefF pour la régression.</p>
+    <p>Les options nom-valeur supportées sont Method, Prior, Updates, CategoricalX et Sigma. idx contient les indices des prédicteurs par importance décroissante. weights contient un score par prédicteur.</p>
   </description>
   <examples>
     <example_item>

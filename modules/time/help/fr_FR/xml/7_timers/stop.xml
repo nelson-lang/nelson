@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>stop</keyword>
   <keyword_alias>timer.stop</keyword_alias>
-  <short_description>Arreter un objet timer en cours d&apos;execution.</short_description>
+  <short_description>Arrêter un objet timer en cours d&apos;exécution.</short_description>
   <syntax>
     <syntax_item>stop(t)</syntax_item>
   </syntax>
@@ -15,15 +15,15 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>stop</b> arrete les timers en cours d&apos;execution. Si un timer a une propriete <b>StopFcn</b>, Nelson l&apos;execute lorsque le timer passe de l&apos;etat en cours a l&apos;etat arrete.</p>
-    <p>L&apos;appel de <b>stop</b> sur un timer deja arrete laisse le timer arrete.</p>
+    <p><b>stop</b> arrête les timers en cours d&apos;exécution. Si un timer a une propriété <b>StopFcn</b>, Nelson l&apos;exécute lorsque le timer passe de l&apos;état en cours a l&apos;état arrête.</p>
+    <p>L&apos;appel de <b>stop</b> sur un timer déjà arrête laisse le timer arrête.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Arreter un timer repete avant qu&apos;il atteigne sa limite de taches.</example_item_description>
+      <example_item_description>Arrêter un timer répète avant qu&apos;il atteigne sa limite de tâches.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[t = timer('ExecutionMode', 'fixedSpacing', ...
   'Period', 0.2, ...
   'TasksToExecute', Inf, ...

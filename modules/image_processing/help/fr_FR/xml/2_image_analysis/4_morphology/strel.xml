@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>strel</keyword>
-  <short_description>Cree un element structurant.</short_description>
+  <short_description>Crée un élément structurant.</short_description>
   <syntax>
     <syntax_item>SE = strel(nhood)</syntax_item>
     <syntax_item>SE = strel('arbitrary', nhood)</syntax_item>
@@ -19,7 +19,7 @@
   <param_input>
     <param_input_item>
       <param_name>nhood</param_name>
-      <param_description>Voisinage logique pour un element structurant arbitraire.</param_description>
+      <param_description>Voisinage logique pour un élément structurant arbitraire.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>shape</param_name>
@@ -27,40 +27,40 @@
     </param_input_item>
     <param_input_item>
       <param_name>size</param_name>
-      <param_description>Scalaire positif ou vecteur de taille utilise par les formes square, rectangle, cube ou cuboid.</param_description>
+      <param_description>Scalaire positif ou vecteur de taille utilisé par les formes square, rectangle, cube ou cuboid.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>radius</param_name>
-      <param_description>Rayon entier non negatif utilise par les formes disk, diamond, octagon et sphere.</param_description>
+      <param_description>Rayon entier non négatif utilisé par les formes disk, diamond, octagon et sphère.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>len</param_name>
-      <param_description>Longueur entiere positive utilisee par la forme line.</param_description>
+      <param_description>Longueur entière positive utilisée par la forme line.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>deg</param_name>
-      <param_description>Angle de ligne en degres.</param_description>
+      <param_description>Angle de ligne en degrés.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>n</param_name>
-      <param_description>Nombre optionnel de decomposition du disque, accepte comme 0, 4, 6 ou 8.</param_description>
+      <param_description>Nombre optionnel de décomposition du disque, accepte comme 0, 4, 6 ou 8.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>SE</param_name>
-      <param_description>Structure d'element structurant avec les champs type et nhood.</param_description>
+      <param_description>Structure d'élément structurant avec les champs type et nhood.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>Cree un element structurant plat. Les formes 2-D prises en charge incluent arbitrary, square, rectangle, line, disk, diamond et octagon. Les formes 3-D prises en charge incluent arbitrary, cube, cuboid et sphere. L argument optionnel n de disk peut valoir 0, 4, 6 ou 8; Nelson renvoie actuellement le voisinage disk exact. Le rayon octagon doit etre un multiple non negatif de 3.</p>
+    <p>Crée un élément structurant plat. Les formes 2-D prises en charge incluent arbitrary, square, rectangle, line, disk, diamond et octagon. Les formes 3-D prises en charge incluent arbitrary, cube, cuboid et sphère. L argument optionnel n de disk peut valoir 0, 4, 6 ou 8; Nelson renvoie actuellement le voisinage disk exact. Le rayon octagon doit être un multiple non négatif de 3.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Afficher un element structurant</example_item_description>
+      <example_item_description>Afficher un élément structurant</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[SE=strel('disk',8);
@@ -73,13 +73,13 @@ figure; imagesc(SE.nhood); g=linspace(0,1,64)'; colormap([g g g]); title('Struct
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Creer des voisinages diamond et arbitraire</example_item_description>
+      <example_item_description>Créer des voisinages diamond et arbitraire</example_item_description>
       <example_item_data><![CDATA[D = strel('diamond', 1);
 A = strel([0 1 0; 1 1 1; 0 1 0])]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Creer un voisinage sphere 3-D</example_item_description>
+      <example_item_description>Créer un voisinage sphère 3-D</example_item_description>
       <example_item_data><![CDATA[SE = strel('sphere', 1);
 sum(SE.nhood(:))]]></example_item_data>
     </example_item>

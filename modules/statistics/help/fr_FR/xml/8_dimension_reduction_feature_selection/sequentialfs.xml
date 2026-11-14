@@ -3,16 +3,16 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>sequentialfs</keyword>
-  <short_description>Selection sequentielle de variables avec un critere utilisateur.</short_description>
+  <short_description>Sélection séquentielle de variables avec un critère utilisateur.</short_description>
   <syntax>
     <syntax_item>tf = sequentialfs(fun, X, y)</syntax_item>
     <syntax_item>tf = sequentialfs(fun, X1, ..., XN, Name, Value)</syntax_item>
     <syntax_item>[tf, history] = sequentialfs(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>sequentialfs</b> selectionne des variables parmi les colonnes de la premiere entree de donnees avec une fonction critere fournie par l'utilisateur.</p>
-    <p>Les options supportees incluent CV, Direction, KeepIn, KeepOut, NFeatures, NullModel et Options. CV peut etre un entier positif, none ou resubstitution.</p>
-    <p>La structure history contient les champs In et Crit qui decrivent le masque de variables selectionnees et la valeur du critere a chaque etape.</p>
+    <p><b>sequentialfs</b> sélectionne des variables parmi les colonnes de la première entrée de données avec une fonction critère fournie par l'utilisateur.</p>
+    <p>Les options supportées incluent CV, Direction, KeepIn, KeepOut, NFeatures, NullModel et Options. CV peut être un entier positif, none ou resubstitution.</p>
+    <p>La structure history contient les champs In et Crit qui décrivent le masque de variables sélectionnées et la valeur du critère à chaque étape.</p>
   </description>
   <examples>
     <example_item>

@@ -48,14 +48,14 @@
         &apos;method&apos;
       </param_name>
       <param_description
-      >retourne la methode de selection automatique des limites de l&apos;axe des z.</param_description>
+      >retourne la méthode de sélection automatique des limites de l&apos;axe des z.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>
         &apos;tight&apos;, &apos;padded&apos; ou &apos;tickaligned&apos;
       </param_name>
       <param_description
-      >definit la methode de selection automatique des limites de l&apos;axe des z.</param_description>
+      >définit la méthode de sélection automatique des limites de l&apos;axe des z.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>ax</param_name>

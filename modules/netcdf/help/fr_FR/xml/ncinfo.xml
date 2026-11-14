@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>ncinfo</keyword>
-  <short_description>Retourne les informations d'une source de donnees netCDF.</short_description>
+  <short_description>Retourne les informations d'une source de données netCDF.</short_description>
   <syntax>
     <syntax_item>info = ncinfo(filename)</syntax_item>
   </syntax>
@@ -20,7 +20,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>ncinfo retourne une structure Nelson decrivant une source netCDF.</p>
+    <p>ncinfo retourne une structure Nelson décrivant une source netCDF.</p>
     <p>La structure contient les groupes, dimensions, variables, attributs et options de stockage disponibles.</p>
   </description>
   <used_function />

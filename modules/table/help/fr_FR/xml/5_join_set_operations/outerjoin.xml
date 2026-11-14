@@ -13,15 +13,15 @@
   <param_input>
     <param_input_item>
       <param_name>left, right</param_name>
-      <param_description>Tables d'entree.</param_description>
+      <param_description>Tables d'entrée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>keys</param_name>
-      <param_description>Noms des variables cles.</param_description>
+      <param_description>Noms des variables clés.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>leftVars, rightVars</param_name>
-      <param_description>Variables a conserver depuis les tables gauche et droite.</param_description>
+      <param_description>Variables à conserver depuis les tables gauche et droite.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -32,7 +32,7 @@
   </param_output>
   <description>
     <p>
-      <b>outerjoin</b> combine les lignes des deux tables et conserve les lignes non appariees selon le type de jointure.</p>
+      <b>outerjoin</b> combine les lignes des deux tables et conserve les lignes non appariées selon le type de jointure.</p>
   </description>
   <used_function />
   <bibliography />

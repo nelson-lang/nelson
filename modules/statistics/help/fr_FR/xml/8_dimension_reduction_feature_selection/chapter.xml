@@ -3,8 +3,8 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <module_name>statistics</module_name>
-  <chapter>Reduction de dimension et selection de variables</chapter>
+  <chapter>Réduction de dimension et sélection de variables</chapter>
   <chapter_description>
-    <p>Fonctions de reduction de dimension, analyse factorielle, classement de variables et representations de faible rang.</p>
+    <p>Fonctions de réduction de dimension, analyse factorielle, classement de variables et représentations de faible rang.</p>
   </chapter_description>
 </xmldoc>

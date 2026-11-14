@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>partialcorr</keyword>
-  <short_description>Coefficients de correlation partielle lineaire ou de rang.</short_description>
+  <short_description>Coefficients de corrélation partielle linéaire ou de rang.</short_description>
   <syntax>
     <syntax_item>rho = partialcorr(X)</syntax_item>
     <syntax_item>rho = partialcorr(X, Z)</syntax_item>
@@ -12,7 +12,7 @@
     <syntax_item>[rho, pval] = partialcorr(..., Name, Value)</syntax_item>
   </syntax>
   <description>
-    <p><b>partialcorr</b> calcule des correlations partielles entre colonnes en controlant d'autres variables.</p>
+    <p><b>partialcorr</b> calcule des correlations partielles entre colonnes en contrôlant d'autres variables.</p>
     <p>Les options prises en charge sont <b>Type</b> avec <b>pearson</b> ou <b>spearman</b>, <b>Rows</b> avec <b>all</b>, <b>complete</b> ou <b>pairwise</b>, et <b>Tail</b> avec <b>both</b>, <b>right</b> ou <b>left</b>.</p>
   </description>
   <examples>

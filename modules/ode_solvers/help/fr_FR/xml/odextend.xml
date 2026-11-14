@@ -12,13 +12,13 @@
     <p>
       <b>odextend</b> continue une solution depuis son dernier point calcule jusqu'a un nouveau temps final.</p>
     <table style="width:100%">
-  <tr><th>Element</th><th>Details</th></tr>
-  <tr><td>Solution en entree</td><td>Structure <b>sol</b> existante retournee par un solveur ODE.</td></tr>
-  <tr><td>Continuation</td><td>Etend la solution vers un nouveau temps final avec la meme definition du probleme.</td></tr>
-  <tr><td>Options</td><td>Les options peuvent ajuster tolerances, evenements, callbacks de sortie et limites de pas.</td></tr>
-  <tr><td>Resultat</td><td>Nouvelle structure <b>sol</b> compatible avec <b>deval</b>.</td></tr>
+  <tr><th>Élément</th><th>Détails</th></tr>
+  <tr><td>Solution en entrée</td><td>Structure <b>sol</b> existante retournée par un solveur ODE.</td></tr>
+  <tr><td>Continuation</td><td>Étend la solution vers un nouveau temps final avec la même définition du problème.</td></tr>
+  <tr><td>Options</td><td>Les options peuvent ajuster tolérances, événements, callbacks de sortie et limites de pas.</td></tr>
+  <tr><td>Résultat</td><td>Nouvelle structure <b>sol</b> compatible avec <b>deval</b>.</td></tr>
 </table>
-    <p>Quand <b>odefun</b> est vide, la fonction stockee dans la solution d'entree est reutilisee. Si le temps final demande est deja couvert par l'intervalle de solution, la solution d'entree est retournee. Prolonger dans la direction opposee est une erreur. Les champs d'evenements sont conserves et prolonges quand des donnees d'evenements existent. Les solutions sans donnees d'evenements ne recoivent pas de champs <b>xe</b>, <b>ye</b> ou <b>ie</b> vides.</p>
+    <p>Quand <b>odefun</b> est vide, la fonction stockée dans la solution d'entrée est réutilisée. Si le temps final demande est déjà couvert par l'intervalle de solution, la solution d'entrée est retournée. Prolonger dans la direction opposée est une erreur. Les champs d'événements sont conservés et prolonges quand des données d'événements existent. Les solutions sans données d'événements ne reçoivent pas de champs <b>xe</b>, <b>ye</b> ou <b>ie</b> vides.</p>
   </description>
   <examples>
     <example_item>

@@ -3,8 +3,8 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <module_name>statistics</module_name>
-  <chapter>Regroupement et detection d anomalies</chapter>
+  <chapter>Regroupement et détection d anomalies</chapter>
   <chapter_description>
-    <p>Fonctions d apprentissage non supervise, recherche de plus proches voisins, gestion des valeurs aberrantes et modeles de sequences.</p>
+    <p>Fonctions d apprentissage non supervise, recherche de plus proches voisins, gestion des valeurs aberrantes et modèles de séquences.</p>
   </chapter_description>
 </xmldoc>

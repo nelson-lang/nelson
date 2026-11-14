@@ -62,7 +62,7 @@
     <p>
       <b>crypto.argon2</b> calcule un hachage Argon2 (RFC 9106), la fonction à coût mémoire recommandée pour stocker des mots de passe et dériver des clés de chiffrement à partir de phrases secrètes. Conservez le sel et les paramètres à côté du hachage : vérifier un mot de passe consiste à recalculer le hachage avec les mêmes entrées et à comparer.</p>
     <p
-    >Les valeurs par défaut (argon2id, 64 MiB, 3 passes, 1 voie) prennent une fraction de seconde sur une machine de bureau ; augmentez <b>Memory</b> ou <b>Passes</b> pour une protection plus forte, ne les réduisez que pour les tests. La zone de travail est allouée à chaque appel puis effacée.</p>
+    >Les valeurs par défaut (argon2id, 64 MiB, 3 passés, 1 voie) prennent une fraction de seconde sur une machine de bureau ; augmentez <b>Memory</b> ou <b>Passes</b> pour une protection plus forte, ne les réduisez que pour les tests. La zone de travail est allouée à chaque appel puis effacée.</p>
   </description>
   <used_function>Monocypher</used_function>
   <bibliography>https://www.rfc-editor.org/rfc/rfc9106, https://monocypher.org/</bibliography>

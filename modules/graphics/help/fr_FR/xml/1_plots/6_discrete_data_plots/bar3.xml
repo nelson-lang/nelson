@@ -18,7 +18,7 @@
   <param_input>
     <param_input_item>
       <param_name>Y</param_name>
-      <param_description>Vecteur ou matrice numerique des hauteurs de barres.</param_description>
+      <param_description>Vecteur ou matrice numérique des hauteurs de barres.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Z</param_name>
@@ -26,7 +26,7 @@
     </param_input_item>
     <param_input_item>
       <param_name>width</param_name>
-      <param_description>Largeur relative des barres. La valeur par defaut est 0.8.</param_description>
+      <param_description>Largeur relative des barres. La valeur par défaut est 0.8.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>color</param_name>
@@ -40,13 +40,13 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>bar3</b> affiche les colonnes sous forme de cuboides 3-D. Les colonnes de la matrice sont placees selon x et les lignes selon y.</p>
-    <p>Utiliser <b>'grouped'</b> pour grouper les colonnes de matrice a chaque position de ligne et <b>'stacked'</b> pour les empiler.</p>
+    <p><b>bar3</b> affiche les colonnes sous forme de cuboides 3-D. Les colonnes de la matrice sont placées selon x et les lignes selon y.</p>
+    <p>Utiliser <b>'grouped'</b> pour grouper les colonnes de matrice à chaque position de ligne et <b>'stacked'</b> pour les empiler.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Barres 3-D detachees depuis une matrice.</example_item_description>
+      <example_item_description>Barres 3-D détachées depuis une matrice.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[f = figure();
 Y = [1 2 3; 4 5 6];
 bar3(Y);
@@ -74,7 +74,7 @@ bar3(z, y);
     </example_item>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Barres 3-D groupees.</example_item_description>
+      <example_item_description>Barres 3-D groupées.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[f = figure();
 y = [1 2; 3 4; 5 6];
 bar3(y, 'grouped');
@@ -83,7 +83,7 @@ bar3(y, 'grouped');
     </example_item>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Barres 3-D empilees avec valeurs positives et negatives.</example_item_description>
+      <example_item_description>Barres 3-D empilées avec valeurs positives et négatives.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[f = figure();
 y = [1 -2; -3 4];
 bar3(y, 'stacked');
@@ -92,7 +92,7 @@ bar3(y, 'stacked');
     </example_item>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Definir la couleur et la transparence.</example_item_description>
+      <example_item_description>Définir la couleur et la transparence.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[f = figure();
 h = bar3(peaks(5), 0.6);
 set(h, 'FaceColor', [0.2 0.5 0.8], 'FaceAlpha', 0.8);

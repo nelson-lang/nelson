@@ -3,12 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>lineBoundary</keyword>
-  <short_description>Motif de debut ou de fin de ligne.</short_description>
+  <short_description>Motif de début ou de fin de ligne.</short_description>
   <syntax>
     <syntax_item>R = lineBoundary(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>lineBoundary</b> Motif de debut ou de fin de ligne.</p>
+    <p><b>lineBoundary</b> Motif de début ou de fin de ligne.</p>
   </description>
   <used_function />
   <bibliography />

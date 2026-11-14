@@ -9,7 +9,7 @@
     <syntax_item>jackstat = jackknife(jackfun, X, Y, ...)</syntax_item>
     <syntax_item>jackstat = jackknife(..., &apos;Options&apos;, options)</syntax_item>
   </syntax>
-  <description><p><b>jackknife</b> evalue une fonction sur des echantillons obtenus en supprimant une observation.</p></description>
+  <description><p><b>jackknife</b> évalue une fonction sur des échantillons obtenus en supprimant une observation.</p></description>
   <used_function>
     <link linkend="${statistics}bootstrp">bootstrp</link>
     <link linkend="${statistics}bootci">bootci</link>
@@ -25,7 +25,7 @@ jackstat = jackknife(@mean, x)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Retourner plusieurs statistiques pour chaque echantillon jackknife.</example_item_description>
+      <example_item_description>Retourner plusieurs statistiques pour chaque échantillon jackknife.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[x = (1:5)';
 jackstat = jackknife(@jackknifeStats, x)
 

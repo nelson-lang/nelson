@@ -18,7 +18,7 @@
   <param_input>
     <param_input_item>
       <param_name>Y</param_name>
-      <param_description>Vecteur ou matrice numerique des longueurs de barres.</param_description>
+      <param_description>Vecteur ou matrice numérique des longueurs de barres.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Z</param_name>
@@ -26,7 +26,7 @@
     </param_input_item>
     <param_input_item>
       <param_name>width</param_name>
-      <param_description>Largeur relative des barres. La valeur par defaut est 0.8.</param_description>
+      <param_description>Largeur relative des barres. La valeur par défaut est 0.8.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>color</param_name>
@@ -41,12 +41,12 @@
   </param_output>
   <description>
     <p><b>bar3h</b> affiche des barres 3-D horizontales qui partent de x = 0.</p>
-    <p>Utiliser <b>'grouped'</b> pour grouper les colonnes de matrice a chaque position de ligne et <b>'stacked'</b> pour les empiler.</p>
+    <p>Utiliser <b>'grouped'</b> pour grouper les colonnes de matrice à chaque position de ligne et <b>'stacked'</b> pour les empiler.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Barres horizontales 3-D detachees depuis une matrice.</example_item_description>
+      <example_item_description>Barres horizontales 3-D détachées depuis une matrice.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[f = figure();
 Y = [1 3; 2 4; 5 2];
 bar3h(Y);
@@ -103,7 +103,7 @@ bar3h(z, y, 1, "r");
     </example_item>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Barres horizontales 3-D groupees.</example_item_description>
+      <example_item_description>Barres horizontales 3-D groupées.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[f = figure();
 y = [1 2; 3 4; 5 6];
 bar3h(y, 'grouped');
@@ -112,7 +112,7 @@ bar3h(y, 'grouped');
     </example_item>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Barres horizontales 3-D empilees avec valeurs positives et negatives.</example_item_description>
+      <example_item_description>Barres horizontales 3-D empilées avec valeurs positives et négatives.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[f = figure();
 y = [1 -2; -3 4];
 bar3h(y, 'stacked');

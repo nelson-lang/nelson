@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>addlistener</keyword>
-  <short_description>Ajoute un callback ecouteur a un evenement classdef.</short_description>
+  <short_description>Ajoute un callback écouteur a un événement classdef.</short_description>
   <syntax>
     <syntax_item>lh = addlistener(obj, eventName, callback)</syntax_item>
     <syntax_item>lh = addlistener(obj, propertyName, propertyEvent, callback)</syntax_item>
@@ -15,11 +15,11 @@
     </param_input_item>
     <param_input_item>
       <param_name>eventName</param_name>
-      <param_description>un nom d&apos;evenement sous forme de chaine</param_description>
+      <param_description>un nom d&apos;événement sous forme de chaîne</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>propertyName</param_name>
-      <param_description>un nom de propriete GetObservable ou SetObservable sous forme de chaine</param_description>
+      <param_description>un nom de propriété GetObservable ou SetObservable sous forme de chaîne</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>propertyEvent</param_name>
@@ -27,7 +27,7 @@
     </param_input_item>
     <param_input_item>
       <param_name>callback</param_name>
-      <param_description>un handle de fonction appele avec les arguments source et donnees d&apos;evenement</param_description>
+      <param_description>un handle de fonction appelé avec les arguments source et données d&apos;événement</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -38,16 +38,16 @@
   </param_output>
   <description>
     <p>
-      <b>addlistener</b> enregistre un callback pour un evenement d&apos;objet handle classdef.</p>
-    <p>Pour les proprietes observables, utilisez <b>PreGet</b>, <b>PostGet</b>, <b>PreSet</b> ou <b>PostSet</b>. Les donnees d&apos;evenement de propriete contiennent <b>EventName</b>, <b>PropertyName</b> et <b>AffectedObject</b>.</p>
-    <p>Supprimez le handle ecouteur retourne pour le detacher de l&apos;objet source.</p>
+      <b>addlistener</b> enregistre un callback pour un événement d&apos;objet handle classdef.</p>
+    <p>Pour les propriétés observables, utilisez <b>PreGet</b>, <b>PostGet</b>, <b>PreSet</b> ou <b>PostSet</b>. Les données d&apos;événement de propriété contiennent <b>EventName</b>, <b>PropertyName</b> et <b>AffectedObject</b>.</p>
+    <p>Supprimez le handle écouteur retourné pour le détacher de l&apos;objet source.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Attacher un callback a un evenement.</example_item_description>
+      <example_item_description>Attacher un callback a un événement.</example_item_description>
       <example_item_data runnable="false"><![CDATA[d = [tempdir(), 'nelson_help_addlistener/'];
 mkdir(d);
 filewrite([d, '/NelsonHelpAddListenerCounter.m'], ["classdef NelsonHelpAddListenerCounter < handle"; "  events"; "    CountChanged"; "  end"; "  methods"; "    function trigger(obj)"; "      notify(obj, 'CountChanged');"; "    end"; "  end"; "end"]);
@@ -60,7 +60,7 @@ delete(counter)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Attacher un callback a une propriete observable.</example_item_description>
+      <example_item_description>Attacher un callback a une propriété observable.</example_item_description>
       <example_item_data runnable="false"><![CDATA[d = [tempdir(), 'nelson_help_addlistener_property/'];
 if ~isdir(d)
   mkdir(d);
@@ -89,7 +89,7 @@ delete(counter)]]></example_item_data>
   <history>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>support des ecouteurs classdef ajoute</history_description>
+      <history_description>support des écouteurs classdef ajouté</history_description>
     </history_item>
   </history>
   <authors>

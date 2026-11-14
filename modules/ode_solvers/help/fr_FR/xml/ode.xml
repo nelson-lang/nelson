@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>ode</keyword>
-  <short_description>Interface objet pour problemes EDO.</short_description>
+  <short_description>Interface objet pour problèmes EDO.</short_description>
   <syntax>
     <syntax_item>problem = ode(nom, valeur)</syntax_item>
     <syntax_item>result = solve(problem, tfinal)</syntax_item>
@@ -12,36 +12,36 @@
   </syntax>
   <description>
     <p>
-      <b>ode</b> stocke un probleme differentiel et les reglages utilises par <b>solve</b> et <b>solutionFcn</b>.</p>
+      <b>ode</b> stocke un problème différentiel et les réglages utilisés par <b>solve</b> et <b>solutionFcn</b>.</p>
     <table style="width:100%">
       <tr>
         <th>Appel</th>
-        <th>Role</th>
+        <th>Rôle</th>
       </tr>
       <tr>
         <td>
           <b>solve(problem, tfinal)</b>
         </td>
-        <td>Integre de <b>InitialTime</b> a <b>tfinal</b>.</td>
+        <td>Intègre de <b>InitialTime</b> a <b>tfinal</b>.</td>
       </tr>
       <tr>
         <td>
           <b>solve(problem, t0, tfinal)</b>
         </td>
-        <td>Integre depuis <b>t0</b>; ce temps de depart remplace <b>InitialTime</b> pour cet appel.</td>
+        <td>Intègre depuis <b>t0</b>; ce temps de départ remplacé <b>InitialTime</b> pour cet appel.</td>
       </tr>
       <tr>
         <td>
           <b>solutionFcn(problem, tfinal)</b>
         </td>
-        <td>Retourne une fonction d'interpolation et l'objet resultat correspondant.</td>
+        <td>Retourne une fonction d'interpolation et l'objet résultat correspondant.</td>
       </tr>
     </table>
-    <p>Principales proprietes de l'objet:</p>
+    <p>Principales propriétés de l'objet:</p>
     <table style="width:100%">
       <tr>
-        <th>Propriete</th>
-        <th>Valeurs acceptees</th>
+        <th>Propriété</th>
+        <th>Valeurs acceptées</th>
         <th>Effet</th>
       </tr>
       <tr>
@@ -51,7 +51,7 @@
         <td>
           <b>'standard'</b>, <b>'fullyimplicit'</b></td>
         <td>
-          <b>'standard'</b> utilise <b>ODEFcn(t,y)</b>. <b>'fullyimplicit'</b> utilise des residus <b>ODEFcn(t,y,yp)</b>.</td>
+          <b>'standard'</b> utilise <b>ODEFcn(t,y)</b>. <b>'fullyimplicit'</b> utilise des résidus <b>ODEFcn(t,y,yp)</b>.</td>
       </tr>
       <tr>
         <td>
@@ -59,21 +59,21 @@
         </td>
         <td>
           <b>'auto'</b>, <b>'autoswitch'</b>, <b>'nonstiff'</b>, <b>'stiff'</b>, noms de solveurs</td>
-        <td>Selectionne la methode d'integration. <b>'auto'</b> choisit selon le type de probleme. <b>'autoswitch'</b> peut redemarrer avec une methode raide quand une raideur est detectee.</td>
+        <td>Sélectionne la méthode d'intégration. <b>'auto'</b> choisit selon le type de problème. <b>'autoswitch'</b> peut redémarrer avec une méthode raide quand une raideur est détectée.</td>
       </tr>
       <tr>
         <td>
           <b>SolverOptions</b>
         </td>
         <td>Objet d'options correspondant au solveur</td>
-        <td>Stocke les tolerances, la fonction de sortie, les bornes de pas et les reglages propres au solveur.</td>
+        <td>Stocke les tolérances, la fonction de sortie, les bornes de pas et les réglages propres au solveur.</td>
       </tr>
       <tr>
         <td>
           <b>Parameters</b>
         </td>
-        <td>Vecteur numerique ou tableau de cellules</td>
-        <td>Passe apres les arguments standards aux callbacks d'equation, d'evenement, de sortie et de reponse d'evenement. Un tableau de cellules est developpe en un argument par cellule.</td>
+        <td>Vecteur numérique ou tableau de cellules</td>
+        <td>Passe après les arguments standards aux callbacks d'équation, d'événement, de sortie et de réponse d'événement. Un tableau de cellules est developpe en un argument par cellule.</td>
       </tr>
       <tr>
         <td>
@@ -81,7 +81,7 @@
         </td>
         <td>
           <b>'off'</b>, <b>'on'</b></td>
-        <td>Avec <b>'on'</b>, les etats complexes sont integres via parties reelles et imaginaires separees, tandis que les resultats retournent a la forme complexe d'origine.</td>
+        <td>Avec <b>'on'</b>, les états complexes sont intégrés via parties réelles et imaginaires séparées, tandis que les résultats retournent a la forme complexe d'origine.</td>
       </tr>
     </table>
     <p>Familles de solveurs:</p>
@@ -95,7 +95,7 @@
         <td>Non raide</td>
         <td>
           <b>'ode23'</b>, <b>'ode45'</b>, <b>'ode78'</b>, <b>'ode89'</b>, <b>'ode113'</b></td>
-        <td>Pour les problemes explicites lisses.</td>
+        <td>Pour les problèmes explicites lisses.</td>
       </tr>
       <tr>
         <td>Raide ou matrice de masse</td>
@@ -115,7 +115,7 @@
         <td>
           <b>'cvodesnonstiff'</b>, <b>'cvodesstiff'</b>, <b>'idas'</b></td>
         <td>
-          <b>NELSON_SUNDIALS_RUNTIME</b> peut valoir <b>OFF</b> pour forcer le fallback interne ou <b>ON</b> pour autoriser le backend quand il est compile.</td>
+          <b>NELSON_SUNDIALS_RUNTIME</b> peut valoir <b>OFF</b> pour forcer le fallback interne ou <b>ON</b> pour autoriser le backend quand il est compilé.</td>
       </tr>
     </table>
   </description>
@@ -135,7 +135,7 @@ yhalf = f(0.5)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Resoudre un probleme residuel totalement implicite.</example_item_description>
+      <example_item_description>Résoudre un problème résiduel totalement implicite.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[problem = ode('EquationType', 'fullyimplicit', ...
   'ODEFcn', @(t,y,yp) yp + y, ...
   'InitialValue', 1, ...
@@ -144,7 +144,7 @@ result = solve(problem, 1)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Passer des parametres supplementaires a une fonction de probleme.</example_item_description>
+      <example_item_description>Passer des paramètres supplémentaires a une fonction de problème.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[problem = ode('ODEFcn', @(t,y,a) a .* y, ...
   'InitialValue', 1, ...
   'Parameters', 2);
@@ -152,7 +152,7 @@ result = solve(problem, 0, 1)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Resoudre un probleme en separant les parties complexes en interne.</example_item_description>
+      <example_item_description>Résoudre un problème en separant les parties complexes en interne.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[problem = ode('ODEFcn', @(t,y) y .* t + 2 * 1i, ...
   'InitialValue', 1 + 1i, ...
   'SeparateComplexParts', 'on');

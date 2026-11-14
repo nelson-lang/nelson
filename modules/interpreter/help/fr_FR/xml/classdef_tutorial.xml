@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>classdef tutorial</keyword>
-  <short_description>Tutoriel classdef pas a pas.</short_description>
+  <short_description>Tutoriel classdef pas à pas.</short_description>
   <syntax>
     <syntax_item>classdef ClassName, properties, methods, end</syntax_item>
     <syntax_item>classdef SubClass &lt; SuperClass</syntax_item>
@@ -12,26 +12,26 @@
   </syntax>
   <description>
     <p>
-      Un fichier <b>classdef</b> definit un modele de classe. Le fichier contient une seule definition de classe et son nom doit correspondre au nom de la classe.</p>
+      Un fichier <b>classdef</b> définit un modèle de classe. Le fichier contient une seule définition de classe et son nom doit correspondre au nom de la classe.</p>
     <p>
-      Une definition de classe peut contenir des blocs <b>properties</b>, <b>methods</b>, <b>events</b> et <b>enumeration</b>. Les proprietes stockent l&apos;etat de l&apos;objet. Les methodes implementent le comportement. Les evenements et les ecouteurs sont utiles pour les classes handle qui notifient d&apos;autres parties du code.</p>
+      Une définition de classe peut contenir des blocs <b>properties</b>, <b>methods</b>, <b>events</b> et <b>enumeration</b>. Les propriétés stockent l&apos;état de l&apos;objet. Les méthodes implémentent le comportement. Les événements et les écouteurs sont utiles pour les classes handle qui notifient d&apos;autres parties du code.</p>
     <p>
-      Les classes valeur copient leurs donnees lors d&apos;une affectation. Les classes handle heritent de <b>handle</b> et utilisent une semantique de reference: deux variables peuvent designer le meme objet.</p>
+      Les classes valeur copient leurs données lors d&apos;une affectation. Les classes handle héritent de <b>handle</b> et utilisent une sémantique de référence: deux variables peuvent désigner le même objet.</p>
     <p>
-      Nelson fournit aussi des classes mixin legeres sous <b>nelson.mixin</b>. <b>nelson.mixin.Copyable</b> ajoute une methode <b>copy</b> superficielle pour les classes handle. <b>nelson.mixin.CustomDisplay</b> redirige l&apos;affichage scalaire vers une methode protegee <b>displayScalarObject</b> quand la classe la definit.</p>
+      Nelson fournit aussi des classes mixin légères sous <b>nelson.mixin</b>. <b>nelson.mixin.Copyable</b> ajoute une méthode <b>copy</b> superficielle pour les classes handle. <b>nelson.mixin.CustomDisplay</b> redirige l&apos;affichage scalaire vers une méthode protégée <b>displayScalarObject</b> quand la classe la définit.</p>
     <p>
-      Les declarations de proprietes peuvent inclure une valeur par defaut, une validation de taille et de type, et des fonctions de validation. Les methodes d&apos;acces nommees <b>get.PropertyName</b> et <b>set.PropertyName</b> implementent l&apos;acces calcule ou valide aux proprietes. Les proprietes <b>Dependent</b> ne sont pas stockees; les proprietes <b>Transient</b> ne sont pas persistees; les proprietes handle <b>NonCopyable</b> sont reinitialisees par le mixin de copie.</p>
+      Les déclarations de propriétés peuvent inclure une valeur par défaut, une validation de taille et de type, et des fonctions de validation. Les méthodes d&apos;accès nommées <b>get.PropertyName</b> et <b>set.PropertyName</b> implémentent l&apos;accès calcule ou valide aux propriétés. Les propriétés <b>Dependent</b> ne sont pas stockées; les propriétés <b>Transient</b> ne sont pas persistées; les propriétés handle <b>NonCopyable</b> sont réinitialisées par le mixin de copie.</p>
     <p>
-      La methode statique generee <b>ClassName.empty(...)</b> cree des tableaux vides types. L&apos;expansion indexee initialise les elements manquants de classes valeur avec les valeurs par defaut et les elements manquants de classes handle avec des handles par defaut distincts.</p>
+      La méthode statique générée <b>ClassName.empty(...)</b> crée des tableaux vides types. L&apos;expansion indexée initialise les éléments manquants de classes valeur avec les valeurs par défaut et les éléments manquants de classes handle avec des handles par défaut distincts.</p>
     <p>
-      <b>saveObjectImpl</b> et <b>loadObjectImpl</b> statique personnalisent la persistance. Pour les tableaux non vides, ces methodes s&apos;executent element par element. Les tableaux vides conservent leur type et leur taille sans appeler les hooks scalaires, et les tableaux de handles sont verifies avant l&apos;execution des hooks de sauvegarde afin de detecter les elements invalides.</p>
+      <b>saveObjectImpl</b> et <b>loadObjectImpl</b> statique personnalisent la persistance. Pour les tableaux non vides, ces méthodes s&apos;exécutent élément par élément. Les tableaux vides conservent leur type et leur taille sans appeler les hooks scalaires, et les tableaux de handles sont vérifiés avant l&apos;exécution des hooks de sauvegarde afin de détecter les éléments invalides.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Creer une premiere classe valeur dans un fichier nomme MyClass.m.</example_item_description>
+      <example_item_description>Créer une première classe valeur dans un fichier nomme MyClass.m.</example_item_description>
       <example_item_data runnable="false"><![CDATA[
 classdef MyClass
   properties
@@ -53,7 +53,7 @@ disp(a.Value)
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Utiliser un stockage prive et une propriete dependante.</example_item_description>
+      <example_item_description>Utiliser un stockage privé et une propriété dépendante.</example_item_description>
       <example_item_data runnable="false"><![CDATA[
 classdef Person
   properties (Access = private)
@@ -88,7 +88,7 @@ p.Age
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Heriter d&apos;une superclasse et appeler son constructeur et sa methode.</example_item_description>
+      <example_item_description>Hériter d&apos;une superclasse et appeler son constructeur et sa méthode.</example_item_description>
       <example_item_data runnable="false"><![CDATA[
 classdef Vehicle
   properties
@@ -134,7 +134,7 @@ c.start();
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Utiliser la semantique de reference des handles.</example_item_description>
+      <example_item_description>Utiliser la sémantique de référence des handles.</example_item_description>
       <example_item_data runnable="false"><![CDATA[
 classdef Counter < handle
   properties
@@ -222,7 +222,7 @@ p
   <history>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>tutoriel classdef ajoute</history_description>
+      <history_description>tutoriel classdef ajouté</history_description>
     </history_item>
   </history>
   <authors>

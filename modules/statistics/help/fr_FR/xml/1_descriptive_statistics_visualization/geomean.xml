@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>geomean</keyword>
-  <short_description>Moyenne geometrique d'un jeu de donnees.</short_description>
+  <short_description>Moyenne géométrique d'un jeu de données.</short_description>
   <syntax>
     <syntax_item>m = geomean(X)</syntax_item>
     <syntax_item>m = geomean(X, dim)</syntax_item>
@@ -12,8 +12,8 @@
     <syntax_item>m = geomean(..., nanflag)</syntax_item>
   </syntax>
   <description>
-    <p><b>geomean</b> calcule la moyenne geometrique de donnees numeriques.</p>
-    <p>Par defaut, les valeurs <b>NaN</b> sont incluses. Utiliser <b>omitnan</b> pour les ignorer.</p>
+    <p><b>geomean</b> calcule la moyenne géométrique de données numériques.</p>
+    <p>Par défaut, les valeurs <b>NaN</b> sont incluses. Utiliser <b>omitnan</b> pour les ignorer.</p>
   </description>
   <examples>
     <example_item>

@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>errordlg</keyword>
-  <short_description>Cree une boite de dialogue d'erreur.</short_description>
+  <short_description>Crée une boîte de dialogue d'erreur.</short_description>
   <syntax>
     <syntax_item>h = errordlg</syntax_item>
     <syntax_item>h = errordlg(message)</syntax_item>
@@ -30,7 +30,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Creer une boite d erreur.</example_item_description>
+      <example_item_description>Créer une boîte d erreur.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[h = errordlg('Invalid value.', 'Error', 'non-modal');]]></example_item_data>
       <example_item_img
         src="../images/errordlg_example.svg"
@@ -59,7 +59,7 @@ close(h)]]></example_item_data>
   <history>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>version aide API dialogue mise a jour.</history_description>
+      <history_description>version aide API dialogue mise à jour.</history_description>
     </history_item>
   </history>
   <authors>

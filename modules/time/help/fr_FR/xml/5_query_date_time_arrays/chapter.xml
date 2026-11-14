@@ -3,8 +3,8 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <module_name>time</module_name>
-  <chapter>Requetes sur les tableaux de date et heure</chapter>
+  <chapter>Requêtes sur les tableaux de date et heure</chapter>
   <chapter_description>
-    <p>Predicats et fonctions de requete pour dates, heures, durees et fuseaux horaires.</p>
+    <p>Prédicats et fonctions de requête pour dates, heures, durées et fuseaux horaires.</p>
   </chapter_description>
 </xmldoc>

@@ -11,11 +11,11 @@
   <param_input>
     <param_input_item>
       <param_name>value</param_name>
-      <param_description>valeur numerique, variable d&apos;optimisation ou expression utilisee pour creer une expression.</param_description>
+      <param_description>valeur numérique, variable d&apos;optimisation ou expression utilisée pour créer une expression.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>dimensions</param_name>
-      <param_description>dimensions utilisees pour creer un tableau d&apos;expressions nulles.</param_description>
+      <param_description>dimensions utilisées pour créer un tableau d&apos;expressions nulles.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -25,8 +25,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>optim.problemdef.OptimizationExpression represente des expressions arithmetiques construites a partir de variables d&apos;optimisation.</p>
-    <p>Les expressions peuvent servir d&apos;objectifs ou de parties de contraintes dans un modele problem-based.</p>
+    <p>optim.problemdef.OptimizationExpression représente des expressions arithmétiques construites à partir de variables d&apos;optimisation.</p>
+    <p>Les expressions peuvent servir d&apos;objectifs ou de parties de contraintes dans un modèle problem-based.</p>
   </description>
   <used_function>
     <used_function_item>optimexpr</used_function_item>
@@ -35,7 +35,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Creer une expression scalaire a partir de variables d&apos;optimisation.</example_item_description>
+      <example_item_description>Créer une expression scalaire à partir de variables d&apos;optimisation.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[x = optimvar('x', 2, 1);
 expr = (x(1) - 1)^2 + (x(2) - 2)^2]]></example_item_data>
     </example_item>

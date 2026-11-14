@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>comet3</keyword>
-  <short_description>Creer un trace comete 3-D.</short_description>
+  <short_description>Créer un trace comete 3-D.</short_description>
   <syntax>
     <syntax_item>comet3(z)</syntax_item>
     <syntax_item>comet3(x, y, z)</syntax_item>
@@ -13,11 +13,11 @@
   <param_input>
     <param_input_item>
       <param_name>z</param_name>
-      <param_description>valeurs z: vecteur numerique.</param_description>
+      <param_description>valeurs z: vecteur numérique.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>x, y, z</param_name>
-      <param_description>vecteurs numeriques avec le meme nombre d'elements.</param_description>
+      <param_description>vecteurs numériques avec le même nombre d'éléments.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>p</param_name>
@@ -29,9 +29,9 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>comet3</b> anime une tete avec marqueur, un corps mobile et une trace complete pour un trace comete trois dimensions.</p>
+    <p><b>comet3</b> anime une tête avec marqueur, un corps mobile et une trace complète pour un trace comete trois dimensions.</p>
     <p><b>comet3(z)</b> trace <b>z</b> en fonction des indices sur les axes x et y.</p>
-    <p>L'etat final des axes contient deux objets animatedline et un objet line pour le marqueur de tete.</p>
+    <p>L'état final des axes contient deux objets animatedline et un objet line pour le marqueur de tête.</p>
   </description>
   <used_function />
   <bibliography />

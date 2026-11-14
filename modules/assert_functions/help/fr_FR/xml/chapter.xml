@@ -5,8 +5,8 @@
   <module_name>assert_functions</module_name>
   <chapter>Fonctions d'assertion</chapter>
   <chapter_description>
-    <p>Le module assert_functions fournit des assertions pour les tests unitaires, les contrats d'execution et les diagnostics.</p>
-    <p>Toutes les assertions partagent le meme contrat : sans sortie elles levent une erreur en cas d'echec ; avec sorties elles retournent <b>[res, msg]</b>.</p>
-    <p>L'API canonique utilise des noms d'assertion qualifies, par exemple <b>asserts.isequal</b>, <b>asserts.warning</b> et <b>asserts.satisfies</b>.</p>
+    <p>Le module assert_functions fournit des assertions pour les tests unitaires, les contrats d'exécution et les diagnostics.</p>
+    <p>Toutes les assertions partagent le même contrat : sans sortie elles levent une erreur en cas d'échec ; avec sorties elles retournent <b>[res, msg]</b>.</p>
+    <p>L'API canonique utilise des noms d'assertion qualifiés, par exemple <b>asserts.isequal</b>, <b>asserts.warning</b> et <b>asserts.satisfies</b>.</p>
   </chapter_description>
 </xmldoc>

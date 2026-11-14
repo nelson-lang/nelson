@@ -3,22 +3,22 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>netcdf.setChunkCache</keyword>
-  <short_description>Definit les reglages par defaut du cache de blocs netCDF.</short_description>
+  <short_description>Définit les réglages par défaut du cache de blocs netCDF.</short_description>
   <syntax>
     <syntax_item>netcdf.setChunkCache(size, nelems, preemption)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>size</param_name>
-      <param_description>Taille numerique utilisee par l'operation netCDF.</param_description>
+      <param_description>Taille numérique utilisée par l'opération netCDF.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>nelems</param_name>
-      <param_description>Nombre d'elements du cache netCDF.</param_description>
+      <param_description>Nombre d'éléments du cache netCDF.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>preemption</param_name>
-      <param_description>Valeur de priorite du cache netCDF.</param_description>
+      <param_description>Valeur de priorité du cache netCDF.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -28,8 +28,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>netcdf.setChunkCache expose une operation bas niveau de la bibliotheque netCDF.</p>
-    <p>Ces fonctions utilisent des identifiants numeriques et suivent les conventions netCDF, notamment pour les indices, les modes et les constantes.</p>
+    <p>netcdf.setChunkCache expose une opération bas niveau de la bibliothèque netCDF.</p>
+    <p>Ces fonctions utilisent des identifiants numériques et suivent les conventions netCDF, notamment pour les indices, les modes et les constantes.</p>
   </description>
   <used_function />
   <bibliography />

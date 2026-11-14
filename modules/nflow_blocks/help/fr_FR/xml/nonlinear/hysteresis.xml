@@ -60,7 +60,7 @@
     <p><b>Caractéristiques du bloc</b></p>
     <table border="1">
       <tbody>
-        <tr><td>Type de bloc</td><td>hysteresis</td></tr>
+        <tr><td>Type de bloc</td><td>hystérésis</td></tr>
         <tr><td>Famille</td><td>Nonlinear</td></tr>
         <tr><td>Taille de rendu</td><td>80 x 80</td></tr>
         <tr><td>Phases</td><td>INIT, OUTPUT, UPDATE</td></tr>
@@ -72,14 +72,14 @@
     <ul>
       <li>INIT : démarre à yLow.</li>
       <li>OUTPUT : émet la valeur mémorisée.</li>
-      <li>UPDATE : bascule à yHigh au-dessus de uHigh, à yLow sous uLow, sinon conserve.</li>
+      <li>UPDATE : bascule à yHigh au-dessus de uHigh, à yLow sous uLow, sinon conservé.</li>
     </ul>
     <p><b>Équation ou règle</b></p>
     <latex>y \leftarrow \begin{cases} y_{High} &amp; u \ge u_{High} \\ y_{Low} &amp; u \le u_{Low} \\ y &amp; \text{sinon} \end{cases}</latex>
     <p><b>Capacités étendues</b></p>
     <p>Génération de code : supportée pour C et Rust.</p>
     <p><b>Sources d'implémentation</b></p>
-    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <p>Génération de code : prise en charge pour C et Rust.</p>
     <source_code label="Manifest" path="modules/nflow_blocks/libraries/nonlinear/library.json" language="json"/>
     <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/nonlinear/hysteresis.cpp" language="cpp"/>
   </description>

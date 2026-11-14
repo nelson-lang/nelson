@@ -60,7 +60,7 @@
       <tr>
         <td>scheduledExecution</td>
         <td>logical</td>
-        <td><b>true</b> lorsque la FMU fournit l'interface Scheduled Execution.</td>
+        <td><b>true</b> lorsque la FMU fournit l'interface Scheduled Exécution.</td>
       </tr>
       <tr>
         <td>names</td>

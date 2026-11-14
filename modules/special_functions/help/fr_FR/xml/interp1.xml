@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>interp1</keyword>
-  <short_description>Interpolation de donnees 1-D</short_description>
+  <short_description>Interpolation de données 1-D</short_description>
   <syntax>
     <syntax_item>vq = interp1(x, v, xq)</syntax_item>
     <syntax_item>vq = interp1(x, v, xq, method)</syntax_item>
@@ -16,19 +16,19 @@
   <param_input>
     <param_input_item>
       <param_name>x</param_name>
-      <param_description>Points d&apos;echantillonnage : vecteur.</param_description>
+      <param_description>Points d&apos;échantillonnage : vecteur.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>v</param_name>
-      <param_description>Valeurs d&apos;echantillonnage : vecteur, matrice ou tableau.</param_description>
+      <param_description>Valeurs d&apos;échantillonnage : vecteur, matrice ou tableau.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>xq</param_name>
-      <param_description>Points de requete : scalaire, vecteur, matrice ou tableau.</param_description>
+      <param_description>Points de requête : scalaire, vecteur, matrice ou tableau.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>method</param_name>
-      <param_description>Methode : &apos;linear&apos;, &apos;nearest&apos;, &apos;next&apos;, &apos;previous&apos;, &apos;pchip&apos;, &apos;cubic&apos;, &apos;makima&apos; ou &apos;spline&apos;.</param_description>
+      <param_description>Méthode : &apos;linear&apos;, &apos;nearest&apos;, &apos;next&apos;, &apos;previous&apos;, &apos;pchip&apos;, &apos;cubic&apos;, &apos;makima&apos; ou &apos;spline&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>extrapolation</param_name>
@@ -39,7 +39,7 @@
   <param_output>
     <param_output_item>
       <param_name>vq</param_name>
-      <param_description>Valeurs interpolees.</param_description>
+      <param_description>Valeurs interpolées.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>pp</param_name>
@@ -48,7 +48,7 @@
   </param_output>
   <description>
     <p>
-      <b>interp1</b> retourne les valeurs interpolees d&apos;une fonction 1-D. La methode par defaut est &apos;linear&apos;.
+      <b>interp1</b> retourne les valeurs interpolées d&apos;une fonction 1-D. La méthode par défaut est &apos;linear&apos;.
     </p>
     <p>
       <b>pp = interp1(x, v, method, &apos;pp&apos;)</b> retourne une structure polynomiale par morceaux evaluable avec <b>ppval</b>.

@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>freqresp</keyword>
-  <short_description>RÃ©ponse en frÃ©quence du systÃ¨me.</short_description>
+  <short_description>Réponse en fréquence du système.</short_description>
   <syntax>
     <syntax_item>[H, wout] = freqresp(sys, w)</syntax_item>
     <syntax_item>H = freqresp(sys, w)</syntax_item>
@@ -11,27 +11,27 @@
   <param_input>
     <param_input_item>
       <param_name>sys</param_name>
-      <param_description>modÃ¨le LTI</param_description>
+      <param_description>modèle LTI</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>w</param_name>
-      <param_description>FrÃ©quences : vecteur.</param_description>
+      <param_description>Fréquences : vecteur.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>H</param_name>
-      <param_description>Valeurs de rÃ©ponse en frÃ©quence</param_description>
+      <param_description>Valeurs de réponse en fréquence</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>wout</param_name>
       <param_description
-      >FrÃ©quences de sortie correspondant Ã  la rÃ©ponse en frÃ©quence : vecteur.</param_description>
+      >Fréquences de sortie correspondant à la réponse en fréquence : vecteur.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p
-    >Calcule la rÃ©ponse en frÃ©quence (rÃ©ponse complexe) d&apos;un systÃ¨me LTI pour une gamme de frÃ©quences donnÃ©e.</p>
+    >Calcule la réponse en fréquence (réponse complexe) d&apos;un système LTI pour une gamme de fréquences donnée.</p>
   </description>
   <examples>
     <example_item>

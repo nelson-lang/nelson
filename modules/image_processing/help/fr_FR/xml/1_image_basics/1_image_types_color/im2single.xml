@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>im2single</keyword>
-  <short_description>Convertit une image en precision simple.</short_description>
+  <short_description>Convertit une image en précision simple.</short_description>
   <syntax>
     <syntax_item>J = im2single(I)</syntax_item>
     <syntax_item>J = im2single(I, 'indexed')</syntax_item>
@@ -11,29 +11,29 @@
   <param_input>
     <param_input_item>
       <param_name>I</param_name>
-      <param_description>Image d'entree.</param_description>
+      <param_description>Image d'entrée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>'indexed'</param_name>
-      <param_description>Mode optionnel pour les images indexees. Les valeurs uint8 et uint16 sont converties en indices single en base un.</param_description>
+      <param_description>Mode optionnel pour les images indexées. Les valeurs uint8 et uint16 sont converties en indices single en base un.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>J</param_name>
-      <param_description>Image convertie en precision simple.</param_description>
+      <param_description>Image convertie en précision simple.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>Convertit une image en precision simple.</p>
-    <p>Pour les images indexees, les entrees uint8 et uint16 sont decalees de un dans la sortie single.</p>
+    <p>Convertit une image en précision simple.</p>
+    <p>Pour les images indexées, les entrées uint8 et uint16 sont décalées de un dans la sortie single.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Convertir un tableau uint8 en precision simple</example_item_description>
+      <example_item_description>Convertir un tableau uint8 en précision simple</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[I=reshape(uint8(linspace(1,255,25)),[5 5]);

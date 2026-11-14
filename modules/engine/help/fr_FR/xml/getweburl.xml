@@ -6,11 +6,11 @@
   <short_description>Retourne l&apos;URL et le port Web GUI courants.</short_description>
   <syntax><syntax_item>[url, port] = getweburl()</syntax_item></syntax>
   <param_output>
-    <param_output_item><param_name>url</param_name><param_description>URL Web GUI courante, ou une chaine vide hors lancement web actif.</param_description></param_output_item>
+    <param_output_item><param_name>url</param_name><param_description>URL Web GUI courante, ou une chaîne vide hors lancement web actif.</param_description></param_output_item>
     <param_output_item><param_name>port</param_name><param_description>Port Web GUI courant, ou <b>0</b> hors lancement web actif.</param_description></param_output_item>
   </param_output>
   <description>
-    <p><b>getweburl()</b> retourne l&apos;URL HTTP et le port effectifs de la session Web GUI courante. Un lancement webview prive utilise toujours un port localhost interne, mais cette URL n&apos;est pas affichee au demarrage.</p>
+    <p><b>getweburl()</b> retourne l&apos;URL HTTP et le port effectifs de la session Web GUI courante. Un lancement webview privé utilise toujours un port localhost interne, mais cette URL n&apos;est pas affichée au démarrage.</p>
   </description>
   <used_function />
   <bibliography />

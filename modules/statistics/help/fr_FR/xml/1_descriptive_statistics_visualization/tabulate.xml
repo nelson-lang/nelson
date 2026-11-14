@@ -3,14 +3,14 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>tabulate</keyword>
-  <short_description>Table de frequences.</short_description>
+  <short_description>Table de fréquences.</short_description>
   <syntax>
     <syntax_item>tabulate(x)</syntax_item>
     <syntax_item>tbl = tabulate(x)</syntax_item>
   </syntax>
   <description>
     <p><b>tabulate</b> renvoie les effectifs et pourcentages des valeurs uniques d&apos;un vecteur.</p>
-    <p>Une entree numerique renvoie une matrice numerique. Les entrees texte, logiques et categorielles renvoient un tableau de cellules. Une entree numerique d&apos;entiers positifs inclut les lignes de compte nul de 1 a la valeur maximale.</p>
+    <p>Une entrée numérique renvoie une matrice numérique. Les entrées texte, logiques et catégorielles renvoient un tableau de cellules. Une entrée numérique d&apos;entiers positifs inclut les lignes de compte nul de 1 a la valeur maximale.</p>
   </description>
   <examples>
     <example_item>

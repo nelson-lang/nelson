@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>interp2</keyword>
-  <short_description>Interpolation de donnees grillees 2-D au format meshgrid</short_description>
+  <short_description>Interpolation de données grillées 2-D au format meshgrid</short_description>
   <syntax>
     <syntax_item>Vq = interp2(X, Y, V, Xq, Yq)</syntax_item>
     <syntax_item>Vq = interp2(V, Xq, Yq)</syntax_item>
@@ -19,11 +19,11 @@
     </param_input_item>
     <param_input_item>
       <param_name>V</param_name>
-      <param_description>Valeurs : matrice reelle ou complexe.</param_description>
+      <param_description>Valeurs : matrice réelle ou complexe.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Xq, Yq</param_name>
-      <param_description>Points de requete.</param_description>
+      <param_description>Points de requête.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>method</param_name>
@@ -32,22 +32,22 @@
     </param_input_item>
     <param_input_item>
       <param_name>extrapval</param_name>
-      <param_description>Valeur scalaire retournee hors du domaine.</param_description>
+      <param_description>Valeur scalaire retournée hors du domaine.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>Vq</param_name>
-      <param_description>Valeurs interpolees. Avec des vecteurs de requete d&apos;orientations mixtes, les lignes suivent Yq et les colonnes Xq.</param_description>
+      <param_description>Valeurs interpolées. Avec des vecteurs de requête d&apos;orientations mixtes, les lignes suivent Yq et les colonnes Xq.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>
-      <b>interp2</b> interpole des donnees grillees 2-D avec les conventions meshgrid. La grille par defaut est X=1:size(V,2), Y=1:size(V,1).</p>
+      <b>interp2</b> interpole des données grillées 2-D avec les conventions meshgrid. La grille par défaut est X=1:size(V,2), Y=1:size(V,1).</p>
     <p>
-      <b>interp2(V)</b> raffine la grille une fois. <b>interp2(V,k)</b> insere 2^k-1 points interpoles entre les echantillons; k=0 retourne V.</p>
-    <p>Les vecteurs de grille doivent etre strictement monotones. Les valeurs complexes sont interpolees en separant parties reelle et imaginaire. Sans extrapval, les requetes hors domaine retournent NaN pour linear, nearest et cubic; makima et spline extrapolent par defaut.</p>
-    <p>Les methodes cubiques N-D utilisent un stencil natif tensoriel a quatre points, avec repli lineaire sur les dimensions qui ont moins de quatre echantillons.</p>
+      <b>interp2(V)</b> raffine la grille une fois. <b>interp2(V,k)</b> insère 2^k-1 points interpolés entre les échantillons; k=0 retourne V.</p>
+    <p>Les vecteurs de grille doivent être strictement monotones. Les valeurs complexes sont interpolées en separant parties réelle et imaginaire. Sans extrapval, les requêtes hors domaine retournent NaN pour linear, nearest et cubic; makima et spline extrapolent par défaut.</p>
+    <p>Les méthodes cubiques N-D utilisent un stencil natif tensoriel a quatre points, avec repli linéaire sur les dimensions qui ont moins de quatre échantillons.</p>
   </description>
   <examples>
     <example_item>

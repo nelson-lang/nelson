@@ -46,7 +46,7 @@
       Par défaut (<b>Vectorized</b> à <b>true</b>), <b>fun</b> doit accepter des tableaux et opérer élément par élément. Mettez <b>Vectorized</b> à <b>false</b> lorsque <b>fun</b> n&apos;accepte que des arguments scalaires : elle est alors évaluée point par point, ce qui est plus lent.
     </p>
     <p>
-      <b>Waypoints</b> indique des points d&apos;intérêt du domaine d&apos;intégration, comme des extrema locaux ou des discontinuités, que l&apos;intégrateur utilise dans son maillage initial : un tableau à deux colonnes <b>[x y]</b> de points, ou un tableau de cellules <b>{x y}</b> de vecteurs de grille. L&apos;intervalle en x est découpé aux abscisses x des points de passage, et chaque intervalle en y à leurs ordonnées y. Les points de passage doivent être réels et finis. N&apos;utilisez pas de points de passage pour indiquer des singularités ; découpez plutôt le domaine.
+      <b>Waypoints</b> indique des points d&apos;intérêt du domaine d&apos;intégration, comme des extrema locaux ou des discontinuités, que l&apos;intégrateur utilisé dans son maillage initial : un tableau à deux colonnes <b>[x y]</b> de points, ou un tableau de cellules <b>{x y}</b> de vecteurs de grille. L&apos;intervalle en x est découpé aux abscisses x des points de passage, et chaque intervalle en y à leurs ordonnées y. Les points de passage doivent être réels et finis. N&apos;utilisez pas de points de passage pour indiquer des singularités ; découpez plutôt le domaine.
     </p>
   </description>
   <used_function />

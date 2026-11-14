@@ -3,14 +3,14 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>pcares</keyword>
-  <short_description>Residus d&apos;une analyse en composantes principales.</short_description>
+  <short_description>Résidus d&apos;une analyse en composantes principales.</short_description>
   <syntax>
     <syntax_item>residuals = pcares(X, NumComponents)</syntax_item>
     <syntax_item>[residuals, reconstructed] = pcares(X, NumComponents)</syntax_item>
   </syntax>
   <description>
-    <p><b>pcares</b> retourne les residus obtenus en conservant le nombre demande de composantes principales de la matrice de donnees X.</p>
-    <p>La sortie reconstructed est l&apos;approximation de X de dimension reduite, et residuals est egal a X moins reconstructed.</p>
+    <p><b>pcares</b> retourne les résidus obtenus en conservant le nombre demande de composantes principales de la matrice de données X.</p>
+    <p>La sortie reconstructed est l&apos;approximation de X de dimension réduite, et residuals est égal à X moins reconstructed.</p>
   </description>
   <examples>
     <example_item>

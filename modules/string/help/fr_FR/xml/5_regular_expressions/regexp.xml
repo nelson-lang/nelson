@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>regexp</keyword>
-  <short_description>Recherche par expression reguliere.</short_description>
+  <short_description>Recherche par expression régulière.</short_description>
   <syntax>
     <syntax_item>startIndex = regexp(str, expression)</syntax_item>
     <syntax_item>[startIndex, endIndex] = regexp(str, expression)</syntax_item>
@@ -14,11 +14,11 @@
   <param_input>
     <param_input_item>
       <param_name>str</param_name>
-      <param_description>vecteur de caracteres, tableau de chaines ou cellule de vecteurs de caracteres.</param_description>
+      <param_description>vecteur de caractères, tableau de chaînes ou cellule de vecteurs de caractères.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>expression</param_name>
-      <param_description>expression reguliere.</param_description>
+      <param_description>expression régulière.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>outkey</param_name>
@@ -34,18 +34,18 @@
   <param_output>
     <param_output_item>
       <param_name>out</param_name>
-      <param_description>indices, correspondances, jetons, structures de jetons nommes ou texte decoupe.</param_description>
+      <param_description>indices, correspondances, jetons, structures de jetons nommés ou texte découpe.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>
-      <b>regexp</b> recherche du texte avec des expressions regulieres compatibles PCRE.</p>
-    <p>Une expression reguliere decrit un motif plutot qu&apos;une chaine litterale. Elle est utile lorsque le texte peut varier, par exemple pour reconnaitre des identifiants, des dates, des adresses email, des nombres, des balises ou plusieurs orthographes voisines.</p>
-    <p>La demarche habituelle consiste a reperer les parties caracteristiques du texte, a traduire chaque partie en syntaxe d&apos;expression reguliere, puis a appeler <b>regexp</b> avec la cle de sortie adaptee.</p>
-    <p>Par defaut, <b>regexp</b> renvoie les indices de debut, bases sur 1, de toutes les correspondances sans recouvrement. La recherche reprend apres la fin de la correspondance precedente. L&apos;option <b>
+      <b>regexp</b> recherche du texte avec des expressions régulières compatibles PCRE.</p>
+    <p>Une expression régulière décrit un motif plutôt qu&apos;une chaîne littérale. Elle est utile lorsque le texte peut varier, par exemple pour reconnaître des identifiants, des dates, des adresses email, des nombres, des balises ou plusieurs orthographes voisines.</p>
+    <p>La démarche habituelle consiste a repérer les parties caractéristiques du texte, a traduire chaque partie en syntaxe d&apos;expression régulière, puis a appeler <b>regexp</b> avec la clé de sortie adaptée.</p>
+    <p>Par défaut, <b>regexp</b> renvoie les indices de début, bases sur 1, de toutes les correspondances sans recouvrement. La recherche reprend après la fin de la correspondance précédente. L&apos;option <b>
         &apos;once&apos;
-      </b> arrete la recherche apres la premiere correspondance.</p>
-    <p>Metacaracteres courants :</p>
+      </b> arrête la recherche après la première correspondance.</p>
+    <p>Métacaractères courants :</p>
     <table style="width:100%">
       <tr>
         <th>Motif</th>
@@ -54,7 +54,7 @@
       </tr>
       <tr>
         <td>.</td>
-        <td>n&apos;importe quel caractere</td>
+        <td>n&apos;importe quel caractère</td>
         <td>
           <b>
             &apos;a.c&apos;
@@ -67,7 +67,7 @@
       </tr>
       <tr>
         <td>[abc]</td>
-        <td>un caractere parmi un ensemble</td>
+        <td>un caractère parmi un ensemble</td>
         <td>
           <b>
             &apos;[ch]at&apos;
@@ -80,15 +80,15 @@
       </tr>
       <tr>
         <td>[^abc]</td>
-        <td>un caractere absent de l&apos;ensemble</td>
+        <td>un caractère absent de l&apos;ensemble</td>
         <td>
           <b>
             &apos;[^0-9]&apos;
-          </b> reconnait un caractere qui n&apos;est pas un chiffre</td>
+          </b> reconnait un caractère qui n&apos;est pas un chiffre</td>
       </tr>
       <tr>
         <td>[a-z]</td>
-        <td>un caractere dans une plage</td>
+        <td>un caractère dans une plage</td>
         <td>
           <b>
             &apos;[A-Z]+&apos;
@@ -96,7 +96,7 @@
       </tr>
       <tr>
         <td>\w, \W</td>
-        <td>caractere de mot ou caractere qui n&apos;est pas de mot</td>
+        <td>caractère de mot ou caractère qui n&apos;est pas de mot</td>
         <td>
           <b>
             &apos;\w+&apos;
@@ -112,14 +112,14 @@
       </tr>
       <tr>
         <td>\s, \S</td>
-        <td>espace blanc ou caractere non blanc</td>
+        <td>espace blanc ou caractère non blanc</td>
         <td>
           <b>
             &apos;\w+\s+\w+&apos;
-          </b> reconnait deux mots separes par des espaces</td>
+          </b> reconnait deux mots séparés par des espaces</td>
       </tr>
     </table>
-    <p>Les quantificateurs indiquent combien de fois l&apos;expression precedente peut apparaitre.</p>
+    <p>Les quantificateurs indiquent combien de fois l&apos;expression précédente peut apparaître.</p>
     <table style="width:100%">
       <tr>
         <th>Motif</th>
@@ -127,7 +127,7 @@
       </tr>
       <tr>
         <td>expr*</td>
-        <td>zero fois ou plus</td>
+        <td>zéro fois ou plus</td>
       </tr>
       <tr>
         <td>expr+</td>
@@ -135,7 +135,7 @@
       </tr>
       <tr>
         <td>expr?</td>
-        <td>zero ou une fois</td>
+        <td>zéro ou une fois</td>
       </tr>
       <tr>
         <td>expr{m,n}</td>
@@ -150,12 +150,12 @@
         <td>exactement <b>n</b> fois</td>
       </tr>
     </table>
-    <p>Les quantificateurs sont avides par defaut. Ajoutez <b>?</b> apres un quantificateur pour une correspondance minimale, par exemple <b>
+    <p>Les quantificateurs sont avides par défaut. Ajoutez <b>?</b> après un quantificateur pour une correspondance minimale, par exemple <b>
         &apos;.*?&apos;
-      </b>. Ajoutez <b>+</b> apres un quantificateur pour une correspondance possessive, par exemple <b>
+      </b>. Ajoutez <b>+</b> après un quantificateur pour une correspondance possessive, par exemple <b>
         &apos;.*+&apos;
       </b>.</p>
-    <p>Les groupes controlent les jetons et les alternatives.</p>
+    <p>Les groupes contrôlent les jetons et les alternatives.</p>
     <table style="width:100%">
       <tr>
         <th>Motif</th>
@@ -171,7 +171,7 @@
       </tr>
       <tr>
         <td>(?&lt;nom&gt;expr)</td>
-        <td>capture un jeton nomme</td>
+        <td>capture un jeton nommé</td>
       </tr>
       <tr>
         <td>(expr1|expr2)</td>
@@ -179,10 +179,10 @@
       </tr>
       <tr>
         <td>\1, \2, ...</td>
-        <td>reconnait le meme texte qu&apos;un jeton deja capture</td>
+        <td>reconnait le même texte qu&apos;un jeton déjà capturé</td>
       </tr>
     </table>
-    <p>Les ancres et assertions reconnaissent des positions plutot que des caracteres.</p>
+    <p>Les ancres et assertions reconnaissent des positions plutôt que des caractères.</p>
     <table style="width:100%">
       <tr>
         <th>Motif</th>
@@ -190,7 +190,7 @@
       </tr>
       <tr>
         <td>^, $</td>
-        <td>debut et fin du texte, ou debut et fin de ligne avec <b>
+        <td>début et fin du texte, ou début et fin de ligne avec <b>
             &apos;lineanchors&apos;
           </b>
         </td>
@@ -198,19 +198,19 @@
       <tr>
         <td>\&lt;, \&gt;
         </td>
-        <td>debut et fin d&apos;un mot</td>
+        <td>début et fin d&apos;un mot</td>
       </tr>
       <tr>
         <td>\b, \B</td>
-        <td>frontiere de mot ou absence de frontiere de mot</td>
+        <td>frontière de mot ou absence de frontière de mot</td>
       </tr>
       <tr>
         <td>(?=expr), (?!expr)</td>
-        <td>anticipation positive ou negative</td>
+        <td>anticipation positive ou négative</td>
       </tr>
       <tr>
         <td>(?&lt;=expr), (?&lt;!expr)</td>
-        <td>retour arriere positif ou negatif</td>
+        <td>retour arrière positif ou négatif</td>
       </tr>
     </table>
     <p>Utilisez <b>
@@ -221,14 +221,14 @@
         &apos;lineanchors&apos;
       </b> pour appliquer <b>^</b> et <b>$</b> ligne par ligne, et <b>
         &apos;forceCellOutput&apos;
-      </b> pour forcer les resultats scalaires dans des cellules.</p>
+      </b> pour forcer les résultats scalaires dans des cellules.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Trouver les indices de debut et le texte reconnu.</example_item_description>
+      <example_item_description>Trouver les indices de début et le texte reconnu.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[
 regexp('bat cat coat', 'c[aeiou]+t')
 regexp('She sells sea shells.', '[Ss]h.', 'match')
@@ -237,7 +237,7 @@ regexp('01/11/2000', '(?<month>\d+)/(?<day>\d+)/(?<year>\d+)', 'names')
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Reconnaitre plusieurs unites de vitesse avec une seule expression.</example_item_description>
+      <example_item_description>Reconnaître plusieurs unités de vitesse avec une seule expression.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[
 txt = ['The train traveled at 250 kilometers per hour ', ...
        'and the car traveled at 120 km/h.'];
@@ -258,7 +258,7 @@ regexp(contacts, email, 'match')
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Utiliser des jetons, des jetons nommes et le decoupage.</example_item_description>
+      <example_item_description>Utiliser des jetons, des jetons nommés et le decoupage.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[
 regexp('3.14', '(\d+)\.(\d+)', 'tokens', 'once')
 regexp('color: blue', '(?<key>\w+):\s*(?<value>\w+)', 'names')

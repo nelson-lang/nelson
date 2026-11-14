@@ -7,20 +7,20 @@
   <short_description>Tutoriel : construire des applications avec et sans console.</short_description>
   <syntax><syntax_item>result = compiler.build.standaloneApplication(options)</syntax_item><syntax_item>result = compiler.build.standaloneWindowsApplication(options)</syntax_item></syntax>
   <description>
-    <p>Executer les trois blocs dans l'ordre, dans la meme session. Cet exemple construit une application a plusieurs fonctions et embarque son fichier factor.txt. Chaque executable affiche TUTORIAL_RESULT=30 pour l'entree 5.</p>
-    <p>L'application avec console est native a la plateforme courante. Sous Windows, la seconde construction cree un executable distinct du sous-systeme Windows, sans demander de services graphiques pour cet exemple numerique.</p>
-    <p>Chaque dossier de sortie contient un executable, readme.txt et le rapport de construction buildresult.json, pas de runtime ni d'installateur. Results.Files contient l'executable et readme.txt, ainsi que le .nca pour la variante externe. Distribuer ce dernier a cote de son executable, avec le meme nom de base. Le dernier bloc choisit l'installation Nelson courante comme runtime compatible. Sur une autre machine, installer un runtime compatible et definir NELSONC_RUNTIME_ROOT vers sa racine.</p>
-    <p>RuntimeDependencies.Required est l'inventaire capture des fichiers runtime ; le consulter ne les copie pas. Le code applicatif retenu et factor.txt sont deja dans l'executable ou son archive externe : le dossier source copie n'est pas requis a l'execution.</p>
-    <p>Les effets des options restantes restent a implementer. Les installateurs Windows d'applications et de runtime minimal partage sont decrits dans compiler_installer_tutorial et compiler_runtime_tutorial. Le mode ncc avec runtime adjacent est decrit dans compiler_standalone_tutorial.</p>
-    <p>TreatInputsAsNumeric transmet l'entree 5 comme un double a app_entry. L'exemple fourni accepte aussi le texte lorsque l'option est false. Une entree numerique invalide donne NaN ; les applications doivent valider leurs entrees avant le calcul.</p>
-    <p>SupportPackages filtre les dependances nmm installees ; cet exemple utilise none car ses sources ne requierent aucun paquet externe.</p>
+    <p>Exécuter les trois blocs dans l'ordre, dans la même session. Cet exemple construit une application a plusieurs fonctions et embarque son fichier factor.txt. Chaque exécutable affiche TUTORIAL_RESULT=30 pour l'entrée 5.</p>
+    <p>L'application avec console est native a la plateforme courante. Sous Windows, la seconde construction crée un exécutable distinct du sous-système Windows, sans demander de services graphiques pour cet exemple numérique.</p>
+    <p>Chaque dossier de sortie contient un exécutable, readme.txt et le rapport de construction buildresult.json, pas de runtime ni d'installateur. Results.Files contient l'exécutable et readme.txt, ainsi que le .nca pour la variante externe. Distribuer ce dernier à cote de son exécutable, avec le même nom de base. Le dernier bloc choisit l'installation Nelson courante comme runtime compatible. Sur une autre machine, installer un runtime compatible et définir NELSONC_RUNTIME_ROOT vers sa racine.</p>
+    <p>RuntimeDependencies.Required est l'inventaire capture des fichiers runtime ; le consulter ne les copie pas. Le code applicatif retenu et factor.txt sont déjà dans l'exécutable ou son archive externe : le dossier source copie n'est pas requis à l'exécution.</p>
+    <p>Les effets des options restantes restent à implémenter. Les installateurs Windows d'applications et de runtime minimal partage sont décrits dans compiler_installer_tutorial et compiler_runtime_tutorial. Le mode ncc avec runtime adjacent est décrit dans compiler_standalone_tutorial.</p>
+    <p>TreatInputsAsNumeric transmet l'entrée 5 comme un double a app_entry. L'exemple fourni accepte aussi le texte lorsque l'option est false. Une entrée numérique invalide donne NaN ; les applications doivent valider leurs entrées avant le calcul.</p>
+    <p>SupportPackages filtre les dépendances nmm installées ; cet exemple utilise none car ses sources ne requièrent aucun paquet externe.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>1. Preparer les fichiers source</example_item_description>
+      <example_item_description>1. Préparer les fichiers source</example_item_description>
       <example_item_data runnable="false"><![CDATA[ncc('--help');
 work = tempname();
 mkdir(work);
@@ -33,7 +33,7 @@ end]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>2. Construire et inspecter les resultats</example_item_description>
+      <example_item_description>2. Construire et inspecter les résultats</example_item_description>
       <example_item_data runnable="false"><![CDATA[options = compiler.build.StandaloneApplicationOptions(fullfile(source, 'app_entry.m'), ...
   'AdditionalFiles', fullfile(source, 'factor.txt'), ...
   'RuntimeLogFile', 'application.log', ...
@@ -62,7 +62,7 @@ end]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>3. Executer avec un runtime installe</example_item_description>
+      <example_item_description>3. Exécuter avec un runtime installé</example_item_description>
       <example_item_data runnable="false"><![CDATA[previousRuntime = getenv('NELSONC_RUNTIME_ROOT');
 restoreRuntime = onCleanup(@() setenv('NELSONC_RUNTIME_ROOT', previousRuntime));
 setenv('NELSONC_RUNTIME_ROOT', nelsonroot());

@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>nyquist</keyword>
   <short_description
-  >Diagramme de Nyquist de la rÃ©ponse en frÃ©quence.</short_description>
+  >Diagramme de Nyquist de la réponse en fréquence.</short_description>
   <syntax>
     <syntax_item>nyquist(sys)</syntax_item>
     <syntax_item>nyquist(sys, w)</syntax_item>
@@ -14,36 +14,36 @@
   <param_input>
     <param_input_item>
       <param_name>sys</param_name>
-      <param_description>SystÃ¨me dynamique</param_description>
+      <param_description>Système dynamique</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>w</param_name>
-      <param_description>FrÃ©quences : vecteur ou {wmin,wmax}</param_description>
+      <param_description>Fréquences : vecteur ou {wmin,wmax}</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>re</param_name>
       <param_description
-      >Partie rÃ©elle de la rÃ©ponse du systÃ¨me</param_description>
+      >Partie réelle de la réponse du système</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>im</param_name>
       <param_description
-      >Partie imaginaire de la rÃ©ponse du systÃ¨me</param_description>
+      >Partie imaginaire de la réponse du système</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>wout</param_name>
-      <param_description>FrÃ©quences</param_description>
+      <param_description>Fréquences</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>La fonction Nyquist,<b>nyquist(sys)</b>, gÃ©nÃ¨re une reprÃ©sentation graphique connue sous le nom de tracÃ© de Nyquist, illustrant la rÃ©ponse en frÃ©quence d&apos;un modÃ¨le de systÃ¨me dynamique reprÃ©sentÃ© par sys.</p>
+    <p>La fonction Nyquist,<b>nyquist(sys)</b>, génère une représentation graphique connue sous le nom de tracé de Nyquist, illustrant la réponse en fréquence d&apos;un modèle de système dynamique représenté par sys.</p>
     <p
-    >Ce tracÃ© affiche les composantes rÃ©elle et imaginaire de la rÃ©ponse du systÃ¨me selon la frÃ©quence.</p>
-    <p>Le contour de nyquist couvre les frÃ©quences positives et nÃ©gatives.</p>
+    >Ce tracé affiche les composantes réelle et imaginaire de la réponse du système selon la fréquence.</p>
+    <p>Le contour de nyquist couvre les fréquences positives et négatives.</p>
     <p
-    >Le tracÃ© inclut Ã©galement des flÃ¨ches indiquant le sens d&apos;augmentation de la frÃ©quence pour chaque branche.</p>
+    >Le tracé inclut également des flèches indiquant le sens d&apos;augmentation de la fréquence pour chaque branche.</p>
   </description>
   <examples>
     <example_item>

@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>timeseries.isequalwithequalnans</keyword>
-  <short_description>Compare des objets timeseries en considerant comme egales les valeurs numeriques manquantes.</short_description>
+  <short_description>Compare des objets timeseries en considérant comme égales les valeurs numériques manquantes.</short_description>
   <syntax>
     <syntax_item>tf = isequalwithequalnans(ts1, ts2, ts3)</syntax_item>
   </syntax>
@@ -14,17 +14,17 @@
     </param_input_item>
     <param_input_item>
       <param_name>ts2</param_name>
-      <param_description>Objet timeseries a comparer.</param_description>
+      <param_description>Objet timeseries à comparer.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>tf</param_name>
-      <param_description>Resultat logique de la comparaison.</param_description>
+      <param_description>Résultat logique de la comparaison.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>isequalwithequalnans</b> Compare des objets timeseries et considere comme egales les valeurs numeriques manquantes correspondantes.</p>
+    <p><b>isequalwithequalnans</b> Compare des objets timeseries et considère comme égales les valeurs numériques manquantes correspondantes.</p>
   </description>
   <used_function />
   <bibliography />

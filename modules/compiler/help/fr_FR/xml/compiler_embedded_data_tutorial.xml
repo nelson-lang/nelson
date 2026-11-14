@@ -4,27 +4,27 @@
   <language>fr_FR</language>
   <keyword>compiler_embedded_data_tutorial</keyword>
   <keyword_alias>compiler_embedded_data_tutorial</keyword_alias>
-  <short_description>Tutoriel : embarquer des donnees NH5 et MAT dans un executable.</short_description>
+  <short_description>Tutoriel : embarquer des données NH5 et MAT dans un exécutable.</short_description>
   <syntax><syntax_item>options = ncc('options', entry, 'AdditionalFiles', files)</syntax_item><syntax_item>result = ncc(options)</syntax_item></syntax>
   <description>
-    <p>Les fichiers .nh5 et .mat peuvent etre embarques comme ressources binaires dans l'executable. Ils sont copies sans modification dans l'archive applicative, sans conversion en bytecode et sans fichier de donnees separe a cote de l'executable. Le runtime les extrait dans le dossier prive ctfroot avant leur lecture par l'application.</p>
-    <p>Utiliser AdditionalFiles ou l'option nelsonc -a pour une inclusion explicite. AutoDetectDataFiles reconnait aussi les noms de fichiers litteraux passes a load, loadnh5 et loadmat. Les noms calcules, notamment avec fullfile, necessitent une inclusion explicite. Desactiver la detection automatique ne retire pas les ressources explicitement incluses.</p>
-    <p>La meme option AdditionalFiles est disponible avec compiler.build.standaloneApplication et compiler.build.standaloneWindowsApplication. Les deux embarquent les donnees dans l'executable ; choisir un runtime deja installe ne laisse pas les donnees applicatives a l'exterieur de l'executable.</p>
-    <p>Pour un appel litteral load('mesures') ou load mesures sans extension, la detection automatique cherche d'abord le nom exact, puis mesures.nh5, puis mesures.mat dans chaque dossier de recherche applicatif. Une extension existante n'est pas remplacee. Cette regle appartient au load generique, pas a loadnh5, loadmat, fopen ou fileread. Preferer les noms explicites lorsque plusieurs formats coexistent.</p>
-    <p>L'exemple cree un fichier .nh5 et un fichier .mat v7.3 contenant la meme matrice, puis construit et execute les deux modes de runtime. Executer les trois blocs dans l'ordre, dans la meme session. Chaque execution affiche EMBEDDED_SUM=10. Les fichiers d'origine ne sont pas requis sur la machine destinataire.</p>
-    <p>Le point d'entree fourni utilise fullfile(fileparts(mfilename('fullpath')), filename) pour ne pas dependre du dossier courant du processus. Le load generique recherche aussi dans les chemins applicatifs et detecte le format. Les lecteurs explicites loadnh5 et loadmat prennent un chemin du systeme de fichiers.</p>
-    <p>L'inclusion binaire et la selection du runtime sont distinctes. loadnh5 requiert le module hdf5 ; loadmat requiert matio. Le load generique conserve les lecteurs natifs disponibles car le format est choisi a l'execution. Une application sans chargement de donnees ne recupere pas ces modules du seul fait de cette fonctionnalite.</p>
-    <p>Le lanceur actuel extrait les ressources applicatives a chaque lancement, sans cache d'extraction persistant. Les gros fichiers augmentent donc la taille de l'executable et les entrees/sorties disque au demarrage. Le moteur de calcul numerique reste inchange. Conserver les jeux de donnees tres volumineux ou souvent modifies a l'exterieur lorsque leur inclusion n'est pas necessaire. Enregistrer les resultats hors de ctfroot : le dossier prive d'extraction est temporaire, pas un stockage persistant.</p>
-    <p>Les lecteurs habituels conservent leur prise en charge des formats et types : .nh5, .mat v7 et .mat v7.3 sont verifies dans les tests de deploiement. Le packaging n'etend pas leurs types acceptes. Les objets serialises et les handles de fonctions peuvent necessiter du code de classe ou de fonction impossible a deduire de l'extension ; inclure ce code explicitement avec AdditionalFiles ou une directive de dependance de fonction.</p>
-    <p>Les donnees embarquees ne sont pas chiffrees. Les controles SHA256 detectent les changements des octets d'entree ; ce ne sont ni une protection de confidentialite ni une signature d'editeur. Des donnees plus volumineuses augmentent la taille de l'executable et le travail d'extraction au demarrage. Aucun controle supplementaire n'est ajoute a l'execution numerique ou aux appels individuels de load.</p>
-    <p>Ne pas enregistrer de modifications persistantes sous ctfroot : ce dossier d'extraction est supprime apres l'arret normal. Enregistrer les resultats dans un chemin externe choisi par l'utilisateur. Distribuer result.Executable seul avec un runtime installe compatible, ou les deux entrees de bundled.Files pour distribuer le runtime selectionne.</p>
+    <p>Les fichiers .nh5 et .mat peuvent être embarqués comme ressources binaires dans l'exécutable. Ils sont copiés sans modification dans l'archive applicative, sans conversion en bytecode et sans fichier de données sépare à cote de l'exécutable. Le runtime les extrait dans le dossier privé ctfroot avant leur lecture par l'application.</p>
+    <p>Utiliser AdditionalFiles ou l'option nelsonc -a pour une inclusion explicite. AutoDetectDataFiles reconnait aussi les noms de fichiers littéraux passés à load, loadnh5 et loadmat. Les noms calculés, notamment avec fullfile, nécessitent une inclusion explicite. Désactiver la détection automatique ne retire pas les ressources explicitement incluses.</p>
+    <p>La même option AdditionalFiles est disponible avec compiler.build.standaloneApplication et compiler.build.standaloneWindowsApplication. Les deux embarquent les données dans l'exécutable ; choisir un runtime déjà installé ne laisse pas les données applicatives à l'extérieur de l'exécutable.</p>
+    <p>Pour un appel littéral load('mesures') ou load mesures sans extension, la détection automatique cherche d'abord le nom exact, puis mesures.nh5, puis mesures.mat dans chaque dossier de recherche applicatif. Une extension existante n'est pas remplacée. Cette règle appartient au load générique, pas a loadnh5, loadmat, fopen ou fileread. Preferer les noms explicites lorsque plusieurs formats coexistent.</p>
+    <p>L'exemple crée un fichier .nh5 et un fichier .mat v7.3 contenant la même matrice, puis construit et exécute les deux modes de runtime. Exécuter les trois blocs dans l'ordre, dans la même session. Chaque exécution affiche EMBEDDED_SUM=10. Les fichiers d'origine ne sont pas requis sur la machine destinataire.</p>
+    <p>Le point d'entrée fourni utilise fullfile(fileparts(mfilename('fullpath')), filename) pour ne pas dépendre du dossier courant du processus. Le load générique recherche aussi dans les chemins applicatifs et détecte le format. Les lecteurs explicites loadnh5 et loadmat prennent un chemin du système de fichiers.</p>
+    <p>L'inclusion binaire et la sélection du runtime sont distinctes. loadnh5 requiert le module hdf5 ; loadmat requiert matio. Le load générique conserve les lecteurs natifs disponibles car le format est choisi à l'exécution. Une application sans chargement de données ne récupère pas ces modules du seul fait de cette fonctionnalité.</p>
+    <p>Le lanceur actuel extrait les ressources applicatives à chaque lancement, sans cache d'extraction persistant. Les gros fichiers augmentent donc la taille de l'exécutable et les entrées/sorties disque au démarrage. Le moteur de calcul numérique reste inchangé. Conserver les jeux de données très volumineux ou souvent modifiés à l'extérieur lorsque leur inclusion n'est pas nécessaire. Enregistrer les résultats hors de ctfroot : le dossier privé d'extraction est temporaire, pas un stockage persistant.</p>
+    <p>Les lecteurs habituels conservent leur prise en charge des formats et types : .nh5, .mat v7 et .mat v7.3 sont vérifiés dans les tests de déploiement. Le packaging n'étend pas leurs types acceptés. Les objets sérialisés et les handles de fonctions peuvent nécessiter du code de classe ou de fonction impossible a déduire de l'extension ; inclure ce code explicitement avec AdditionalFiles ou une directive de dépendance de fonction.</p>
+    <p>Les données embarquées ne sont pas chiffrées. Les contrôles SHA256 détectent les changements des octets d'entrée ; ce ne sont ni une protection de confidentialité ni une signature d'éditeur. Des données plus volumineuses augmentent la taille de l'exécutable et le travail d'extraction au démarrage. Aucun contrôle supplémentaire n'est ajouté à l'exécution numérique ou aux appels individuels de load.</p>
+    <p>Ne pas enregistrer de modifications persistantes sous ctfroot : ce dossier d'extraction est supprimé après l'arrêt normal. Enregistrer les résultats dans un chemin externe choisi par l'utilisateur. Distribuer result.Executable seul avec un runtime installé compatible, ou les deux entrées de bundled.Files pour distribuer le runtime sélectionne.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>1. Creer la source et les donnees</example_item_description>
+      <example_item_description>1. Créer la source et les données</example_item_description>
       <example_item_data runnable="false"><![CDATA[ncc('--help');
 work = tempname();
 mkdir(work);
@@ -47,7 +47,7 @@ disp(result.Files);]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>3. Executer les distributions installed et bundled</example_item_description>
+      <example_item_description>3. Exécuter les distributions installed et bundled</example_item_description>
       <example_item_data runnable="false"><![CDATA[previousRuntime = getenv('NELSONC_RUNTIME_ROOT');
 restoreRuntime = onCleanup(@() setenv('NELSONC_RUNTIME_ROOT', previousRuntime));
 setenv('NELSONC_RUNTIME_ROOT', nelsonroot());

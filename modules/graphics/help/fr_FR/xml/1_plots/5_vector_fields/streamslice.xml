@@ -13,8 +13,8 @@
     <syntax_item>[vertices, arrowVertices] = streamslice(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>streamslice</b> affiche la direction d'un champ vectoriel au moyen d'objets line pour les chemins de courant et les fleches de direction.</p>
-    <p>Avec deux sorties, <b>streamslice</b> retourne des tableaux de cellules de sommets de lignes de courant et de sommets de fleches au lieu de tracer.</p>
+    <p><b>streamslice</b> affiche la direction d'un champ vectoriel au moyen d'objets line pour les chemins de courant et les flèches de direction.</p>
+    <p>Avec deux sorties, <b>streamslice</b> retourne des tableaux de cellules de sommets de lignes de courant et de sommets de flèches au lieu de tracer.</p>
   </description>
   <examples>
     <example_item>

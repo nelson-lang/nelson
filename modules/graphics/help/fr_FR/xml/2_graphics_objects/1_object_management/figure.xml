@@ -46,7 +46,7 @@
     <p
     >Un clic sur une figure la définit automatiquement comme figure courante.</p>
     <p />
-    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.figure.properties">proprietes de figure</link> pour la liste complete des proprietes.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.figure.properties">proprietes de figure</link> pour la liste complète des propriétés.</p>
   </description>
   <used_function />
   <bibliography />
@@ -113,7 +113,7 @@ figure('Name', 'Hello')
     <history_item>
       <history_version>--</history_version>
       <history_description
-      >Mise a jour de la documentation des proprietes de figure.</history_description>
+      >Mise à jour de la documentation des propriétés de figure.</history_description>
     </history_item>
   </history>
   <authors>

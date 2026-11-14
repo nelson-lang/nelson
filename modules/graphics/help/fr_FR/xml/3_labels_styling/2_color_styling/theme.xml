@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>theme</keyword>
-  <short_description>Definit le theme de couleur d&apos;une figure.</short_description>
+  <short_description>Définit le thème de couleur d&apos;une figure.</short_description>
   <syntax>
     <syntax_item>theme(themename)</syntax_item>
     <syntax_item>theme(f, themename)</syntax_item>
@@ -13,34 +13,34 @@
   <param_input>
     <param_input_item>
       <param_name>themename</param_name>
-      <param_description>une chaine : 'light' ou 'dark'.</param_description>
+      <param_description>une chaîne : 'light' ou 'dark'.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>f</param_name>
-      <param_description>un objet graphique. Figure cible. Si un objet non figure est fourni, sa figure ancetre est utilisee. Si omis, la figure courante est utilisee.</param_description>
+      <param_description>un objet graphique. Figure cible. Si un objet non figure est fourni, sa figure ancêtre est utilisée. Si omis, la figure courante est utilisée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>t</param_name>
-      <param_description>un objet theme, tel que renvoye par la propriete <b>Theme</b> d&apos;une figure.</param_description>
+      <param_description>un objet thème, tel que renvoyé par la propriété <b>Theme</b> d&apos;une figure.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>t</param_name>
-      <param_description>l&apos;objet theme applique a la figure.</param_description>
+      <param_description>l&apos;objet thème applique à la figure.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>theme</b> definit le theme de couleur d&apos;une figure a <b>'light'</b> ou <b>'dark'</b>.</p>
-    <p>L&apos;application d&apos;un theme met a jour la propriete <b>Theme</b> de la figure ainsi que les couleurs de la figure et de ses enfants qui utilisent des couleurs gerees par le theme.</p>
-    <p>Sans argument figure, le theme est applique a la figure courante renvoyee par <b>gcf</b>.</p>
+    <p><b>theme</b> définit le thème de couleur d&apos;une figure a <b>'light'</b> ou <b>'dark'</b>.</p>
+    <p>L&apos;application d&apos;un thème met à jour la propriété <b>Theme</b> de la figure ainsi que les couleurs de la figure et de ses enfants qui utilisent des couleurs gérées par le thème.</p>
+    <p>Sans argument figure, le thème est appliqué à la figure courante renvoyée par <b>gcf</b>.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Appliquer un theme sombre a une figure.</example_item_description>
+      <example_item_description>Appliquer un thème sombre a une figure.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[f = figure();
 surf(peaks);
 theme(f, 'dark');
@@ -48,7 +48,7 @@ theme(f, 'dark');
     </example_item>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Interroger le theme applique a la figure courante.</example_item_description>
+      <example_item_description>Interroger le thème applique à la figure courante.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[f = figure();
 t = theme('light')
 ]]></example_item_data>

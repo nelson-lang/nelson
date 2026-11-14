@@ -3,22 +3,22 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>tutoriel edo complexe</keyword>
-  <short_description>Resoudre des problemes EDO objet avec des etats complexes.</short_description>
+  <short_description>Résoudre des problèmes EDO objet avec des états complexes.</short_description>
   <description>
-    <p>Utilisez <b>SeparateComplexParts</b> avec le workflow objet quand une equation est ecrite avec des etats complexes mais que l'integration doit avancer les parties reelles et imaginaires separement en interne.</p>
+    <p>Utilisez <b>SeparateComplexParts</b> avec le workflow objet quand une équation est écrite avec des états complexes mais que l'intégration doit avancer les parties réelles et imaginaires séparément en interne.</p>
     <table style="width:100%">
-  <tr><th>Mode</th><th>Reglage</th><th>Comportement</th></tr>
+  <tr><th>Mode</th><th>Réglage</th><th>Comportement</th></tr>
   <tr><td>Complexe natif</td><td><b>SeparateComplexParts</b> = <b>'off'</b></td><td>Utilise les valeurs complexes directement quand le solveur choisi les supporte.</td></tr>
-  <tr><td>Systeme reel separe</td><td><b>SeparateComplexParts</b> = <b>'on'</b></td><td>Integre les parties reelles et imaginaires comme un systeme reel.</td></tr>
-  <tr><td>Forme retournee</td><td>Forme de l'etat initial original.</td><td>Les resultats reprennent la disposition de l'etat utilisateur.</td></tr>
+  <tr><td>Système réel sépare</td><td><b>SeparateComplexParts</b> = <b>'on'</b></td><td>Intègre les parties réelles et imaginaires comme un système réel.</td></tr>
+  <tr><td>Forme retournée</td><td>Forme de l'état initial original.</td><td>Les résultats reprennent la disposition de l'état utilisateur.</td></tr>
 </table>
-    <p>Les fonctions utilisateur recoivent des valeurs complexes. L'objet resultat retourne conserve aussi des tableaux complexes <b>Solution</b> et <b>EventSolution</b>.</p>
-    <p>Le meme workflow prend en charge l'interpolation avec <b>deval</b>, les objets d'evenement, les fonctions de sortie, les matrices de masse, les jacobiens et les equations totalement implicites.</p>
+    <p>Les fonctions utilisateur reçoivent des valeurs complexes. L'objet résultat retourne conserve aussi des tableaux complexes <b>Solution</b> et <b>EventSolution</b>.</p>
+    <p>Le même workflow prend en charge l'interpolation avec <b>deval</b>, les objets d'événement, les fonctions de sortie, les matrices de masse, les jacobiens et les équations totalement implicites.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Resoudre un probleme complexe scalaire.</example_item_description>
+      <example_item_description>Résoudre un problème complexe scalaire.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[problem = ode('ODEFcn', @(t,y) y .* t + 2 * 1i, ...
   'InitialValue', 1 + 1i, ...
   'SeparateComplexParts', 'on');
@@ -27,7 +27,7 @@ value = result.Solution(:, length(result.Time))]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Interpoler un resultat complexe.</example_item_description>
+      <example_item_description>Interpoler un résultat complexe.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[problem = ode('ODEFcn', @(t,y) 1i * y, ...
   'InitialValue', 1, ...
   'SeparateComplexParts', 'on');
@@ -36,7 +36,7 @@ yhalf = deval(result, 0.5)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Arreter sur un evenement d'etat complexe.</example_item_description>
+      <example_item_description>Arrêter sur un événement d'état complexe.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[event = odeEvent('EventFcn', @(t,y) imag(y) - 0.5, ...
   'Response', 'stop');
 problem = ode('ODEFcn', @(t,y) 1 + 1i, ...

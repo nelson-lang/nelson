@@ -21,7 +21,7 @@
     <param_output_item>
       <param_name>state</param_name>
       <param_description
-      >un booléen : vrai si le document est valide, faux sinon.</param_description>
+      >un booléen : vrai si le document est validé, faux sinon.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>errors_detected</param_name>
@@ -36,7 +36,7 @@
   </param_output>
   <description>
     <p>
-      <b>xmldocchecker</b> est un outil pour vérifier qu&apos;un document XML est valide.</p>
+      <b>xmldocchecker</b> est un outil pour vérifier qu&apos;un document XML est validé.</p>
     <p
     >Utilisé pour valider la structure et le contenu des fichiers XML de la documentation de Nelson.</p>
     <p>

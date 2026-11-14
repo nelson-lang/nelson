@@ -24,9 +24,9 @@
     <p>
       <b>s = spones(S)</b> retourne une matrice <b>s</b> avec la même structure de sparsité que <b>S</b>, mais avec des uns dans les positions non nulles.</p>
     <p>
-      Les entrees sparse double, single, logiques, double complexes et single complexes sont prises en charge. Le resultat est sparse et utilise des valeurs double sauf lorsque l'entree sparse numerique est single ; dans ce cas, le resultat conserve la classe single.</p>
+      Les entrées sparse double, single, logiques, double complexes et single complexes sont prises en charge. Le résultat est sparse et utilise des valeurs double sauf lorsque l'entrée sparse numérique est single ; dans ce cas, le résultat conserve la classe single.</p>
     <p>
-      Les valeurs nulles stockees ne deviennent pas des uns ; seules les entrees dont la valeur est reellement non nulle sont conservees dans le motif de sortie.</p>
+      Les valeurs nulles stockées ne deviennent pas des uns ; seules les entrées dont la valeur est réellement non nulle sont conservées dans le motif de sortie.</p>
   </description>
   <used_function />
   <bibliography />
@@ -59,7 +59,7 @@ R = spones(S)]]></example_item_data>
   <history>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>support sparse single et single complexe etendu</history_description>
+      <history_description>support sparse single et single complexe étendu</history_description>
     </history_item>
     <history_item>
       <history_version>1.0.0</history_version>

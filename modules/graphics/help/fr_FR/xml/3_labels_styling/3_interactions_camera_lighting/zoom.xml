@@ -41,7 +41,7 @@
       >objet mode zoom. Il désigne la figure cible via sa propriété <b
       >Figure</b> et expose les propriétés <b>Enable</b>, <b>Motion</b> et <b
       >Direction</b>. Appelez <b
-      >z.setAxes3DPanAndZoomStyle(ax, style)</b> pour mémoriser le style de pan et de zoom 3D (&apos;limits&apos; ou &apos;camera&apos;) sur un axes.</param_description>
+      >z.setAxes3DPanAndZoomStyle(ax, style)</b> pour mémoriser le style de pan et de zoom 3D (&apos;limits&apos; ou &apos;caméra&apos;) sur un axes.</param_description>
     </param_output_item>
   </param_output>
   <description>
@@ -95,7 +95,7 @@
     <p />
     <p>
       <b>z = zoom(fig)</b> ou <b>z = zoom(ax)</b> renvoie l&apos;objet mode zoom de la figure cible sans modifier l&apos;état de zoom courant. Utilisez <b
-      >z.setAxes3DPanAndZoomStyle(ax, &apos;camera&apos;)</b> ou <b
+      >z.setAxes3DPanAndZoomStyle(ax, &apos;caméra&apos;)</b> ou <b
       >z.setAxes3DPanAndZoomStyle(ax, &apos;limits&apos;)</b> pour choisir le comportement d&apos;un axes lors du pan et du zoom 3D.</p>
   </description>
   <used_function />

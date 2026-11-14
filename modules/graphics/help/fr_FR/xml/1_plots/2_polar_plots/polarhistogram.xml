@@ -16,7 +16,7 @@
   <examples>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Creer un histogramme polaire.</example_item_description>
+      <example_item_description>Créer un histogramme polaire.</example_item_description>
       <example_item_data><![CDATA[rng(0);
 theta = 2*pi*rand(200, 1);
 polarhistogram(theta, 16);]]></example_item_data>

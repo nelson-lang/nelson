@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>yticklabels</keyword>
-  <short_description>Definir ou interroger les etiquettes des graduations de l'axe y.</short_description>
+  <short_description>Définir ou interroger les étiquettes des graduations de l'axe y.</short_description>
   <syntax>
     <syntax_item>yticklabels(labels)</syntax_item>
     <syntax_item>yticklabels('auto')</syntax_item>
@@ -16,33 +16,33 @@
   <param_input>
     <param_input_item>
       <param_name>labels</param_name>
-      <param_description>tableau de chaines, cellule de vecteurs de caracteres, ou vecteur de caracteres utilise comme etiquettes de graduations de l'axe y.</param_description>
+      <param_description>tableau de chaînes, cellule de vecteurs de caractères, ou vecteur de caractères utilisé comme étiquettes de graduations de l'axe y.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>ax</param_name>
-      <param_description>objet axes cible. S'il est omis, les axes courants sont utilises.</param_description>
+      <param_description>objet axes cible. S'il est omis, les axes courants sont utilisés.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>labels</param_name>
-      <param_description>etiquettes courantes des graduations de l'axe y.</param_description>
+      <param_description>étiquettes courantes des graduations de l'axe y.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>mode</param_name>
-      <param_description>mode courant des etiquettes de l'axe y : 'auto' ou 'manual'.</param_description>
+      <param_description>mode courant des étiquettes de l'axe y : 'auto' ou 'manual'.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>yticklabels</b> definit ou interroge la propriete <b>YTickLabel</b> des axes.</p>
-    <p>Affecter des etiquettes passe <b>YTickLabelMode</b> a <b>manual</b>. Utiliser <b>yticklabels('auto')</b> pour revenir aux etiquettes automatiques.</p>
+    <p><b>yticklabels</b> définit ou interroge la propriété <b>YTickLabel</b> des axes.</p>
+    <p>Affecter des étiquettes passe <b>YTickLabelMode</b> a <b>manual</b>. Utiliser <b>yticklabels('auto')</b> pour revenir aux étiquettes automatiques.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Definir les etiquettes de l'axe y pour un diagramme en barres horizontales.</example_item_description>
+      <example_item_description>Définir les étiquettes de l'axe y pour un diagramme en barres horizontales.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[f = figure();
 barh([10 20 30 41]);
 yticklabels({'April', 'May', 'June', 'July'});
@@ -51,7 +51,7 @@ yticklabels({'April', 'May', 'June', 'July'});
     </example_item>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Definir des etiquettes sur des axes specifies et interroger le mode.</example_item_description>
+      <example_item_description>Définir des étiquettes sur des axes spécifiés et interroger le mode.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[f = figure();
 ax = axes('Parent', f);
 plot(ax, 1:4, [2 4 3 5]);

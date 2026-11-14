@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>gmdistribution</keyword>
-  <short_description>Distribution de melange gaussien.</short_description>
+  <short_description>Distribution de mélange gaussien.</short_description>
   <syntax>
     <syntax_item>gm = gmdistribution(mu, Sigma)</syntax_item>
     <syntax_item>gm = gmdistribution(mu, Sigma, p)</syntax_item>
@@ -13,13 +13,13 @@
     <syntax_item>R = random(gm, n)</syntax_item>
   </syntax>
   <description>
-    <p><b>gmdistribution</b> cree un objet de modele de melange gaussien a partir des moyennes, matrices de covariance et proportions optionnelles des composantes.</p>
-    <p>L'objet prend en charge l'evaluation de densite avec <b>pdf</b>, les probabilites posterieures avec <b>posterior</b>, l'affectation par posteriori maximal avec <b>cluster</b> et l'echantillonnage aleatoire avec <b>random</b>.</p>
+    <p><b>gmdistribution</b> crée un objet de modèle de mélange gaussien à partir des moyennes, matrices de covariance et proportions optionnelles des composantes.</p>
+    <p>L'objet prend en charge l'évaluation de densité avec <b>pdf</b>, les probabilités posterieures avec <b>posterior</b>, l'affectation par posteriori maximal avec <b>cluster</b> et l'échantillonnage aléatoire avec <b>random</b>.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Creer et evaluer un melange a deux composantes.</example_item_description>
+      <example_item_description>Créer et évaluer un mélange a deux composantes.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[gm = gmdistribution([0; 10], cat(3, 1, 4), [0.25 0.75]);
 y = pdf(gm, [0; 10; 5])
 P = posterior(gm, [0; 10; 5])]]></example_item_data>

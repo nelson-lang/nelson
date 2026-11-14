@@ -37,7 +37,7 @@
     <p>Le chemin <b>trust-region-reflective</b> prend en charge les probl&#232;mes avec bornes et &#233;galit&#233;s lin&#233;aires, gradients utilisateur, matrices de hessien, callbacks de hessien ou callbacks de multiplication par le hessien, gradients conjugu&#233;s tronqu&#233;s projet&#233;s, pr&#233;conditionnement diagonal ou bande et mises &#224; jour du rayon de r&#233;gion de confiance. La structure <b>output</b> inclut des diagnostics de gradients conjugu&#233;s comme <b>pcgflag</b>, <b>pcgresidual</b> et <b>trustregionradius</b>.</p>
     <p>Les modes d&apos;affichage accept&#233;s sont <b>off</b>, <b>none</b>, <b>final</b>, <b>final-detailed</b>, <b>notify</b>, <b>notify-detailed</b>, <b>iter</b> et <b>iter-detailed</b>. Avec <b>Diagnostics</b> &#224; <b>on</b>, Nelson affiche un r&#233;sum&#233; des variables, fonctions, contraintes et de l&apos;algorithme s&#233;lectionn&#233; avant la r&#233;solution.</p>
     <p>Les options par défaut dépendent de l'algorithme : <b>interior-point</b> utilise <b>MaxIterations</b> 1000, <b>MaxFunctionEvaluations</b> 3000, <b>StepTolerance</b> 1e-10 et <b>SubproblemAlgorithm</b> 'factorization' ; les autres algorithmes utilisent <b>MaxIterations</b> 400, <b>MaxFunctionEvaluations</b> '100*numberOfVariables' et <b>StepTolerance</b> 1e-6.</p>
-    <p>La sortie <b>exitflag</b> vaut 1 (optimalité du premier ordre atteinte), 2 (pas inférieur à StepTolerance), 3 (variation de l'objectif inférieure à FunctionTolerance, trust-region-reflective), 0 (limite d'itérations ou d'évaluations), -1 (arrêt par la fonction de sortie), -2 (aucun point faisable trouvé) ou -3 (objectif sous ObjectiveLimit).</p>
+    <p>La sortie <b>exitflag</b> vaut 1 (optimalité du premier ordre atteinte), 2 (pas inférieur à StepTolerance), 3 (variation de l'objectif inférieure à FunctionTolerance, trust-région-reflective), 0 (limite d'itérations ou d'évaluations), -1 (arrêt par la fonction de sortie), -2 (aucun point faisable trouvé) ou -3 (objectif sous ObjectiveLimit).</p>
   </description>
   <used_function><used_function_item>optimoptions</used_function_item><used_function_item>optimset</used_function_item><used_function_item>quadprog</used_function_item><used_function_item>fminsearch</used_function_item></used_function>
   <bibliography>Powell, M. J. D., A fast algorithm for nonlinearly constrained optimization calculations, Lecture Notes in Mathematics, 1978.
@@ -70,7 +70,7 @@ b = 1;
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Utiliser une matrice de hessien avec trust-region-reflective.</example_item_description>
+      <example_item_description>Utiliser une matrice de hessien avec trust-région-reflective.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[function [f, g] = quadobj(x)
   f = (x(1) - 1)^2 + (x(2) - 2)^2;
   g = [2*(x(1) - 1); 2*(x(2) - 2)];
@@ -82,7 +82,7 @@ opts = optimoptions('fmincon', 'Display', 'off', 'Algorithm', 'trust-region-refl
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Utiliser une fonction de multiplication par le hessien avec trust-region-reflective.</example_item_description>
+      <example_item_description>Utiliser une fonction de multiplication par le hessien avec trust-région-reflective.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[function [f, g] = quadobj(x)
   f = (x(1) - 1)^2 + (x(2) - 2)^2;
   g = [2*(x(1) - 1); 2*(x(2) - 2)];

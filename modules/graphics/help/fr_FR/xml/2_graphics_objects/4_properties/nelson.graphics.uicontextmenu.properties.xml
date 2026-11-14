@@ -3,89 +3,89 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>uicontextmenu properties</keyword>
-  <short_description>Proprietes de l'objet graphique uicontextmenu.</short_description>
+  <short_description>Propriétés de l'objet graphique uicontextmenu.</short_description>
   <description>
-    <p>Cette page documente les proprietes visibles retournees par <b>properties</b> pour un objet graphique <b>uicontextmenu</b>.</p>
+    <p>Cette page documente les propriétés visibles retournées par <b>properties</b> pour un objet graphique <b>uicontextmenu</b>.</p>
     <table>
       <tr>
-        <th>Propriete</th>
+        <th>Propriété</th>
         <th>Action</th>
         <th>Type et valeurs prises en charge</th>
       </tr>
       <tr>
         <td><b>BeingDeleted</b></td>
-        <td>valeur calculee par Nelson; les operations graphiques la mettent a jour.</td>
-        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'off', 'on'.</td>
+        <td>valeur calculée par Nelson; les opérations graphiques la mettent à jour.</td>
+        <td>Type: chaîne scalaire ou vecteur ligne de caractères. Valeurs prises en charge: 'off', 'on'.</td>
       </tr>
       <tr>
         <td><b>BusyAction</b></td>
-        <td>controle si un callback interrompant est mis en file ou annule.</td>
-        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'queue', 'cancel'.</td>
+        <td>contrôle si un callback interrompant est mis en file ou annule.</td>
+        <td>Type: chaîne scalaire ou vecteur ligne de caractères. Valeurs prises en charge: 'queue', 'cancel'.</td>
       </tr>
       <tr>
         <td><b>ButtonDownFcn</b></td>
-        <td>s&apos;execute quand l&apos;objet recoit un evenement bouton souris.</td>
-        <td>Type: callback value. Valeurs prises en charge: [], handle de fonction, vecteur de caracteres, chaine scalaire ou cellule callback.</td>
+        <td>s&apos;exécute quand l&apos;objet reçoit un événement bouton souris.</td>
+        <td>Type: callback value. Valeurs prises en charge: [], handle de fonction, vecteur de caractères, chaîne scalaire ou cellule callback.</td>
       </tr>
       <tr>
         <td><b>Children</b></td>
-        <td>les operations de parentage mettent le vecteur a jour.</td>
+        <td>les opérations de parentage mettent le vecteur à jour.</td>
         <td>Type: graphics object handle vector. Valeurs prises en charge: vecteur vide ou handles enfants.</td>
       </tr>
       <tr>
         <td><b>Clipping</b></td>
-        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
-        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+        <td>met à jour le rendu au prochain rafraîchissement graphique.</td>
+        <td>Type: chaîne scalaire ou vecteur ligne de caractères. Valeurs prises en charge: 'on', 'off'.</td>
       </tr>
       <tr>
         <td><b>ContextMenu</b></td>
-        <td>attache le menu utilise par les actions de clic contextuel.</td>
+        <td>attache le menu utilisé par les actions de clic contextuel.</td>
         <td>Type: graphics object handle scalar. Valeurs prises en charge: [] ou handle uicontextmenu.</td>
       </tr>
       <tr>
         <td><b>ContextMenuOpeningFcn</b></td>
-        <td>le systeme d&apos;evenements graphiques l&apos;invoque pour l&apos;evenement associe.</td>
-        <td>Type: callback value. Valeurs prises en charge: [], handle de fonction, vecteur de caracteres, chaine scalaire ou cellule callback.</td>
+        <td>le système d&apos;événements graphiques l&apos;invoque pour l&apos;événement associé.</td>
+        <td>Type: callback value. Valeurs prises en charge: [], handle de fonction, vecteur de caractères, chaîne scalaire ou cellule callback.</td>
       </tr>
       <tr>
         <td><b>CreateFcn</b></td>
-        <td>s&apos;execute lors de la creation de l&apos;objet.</td>
-        <td>Type: callback value. Valeurs prises en charge: [], handle de fonction, vecteur de caracteres, chaine scalaire ou cellule callback.</td>
+        <td>s&apos;exécute lors de la création de l&apos;objet.</td>
+        <td>Type: callback value. Valeurs prises en charge: [], handle de fonction, vecteur de caractères, chaîne scalaire ou cellule callback.</td>
       </tr>
       <tr>
         <td><b>DeleteFcn</b></td>
-        <td>s&apos;execute lors de la suppression de l&apos;objet.</td>
-        <td>Type: callback value. Valeurs prises en charge: [], handle de fonction, vecteur de caracteres, chaine scalaire ou cellule callback.</td>
+        <td>s&apos;exécute lors de la suppression de l&apos;objet.</td>
+        <td>Type: callback value. Valeurs prises en charge: [], handle de fonction, vecteur de caractères, chaîne scalaire ou cellule callback.</td>
       </tr>
       <tr>
         <td><b>HandleVisibility</b></td>
-        <td>controle si les fonctions de recherche de handles peuvent trouver l&apos;objet.</td>
-        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off', 'callback'.</td>
+        <td>contrôle si les fonctions de recherche de handles peuvent trouver l&apos;objet.</td>
+        <td>Type: chaîne scalaire ou vecteur ligne de caractères. Valeurs prises en charge: 'on', 'off', 'callback'.</td>
       </tr>
       <tr>
         <td><b>Interruptible</b></td>
-        <td>controle si un callback en cours peut etre interrompu.</td>
-        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+        <td>contrôle si un callback en cours peut être interrompu.</td>
+        <td>Type: chaîne scalaire ou vecteur ligne de caractères. Valeurs prises en charge: 'on', 'off'.</td>
       </tr>
       <tr>
         <td><b>Parent</b></td>
-        <td>change le parent et met a jour Children sur les anciens et nouveaux parents.</td>
+        <td>change le parent et met à jour Children sur les anciens et nouveaux parents.</td>
         <td>Type: graphics object handle scalar. Valeurs prises en charge: handle parent valide pour la classe de l&apos;objet.</td>
       </tr>
       <tr>
         <td><b>Tag</b></td>
-        <td>met a jour l&apos;etat stocke de l&apos;objet.</td>
-        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: texte vide ou identifiant d&apos;objet.</td>
+        <td>met à jour l&apos;état stocké de l&apos;objet.</td>
+        <td>Type: chaîne scalaire ou vecteur ligne de caractères. Valeurs prises en charge: texte vide ou identifiant d&apos;objet.</td>
       </tr>
       <tr>
         <td><b>Type</b></td>
-        <td>valeur calculee par Nelson; les operations graphiques la mettent a jour.</td>
-        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: nom de type en lecture seule, par exemple 'figure', 'axes', 'line' ou 'scatter'.</td>
+        <td>valeur calculée par Nelson; les opérations graphiques la mettent à jour.</td>
+        <td>Type: chaîne scalaire ou vecteur ligne de caractères. Valeurs prises en charge: nom de type en lecture seule, par exemple 'figure', 'axes', 'line' ou 'scatter'.</td>
       </tr>
       <tr>
         <td><b>UserData</b></td>
-        <td>met a jour l&apos;etat stocke de l&apos;objet.</td>
-        <td>Type: tableau Nelson. Valeurs prises en charge: toute valeur Nelson: [], tableaux numeriques, texte, cellules, structures ou handles.</td>
+        <td>met à jour l&apos;état stocké de l&apos;objet.</td>
+        <td>Type: tableau Nelson. Valeurs prises en charge: toute valeur Nelson: [], tableaux numériques, texte, cellules, structures ou handles.</td>
       </tr>
     </table>
   </description>
@@ -94,7 +94,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Creer l'objet graphique et lister ses proprietes.</example_item_description>
+      <example_item_description>Créer l'objet graphique et lister ses propriétés.</example_item_description>
       <example_item_data><![CDATA[f = figure('Visible', 'off');
 h = uicontextmenu(f);
 names = properties(h);
@@ -110,7 +110,7 @@ close(f)]]></example_item_data>
   <history>
     <history_item>
       <history_version>--</history_version>
-      <history_description>Page de proprietes ajoutee.</history_description>
+      <history_description>Page de propriétés ajoutée.</history_description>
     </history_item>
   </history>
   <authors>

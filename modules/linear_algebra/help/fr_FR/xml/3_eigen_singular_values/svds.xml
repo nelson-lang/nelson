@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>svds</keyword>
-  <short_description>Valeurs singulieres et vecteurs singuliers selectionnes d'une matrice creuse.</short_description>
+  <short_description>Valeurs singulières et vecteurs singuliers sélectionnés d'une matrice creuse.</short_description>
   <syntax>
     <syntax_item>s = svds(A)</syntax_item>
     <syntax_item>s = svds(A, k)</syntax_item>
@@ -23,7 +23,7 @@
     <param_input_item>
       <param_name>which</param_name>
       <param_description
-      >une chaine : &apos;largest&apos; ou &apos;lm&apos; pour les plus grandes valeurs singulieres, &apos;smallest&apos; ou &apos;sm&apos; pour les plus petites valeurs singulieres.</param_description>
+      >une chaîne : &apos;largest&apos; ou &apos;lm&apos; pour les plus grandes valeurs singulières, &apos;smallest&apos; ou &apos;sm&apos; pour les plus petites valeurs singulières.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>sigma</param_name>
@@ -33,19 +33,19 @@
   <param_output>
     <param_output_item>
       <param_name>s</param_name>
-      <param_description>valeurs singulieres selectionnees retournees dans un vecteur colonne dense par ordre decroissant.</param_description>
+      <param_description>valeurs singulières sélectionnées retournées dans un vecteur colonne dense par ordre décroissant.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>U</param_name>
-      <param_description>matrice dense dont les colonnes sont les vecteurs singuliers gauches selectionnes.</param_description>
+      <param_description>matrice dense dont les colonnes sont les vecteurs singuliers gauches sélectionnés.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>S</param_name>
-      <param_description>matrice diagonale dense contenant les valeurs singulieres selectionnees.</param_description>
+      <param_description>matrice diagonale dense contenant les valeurs singulières sélectionnées.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>V</param_name>
-      <param_description>matrice dense dont les colonnes sont les vecteurs singuliers droits selectionnes.</param_description>
+      <param_description>matrice dense dont les colonnes sont les vecteurs singuliers droits sélectionnés.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>flag</param_name>
@@ -54,15 +54,15 @@
   </param_output>
   <description>
     <p>
-      <b>svds</b> calcule des valeurs singulieres selectionnees et, optionnellement, les vecteurs singuliers correspondants d'une matrice creuse flottante.</p>
-    <p>Pour une matrice <b>A</b>, les facteurs retournes verifient :</p>
+      <b>svds</b> calcule des valeurs singulières sélectionnées et, optionnellement, les vecteurs singuliers correspondants d'une matrice creuse flottante.</p>
+    <p>Pour une matrice <b>A</b>, les facteurs retournés vérifient :</p>
     <latex>A V = U S</latex>
     <p>
-      Les matrices hautes utilisent le plus petit probleme normal possible, et les matrices larges utilisent le probleme normal transpose correspondant.</p>
+      Les matrices hautes utilisent le plus petit problème normal possible, et les matrices larges utilisent le problème normal transpose correspondant.</p>
     <p>
-      Lorsque le backend optionnel ARPACK n'est pas disponible, <b>svds</b> utilise un fallback dense pour les petites matrices creuses. Les matrices creuses plus grandes necessitent toujours ARPACK afin d'eviter une utilisation memoire excessive.</p>
+      Lorsque le backend optionnel ARPACK n'est pas disponible, <b>svds</b> utilise un fallback dense pour les petites matrices creuses. Les matrices creuses plus grandes nécessitent toujours ARPACK afin d'éviter une utilisation mémoire excessive.</p>
     <p>
-      Les entrees sparse single et sparse single complexes sont acceptees. Le probleme de valeurs singulieres selectionne est calcule par le backend sparse en double precision, puis les sorties denses sont reconverties en single ou single complexe lorsque cela s'applique.</p>
+      Les entrées sparse single et sparse single complexes sont acceptées. Le problème de valeurs singulières sélectionne est calculé par le backend sparse en double précision, puis les sorties denses sont reconverties en single ou single complexe lorsque cela s'applique.</p>
     <p>Les matrices pleines sont décomposées directement. Les matrices creuses utilisent le solveur itératif quand <b>k</b> est plus petit que la plus petite dimension, et la décomposition dense sinon.</p>
     <p>Avec &apos;smallest&apos; ou un <b>sigma</b> numérique, les valeurs singulières choisies sont tout de même renvoyées par ordre décroissant.</p>
   </description>
@@ -109,11 +109,11 @@ s = svds(A, 2)
   <history>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>fallback dense ajoute pour les petites matrices creuses lorsque ARPACK n'est pas disponible.</history_description>
+      <history_description>fallback dense ajouté pour les petites matrices creuses lorsque ARPACK n'est pas disponible.</history_description>
     </history_item>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>entrees sparse single et sparse single complexes prises en charge via le backend sparse en double precision.</history_description>
+      <history_description>entrées sparse single et sparse single complexes prises en charge via le backend sparse en double précision.</history_description>
     </history_item>
     <history_item>
       <history_version>2.0.0</history_version>

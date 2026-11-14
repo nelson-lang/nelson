@@ -3,11 +3,11 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <module_name>geometry</module_name>
-  <chapter>Geometrie</chapter>
+  <chapter>Géométrie</chapter>
   <chapter_description>
-    <p>Le module Geometrie fournit des outils pour effectuer des transformations et calculs geometriques dans Nelson.</p>
-    <p>Il prend en charge les rotations en espace tridimensionnel, les enveloppes convexes, les triangulations de Delaunay, les diagrammes de Voronoi, les recherches spatiales et l'interpolation de donnees dispersees.</p>
-    <p>Ce module est utile pour l'infographie, la robotique, la geometrie algorithmique, l'interpolation et l'analyse spatiale.</p>
+    <p>Le module Géométrie fournit des outils pour effectuer des transformations et calculs géométriques dans Nelson.</p>
+    <p>Il prend en charge les rotations en espace tridimensionnel, les enveloppes convexes, les triangulations de Delaunay, les diagrammes de Voronoi, les recherches spatiales et l'interpolation de données dispersées.</p>
+    <p>Ce module est utile pour l'infographie, la robotique, la géométrie algorithmique, l'interpolation et l'analyse spatiale.</p>
   </chapter_description>
   <examples>
     <example_item>

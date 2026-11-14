@@ -5,6 +5,6 @@
   <module_name>image_processing</module_name>
   <chapter>Recalage d'images</chapter>
   <chapter_description>
-    <p>Guides et points d'entree pour aligner des images, estimer des transformations de recalage et appliquer les sorties recalees.</p>
+    <p>Guides et points d'entrée pour aligner des images, estimer des transformations de recalage et appliquer les sorties recalées.</p>
   </chapter_description>
 </xmldoc>

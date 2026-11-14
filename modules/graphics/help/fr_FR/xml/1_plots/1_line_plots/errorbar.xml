@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>errorbar</keyword>
-  <short_description>Trace des donnees avec barres d'erreur.</short_description>
+  <short_description>Trace des données avec barres d'erreur.</short_description>
   <syntax>
     <syntax_item>errorbar(Y, E)</syntax_item>
     <syntax_item>errorbar(X, Y, E)</syntax_item>
@@ -26,11 +26,11 @@
     </param_input_item>
     <param_input_item>
       <param_name>E</param_name>
-      <param_description>erreurs y symetriques.</param_description>
+      <param_description>erreurs y symétriques.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>YNEG</param_name>
-      <param_description>erreurs y negatives.</param_description>
+      <param_description>erreurs y négatives.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>YPOS</param_name>
@@ -38,7 +38,7 @@
     </param_input_item>
     <param_input_item>
       <param_name>XNEG</param_name>
-      <param_description>erreurs x negatives.</param_description>
+      <param_description>erreurs x négatives.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>XPOS</param_name>
@@ -50,15 +50,15 @@
     </param_input_item>
     <param_input_item>
       <param_name>lineSpec</param_name>
-      <param_description>specification de style, marqueur et couleur.</param_description>
+      <param_description>spécification de style, marqueur et couleur.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>propertyName</param_name>
-      <param_description>nom d'une propriete de l'objet errorbar.</param_description>
+      <param_description>nom d'une propriété de l'objet errorbar.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>propertyValue</param_name>
-      <param_description>valeur d'une propriete de l'objet errorbar.</param_description>
+      <param_description>valeur d'une propriété de l'objet errorbar.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>ax</param_name>
@@ -68,18 +68,18 @@
   <param_output>
     <param_output_item>
       <param_name>h</param_name>
-      <param_description>objet graphique errorbar ou vecteur ligne d'objets errorbar pour des donnees matricielles.</param_description>
+      <param_description>objet graphique errorbar ou vecteur ligne d'objets errorbar pour des données matricielles.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>errorbar</b> trace des donnees x et y avec des barres d'erreur verticales ou combinees x/y.</p>
-    <p>Les entrees vectorielles creent un objet errorbar. Les entrees matricielles creent un objet errorbar par colonne.</p>
-    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.errorbar.properties">proprietes de errorbar</link> pour la liste complete des proprietes.</p>
+    <p><b>errorbar</b> trace des données x et y avec des barres d'erreur verticales ou combinées x/y.</p>
+    <p>Les entrées vectorielles créent un objet errorbar. Les entrées matricielles créent un objet errorbar par colonne.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.errorbar.properties">proprietes de errorbar</link> pour la liste complète des propriétés.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Tracer des barres d'erreur verticales de meme longueur.</example_item_description>
+      <example_item_description>Tracer des barres d'erreur verticales de même longueur.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[x = 1:10:100;
 y = [20 30 45 40 60 65 80 75 95 90];
 err = 8 * ones(size(y));
@@ -119,7 +119,7 @@ errorbar(x, y, err, 'both', 'o');
     </example_item>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Controler les longueurs des barres dans toutes les directions.</example_item_description>
+      <example_item_description>Contrôler les longueurs des barres dans toutes les directions.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[x = 1:10:100;
 y = [20 30 45 40 60 65 80 75 95 90];
 yneg = [1 3 5 3 5 3 6 4 3 3];

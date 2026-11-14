@@ -3,14 +3,14 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>ind2rgb</keyword>
-  <short_description>Convertit une image indexee en RGB avec une palette.</short_description>
+  <short_description>Convertit une image indexée en RGB avec une palette.</short_description>
   <syntax>
     <syntax_item>RGB = ind2rgb(X, map)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>X</param_name>
-      <param_description>Image indexee. Les tableaux entiers et logiques utilisent des indices en base zero ; les tableaux double et single utilisent des indices en base un.</param_description>
+      <param_description>Image indexée. Les tableaux entiers et logiques utilisent des indices en base zéro ; les tableaux double et single utilisent des indices en base un.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>map</param_name>
@@ -20,18 +20,18 @@
   <param_output>
     <param_output_item>
       <param_name>RGB</param_name>
-      <param_description>Image RGB double construite avec les trois premieres colonnes de map.</param_description>
+      <param_description>Image RGB double construite avec les trois premières colonnes de map.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>Convertit une image indexee en RGB avec les trois premieres colonnes d'une palette. Les images indexees entieres et logiques utilisent des indices en base zero. Les images indexees double et single utilisent des indices en base un. Les indices entiers hors de la palette sont bornes a la ligne valide la plus proche. Les images indexees vides renvoient un tableau RGB vide.</p>
+    <p>Convertit une image indexée en RGB avec les trois premières colonnes d'une palette. Les images indexées entières et logiques utilisent des indices en base zéro. Les images indexées double et single utilisent des indices en base un. Les indices entiers hors de la palette sont bornes a la ligne valide la plus proche. Les images indexées vides renvoient un tableau RGB vide.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Convertir une image indexee en RGB</example_item_description>
+      <example_item_description>Convertir une image indexée en RGB</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[X=repmat(uint8(0:63),64,1);

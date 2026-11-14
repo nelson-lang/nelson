@@ -20,10 +20,10 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>sprank</b> retourne le rang structurel d'une matrice, calcule a partir de son motif non nul.</p>
+    <p><b>sprank</b> retourne le rang structurel d'une matrice, calcule à partir de son motif non nul.</p>
     <p>La valeur est la taille d'un couplage maximal entre les lignes et les colonnes de la matrice.</p>
-    <p>Les matrices double, single, logiques, double complexes et single complexes sont prises en charge, en representation pleine ou sparse. Pour une entree sparse, les valeurs nulles stockees sont ignorees lors de la construction du motif structurel.</p>
-    <p>Le rang structurel peut etre superieur au rang numerique, car il depend uniquement des positions des valeurs non nulles et non des dependances lineaires numeriques.</p>
+    <p>Les matrices double, single, logiques, double complexes et single complexes sont prises en charge, en représentation pleine ou sparse. Pour une entrée sparse, les valeurs nulles stockées sont ignorées lors de la construction du motif structurel.</p>
+    <p>Le rang structurel peut être supérieur au rang numérique, car il dépend uniquement des positions des valeurs non nulles et non des dépendances linéaires numériques.</p>
   </description>
   <used_function />
   <bibliography />

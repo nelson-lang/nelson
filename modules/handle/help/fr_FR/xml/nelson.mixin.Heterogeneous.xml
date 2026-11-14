@@ -8,10 +8,10 @@
     <syntax_item>classdef MaBase &lt; nelson.mixin.Heterogeneous</syntax_item>
   </syntax>
   <param_input>
-    <param_input_item><param_name>obj</param_name><param_description>objet d'une classe derivee de nelson.mixin.Heterogeneous.</param_description></param_input_item>
+    <param_input_item><param_name>obj</param_name><param_description>objet d'une classe dérivée de nelson.mixin.Heterogeneous.</param_description></param_input_item>
   </param_input>
   <param_output>
-    <param_output_item><param_name>obj</param_name><param_description>objet pouvant participer a un tableau heterogene.</param_description></param_output_item>
+    <param_output_item><param_name>obj</param_name><param_description>objet pouvant participer a un tableau hétérogène.</param_description></param_output_item>
   </param_output>
   <description>
     <p>Dérivez une classe de <b>nelson.mixin.Heterogeneous</b> pour autoriser des tableaux contenant

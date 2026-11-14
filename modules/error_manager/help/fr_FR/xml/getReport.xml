@@ -22,12 +22,12 @@
   <param_output>
     <param_output_item>
       <param_name>report</param_name>
-      <param_description>une chaine : rapport formate de l&apos;exception.</param_description>
+      <param_description>une chaîne : rapport formate de l&apos;exception.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>getReport</b> renvoie un rapport formate pour un objet MException.</p>
-    <p>Le rapport <b>basic</b> contient le message de l&apos;exception. Le rapport <b>extended</b> inclut des informations de diagnostic supplementaires lorsqu&apos;elles sont disponibles.</p>
+    <p><b>getReport</b> renvoie un rapport formaté pour un objet MException.</p>
+    <p>Le rapport <b>basic</b> contient le message de l&apos;exception. Le rapport <b>extended</b> inclut des informations de diagnostic supplémentaires lorsqu&apos;elles sont disponibles.</p>
   </description>
   <used_function />
   <bibliography />

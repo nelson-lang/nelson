@@ -30,8 +30,8 @@
     <p>
       <b>F = chol(A)</b> factorise la matrice symétrique définie positive <b>A</b> en une matrice triangulaire supérieure <b>F</b> telle que <b>A = F&apos; * F</b>.</p>
     <p>
-      Les matrices sparse single et sparse single complexes definies positives sont prises en
-      charge. Le facteur retourne conserve le stockage sparse et la precision de l'entree.</p>
+      Les matrices sparse single et sparse single complexes définies positives sont prises en
+      charge. Le facteur retourne conserve le stockage sparse et la précision de l'entrée.</p>
     <p><b>[F, p] = chol(A)</b> ne lève pas d'erreur quand la factorisation échoue : <b>p</b> est l'indice du premier pivot en échec (0 en cas de succès) et <b>F</b> contient le facteur des <b>p</b> - 1 premières lignes et colonnes. Pour une matrice <b>A</b> creuse, <b>F</b> garde toutes ses colonnes : il a <b>p</b> - 1 lignes (colonnes avec 'lower'), sauf pour une matrice réelle tridiagonale dont toutes les sous- et sur-diagonales sont présentes : son facteur reste carré, avec des lignes nulles à partir de <b>p</b>.</p>
     <p>Un élément diagonal d'une matrice <b>A</b> complexe dont la partie imaginaire est non nulle échoue comme un pivot non positif.</p>
     <p><b>F = chol(A, 'lower')</b> utilise le triangle inférieur de <b>A</b> et retourne une matrice triangulaire inférieure F telle que <b>A = F * F&apos;</b>.</p>

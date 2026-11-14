@@ -29,7 +29,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>movmean</b> calcule les moyennes sur une fenetre mobile centree.</p>
+    <p><b>movmean</b> calcule les moyennes sur une fenêtre mobile centrée.</p>
   </description>
   <used_function />
   <bibliography />

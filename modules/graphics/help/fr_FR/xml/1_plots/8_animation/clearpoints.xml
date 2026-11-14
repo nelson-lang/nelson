@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>clearpoints</keyword>
-  <short_description>Effacer les points d'une ligne animee.</short_description>
+  <short_description>Effacer les points d'une ligne animée.</short_description>
   <syntax>
     <syntax_item>clearpoints(an)</syntax_item>
   </syntax>
@@ -14,7 +14,7 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>clearpoints</b> supprime toutes les coordonnees stockees dans une ligne animee et rafraichit la figure parente.</p>
+    <p><b>clearpoints</b> supprime toutes les coordonnées stockées dans une ligne animée et rafraîchit la figure parente.</p>
   </description>
   <used_function />
   <bibliography />

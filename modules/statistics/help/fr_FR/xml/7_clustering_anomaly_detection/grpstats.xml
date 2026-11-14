@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>grpstats</keyword>
-  <short_description>Statistiques de synthese par groupe.</short_description>
+  <short_description>Statistiques de synthèse par groupe.</short_description>
   <syntax>
     <syntax_item>tblstats = grpstats(tbl, groupvars)</syntax_item>
     <syntax_item>tblstats = grpstats(tbl, groupvars, whichstats)</syntax_item>
@@ -13,8 +13,8 @@
     <syntax_item>[...] = grpstats(..., &apos;Alpha&apos;, alpha)</syntax_item>
   </syntax>
   <description>
-    <p><b>grpstats</b> calcule des statistiques de synthese pour chaque groupe observe.</p>
-    <p>Les noms de statistiques pris en charge sont mean, sem, std, var, min, max, range, median, mode, numel, gname, meanci et predci. Les fonctions anonymes sont aussi acceptees pour les entrees tableau numerique et les variables de donnees de table.</p>
+    <p><b>grpstats</b> calcule des statistiques de synthèse pour chaque groupe observé.</p>
+    <p>Les noms de statistiques pris en charge sont mean, sem, std, var, min, max, range, median, mode, numel, gname, meanci et predci. Les fonctions anonymes sont aussi acceptées pour les entrées tableau numérique et les variables de données de table.</p>
   </description>
   <examples>
     <example_item>

@@ -10,15 +10,15 @@
   <param_input>
     <param_input_item>
       <param_name>T</param_name>
-      <param_description>Table d'entree.</param_description>
+      <param_description>Table d'entrée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>vars</param_name>
-      <param_description>Variables a convertir.</param_description>
+      <param_description>Variables à convertir.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>fun</param_name>
-      <param_description>Fonction appliquee aux variables selectionnees.</param_description>
+      <param_description>Fonction appliquée aux variables sélectionnées.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -29,7 +29,7 @@
   </param_output>
   <description>
     <p>
-      <b>convertvars</b> applique une fonction de conversion aux variables selectionnees.</p>
+      <b>convertvars</b> applique une fonction de conversion aux variables sélectionnées.</p>
   </description>
   <used_function />
   <bibliography />

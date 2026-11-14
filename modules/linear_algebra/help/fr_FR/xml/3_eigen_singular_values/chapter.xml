@@ -3,8 +3,8 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <module_name>linear_algebra</module_name>
-  <chapter>Valeurs propres et valeurs singulieres</chapter>
+  <chapter>Valeurs propres et valeurs singulières</chapter>
   <chapter_description>
-    <p>Fonctions pour calculs de valeurs propres, valeurs singulieres et formes de Schur.</p>
+    <p>Fonctions pour calculs de valeurs propres, valeurs singulières et formes de Schur.</p>
   </chapter_description>
 </xmldoc>

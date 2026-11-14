@@ -14,8 +14,8 @@
     <syntax_item>h = fcontour(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>fcontour</b> echantillonne <b>fun(x,y)</b> sur une grille reguliere et affiche des lignes de contour comme objet graphique <b>functioncontour</b>.</p>
-    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.functioncontour.properties">proprietes de functioncontour</link> pour la liste complete des proprietes.</p>
+    <p><b>fcontour</b> échantillonne <b>fun(x,y)</b> sur une grille régulière et affiche des lignes de contour comme objet graphique <b>functioncontour</b>.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.functioncontour.properties">proprietes de functioncontour</link> pour la liste complète des propriétés.</p>
   </description>
   <examples>
     <example_item>

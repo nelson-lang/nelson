@@ -23,8 +23,8 @@
     <p>
       <b>floor</b> renvoie une matrice d&apos;entiers obtenue en arrondissant chaque élément vers le bas.</p>
     <p>
-      Les entrees sparse single et sparse single complexes sont prises en charge. Seules les
-      entrees non nulles stockees sont arrondies et le resultat conserve le stockage sparse.</p>
+      Les entrées sparse single et sparse single complexes sont prises en charge. Seules les
+      entrées non nulles stockées sont arrondies et le résultat conserve le stockage sparse.</p>
   </description>
   <used_function />
   <bibliography />
@@ -61,7 +61,7 @@ C = floor(S)]]></example_item_data>
     </history_item>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>prise en charge des entrees sparse single et sparse single complexes.</history_description>
+      <history_description>prise en charge des entrées sparse single et sparse single complexes.</history_description>
     </history_item>
   </history>
   <authors>

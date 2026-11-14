@@ -3,13 +3,13 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>tscollection.set</keyword>
-  <short_description>Fonction pour objets de serie temporelle.</short_description>
+  <short_description>Fonction pour objets de série temporelle.</short_description>
   <syntax>
     <syntax_item>set(...)</syntax_item>
   </syntax>
   <description>
     <p>
-      <b>set</b> opere sur les objets timeseries, tscollection ou les metadonnees tsdata.</p>
+      <b>set</b> opère sur les objets timeseries, tscollection ou les métadonnées tsdata.</p>
   </description>
   <used_function />
   <bibliography />

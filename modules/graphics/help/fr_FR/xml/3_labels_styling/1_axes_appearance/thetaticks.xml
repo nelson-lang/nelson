@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>thetaticks</keyword>
-  <short_description>Definit ou retourne les graduations angulaires des axes polaires.</short_description>
+  <short_description>Définit ou retourne les graduations angulaires des axes polaires.</short_description>
   <syntax>
     <syntax_item>ticks = thetaticks()</syntax_item>
     <syntax_item>thetaticks(values)</syntax_item>
@@ -15,11 +15,11 @@
   <param_input>
     <param_input_item>
       <param_name>values</param_name>
-      <param_description>Vecteur numerique de valeurs de graduation angulaire en degres.</param_description>
+      <param_description>Vecteur numérique de valeurs de graduation angulaire en degrés.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>&apos;auto&apos;</param_name>
-      <param_description>Active la selection automatique des graduations et etiquettes angulaires.</param_description>
+      <param_description>Active la sélection automatique des graduations et étiquettes angulaires.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>&apos;manual&apos;</param_name>
@@ -37,7 +37,7 @@
   <param_output>
     <param_output_item>
       <param_name>ticks</param_name>
-      <param_description>Vecteur ligne numerique de valeurs de graduation angulaire en degres.</param_description>
+      <param_description>Vecteur ligne numérique de valeurs de graduation angulaire en degrés.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>m</param_name>
@@ -45,15 +45,15 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>thetaticks</b> retourne ou definit les valeurs des graduations angulaires de l&apos;axes polaire courant. Les valeurs sont exprimees en degres.</p>
-    <p>La definition de valeurs numeriques passe le mode a <b>manual</b>. Si les etiquettes angulaires sont en mode automatique, elles sont regenerees depuis les nouvelles valeurs.</p>
+    <p><b>thetaticks</b> retourne ou définit les valeurs des graduations angulaires de l&apos;axes polaire courant. Les valeurs sont exprimées en degrés.</p>
+    <p>La définition de valeurs numériques passe le mode a <b>manual</b>. Si les étiquettes angulaires sont en mode automatique, elles sont régénérées depuis les nouvelles valeurs.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Definir les graduations angulaires.</example_item_description>
+      <example_item_description>Définir les graduations angulaires.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[
 polarplot(linspace(0, 2*pi, 80), ones(1, 80));
 thetaticks(0:45:360);

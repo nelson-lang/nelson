@@ -10,21 +10,21 @@
   <param_input>
     <param_input_item>
       <param_name>ts</param_name>
-      <param_description>Objet timeseries en entree.</param_description>
+      <param_description>Objet timeseries en entrée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>indices</param_name>
-      <param_description>Indices d'echantillons a conserver.</param_description>
+      <param_description>Indices d'échantillons à conserver.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>tsOut</param_name>
-      <param_description>Sous-ensemble timeseries avec les echantillons selectionnes.</param_description>
+      <param_description>Sous-ensemble timeseries avec les échantillons sélectionnés.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>getsamples</b> Selectionne des echantillons et preserve les evenements et les metadonnees.</p>
+    <p><b>getsamples</b> Sélectionne des échantillons et préserve les événements et les métadonnées.</p>
   </description>
   <used_function />
   <bibliography />

@@ -48,7 +48,7 @@
     <p>Contrairement à <b>acker</b>, limitée aux systèmes mono-entrée, <b>place</b> prend en charge les systèmes multi-entrées (<b>B</b> à plusieurs colonnes) et choisit les vecteurs propres en boucle fermée de façon à rendre l&apos;assignation aussi peu sensible que possible aux perturbations.</p>
     <p>Les pôles complexes désirés doivent être fournis par paires conjuguées. La multiplicité d&apos;un pôle ne peut pas dépasser le rang de <b>B</b>. Pour des <b>A</b>, <b>B</b> et <b>p</b> réels, le gain <b>K</b> obtenu est réel.</p>
     <p
-    >L&apos;algorithme est la méthode de mise à jour de rang un décrite dans J. Kautsky, N. K. Nichols et P. Van Dooren, &quot;Robust pole assignment in linear state feedback&quot;, International Journal of Control, vol. 41, no. 5, pp. 1129-1155, 1985.</p>
+    >L&apos;algorithme est la méthode de mise à jour de rang un décrite dans J. Kautsky, N. K. Nichols et P. Van Dooren, &quot;Robust pôle assignment in linear state feedback&quot;, International Journal of Control, vol. 41, no. 5, pp. 1129-1155, 1985.</p>
   </description>
   <used_function />
   <bibliography

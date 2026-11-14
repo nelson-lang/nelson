@@ -30,7 +30,7 @@
     <p>
       <b>ne</b> compare les parties réelle et imaginaire des tableaux numériques.</p>
     <p>
-      Lorsque les entrees sont des tableaux sparse numeriques ou logiques, le resultat est un tableau sparse logique. Les operandes sparse single et single-complex sont pris en charge.</p>
+      Lorsque les entrées sont des tableaux sparse numériques ou logiques, le résultat est un tableau sparse logique. Les opérandes sparse single et single-complex sont pris en charge.</p>
   </description>
   <used_function />
   <bibliography />
@@ -62,7 +62,7 @@
     </history_item>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>operandes sparse single et single-complex pris en charge.</history_description>
+      <history_description>opérandes sparse single et single-complex pris en charge.</history_description>
     </history_item>
   </history>
   <authors>

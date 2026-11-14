@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>NaT</keyword>
-  <short_description>Cree des valeurs datetime not-a-time.</short_description>
+  <short_description>Crée des valeurs datetime not-a-time.</short_description>
   <syntax>
     <syntax_item>t = NaT()</syntax_item>
     <syntax_item>t = NaT(n)</syntax_item>
@@ -20,12 +20,12 @@
   <param_output>
     <param_output_item>
       <param_name>output</param_name>
-      <param_description>Un tableau datetime dont les valeurs serie sont NaN.</param_description>
+      <param_description>Un tableau datetime dont les valeurs série sont NaN.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>Cree des valeurs datetime not-a-time.</p>
-    <p>NaT est le marqueur de valeur manquante pour les tableaux datetime. isnat renvoie true pour ces elements et les fonctions d affichage les montrent comme NaT.</p>
+    <p>Crée des valeurs datetime not-a-time.</p>
+    <p>NaT est le marqueur de valeur manquante pour les tableaux datetime. isnat renvoie true pour ces éléments et les fonctions d affichage les montrent comme NaT.</p>
     <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
   </description>
   <used_function />

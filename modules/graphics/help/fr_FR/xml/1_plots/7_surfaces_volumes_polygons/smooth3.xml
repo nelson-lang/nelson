@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>smooth3</keyword>
-  <short_description>Lisser des donnees 3-D.</short_description>
+  <short_description>Lisser des données 3-D.</short_description>
   <syntax>
     <syntax_item>W = smooth3(V)</syntax_item>
     <syntax_item>W = smooth3(V, method)</syntax_item>
@@ -13,29 +13,29 @@
   <param_input>
     <param_input_item>
       <param_name>V</param_name>
-      <param_description>Donnees volumiques 3-D reelles numeriques ou logiques.</param_description>
+      <param_description>Données volumiques 3-D réelles numériques ou logiques.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>method</param_name>
-      <param_description>Methode de lissage : 'box' ou 'gaussian'. La valeur par defaut est 'box'.</param_description>
+      <param_description>Méthode de lissage : 'box' ou 'gaussian'. La valeur par défaut est 'box'.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>windowSize</param_name>
-      <param_description>Scalaire entier impair positif ou vecteur a trois elements. La valeur par defaut est [3 3 3].</param_description>
+      <param_description>Scalaire entier impair positif ou vecteur à trois éléments. La valeur par défaut est [3 3 3].</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>sd</param_name>
-      <param_description>Ecart type positif pour la methode gaussian. La valeur par defaut est 0.65.</param_description>
+      <param_description>Écart type positif pour la méthode gaussian. La valeur par défaut est 0.65.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>W</param_name>
-      <param_description>Tableau double lisse de meme taille que V.</param_description>
+      <param_description>Tableau double lisse de même taille que V.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>smooth3</b> lisse des donnees volumiques avec un noyau 3-D separable box ou gaussian et des valeurs de bord repliquees.</p>
+    <p><b>smooth3</b> lisse des données volumiques avec un noyau 3-D separable box ou gaussian et des valeurs de bord répliquées.</p>
   </description>
   <examples>
     <example_item>

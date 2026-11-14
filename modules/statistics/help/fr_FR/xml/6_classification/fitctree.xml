@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>fitctree</keyword>
-  <short_description>Ajuste un arbre de decision de classification.</short_description>
+  <short_description>Ajuste un arbre de décision de classification.</short_description>
   <syntax>
     <syntax_item>mdl = fitctree(X, Y)</syntax_item>
     <syntax_item>mdl = fitctree(X, Y, Name, Value)</syntax_item>
@@ -11,8 +11,8 @@
     <syntax_item>[label, score, cost, node] = predict(mdl, Xnew)</syntax_item>
   </syntax>
   <description>
-    <p><b>fitctree</b> cree un objet <b>ClassificationTree</b> a partir des predicteurs numeriques <b>X</b> et des etiquettes de classe <b>Y</b>.</p>
-    <p>Les arguments nom-valeur incluent <b>ClassNames</b>, <b>Prior</b>, <b>SplitCriterion</b>, <b>MaxNumSplits</b>, <b>MinLeafSize</b> et <b>MinParentSize</b>. Les predicteurs numeriques sont separes par tests binaires de seuil. La prediction retourne les scores de classe des feuilles.</p>
+    <p><b>fitctree</b> crée un objet <b>ClassificationTree</b> à partir des prédicteurs numériques <b>X</b> et des étiquettes de classe <b>Y</b>.</p>
+    <p>Les arguments nom-valeur incluent <b>ClassNames</b>, <b>Prior</b>, <b>SplitCriterion</b>, <b>MaxNumSplits</b>, <b>MinLeafSize</b> et <b>MinParentSize</b>. Les prédicteurs numériques sont séparés par tests binaires de seuil. La prédiction retourne les scores de classe des feuilles.</p>
   </description>
   <examples>
     <example_item>

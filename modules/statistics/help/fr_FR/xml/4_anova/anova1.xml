@@ -11,7 +11,7 @@
     <syntax_item>[p, tbl, stats] = anova1(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>anova1</b> effectue une analyse de variance a un facteur. Lorsque <b>X</b> est une matrice et que <b>group</b> est vide, les colonnes sont traitees comme des groupes. Lorsque <b>X</b> est un vecteur, <b>group</b> fournit une etiquette de groupe par observation.</p>
+    <p><b>anova1</b> effectue une analyse de variance a un facteur. Lorsque <b>X</b> est une matrice et que <b>group</b> est vide, les colonnes sont traitées comme des groupes. Lorsque <b>X</b> est un vecteur, <b>group</b> fournit une étiquette de groupe par observation.</p>
     <p><b>displayopt</b> peut valoir <b>'on'</b> ou <b>'off'</b>. Les observations <b>NaN</b> sont omises.</p>
   </description>
   <examples>

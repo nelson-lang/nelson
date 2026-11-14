@@ -3,23 +3,23 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>removecats</keyword>
-  <short_description>Supprimer des categories d'un tableau categoriel.</short_description>
+  <short_description>Supprimer des catégories d'un tableau catégoriel.</short_description>
   <syntax>
     <syntax_item>B = removecats(A)</syntax_item>
     <syntax_item>B = removecats(A, oldCategories)</syntax_item>
   </syntax>
   <param_input>
-    <param_input_item><param_name>A</param_name><param_description>Tableau categoriel d'entree.</param_description></param_input_item>
-    <param_input_item><param_name>oldCategories</param_name><param_description>Categories a supprimer. Si omis, les categories inutilisees sont supprimees.</param_description></param_input_item>
+    <param_input_item><param_name>A</param_name><param_description>Tableau catégoriel d'entrée.</param_description></param_input_item>
+    <param_input_item><param_name>oldCategories</param_name><param_description>Catégories à supprimer. Si omis, les catégories inutilisées sont supprimées.</param_description></param_input_item>
   </param_input>
-  <param_output><param_output_item><param_name>B</param_name><param_description>Tableau categoriel avec une liste de categories reduite.</param_description></param_output_item></param_output>
+  <param_output><param_output_item><param_name>B</param_name><param_description>Tableau catégoriel avec une liste de catégories réduite.</param_description></param_output_item></param_output>
   <description>
-    <p><b>removecats</b> supprime des categories de la liste des categories.</p>
-    <p>Les elements appartenant a des categories supprimees deviennent non definis.</p>
+    <p><b>removecats</b> supprime des catégories de la liste des catégories.</p>
+    <p>Les éléments appartenant a des catégories supprimées deviennent non définis.</p>
   </description>
   <examples>
-    <example_item><example_item_type>nelson</example_item_type><example_item_description>Supprimer une categorie inutilisee.</example_item_description><example_item_data runnable="cli"><![CDATA[A = categorical({'red','blue'}, {'red','blue','green'}); B = removecats(A, 'green'); categories(B)]]></example_item_data></example_item>
-    <example_item><example_item_type>nelson</example_item_type><example_item_description>Supprimer une categorie utilisee et creer des elements non definis.</example_item_description><example_item_data runnable="cli"><![CDATA[A = categorical({'red','blue','green'}); B = removecats(A, 'green'); isundefined(B)]]></example_item_data></example_item>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description>Supprimer une catégorie inutilisée.</example_item_description><example_item_data runnable="cli"><![CDATA[A = categorical({'red','blue'}, {'red','blue','green'}); B = removecats(A, 'green'); categories(B)]]></example_item_data></example_item>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description>Supprimer une catégorie utilisée et créer des éléments non définis.</example_item_description><example_item_data runnable="cli"><![CDATA[A = categorical({'red','blue','green'}); B = removecats(A, 'green'); isundefined(B)]]></example_item_data></example_item>
   </examples>
   <see_also>
     <see_also_item><link linkend="${categorical}addcats">addcats</link></see_also_item>

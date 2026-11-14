@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>jbtest</keyword>
-  <short_description>Test de normalite de Jarque-Bera.</short_description>
+  <short_description>Test de normalité de Jarque-Bera.</short_description>
   <syntax>
     <syntax_item>h = jbtest(x)</syntax_item>
     <syntax_item>h = jbtest(x, alpha)</syntax_item>
@@ -11,8 +11,8 @@
     <syntax_item>[h, p, jbstat, critval] = jbtest(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>jbtest</b> effectue un test de normalite de Jarque-Bera avec moyenne et variance inconnues. Les observations <b>NaN</b> sont omises.</p>
-    <p>L&apos;argument optionnel <b>alpha</b> definit le niveau de signification. L&apos;argument optionnel <b>mctol</b> est accepte pour la compatibilite de syntaxe; cette implementation utilise l&apos;approximation deterministe du chi-carre.</p>
+    <p><b>jbtest</b> effectue un test de normalité de Jarque-Bera avec moyenne et variance inconnues. Les observations <b>NaN</b> sont omises.</p>
+    <p>L&apos;argument optionnel <b>alpha</b> définit le niveau de signification. L&apos;argument optionnel <b>mctol</b> est accepté pour la compatibilité de syntaxe; cette implémentation utilise l&apos;approximation déterministe du chi-carré.</p>
   </description>
   <examples>
     <example_item>

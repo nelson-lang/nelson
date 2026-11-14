@@ -13,19 +13,19 @@
   <param_input>
     <param_input_item>
       <param_name>X</param_name>
-      <param_description>matrice numerique reelle pleine. Les lignes sont les observations et les colonnes sont les variables.</param_description>
+      <param_description>matrice numérique réelle pleine. Les lignes sont les observations et les colonnes sont les variables.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>k</param_name>
-      <param_description>entier positif indiquant le nombre de groupes. Utiliser [] uniquement lorsque Start est un tableau numerique.</param_description>
+      <param_description>entier positif indiquant le nombre de groupes. Utiliser [] uniquement lorsque Start est un tableau numérique.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>distance</param_name>
-      <param_description>nom de distance : &apos;sqeuclidean&apos;, &apos;squaredeuclidean&apos;, &apos;cityblock&apos;, &apos;cosine&apos;, &apos;correlation&apos; ou &apos;hamming&apos;.</param_description>
+      <param_description>nom de distance : &apos;sqeuclidean&apos;, &apos;squaredeuclidean&apos;, &apos;cityblock&apos;, &apos;cosine&apos;, &apos;corrélation&apos; ou &apos;hamming&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>start</param_name>
-      <param_description>choix des centroides initiaux : &apos;plus&apos;, &apos;sample&apos;, &apos;uniform&apos;, &apos;cluster&apos;, une matrice k-par-p ou un tableau k-par-p-par-r.</param_description>
+      <param_description>choix des centroïdes initiaux : &apos;plus&apos;, &apos;sample&apos;, &apos;uniform&apos;, &apos;cluster&apos;, une matrice k-par-p ou un tableau k-par-p-par-r.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -35,7 +35,7 @@
     </param_output_item>
     <param_output_item>
       <param_name>C</param_name>
-      <param_description>matrice k-par-p des centroides.</param_description>
+      <param_description>matrice k-par-p des centroïdes.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>sumd</param_name>
@@ -47,8 +47,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>kmeans</b> partitionne les observations en k groupes en affectant iterativement chaque observation au centroide le plus proche puis en recalculant les centroides.</p>
-    <p>Les initialisations aleatoires utilisent le generateur global de Nelson. Utiliser <b>rng</b> avant <b>kmeans</b>, ou transmettre <b>Options</b> cree avec <b>statset</b> et un <b>RandStream</b> dans <b>Streams</b>, pour obtenir une initialisation reproductible.</p>
+    <p><b>kmeans</b> partitionne les observations en k groupes en affectant itérativement chaque observation au centroide le plus proche puis en recalculant les centroïdes.</p>
+    <p>Les initialisations aléatoires utilisent le générateur global de Nelson. Utiliser <b>rng</b> avant <b>kmeans</b>, ou transmettre <b>Options</b> crée avec <b>statset</b> et un <b>RandStream</b> dans <b>Streams</b>, pour obtenir une initialisation reproductible.</p>
   </description>
   <used_function>
     <link linkend="${statistics}statset">statset</link>
@@ -66,7 +66,7 @@
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Tracer trois groupes et leurs centroides.</example_item_description>
+      <example_item_description>Tracer trois groupes et leurs centroïdes.</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
@@ -99,7 +99,7 @@ ylabel('x2');]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Tracer une initialisation aleatoire reproductible.</example_item_description>
+      <example_item_description>Tracer une initialisation aléatoire reproductible.</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
@@ -125,7 +125,7 @@ ylabel('x2');]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Tracer des groupes calcules avec la distance cityblock.</example_item_description>
+      <example_item_description>Tracer des groupes calculés avec la distance cityblock.</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();

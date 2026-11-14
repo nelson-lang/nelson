@@ -11,9 +11,9 @@
     <syntax_item>y = nansum(X, 'all')</syntax_item>
   </syntax>
   <description>
-    <p><b>nansum</b> calcule la somme apres suppression des valeurs <b>NaN</b> de chaque tranche traitee ; une tranche uniquement composee de <b>NaN</b> a pour somme <b>0</b>.</p>
-    <p>La dimension de travail par defaut est la premiere dimension non singuliere.</p>
-    <p>Equivalent a <b>sum(X, ..., 'omitnan')</b>.</p>
+    <p><b>nansum</b> calcule la somme après suppression des valeurs <b>NaN</b> de chaque tranche traitée ; une tranche uniquement composée de <b>NaN</b> a pour somme <b>0</b>.</p>
+    <p>La dimension de travail par défaut est la première dimension non singulière.</p>
+    <p>Équivalent à <b>sum(X, ..., 'omitnan')</b>.</p>
   </description>
   <examples>
     <example_item>

@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>detectHarrisFeatures</keyword>
-  <short_description>Detecte les coins de Harris.</short_description>
+  <short_description>Détecte les coins de Harris.</short_description>
   <syntax>
     <syntax_item>points = detectHarrisFeatures(I)</syntax_item>
     <syntax_item>points = detectHarrisFeatures(I, Name, Value)</syntax_item>
@@ -11,7 +11,7 @@
   <param_input>
     <param_input_item>
       <param_name>I</param_name>
-      <param_description>Image d'entree en niveaux de gris ou RGB.</param_description>
+      <param_description>Image d'entrée en niveaux de gris ou RGB.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -21,14 +21,14 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>detectHarrisFeatures calcule une metrique de coins Harris, conserve les maxima locaux, les trie par force de metrique et retourne leurs coordonnees image. Les options prises en charge sont MinQuality, FilterSize, SensitivityFactor et ROI.</p>
+    <p>detectHarrisFeatures calcule une métrique de coins Harris, conserve les maxima locaux, les trié par force de métrique et retourne leurs coordonnées image. Les options prises en charge sont MinQuality, FilterSize, SensitivityFactor et ROI.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Detecter les coins dans une image carree</example_item_description>
+      <example_item_description>Détecter les coins dans une image carrée</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[I=zeros(64,64); I(18:46,18:46)=1;

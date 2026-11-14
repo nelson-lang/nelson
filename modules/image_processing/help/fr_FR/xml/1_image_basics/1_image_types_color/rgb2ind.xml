@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>rgb2ind</keyword>
-  <short_description>Convertit une image RGB en image indexee.</short_description>
+  <short_description>Convertit une image RGB en image indexée.</short_description>
   <syntax>
     <syntax_item>[X, map] = rgb2ind(RGB, n)</syntax_item>
     <syntax_item>[X, map] = rgb2ind(RGB, n, dither_option)</syntax_item>
@@ -18,25 +18,25 @@
     </param_input_item>
     <param_input_item>
       <param_name>n</param_name>
-      <param_description>Nombre de couleurs de la palette de sortie, un entier scalaire superieur ou egal a 1. Une quantification a variance minimale est utilisee.</param_description>
+      <param_description>Nombre de couleurs de la palette de sortie, un entier scalaire supérieur ou égal à 1. Une quantification a variance minimale est utilisée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>tol</param_name>
-      <param_description>Tolerance dans l'intervalle (0, 1). Une quantification uniforme est utilisee et la palette contient les couleurs distinctes de la grille qui apparaissent.</param_description>
+      <param_description>Tolérance dans l'intervalle (0, 1). Une quantification uniforme est utilisée et la palette contient les couleurs distinctes de la grille qui apparaissent.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>map</param_name>
-      <param_description>Palette, un tableau M-par-3 de valeurs dans l'intervalle [0, 1]. Chaque pixel est associe a la couleur la plus proche de la palette.</param_description>
+      <param_description>Palette, un tableau M-par-3 de valeurs dans l'intervalle [0, 1]. Chaque pixel est associé à la couleur la plus proche de la palette.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>dither_option</param_name>
-      <param_description>'dither' (defaut) applique la diffusion d'erreur de Floyd-Steinberg, 'nodither' associe chaque pixel a sa couleur la plus proche sans tramage.</param_description>
+      <param_description>'dither' (défaut) applique la diffusion d'erreur de Floyd-Steinberg, 'nodither' associe chaque pixel a sa couleur la plus proche sans tramage.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>X</param_name>
-      <param_description>Image indexee avec des indices en base zero. La classe est uint8 lorsque la palette a 256 entrees ou moins, sinon uint16.</param_description>
+      <param_description>Image indexée avec des indices en base zéro. La classe est uint8 lorsque la palette a 256 entrées ou moins, sinon uint16.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>map</param_name>
@@ -44,8 +44,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>Convertit une image RGB en image indexee et sa palette associee. Lorsque le deuxieme argument est un entier scalaire, une quantification a variance minimale construit une palette d'au plus ce nombre de couleurs ; lorsque l'image a ce nombre de couleurs distinctes ou moins, le resultat est sans perte. Lorsque le deuxieme argument est un scalaire dans l'intervalle (0, 1), une quantification uniforme est utilisee. Lorsque le deuxieme argument est une palette M-par-3, chaque pixel est associe a la couleur la plus proche de la palette.</p>
-    <p>Les indices de <b>X</b> sont en base zero, comme les images indexees produites a partir d'entrees entieres. Le tramage de Floyd-Steinberg est applique par defaut et peut etre desactive avec 'nodither'.</p>
+    <p>Convertit une image RGB en image indexée et sa palette associée. Lorsque le deuxième argument est un entier scalaire, une quantification a variance minimale construit une palette d'au plus ce nombre de couleurs ; lorsque l'image a ce nombre de couleurs distinctes ou moins, le résultat est sans perte. Lorsque le deuxième argument est un scalaire dans l'intervalle (0, 1), une quantification uniforme est utilisée. Lorsque le deuxième argument est une palette M-par-3, chaque pixel est associé à la couleur la plus proche de la palette.</p>
+    <p>Les indices de <b>X</b> sont en base zéro, comme les images indexées produites à partir d'entrées entières. Le tramage de Floyd-Steinberg est appliqué par défaut et peut être désactivé avec 'nodither'.</p>
   </description>
   <used_function />
   <bibliography />

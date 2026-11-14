@@ -3,22 +3,22 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>asserts.matchesAny</keyword>
-  <short_description>Verifie qu&apos;un texte correspond a au moins une expression reguliere.</short_description>
+  <short_description>Vérifie qu&apos;un texte correspond à au moins une expression régulière.</short_description>
   <syntax>
     <syntax_item>asserts.matchesAny(text, patterns)</syntax_item>
     <syntax_item>[res, msg] = asserts.matchesAny(text, patterns)</syntax_item>
   </syntax>
   <param_input>
-    <param_input_item><param_name>text</param_name><param_description>Vecteur de caracteres ou scalaire string a tester.</param_description></param_input_item>
-    <param_input_item><param_name>patterns</param_name><param_description>Motifs d&apos;expressions regulieres. Au moins un motif doit correspondre.</param_description></param_input_item>
+    <param_input_item><param_name>text</param_name><param_description>Vecteur de caractères ou scalaire string à tester.</param_description></param_input_item>
+    <param_input_item><param_name>patterns</param_name><param_description>Motifs d&apos;expressions régulières. Au moins un motif doit correspondre.</param_description></param_input_item>
   </param_input>
   <param_output>
-    <param_output_item><param_name>res</param_name><param_description>true si l&apos;assertion reussit, false sinon.</param_description></param_output_item>
-    <param_output_item><param_name>msg</param_name><param_description>message d&apos;echec de l&apos;assertion, vide en cas de succes.</param_description></param_output_item>
+    <param_output_item><param_name>res</param_name><param_description>true si l&apos;assertion réussit, false sinon.</param_description></param_output_item>
+    <param_output_item><param_name>msg</param_name><param_description>message d&apos;échec de l&apos;assertion, vide en cas de succès.</param_description></param_output_item>
   </param_output>
   <description>
-    <p>L&apos;assertion reussit lorsqu&apos;au moins une expression reguliere correspond a text.</p>
-    <p>Les expressions regulieres invalides levent immediatement une erreur d&apos;argument.</p>
+    <p>L&apos;assertion réussit lorsqu&apos;au moins une expression régulière correspond à text.</p>
+    <p>Les expressions régulières invalides levent immédiatement une erreur d&apos;argument.</p>
   </description>
   <used_function />
   <bibliography />

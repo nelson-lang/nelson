@@ -8,7 +8,7 @@
     <syntax_item>info = mcpinfo()</syntax_item>
   </syntax>
   <description>
-    <p><b>mcpinfo</b> retourne la version, le transport, le mode d'affichage par defaut, la racine de workspace par defaut, la limite de sortie par defaut, les outils, les ressources, les prompts exposes et les politiques par defaut.</p>
+    <p><b>mcpinfo</b> retourne la version, le transport, le mode d'affichage par défaut, la racine de workspace par défaut, la limite de sortie par défaut, les outils, les ressources, les prompts exposés et les politiques par défaut.</p>
   </description>
   <see_also>
     <see_also_item>

@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>crosstab</keyword>
-  <short_description>Tableau croise.</short_description>
+  <short_description>Tableau croisé.</short_description>
   <syntax>
     <syntax_item>tbl = crosstab(x1, x2)</syntax_item>
     <syntax_item>tbl = crosstab(x1, ..., xn)</syntax_item>
@@ -14,7 +14,7 @@
   </syntax>
   <description>
     <p><b>crosstab</b> compte les combinaisons de valeurs de variables de regroupement.</p>
-    <p>Le format de sortie par defaut est une matrice numerique. Les formats pris en charge sont matrix, table et stacked-table. La statistique du chi-square et la p-value sont renvoyees pour les matrices de compte bidimensionnelles.</p>
+    <p>Le format de sortie par défaut est une matrice numérique. Les formats pris en charge sont matrix, table et stacked-table. La statistique du chi-square et la p-value sont renvoyées pour les matrices de compte bidimensionnelles.</p>
   </description>
   <examples>
     <example_item>

@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>surfl</keyword>
-  <short_description>Afficher une surface eclairee.</short_description>
+  <short_description>Afficher une surface éclairée.</short_description>
   <syntax>
     <syntax_item>surfl(Z)</syntax_item>
     <syntax_item>surfl(X, Y, Z)</syntax_item>
@@ -12,13 +12,13 @@
     <syntax_item>h = surfl(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>surfl</b> affiche une surface avec une reflectance basee sur l'eclairage stockee dans les donnees de couleur de la surface.</p>
-    <p><b>surfl(..., 'light')</b> cree une lumiere infinie et retourne les handles de la surface et de la lumiere.</p>
+    <p><b>surfl</b> affiche une surface avec une reflectance basée sur l'éclairage stockée dans les données de couleur de la surface.</p>
+    <p><b>surfl(..., 'light')</b> crée une lumière infinie et retourne les handles de la surface et de la lumière.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Surface eclairee.</example_item_description>
+      <example_item_description>Surface éclairée.</example_item_description>
       <example_item_data><![CDATA[surfl(peaks(30));
 shading interp;]]></example_item_data>
       <example_item_img src="../../../../images/surfl_1.svg" align="middle" generate="true" />

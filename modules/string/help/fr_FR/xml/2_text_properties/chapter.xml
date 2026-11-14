@@ -3,8 +3,8 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <module_name>string</module_name>
-  <chapter>Proprietes du texte</chapter>
+  <chapter>Propriétés du texte</chapter>
   <chapter_description>
-    <p>Fonctions pour verifier le type, la longueur et les proprietes des caracteres.</p>
+    <p>Fonctions pour vérifier le type, la longueur et les propriétés des caractères.</p>
   </chapter_description>
 </xmldoc>

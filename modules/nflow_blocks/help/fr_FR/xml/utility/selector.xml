@@ -11,8 +11,8 @@
     <p>Un indice hors de la plage d'entrée est ramené vers l'élément valide le plus proche.</p>
     <p><img src="../../../../libraries/utility/exports/selector.svg" align="middle"/></p>
     <p><b>Extended Capabilities</b></p>
-    <p><b>Implementation Sources</b></p>
-    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <p><b>Implémentation Sources</b></p>
+    <p>Génération de code : prise en charge pour C et Rust.</p>
     <source_code label="Manifest" path="modules/nflow_blocks/libraries/utility/library.json" language="json"/>
     <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/routing/selector.cpp" language="cpp"/>
   </description>

@@ -50,7 +50,7 @@
     <param_output_item>
       <param_name>X_OUT</param_name>
       <param_description
-      >Si JOBX = &apos;U&apos;, la partie principale N-by-N de ce tableau contient le produit de la matrice X donnée et de la matrice de transformation qui a réduit A en forme bloc-diagonale. La matrice de transformation est elle-même un produit de transformations de similarité non orthogonales ayant des éléments de magnitude ≤ PMAX. Si JOBX = &apos;N&apos;, ce tableau n&apos;est pas référencé.</param_description>
+      >Si JOBX = &apos;U&apos;, la partie principale N-by-N de ce tableau contient le produit de la matrice X donnée et de la matrice de transformation qui a réduit À en forme bloc-diagonale. La matrice de transformation est elle-même un produit de transformations de similarité non orthogonales ayant des éléments de magnitude ≤ PMAX. Si JOBX = &apos;N&apos;, ce tableau n&apos;est pas référencé.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>NBLCKS</param_name>

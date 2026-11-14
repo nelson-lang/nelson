@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>listener</keyword>
-  <short_description>Cree un ecouteur d&apos;evenement classdef.</short_description>
+  <short_description>Crée un écouteur d&apos;événement classdef.</short_description>
   <syntax>
     <syntax_item>lh = listener(obj, eventName, callback)</syntax_item>
     <syntax_item>lh = listener(obj, propertyName, propertyEvent, callback)</syntax_item>
@@ -15,11 +15,11 @@
     </param_input_item>
     <param_input_item>
       <param_name>eventName</param_name>
-      <param_description>un nom d&apos;evenement sous forme de chaine</param_description>
+      <param_description>un nom d&apos;événement sous forme de chaîne</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>callback</param_name>
-      <param_description>un handle de fonction appele avec les arguments source et donnees d&apos;evenement</param_description>
+      <param_description>un handle de fonction appelé avec les arguments source et données d&apos;événement</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -30,14 +30,14 @@
   </param_output>
   <description>
     <p>
-      <b>listener</b> est un alias de <b>addlistener</b> pour les objets handle classdef et les proprietes observables.</p>
+      <b>listener</b> est un alias de <b>addlistener</b> pour les objets handle classdef et les propriétés observables.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Creer un ecouteur pour un evenement.</example_item_description>
+      <example_item_description>Créer un écouteur pour un événement.</example_item_description>
       <example_item_data runnable="false"><![CDATA[d = [tempdir(), 'nelson_help_listener/'];
 mkdir(d);
 filewrite([d, '/NelsonHelpListenerCounter.m'], ["classdef NelsonHelpListenerCounter < handle"; "  events"; "    CountChanged"; "  end"; "  methods"; "    function trigger(obj)"; "      notify(obj, 'CountChanged');"; "    end"; "  end"; "end"]);
@@ -63,7 +63,7 @@ delete(counter)]]></example_item_data>
   <history>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>support des ecouteurs classdef ajoute</history_description>
+      <history_description>support des écouteurs classdef ajouté</history_description>
     </history_item>
   </history>
   <authors>

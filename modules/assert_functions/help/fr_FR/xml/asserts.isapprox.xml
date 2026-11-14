@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>asserts.isapprox</keyword>
-  <short_description>Verifie que les valeurs numeriques calculee et attendue sont approximativement egales.</short_description>
+  <short_description>Vérifie que les valeurs numériques calculée et attendue sont approximativement égales.</short_description>
   <syntax>
     <syntax_item>asserts.isapprox(computed, expected)</syntax_item>
     <syntax_item>asserts.isapprox(computed, expected, relTol)</syntax_item>
@@ -12,18 +12,18 @@
     <syntax_item>[res, msg] = asserts.isapprox(computed, expected, relTol)</syntax_item>
   </syntax>
   <param_input>
-    <param_input_item><param_name>computed</param_name><param_description>Valeur numerique calculee.</param_description></param_input_item>
-    <param_input_item><param_name>expected</param_name><param_description>Valeur numerique attendue.</param_description></param_input_item>
-    <param_input_item><param_name>relTol</param_name><param_description>Scalaire numerique fini non negatif utilise comme tolerance relative optionnelle.</param_description></param_input_item>
-    <param_input_item><param_name>absTol</param_name><param_description>Scalaire numerique fini non negatif utilise comme tolerance absolue optionnelle.</param_description></param_input_item>
-    <param_input_item><param_name>message</param_name><param_description>Message d&apos;echec personnalise optionnel.</param_description></param_input_item>
+    <param_input_item><param_name>computed</param_name><param_description>Valeur numérique calculée.</param_description></param_input_item>
+    <param_input_item><param_name>expected</param_name><param_description>Valeur numérique attendue.</param_description></param_input_item>
+    <param_input_item><param_name>relTol</param_name><param_description>Scalaire numérique fini non négatif utilisé comme tolérance relative optionnelle.</param_description></param_input_item>
+    <param_input_item><param_name>absTol</param_name><param_description>Scalaire numérique fini non négatif utilisé comme tolérance absolue optionnelle.</param_description></param_input_item>
+    <param_input_item><param_name>message</param_name><param_description>Message d&apos;échec personnalisé optionnel.</param_description></param_input_item>
   </param_input>
   <param_output>
-    <param_output_item><param_name>res</param_name><param_description>true si l&apos;assertion reussit, false sinon.</param_description></param_output_item>
-    <param_output_item><param_name>msg</param_name><param_description>message d&apos;echec de l&apos;assertion, vide en cas de succes.</param_description></param_output_item>
+    <param_output_item><param_name>res</param_name><param_description>true si l&apos;assertion réussit, false sinon.</param_description></param_output_item>
+    <param_output_item><param_name>msg</param_name><param_description>message d&apos;échec de l&apos;assertion, vide en cas de succès.</param_description></param_output_item>
   </param_output>
   <description>
-    <p>Forme methode de assert_isapprox.</p>
+    <p>Forme méthode de assert_isapprox.</p>
     <p>La comparaison relative initiale suit isapproxnorm. Quand absTol est positive, une comparaison supplémentaire accepte les tableaux numériques de mêmes dimensions si chaque différence est au plus max(absTol, relTol * max(abs(expected), abs(computed))). Les parties réelles et imaginaires sont contrôlées séparément. Les NaN correspondants et les infinis de même signe sont acceptés.</p>
     <p>La comparaison absolue accepte les entrées creuses/creuses et creuses/pleines, y compris les zéros implicites et des motifs de stockage différents. Deux tableaux creux sont comparés sur l'union de leurs coordonnées stockées, sans conversion en tableaux pleins. Un cas mixte parcourt le tableau plein et les coefficients creux stockés. Le diagnostic indique la première coordonnée différente.</p>
   </description>
@@ -37,7 +37,7 @@
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Absolute tolerance</example_item_description>
+      <example_item_description>Absolute tolérance</example_item_description>
       <example_item_data runnable="cli"><![CDATA[asserts.isapprox(1, 1 + 1e-8, 0, 1e-7);]]></example_item_data>
     </example_item>
     <example_item>

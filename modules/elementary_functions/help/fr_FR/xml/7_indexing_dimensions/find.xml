@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>find</keyword>
-  <short_description>Trouver les elements non nuls</short_description>
+  <short_description>Trouver les éléments non nuls</short_description>
   <syntax>
     <syntax_item>K = find(M)</syntax_item>
     <syntax_item>[R, C] = find(M)</syntax_item>
@@ -22,17 +22,17 @@
     </param_input_item>
     <param_input_item>
       <param_name>N</param_name>
-      <param_description>entier positif, ou <b>Inf</b> : nombre de non-zeros a trouver.</param_description>
+      <param_description>entier positif, ou <b>Inf</b> : nombre de non-zéros à trouver.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>D</param_name>
-      <param_description>direction : &apos;first&apos; (par defaut) ou &apos;last&apos;. La valeur est insensible a la casse.</param_description>
+      <param_description>direction : &apos;first&apos; (par défaut) ou &apos;last&apos;. La valeur est insensible à la casse.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>K</param_name>
-      <param_description>indices des elements non nuls (vecteur).</param_description>
+      <param_description>indices des éléments non nuls (vecteur).</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>R</param_name>
@@ -44,18 +44,18 @@
     </param_output_item>
     <param_output_item>
       <param_name>V</param_name>
-      <param_description>elements non nuls de M (vecteur).</param_description>
+      <param_description>éléments non nuls de M (vecteur).</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>
-      <b>K = find(M)</b> renvoie un vecteur contenant les indices lineaires de chaque element non nul de <b>M</b>.</p>
+      <b>K = find(M)</b> renvoie un vecteur contenant les indices linéaires de chaque élément non nul de <b>M</b>.</p>
     <p>
-      <b>find(M, Inf)</b> renvoie tous les indices non nuls et peut etre combine avec l'argument de direction.</p>
+      <b>find(M, Inf)</b> renvoie tous les indices non nuls et peut être combiné avec l'argument de direction.</p>
     <p>
-      Pour une entree sparse, <b>find</b> accepte les matrices sparse double, single, logiques, double complexes et single complexes. Les valeurs nulles stockees sont ignorees ; seules les entrees dont la valeur est reellement non nulle sont retournees.</p>
+      Pour une entrée sparse, <b>find</b> accepte les matrices sparse double, single, logiques, double complexes et single complexes. Les valeurs nulles stockées sont ignorées ; seules les entrées dont la valeur est réellement non nulle sont retournées.</p>
     <p>
-      Avec trois sorties, <b>V</b> conserve la classe des valeurs de la matrice sparse d'entree, y compris les valeurs single et logiques.</p>
+      Avec trois sorties, <b>V</b> conserve la classe des valeurs de la matrice sparse d'entrée, y compris les valeurs single et logiques.</p>
   </description>
   <used_function />
   <bibliography />
@@ -99,7 +99,7 @@ M(R(1),C(1),V(1))]]></example_item_data>
   <history>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>support sparse single et single complexe etendu</history_description>
+      <history_description>support sparse single et single complexe étendu</history_description>
     </history_item>
     <history_item>
       <history_version>1.0.0</history_version>

@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>trapz</keyword>
-  <short_description>Integration numerique par la methode des trapezes.</short_description>
+  <short_description>Intégration numérique par la méthode des trapezes.</short_description>
   <syntax>
     <syntax_item>Z = trapz(Y)</syntax_item>
     <syntax_item>Z = trapz(X, Y)</syntax_item>
@@ -13,7 +13,7 @@
   <param_input>
     <param_input_item>
       <param_name>Y</param_name>
-      <param_description>vecteur ou matrice (reel ou single)</param_description>
+      <param_description>vecteur ou matrice (réel ou single)</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>X</param_name>
@@ -27,13 +27,13 @@
   <param_output>
     <param_output_item>
       <param_name>Z</param_name>
-      <param_description>integrale : scalaire, vecteur ou matrice.</param_description>
+      <param_description>intégrale : scalaire, vecteur ou matrice.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>trapz(Y)</b> calcule l'integrale approchee de <b>Y</b> par la methode des trapezes avec un espacement unitaire, selon la premiere dimension non singuliere.</p>
-    <p><b>trapz(X, Y)</b> integre <b>Y</b> par rapport aux coordonnees donnees par <b>X</b>.</p>
-    <p>Utilisez <b>dim</b> pour integrer selon une dimension donnee.</p>
+    <p><b>trapz(Y)</b> calcule l'intégrale approchée de <b>Y</b> par la méthode des trapezes avec un espacement unitaire, selon la première dimension non singulière.</p>
+    <p><b>trapz(X, Y)</b> intègre <b>Y</b> par rapport aux coordonnées données par <b>X</b>.</p>
+    <p>Utilisez <b>dim</b> pour intégrer selon une dimension donnée.</p>
   </description>
   <used_function />
   <bibliography />

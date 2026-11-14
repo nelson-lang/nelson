@@ -10,10 +10,10 @@
     <syntax_item>vertices = stream2(..., options)</syntax_item>
   </syntax>
   <description>
-    <p><b>stream2</b> suit un champ vectoriel 2-D depuis chaque point de depart et rend les sommets par lesquels il est passe. Rien n'est trace : passer le resultat a <b>streamline</b> pour le voir.</p>
-    <p>Le resultat est un tableau de cellules avec une entree par point de depart, chacune un tableau N-by-2 de coordonnees <b>[x, y]</b> dont la premiere ligne est le point de depart lui-meme. Un point de depart hors du champ donne une entree vide ; un point de depart que le champ ne deplace pas garde son unique sommet.</p>
-    <p>Sans <b>X</b> ni <b>Y</b> le champ est indexe a partir de 1, comme le donnerait <b>meshgrid(1:size(U, 2), 1:size(U, 1))</b>.</p>
-    <p>L'entree optionnelle <b>options</b> vaut <b>[stepsize]</b> ou <b>[stepsize, maxvert]</b>. <b>stepsize</b> se compte en cellules de grille et vaut 0.1 par defaut. <b>maxvert</b> est le nombre maximal de sommets a produire, point de depart compris, et vaut 500 par defaut.</p>
+    <p><b>stream2</b> suit un champ vectoriel 2-D depuis chaque point de départ et rend les sommets par lesquels il est passé. Rien n'est tracé : passer le résultat a <b>streamline</b> pour le voir.</p>
+    <p>Le résultat est un tableau de cellules avec une entrée par point de départ, chacune un tableau N-by-2 de coordonnées <b>[x, y]</b> dont la première ligne est le point de départ lui-même. Un point de départ hors du champ donne une entrée vide ; un point de départ que le champ ne déplace pas garde son unique sommet.</p>
+    <p>Sans <b>X</b> ni <b>Y</b> le champ est indexé à partir de 1, comme le donnerait <b>meshgrid(1:size(U, 2), 1:size(U, 1))</b>.</p>
+    <p>L'entrée optionnelle <b>options</b> vaut <b>[stepsize]</b> ou <b>[stepsize, maxvert]</b>. <b>stepsize</b> se compte en cellules de grille et vaut 0.1 par défaut. <b>maxvert</b> est le nombre maximal de sommets à produire, point de départ compris, et vaut 500 par défaut.</p>
   </description>
   <examples>
     <example_item>

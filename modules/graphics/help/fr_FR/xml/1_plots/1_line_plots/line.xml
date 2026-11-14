@@ -43,7 +43,7 @@
       <b>line(x, y)</b> crée une ligne dans les axes courants avec les vecteurs<b>x</b> et <b>y</b>.</p>
     <p>
       <b>line(x, y, z)</b> crée une ligne en coordonnées tridimensionnelles.</p>
-    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.line.properties">proprietes de line</link> pour la liste complete des proprietes.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.line.properties">proprietes de line</link> pour la liste complète des propriétés.</p>
     <p>
       <b>BeingDeleted</b> Indicateur signalant que l&apos;objet est en cours de suppression.</p>
   </description>
@@ -131,7 +131,7 @@ view(3)]]></example_item_data>
     <history_item>
       <history_version>--</history_version>
       <history_description
-      >Ajout des proprietes polaires de ligne.</history_description>
+      >Ajout des propriétés polaires de ligne.</history_description>
     </history_item>
   </history>
   <authors>

@@ -17,11 +17,11 @@
     </param_input_item>
     <param_input_item>
       <param_name>N</param_name>
-      <param_description>nombre de chiffres : entier reel scalaire.</param_description>
+      <param_description>nombre de chiffres : entier réel scalaire.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>type</param_name>
-      <param_description>'decimals' (defaut) ou 'significant'.</param_description>
+      <param_description>'decimals' (défaut) ou 'significant'.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -34,12 +34,12 @@
     <p>
       <b>round</b> arrondit les éléments à l'entier le plus proche.</p>
     <p>
-      <b>round(A, N)</b> arrondit a <b>N</b> chiffres apres la virgule (<b>N</b> peut etre negatif). Equivalent a <b>round(A, N, 'decimals')</b>.</p>
+      <b>round(A, N)</b> arrondit a <b>N</b> chiffres après la virgule (<b>N</b> peut être négatif). Équivalent à <b>round(A, N, 'decimals')</b>.</p>
     <p>
-      <b>round(A, N, 'significant')</b> arrondit a <b>N</b> chiffres significatifs ; ici <b>N</b> doit etre positif.</p>
+      <b>round(A, N, 'significant')</b> arrondit a <b>N</b> chiffres significatifs ; ici <b>N</b> doit être positif.</p>
     <p>
-      Les entrees sparse single et sparse single complexes sont prises en charge. Seules les
-      entrees non nulles stockees sont arrondies et le resultat conserve le stockage sparse.</p>
+      Les entrées sparse single et sparse single complexes sont prises en charge. Seules les
+      entrées non nulles stockées sont arrondies et le résultat conserve le stockage sparse.</p>
   </description>
   <used_function />
   <bibliography />
@@ -53,7 +53,7 @@
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Arrondi a un nombre de decimales ou de chiffres significatifs.</example_item_description>
+      <example_item_description>Arrondi a un nombre de décimales ou de chiffres significatifs.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[round(3.14159, 2)
 round(12345, 2, 'significant')]]></example_item_data>
     </example_item>
@@ -82,7 +82,7 @@ C = round(S)]]></example_item_data>
     </history_item>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>prise en charge des entrees sparse single et sparse single complexes.</history_description>
+      <history_description>prise en charge des entrées sparse single et sparse single complexes.</history_description>
     </history_item>
     <history_item>
       <history_version>2.0.0</history_version>

@@ -11,8 +11,8 @@
     <syntax_item>[label, score, cost] = predict(mdl, Xnew)</syntax_item>
   </syntax>
   <description>
-    <p><b>fitcknn</b> cree un objet <b>ClassificationKNN</b> a partir des predicteurs numeriques <b>X</b> et des etiquettes de classe <b>Y</b>.</p>
-    <p>Les arguments nom-valeur incluent <b>NumNeighbors</b>, <b>Distance</b>, <b>DistanceWeight</b>, <b>Standardize</b>, <b>P</b>, <b>Scale</b> et <b>ClassNames</b>. La prediction utilise la recherche native des plus proches voisins et retourne des scores de classe normalises.</p>
+    <p><b>fitcknn</b> crée un objet <b>ClassificationKNN</b> à partir des prédicteurs numériques <b>X</b> et des étiquettes de classe <b>Y</b>.</p>
+    <p>Les arguments nom-valeur incluent <b>NumNeighbors</b>, <b>Distance</b>, <b>DistanceWeight</b>, <b>Standardize</b>, <b>P</b>, <b>Scale</b> et <b>ClassNames</b>. La prédiction utilise la recherche native des plus proches voisins et retourne des scores de classe normalises.</p>
   </description>
   <examples>
     <example_item>

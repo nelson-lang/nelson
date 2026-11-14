@@ -16,19 +16,19 @@
   <param_output>
     <param_output_item>
       <param_name>res</param_name>
-      <param_description>un scalaire logique ou un tableau logique de meme taille que h</param_description>
+      <param_description>un scalaire logique ou un tableau logique de même taille que h</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>
       <b>isvalid</b> renvoie vrai pour les handles valides et faux pour les handles invalides par delete.</p>
-    <p>Supprimer une variable avec clear n&apos;invalide pas les autres alias vers le meme objet handle.</p>
-    <p>Pour les tableaux de handles, le resultat a la meme taille que le tableau d&apos;entree.</p>
+    <p>Supprimer une variable avec clear n&apos;invalide pas les autres alias vers le même objet handle.</p>
+    <p>Pour les tableaux de handles, le résultat a la même taille que le tableau d&apos;entrée.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Verifier un tableau de handles classdef.</example_item_description>
+      <example_item_description>Vérifier un tableau de handles classdef.</example_item_description>
       <example_item_data runnable="false"><![CDATA[d = [tempdir(), 'nelson_help_isvalid/'];
 mkdir(d);
 filewrite([d, '/NelsonHelpIsValidCounter.m'], ["classdef NelsonHelpIsValidCounter < handle"; "  properties"; "    Count = 0"; "  end"; "end"]);
@@ -53,7 +53,7 @@ isvalid(h)]]></example_item_data>
     </history_item>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>resultat pour les tableaux de handles documente</history_description>
+      <history_description>résultat pour les tableaux de handles documente</history_description>
     </history_item>
   </history>
   <authors>

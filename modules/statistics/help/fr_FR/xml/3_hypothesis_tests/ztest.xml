@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>ztest</keyword>
-  <short_description>Test z pour une moyenne avec ecart type connu</short_description>
+  <short_description>Test z pour une moyenne avec écart type connu</short_description>
   <syntax>
     <syntax_item>h = ztest(x, m, sigma)</syntax_item>
     <syntax_item>h = ztest(x, m, sigma, &apos;Alpha&apos;, alpha)</syntax_item>
@@ -14,19 +14,19 @@
   <param_input>
     <param_input_item>
       <param_name>x</param_name>
-      <param_description>tableau numerique reel : donnees d'echantillon.</param_description>
+      <param_description>tableau numérique réel : données d'échantillon.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>m</param_name>
-      <param_description>scalaire reel : moyenne supposee.</param_description>
+      <param_description>scalaire réel : moyenne supposée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>sigma</param_name>
-      <param_description>scalaire reel positif : ecart type connu.</param_description>
+      <param_description>scalaire réel positif : écart type connu.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>alpha</param_name>
-      <param_description>scalaire dans (0,1), 0.05 par defaut : niveau de signification.</param_description>
+      <param_description>scalaire dans (0,1), 0.05 par défaut : niveau de signification.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>tail</param_name>
@@ -40,7 +40,7 @@
   <param_output>
     <param_output_item>
       <param_name>h</param_name>
-      <param_description>tableau logique : decision du test.</param_description>
+      <param_description>tableau logique : décision du test.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>p</param_name>
@@ -56,8 +56,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>ztest</b> effectue un test z le long de la premiere dimension non singleton sauf si <b>Dim</b> est specifie.</p>
-    <p>Les valeurs NaN sont ignorees dans chaque tranche testee.</p>
+    <p><b>ztest</b> effectue un test z le long de la première dimension non singleton sauf si <b>Dim</b> est spécifié.</p>
+    <p>Les valeurs NaN sont ignorées dans chaque tranche testée.</p>
   </description>
   <examples>
     <example_item>

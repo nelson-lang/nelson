@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>shading</keyword>
-  <short_description>Definit le mode d'ombrage des surfaces et patchs.</short_description>
+  <short_description>Définit le mode d'ombrage des surfaces et patchs.</short_description>
   <syntax>
     <syntax_item>shading(type)</syntax_item>
     <syntax_item>shading(ax, type)</syntax_item>

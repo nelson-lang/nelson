@@ -10,11 +10,11 @@
   <param_input>
     <param_input_item>
       <param_name>I</param_name>
-      <param_description>Image binaire ou en niveaux de gris d'entree, ou volume 3-D.</param_description>
+      <param_description>Image binaire ou en niveaux de gris d'entrée, ou volume 3-D.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>SE</param_name>
-      <param_description>Structure d'element structurant ou voisinage logique.</param_description>
+      <param_description>Structure d'élément structurant ou voisinage logique.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -24,14 +24,14 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>Erode une image binaire ou en niveaux de gris. Avec un element structurant 3-D, imerode erode un volume 3-D.</p>
+    <p>Erode une image binaire ou en niveaux de gris. Avec un élément structurant 3-D, imerode erode un volume 3-D.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Eroder une image binaire</example_item_description>
+      <example_item_description>Éroder une image binaire</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[BW=false(64,64); BW(20:44,20:44)=true;

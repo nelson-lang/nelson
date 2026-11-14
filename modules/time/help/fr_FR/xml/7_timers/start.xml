@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>start</keyword>
   <keyword_alias>timer.start</keyword_alias>
-  <short_description>Demarrer un objet timer.</short_description>
+  <short_description>Démarrer un objet timer.</short_description>
   <syntax>
     <syntax_item>start(t)</syntax_item>
   </syntax>
@@ -15,15 +15,15 @@
     </param_input_item>
   </param_input>
   <description>
-    <p><b>start</b> demarre le timer en utilisant ses proprietes <b>StartDelay</b>, <b>ExecutionMode</b>, <b>Period</b> et <b>TasksToExecute</b>. Le timer doit avoir une propriete <b>TimerFcn</b> non vide.</p>
-    <p><b>start</b> retourne immediatement apres la planification du timer. Utilisez <b>wait</b> lorsque la sequence de commandes courante doit bloquer jusqu&apos;a la fin du timer.</p>
+    <p><b>start</b> démarre le timer en utilisant ses propriétés <b>StartDelay</b>, <b>ExecutionMode</b>, <b>Period</b> et <b>TasksToExecute</b>. Le timer doit avoir une propriété <b>TimerFcn</b> non vide.</p>
+    <p><b>start</b> retourne immédiatement après la planification du timer. Utilisez <b>wait</b> lorsque la séquence de commandes courante doit bloquer jusqu&apos;à la fin du timer.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Demarrer un timer a execution unique.</example_item_description>
+      <example_item_description>Démarrer un timer a exécution unique.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[t = timer('StartDelay', 0.1, ...
   'TimerFcn', @(src, event) disp('started and fired'));
 start(t);
@@ -32,7 +32,7 @@ delete(t);]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Demarrer un timer repete.</example_item_description>
+      <example_item_description>Démarrer un timer répète.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[t = timer('ExecutionMode', 'fixedSpacing', ...
   'Period', 0.05, ...
   'TasksToExecute', 3, ...

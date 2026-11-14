@@ -14,8 +14,8 @@
     <syntax_item>h = meshc(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>meshc</b> affiche un maillage et des lignes de contour projetees a la base du maillage.</p>
-    <p>La valeur retournee est un vecteur graphique a deux elements contenant l'objet surface puis l'objet contour.</p>
+    <p><b>meshc</b> affiche un maillage et des lignes de contour projetées a la base du maillage.</p>
+    <p>La valeur retournée est un vecteur graphique a deux éléments contenant l'objet surface puis l'objet contour.</p>
   </description>
   <examples>
     <example_item>
@@ -26,7 +26,7 @@
     </example_item>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Utiliser des donnees de couleur separees et des axes parents.</example_item_description>
+      <example_item_description>Utiliser des données de couleur séparées et des axes parents.</example_item_description>
       <example_item_data><![CDATA[f = figure();
 ax = axes('Parent', f);
 Z = peaks(20);

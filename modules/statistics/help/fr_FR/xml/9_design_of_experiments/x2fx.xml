@@ -7,7 +7,7 @@
   <syntax>
     <syntax_item>D = x2fx(X, modelspec)</syntax_item>
   </syntax>
-  <description><p><b>x2fx</b> cree une matrice de plan avec une colonne constante et les termes demandes par la specification du modele.</p></description>
+  <description><p><b>x2fx</b> crée une matrice de plan avec une colonne constante et les termes demandes par la spécification du modèle.</p></description>
   <used_function>
     <link linkend="${statistics}candgen">candgen</link>
     <link linkend="${statistics}rowexch">rowexch</link>
@@ -17,14 +17,14 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Creer des matrices de modele courantes depuis des reglages de facteurs.</example_item_description>
+      <example_item_description>Créer des matrices de modèle courantes depuis des réglages de facteurs.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[X = [1 2; 3 4];
 Dlinear = x2fx(X, 'linear')
 Dquadratic = x2fx(X, 'quadratic')]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Utiliser une matrice de specification de modele explicite.</example_item_description>
+      <example_item_description>Utiliser une matrice de spécification de modèle explicite.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[X = [1 2; 3 4];
 modelspec = [1 0; 0 2; 1 1];
 D = x2fx(X, modelspec)]]></example_item_data>

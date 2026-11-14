@@ -11,11 +11,11 @@
   <param_input>
     <param_input_item>
       <param_name>BW</param_name>
-      <param_description>Image ou volume binaire. Une entree numerique est au premier plan lorsque ses valeurs sont non nulles.</param_description>
+      <param_description>Image ou volume binaire. Une entrée numérique est au premier plan lorsque ses valeurs sont non nulles.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>conn</param_name>
-      <param_description>Connectivite. Utiliser 4 ou 8 pour les images 2-D, et 6, 18 ou 26 pour les volumes 3-D. La valeur par defaut est la connectivite maximale.</param_description>
+      <param_description>Connectivité. Utiliser 4 ou 8 pour les images 2-D, et 6, 18 ou 26 pour les volumes 3-D. La valeur par défaut est la connectivité maximale.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -26,7 +26,7 @@
   </param_output>
   <description>
     <p>Trouver les composantes connexes de premier plan dans une image binaire 2-D ou un volume binaire 3-D.</p>
-    <p>La structure renvoyee contient les champs Connectivity, ImageSize, NumObjects et PixelIdxList.</p>
+    <p>La structure renvoyée contient les champs Connectivity, ImageSize, NumObjects et PixelIdxList.</p>
   </description>
   <used_function />
   <bibliography />

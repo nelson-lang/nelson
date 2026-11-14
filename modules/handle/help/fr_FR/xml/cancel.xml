@@ -10,12 +10,12 @@
   <param_input>
     <param_input_item>
       <param_name>obj</param_name>
-      <param_description>objet prenant en charge l&apos;annulation, par exemple un objet d&apos;evaluation asynchrone.</param_description>
+      <param_description>objet prenant en charge l&apos;annulation, par exemple un objet d&apos;évaluation asynchrone.</param_description>
     </param_input_item>
   </param_input>
   <description>
     <p>cancel demande l&apos;annulation d&apos;un objet qui prend en charge un travail asynchrone. Le type de l&apos;objet fournit le comportement concret.</p>
-    <p>Si le premier argument n&apos;implemente pas l&apos;annulation, Nelson signale que la fonction n&apos;est pas implementee pour ce type.</p>
+    <p>Si le premier argument n&apos;implémente pas l&apos;annulation, Nelson signale que la fonction n&apos;est pas implémentée pour ce type.</p>
   </description>
   <used_function>
     <used_function_item>cancel</used_function_item>
@@ -23,7 +23,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Annuler une evaluation asynchrone.</example_item_description>
+      <example_item_description>Annuler une évaluation asynchrone.</example_item_description>
       <example_item_data><![CDATA[f = parfeval(@pause, 0, 10);
 cancel(f)]]></example_item_data>
     </example_item>

@@ -64,7 +64,7 @@
     <p>
       <b
       >save</b> sauvegarde les variables de l&apos;espace de travail dans un fichier .nh5 ou .mat.</p>
-    <p>Les objets classdef valeur et les objets handle classdef peuvent etre sauvegardes si leur definition de classe est disponible dans le chemin lors du chargement du fichier.</p>
+    <p>Les objets classdef valeur et les objets handle classdef peuvent être sauvegardés si leur définition de classe est disponible dans le chemin lors du chargement du fichier.</p>
     <p><b>save(filename, '-struct', s, champ1, ..., champN)</b> sauvegarde les champs de la variable structure scalaire <b>s</b> comme des variables séparées ; sans noms de champs, tous les champs sont sauvegardés. Avec <b>-struct</b>, les noms donnés sont des noms de champs.</p>
   </description>
   <examples>

@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>transformPointsInverse</keyword>
-  <short_description>Applique une transformation geometrique inverse a des points.</short_description>
+  <short_description>Applique une transformation géométrique inverse a des points.</short_description>
   <syntax>
     <syntax_item>[u, v] = transformPointsInverse(tform, x, y)</syntax_item>
     <syntax_item>U = transformPointsInverse(tform, X)</syntax_item>
@@ -12,30 +12,30 @@
   <param_input>
     <param_input_item>
       <param_name>tform</param_name>
-      <param_description>Structure de transformation geometrique creee par affine2d, affine3d ou projective2d.</param_description>
+      <param_description>Structure de transformation géométrique créée par affine2d, affine3d ou projective2d.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>x, y, z</param_name>
-      <param_description>Tableaux de coordonnees de meme taille. Fournir x et y pour une transformation 2-D, ou x, y et z pour une transformation 3-D.</param_description>
+      <param_description>Tableaux de coordonnées de même taille. Fournir x et y pour une transformation 2-D, ou x, y et z pour une transformation 3-D.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>X</param_name>
-      <param_description>Matrice de points compactee avec une colonne par dimension : N-by-2 en 2-D, N-by-3 en 3-D.</param_description>
+      <param_description>Matrice de points compactée avec une colonne par dimension : N-by-2 en 2-D, N-by-3 en 3-D.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>u, v, w</param_name>
-      <param_description>Tableaux de coordonnees transformees, de meme taille que les entrees correspondantes.</param_description>
+      <param_description>Tableaux de coordonnées transformées, de même taille que les entrées correspondantes.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>U</param_name>
-      <param_description>Matrice compactee des points transformes, de meme taille que X.</param_description>
+      <param_description>Matrice compactée des points transformés, de même taille que X.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>Applique l'inverse de la transformation geometrique contenue dans <b>tform</b> a un ensemble de points, selon la convention vecteur ligne <b>[u ... 1] = [x ... 1] * inv(tform.T)</b>. Pour une transformation projective, le resultat est normalise par sa coordonnee homogene.</p>
-    <p>Les points peuvent etre fournis soit comme des tableaux de coordonnees distincts de meme taille, soit comme une seule matrice compactee avec une colonne par dimension. C'est l'operation inverse de <b>transformPointsForward</b>.</p>
+    <p>Applique l'inverse de la transformation géométrique contenue dans <b>tform</b> a un ensemble de points, selon la convention vecteur ligne <b>[u ... 1] = [x ... 1] * inv(tform.T)</b>. Pour une transformation projective, le résultat est normalisé par sa coordonnée homogène.</p>
+    <p>Les points peuvent être fournis soit comme des tableaux de coordonnées distincts de même taille, soit comme une seule matrice compactée avec une colonne par dimension. C'est l'opération inverse de <b>transformPointsForward</b>.</p>
   </description>
   <used_function />
   <bibliography />

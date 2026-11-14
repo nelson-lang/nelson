@@ -11,15 +11,15 @@
   <param_input>
     <param_input_item>
       <param_name>I</param_name>
-      <param_description>Image 2-D reelle finie.</param_description>
+      <param_description>Image 2-D réelle finie.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>BW</param_name>
-      <param_description>Masque binaire de marqueurs de meme taille que I.</param_description>
+      <param_description>Masque binaire de marqueurs de même taille que I.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>conn</param_name>
-      <param_description>Connectivite, soit 4, 8, ou une matrice 3-by-3 equivalente.</param_description>
+      <param_description>Connectivité, soit 4, 8, ou une matrice 3-by-3 équivalente.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -29,7 +29,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>imimposemin modifie une image pour que les pixels marqueurs deviennent les minima les plus bas. Cette operation est utile avant watershed quand des marqueurs connus doivent initialiser les bassins.</p>
+    <p>imimposemin modifie une image pour que les pixels marqueurs deviennent les minima les plus bas. Cette opération est utile avant watershed quand des marqueurs connus doivent initialiser les bassins.</p>
   </description>
   <used_function />
   <bibliography />

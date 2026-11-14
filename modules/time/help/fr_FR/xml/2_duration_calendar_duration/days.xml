@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>days</keyword>
-  <short_description>Cree des durees depuis des jours ou convertit des durees en jours.</short_description>
+  <short_description>Crée des durées depuis des jours ou convertit des durées en jours.</short_description>
   <syntax>
     <syntax_item>d = days(x)</syntax_item>
     <syntax_item>x = days(d)</syntax_item>
@@ -11,18 +11,18 @@
   <param_input>
     <param_input_item>
       <param_name>inputs</param_name>
-      <param_description>Nombres de jours numeriques ou tableaux duration.</param_description>
+      <param_description>Nombres de jours numériques ou tableaux duration.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>output</param_name>
-      <param_description>Un tableau duration pour une entree numerique, ou des nombres de jours double pour une entree duration.</param_description>
+      <param_description>Un tableau duration pour une entrée numérique, ou des nombres de jours double pour une entrée duration.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>Cree des durees depuis des jours ou convertit des durees en jours.</p>
-    <p>days represente des periodes ecoulees de 24 heures. Pour une arithmetique calendaire en calendarDuration, utilisez caldays.</p>
+    <p>Crée des durées depuis des jours ou convertit des durées en jours.</p>
+    <p>days représente des périodes écoulées de 24 heures. Pour une arithmétique calendaire en calendarDuration, utilisez caldays.</p>
     <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
   </description>
   <used_function />

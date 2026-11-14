@@ -11,8 +11,8 @@
     <syntax_item>m = nanmean(X, 'all')</syntax_item>
   </syntax>
   <description>
-    <p><b>nanmean</b> calcule la moyenne apres suppression des valeurs <b>NaN</b> dans chaque tranche traitee.</p>
-    <p>La dimension par defaut est la premiere dimension non singleton.</p>
+    <p><b>nanmean</b> calcule la moyenne après suppression des valeurs <b>NaN</b> dans chaque tranche traitée.</p>
+    <p>La dimension par défaut est la première dimension non singleton.</p>
   </description>
   <examples>
     <example_item>

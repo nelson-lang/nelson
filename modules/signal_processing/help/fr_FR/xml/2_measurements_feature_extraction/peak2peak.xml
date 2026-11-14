@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>peak2peak</keyword>
-  <short_description>Ecart entre maximum et minimum.</short_description>
+  <short_description>Écart entre maximum et minimum.</short_description>
   <syntax>
     <syntax_item>Y = peak2peak(X)</syntax_item>
     <syntax_item>Y = peak2peak(X, "all")</syntax_item>
@@ -13,15 +13,15 @@
   <param_input>
     <param_input_item>
       <param_name>X</param_name>
-      <param_description>donnees d'entree.</param_description>
+      <param_description>données d'entrée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>DIM</param_name>
-      <param_description>dimension sur laquelle calculer l'ecart.</param_description>
+      <param_description>dimension sur laquelle calculer l'écart.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>VECDIM</param_name>
-      <param_description>vecteur de dimensions sur lesquelles calculer l'ecart.</param_description>
+      <param_description>vecteur de dimensions sur lesquelles calculer l'écart.</param_description>
     </param_input_item>
   </param_input>
   <param_output>

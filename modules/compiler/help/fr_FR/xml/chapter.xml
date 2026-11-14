@@ -5,7 +5,7 @@
   <module_name>compiler</module_name>
   <chapter>Construction d'applications autonomes</chapter>
   <chapter_description>
-    <p>Le module optionnel compiler analyse les dependances et construit des applications natives a partir de fichiers .m.</p>
-    <p>Utiliser ncc pour charger le module a la demande. compiler.build fournit les constructions autonomes avec ou sans console, des options partagees et des resultats en lecture seule avec tables de dependances runtime. Les interfaces nelson.compiler conservent le mode de runtime adjacent. Les tutoriels couvrent plusieurs fonctions, les donnees embarquees et les deux interfaces de construction.</p>
+    <p>Le module optionnel compiler analyse les dépendances et construit des applications natives à partir de fichiers .m.</p>
+    <p>Utiliser ncc pour charger le module à la demande. compiler.build fournit les constructions autonomes avec ou sans console, des options partagées et des résultats en lecture seule avec tables de dépendances runtime. Les interfaces nelson.compiler conservent le mode de runtime adjacent. Les tutoriels couvrent plusieurs fonctions, les données embarquées et les deux interfaces de construction.</p>
   </chapter_description>
 </xmldoc>

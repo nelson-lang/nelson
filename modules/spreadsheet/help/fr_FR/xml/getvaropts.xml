@@ -3,28 +3,28 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>getvaropts</keyword>
-  <short_description>Obtenir les options d&apos;importation des variables selectionnees.</short_description>
+  <short_description>Obtenir les options d&apos;importation des variables sélectionnées.</short_description>
   <syntax>
     <syntax_item>value = getvaropts(opts, selection)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>opts</param_name>
-      <param_description>un objet d&apos;options d&apos;importation (texte delimite ou feuille de calcul).</param_description>
+      <param_description>un objet d&apos;options d&apos;importation (texte délimite ou feuille de calcul).</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>selection</param_name>
-      <param_description>noms de variables (chaine de caracteres, tableau de chaines ou cellule) ou indices numeriques.</param_description>
+      <param_description>noms de variables (chaîne de caractères, tableau de chaînes ou cellule) ou indices numériques.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>value</param_name>
-      <param_description>un tableau de structures contenant les options par variable des variables selectionnees.</param_description>
+      <param_description>un tableau de structures contenant les options par variable des variables sélectionnées.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>getvaropts</b> retourne les options d&apos;importation par variable des variables selectionnees d&apos;un objet d&apos;options d&apos;importation.</p>
+    <p><b>getvaropts</b> retourne les options d&apos;importation par variable des variables sélectionnées d&apos;un objet d&apos;options d&apos;importation.</p>
   </description>
   <used_function />
   <bibliography />

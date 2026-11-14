@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>milliseconds</keyword>
-  <short_description>Cree des durees depuis des millisecondes ou convertit des durees en millisecondes.</short_description>
+  <short_description>Crée des durées depuis des millisecondes ou convertit des durées en millisecondes.</short_description>
   <syntax>
     <syntax_item>d = milliseconds(x)</syntax_item>
     <syntax_item>x = milliseconds(d)</syntax_item>
@@ -11,18 +11,18 @@
   <param_input>
     <param_input_item>
       <param_name>inputs</param_name>
-      <param_description>Nombres de millisecondes numeriques ou tableaux duration.</param_description>
+      <param_description>Nombres de millisecondes numériques ou tableaux duration.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>output</param_name>
-      <param_description>Un tableau duration pour une entree numerique, ou des nombres de millisecondes double pour une entree duration.</param_description>
+      <param_description>Un tableau duration pour une entrée numérique, ou des nombres de millisecondes double pour une entrée duration.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>Cree des durees depuis des millisecondes ou convertit des durees en millisecondes.</p>
-    <p>Une entree numerique est divisee par 1000 avant stockage en secondes ecoulees. Une entree duration est multipliee par 1000.</p>
+    <p>Crée des durées depuis des millisecondes ou convertit des durées en millisecondes.</p>
+    <p>Une entrée numérique est divisée par 1000 avant stockage en secondes écoulées. Une entrée duration est multipliée par 1000.</p>
     <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
   </description>
   <used_function />

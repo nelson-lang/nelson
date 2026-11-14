@@ -13,7 +13,7 @@
   </syntax>
   <description>
     <p><b>streamribbon</b> affiche des chemins de courant 3-D sous forme de surfaces ruban.</p>
-    <p><b>streamribbon(vertices, twistangle)</b> utilise des sommets de lignes de courant pre-calcules et un tableau de cellules d'angles de torsion. Les handles retournes sont des objets surface.</p>
+    <p><b>streamribbon(vertices, twistangle)</b> utilise des sommets de lignes de courant pre-calculés et un tableau de cellules d'angles de torsion. Les handles retournés sont des objets surface.</p>
   </description>
   <examples>
     <example_item>

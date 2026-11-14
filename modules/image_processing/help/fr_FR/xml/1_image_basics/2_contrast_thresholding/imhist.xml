@@ -12,7 +12,7 @@
   <param_input>
     <param_input_item>
       <param_name>I</param_name>
-      <param_description>Image d'entree d'intensite ou logique.</param_description>
+      <param_description>Image d'entrée d'intensité ou logique.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>n</param_name>
@@ -26,11 +26,11 @@
     </param_output_item>
     <param_output_item>
       <param_name>binLocations</param_name>
-      <param_description>Emplacements des bins dans l'echelle native de l'image.</param_description>
+      <param_description>Emplacements des bins dans l'échelle native de l'image.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>Calcule les effectifs de l histogramme d image. Les emplacements de bins utilisent l echelle native des images entieres et l intervalle [0, 1] pour les images flottantes et logiques.</p>
+    <p>Calcule les effectifs de l histogramme d image. Les emplacements de bins utilisent l échelle native des images entières et l intervalle [0, 1] pour les images flottantes et logiques.</p>
   </description>
   <used_function />
   <bibliography />

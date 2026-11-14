@@ -14,19 +14,19 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>nelson.lang.HandlePlaceholder</b> est une classe handle concrete utilisee quand une API doit retourner un handle mais qu&apos;aucune cible vivante n&apos;est disponible.</p>
-    <p>Un objet placeholder cree par le constructeur est un handle valide normal jusqu&apos;a sa suppression.</p>
-    <p>Une reference faible sans cible affectee retourne un handle invalide dont la classe est <b>nelson.lang.HandlePlaceholder</b>.</p>
-    <p>La classe ne definit pas de proprietes ni de methodes utilisateur au-dela des operations communes aux handles.</p>
+    <p><b>nelson.lang.HandlePlaceholder</b> est une classe handle concrete utilisée quand une API doit retourner un handle mais qu&apos;aucune cible vivante n&apos;est disponible.</p>
+    <p>Un objet placeholder créé par le constructeur est un handle valide normal jusqu&apos;a sa suppression.</p>
+    <p>Une référence faible sans cible affectée retourne un handle invalide dont la classe est <b>nelson.lang.HandlePlaceholder</b>.</p>
+    <p>La classe ne définit pas de propriétés ni de méthodes utilisateur au-dela des opérations communes aux handles.</p>
     <p>Utiliser cette classe comme classe handle neutre quand la classe de la cible originale est inconnue ou sans importance.</p>
-    <p>Un objet placeholder construit et un handle placeholder invalide sont deux valeurs differentes. L&apos;objet construit est valide jusqu&apos;a sa suppression; un handle placeholder invalide n&apos;est jamais valide.</p>
-    <p>Les handles placeholder peuvent etre verifies avec <b>isvalid</b>, compares par nom de classe avec <b>class</b>, et utilises partout ou un placeholder handle generique est approprie.</p>
-    <p>La classe est volontairement vide. Ce n&apos;est pas un conteneur de donnees utilisateur.</p>
+    <p>Un objet placeholder construit et un handle placeholder invalide sont deux valeurs différentes. L&apos;objet construit est validé jusqu&apos;a sa suppression; un handle placeholder invalide n&apos;est jamais validé.</p>
+    <p>Les handles placeholder peuvent être vérifiés avec <b>isvalid</b>, comparés par nom de classe avec <b>class</b>, et utilisés partout où un placeholder handle générique est approprié.</p>
+    <p>La classe est volontairement vide. Ce n&apos;est pas un conteneur de données utilisateur.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Creer et supprimer un handle placeholder.</example_item_description>
+      <example_item_description>Créer et supprimer un handle placeholder.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[p = nelson.lang.HandlePlaceholder();
 class(p)
 isvalid(p)
@@ -35,7 +35,7 @@ isvalid(p)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Examiner le handle retourne par defaut par une reference faible vide.</example_item_description>
+      <example_item_description>Examiner le handle retourné par défaut par une référence faible vide.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[w = nelson.lang.WeakReference();
 h = w.Handle;
 class(h)

@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>fitlm</keyword>
-  <short_description>Ajuste un modele de regression lineaire.</short_description>
+  <short_description>Ajuste un modèle de régression linéaire.</short_description>
   <syntax>
     <syntax_item>mdl = fitlm(X, y)</syntax_item>
     <syntax_item>mdl = fitlm(X, y, modelspec)</syntax_item>
@@ -11,8 +11,8 @@
     <syntax_item>yfit = predict(mdl, Xnew)</syntax_item>
   </syntax>
   <description>
-    <p><b>fitlm</b> cree un objet <b>LinearModel</b> a partir de predicteurs numeriques <b>X</b> et d'une reponse <b>y</b>.</p>
-    <p>Les specifications de modele prises en charge incluent <b>constant</b>, <b>linear</b>, <b>interactions</b>, <b>quadratic</b>, <b>purequadratic</b> et les matrices numeriques de termes. Les arguments nom-valeur incluent <b>Intercept</b>, <b>PredictorNames</b> et <b>ResponseName</b>.</p>
+    <p><b>fitlm</b> crée un objet <b>LinearModel</b> à partir de prédicteurs numériques <b>X</b> et d'une réponse <b>y</b>.</p>
+    <p>Les specifications de modèle prises en charge incluent <b>constant</b>, <b>linear</b>, <b>interactions</b>, <b>quadratic</b>, <b>purequadratic</b> et les matrices numériques de termes. Les arguments nom-valeur incluent <b>Intercept</b>, <b>PredictorNames</b> et <b>ResponseName</b>.</p>
   </description>
   <examples>
     <example_item>

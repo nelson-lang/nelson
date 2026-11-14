@@ -10,31 +10,31 @@
   <param_input>
     <param_input_item>
       <param_name>X</param_name>
-      <param_description>un tableau numerique ou logique.</param_description>
+      <param_description>un tableau numérique ou logique.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>lowerBound</param_name>
-      <param_description>un scalaire numerique : borne inferieure de l'intervalle.</param_description>
+      <param_description>un scalaire numérique : borne inférieure de l'intervalle.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>upperBound</param_name>
-      <param_description>un scalaire numerique : borne superieure de l'intervalle.</param_description>
+      <param_description>un scalaire numérique : borne supérieure de l'intervalle.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>Y</param_name>
-      <param_description>le tableau limite, de meme taille que X.</param_description>
+      <param_description>le tableau limite, de même taille que X.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p><b>clip</b> limite les valeurs de <b>X</b> a l'intervalle
     <b>[lowerBound, upperBound]</b>.</p>
-    <p>Les valeurs inferieures a <b>lowerBound</b> sont fixees a
-    <b>lowerBound</b> et les valeurs superieures a <b>upperBound</b> sont
-    fixees a <b>upperBound</b>.</p>
-    <p>Les valeurs <b>NaN</b> d'une entree en virgule flottante sont
-    preservees.</p>
+    <p>Les valeurs inférieures à <b>lowerBound</b> sont fixées a
+    <b>lowerBound</b> et les valeurs supérieures à <b>upperBound</b> sont
+    fixées a <b>upperBound</b>.</p>
+    <p>Les valeurs <b>NaN</b> d'une entrée en virgule flottante sont
+    préservées.</p>
   </description>
   <used_function />
   <bibliography />

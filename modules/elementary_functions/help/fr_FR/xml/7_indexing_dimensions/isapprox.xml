@@ -43,7 +43,7 @@
   </param_output>
   <description>
     <p><b
-      >TF = isapprox(A, B)</b> compare A et B élément par élément et retourne un tableau logique dont la taille est donnée par l'expansion implicite de A et B.</p>
+      >TF = isapprox(A, B)</b> compare À et B élément par élément et retourne un tableau logique dont la taille est donnée par l'expansion implicite de A et B.</p>
     <p
     >Deux valeurs finies a et b sont approximativement égales si abs(a - b) &lt;= max(absTol, relTol * max(abs(a), abs(b))). Pour des valeurs complexes, abs est le module.</p>
     <p

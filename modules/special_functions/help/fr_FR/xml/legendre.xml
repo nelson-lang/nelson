@@ -31,7 +31,7 @@
   <description>
     <p><b>P = legendre(n, X)</b> évalue les fonctions de Legendre associées <b>P(n, m, x)</b> de degré <b>n</b> et d'ordres <b>m = 0, 1, ..., n</b>, avec le facteur <b>(-1)^m</b>. La ligne <b>m + 1</b> de <b>P</b> contient l'ordre <b>m</b>.</p>
     <p>Pour un vecteur <b>X</b>, <b>P</b> est de taille <b>(n + 1)</b> x <b>numel(X)</b>. Pour un tableau, <b>P</b> est de taille <b>[n + 1, size(X)]</b>.</p>
-    <p><b>'sch'</b> multiplie par <b>(-1)^m * sqrt(2 * (n - m)! / (n + m)!)</b> pour <b>m &gt; 0</b>, et <b>'norm'</b> par <b>(-1)^m * sqrt((n + 1/2) * (n - m)! / (n + m)!)</b>.</p>
+    <p><b>'sch'</b> multiplié par <b>(-1)^m * sqrt(2 * (n - m)! / (n + m)!)</b> pour <b>m &gt; 0</b>, et <b>'norm'</b> par <b>(-1)^m * sqrt((n + 1/2) * (n - m)! / (n + m)!)</b>.</p>
     <p>Les valeurs sont calculées avec une récurrence normalisée qui ne déborde pas pour les grands <b>n</b>.</p>
   </description>
   <used_function />

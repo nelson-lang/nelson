@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>fspecial</keyword>
-  <short_description>Cree des filtres image 2D predefinis.</short_description>
+  <short_description>Crée des filtres image 2D prédéfinis.</short_description>
   <syntax>
     <syntax_item>H = fspecial(type)</syntax_item>
     <syntax_item>H = fspecial('average', hsize)</syntax_item>
@@ -17,15 +17,15 @@
     </param_input_item>
     <param_input_item>
       <param_name>hsize</param_name>
-      <param_description>Taille du filtre pour 'average', 'gaussian' et 'log'. Elle peut etre un scalaire ou un vecteur a deux elements entiers positifs.</param_description>
+      <param_description>Taille du filtre pour 'average', 'gaussian' et 'log'. Elle peut être un scalaire ou un vecteur à deux éléments entiers positifs.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>radius</param_name>
-      <param_description>Rayon non negatif du disque utilise avec le type 'disk'.</param_description>
+      <param_description>Rayon non négatif du disque utilisé avec le type 'disk'.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>sigma</param_name>
-      <param_description>Ecart type positif utilise avec le type 'gaussian' ou 'log'.</param_description>
+      <param_description>Écart type positif utilisé avec le type 'gaussian' ou 'log'.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>alpha</param_name>
@@ -35,18 +35,18 @@
   <param_output>
     <param_output_item>
       <param_name>H</param_name>
-      <param_description>Noyau de filtre 2D predefini renvoye sous forme de matrice double.</param_description>
+      <param_description>Noyau de filtre 2D prédéfini renvoye sous forme de matrice double.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>Cree des filtres image 2D predefinis. Les types pris en charge incluent average, disk, gaussian, sobel, prewitt, laplacian et log.</p>
+    <p>Crée des filtres image 2D prédéfinis. Les types pris en charge incluent average, disk, gaussian, sobel, prewitt, laplacian et log.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Creer et afficher un filtre gaussien</example_item_description>
+      <example_item_description>Créer et afficher un filtre gaussien</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[H=fspecial('gaussian',[21 21],3);

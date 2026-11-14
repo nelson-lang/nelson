@@ -3,28 +3,28 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>tpdf</keyword>
-  <short_description>Densite de probabilite de Student t</short_description>
+  <short_description>Densité de probabilité de Student t</short_description>
   <syntax>
     <syntax_item>y = tpdf(x, v)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>x</param_name>
-      <param_description>tableau numerique reel : valeurs ou la distribution est evaluee.</param_description>
+      <param_description>tableau numérique réel : valeurs ou la distribution est évaluée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>v</param_name>
-      <param_description>tableau numerique reel positif ou scalaire : degres de liberte.</param_description>
+      <param_description>tableau numérique réel positif ou scalaire : degrés de liberté.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>y</param_name>
-      <param_description>valeurs de densite de probabilite.</param_description>
+      <param_description>valeurs de densité de probabilité.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>tpdf</b> calcule les valeurs de densite de probabilite de Student t. Les entrees scalaires sont etendues a la taille des tableaux.</p>
+    <p><b>tpdf</b> calcule les valeurs de densité de probabilité de Student t. Les entrées scalaires sont étendues a la taille des tableaux.</p>
   </description>
   <examples>
     <example_item>

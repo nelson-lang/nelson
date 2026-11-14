@@ -19,7 +19,7 @@
     <param_input_item>
       <param_name>maketype</param_name>
       <param_description
-      >a string: &apos;executable&apos; or &apos;dynamic_library&apos;.</param_description>
+      >a string: &apos;exécutable&apos; or &apos;dynamic_library&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>destinationdir</param_name>

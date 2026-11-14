@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>annotation</keyword>
-  <short_description>Creer des annotations de figure.</short_description>
+  <short_description>Créer des annotations de figure.</short_description>
   <syntax>
     <syntax_item>annotation(lineType, x, y)</syntax_item>
     <syntax_item>annotation(lineType)</syntax_item>
@@ -24,11 +24,11 @@
     </param_input_item>
     <param_input_item>
       <param_name>x, y</param_name>
-      <param_description>Vecteurs a deux elements qui definissent les coordonnees de debut et de fin.</param_description>
+      <param_description>Vecteurs à deux éléments qui définissent les coordonnées de début et de fin.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>dim</param_name>
-      <param_description>Vecteur a quatre elements [x y w h].</param_description>
+      <param_description>Vecteur à quatre éléments [x y w h].</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>fig</param_name>
@@ -42,10 +42,10 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>annotation</b> cree des annotations dans les coordonnees de la figure. Les unites par defaut sont normalisees.</p>
-    <p>Les unites prises en charge sont &apos;normalized&apos;, &apos;inches&apos;, &apos;centimeters&apos;, &apos;characters&apos;, &apos;points&apos; et &apos;pixels&apos;.</p>
+    <p><b>annotation</b> crée des annotations dans les coordonnées de la figure. Les unités par défaut sont normalisées.</p>
+    <p>Les unités prises en charge sont &apos;normalized&apos;, &apos;inches&apos;, &apos;centimeters&apos;, &apos;characters&apos;, &apos;points&apos; et &apos;pixels&apos;.</p>
     <p>Les rectangles et ellipses prennent en charge Position, Rotation, Units, Color, FaceColor, LineStyle et LineWidth. Rectangle prend aussi en charge FaceAlpha.</p>
-    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.annotation.properties">proprietes de annotation</link> pour la liste complete des proprietes.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.annotation.properties">proprietes de annotation</link> pour la liste complète des propriétés.</p>
   </description>
   <examples>
     <example_item>

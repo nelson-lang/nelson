@@ -5,12 +5,12 @@
   <keyword>ctfroot</keyword>
   <short_description>Racine de l'archive applicative extraite.</short_description>
   <syntax><syntax_item>directory = ctfroot()</syntax_item></syntax>
-  <param_output><param_output_item><param_name>directory</param_name><param_description>Chemin absolu, vecteur de caracteres.</param_description></param_output_item></param_output>
+  <param_output><param_output_item><param_name>directory</param_name><param_description>Chemin absolu, vecteur de caractères.</param_description></param_output_item></param_output>
   <description>
-    <p><b>ctfroot</b> retourne le dossier temporaire prive dans lequel le lanceur a extrait l'archive applicative. Le resultat reste disponible dans les callbacks graphiques et ne depend pas d'une variable d'environnement modifiable.</p>
-    <p>La fonction produit une erreur hors deploiement. Utiliser <b>isdeployed</b> pour choisir entre les chemins de developpement et ceux de l'application. Le module compiler n'est pas requis a l'execution.</p>
-    <p>Le format actuel conserve les fichiers applicatifs sous <b>roots/N</b>, suivant les racines de recherche du manifeste. Aucun dossier base sur le nom de l'executable n'est ajoute. Pour une ressource situee a cote d'une fonction, preferer <b>fullfile(fileparts(mfilename('fullpath')), 'data.txt')</b>. Inclure explicitement les ressources calculees avec <b>-a</b>.</p>
-    <p>Ce dossier est supprime apres l'arret normal de l'application. Ne pas l'utiliser pour des resultats persistants.</p>
+    <p><b>ctfroot</b> retourne le dossier temporaire privé dans lequel le lanceur a extrait l'archive applicative. Le résultat reste disponible dans les callbacks graphiques et ne dépend pas d'une variable d'environnement modifiable.</p>
+    <p>La fonction produit une erreur hors déploiement. Utiliser <b>isdeployed</b> pour choisir entre les chemins de développement et ceux de l'application. Le module compiler n'est pas requis à l'exécution.</p>
+    <p>Le format actuel conserve les fichiers applicatifs sous <b>roots/N</b>, suivant les racines de recherche du manifeste. Aucun dossier base sur le nom de l'exécutable n'est ajouté. Pour une ressource située à cote d'une fonction, preferer <b>fullfile(fileparts(mfilename('fullpath')), 'data.txt')</b>. Inclure explicitement les ressources calculées avec <b>-a</b>.</p>
+    <p>Ce dossier est supprimé après l'arrêt normal de l'application. Ne pas l'utiliser pour des résultats persistants.</p>
   </description>
   <used_function>isdeployed</used_function>
   <bibliography />

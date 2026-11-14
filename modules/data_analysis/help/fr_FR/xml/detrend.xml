@@ -13,31 +13,31 @@
   <param_input>
     <param_input_item>
       <param_name>x</param_name>
-      <param_description>un vecteur ou une matrice reelle. Pour une matrice, chaque colonne est traitee independamment.</param_description>
+      <param_description>un vecteur ou une matrice réelle. Pour une matrice, chaque colonne est traitée indépendamment.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>n</param_name>
-      <param_description>ordre de la tendance : 0 retire la moyenne, 1 (defaut) retire la droite de meilleur ajustement.</param_description>
+      <param_description>ordre de la tendance : 0 retire la moyenne, 1 (défaut) retire la droite de meilleur ajustement.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>method</param_name>
-      <param_description>'constant' (equivalent a 0) ou 'linear' (equivalent a 1).</param_description>
+      <param_description>'constant' (équivalent à 0) ou 'linear' (équivalent à 1).</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>bp</param_name>
-      <param_description>points de rupture donnes comme indices de lignes, produisant une tendance lineaire par morceaux continue.</param_description>
+      <param_description>points de rupture donnés comme indices de lignes, produisant une tendance linéaire par morceaux continue.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>y</param_name>
-      <param_description>les donnees privees de la tendance, de meme taille et classe que <b>x</b>.</param_description>
+      <param_description>les données privées de la tendance, de même taille et classe que <b>x</b>.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>detrend</b> retire une tendance polynomiale de faible degre par un ajustement aux moindres carres et retourne le residu.</p>
-    <p>Par defaut la fonction retire une tendance lineaire. Avec <b>n</b> egal a 0 (ou la methode <b>'constant'</b>) elle retire seulement la moyenne. Les points de rupture produisent une tendance lineaire par morceaux continue aux indices de lignes donnes.</p>
-    <p>Une entree vecteur ligne retourne un vecteur ligne ; une entree vecteur colonne retourne un vecteur colonne.</p>
+    <p><b>detrend</b> retire une tendance polynomiale de faible degré par un ajustement aux moindres carrés et retourne le résidu.</p>
+    <p>Par défaut la fonction retire une tendance linéaire. Avec <b>n</b> égal à 0 (ou la méthode <b>'constant'</b>) elle retire seulement la moyenne. Les points de rupture produisent une tendance linéaire par morceaux continue aux indices de lignes donnés.</p>
+    <p>Une entrée vecteur ligne retourne un vecteur ligne ; une entrée vecteur colonne retourne un vecteur colonne.</p>
   </description>
   <used_function />
   <bibliography />

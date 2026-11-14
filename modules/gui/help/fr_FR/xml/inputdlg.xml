@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>inputdlg</keyword>
-  <short_description>Ouvre une boite de dialogue de saisie.</short_description>
+  <short_description>Ouvre une boîte de dialogue de saisie.</short_description>
   <syntax>
     <syntax_item>answer = inputdlg(prompt)</syntax_item>
     <syntax_item>answer = inputdlg(prompt, title)</syntax_item>
@@ -31,7 +31,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Apercu d une boite de saisie.</example_item_description>
+      <example_item_description>Aperçu d une boîte de saisie.</example_item_description>
       <example_item_data><![CDATA[f = dialog('Name', 'Input', 'WindowStyle', 'normal', 'Position', [100 100 360 190]);
 uicontrol(f, 'Style', 'text', 'String', 'Name:', 'Position', [30 124 90 22]);
 uicontrol(f, 'Style', 'edit', 'String', 'guest', 'Position', [130 126 190 24]);
@@ -65,7 +65,7 @@ if ~isempty(answer), disp(answer{1}); end]]></example_item_data>
   <history>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>version aide API dialogue mise a jour.</history_description>
+      <history_description>version aide API dialogue mise à jour.</history_description>
     </history_item>
   </history>
   <authors>

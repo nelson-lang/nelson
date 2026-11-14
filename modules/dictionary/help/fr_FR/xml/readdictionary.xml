@@ -24,32 +24,32 @@
     <p>
       <b>d = readdictionary(filename)</b> lit un objet JSON depuis <b>filename</b> et retourne un dictionnaire.</p>
     <p>
-      Les noms des membres de l&apos;objet JSON deviennent des cles string du dictionnaire. Les valeurs sont converties en valeurs Nelson. Les tableaux JSON sont decodes comme cellules colonnes. Si les valeurs JSON ont des types differents ou des tailles non scalaires, le type des valeurs du dictionnaire est <code>cell</code>.</p>
+      Les noms des membres de l&apos;objet JSON deviennent des clés string du dictionnaire. Les valeurs sont converties en valeurs Nelson. Les tableaux JSON sont décodés comme cellules colonnes. Si les valeurs JSON ont des types différents ou des tailles non scalaires, le type des valeurs du dictionnaire est <code>cell</code>.</p>
     <p>
-      <b>d = readdictionary(filename, Name, Value)</b> personnalise la lecture. Les options supportees sont :</p>
+      <b>d = readdictionary(filename, Name, Value)</b> personnalise la lecture. Les options supportées sont :</p>
     <ul>
       <li>
-        <b>FileType :</b> type de fichier. Les valeurs supportees sont <code>&apos;auto&apos;</code> et <code>&apos;json&apos;</code>. Seuls les fichiers dictionnaire JSON sont actuellement supportes.</li>
+        <b>FileType :</b> type de fichier. Les valeurs supportées sont <code>&apos;auto&apos;</code> et <code>&apos;json&apos;</code>. Seuls les fichiers dictionnaire JSON sont actuellement supportés.</li>
       <li>
-        <b>ValueType :</b> type cible utilise pour convertir les valeurs decodees.</li>
+        <b>ValueType :</b> type cible utilisé pour convertir les valeurs décodées.</li>
       <li>
-        <b>AllowTrailingCommas :</b> scalaire logique. Si vrai, les virgules finales dans les objets JSON sont acceptees. La valeur par defaut est <code>true</code>.</li>
+        <b>AllowTrailingCommas :</b> scalaire logique. Si vrai, les virgules finales dans les objets JSON sont acceptées. La valeur par défaut est <code>true</code>.</li>
       <li>
-        <b>AllowComments :</b> scalaire logique. Si vrai, les commentaires de style JavaScript sont ignores avant l&apos;analyse. La valeur par defaut est <code>true</code>.</li>
+        <b>AllowComments :</b> scalaire logique. Si vrai, les commentaires de style JavaScript sont ignorés avant l&apos;analyse. La valeur par défaut est <code>true</code>.</li>
       <li>
-        <b>AllowInfAndNaN :</b> scalaire logique. Si vrai, les jetons <code>NaN</code>, <code>Infinity</code>, <code>Inf</code>, <code>-Infinity</code> et <code>-Inf</code> sont acceptes. La valeur par defaut est <code>true</code>.</li>
+        <b>AllowInfAndNaN :</b> scalaire logique. Si vrai, les jetons <code>NaN</code>, <code>Infinity</code>, <code>Inf</code>, <code>-Infinity</code> et <code>-Inf</code> sont acceptés. La valeur par défaut est <code>true</code>.</li>
       <li>
-        <b>DateLocale :</b> accepte pour compatibilite.</li>
+        <b>DateLocale :</b> accepte pour compatibilité.</li>
     </ul>
     <p>
-      <b>DictionaryNodeName</b> et <b>DictionarySelector</b> sont acceptes comme noms d&apos;option, mais ils ne sont pas supportes pour les fichiers dictionnaire JSON.</p>
+      <b>DictionaryNodeName</b> et <b>DictionarySelector</b> sont acceptés comme noms d&apos;option, mais ils ne sont pas supportés pour les fichiers dictionnaire JSON.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Lecture d&apos;un dictionnaire ecrit en JSON.</example_item_description>
+      <example_item_description>Lecture d&apos;un dictionnaire écrit en JSON.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[filename = [tempdir(), 'products.json'];

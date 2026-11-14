@@ -11,25 +11,25 @@
   </syntax>
   <description>
     <p>
-      <b>odeJacobian</b> stocke une fonction, une matrice ou un motif de differences finies pour le flux objet EDO.</p>
+      <b>odeJacobian</b> stocke une fonction, une matrice ou un motif de différences finies pour le flux objet EDO.</p>
     <table style="width:100%">
       <tr>
         <th>Objet</th>
-        <th>Role</th>
-        <th>Utilise par</th>
+        <th>Rôle</th>
+        <th>Utilisé par</th>
       </tr>
       <tr>
         <td><b>odeJacobian</b></td>
-        <td>Stocke une definition reutilisable pour le workflow objet <b>ode</b>.</td>
-        <td>La propriete correspondante de <b>ode</b> et <b>solve</b>.</td>
+        <td>Stocke une définition reutilisable pour le workflow objet <b>ode</b>.</td>
+        <td>La propriété correspondante de <b>ode</b> et <b>solve</b>.</td>
       </tr>
       <tr>
         <td>Validation</td>
-        <td>Verifie les noms et formes supportes au moment de la construction.</td>
-        <td>Les tests et erreurs restent explicites avant integration.</td>
+        <td>Vérifie les noms et formes supportés au moment de la construction.</td>
+        <td>Les tests et erreurs restent explicites avant intégration.</td>
       </tr>
     </table>
-    <p>Les proprietes publiques sont <b>Jacobian</b> et <b>SparsityPattern</b>. L'alias compatible <b>Pattern</b> est accepte par le constructeur. L'indication compatible <b>Constant</b> est aussi acceptee et transmise aux options du solveur.</p>
+    <p>Les propriétés publiques sont <b>Jacobian</b> et <b>SparsityPattern</b>. L'alias compatible <b>Pattern</b> est accepté par le constructeur. L'indication compatible <b>Constant</b> est aussi acceptée et transmise aux options du solveur.</p>
   </description>
   <examples>
     <example_item>

@@ -3,8 +3,8 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <module_name>control_system</module_name>
-  <chapter>Conception et reglage de commande</chapter>
+  <chapter>Conception et réglage de commande</chapter>
   <chapter_description>
-    <p>Fonctions pour conception de controleurs, estimateurs et calculs de regulateurs.</p>
+    <p>Fonctions pour conception de contrôleurs, estimateurs et calculs de régulateurs.</p>
   </chapter_description>
 </xmldoc>

@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>uiprogressdlg</keyword>
-  <short_description>Cree une boite de progression UI.</short_description>
+  <short_description>Crée une boîte de progression UI.</short_description>
   <syntax>
     <syntax_item>d = uiprogressdlg(parent)</syntax_item>
     <syntax_item>d = uiprogressdlg(parent, Name, Value)</syntax_item>
@@ -11,29 +11,29 @@
   <param_input>
     <param_input_item>
       <param_name>parent</param_name>
-      <param_description>Handle de figure UI parent, generalement cree avec uifigure.</param_description>
+      <param_description>Handle de figure UI parent, généralement crée avec uifigure.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Name, Value</param_name>
-      <param_description>Paires optionnelles. 'Title' definit le titre, 'Message' definit le texte, 'Value' definit la progression de 0 a 1 et 'Indeterminate' cree une progression indeterminee si la valeur vaut true.</param_description>
+      <param_description>Paires optionnelles. 'Title' définit le titre, 'Message' définit le texte, 'Value' définit la progression de 0 a 1 et 'Indeterminate' crée une progression indéterminée si la valeur vaut true.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>d</param_name>
-      <param_description>Handle de la boite de dialogue.</param_description>
+      <param_description>Handle de la boîte de dialogue.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>uiprogressdlg affiche la progression d'une operation.</p>
-    <p>Dans un bureau web, la boite de dialogue est non bloquante. Utilisez les proprietes windowTitle, labelText, value, minimum, maximum et visible du handle pour la mettre a jour ou la masquer.</p>
+    <p>uiprogressdlg affiche la progression d'une opération.</p>
+    <p>Dans un bureau web, la boîte de dialogue est non bloquante. Utilisez les propriétés windowTitle, labelText, value, minimum, maximum et visible du handle pour la mettre à jour ou la masquer.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Apercu rendu pour l'image d'aide.</example_item_description>
+      <example_item_description>Aperçu rendu pour l'image d'aide.</example_item_description>
       <example_item_data><![CDATA[f = figure('Name', 'Progress preview', 'Position', [100 100 420 260], 'Color', [1 1 1]);
 axis([0 1 0 1]); axis off; hold on;
 patch([0.06 0.94 0.94 0.06], [0.12 0.12 0.88 0.88], [0.97 0.98 0.99], 'EdgeColor', [0.62 0.65 0.68]);
@@ -53,14 +53,14 @@ drawnow();]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Afficher une progression indeterminee.</example_item_description>
+      <example_item_description>Afficher une progression indéterminée.</example_item_description>
       <example_item_data><![CDATA[f = uifigure('Visible', 'off', 'Name', 'Import');
 d = uiprogressdlg(f, 'Title', 'Import', 'Message', 'Reading data', 'Indeterminate', true);
 close(f)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Creer, mettre a jour et supprimer une boite de dialogue de progression.</example_item_description>
+      <example_item_description>Créer, mettre à jour et supprimer une boîte de dialogue de progression.</example_item_description>
       <example_item_data><![CDATA[f = uifigure('Visible', 'off', 'Name', 'Import');
 d = uiprogressdlg(f, 'Title', 'Import', 'Message', 'Reading data', 'Value', 0.25);
 set(d, 'value', 60);
@@ -80,7 +80,7 @@ close(f)]]></example_item_data>
   <history>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>version aide API dialogue mise a jour.</history_description>
+      <history_description>version aide API dialogue mise à jour.</history_description>
     </history_item>
   </history>
   <authors>

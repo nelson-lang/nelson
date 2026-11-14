@@ -3,24 +3,24 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>timeseries.getdatasamplesize</keyword>
-  <short_description>Renvoie la taille d'un echantillon de donnees.</short_description>
+  <short_description>Renvoie la taille d'un échantillon de données.</short_description>
   <syntax>
     <syntax_item>sz = getdatasamplesize(ts)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>ts</param_name>
-      <param_description>Objet timeseries en entree.</param_description>
+      <param_description>Objet timeseries en entrée.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>sz</param_name>
-      <param_description>Taille d'un seul echantillon de donnees.</param_description>
+      <param_description>Taille d'un seul échantillon de données.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>getdatasamplesize</b> Renvoie les dimensions d'un seul echantillon, sans la dimension temporelle.</p>
+    <p><b>getdatasamplesize</b> Renvoie les dimensions d'un seul échantillon, sans la dimension temporelle.</p>
   </description>
   <used_function />
   <bibliography />

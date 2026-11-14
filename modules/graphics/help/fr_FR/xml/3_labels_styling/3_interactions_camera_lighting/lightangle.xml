@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>lightangle</keyword>
-  <short_description>Cree ou positionne une lumiere a partir d'angles.</short_description>
+  <short_description>Crée ou positionne une lumière à partir d'angles.</short_description>
   <syntax>
     <syntax_item>lightangle(az, el)</syntax_item>
     <syntax_item>lightangle(ax, az, el)</syntax_item>
@@ -11,7 +11,7 @@
     <syntax_item>go = lightangle(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>lightangle</b> convertit un azimut et une elevation en position de lumiere.</p>
+    <p><b>lightangle</b> convertit un azimut et une élévation en position de lumière.</p>
   </description>
   <examples>
     <example_item>

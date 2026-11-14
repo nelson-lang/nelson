@@ -23,7 +23,7 @@
       <li>Sélectionnez le <b>Display</b>. Réglez le type de liaison sur <b>Signal</b>, puis choisissez une sortie de bloc et son port en numérotation à partir de un.</li>
       <li>Sélectionnez le <b>Gauge</b>. Liez-le à un signal de la même façon et réglez ses limites.</li>
     </ol>
-    <p>L'état sous le sélecteur de liaison indique si la liaison est valide ou pourquoi elle ne l'est pas. Les liaisons utilisent des identifiants de bloc stables : renommer ou déplacer un bloc ne les casse pas. Voir <b>nflow_dashboard</b> pour toutes les commandes et tous les afficheurs, ainsi que pour les cibles de type signal, paramètre et variable.</p>
+    <p>L'état sous le sélecteur de liaison indique si la liaison est validé ou pourquoi elle ne l'est pas. Les liaisons utilisent des identifiants de bloc stables : renommer ou déplacer un bloc ne les casse pas. Voir <b>nflow_dashboard</b> pour toutes les commandes et tous les afficheurs, ainsi que pour les cibles de type signal, paramètre et variable.</p>
     <p><img src="../../images/nflow_tutorial_dashboard_binding.png" width="280" /></p>
     <p><b>Régler le mode d'exécution</b></p>
     <p>Ne sélectionnez rien pour afficher l'onglet Modèle, puis ouvrez <b>Simulation</b> et réglez <b>Exécution</b>. <b>Temps réel</b> cadence l'exécution sur l'horloge réelle, donc une seconde de temps simulé prend environ une seconde, ce qui est utile pour ajuster les commandes à la main. <b>Rapide</b> exécute aussi vite que la machine le permet. <b>Auto</b> laisse le modèle décider.</p>

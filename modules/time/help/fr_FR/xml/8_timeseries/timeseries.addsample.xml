@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>timeseries.addsample</keyword>
-  <short_description>Ajoute un echantillon a un objet timeseries.</short_description>
+  <short_description>Ajoute un échantillon a un objet timeseries.</short_description>
   <syntax>
     <syntax_item>tsOut = addsample(ts, &apos;Time&apos;, t, &apos;Data&apos;, x)</syntax_item>
     <syntax_item>tsOut = addsample(ts, &apos;Time&apos;, t, &apos;Data&apos;, x, &apos;Quality&apos;, q)</syntax_item>
@@ -11,29 +11,29 @@
   <param_input>
     <param_input_item>
       <param_name>ts</param_name>
-      <param_description>Objet timeseries en entree.</param_description>
+      <param_description>Objet timeseries en entrée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>t</param_name>
-      <param_description>Temps d'echantillon a ajouter.</param_description>
+      <param_description>Temps d'échantillon à ajouter.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>x</param_name>
-      <param_description>Donnees d'echantillon a ajouter.</param_description>
+      <param_description>Données d'échantillon à ajouter.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>q</param_name>
-      <param_description>Valeur de qualite optionnelle.</param_description>
+      <param_description>Valeur de qualité optionnelle.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>tsOut</param_name>
-      <param_description>Objet timeseries en sortie avec l'echantillon ajoute.</param_description>
+      <param_description>Objet timeseries en sortie avec l'échantillon ajouté.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>addsample</b> Ajoute un echantillon avec des paires nom-valeur. L'ordre des echantillons existants est preserve par l'operation d'ajout.</p>
+    <p><b>addsample</b> Ajoute un échantillon avec des paires nom-valeur. L'ordre des échantillons existants est préservé par l'opération d'ajout.</p>
   </description>
   <used_function />
   <bibliography />

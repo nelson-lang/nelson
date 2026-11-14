@@ -14,22 +14,22 @@
   <param_input>
     <param_input_item>
       <param_name>Z</param_name>
-      <param_description>Donnees de hauteur de surface, sous forme d'une matrice numerique reelle avec au moins trois lignes et trois colonnes.</param_description>
+      <param_description>Données de hauteur de surface, sous forme d'une matrice numérique réelle avec au moins trois lignes et trois colonnes.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>X, Y</param_name>
-      <param_description>Matrices de coordonnees de surface de meme taille que Z.</param_description>
+      <param_description>Matrices de coordonnées de surface de même taille que Z.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>Nx, Ny, Nz</param_name>
-      <param_description>Composantes normalisees des vecteurs normaux a la surface.</param_description>
+      <param_description>Composantes normalisées des vecteurs normaux a la surface.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>surfnorm</b> calcule les vecteurs normaux unitaires d'une surface. Sans argument de sortie, elle affiche la surface et trace un segment normal a chaque point de surface.</p>
-    <p>Lorsque seul Z est specifie, les coordonnees x et y correspondent aux indices de colonne et de ligne de Z.</p>
+    <p><b>surfnorm</b> calcule les vecteurs normaux unitaires d'une surface. Sans argument de sortie, elle affiche la surface et trace un segment normal à chaque point de surface.</p>
+    <p>Lorsque seul Z est spécifié, les coordonnées x et y correspondent aux indices de colonne et de ligne de Z.</p>
   </description>
   <examples>
     <example_item>

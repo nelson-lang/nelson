@@ -3,12 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>whitespacePattern</keyword>
-  <short_description>Motif pour les caracteres d'espacement.</short_description>
+  <short_description>Motif pour les caractères d'espacement.</short_description>
   <syntax>
     <syntax_item>R = whitespacePattern(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>whitespacePattern</b> Motif pour les caracteres d'espacement.</p>
+    <p><b>whitespacePattern</b> Motif pour les caractères d'espacement.</p>
   </description>
   <used_function />
   <bibliography />

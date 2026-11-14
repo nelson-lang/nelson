@@ -10,21 +10,21 @@
   </syntax>
   <description>
     <p>
-      <b>nelson.ode.options.IDAS</b> cree un objet d'options pour la valeur de solveur <b>'idas'</b> utilisee par le workflow objet <b>ode</b>.</p>
+      <b>nelson.ode.options.IDAS</b> crée un objet d'options pour la valeur de solveur <b>'idas'</b> utilisée par le workflow objet <b>ode</b>.</p>
     <table style="width:100%">
-  <tr><th>Groupe d'options</th><th>Noms</th><th>Role</th></tr>
-  <tr><td>Pas et tolerances</td><td><b>InitialStep</b>, <b>MaxStep</b>, <b>MinStep</b>, <b>RelTol</b>, <b>AbsTol</b>, <b>MaxOrder</b></td><td>Controle l'integration BDF adaptative pour equations residuelles.</td></tr>
-  <tr><td>Conditions initiales</td><td><b>ComputeConsistentInitialConditions</b></td><td>Demande des <b>y0</b> et <b>yp0</b> coherents pour les problemes totalement implicites.</td></tr>
-  <tr><td>Algebre lineaire</td><td><b>LinearSolver</b>, <b>Preconditioner</b>, <b>Jacobian</b>, <b>JPattern</b></td><td>Donne la structure du systeme residuel et les indications de preconditionnement.</td></tr>
-  <tr><td>Disponibilite</td><td><b>'idas'</b></td><td>Utilise le backend totalement implicite optionnel quand il est compile et active.</td></tr>
+  <tr><th>Groupe d'options</th><th>Noms</th><th>Rôle</th></tr>
+  <tr><td>Pas et tolérances</td><td><b>InitialStep</b>, <b>MaxStep</b>, <b>MinStep</b>, <b>RelTol</b>, <b>AbsTol</b>, <b>MaxOrder</b></td><td>Contrôle l'intégration BDF adaptative pour équations résiduelles.</td></tr>
+  <tr><td>Conditions initiales</td><td><b>ComputeConsistentInitialConditions</b></td><td>Demande des <b>y0</b> et <b>yp0</b> cohérents pour les problèmes totalement implicites.</td></tr>
+  <tr><td>Algèbre linéaire</td><td><b>LinearSolver</b>, <b>Preconditioner</b>, <b>Jacobian</b>, <b>JPattern</b></td><td>Donne la structure du système résiduel et les indications de preconditionnement.</td></tr>
+  <tr><td>Disponibilité</td><td><b>'idas'</b></td><td>Utilise le backend totalement implicite optionnel quand il est compilé et active.</td></tr>
 </table>
-    <p>Cette valeur de solveur est disponible uniquement quand Nelson est construit avec le backend optionnel SUNDIALS. Elle utilise IDAS avec la methode BDF pour les problemes residuels totalement implicites <b>F(t,y,yp)=0</b>.</p>
-    <p>Les options prises en charge incluent <b>InitialStep</b>, <b>MaxStep</b>, <b>MinStep</b>, <b>RelTol</b>, <b>AbsTol</b>, <b>Refine</b>, <b>NormControl</b>, <b>OutputFcn</b>, <b>OutputSelection</b>, <b>Vectorization</b>, <b>MaxOrder</b>, <b>ComputeConsistentInitialConditions</b>, <b>LinearSolver</b> et <b>Preconditioner</b>. <b>OutputFcn</b> est appelee sur les points de sortie retournes par le backend. <b>LinearSolver</b> accepte les valeurs SUNDIALS denses, iteratives et directes creuses optionnelles quand la bibliotheque correspondante est disponible. <b>Preconditioner</b> accepte <b>'auto'</b>, <b>'none'</b>, <b>'jacobi'</b>, <b>'banded'</b> ou <b>'ilu0'</b>. Avec un <b>JPattern</b> creux, <b>'ilu0'</b> construit un preconditionneur LU incomplet creux compact sans workspace dense.</p>
+    <p>Cette valeur de solveur est disponible uniquement quand Nelson est construit avec le backend optionnel SUNDIALS. Elle utilise IDAS avec la méthode BDF pour les problèmes résiduels totalement implicites <b>F(t,y,yp)=0</b>.</p>
+    <p>Les options prises en charge incluent <b>InitialStep</b>, <b>MaxStep</b>, <b>MinStep</b>, <b>RelTol</b>, <b>AbsTol</b>, <b>Refine</b>, <b>NormControl</b>, <b>OutputFcn</b>, <b>OutputSelection</b>, <b>Vectorization</b>, <b>MaxOrder</b>, <b>ComputeConsistentInitialConditions</b>, <b>LinearSolver</b> et <b>Preconditioner</b>. <b>OutputFcn</b> est appelée sur les points de sortie retournés par le backend. <b>LinearSolver</b> accepte les valeurs SUNDIALS denses, iteratives et directes creuses optionnelles quand la bibliothèque correspondante est disponible. <b>Preconditioner</b> accepte <b>'auto'</b>, <b>'none'</b>, <b>'jacobi'</b>, <b>'banded'</b> ou <b>'ilu0'</b>. Avec un <b>JPattern</b> creux, <b>'ilu0'</b> construit un préconditionneur LU incomplet creux compact sans workspace dense.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Creer un probleme residuel IDAS.</example_item_description>
+      <example_item_description>Créer un problème résiduel IDAS.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[options = nelson.ode.options.IDAS();
 problem = ode('EquationType', 'fullyimplicit', ...
   'ODEFcn', @(t,y,yp) yp + y, ...

@@ -5,9 +5,9 @@
   <keyword>Conflits de file de timers</keyword>
   <keyword_alias>gestion des conflits de file de timer</keyword_alias>
   <keyword_alias>busy mode timer</keyword_alias>
-  <short_description>Controler le comportement lorsque des callbacks de timer sont encore en file quand un timer a cadence fixe se declenche a nouveau.</short_description>
+  <short_description>Contrôler le comportement lorsque des callbacks de timer sont encore en file quand un timer a cadence fixe se déclenche à nouveau.</short_description>
   <description>
-    <p>L&apos;execution des callbacks de timer est serialisee par l&apos;evaluateur. Un timer a cadence fixe peut se declencher a nouveau alors qu&apos;un callback <b>TimerFcn</b> precedent est encore en file ou en cours. La propriete <b>BusyMode</b> controle la resolution de ce conflit par Nelson.</p>
+    <p>L&apos;exécution des callbacks de timer est sérialisée par l&apos;évaluateur. Un timer a cadence fixe peut se declencher à nouveau alors qu&apos;un callback <b>TimerFcn</b> précédent est encore en file ou en cours. La propriété <b>BusyMode</b> contrôle la résolution de ce conflit par Nelson.</p>
     <table border="1">
       <tr>
         <th>BusyMode</th>
@@ -15,25 +15,25 @@
       </tr>
       <tr>
         <td>drop</td>
-        <td>Conserve au plus un callback en attente pour le timer. Les declenchements supplementaires sont ignores.</td>
+        <td>Conserve au plus un callback en attente pour le timer. Les déclenchements supplémentaires sont ignorés.</td>
       </tr>
       <tr>
         <td>queue</td>
-        <td>Met chaque declenchement en file. Le timer peut continuer a executer des callbacks apres le passage des heures de declenchement prevues.</td>
+        <td>Met chaque déclenchement en file. Le timer peut continuer à exécuter des callbacks après le passage des heures de déclenchement prévues.</td>
       </tr>
       <tr>
         <td>error</td>
-        <td>Arrete le timer et execute <b>ErrorFcn</b>, puis <b>StopFcn</b> si ces callbacks sont definis.</td>
+        <td>Arrête le timer et exécute <b>ErrorFcn</b>, puis <b>StopFcn</b> si ces callbacks sont définis.</td>
       </tr>
     </table>
-    <p><b>BusyMode</b> s&apos;applique a l&apos;execution <b>fixedRate</b>. Pour <b>fixedDelay</b> et <b>fixedSpacing</b>, le declenchement suivant est planifie apres la fin du callback, donc les callbacks ne s&apos;accumulent pas de la meme maniere.</p>
+    <p><b>BusyMode</b> s&apos;applique à l&apos;exécution <b>fixedRate</b>. Pour <b>fixedDelay</b> et <b>fixedSpacing</b>, le déclenchement suivant est planifie après la fin du callback, donc les callbacks ne s&apos;accumulent pas de la même manière.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Utiliser le mode queue lorsque chaque declenchement planifie doit etre conserve.</example_item_description>
+      <example_item_description>Utiliser le mode queue lorsque chaque déclenchement planifie doit être conservé.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[t = timer('ExecutionMode', 'fixedRate', ...
   'BusyMode', 'queue', ...
   'Period', 0.02, ...
@@ -46,7 +46,7 @@ delete(t);]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Utiliser le mode error pour arreter le timer lorsque la file de callbacks ne suit pas.</example_item_description>
+      <example_item_description>Utiliser le mode error pour arrêter le timer lorsque la file de callbacks ne suit pas.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[t = timer('ExecutionMode', 'fixedRate', ...
   'BusyMode', 'error', ...
   'Period', 0.02, ...

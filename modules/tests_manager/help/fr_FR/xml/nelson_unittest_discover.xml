@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>nelson.unittest.discover</keyword>
-  <short_description>Decouvrir les fichiers de test et retourner une suite structuree.</short_description>
+  <short_description>Découvrir les fichiers de test et retourner une suite structurée.</short_description>
   <syntax>
     <syntax_item>suite = nelson.unittest.discover(targets)</syntax_item>
     <syntax_item>suite = nelson.unittest.discover(targets, Name, Value)</syntax_item>
@@ -16,18 +16,18 @@
     </param_input_item>
     <param_input_item>
       <param_name>Name, Value</param_name>
-      <param_description>option de selection <b>Kind</b>.</param_description>
+      <param_description>option de sélection <b>Kind</b>.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>suite</param_name>
-      <param_description>structure TestSuite contenant les entrees TestCase decouvertes.</param_description>
+      <param_description>structure TestSuite contenant les entrées TestCase découvertes.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p><b>nelson.unittest.discover</b> trouve les fichiers <b>test_*.m</b>, <b>bug_*.m</b> et <b>bench_*.m</b>.</p>
-    <p>La decouverte relit les tags des fichiers a chaque appel et renseigne les champs TestCase stables comme
+    <p>La découverte relit les tags des fichiers à chaque appel et renseigne les champs TestCase stables comme
       id, module, file, name, kind, tags, mode, resources, timeout et weight.</p>
     <p>Pour un module externe, le champ module provient du manifeste module.json et la racine est
       repérée par le fichier etc/startup.m englobant. Les installations versionnées, les dossiers

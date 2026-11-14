@@ -3,12 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>splitlines</keyword>
-  <short_description>Decoupe le texte aux sauts de ligne.</short_description>
+  <short_description>Découpe le texte aux sauts de ligne.</short_description>
   <syntax>
     <syntax_item>R = splitlines(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>splitlines</b> Decoupe le texte aux sauts de ligne.</p>
+    <p><b>splitlines</b> Découpe le texte aux sauts de ligne.</p>
   </description>
   <used_function />
   <bibliography />

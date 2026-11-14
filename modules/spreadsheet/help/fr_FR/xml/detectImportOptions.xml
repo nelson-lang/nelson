@@ -27,7 +27,7 @@
   </param_output>
   <description>
     <p>
-      <b>options = detectImportOptions(filename)</b> identifie une table dans un fichier texte delimite et renvoie un objet <b>nelson.io.text.DelimitedTextImportOptions</b>.</p>
+      <b>options = detectImportOptions(filename)</b> identifie une table dans un fichier texte délimite et renvoie un objet <b>nelson.io.text.DelimitedTextImportOptions</b>.</p>
     <p>Vous pouvez personnaliser cet objet et l&apos;utiliser avec<b>readtable</b>, <b>readcell</b> ou<b>readmatrix</b> pour contrôler la façon dont Nelson importe les données en tant que table, cellule ou matrice.</p>
     <p />
     <p>Propriétés :</p>

@@ -14,23 +14,23 @@
   <param_input>
     <param_input_item>
       <param_name>X</param_name>
-      <param_description>tableau numerique ou logique contenant la premiere coordonnee de chaque paire.</param_description>
+      <param_description>tableau numérique ou logique contenant la première coordonnée de chaque paire.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Y</param_name>
-      <param_description>tableau numerique ou logique contenant la seconde coordonnee de chaque paire. X et Y doivent avoir le meme nombre d&apos;elements.</param_description>
+      <param_description>tableau numérique ou logique contenant la seconde coordonnée de chaque paire. X et Y doivent avoir le même nombre d&apos;éléments.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>nbins</param_name>
-      <param_description>scalaire entier positif, ou vecteur a deux elements [nx ny] donnant le nombre de classes dans chaque dimension.</param_description>
+      <param_description>scalaire entier positif, ou vecteur à deux éléments [nx ny] donnant le nombre de classes dans chaque dimension.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Xedges, Yedges</param_name>
-      <param_description>vecteurs numeriques strictement croissants definissant les bornes des classes selon X et Y.</param_description>
+      <param_description>vecteurs numériques strictement croissants définissant les bornes des classes selon X et Y.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>method</param_name>
-      <param_description>normalisation : 'count' (defaut), 'probability', 'countdensity', 'pdf', 'cumcount' ou 'cdf'.</param_description>
+      <param_description>normalisation : 'count' (défaut), 'probability', 'countdensity', 'pdf', 'cumcount' ou 'cdf'.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -40,17 +40,17 @@
     </param_output_item>
     <param_output_item>
       <param_name>Xedges</param_name>
-      <param_description>bornes de classes utilisees selon la dimension X.</param_description>
+      <param_description>bornes de classes utilisées selon la dimension X.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>Yedges</param_name>
-      <param_description>bornes de classes utilisees selon la dimension Y.</param_description>
+      <param_description>bornes de classes utilisées selon la dimension Y.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>histcounts2 repartit les paires (X, Y) sur une grille de classes bidimensionnelle et compte le nombre de paires dans chaque classe.</p>
-    <p>N(i, j) compte les paires pour lesquelles Xedges(i) &lt;= X &lt; Xedges(i+1) et Yedges(j) &lt;= Y &lt; Yedges(j+1). La derniere classe de chaque dimension inclut ses deux bornes.</p>
-    <p>Vous pouvez fournir un nombre de classes (scalaire ou [nx ny]) ou les vecteurs de bornes explicites Xedges et Yedges. Lorsqu&apos;un nombre de classes est demande, les bornes sont choisies sur une grille reguliere, comme <link linkend="${elementary_functions}histcounts">histcounts</link>. Les paires ayant une coordonnee NaN sont ignorees.</p>
+    <p>N(i, j) compte les paires pour lesquelles Xedges(i) &lt;= X &lt; Xedges(i+1) et Yedges(j) &lt;= Y &lt; Yedges(j+1). La dernière classe de chaque dimension inclut ses deux bornes.</p>
+    <p>Vous pouvez fournir un nombre de classes (scalaire ou [nx ny]) ou les vecteurs de bornes explicites Xedges et Yedges. Lorsqu&apos;un nombre de classes est demandé, les bornes sont choisies sur une grille régulière, comme <link linkend="${elementary_functions}histcounts">histcounts</link>. Les paires ayant une coordonnée NaN sont ignorées.</p>
   </description>
   <used_function>
     <used_function_item>histcounts2</used_function_item>

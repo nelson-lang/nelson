@@ -58,6 +58,11 @@
         <td>Type: text scalar or character row vector. Supported values: 'auto' (default), 'manual'.</td>
       </tr>
       <tr>
+        <td><b>FontUnits</b></td>
+        <td>stored for compatibility; it does not convert FontSize.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'points' (default), 'normalized', 'inches', 'centimeters', 'pixels'.</td>
+      </tr>
+      <tr>
         <td><b>FontAngle</b></td>
         <td>updates rendered output on the next graphics refresh.</td>
         <td>Type: text scalar or character row vector. Supported values: 'normal', 'italic'.</td>

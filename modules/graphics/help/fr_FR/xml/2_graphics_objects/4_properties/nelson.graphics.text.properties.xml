@@ -3,234 +3,234 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>text properties</keyword>
-  <short_description>Proprietes de l'objet graphique text.</short_description>
+  <short_description>Propriétés de l'objet graphique text.</short_description>
   <description>
-    <p>Cette page documente les proprietes visibles retournees par <b>properties</b> pour un objet graphique <b>text</b>.</p>
+    <p>Cette page documente les propriétés visibles retournées par <b>properties</b> pour un objet graphique <b>text</b>.</p>
     <table>
       <tr>
-        <th>Propriete</th>
+        <th>Propriété</th>
         <th>Action</th>
         <th>Type et valeurs prises en charge</th>
       </tr>
       <tr>
         <td><b>AffectAutoLimits</b></td>
-        <td>recalcule la geometrie, les limites ou la disposition.</td>
-        <td>Type: vecteur numerique fini. Valeurs prises en charge: deux valeurs finies croissantes [min max].</td>
+        <td>recalcule la géométrie, les limites ou la disposition.</td>
+        <td>Type: vecteur numérique fini. Valeurs prises en charge: deux valeurs finies croissantes [min max].</td>
       </tr>
       <tr>
         <td><b>BackgroundColor</b></td>
-        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
-        <td>Type: color value. Valeurs prises en charge: 'red'/'r', 'green'/'g', 'blue'/'b', 'cyan'/'c', 'magenta'/'m', 'yellow'/'y', 'black'/'k', 'white'/'w', triplet RGB [r g b] avec valeurs dans [0,1], ou couleur hexadecimale '#RRGGBB'/'#RGB'.</td>
+        <td>met à jour le rendu au prochain rafraîchissement graphique.</td>
+        <td>Type: color value. Valeurs prises en charge: 'red'/'r', 'green'/'g', 'blue'/'b', 'cyan'/'c', 'magenta'/'m', 'yellow'/'y', 'black'/'k', 'white'/'w', triplet RGB [r g b] avec valeurs dans [0,1], ou couleur hexadécimale '#RRGGBB'/'#RGB'.</td>
       </tr>
       <tr>
         <td><b>BeingDeleted</b></td>
-        <td>valeur calculee par Nelson; les operations graphiques la mettent a jour.</td>
-        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'off', 'on'.</td>
+        <td>valeur calculée par Nelson; les opérations graphiques la mettent à jour.</td>
+        <td>Type: chaîne scalaire ou vecteur ligne de caractères. Valeurs prises en charge: 'off', 'on'.</td>
       </tr>
       <tr>
         <td><b>BusyAction</b></td>
-        <td>controle si un callback interrompant est mis en file ou annule.</td>
-        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'queue', 'cancel'.</td>
+        <td>contrôle si un callback interrompant est mis en file ou annule.</td>
+        <td>Type: chaîne scalaire ou vecteur ligne de caractères. Valeurs prises en charge: 'queue', 'cancel'.</td>
       </tr>
       <tr>
         <td><b>ButtonDownFcn</b></td>
-        <td>s&apos;execute quand l&apos;objet recoit un evenement bouton souris.</td>
-        <td>Type: callback value. Valeurs prises en charge: [], handle de fonction, vecteur de caracteres, chaine scalaire ou cellule callback.</td>
+        <td>s&apos;exécute quand l&apos;objet reçoit un événement bouton souris.</td>
+        <td>Type: callback value. Valeurs prises en charge: [], handle de fonction, vecteur de caractères, chaîne scalaire ou cellule callback.</td>
       </tr>
       <tr>
         <td><b>Children</b></td>
-        <td>les operations de parentage mettent le vecteur a jour.</td>
+        <td>les opérations de parentage mettent le vecteur à jour.</td>
         <td>Type: graphics object handle vector. Valeurs prises en charge: vecteur vide ou handles enfants.</td>
       </tr>
       <tr>
         <td><b>Clipping</b></td>
-        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
-        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+        <td>met à jour le rendu au prochain rafraîchissement graphique.</td>
+        <td>Type: chaîne scalaire ou vecteur ligne de caractères. Valeurs prises en charge: 'on', 'off'.</td>
       </tr>
       <tr>
         <td><b>Color</b></td>
-        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
-        <td>Type: color value. Valeurs prises en charge: 'red'/'r', 'green'/'g', 'blue'/'b', 'cyan'/'c', 'magenta'/'m', 'yellow'/'y', 'black'/'k', 'white'/'w', triplet RGB [r g b] avec valeurs dans [0,1], ou couleur hexadecimale '#RRGGBB'/'#RGB'.</td>
+        <td>met à jour le rendu au prochain rafraîchissement graphique.</td>
+        <td>Type: color value. Valeurs prises en charge: 'red'/'r', 'green'/'g', 'blue'/'b', 'cyan'/'c', 'magenta'/'m', 'yellow'/'y', 'black'/'k', 'white'/'w', triplet RGB [r g b] avec valeurs dans [0,1], ou couleur hexadécimale '#RRGGBB'/'#RGB'.</td>
       </tr>
       <tr>
         <td><b>ColorMode</b></td>
-        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
-        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+        <td>'auto' laisse Nelson recalculer la propriété associée; 'manual' conserve la valeur affectée.</td>
+        <td>Type: chaîne scalaire ou vecteur ligne de caractères. Valeurs prises en charge: 'auto', 'manual'.</td>
       </tr>
       <tr>
         <td><b>ContextMenu</b></td>
-        <td>attache le menu utilise par les actions de clic contextuel.</td>
+        <td>attache le menu utilisé par les actions de clic contextuel.</td>
         <td>Type: graphics object handle scalar. Valeurs prises en charge: [] ou handle uicontextmenu.</td>
       </tr>
       <tr>
         <td><b>CreateFcn</b></td>
-        <td>s&apos;execute lors de la creation de l&apos;objet.</td>
-        <td>Type: callback value. Valeurs prises en charge: [], handle de fonction, vecteur de caracteres, chaine scalaire ou cellule callback.</td>
+        <td>s&apos;exécute lors de la création de l&apos;objet.</td>
+        <td>Type: callback value. Valeurs prises en charge: [], handle de fonction, vecteur de caractères, chaîne scalaire ou cellule callback.</td>
       </tr>
       <tr>
         <td><b>DeleteFcn</b></td>
-        <td>s&apos;execute lors de la suppression de l&apos;objet.</td>
-        <td>Type: callback value. Valeurs prises en charge: [], handle de fonction, vecteur de caracteres, chaine scalaire ou cellule callback.</td>
+        <td>s&apos;exécute lors de la suppression de l&apos;objet.</td>
+        <td>Type: callback value. Valeurs prises en charge: [], handle de fonction, vecteur de caractères, chaîne scalaire ou cellule callback.</td>
       </tr>
       <tr>
         <td><b>EdgeColor</b></td>
-        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
-        <td>Type: color value or color mode keyword. Valeurs prises en charge: 'red'/'r', 'green'/'g', 'blue'/'b', 'cyan'/'c', 'magenta'/'m', 'yellow'/'y', 'black'/'k', 'white'/'w', triplet RGB [r g b] avec valeurs dans [0,1], ou couleur hexadecimale '#RRGGBB'/'#RGB', 'none', 'flat', 'interp'.</td>
+        <td>met à jour le rendu au prochain rafraîchissement graphique.</td>
+        <td>Type: color value or color mode keyword. Valeurs prises en charge: 'red'/'r', 'green'/'g', 'blue'/'b', 'cyan'/'c', 'magenta'/'m', 'yellow'/'y', 'black'/'k', 'white'/'w', triplet RGB [r g b] avec valeurs dans [0,1], ou couleur hexadécimale '#RRGGBB'/'#RGB', 'none', 'flat', 'interp'.</td>
       </tr>
       <tr>
         <td><b>Editing</b></td>
-        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>met à jour le rendu au prochain rafraîchissement graphique.</td>
         <td>Type: on/off value. Valeurs prises en charge: 'on', 'off', true ou false.</td>
       </tr>
       <tr>
         <td><b>Extent</b></td>
-        <td>recalcule la geometrie, les limites ou la disposition.</td>
-        <td>Type: vecteur numerique fini. Valeurs prises en charge: vecteur fini de taille documentee, par exemple [left bottom width height], [x y z], [azimuth elevation] ou [minor major].</td>
+        <td>recalcule la géométrie, les limites ou la disposition.</td>
+        <td>Type: vecteur numérique fini. Valeurs prises en charge: vecteur fini de taille documentée, par exemple [left bottom width height], [x y z], [azimuth élévation] ou [minor major].</td>
       </tr>
       <tr>
         <td><b>FontAngle</b></td>
-        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
-        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'normal', 'italic'.</td>
+        <td>met à jour le rendu au prochain rafraîchissement graphique.</td>
+        <td>Type: chaîne scalaire ou vecteur ligne de caractères. Valeurs prises en charge: 'normal', 'italic'.</td>
       </tr>
       <tr>
         <td><b>FontName</b></td>
-        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
-        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: nom de police systeme ou 'FixedWidth'.</td>
+        <td>met à jour le rendu au prochain rafraîchissement graphique.</td>
+        <td>Type: chaîne scalaire ou vecteur ligne de caractères. Valeurs prises en charge: nom de police système ou 'FixedWidth'.</td>
       </tr>
       <tr>
         <td><b>FontSize</b></td>
-        <td>recalcule la geometrie, les limites ou la disposition.</td>
-        <td>Type: scalaire numerique fini. Valeurs prises en charge: valeur scalaire finie.</td>
+        <td>recalcule la géométrie, les limites ou la disposition.</td>
+        <td>Type: scalaire numérique fini. Valeurs prises en charge: valeur scalaire finie.</td>
       </tr>
       <tr>
         <td><b>FontSmoothing</b></td>
-        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>met à jour le rendu au prochain rafraîchissement graphique.</td>
         <td>Type: on/off value. Valeurs prises en charge: 'on', 'off', true ou false.</td>
       </tr>
       <tr>
         <td><b>FontUnits</b></td>
-        <td>recalcule la geometrie, les limites ou la disposition.</td>
-        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'pixels', 'normalized', 'inches', 'centimeters', 'points', 'characters', 'data'.</td>
+        <td>recalcule la géométrie, les limites ou la disposition.</td>
+        <td>Type: chaîne scalaire ou vecteur ligne de caractères. Valeurs prises en charge: 'pixels', 'normalized', 'inches', 'centimeters', 'points', 'characters', 'data'.</td>
       </tr>
       <tr>
         <td><b>FontWeight</b></td>
-        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
-        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'normal', 'bold'.</td>
+        <td>met à jour le rendu au prochain rafraîchissement graphique.</td>
+        <td>Type: chaîne scalaire ou vecteur ligne de caractères. Valeurs prises en charge: 'normal', 'bold'.</td>
       </tr>
       <tr>
         <td><b>HandleVisibility</b></td>
-        <td>controle si les fonctions de recherche de handles peuvent trouver l&apos;objet.</td>
-        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off', 'callback'.</td>
+        <td>contrôle si les fonctions de recherche de handles peuvent trouver l&apos;objet.</td>
+        <td>Type: chaîne scalaire ou vecteur ligne de caractères. Valeurs prises en charge: 'on', 'off', 'callback'.</td>
       </tr>
       <tr>
         <td><b>HitTest</b></td>
-        <td>inclut ou exclut l&apos;objet des tests de selection souris.</td>
-        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+        <td>inclut ou exclut l&apos;objet des tests de sélection souris.</td>
+        <td>Type: chaîne scalaire ou vecteur ligne de caractères. Valeurs prises en charge: 'on', 'off'.</td>
       </tr>
       <tr>
         <td><b>HorizontalAlignment</b></td>
-        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>met à jour le rendu au prochain rafraîchissement graphique.</td>
         <td>Type: on/off value. Valeurs prises en charge: 'on', 'off', true ou false.</td>
       </tr>
       <tr>
         <td><b>Interactions</b></td>
-        <td>met a jour l&apos;etat stocke de l&apos;objet.</td>
-        <td>Type: interaction object, structure, cell array, or empty array. Valeurs prises en charge: [] ou definitions d&apos;interaction pour axes et graphiques.</td>
+        <td>met à jour l&apos;état stocké de l&apos;objet.</td>
+        <td>Type: interaction object, structure, cell array, or empty array. Valeurs prises en charge: [] ou définitions d&apos;interaction pour axes et graphiques.</td>
       </tr>
       <tr>
-        <td><b>Interpreter</b></td>
-        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
-        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'tex', 'latex', 'none'. 'latex' se rabat actuellement sur le pipeline 'tex' (un moteur de mise en page LaTeX complet n'est pas encore implemente).</td>
+        <td><b>Interpréter</b></td>
+        <td>met à jour le rendu au prochain rafraîchissement graphique.</td>
+        <td>Type: chaîne scalaire ou vecteur ligne de caractères. Valeurs prises en charge: 'tex', 'latex', 'none'. 'latex' se rabat actuellement sur le pipeline 'tex' (un moteur de mise en page LaTeX complet n'est pas encore implémenté).</td>
       </tr>
       <tr>
         <td><b>Interruptible</b></td>
-        <td>controle si un callback en cours peut etre interrompu.</td>
-        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+        <td>contrôle si un callback en cours peut être interrompu.</td>
+        <td>Type: chaîne scalaire ou vecteur ligne de caractères. Valeurs prises en charge: 'on', 'off'.</td>
       </tr>
       <tr>
         <td><b>LineStyle</b></td>
-        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
-        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: '-', '--', ':', '-.', 'none'.</td>
+        <td>met à jour le rendu au prochain rafraîchissement graphique.</td>
+        <td>Type: chaîne scalaire ou vecteur ligne de caractères. Valeurs prises en charge: '-', '--', ':', '-.', 'none'.</td>
       </tr>
       <tr>
         <td><b>LineWidth</b></td>
-        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
-        <td>Type: scalaire numerique fini. Valeurs prises en charge: valeur superieure ou egale a 0.</td>
+        <td>met à jour le rendu au prochain rafraîchissement graphique.</td>
+        <td>Type: scalaire numérique fini. Valeurs prises en charge: valeur supérieure ou égale à 0.</td>
       </tr>
       <tr>
         <td><b>Margin</b></td>
-        <td>recalcule la geometrie, les limites ou la disposition.</td>
-        <td>Type: scalaire numerique fini. Valeurs prises en charge: valeur scalaire finie.</td>
+        <td>recalcule la géométrie, les limites ou la disposition.</td>
+        <td>Type: scalaire numérique fini. Valeurs prises en charge: valeur scalaire finie.</td>
       </tr>
       <tr>
         <td><b>Parent</b></td>
-        <td>change le parent et met a jour Children sur les anciens et nouveaux parents.</td>
+        <td>change le parent et met à jour Children sur les anciens et nouveaux parents.</td>
         <td>Type: graphics object handle scalar. Valeurs prises en charge: handle parent valide pour la classe de l&apos;objet.</td>
       </tr>
       <tr>
         <td><b>PickableParts</b></td>
         <td>choisit quelles parties visibles ou invisibles peuvent recevoir les clics.</td>
-        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'visible', 'all', 'none'.</td>
+        <td>Type: chaîne scalaire ou vecteur ligne de caractères. Valeurs prises en charge: 'visible', 'all', 'none'.</td>
       </tr>
       <tr>
         <td><b>Position</b></td>
-        <td>recalcule la geometrie, les limites ou la disposition.</td>
-        <td>Type: vecteur numerique fini. Valeurs prises en charge: vecteur fini de taille documentee, par exemple [left bottom width height], [x y z], [azimuth elevation] ou [minor major].</td>
+        <td>recalcule la géométrie, les limites ou la disposition.</td>
+        <td>Type: vecteur numérique fini. Valeurs prises en charge: vecteur fini de taille documentée, par exemple [left bottom width height], [x y z], [azimuth élévation] ou [minor major].</td>
       </tr>
       <tr>
         <td><b>Rotation</b></td>
-        <td>recalcule la geometrie, les limites ou la disposition.</td>
-        <td>Type: scalaire numerique fini. Valeurs prises en charge: valeur scalaire finie.</td>
+        <td>recalcule la géométrie, les limites ou la disposition.</td>
+        <td>Type: scalaire numérique fini. Valeurs prises en charge: valeur scalaire finie.</td>
       </tr>
       <tr>
         <td><b>Selected</b></td>
-        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
-        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+        <td>met à jour le rendu au prochain rafraîchissement graphique.</td>
+        <td>Type: chaîne scalaire ou vecteur ligne de caractères. Valeurs prises en charge: 'on', 'off'.</td>
       </tr>
       <tr>
         <td><b>SelectionHighlight</b></td>
-        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
-        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+        <td>met à jour le rendu au prochain rafraîchissement graphique.</td>
+        <td>Type: chaîne scalaire ou vecteur ligne de caractères. Valeurs prises en charge: 'on', 'off'.</td>
       </tr>
       <tr>
         <td><b>SeriesIndex</b></td>
-        <td>met a jour l&apos;etat stocke de l&apos;objet.</td>
-        <td>Type: integer scalar or numeric vector. Valeurs prises en charge: entier fini, valeur numerique finie ou vecteur requis par la propriete.</td>
+        <td>met à jour l&apos;état stocké de l&apos;objet.</td>
+        <td>Type: integer scalar or numeric vector. Valeurs prises en charge: entier fini, valeur numérique finie ou vecteur requis par la propriété.</td>
       </tr>
       <tr>
         <td><b>String</b></td>
-        <td>met a jour le contenu texte affiche.</td>
-        <td>Type: valeur texte. Valeurs prises en charge: vecteur ligne de caracteres, chaine scalaire, tableau de chaines ou tableau de cellules de vecteurs ligne de caracteres.</td>
+        <td>met à jour le contenu texte affiché.</td>
+        <td>Type: valeur texte. Valeurs prises en charge: vecteur ligne de caractères, chaîne scalaire, tableau de chaînes ou tableau de cellules de vecteurs ligne de caractères.</td>
       </tr>
       <tr>
         <td><b>Tag</b></td>
-        <td>met a jour l&apos;etat stocke de l&apos;objet.</td>
-        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: texte vide ou identifiant d&apos;objet.</td>
+        <td>met à jour l&apos;état stocké de l&apos;objet.</td>
+        <td>Type: chaîne scalaire ou vecteur ligne de caractères. Valeurs prises en charge: texte vide ou identifiant d&apos;objet.</td>
       </tr>
       <tr>
         <td><b>Type</b></td>
-        <td>valeur calculee par Nelson; les operations graphiques la mettent a jour.</td>
-        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: nom de type en lecture seule, par exemple 'figure', 'axes', 'line' ou 'scatter'.</td>
+        <td>valeur calculée par Nelson; les opérations graphiques la mettent à jour.</td>
+        <td>Type: chaîne scalaire ou vecteur ligne de caractères. Valeurs prises en charge: nom de type en lecture seule, par exemple 'figure', 'axes', 'line' ou 'scatter'.</td>
       </tr>
       <tr>
         <td><b>Units</b></td>
-        <td>recalcule la geometrie, les limites ou la disposition.</td>
-        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'pixels', 'normalized', 'inches', 'centimeters', 'points', 'characters', 'data'.</td>
+        <td>recalcule la géométrie, les limites ou la disposition.</td>
+        <td>Type: chaîne scalaire ou vecteur ligne de caractères. Valeurs prises en charge: 'pixels', 'normalized', 'inches', 'centimeters', 'points', 'characters', 'data'.</td>
       </tr>
       <tr>
         <td><b>UserData</b></td>
-        <td>met a jour l&apos;etat stocke de l&apos;objet.</td>
-        <td>Type: tableau Nelson. Valeurs prises en charge: toute valeur Nelson: [], tableaux numeriques, texte, cellules, structures ou handles.</td>
+        <td>met à jour l&apos;état stocké de l&apos;objet.</td>
+        <td>Type: tableau Nelson. Valeurs prises en charge: toute valeur Nelson: [], tableaux numériques, texte, cellules, structures ou handles.</td>
       </tr>
       <tr>
         <td><b>VerticalAlignment</b></td>
-        <td>recalcule la geometrie, les limites ou la disposition.</td>
-        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'left', 'center', 'right'.</td>
+        <td>recalcule la géométrie, les limites ou la disposition.</td>
+        <td>Type: chaîne scalaire ou vecteur ligne de caractères. Valeurs prises en charge: 'left', 'center', 'right'.</td>
       </tr>
       <tr>
         <td><b>Visible</b></td>
-        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
-        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+        <td>met à jour le rendu au prochain rafraîchissement graphique.</td>
+        <td>Type: chaîne scalaire ou vecteur ligne de caractères. Valeurs prises en charge: 'on', 'off'.</td>
       </tr>
     </table>
   </description>
@@ -239,7 +239,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Creer l'objet graphique et lister ses proprietes.</example_item_description>
+      <example_item_description>Créer l'objet graphique et lister ses propriétés.</example_item_description>
       <example_item_data><![CDATA[f = figure('Visible', 'off');
 ax = axes('Parent', f);
 h = text(ax, 0.5, 0.5, 'Label');
@@ -256,7 +256,7 @@ close(f)]]></example_item_data>
   <history>
     <history_item>
       <history_version>--</history_version>
-      <history_description>Page de proprietes ajoutee.</history_description>
+      <history_description>Page de propriétés ajoutée.</history_description>
     </history_item>
   </history>
   <authors>

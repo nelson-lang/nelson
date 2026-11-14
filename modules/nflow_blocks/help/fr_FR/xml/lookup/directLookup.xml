@@ -49,11 +49,11 @@
     <p>
       <b>Description</b>
     </p>
-    <p>N entrees d indices entiers selectionnent un element d une Table statique column-major (mode Element). Les tailles par dimension viennent de TableDimensions ; chaque indice est arrondi et borne (base zero).</p>
-    <p>La page decrit le comportement runtime natif observe dans les sources C++ du module. Les phases declarees indiquent quand le moteur de simulation appelle le bloc.</p>
-    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <p>N entrées d indices entiers sélectionnent un élément d une Table statique column-major (mode Élément). Les tailles par dimension viennent de TableDimensions ; chaque indice est arrondi et borne (base zéro).</p>
+    <p>La page décrit le comportement runtime natif observé dans les sources C++ du module. Les phases déclarées indiquent quand le moteur de simulation appelle le bloc.</p>
+    <p>Génération de code : prise en charge pour C et Rust.</p>
     <p>
-      <b>Sources d implementation</b>
+      <b>Sources d implémentation</b>
     </p>
     <source_code label="Manifest" path="modules/nflow_blocks/libraries/lookup/library.json" language="json"/>
     <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/lookup/directLookup.cpp" language="cpp"/>

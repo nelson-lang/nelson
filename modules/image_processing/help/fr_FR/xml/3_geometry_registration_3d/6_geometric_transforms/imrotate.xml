@@ -14,7 +14,7 @@
     <param_input_item>
       <param_name>I</param_name>
       <param_description
-      >Image d&apos;entree : image 2D en niveaux de gris, RGB ou RGBA, numerique ou logique</param_description>
+      >Image d&apos;entrée : image 2D en niveaux de gris, RGB ou RGBA, numérique ou logique</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>angle</param_name>
@@ -24,7 +24,7 @@
     <param_input_item>
       <param_name>method</param_name>
       <param_description
-      >Methode d&apos;interpolation (optionnelle, par defaut : &apos;nearest&apos;) :                  - &apos;nearest&apos; : interpolation au plus proche voisin                  - &apos;bilinear&apos; : interpolation bilineaire                  - &apos;bicubic&apos; : interpolation bicubique</param_description>
+      >Méthode d&apos;interpolation (optionnelle, par défaut : &apos;nearest&apos;) :                  - &apos;nearest&apos; : interpolation au plus proche voisin                  - &apos;bilinear&apos; : interpolation bilinéaire                  - &apos;bicubic&apos; : interpolation bicubique</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>bbox</param_name>
@@ -42,7 +42,7 @@
   <description>
     <p>La fonction<b>imrotate</b> fait pivoter une image de l&apos;angle spécifié autour de son centre. La rotation utilise la méthode d&apos;interpolation spécifiée.</p>
     <p
-    >La fonction prend en charge les images en niveaux de gris, RGB et RGBA. L&apos;image de sortie conserve le meme type de donnees que l&apos;image d&apos;entree.</p>
+    >La fonction prend en charge les images en niveaux de gris, RGB et RGBA. L&apos;image de sortie conserve le même type de données que l&apos;image d&apos;entrée.</p>
     <p
     >Pour les angles multiples de 90°, la rotation est effectuée exactement sans interpolation afin de préserver la qualité. Pour les autres angles, l&apos;interpolation est utilisée pour estimer les valeurs de pixels aux coordonnées non entières.</p>
     <p
@@ -72,7 +72,7 @@
     <p />
     <p>Limitations:</p>
     <p
-    >L&apos;image d&apos;entree doit etre 2D en niveaux de gris, RGB ou RGBA. Les autres espaces colorimetriques ne sont pas directement supportes.</p>
+    >L&apos;image d&apos;entrée doit être 2D en niveaux de gris, RGB ou RGBA. Les autres espaces colorimétriques ne sont pas directement supportés.</p>
     <p
     >La rotation est toujours effectuée autour du centre de l&apos;image. Les rotations hors-centre requièrent un prétraitement supplémentaire.</p>
     <p

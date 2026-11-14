@@ -3,12 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>alphanumericsPattern</keyword>
-  <short_description>Motif pour les caracteres alphanumeriques.</short_description>
+  <short_description>Motif pour les caractères alphanumériques.</short_description>
   <syntax>
     <syntax_item>R = alphanumericsPattern(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>alphanumericsPattern</b> Motif pour les caracteres alphanumeriques.</p>
+    <p><b>alphanumericsPattern</b> Motif pour les caractères alphanumériques.</p>
   </description>
   <used_function />
   <bibliography />

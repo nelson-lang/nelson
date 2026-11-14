@@ -10,7 +10,7 @@
     <syntax_item>[B, T] = rotatefactors(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>rotatefactors</b> applique une rotation aux colonnes de charges factorielles. Les methodes prises en charge incluent varimax, quartimax, equamax, parsimax, orthomax, promax, procrustes et pattern.</p>
+    <p><b>rotatefactors</b> applique une rotation aux colonnes de charges factorielles. Les méthodes prises en charge incluent varimax, quartimax, equamax, parsimax, orthomax, promax, procrustes et pattern.</p>
     <p>Les arguments nom-valeur incluent Method, Normalize, RelTol, MaxIt, Coeff, Power, Target et Type.</p>
   </description>
   <examples>

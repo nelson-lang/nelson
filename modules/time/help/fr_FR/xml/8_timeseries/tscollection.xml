@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>tscollection</keyword>
-  <short_description>Cree une collection de series temporelles alignees.</short_description>
+  <short_description>Crée une collection de séries temporelles alignées.</short_description>
   <syntax>
     <syntax_item>tsc = tscollection(time)</syntax_item>
     <syntax_item>tsc = tscollection(ts)</syntax_item>
@@ -13,7 +13,7 @@
   <param_input>
     <param_input_item>
       <param_name>time</param_name>
-      <param_description>Vecteur de temps partage.</param_description>
+      <param_description>Vecteur de temps partagé.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>ts</param_name>
@@ -32,8 +32,8 @@
   </param_output>
   <description>
     <p>
-      <b>tscollection</b> groupe des objets timeseries nommes sur un vecteur de temps commun.</p>
-    <p>Les membres peuvent etre ajoutes, supprimes, reechantillonnes, selectionnes par temps et consultes par nom.</p>
+      <b>tscollection</b> groupe des objets timeseries nommés sur un vecteur de temps commun.</p>
+    <p>Les membres peuvent être ajoutés, supprimés, rééchantillonnés, sélectionnés par temps et consultes par nom.</p>
   </description>
   <used_function />
   <bibliography />

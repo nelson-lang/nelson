@@ -4,77 +4,77 @@
   <language>fr_FR</language>
   <keyword>assignment</keyword>
   <keyword_alias>block:assignment</keyword_alias>
-  <short_description>Ecrit des elements dans un signal : out = base avec out[Indices] = valeurs.</short_description>
+  <short_description>Écrit des éléments dans un signal : out = base avec out[Indices] = valeurs.</short_description>
   <syntax>
     <syntax_item>Type de bloc : assignment</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
-      <param_name>ports d entree</param_name>
-      <param_description>2 port(s) d entree declare(s).</param_description>
+      <param_name>ports d'entrée</param_name>
+      <param_description>2 port(s) d entrée déclare(s).</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>ports de sortie</param_name>
-      <param_description>1 port(s) de sortie declare(s).</param_description>
+      <param_description>1 port(s) de sortie déclare(s).</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>Ecrit des elements dans un signal : out = base avec out[Indices] = valeurs.</p>
+    <p>Écrit des éléments dans un signal : out = base avec out[Indices] = valeurs.</p>
     <table border="1">
       <tbody>
         <tr><td>Module</td><td><code>nflow_blocks</code></td></tr>
-        <tr><td>Bibliotheque</td><td>Utilitaires</td></tr>
+        <tr><td>Bibliothèque</td><td>Utilitaires</td></tr>
         <tr><td>Type</td><td><code>assignment</code></td></tr>
-        <tr><td>Libelle</td><td>Assignment</td></tr>
+        <tr><td>Libellé</td><td>Assignment</td></tr>
       </tbody>
     </table>
     <p><img src="../../../../libraries/utility/exports/assignment.svg" align="middle"/></p>
     <p><b>Description</b></p>
-    <p>Ecrit des elements dans un signal (Assignment). Le port 0 est le signal de base ; sa largeur fixe la largeur de sortie ; le port 1 porte les valeurs de remplacement. <code>Indices</code> (base 1) choisit quels elements de base sont ecrases par les valeurs successives : <code>out = base</code>, puis <code>out[Indices[k]] = values[k]</code>. Les elements non listes passent inchanges. Simulation seule (routage a forme vectorielle, comme reshape / selector) : pas de chemin de generation de code scalaire.</p>
+    <p>Écrit des éléments dans un signal (Assignment). Le port 0 est le signal de base ; sa largeur fixe la largeur de sortie ; le port 1 porte les valeurs de remplacement. <code>Indices</code> (base 1) choisit quels éléments de base sont écrasés par les valeurs successives : <code>out = base</code>, puis <code>out[Indices[k]] = values[k]</code>. Les éléments non listes passent inchangés. Simulation seule (routage a forme vectorielle, comme reshape / selector) : pas de chemin de génération de code scalaire.</p>
     <p><b>Ports</b></p>
-    <p><b>Entree(s)</b></p>
+    <p><b>Entrée(s)</b></p>
     <table border="1">
-      <thead><tr><th>Port</th><th>Role</th><th>Cote</th><th>Position</th></tr></thead>
+      <thead><tr><th>Port</th><th>Rôle</th><th>Cote</th><th>Position</th></tr></thead>
       <tbody>
-        <tr><td>Port_1</td><td>Signal numerique lu par le bloc.</td><td>gauche</td><td>x=0, y=20</td></tr>
-        <tr><td>Port_2</td><td>Signal numerique lu par le bloc.</td><td>gauche</td><td>x=0, y=40</td></tr>
+        <tr><td>Port_1</td><td>Signal numérique lu par le bloc.</td><td>gauche</td><td>x=0, y=20</td></tr>
+        <tr><td>Port_2</td><td>Signal numérique lu par le bloc.</td><td>gauche</td><td>x=0, y=40</td></tr>
       </tbody>
     </table>
     <p><b>Sortie(s)</b></p>
     <table border="1">
-      <thead><tr><th>Port</th><th>Role</th><th>Cote</th><th>Position</th></tr></thead>
+      <thead><tr><th>Port</th><th>Rôle</th><th>Cote</th><th>Position</th></tr></thead>
       <tbody>
-        <tr><td>Port_1</td><td>Signal numerique produit par le bloc.</td><td>droite</td><td>x=90, y=30</td></tr>
+        <tr><td>Port_1</td><td>Signal numérique produit par le bloc.</td><td>droite</td><td>x=90, y=30</td></tr>
       </tbody>
     </table>
-    <p><b>Parametres</b></p>
+    <p><b>Paramètres</b></p>
     <table border="1">
-      <thead><tr><th>Parametre</th><th>Valeur par defaut</th></tr></thead>
+      <thead><tr><th>Paramètre</th><th>Valeur par défaut</th></tr></thead>
       <tbody>
         <tr><td><code>Indices</code></td><td>[1]</td></tr>
       </tbody>
     </table>
-    <p><b>Caracteristiques du bloc</b></p>
+    <p><b>Caractéristiques du bloc</b></p>
     <table border="1">
       <tbody>
         <tr><td>Type de bloc</td><td>assignment</td></tr>
         <tr><td>Famille</td><td>Utilitaires</td></tr>
         <tr><td>Taille rendue</td><td>90 x 60</td></tr>
         <tr><td>Phases</td><td>ALGEBRAIC</td></tr>
-        <tr><td>Etat interne ou historique</td><td>non</td></tr>
-        <tr><td>Type de donnees du signal</td><td>valeurs numeriques double</td></tr>
+        <tr><td>État interne ou historique</td><td>non</td></tr>
+        <tr><td>Type de données du signal</td><td>valeurs numériques double</td></tr>
       </tbody>
     </table>
     <p><b>Algorithmes</b></p>
     <ul>
       <li>ALGEBRAIC : out = base ; pour chaque k, out[Indices[k]-1] = values[k].</li>
     </ul>
-    <p><b>Capacites etendues</b></p>
-    <p>Execution native seulement (ce bloc n'est pas genere en code).</p>
-    <p><b>Sources d implementation</b></p>
-    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <p><b>Capacités étendues</b></p>
+    <p>Exécution native seulement (ce bloc n'est pas généré en code).</p>
+    <p><b>Sources d implémentation</b></p>
+    <p>Génération de code : prise en charge pour C et Rust.</p>
     <source_code label="Manifest" path="modules/nflow_blocks/libraries/utility/library.json" language="json"/>
     <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/routing/assignment.cpp" language="cpp"/>
   </description>

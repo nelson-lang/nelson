@@ -3,25 +3,25 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <module_name>ode_solvers</module_name>
-  <chapter>Resolution d'EDO</chapter>
+  <chapter>Résolution d'EDO</chapter>
   <chapter_description>
-    <p>Le module ODE Solvers fournit des fonctions d'integration en temps pour les problemes differentiels explicites, raides et implicites dans Nelson.</p>
-    <p>Il inclut les points d'entree des solveurs, les wrappers pour equations a retard et problemes aux limites, la gestion des options, l'interpolation, l'extension des solutions, la detection d'evenements et les definitions de problemes orientees objet.</p>
-    <p>Quand le backend optionnel SUNDIALS est construit, le workflow objet peut aussi selectionner des valeurs de solveur CVODES et IDAS.</p>
-    <p>Le module vise les experiences numeriques, les simulations et les exemples pedagogiques qui demandent une configuration compacte et des objets de resultats reproductibles.</p>
-    <p>Les tutoriels couvrent le choix du solveur, les evenements, les tolerances, les matrices de masse, les equations implicites, les equations a retard, les problemes aux limites, l'interpolation, l'extension, les workflows objet et les etats complexes.</p>
+    <p>Le module ODE Solvers fournit des fonctions d'intégration en temps pour les problèmes différentiels explicites, raides et implicites dans Nelson.</p>
+    <p>Il inclut les points d'entrée des solveurs, les wrappers pour équations a retard et problèmes aux limites, la gestion des options, l'interpolation, l'extension des solutions, la détection d'événements et les définitions de problèmes orientées objet.</p>
+    <p>Quand le backend optionnel SUNDIALS est construit, le workflow objet peut aussi sélectionner des valeurs de solveur CVODES et IDAS.</p>
+    <p>Le module vise les expériences numériques, les simulations et les exemples pédagogiques qui demandent une configuration compacte et des objets de résultats reproductibles.</p>
+    <p>Les tutoriels couvrent le choix du solveur, les événements, les tolérances, les matrices de masse, les équations implicites, les équations a retard, les problèmes aux limites, l'interpolation, l'extension, les workflows objet et les états complexes.</p>
     <table style="width:100%">
       <tr>
         <th>Domaine</th>
-        <th>Entrees principales</th>
+        <th>Entrées principales</th>
       </tr>
       <tr>
-        <td>Problemes a valeur initiale</td>
+        <td>Problèmes a valeur initiale</td>
         <td>
           <b>ode23</b>, <b>ode45</b>, <b>ode78</b>, <b>ode89</b>, <b>ode113</b>, <b>ode15s</b>, <b>ode15i</b></td>
       </tr>
       <tr>
-        <td>Equations a retard et problemes aux limites</td>
+        <td>Équations a retard et problèmes aux limites</td>
         <td>
           <b>dde23</b>, <b>ddesd</b>, <b>ddensd</b>, <b>bvp4c</b>, <b>bvp5c</b></td>
       </tr>

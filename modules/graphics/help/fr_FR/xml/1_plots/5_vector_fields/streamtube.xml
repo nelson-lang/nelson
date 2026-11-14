@@ -13,7 +13,7 @@
   </syntax>
   <description>
     <p><b>streamtube</b> affiche des chemins de courant 3-D sous forme de surfaces tube.</p>
-    <p><b>streamtube(vertices)</b> utilise des sommets de lignes de courant pre-calcules. Les handles retournes sont des objets surface.</p>
+    <p><b>streamtube(vertices)</b> utilise des sommets de lignes de courant pre-calculés. Les handles retournés sont des objets surface.</p>
   </description>
   <examples>
     <example_item>

@@ -3,31 +3,31 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>realpow</keyword>
-  <short_description>Puissance element par element avec resultat reel.</short_description>
+  <short_description>Puissance élément par élément avec résultat réel.</short_description>
   <syntax>
     <syntax_item>Z = realpow(X, Y)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>X</param_name>
-      <param_description>Valeurs reelles de base.</param_description>
+      <param_description>Valeurs réelles de base.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Y</param_name>
-      <param_description>Valeurs reelles d'exposant.</param_description>
+      <param_description>Valeurs réelles d'exposant.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>Z</param_name>
-      <param_description>resultat de X .^ Y lorsque toutes les valeurs sont reelles.</param_description>
+      <param_description>résultat de X .^ Y lorsque toutes les valeurs sont réelles.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>
-      <b>realpow</b> calcule les puissances element par element et retourne une erreur si une entree ou le resultat est complexe.</p>
+      <b>realpow</b> calcule les puissances élément par élément et retourne une erreur si une entrée ou le résultat est complexe.</p>
     <p>
-      <b>X</b> et <b>Y</b> doivent avoir des tailles compatibles pour la puissance element par element.</p>
+      <b>X</b> et <b>Y</b> doivent avoir des tailles compatibles pour la puissance élément par élément.</p>
   </description>
   <used_function />
   <bibliography />

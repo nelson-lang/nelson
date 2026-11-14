@@ -6,12 +6,12 @@
   <chapter>Gestion des erreurs</chapter>
   <chapter_description>
     <p
-    >Le module Error Manager fournit les mecanismes de gestion des erreurs et des avertissements dans Nelson.</p>
+    >Le module Error Manager fournit les mécanismes de gestion des erreurs et des avertissements dans Nelson.</p>
     <p
-    >Il definit comment les exceptions sont creees, levees et relancees, ainsi que la maniere de recuperer les informations diagnostiques apres une erreur ou un avertissement.</p>
+    >Il définit comment les exceptions sont créées, levées et relancées, ainsi que la manière de récupérer les informations diagnostiques après une erreur ou un avertissement.</p>
     <p
-    >Ce module permet de controler l&apos;execution apres un echec, de recuperer des diagnostics et d&apos;afficher des avertissements sans arreter le programme.</p>
+    >Ce module permet de contrôler l&apos;exécution après un échec, de récupérer des diagnostics et d&apos;afficher des avertissements sans arrêter le programme.</p>
     <p
-    >Il fournit les primitives communes d&apos;erreurs et d&apos;avertissements utilisees par le code Nelson.</p>
+    >Il fournit les primitives communes d&apos;erreurs et d&apos;avertissements utilisées par le code Nelson.</p>
   </chapter_description>
 </xmldoc>

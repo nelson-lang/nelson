@@ -27,7 +27,7 @@
     <p
     >La valeur est arrondie à la valeur uint64 la plus proche lors de la conversion. Une valeur qui dépasse la plage autorisée pour la classe uint64 est mappée vers l&apos;une des extrémités de la plage [0, 18446744073709551616].</p>
     <p
-    >Lorsque vous créez un tableau numérique contenant de grands entiers dans Nelson, surtout lorsqu&apos;ils dépassent la précision maximale représentable par double (plus grands que flintmax), Nelson stocke par défaut ces valeurs sous forme de nombres à virgule flottante en double précision.</p>
+    >Lorsque vous créez un tableau numérique contenant de grands entiers dans Nelson, surtout lorsqu&apos;ils dépassent la précision maximale représentable par double (plus grands que flintmax), Nelson stocké par défaut ces valeurs sous forme de nombres à virgule flottante en double précision.</p>
     <p
     >Cette représentation par défaut peut entraîner une perte de précision, car les nombres à virgule flottante ont une précision limitée.</p>
     <p

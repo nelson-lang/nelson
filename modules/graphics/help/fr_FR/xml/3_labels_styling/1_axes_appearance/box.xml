@@ -15,21 +15,21 @@
     <param_input_item>
       <param_name>visibility</param_name>
       <param_description>
-        Visibilite du contour : &apos;on&apos;, &apos;off&apos;, true, false, 1 ou 0.
+        Visibilité du contour : &apos;on&apos;, &apos;off&apos;, true, false, 1 ou 0.
       </param_description>
     </param_input_item>
     <param_input_item>
       <param_name>target</param_name>
       <param_description>
-        Objet cible avec une propriete Box, comme des axes, une legende ou une colorbar.
+        Objet cible avec une propriété Box, comme des axes, une légende ou une colorbar.
       </param_description>
     </param_input_item>
   </param_input>
   <description>
-    <p><b>box()</b> active ou desactive le contour des axes courants.</p>
+    <p><b>box()</b> active ou désactive le contour des axes courants.</p>
     <p><b>box(&apos;on&apos;)</b> affiche le contour des axes courants.</p>
     <p><b>box(&apos;off&apos;)</b> masque le contour des axes courants.</p>
-    <p><b>box(target, ...)</b> modifie le contour de la cible specifiee au lieu des axes courants.</p>
+    <p><b>box(target, ...)</b> modifie le contour de la cible spécifiée au lieu des axes courants.</p>
   </description>
   <used_function />
   <bibliography />

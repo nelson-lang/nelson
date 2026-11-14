@@ -12,7 +12,7 @@
   </syntax>
   <description>
     <p><b>adtest</b> effectue un test d&apos;adequation d&apos;Anderson-Darling. Les observations <b>NaN</b> sont omises.</p>
-    <p>Les arguments nom-valeur incluent <b>Distribution</b>, <b>Alpha</b>, <b>MCTol</b> et <b>Asymptotic</b>. Les familles de distributions prises en charge sont norm, exp, ev, logn et weibull. <b>MCTol</b> est accepte pour la compatibilite de syntaxe; cette implementation utilise une approximation deterministe.</p>
+    <p>Les arguments nom-valeur incluent <b>Distribution</b>, <b>Alpha</b>, <b>MCTol</b> et <b>Asymptotic</b>. Les familles de distributions prises en charge sont norm, exp, ev, logn et weibull. <b>MCTol</b> est accepté pour la compatibilité de syntaxe; cette implémentation utilise une approximation déterministe.</p>
   </description>
   <examples>
     <example_item>

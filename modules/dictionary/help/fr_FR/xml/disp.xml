@@ -15,9 +15,9 @@
   </param_input>
   <description>
     <p>
-      <b>disp(d)</b> affiche un resume du dictionnaire <b>d</b>, avec les types des cles et des valeurs, le nombre d&apos;entrees et les paires cle-valeur visibles.</p>
+      <b>disp(d)</b> affiche un résume du dictionnaire <b>d</b>, avec les types des clés et des valeurs, le nombre d&apos;entrées et les paires clé-valeur visibles.</p>
     <p>
-      Les dictionnaires non configures et les dictionnaires configures sans entree sont affiches avec des messages de resume dedies.</p>
+      Les dictionnaires non configurés et les dictionnaires configurés sans entrée sont affichés avec des messages de résume dédiés.</p>
   </description>
   <used_function />
   <bibliography />

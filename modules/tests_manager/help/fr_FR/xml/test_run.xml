@@ -45,7 +45,7 @@
     <param_input_item>
       <param_name>test_name</param_name>
       <param_description
-      >une string ou une cellule de chaines : nom de fichier de test dans le repertoire tests du module.
+      >une string ou une cellule de chaînes : nom de fichier de test dans le répertoire tests du module.
         L&apos;extension .m est optionnelle.</param_description>
     </param_input_item>
     <param_input_item>
@@ -83,7 +83,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>test_run</b> est un wrapper de compatibilite au dessus de <b>nelson.unittest.run</b>.</p>
+    <p><b>test_run</b> est un wrapper de compatibilité au dessus de <b>nelson.unittest.run</b>.</p>
     <p>La paire optionnelle <b>&apos;Launcher&apos;, &apos;webview&apos;</b> peut être placée n&apos;importe où
       dans la liste d&apos;arguments. Elle route les tests tagués ADV-CLI vers <b>nelson-adv-cli --webview</b>
       afin que les figures utilisent le backend web headless (RenderWeb) ; les tags CLI et GUI sont inchangés.
@@ -93,13 +93,13 @@
         les exécute et affiche un rapport sur les succès ou les échecs.</p>
     <p>Utilisez l&apos;option explicite <b>all</b> pour inclure les fichiers &apos;bench_*.m&apos; ou
       utilisez <b>bench_run</b> pour exécuter les benchmarks séparément.</p>
-    <p>Chaque test ou bench est execute par un processus enfant supervise. La reutilisation exige le tag
+    <p>Chaque test ou bench est exécuté par un processus enfant supervise. La réutilisation exige le tag
       explicite <b>&lt;--REUSE PROCESS--&gt;</b>.</p>
     <p
     >Cela permet à la commande courante de continuer, même si le test a créé un environnement instable.</p>
     <p
     >Cela permet également aux tests d&apos;être indépendants les uns des autres.</p>
-    <p>Utilisez <b>test_run(module_name, test_name)</b> pour executer un fichier de test du repertoire tests
+    <p>Utilisez <b>test_run(module_name, test_name)</b> pour exécuter un fichier de test du répertoire tests
       d&apos;un module.</p>
     <p
     >Certains tags spéciaux peuvent être insérés dans les fichiers .m pour aider au traitement du test
@@ -213,23 +213,23 @@
     <p>
       <b>
         &lt;--REUSE PROCESS--&gt;
-      </b> Ce test ou bench autorise le runner a reutiliser le meme processus enfant pour plusieurs fichiers
-      tagues.</p>
-    <p><b>nelson.unittest.tuneReuse</b> audite ces tags avec des campagnes natives isolees et reutilisees.
+      </b> Ce test ou bench autorise le runner a réutiliser le même processus enfant pour plusieurs fichiers
+      tagués.</p>
+    <p><b>nelson.unittest.tuneReuse</b> audite ces tags avec des campagnes natives isolées et réutilisées.
       L&apos;ajout exige l&apos;option explicite <b>AllowAdd</b> ; les modifications exigent <b>Apply</b>.</p>
     <p>
       <b>
         &lt;--WEIGHT N--&gt;
-      </b> Poids positif de planification. La file dynamique demarre les fichiers les plus lourds en premier.</p>
-    <p><b>nelson.unittest.tuneWeights</b> peut proposer ou mettre explicitement a jour ces tags depuis les
-      resultats mesures.</p>
+      </b> Poids positif de planification. La file dynamique démarre les fichiers les plus lourds en premier.</p>
+    <p><b>nelson.unittest.tuneWeights</b> peut proposer ou mettre explicitement à jour ces tags depuis les
+      résultats mesures.</p>
     <p>
       <b>
         &lt;--TIMEOUT N--&gt;
-      </b> Delai d&apos;execution positif par fichier, en secondes, qui remplace le minuteur par defaut pour ce
-      seul fichier. Il ne modifie pas la priorite de planification (c&apos;est <b>&lt;--WEIGHT N--&gt;</b>).
-      A utiliser pour un test ou un bench legitimement long qui serait sinon interrompu par le minuteur par
-      defaut. L&apos;option globale <b>Timeout</b>, lorsqu&apos;elle est definie, reste prioritaire sur le tag.</p>
+      </b> Délai d&apos;exécution positif par fichier, en secondes, qui remplace le minuteur par défaut pour ce
+      seul fichier. Il ne modifie pas la priorité de planification (c&apos;est <b>&lt;--WEIGHT N--&gt;</b>).
+      A utiliser pour un test ou un bench légitimement long qui serait sinon interrompu par le minuteur par
+      défaut. L&apos;option globale <b>Timeout</b>, lorsqu&apos;elle est définie, reste prioritaire sur le tag.</p>
     <p
     >Les tests peuvent également être sautés dynamiquement en utilisant la fonction <b>skip_testsuite</b>.</p>
     <p
@@ -237,11 +237,11 @@
       benchs ont un temps de 6 minutes, sauf si un tag <b>&lt;--TIMEOUT N--&gt;</b> fixe une valeur par
       fichier.</p>
     <p>
-      <b>test_run</b> utilise des workers pour executer les tests. Les fichiers non tagues sont executes dans
-      des processus enfants separes ; les fichiers tagues avec <b>&lt;--REUSE PROCESS--&gt;</b> peuvent partager
+      <b>test_run</b> utilise des workers pour exécuter les tests. Les fichiers non tagués sont exécutés dans
+      des processus enfants séparés ; les fichiers tagués avec <b>&lt;--REUSE PROCESS--&gt;</b> peuvent partager
       un processus enfant.</p>
-    <p>Les resultats sont affiches progressivement dans un ordre stable. Chaque ligne contient une icone de
-      statut et son temps d&apos;execution au format <b>🟢[   9.800s]</b>.</p>
+    <p>Les résultats sont affichés progressivement dans un ordre stable. Chaque ligne contient une icône de
+      statut et son temps d&apos;exécution au format <b>🟢[   9.800s]</b>.</p>
     <p>Les tests avec<b>
         &lt;--SEQUENTIAL TEST REQUIRED--&gt;
       </b> sont évalués en dernier.</p>
@@ -249,7 +249,7 @@
     <p>Pour l&apos;API namespaced, utilisez <b>nelson.unittest.discover</b>, <b>nelson.unittest.select</b>,
       <b>nelson.unittest.plan</b>, <b>nelson.unittest.run</b>, <b>nelson.unittest.tuneWeights</b>,
       <b>nelson.unittest.tuneReuse</b> et <b>nelson.unittest.report</b>.</p>
-    <p>L&apos;executeur interne de fichier de test est prive et n&apos;est pas documente comme fonction utilisateur.</p>
+    <p>L&apos;executeur interne de fichier de test est privé et n&apos;est pas documente comme fonction utilisateur.</p>
   </description>
   <used_function />
   <bibliography />
@@ -284,8 +284,8 @@
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Calibrer les tags de reutilisation des processus et les poids de planification
-        des tests et benches de tous les modules. Une cible vide selectionne tous les modules. Ces commandes
+      <example_item_description>Calibrer les tags de réutilisation des processus et les poids de planification
+        des tests et benches de tous les modules. Une cible vide sélectionne tous les modules. Ces commandes
         modifient les fichiers sources.</example_item_description>
       <example_item_data><![CDATA[
 nelson.unittest.tuneReuse([], ...

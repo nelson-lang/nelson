@@ -11,8 +11,8 @@
     <syntax_item>h = qqplot(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>qqplot</b> cree un trace quantile-quantile pour des donnees d&apos;echantillon.</p>
-    <p>Avec un echantillon, Nelson compare les quantiles de l&apos;echantillon aux quantiles normaux standards. Avec deux echantillons, Nelson compare les quantiles empiriques des deux echantillons. La valeur retournee contient les handles des lignes pour les donnees, la ligne des quartiles et la ligne de reference extrapolee.</p>
+    <p><b>qqplot</b> crée un trace quantile-quantile pour des données d&apos;échantillon.</p>
+    <p>Avec un échantillon, Nelson compare les quantiles de l&apos;échantillon aux quantiles normaux standards. Avec deux échantillons, Nelson compare les quantiles empiriques des deux échantillons. La valeur retournée contient les handles des lignes pour les données, la ligne des quartiles et la ligne de référence extrapolée.</p>
   </description>
   <examples>
     <example_item>

@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>imref3d</keyword>
-  <short_description>Cree une structure de reference spatiale 3-D.</short_description>
+  <short_description>Crée une structure de référence spatiale 3-D.</short_description>
   <syntax>
     <syntax_item>R = imref3d()</syntax_item>
     <syntax_item>R = imref3d(imageSize)</syntax_item>
@@ -13,46 +13,46 @@
   <param_input>
     <param_input_item>
       <param_name>imageSize</param_name>
-      <param_description>Vecteur d'entiers positifs qui definit la taille du volume en lignes, colonnes et plans.</param_description>
+      <param_description>Vecteur d'entiers positifs qui définit la taille du volume en lignes, colonnes et plans.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>pixelExtentInWorldX, pixelExtentInWorldY, pixelExtentInWorldZ</param_name>
-      <param_description>Tailles de voxel scalaires positives et finies en coordonnees monde.</param_description>
+      <param_description>Tailles de voxel scalaires positives et finies en coordonnées monde.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>xWorldLimits</param_name>
-      <param_description>Deux valeurs finies croissantes qui definissent les limites monde selon les colonnes.</param_description>
+      <param_description>Deux valeurs finies croissantes qui définissent les limites monde selon les colonnes.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>yWorldLimits</param_name>
-      <param_description>Deux valeurs finies croissantes qui definissent les limites monde selon les lignes.</param_description>
+      <param_description>Deux valeurs finies croissantes qui définissent les limites monde selon les lignes.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>zWorldLimits</param_name>
-      <param_description>Deux valeurs finies croissantes qui definissent les limites monde selon les plans.</param_description>
+      <param_description>Deux valeurs finies croissantes qui définissent les limites monde selon les plans.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>R</param_name>
-      <param_description>Structure de reference spatiale 3-D avec taille d'image, limites intrinseques, limites monde, etendues monde et tailles de voxels.</param_description>
+      <param_description>Structure de référence spatiale 3-D avec taille d'image, limites intrinseques, limites monde, étendues monde et tailles de voxels.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>Cree une structure de reference spatiale 3-D avec taille d'image, limites monde, limites intrinseques, etendues monde et tailles de voxels.</p>
+    <p>Crée une structure de référence spatiale 3-D avec taille d'image, limites monde, limites intrinseques, étendues monde et tailles de voxels.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Creer une grille de volume referencee</example_item_description>
+      <example_item_description>Créer une grille de volume référencée</example_item_description>
       <example_item_data><![CDATA[R = imref3d([32 40 12], [0.5 40.5], [0.5 32.5], [10.5 22.5]);
 R.PixelExtentInWorldZ]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Creer une reference de volume depuis les tailles de voxel</example_item_description>
+      <example_item_description>Créer une référence de volume depuis les tailles de voxel</example_item_description>
       <example_item_data><![CDATA[R = imref3d([2 3 4], 2, 3, 4);
 R.XWorldLimits
 R.YWorldLimits

@@ -5,6 +5,6 @@
   <module_name>image_processing</module_name>
   <chapter>Segmentation</chapter>
   <chapter_description>
-    <p>Fonctions pour segmenter les images avec la croissance de region, les contours actifs, la reconstruction morphologique, les h-minima/maxima, les extrema regionaux, les minima imposes et les transformations watershed.</p>
+    <p>Fonctions pour segmenter les images avec la croissance de région, les contours actifs, la reconstruction morphologique, les h-minima/maxima, les extrema regionaux, les minima imposés et les transformations watershed.</p>
   </chapter_description>
 </xmldoc>

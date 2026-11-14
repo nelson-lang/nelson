@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>mad</keyword>
-  <short_description>Ecart absolu moyen ou median.</short_description>
+  <short_description>Écart absolu moyen ou median.</short_description>
   <syntax>
     <syntax_item>y = mad(X)</syntax_item>
     <syntax_item>y = mad(X, flag)</syntax_item>
@@ -12,8 +12,8 @@
     <syntax_item>y = mad(X, flag, 'all')</syntax_item>
   </syntax>
   <description>
-    <p><b>mad</b> calcule l&apos;ecart absolu moyen lorsque <b>flag</b> vaut 0, et l&apos;ecart absolu median lorsque <b>flag</b> vaut 1. Les valeurs <b>NaN</b> sont omises.</p>
-    <p>Les dimensions de calcul peuvent etre une dimension scalaire, un vecteur de dimensions ou <b>all</b>.</p>
+    <p><b>mad</b> calcule l&apos;écart absolu moyen lorsque <b>flag</b> vaut 0, et l&apos;écart absolu median lorsque <b>flag</b> vaut 1. Les valeurs <b>NaN</b> sont omises.</p>
+    <p>Les dimensions de calcul peuvent être une dimension scalaire, un vecteur de dimensions ou <b>all</b>.</p>
   </description>
   <examples>
     <example_item>

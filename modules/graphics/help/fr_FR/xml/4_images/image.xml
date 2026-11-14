@@ -53,7 +53,7 @@
   <description>
     <p>
       <b>image</b> affiche les données C sous forme d&apos;image.</p>
-    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.image.properties">proprietes de image</link> pour la liste complete des proprietes.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.image.properties">proprietes de image</link> pour la liste complète des propriétés.</p>
   </description>
   <used_function />
   <bibliography />

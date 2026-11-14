@@ -40,7 +40,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>E = mape(F, A)</b> renvoie <b>100 * mean(abs((A - F) ./ A))</b> le long de la première dimension de taille différente de 1. Une valeur réelle nulle avec une erreur non nulle donne <b>Inf</b>.</p>
+    <p><b>E = mape(F, A)</b> renvoie <b>100 * mean(abs((A - F) ./ A))</b> le long de la première dimension de taille différente de 1. Une valeur réelle nulle avec une erreur non nulle donné <b>Inf</b>.</p>
     <p>Les options de dimension, <b>'all'</b>, <b>nanflag</b> et <b>'Weights'</b> fonctionnent comme pour <b>rmse</b>.</p>
   </description>
   <used_function />

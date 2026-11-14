@@ -3,8 +3,8 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <module_name>control_system</module_name>
-  <chapter>Modeles de systemes dynamiques</chapter>
+  <chapter>Modèles de systèmes dynamiques</chapter>
   <chapter_description>
-    <p>Fonctions pour creer, inspecter et reduire des modeles de systemes dynamiques.</p>
+    <p>Fonctions pour créer, inspecter et réduire des modèles de systèmes dynamiques.</p>
   </chapter_description>
 </xmldoc>

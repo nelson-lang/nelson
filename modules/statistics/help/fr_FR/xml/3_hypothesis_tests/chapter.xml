@@ -3,8 +3,8 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <module_name>statistics</module_name>
-  <chapter>Tests d hypotheses</chapter>
+  <chapter>Tests d hypothèses</chapter>
   <chapter_description>
-    <p>Tests statistiques pour ajustement de distribution, position, variance, rangs, independance et comparaisons.</p>
+    <p>Tests statistiques pour ajustement de distribution, position, variance, rangs, indépendance et comparaisons.</p>
   </chapter_description>
 </xmldoc>

@@ -10,19 +10,19 @@
   <param_input>
     <param_input_item>
       <param_name>c</param_name>
-      <param_description>un vecteur de coefficients polynomiaux, en puissances decroissantes.</param_description>
+      <param_description>un vecteur de coefficients polynomiaux, en puissances décroissantes.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>A</param_name>
-      <param_description>la matrice compagnon dont la premiere ligne est <b>-c(2:end) / c(1)</b> et dont la premiere sous-diagonale vaut un.</param_description>
+      <param_description>la matrice compagnon dont la première ligne est <b>-c(2:end) / c(1)</b> et dont la première sous-diagonale vaut un.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>compan</b> retourne la matrice compagnon du polynome dont les coefficients sont <b>c</b>.</p>
-    <p>Les valeurs propres de la matrice compagnon sont les racines du polynome, donc <b>eig(compan(c))</b> et <b>roots(c)</b> donnent les memes valeurs.</p>
-    <p>Pour un vecteur de longueur n, le resultat est une matrice (n-1) par (n-1). Un coefficient unique retourne une matrice vide.</p>
+    <p><b>compan</b> retourne la matrice compagnon du polynôme dont les coefficients sont <b>c</b>.</p>
+    <p>Les valeurs propres de la matrice compagnon sont les racines du polynôme, donc <b>eig(compan(c))</b> et <b>roots(c)</b> donnent les mêmes valeurs.</p>
+    <p>Pour un vecteur de longueur n, le résultat est une matrice (n-1) par (n-1). Un coefficient unique retourne une matrice vide.</p>
   </description>
   <used_function />
   <bibliography />

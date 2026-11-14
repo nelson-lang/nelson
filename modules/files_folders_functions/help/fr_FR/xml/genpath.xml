@@ -3,12 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>genpath</keyword>
-  <short_description>Genere une chaine de chemin recursive.</short_description>
+  <short_description>Génère une chaîne de chemin récursive.</short_description>
   <syntax>
     <syntax_item>p = genpath(folder)</syntax_item>
   </syntax>
   <description>
-    <p><b>genpath</b> retourne une chaine contenant <b>folder</b> et ses sous-dossiers inclus, separes par <b>pathsep</b>.</p>
+    <p><b>genpath</b> retourne une chaîne contenant <b>folder</b> et ses sous-dossiers inclus, séparés par <b>pathsep</b>.</p>
   </description>
   <examples>
     <example_item>

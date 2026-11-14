@@ -3,12 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>strjoin</keyword>
-  <short_description>Joint le texte avec un delimiteur.</short_description>
+  <short_description>Joint le texte avec un délimiteur.</short_description>
   <syntax>
     <syntax_item>R = strjoin(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>strjoin</b> Joint le texte avec un delimiteur.</p>
+    <p><b>strjoin</b> Joint le texte avec un délimiteur.</p>
   </description>
   <used_function />
   <bibliography />

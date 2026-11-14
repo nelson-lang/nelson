@@ -25,7 +25,7 @@
       <b>trace(x)</b> calcule la trace de x, la somme des éléments sur la diagonale principale.</p>
     <p>
       Les matrices sparse single et sparse single complexes sont prises en charge. Seules les
-      valeurs de la diagonale contribuent a la somme et la precision de l'entree est preservee.</p>
+      valeurs de la diagonale contribuent a la somme et la précision de l'entrée est préservée.</p>
   </description>
   <used_function />
   <bibliography />

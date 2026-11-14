@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>table</keyword>
-  <short_description>Un tableau de type table avec variables nommees, capable de contenir differents types de donnees</short_description>
+  <short_description>Un tableau de type table avec variables nommées, capable de contenir différents types de données</short_description>
   <syntax>
     <syntax_item>T = table()</syntax_item>
     <syntax_item>T = table(var1, ... , varN)</syntax_item>
@@ -14,27 +14,27 @@
   <param_input>
     <param_input_item>
       <param_name>var1, ... , varN</param_name>
-      <param_description>Variables d'entree : les variables sont specifiees comme des tableaux ayant tous le meme nombre de lignes. Ces variables peuvent differer en taille et en type de donnees.</param_description>
+      <param_description>Variables d'entrée : les variables sont spécifiées comme des tableaux ayant tous le même nombre de lignes. Ces variables peuvent differer en taille et en type de données.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Name, Value</param_name>
-      <param_description>Les arguments optionnels sont specifies sous forme de paires Name1, Value1, ... , NameN, ValueN, ou Name est le nom de l'argument et Value sa valeur correspondante. Ces paires nom-valeur doivent etre placees apres les autres arguments, mais l'ordre des paires entre elles est flexible.</param_description>
+      <param_description>Les arguments optionnels sont spécifiés sous forme de paires Name1, Value1, ... , NameN, ValueN, ou Name est le nom de l'argument et Value sa valeur correspondante. Ces paires nom-valeur doivent être placées après les autres arguments, mais l'ordre des paires entre elles est flexible.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>sz</param_name>
-      <param_description>Vecteur a deux elements qui specifie le nombre de lignes et de variables pour une table preallouee.</param_description>
+      <param_description>Vecteur à deux éléments qui spécifie le nombre de lignes et de variables pour une table préallouée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>types</param_name>
-      <param_description>Types de variables utilises avec <b>Size</b>. Les valeurs prises en charge incluent les types entiers, les types flottants, logical, string, cell, cellstr et char.</param_description>
+      <param_description>Types de variables utilisés avec <b>Size</b>. Les valeurs prises en charge incluent les types entiers, les types flottants, logical, string, cell, cellstr et char.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>names</param_name>
-      <param_description>Noms de variables specifies comme tableau de chaines ou cellule de vecteurs de caracteres.</param_description>
+      <param_description>Noms de variables spécifiés comme tableau de chaînes ou cellule de vecteurs de caractères.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>rowNames</param_name>
-      <param_description>Noms de lignes specifies comme tableau de chaines ou cellule de vecteurs de caracteres.</param_description>
+      <param_description>Noms de lignes spécifiés comme tableau de chaînes ou cellule de vecteurs de caractères.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -44,27 +44,27 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>Les tableaux de type table sont concus pour stocker des donnees orientees colonne, comme des colonnes provenant de fichiers texte ou de feuilles de calcul.</p>
-    <p>Chaque colonne de donnees est stockee dans une variable au sein de la table, et ces variables peuvent avoir des types et tailles differents, a condition qu'elles partagent toutes le meme nombre de lignes.</p>
+    <p>Les tableaux de type table sont conçus pour stocker des données orientées colonne, comme des colonnes provenant de fichiers texte ou de feuilles de calcul.</p>
+    <p>Chaque colonne de données est stockée dans une variable au sein de la table, et ces variables peuvent avoir des types et tailles différents, à condition qu'elles partagent toutes le même nombre de lignes.</p>
     <p>Les variables de table ont des noms, similaires aux champs d'une structure.</p>
     <p />
-    <p>Pour acceder aux donnees d'une table, utilisez les methodes suivantes :</p>
+    <p>Pour accéder aux données d'une table, utilisez les méthodes suivantes :</p>
     <p />
     <p>- Notation par point (T.varname) pour extraire une seule variable.</p>
-    <p>- Accolades (T{rows, vars}) pour extraire un tableau a partir de lignes et de variables specifiques.</p>
-    <p>- Parentheses (T(rows, vars)) pour retourner un sous-ensemble de la table.</p>
+    <p>- Accolades (T{rows, vars}) pour extraire un tableau à partir de lignes et de variables spécifiques.</p>
+    <p>- Parenthèses (T(rows, vars)) pour retourner un sous-ensemble de la table.</p>
     <p />
-    <p><b>T = table(var1, ..., varN)</b> cree une table a partir des variables d'entree specifiees <b>var1,...,varN</b>.</p>
-    <p>Les variables peuvent varier en taille et en type de donnees, mais elles doivent toutes avoir le meme nombre de lignes.</p>
-    <p>Si les entrees sont des variables d'espace de travail, leurs noms sont utilises comme noms de variables dans la table resultante.</p>
-    <p>Sinon, la table assigne des noms par defaut au format 'Var1', 'Var2', etc.</p>
+    <p><b>T = table(var1, ..., varN)</b> crée une table à partir des variables d'entrée spécifiées <b>var1,...,varN</b>.</p>
+    <p>Les variables peuvent varier en taille et en type de données, mais elles doivent toutes avoir le même nombre de lignes.</p>
+    <p>Si les entrées sont des variables d'espace de travail, leurs noms sont utilisés comme noms de variables dans la table résultante.</p>
+    <p>Sinon, la table assigne des noms par défaut au format 'Var1', 'Var2', etc.</p>
     <p />
-    <p><b>T = table(..., Name, Value)</b> permet de specifier des options supplementaires en utilisant une ou plusieurs paires nom-valeur.</p>
-    <p>Par exemple, vous pouvez definir des noms de variables personnalises avec 'VariableNames'.</p>
-    <p>Les metadonnees publiques sont exposees par <b>T.Properties</b>. Cette structure contient <b>VariableNames</b>, <b>VariableTypes</b>, <b>RowNames</b>, <b>DimensionNames</b>, <b>Description</b>, <b>UserData</b>, les metadonnees de variables et <b>CustomProperties</b>.</p>
-    <p>Une table peut etre preallouee avec <b>Size</b> et <b>VariableTypes</b>. Le constructeur cree les variables avec les types demandes et des noms par defaut ou fournis par l'utilisateur.</p>
+    <p><b>T = table(..., Name, Value)</b> permet de spécifier des options supplémentaires en utilisant une ou plusieurs paires nom-valeur.</p>
+    <p>Par exemple, vous pouvez définir des noms de variables personnalisés avec 'VariableNames'.</p>
+    <p>Les métadonnées publiques sont exposées par <b>T.Properties</b>. Cette structure contient <b>VariableNames</b>, <b>VariableTypes</b>, <b>RowNames</b>, <b>DimensionNames</b>, <b>Description</b>, <b>UserData</b>, les métadonnées de variables et <b>CustomProperties</b>.</p>
+    <p>Une table peut être préallouée avec <b>Size</b> et <b>VariableTypes</b>. Le constructeur crée les variables avec les types demandes et des noms par défaut ou fournis par l'utilisateur.</p>
     <p />
-    <p><b>T = table()</b> cree une table vide avec 0 lignes et 0 colonnes.</p>
+    <p><b>T = table()</b> crée une table vide avec 0 lignes et 0 colonnes.</p>
   </description>
   <used_function />
   <bibliography />
@@ -99,7 +99,7 @@ T = table(N, A, H, W, 'VariableNames', {'Name', 'Age', 'Height', 'Weight'})]]></
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Preallouer une table avec des types de variables</example_item_description>
+      <example_item_description>Préallouer une table avec des types de variables</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[T = table('Size', [3 2], 'VariableTypes', {'double', 'string'}, ...
@@ -111,7 +111,7 @@ T]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Utiliser les proprietes de table</example_item_description>
+      <example_item_description>Utiliser les propriétés de table</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[T = table([1; 2], [3; 4], 'VariableNames', {'A', 'B'}, ...
@@ -161,7 +161,7 @@ T.Properties.DimensionNames]]></example_item_data>
     </history_item>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>table classdef, proprietes de table, preallocation et metadonnees</history_description>
+      <history_description>table classdef, propriétés de table, preallocation et métadonnées</history_description>
     </history_item>
   </history>
   <authors>

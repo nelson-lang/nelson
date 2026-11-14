@@ -16,7 +16,7 @@
   </param_output>
   <description>
     <p><b>timetable2table</b> convertit une timetable en table.</p>
-    <p>Lorsque <b>&apos;ConvertRowTimes&apos;</b> vaut vrai, les temps de lignes sont inseres comme premiere variable de la table.</p>
+    <p>Lorsque <b>&apos;ConvertRowTimes&apos;</b> vaut vrai, les temps de lignes sont insérés comme première variable de la table.</p>
   </description>
   <used_function />
   <bibliography />

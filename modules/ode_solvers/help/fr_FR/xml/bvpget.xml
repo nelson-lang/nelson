@@ -3,22 +3,22 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>bvpget</keyword>
-  <short_description>Recupere une option BVP.</short_description>
+  <short_description>Récupère une option BVP.</short_description>
   <syntax>
     <syntax_item>value = bvpget(options, name)</syntax_item>
     <syntax_item>value = bvpget(options, name, defaultValue)</syntax_item>
   </syntax>
   <description>
     <p>
-      <b>bvpget</b> recupere une valeur d'une structure d'options BVP et retourne la valeur par defaut quand l'option est vide.</p>
+      <b>bvpget</b> récupère une valeur d'une structure d'options BVP et retourne la valeur par défaut quand l'option est vide.</p>
     <table style="width:100%">
       <tr>
         <th>Appel</th>
-        <th>Role</th>
+        <th>Rôle</th>
       </tr>
       <tr>
         <td><b>value = *get(options,name)</b></td>
-        <td>Retourne la valeur stockee pour <b>name</b>.</td>
+        <td>Retourne la valeur stockée pour <b>name</b>.</td>
       </tr>
       <tr>
         <td><b>value = *get(options,name,default)</b></td>
@@ -29,7 +29,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Exemple complet des fonctionnalites DDE et BVP ajoutees.</example_item_description>
+      <example_item_description>Exemple complet des fonctionnalités DDE et BVP ajoutées.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[rootPath = modulepath('ode_solvers', 'root');
 run([rootPath, '/examples/dde_bvp_added_features_example.m'])]]></example_item_data>
     </example_item>

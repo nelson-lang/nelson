@@ -10,11 +10,11 @@
   <param_input>
     <param_input_item>
       <param_name>ncid</param_name>
-      <param_description>Identifiant numerique d'un fichier ou groupe netCDF ouvert.</param_description>
+      <param_description>Identifiant numérique d'un fichier ou groupe netCDF ouvert.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>varid</param_name>
-      <param_description>Identifiant numerique d'une variable netCDF.</param_description>
+      <param_description>Identifiant numérique d'une variable netCDF.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>attname</param_name>
@@ -28,12 +28,12 @@
   <param_output>
     <param_output_item>
       <param_name>attvalue</param_name>
-      <param_description>Valeur retournee par la syntaxe indiquee ci-dessus.</param_description>
+      <param_description>Valeur retournée par la syntaxe indiquée ci-dessus.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>netcdf.getAtt expose une operation bas niveau de la bibliotheque netCDF.</p>
-    <p>Ces fonctions utilisent des identifiants numeriques et suivent les conventions netCDF, notamment pour les indices, les modes et les constantes.</p>
+    <p>netcdf.getAtt expose une opération bas niveau de la bibliothèque netCDF.</p>
+    <p>Ces fonctions utilisent des identifiants numériques et suivent les conventions netCDF, notamment pour les indices, les modes et les constantes.</p>
   </description>
   <used_function />
   <bibliography />

@@ -5,6 +5,6 @@
   <module_name>image_processing</module_name>
   <chapter>Morphologie</chapter>
   <chapter_description>
-    <p>Fonctions pour les operations morphologiques binaires et en niveaux de gris, le nettoyage d'objets, le nettoyage des bords et les elements structurants.</p>
+    <p>Fonctions pour les opérations morphologiques binaires et en niveaux de gris, le nettoyage d'objets, le nettoyage des bords et les éléments structurants.</p>
   </chapter_description>
 </xmldoc>

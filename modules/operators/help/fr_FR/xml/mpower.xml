@@ -28,12 +28,12 @@
     <p>
       <b>C = mpower(A, B)</b> effectue l&apos;opération de puissance matricielle : A^B</p>
     <p>
-      Les matrices carrees sparse single et sparse single complexes sont prises en charge pour
-      les exposants entiers scalaires. Le resultat conserve le stockage sparse quand la puissance
-      peut etre calculee sans convertir la matrice en pleine.</p>
+      Les matrices carrées sparse single et sparse single complexes sont prises en charge pour
+      les exposants entiers scalaires. Le résultat conserve le stockage sparse quand la puissance
+      peut être calculée sans convertir la matrice en pleine.</p>
     <p>
       Pour les exposants scalaires non entiers, Nelson utilise un repli par fonction matricielle
-      dense lorsque la classe sparse d'entree le permet.</p>
+      dense lorsque la classe sparse d'entrée le permet.</p>
     <p>
       Pour une matrice dense carrée <b>A</b> et un scalaire non entier <b>p</b>, <b>A^p</b> est calculé à partir de la décomposition en valeurs propres de <b>A</b> : V*D^p/V, ou V*D^p*V' lorsque <b>A</b> est hermitienne. Lorsque <b>A</b> est défective (ses vecteurs propres sont singuliers à la précision de calcul), une méthode de Schur (Schur-Padé) est utilisée à la place, si bien que <b>[2 1; 0 2]^0.5</b> est exact. Dans ce cas, une matrice <b>A</b> réelle sans valeur propre réelle négative donne un résultat réel.</p>
     <p>

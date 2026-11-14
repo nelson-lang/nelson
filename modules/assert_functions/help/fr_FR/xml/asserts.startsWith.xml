@@ -3,22 +3,22 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>asserts.startsWith</keyword>
-  <short_description>Verifie qu&apos;un texte commence par un prefixe.</short_description>
+  <short_description>Vérifie qu&apos;un texte commence par un préfixe.</short_description>
   <syntax>
     <syntax_item>asserts.startsWith(text, prefix)</syntax_item>
     <syntax_item>[res, msg] = asserts.startsWith(text, prefix)</syntax_item>
   </syntax>
   <param_input>
-    <param_input_item><param_name>text</param_name><param_description>Vecteur de caracteres ou scalaire string a tester.</param_description></param_input_item>
-    <param_input_item><param_name>prefix</param_name><param_description>Prefixe attendu.</param_description></param_input_item>
+    <param_input_item><param_name>text</param_name><param_description>Vecteur de caractères ou scalaire string à tester.</param_description></param_input_item>
+    <param_input_item><param_name>prefix</param_name><param_description>Préfixe attendu.</param_description></param_input_item>
   </param_input>
   <param_output>
-    <param_output_item><param_name>res</param_name><param_description>true si l&apos;assertion reussit, false sinon.</param_description></param_output_item>
-    <param_output_item><param_name>msg</param_name><param_description>message d&apos;echec de l&apos;assertion, vide en cas de succes.</param_description></param_output_item>
+    <param_output_item><param_name>res</param_name><param_description>true si l&apos;assertion réussit, false sinon.</param_description></param_output_item>
+    <param_output_item><param_name>msg</param_name><param_description>message d&apos;échec de l&apos;assertion, vide en cas de succès.</param_description></param_output_item>
   </param_output>
   <description>
-    <p>L&apos;assertion reussit lorsque text commence par prefix.</p>
-    <p>Avec sorties, un prefixe manquant est retourne comme echec d&apos;assertion.</p>
+    <p>L&apos;assertion réussit lorsque text commence par prefix.</p>
+    <p>Avec sorties, un préfixe manquant est retourné comme échec d&apos;assertion.</p>
   </description>
   <used_function />
   <bibliography />

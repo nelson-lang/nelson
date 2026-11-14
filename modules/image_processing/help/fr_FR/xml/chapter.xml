@@ -6,8 +6,8 @@
   <chapter>Fonctions de traitement d&apos;image</chapter>
   <chapter_description>
     <p
-    >Le module Image Processing fournit des operations pour manipuler les images et volumes, notamment conversion de type, conversion couleur, ajustement du contraste, filtrage, morphologie, composants connexes, mesures de regions, transformations geometriques, redimensionnement, rotation, detection de points caracteristiques, bases du traitement 3-D et recalage d'images.</p>
+    >Le module Image Processing fournit des opérations pour manipuler les images et volumes, notamment conversion de type, conversion couleur, ajustement du contraste, filtrage, morphologie, composants connexes, mesures de regions, transformations géométriques, redimensionnement, rotation, détection de points caractéristiques, bases du traitement 3-D et recalage d'images.</p>
     <p
-    >Les pages d'aide sont regroupees en chapitres thematiques : bases de l'image, analyse et segmentation d'images, puis geometrie, recalage et traitement 3-D.</p>
+    >Les pages d'aide sont regroupées en chapitres thematiques : bases de l'image, analyse et segmentation d'images, puis géométrie, recalage et traitement 3-D.</p>
   </chapter_description>
 </xmldoc>

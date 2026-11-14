@@ -3,28 +3,28 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>timeseries.setinterpmethod</keyword>
-  <short_description>Definit la methode d'interpolation.</short_description>
+  <short_description>Définit la méthode d'interpolation.</short_description>
   <syntax>
     <syntax_item>tsOut = setinterpmethod(ts, method)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>ts</param_name>
-      <param_description>Objet timeseries en entree.</param_description>
+      <param_description>Objet timeseries en entrée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>method</param_name>
-      <param_description>Methode d'interpolation : linear, zoh ou nearest.</param_description>
+      <param_description>Méthode d'interpolation : linear, zoh ou nearest.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>tsOut</param_name>
-      <param_description>Objet timeseries en sortie avec la methode d'interpolation definie.</param_description>
+      <param_description>Objet timeseries en sortie avec la méthode d'interpolation définie.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>setinterpmethod</b> Met a jour ts.DataInfo.Interpolation avec la methode d'interpolation demandee.</p>
+    <p><b>setinterpmethod</b> Met à jour ts.DataInfo.Interpolation avec la méthode d'interpolation demandée.</p>
   </description>
   <used_function />
   <bibliography />

@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>compassplot</keyword>
-  <short_description>Affiche des vecteurs depuis l'origine en coordonnees polaires.</short_description>
+  <short_description>Affiche des vecteurs depuis l'origine en coordonnées polaires.</short_description>
   <syntax>
     <syntax_item>compassplot(z)</syntax_item>
     <syntax_item>compassplot(theta, r)</syntax_item>
@@ -11,8 +11,8 @@
     <syntax_item>h = compassplot(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>compassplot</b> affiche des valeurs complexes ou des paires de coordonnees polaires sous forme de fleches partant de l'origine. Le handle retourne est un objet <b>compassplot</b>.</p>
-    <p>La page <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.compassplot.properties">proprietes de compassplot</link> liste les proprietes d'objet prises en charge.</p>
+    <p><b>compassplot</b> affiche des valeurs complexes ou des paires de coordonnées polaires sous forme de flèches partant de l'origine. Le handle retourne est un objet <b>compassplot</b>.</p>
+    <p>La page <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.compassplot.properties">proprietes de compassplot</link> liste les propriétés d'objet prises en charge.</p>
   </description>
   <examples>
     <example_item>

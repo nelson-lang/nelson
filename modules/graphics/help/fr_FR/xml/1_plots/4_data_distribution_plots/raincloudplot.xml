@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>raincloudplot</keyword>
-  <short_description>Visualiser des donnees numeriques groupees avec des graphiques en nuage de pluie.</short_description>
+  <short_description>Visualiser des données numériques groupées avec des graphiques en nuage de pluie.</short_description>
   <syntax>
     <syntax_item>raincloudplot(ydata)</syntax_item>
     <syntax_item>raincloudplot(xgroupdata, ydata)</syntax_item>
@@ -16,35 +16,35 @@
   <param_input>
     <param_input_item>
       <param_name>ydata</param_name>
-      <param_description>donnees de l'echantillon: vecteur ou matrice numerique. Une matrice cree un nuage de pluie par colonne.</param_description>
+      <param_description>données de l'échantillon: vecteur ou matrice numérique. Une matrice crée un nuage de pluie par colonne.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>xgroupdata</param_name>
-      <param_description>donnees de groupement positionnel: vecteur numerique ou categorical ayant le meme nombre d'elements que ydata, ou matrice de meme taille que ydata. Un nuage de pluie est dessine pour chaque valeur unique.</param_description>
+      <param_description>données de groupement positionnel: vecteur numérique ou categorical ayant le même nombre d'éléments que ydata, ou matrice de même taille que ydata. Un nuage de pluie est dessine pour chaque valeur unique.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>tbl</param_name>
-      <param_description>table ou timetable contenant les donnees.</param_description>
+      <param_description>table ou timetable contenant les données.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>yvar</param_name>
-      <param_description>variables de table contenant l'echantillon numerique: noms, indices numeriques ou selecteur logique.</param_description>
+      <param_description>variables de table contenant l'échantillon numérique: noms, indices numériques ou sélecteur logique.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>xvar</param_name>
-      <param_description>variables de table contenant les donnees de groupement numeriques ou categorical.</param_description>
+      <param_description>variables de table contenant les données de groupement numériques ou categorical.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>ax</param_name>
-      <param_description>axes cibles (par defaut: axes courants).</param_description>
+      <param_description>axes cibles (par défaut: axes courants).</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>DensityWidth</param_name>
-      <param_description>scalaire positif: largeur maximale d'un nuage de pluie en unites des donnees de groupement (par defaut: 0.9).</param_description>
+      <param_description>scalaire positif: largeur maximale d'un nuage de pluie en unités des données de groupement (par défaut: 0.9).</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Orientation</param_name>
-      <param_description>'horizontal' (par defaut) ou 'vertical'. Avec 'horizontal', les valeurs de l'echantillon sont le long de l'axe x et les groupes le long de l'axe y.</param_description>
+      <param_description>'horizontal' (par défaut) ou 'vertical'. Avec 'horizontal', les valeurs de l'échantillon sont le long de l'axe x et les groupes le long de l'axe y.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -54,17 +54,17 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>raincloudplot</b> visualise la distribution empirique d'un echantillon ainsi que les valeurs elles-memes. Une moitie du graphique est un demi-violon (le nuage) qui montre une estimation par noyau de la densite; l'autre moitie est un essaim de marqueurs (la pluie), un marqueur par valeur, eloignes de la ligne de base du nuage pour eviter qu'ils se superposent.</p>
-    <p>Avec l'orientation horizontale par defaut, le nuage est dessine au-dessus de la position du groupe et la pluie en dessous. Avec l'orientation verticale, le nuage est dessine a droite de la position du groupe et la pluie a gauche.</p>
-    <p>L'estimation de densite par noyau est celle utilisee par <b>violinplot</b>. Les largeurs des nuages de tous les groupes d'un objet sont mises a l'echelle ensemble de sorte que le nuage le plus large atteigne la moitie de <b>DensityWidth</b>. L'etalement de la pluie suit la densite locale.</p>
-    <p>Chaque objet a sa propre couleur: <b>FaceColor</b> est pris dans <b>ColorOrder</b> des axes selon <b>SeriesIndex</b>, qui suit l'ordre de creation dans les axes. <b>EdgeColor</b>, <b>MarkerFaceColor</b> et <b>MarkerEdgeColor</b> suivent <b>FaceColor</b> tant que leur mode vaut 'auto'.</p>
-    <p>Les donnees de groupement categorical sont placees a des positions entieres consecutives etiquetees par le nom des categories. Quand plusieurs variables de table servent de donnees de groupement, les categories de meme nom partagent la meme position.</p>
-    <p>La page <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.raincloudplot.properties">proprietes raincloudplot</link> liste les proprietes d'objet prises en charge.</p>
+    <p><b>raincloudplot</b> visualise la distribution empirique d'un échantillon ainsi que les valeurs elles-mêmes. Une moitié du graphique est un demi-violon (le nuage) qui montre une estimation par noyau de la densité; l'autre moitié est un essaim de marqueurs (la pluie), un marqueur par valeur, éloignés de la ligne de base du nuage pour éviter qu'ils se superposent.</p>
+    <p>Avec l'orientation horizontale par défaut, le nuage est dessine au-dessus de la position du groupe et la pluie en dessous. Avec l'orientation verticale, le nuage est dessine à droite de la position du groupe et la pluie à gauche.</p>
+    <p>L'estimation de densité par noyau est celle utilisée par <b>violinplot</b>. Les largeurs des nuages de tous les groupes d'un objet sont mises à l'échelle ensemble de sorte que le nuage le plus large atteigne la moitié de <b>DensityWidth</b>. L'étalement de la pluie suit la densité locale.</p>
+    <p>Chaque objet a sa propre couleur: <b>FaceColor</b> est pris dans <b>ColorOrder</b> des axes selon <b>SeriesIndex</b>, qui suit l'ordre de création dans les axes. <b>EdgeColor</b>, <b>MarkerFaceColor</b> et <b>MarkerEdgeColor</b> suivent <b>FaceColor</b> tant que leur mode vaut 'auto'.</p>
+    <p>Les données de groupement categorical sont placées a des positions entières consécutives étiquetées par le nom des catégories. Quand plusieurs variables de table servent de données de groupement, les catégories de même nom partagent la même position.</p>
+    <p>La page <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.raincloudplot.properties">proprietes raincloudplot</link> liste les propriétés d'objet prises en charge.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Nuages de pluie de donnees groupees.</example_item_description>
+      <example_item_description>Nuages de pluie de données groupées.</example_item_description>
       <example_item_data><![CDATA[rng(0);
 ydata = randn(100, 1);
 xgroupdata = categorical(repelem(["group1"; "group2"; "group3"], [20, 50, 30]));
@@ -73,7 +73,7 @@ raincloudplot(xgroupdata, ydata)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Nuages de pluie superposes avec des couleurs choisies.</example_item_description>
+      <example_item_description>Nuages de pluie superposés avec des couleurs choisies.</example_item_description>
       <example_item_data><![CDATA[figure
 hold on
 r1 = raincloudplot(80 + 8 * randn(40, 1));
@@ -84,7 +84,7 @@ legend("Smoker", "Nonsmoker")]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Nuages de pluie a partir de variables de table.</example_item_description>
+      <example_item_description>Nuages de pluie à partir de variables de table.</example_item_description>
       <example_item_data><![CDATA[X1 = categorical(repelem(["group1"; "group2"], [90, 10]));
 X3 = categorical(repelem(["group3"; "group4"], [25, 75]));
 tbl = table(X1, X3, randn(100, 1), randn(100, 1) + 5, 'VariableNames', {'X1', 'X3', 'Y1', 'Y2'});

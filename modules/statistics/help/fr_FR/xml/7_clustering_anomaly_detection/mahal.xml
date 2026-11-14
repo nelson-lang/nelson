@@ -3,13 +3,13 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>mahal</keyword>
-  <short_description>Distance de Mahalanobis au carre vers des echantillons de reference.</short_description>
+  <short_description>Distance de Mahalanobis au carré vers des échantillons de référence.</short_description>
   <syntax>
     <syntax_item>d2 = mahal(Y, X)</syntax_item>
   </syntax>
   <description>
-    <p><b>mahal</b> renvoie la distance de Mahalanobis au carre de chaque observation de <b>Y</b> vers la matrice d'echantillons de reference <b>X</b>.</p>
-    <p><b>X</b> et <b>Y</b> doivent avoir le meme nombre de colonnes. <b>X</b> doit avoir plus de lignes que de colonnes.</p>
+    <p><b>mahal</b> renvoie la distance de Mahalanobis au carré de chaque observation de <b>Y</b> vers la matrice d'échantillons de référence <b>X</b>.</p>
+    <p><b>X</b> et <b>Y</b> doivent avoir le même nombre de colonnes. <b>X</b> doit avoir plus de lignes que de colonnes.</p>
   </description>
   <examples>
     <example_item>

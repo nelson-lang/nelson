@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>uifigure</keyword>
-  <short_description>Cree une figure pour des interfaces utilisateur.</short_description>
+  <short_description>Crée une figure pour des interfaces utilisateur.</short_description>
   <syntax>
     <syntax_item>f = uifigure()</syntax_item>
     <syntax_item>f = uifigure(Name, Value)</syntax_item>
@@ -11,7 +11,7 @@
   <param_input>
     <param_input_item>
       <param_name>Name, Value</param_name>
-      <param_description>Paires nom-valeur de proprietes de figure. uifigure applique MenuBar = 'none', ToolBar = 'none', NumberTitle = 'off', Resize = 'on', WindowStyle = 'normal' et une taille par defaut de 560 par 420 pixels avant les proprietes fournies.</param_description>
+      <param_description>Paires nom-valeur de propriétés de figure. uifigure applique MenuBar = 'none', ToolBar = 'none', NumberTitle = 'off', Resize = 'on', WindowStyle = 'normal' et une taille par défaut de 560 par 420 pixels avant les propriétés fournies.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -21,8 +21,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>uifigure cree une figure graphique configuree pour les boites de dialogue et controles d'interface. Le handle retourne peut etre utilise avec get, set, close, delete et comme parent des fonctions de dialogue UI.</p>
-    <p>Les proprietes prises en charge sont les proprietes de figure disponibles dans Nelson, dont 'Name', 'Position', 'Visible', 'WindowStyle', 'Resize', 'Color', 'Tag' et les proprietes de callback.</p>
+    <p>uifigure crée une figure graphique configurée pour les boîtes de dialogue et contrôles d'interface. Le handle retourne peut être utilisé avec get, set, close, delete et comme parent des fonctions de dialogue UI.</p>
+    <p>Les propriétés prises en charge sont les propriétés de figure disponibles dans Nelson, dont 'Name', 'Position', 'Visible', 'WindowStyle', 'Resize', 'Color', 'Tag' et les propriétés de callback.</p>
   </description>
   <used_function />
   <bibliography />
@@ -43,7 +43,7 @@ drawnow();]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Creer une figure UI modale nommee.</example_item_description>
+      <example_item_description>Créer une figure UI modale nommée.</example_item_description>
       <example_item_data><![CDATA[f = uifigure('Name', 'Results', 'WindowStyle', 'modal');
 f.Name
 close(f)]]></example_item_data>

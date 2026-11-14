@@ -5,6 +5,6 @@
   <module_name>image_processing</module_name>
   <chapter>Bases de l'image</chapter>
   <chapter_description>
-    <p>Fonctions pour classes d'images, espaces couleur, ajustement du contraste, seuillage, filtrage, padding et detection de contours.</p>
+    <p>Fonctions pour classes d'images, espaces couleur, ajustement du contraste, seuillage, filtrage, padding et détection de contours.</p>
   </chapter_description>
 </xmldoc>

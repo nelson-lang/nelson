@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>uicontextmenu</keyword>
-  <short_description>Creer un objet graphique de menu contextuel.</short_description>
+  <short_description>Créer un objet graphique de menu contextuel.</short_description>
   <syntax>
     <syntax_item>cm = uicontextmenu()</syntax_item>
     <syntax_item>cm = uicontextmenu(parent)</syntax_item>
@@ -13,15 +13,15 @@
   <param_input>
     <param_input_item>
       <param_name>parent</param_name>
-      <param_description>Objet graphique figure. Si cet argument est omis, la figure courante est utilisee.</param_description>
+      <param_description>Objet graphique figure. Si cet argument est omis, la figure courante est utilisée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>propertyName</param_name>
-      <param_description>Nom de propriete : chaine scalaire ou vecteur ligne de caracteres.</param_description>
+      <param_description>Nom de propriété : chaîne scalaire ou vecteur ligne de caractères.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>propertyValue</param_name>
-      <param_description>Valeur compatible avec le nom de propriete.</param_description>
+      <param_description>Valeur compatible avec le nom de propriété.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -31,9 +31,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>uicontextmenu</b> cree un menu contextuel qui peut etre assigne a la propriete <b>ContextMenu</b> des figures, axes, controles et autres objets graphiques.</p>
-    <p>Les entrees de menu sont creees avec <b>uimenu</b> en utilisant le menu contextuel comme parent.</p>
-    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.uicontextmenu.properties">proprietes de uicontextmenu</link> pour la liste complete des proprietes.</p>
+    <p><b>uicontextmenu</b> crée un menu contextuel qui peut être assigné à la propriété <b>ContextMenu</b> des figures, axes, contrôles et autres objets graphiques.</p>
+    <p>Les entrées de menu sont créées avec <b>uimenu</b> en utilisant le menu contextuel comme parent.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.uicontextmenu.properties">proprietes de uicontextmenu</link> pour la liste complète des propriétés.</p>
   </description>
   <used_function />
   <bibliography />

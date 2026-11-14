@@ -20,7 +20,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>expm1</b> calcule exp(X) - 1 element par element.</p>
+    <p><b>expm1</b> calcule exp(X) - 1 élément par élément.</p>
   </description>
   <used_function />
   <bibliography />

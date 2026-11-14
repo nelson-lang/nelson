@@ -10,11 +10,11 @@
   <param_input>
     <param_input_item>
       <param_name>a</param_name>
-      <param_description>scalaire reel ou tableau : borne inferieure.</param_description>
+      <param_description>scalaire réel ou tableau : borne inférieure.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>b</param_name>
-      <param_description>scalaire reel ou tableau : borne superieure.</param_description>
+      <param_description>scalaire réel ou tableau : borne supérieure.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -28,8 +28,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>unifstat</b> renvoie la moyenne et la variance element par element de lois uniformes continues.</p>
-    <p>Les bornes scalaires sont etendues pour correspondre aux bornes tableau. Les intervalles invalides produisent des valeurs NaN.</p>
+    <p><b>unifstat</b> renvoie la moyenne et la variance élément par élément de lois uniformes continues.</p>
+    <p>Les bornes scalaires sont étendues pour correspondre aux bornes tableau. Les intervalles invalides produisent des valeurs NaN.</p>
   </description>
   <examples>
     <example_item>

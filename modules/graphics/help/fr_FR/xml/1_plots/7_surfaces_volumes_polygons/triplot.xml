@@ -12,7 +12,7 @@
     <syntax_item>h = triplot(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>triplot</b> trace un maillage triangulaire 2-D depuis une matrice de connectivite ou un objet de triangulation.</p>
+    <p><b>triplot</b> trace un maillage triangulaire 2-D depuis une matrice de connectivité ou un objet de triangulation.</p>
   </description>
   <examples>
     <example_item>

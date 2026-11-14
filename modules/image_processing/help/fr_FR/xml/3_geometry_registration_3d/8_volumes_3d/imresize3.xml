@@ -13,7 +13,7 @@
   <param_input>
     <param_input_item>
       <param_name>V</param_name>
-      <param_description>Volume d'entree, tableau 3-D reel, non sparse, numerique ou logique.</param_description>
+      <param_description>Volume d'entrée, tableau 3-D réel, non sparse, numérique ou logique.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>scale</param_name>
@@ -21,26 +21,26 @@
     </param_input_item>
     <param_input_item>
       <param_name>[numrows numcols numplanes]</param_name>
-      <param_description>Taille de sortie du volume. Les valeurs sont arrondies en dimensions entieres positives.</param_description>
+      <param_description>Taille de sortie du volume. Les valeurs sont arrondies en dimensions entières positives.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>method</param_name>
-      <param_description>Methode d'interpolation : 'linear' par defaut, ou 'nearest'.</param_description>
+      <param_description>Méthode d'interpolation : 'linear' par défaut, ou 'nearest'.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Name, Value</param_name>
-      <param_description>Les options prises en charge sont 'Method' et 'Antialiasing'. L'option antialiasing est analysee pour compatibilite.</param_description>
+      <param_description>Les options prises en charge sont 'Method' et 'Antialiasing'. L'option antialiasing est analysée pour compatibilité.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>B</param_name>
-      <param_description>Volume redimensionne, renvoye avec la meme classe que V.</param_description>
+      <param_description>Volume redimensionné, renvoye avec la même classe que V.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>imresize3</b> redimensionne des donnees d'image volumetriques par facteur scalaire ou vers une taille de sortie explicite a trois elements.</p>
-    <p>La methode linear utilise une interpolation trilineaire separable. La methode nearest utilise l'echantillon le plus proche et preserve exactement les volumes logiques.</p>
+    <p><b>imresize3</b> redimensionne des données d'image volumetriques par facteur scalaire ou vers une taille de sortie explicite a trois éléments.</p>
+    <p>La méthode linear utilise une interpolation trilineaire separable. La méthode nearest utilise l'échantillon le plus proche et préserve exactement les volumes logiques.</p>
   </description>
   <used_function />
   <bibliography />

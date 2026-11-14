@@ -11,9 +11,9 @@
     <syntax_item>[Y, stress, disparities] = mdscale(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>mdscale</b> calcule une configuration de positionnement multidimensionnel a partir d'une matrice de dissimilarites ou d'un vecteur de distances.</p>
-    <p>Les options nom-valeur incluent Criterion, Weights, Start, Replicates et Options. Les criteres supportes sont stress, sstress, metricstress, metricsstress, sammon et strain.</p>
-    <p>Les dissimilarites NaN sont traitees comme des valeurs manquantes. La structure Options peut etre creee avec statset et supporte Display, MaxIter, TolFun et TolX.</p>
+    <p><b>mdscale</b> calcule une configuration de positionnement multidimensionnel à partir d'une matrice de dissimilarités ou d'un vecteur de distances.</p>
+    <p>Les options nom-valeur incluent Criterion, Weights, Start, Replicates et Options. Les critères supportés sont stress, sstress, metricstress, metricsstress, sammon et strain.</p>
+    <p>Les dissimilarités NaN sont traitées comme des valeurs manquantes. La structure Options peut être créée avec statset et supporte Display, MaxIter, TolFun et TolX.</p>
   </description>
   <examples>
     <example_item>

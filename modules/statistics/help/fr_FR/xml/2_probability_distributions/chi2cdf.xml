@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>chi2cdf</keyword>
-  <short_description>Fonction de repartition chi-square</short_description>
+  <short_description>Fonction de répartition chi-square</short_description>
   <syntax>
     <syntax_item>p = chi2cdf(x, v)</syntax_item>
     <syntax_item>p = chi2cdf(x, v, &apos;upper&apos;)</syntax_item>
@@ -11,21 +11,21 @@
   <param_input>
     <param_input_item>
       <param_name>x</param_name>
-      <param_description>tableau numerique reel : valeurs ou la distribution est evaluee.</param_description>
+      <param_description>tableau numérique réel : valeurs ou la distribution est évaluée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>v</param_name>
-      <param_description>tableau numerique reel positif ou scalaire : degres de liberte.</param_description>
+      <param_description>tableau numérique réel positif ou scalaire : degrés de liberté.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>p</param_name>
-      <param_description>probabilites cumulees ou probabilites de queue superieure.</param_description>
+      <param_description>probabilités cumulées ou probabilités de queue supérieure.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>chi2cdf</b> calcule les probabilites chi-square de queue inferieure par defaut et de queue superieure avec <b>&apos;upper&apos;</b>.</p>
+    <p><b>chi2cdf</b> calcule les probabilités chi-square de queue inférieure par défaut et de queue supérieure avec <b>&apos;upper&apos;</b>.</p>
   </description>
   <examples>
     <example_item>

@@ -13,15 +13,15 @@
   </syntax>
   <description>
     <p><b>violinplot</b> affiche des distributions sous forme de violons et retourne un ou plusieurs objets graphiques <b>violinplot</b>.</p>
-    <p>Pour des donnees vectorielles, l'objet retourne conserve <b>XData</b> comme positions de groupe et <b>YData</b> comme valeurs originales. Pour une matrice, un objet est retourne par colonne.</p>
-    <p>Avec <b>EvaluationPoints</b> et <b>DensityValues</b> sans donnees, <b>violinplot</b> trace des densites precalculees: un violon par colonne, aux positions 1, 2, ... Les deux arguments sont alors requis, et ils ne peuvent pas etre combines avec des donnees.</p>
-    <p>Chaque violon trace une estimation de densite par noyau gaussien de ses valeurs, evaluee sur 100 points de min(y) - 3h a max(y) + 3h. La largeur de bande suit la regle de reference normale avec une echelle robuste : h = (MAD / 0.6745) * (4 / (3 n))^(1/5), ou MAD est l'ecart absolu median. Si la MAD est nulle, l'etendue des donnees sert d'echelle, et des donnees constantes utilisent h = 1.</p>
-    <p>La page <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.violinplot.properties">proprietes violinplot</link> liste les proprietes d'objet prises en charge.</p>
+    <p>Pour des données vectorielles, l'objet retourne conservé <b>XData</b> comme positions de groupe et <b>YData</b> comme valeurs originales. Pour une matrice, un objet est retourné par colonne.</p>
+    <p>Avec <b>EvaluationPoints</b> et <b>DensityValues</b> sans données, <b>violinplot</b> trace des densités précalculées: un violon par colonne, aux positions 1, 2, ... Les deux arguments sont alors requis, et ils ne peuvent pas être combinés avec des données.</p>
+    <p>Chaque violon trace une estimation de densité par noyau gaussien de ses valeurs, évaluée sur 100 points de min(y) - 3h a max(y) + 3h. La largeur de bande suit la règle de référence normale avec une échelle robuste : h = (MAD / 0.6745) * (4 / (3 n))^(1/5), ou MAD est l'écart absolu median. Si la MAD est nulle, l'étendue des données sert d'échelle, et des données constantes utilisent h = 1.</p>
+    <p>La page <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.violinplot.properties">proprietes violinplot</link> liste les propriétés d'objet prises en charge.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Afficher des distributions groupees.</example_item_description>
+      <example_item_description>Afficher des distributions groupées.</example_item_description>
       <example_item_data><![CDATA[violinplot([1 1 1 2 2 2], [1 2 2 3 4 5]);]]></example_item_data>
       <example_item_img src="../../../../images/violinplot_1.svg" align="middle" generate="true" />
     </example_item>

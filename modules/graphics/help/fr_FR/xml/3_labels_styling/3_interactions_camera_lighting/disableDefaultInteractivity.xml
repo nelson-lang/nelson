@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>disableDefaultInteractivity</keyword>
-  <short_description>Desactive les interactions integrees des axes.</short_description>
+  <short_description>Désactive les interactions intégrées des axes.</short_description>
   <syntax>
     <syntax_item>disableDefaultInteractivity(ax)</syntax_item>
   </syntax>
@@ -16,13 +16,13 @@
   </param_input>
   <description>
     <p
-    >Par defaut, les axes ont des interactions integrees activees : glisser le curseur sur les axes deplace le contenu (ou le fait pivoter pour une vue 3-D), et la molette zoome.</p>
+    >Par défaut, les axes ont des interactions intégrées activées : glisser le curseur sur les axes déplace le contenu (ou le fait pivoter pour une vue 3-D), et la molette zoome.</p>
     <p
-    ><b>disableDefaultInteractivity(ax)</b> desactive ces interactions integrees pour les axes <b>ax</b>.</p>
+    ><b>disableDefaultInteractivity(ax)</b> désactive ces interactions intégrées pour les axes <b>ax</b>.</p>
     <p
     >La barre d'outils des axes et les modes pan, zoom et rotation actives depuis la barre d'outils ou par programme ne sont pas affectes.</p>
     <p>Utilisez <b
-      >enableDefaultInteractivity</b> pour reactiver les interactions integrees.</p>
+      >enableDefaultInteractivity</b> pour réactiver les interactions intégrées.</p>
   </description>
   <used_function />
   <bibliography />

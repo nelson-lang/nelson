@@ -3,8 +3,8 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <module_name>image_processing</module_name>
-  <chapter>Detection de points caracteristiques</chapter>
+  <chapter>Détection de points caractéristiques</chapter>
   <chapter_description>
-    <p>Fonctions pour les metriques de coins et la detection de points caracteristiques locaux.</p>
+    <p>Fonctions pour les métriques de coins et la détection de points caractéristiques locaux.</p>
   </chapter_description>
 </xmldoc>

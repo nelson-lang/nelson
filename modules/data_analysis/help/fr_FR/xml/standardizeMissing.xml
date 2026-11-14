@@ -10,22 +10,22 @@
   <param_input>
     <param_input_item>
       <param_name>A</param_name>
-      <param_description>Tableau ou table d'entree.</param_description>
+      <param_description>Tableau ou table d'entrée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>indicators</param_name>
-      <param_description>Valeurs a traiter comme manquantes.</param_description>
+      <param_description>Valeurs à traiter comme manquantes.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>B</param_name>
-      <param_description>Donnees avec valeurs manquantes standardisees.</param_description>
+      <param_description>Données avec valeurs manquantes standardisées.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>
-      <b>standardizeMissing</b> remplace les indicateurs par des valeurs manquantes standard comme NaN pour les variables numeriques.</p>
+      <b>standardizeMissing</b> remplace les indicateurs par des valeurs manquantes standard comme NaN pour les variables numériques.</p>
   </description>
   <used_function />
   <bibliography />

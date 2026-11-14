@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>timeseries.getsampleusingtime</keyword>
-  <short_description>Renvoie les echantillons selectionnes par temps.</short_description>
+  <short_description>Renvoie les échantillons sélectionnés par temps.</short_description>
   <syntax>
     <syntax_item>tsOut = getsampleusingtime(ts, t)</syntax_item>
     <syntax_item>tsOut = getsampleusingtime(ts, t1, t2)</syntax_item>
@@ -11,15 +11,15 @@
   <param_input>
     <param_input_item>
       <param_name>ts</param_name>
-      <param_description>Objet timeseries en entree.</param_description>
+      <param_description>Objet timeseries en entrée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>t</param_name>
-      <param_description>Temps exact de l'echantillon.</param_description>
+      <param_description>Temps exact de l'échantillon.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>t1</param_name>
-      <param_description>Temps de debut.</param_description>
+      <param_description>Temps de début.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>t2</param_name>
@@ -29,11 +29,11 @@
   <param_output>
     <param_output_item>
       <param_name>tsOut</param_name>
-      <param_description>Timeseries avec les echantillons selectionnes.</param_description>
+      <param_description>Timeseries avec les échantillons sélectionnés.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>getsampleusingtime</b> Selectionne des echantillons a des temps exacts ou dans un intervalle temporel ferme.</p>
+    <p><b>getsampleusingtime</b> Sélectionne des échantillons a des temps exacts ou dans un intervalle temporel fermé.</p>
   </description>
   <used_function />
   <bibliography />

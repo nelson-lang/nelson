@@ -14,11 +14,11 @@
     <syntax_item>h = bubblechart(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>bubblechart</b> affiche un graphique dont les tailles des marqueurs circulaires sont controlees par <b>sz</b>.</p>
-    <p><b>x</b>, <b>y</b> et <b>sz</b> peuvent etre des vecteurs ou des matrices. Avec <b>x</b> et <b>y</b> vectoriels et <b>sz</b> scalaire, un objet bubblechart est cree pour chaque point. Les matrices creent un objet par serie de donnees.</p>
-    <p><b>c</b> specifie les couleurs des bulles. Cette valeur peut etre un nom de couleur, un nom court, un triplet RGB, un vecteur de couleurs ou une matrice RGB.</p>
-    <p>La syntaxe table lit les variables depuis <b>tbl</b>. Les selecteurs de variables peuvent etre des noms, des tableaux de chaines, des cellules de noms, des indices numeriques ou des vecteurs logiques.</p>
-    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.bubblechart.properties">proprietes de bubblechart</link> pour la liste complete des proprietes.</p>
+    <p><b>bubblechart</b> affiche un graphique dont les tailles des marqueurs circulaires sont contrôlées par <b>sz</b>.</p>
+    <p><b>x</b>, <b>y</b> et <b>sz</b> peuvent être des vecteurs ou des matrices. Avec <b>x</b> et <b>y</b> vectoriels et <b>sz</b> scalaire, un objet bubblechart est créé pour chaque point. Les matrices créent un objet par série de données.</p>
+    <p><b>c</b> spécifie les couleurs des bulles. Cette valeur peut être un nom de couleur, un nom court, un triplet RGB, un vecteur de couleurs ou une matrice RGB.</p>
+    <p>La syntaxe table lit les variables depuis <b>tbl</b>. Les sélecteurs de variables peuvent être des noms, des tableaux de chaînes, des cellules de noms, des indices numériques ou des vecteurs logiques.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.bubblechart.properties">proprietes de bubblechart</link> pour la liste complète des propriétés.</p>
   </description>
   <examples>
     <example_item>
@@ -29,7 +29,7 @@
     </example_item>
     <example_item>
       <example_item_type>Nelson</example_item_type>
-      <example_item_description>Afficher plusieurs series depuis des matrices.</example_item_description>
+      <example_item_description>Afficher plusieurs séries depuis des matrices.</example_item_description>
       <example_item_data><![CDATA[x = [1 2 3; 4 5 6];
 y = [2 4 3; 5 6 4];
 sz = [20 40 60; 50 30 70];

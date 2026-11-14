@@ -3,28 +3,28 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>timeseries.gettsafterevent</keyword>
-  <short_description>Renvoie les echantillons apres un evenement.</short_description>
+  <short_description>Renvoie les échantillons après un événement.</short_description>
   <syntax>
     <syntax_item>tsOut = gettsafterevent(ts, eventName)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>ts</param_name>
-      <param_description>Objet timeseries en entree.</param_description>
+      <param_description>Objet timeseries en entrée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>eventName</param_name>
-      <param_description>Nom d'un evenement dans ts.Events.</param_description>
+      <param_description>Nom d'un événement dans ts.Events.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>tsOut</param_name>
-      <param_description>Objet timeseries en sortie contenant les echantillons selectionnes.</param_description>
+      <param_description>Objet timeseries en sortie contenant les échantillons sélectionnés.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>gettsafterevent</b> Recherche l'evenement nomme et conserve les echantillons dont le temps est superieur au temps de l'evenement.</p>
+    <p><b>gettsafterevent</b> Recherche l'événement nommé et conserve les échantillons dont le temps est supérieur au temps de l'événement.</p>
   </description>
   <used_function />
   <bibliography />

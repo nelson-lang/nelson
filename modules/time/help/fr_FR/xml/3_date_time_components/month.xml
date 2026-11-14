@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>month</keyword>
-  <short_description>Extrait les numeros ou noms de mois de valeurs de date et heure.</short_description>
+  <short_description>Extrait les numéros ou noms de mois de valeurs de date et heure.</short_description>
   <syntax>
     <syntax_item>m = month(t)</syntax_item>
     <syntax_item>name = month(t, &apos;name&apos;)</syntax_item>
@@ -12,18 +12,18 @@
   <param_input>
     <param_input_item>
       <param_name>inputs</param_name>
-      <param_description>Valeurs datetime, numeros de date serie ou entrees compatibles date, avec selecteur optionnel de nom.</param_description>
+      <param_description>Valeurs datetime, numéros de date série ou entrées compatibles date, avec sélecteur optionnel de nom.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>output</param_name>
-      <param_description>Un tableau double de numeros de mois, ou un tableau string de noms de mois.</param_description>
+      <param_description>Un tableau double de numéros de mois, ou un tableau string de noms de mois.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>Extrait les numeros ou noms de mois de valeurs de date et heure.</p>
-    <p>Utilisez name pour les noms anglais complets et shortname pour les noms abreges.</p>
+    <p>Extrait les numéros ou noms de mois de valeurs de date et heure.</p>
+    <p>Utilisez name pour les noms anglais complets et shortname pour les noms abrégés.</p>
     <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
   </description>
   <used_function />

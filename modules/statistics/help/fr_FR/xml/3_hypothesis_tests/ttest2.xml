@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>ttest2</keyword>
-  <short_description>Test t a deux echantillons</short_description>
+  <short_description>Test t a deux échantillons</short_description>
   <syntax>
     <syntax_item>h = ttest2(x, y)</syntax_item>
     <syntax_item>h = ttest2(x, y, &apos;Alpha&apos;, alpha)</syntax_item>
@@ -15,15 +15,15 @@
   <param_input>
     <param_input_item>
       <param_name>x</param_name>
-      <param_description>tableau numerique reel : premier echantillon.</param_description>
+      <param_description>tableau numérique réel : premier échantillon.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>y</param_name>
-      <param_description>tableau numerique reel : second echantillon.</param_description>
+      <param_description>tableau numérique réel : second échantillon.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>alpha</param_name>
-      <param_description>scalaire dans (0,1), 0.05 par defaut : niveau de signification.</param_description>
+      <param_description>scalaire dans (0,1), 0.05 par défaut : niveau de signification.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>tail</param_name>
@@ -31,7 +31,7 @@
     </param_input_item>
     <param_input_item>
       <param_name>vartype</param_name>
-      <param_description>&apos;equal&apos; par defaut ou &apos;unequal&apos; pour le test de Welch.</param_description>
+      <param_description>&apos;equal&apos; par défaut ou &apos;unequal&apos; pour le test de Welch.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>dim</param_name>
@@ -41,7 +41,7 @@
   <param_output>
     <param_output_item>
       <param_name>h</param_name>
-      <param_description>tableau logique : decision du test.</param_description>
+      <param_description>tableau logique : décision du test.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>p</param_name>
@@ -49,7 +49,7 @@
     </param_output_item>
     <param_output_item>
       <param_name>ci</param_name>
-      <param_description>tableau a 2 lignes : intervalles de confiance de la difference moyenne.</param_description>
+      <param_description>tableau a 2 lignes : intervalles de confiance de la différence moyenne.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>stats</param_name>
@@ -57,8 +57,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>ttest2</b> effectue un test t a deux echantillons le long de la premiere dimension non singleton sauf si <b>Dim</b> est specifie.</p>
-    <p>Les valeurs NaN sont ignorees independamment dans chaque echantillon teste.</p>
+    <p><b>ttest2</b> effectue un test t a deux échantillons le long de la première dimension non singleton sauf si <b>Dim</b> est spécifié.</p>
+    <p>Les valeurs NaN sont ignorées indépendamment dans chaque échantillon testé.</p>
   </description>
   <examples>
     <example_item>

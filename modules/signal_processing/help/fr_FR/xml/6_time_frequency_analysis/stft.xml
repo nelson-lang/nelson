@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>stft</keyword>
-  <short_description>Transformee de Fourier court terme.</short_description>
+  <short_description>Transformée de Fourier court terme.</short_description>
   <syntax>
     <syntax_item>[S, F, T] = stft(X)</syntax_item>
     <syntax_item>[S, F, T] = stft(X, Fs)</syntax_item>
@@ -11,20 +11,20 @@
     <syntax_item>[S, F, T] = stft(..., 'FrequencyRange', range)</syntax_item>
   </syntax>
   <param_input>
-    <param_input_item><param_name>X</param_name><param_description>vecteur d'entree.</param_description></param_input_item>
-    <param_input_item><param_name>Fs</param_name><param_description>frequence d'echantillonnage. La valeur par defaut vaut 1.</param_description></param_input_item>
-    <param_input_item><param_name>window</param_name><param_description>fenetre d'analyse. La valeur par defaut vaut hamming(128).</param_description></param_input_item>
-    <param_input_item><param_name>overlap</param_name><param_description>longueur de recouvrement. Elle doit etre inferieure a la longueur de la fenetre.</param_description></param_input_item>
-    <param_input_item><param_name>nfft</param_name><param_description>longueur FFT. Elle doit etre superieure ou egale a la longueur de la fenetre.</param_description></param_input_item>
-    <param_input_item><param_name>range</param_name><param_description>plage de frequences : 'centered', 'twosided' ou 'onesided'.</param_description></param_input_item>
+    <param_input_item><param_name>X</param_name><param_description>vecteur d'entrée.</param_description></param_input_item>
+    <param_input_item><param_name>Fs</param_name><param_description>fréquence d'échantillonnage. La valeur par défaut vaut 1.</param_description></param_input_item>
+    <param_input_item><param_name>window</param_name><param_description>fenêtre d'analyse. La valeur par défaut vaut hamming(128).</param_description></param_input_item>
+    <param_input_item><param_name>overlap</param_name><param_description>longueur de recouvrement. Elle doit être inférieure à la longueur de la fenêtre.</param_description></param_input_item>
+    <param_input_item><param_name>nfft</param_name><param_description>longueur FFT. Elle doit être supérieure ou égale à la longueur de la fenêtre.</param_description></param_input_item>
+    <param_input_item><param_name>range</param_name><param_description>plage de fréquences : 'centered', 'twosided' ou 'onesided'.</param_description></param_input_item>
   </param_input>
   <param_output>
-    <param_output_item><param_name>S</param_name><param_description>matrice de transformee court terme.</param_description></param_output_item>
-    <param_output_item><param_name>F</param_name><param_description>vecteur de frequences.</param_description></param_output_item>
+    <param_output_item><param_name>S</param_name><param_description>matrice de transformée court terme.</param_description></param_output_item>
+    <param_output_item><param_name>F</param_name><param_description>vecteur de fréquences.</param_description></param_output_item>
     <param_output_item><param_name>T</param_name><param_description>vecteur de temps.</param_description></param_output_item>
   </param_output>
   <description>
-    <p><b>stft</b> decoupe le vecteur d'entree en trames fenetrees recouvrantes puis calcule une FFT par trame. La sortie peut etre centree, bilaterale ou unilaterale.</p>
+    <p><b>stft</b> découpe le vecteur d'entrée en trames fenêtrées recouvrantes puis calcule une FFT par trame. La sortie peut être centrée, bilaterale ou unilaterale.</p>
   </description>
   <examples>
     <example_item>
@@ -36,7 +36,7 @@
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Afficher la transformee de Fourier a court terme.</example_item_description>
+      <example_item_description>Afficher la transformée de Fourier a court terme.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[stft(sin((0:127)' * 0.2), 10, 'Window', hamming(16), 'OverlapLength', 8, 'FFTLength', 32, 'FrequencyRange', 'onesided');]]></example_item_data>
       <example_item_img
         src="../../images/stft.svg"

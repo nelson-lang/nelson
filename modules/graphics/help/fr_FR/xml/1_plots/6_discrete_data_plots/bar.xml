@@ -18,23 +18,23 @@
   <param_input>
     <param_input_item>
       <param_name>X</param_name>
-      <param_description>abscisses : scalaire, vecteur, tableau categorical, tableau de chaines ou cellule d'etiquettes.</param_description>
+      <param_description>abscisses : scalaire, vecteur, tableau categorical, tableau de chaînes ou cellule d'étiquettes.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Y</param_name>
-      <param_description>ordonnees : vecteur ou matrice.</param_description>
+      <param_description>ordonnées : vecteur ou matrice.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>width</param_name>
-      <param_description>scalaire, 0.8 par defaut.</param_description>
+      <param_description>scalaire, 0.8 par défaut.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>color</param_name>
-      <param_description>chaine scalaire ou vecteur ligne de caracteres : nom de couleur ou nom court de couleur.</param_description>
+      <param_description>chaîne scalaire ou vecteur ligne de caractères : nom de couleur ou nom court de couleur.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>propertyName</param_name>
-      <param_description>chaine scalaire ou vecteur ligne de caracteres.</param_description>
+      <param_description>chaîne scalaire ou vecteur ligne de caractères.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>propertyValue</param_name>
@@ -52,12 +52,12 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>bar(X, Y)</b> cree un diagramme en barres avec les positions X et les valeurs Y.</p>
-    <p>Lorsqu'un seul argument est fourni, <b>bar(Y)</b> genere les positions X de 1 au nombre de lignes de Y.</p>
-    <p>Vous pouvez specifier la largeur des barres. Une valeur de 1.0 fait toucher les barres voisines, tandis que la largeur par defaut vaut 0.8.</p>
-    <p>Lorsque Y est une matrice, <b>bar</b> cree des barres groupees par defaut. Utiliser <b>'stacked'</b> pour empiler les colonnes dans chaque groupe.</p>
-    <p>Lorsque X est un tableau categoriel, les barres sont placees dans l'ordre des categories (celui renvoye par <b>categories</b>), Y est reordonne en consequence, et les noms des categories servent d'etiquettes de graduation.</p>
-    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.bar.properties">proprietes de bar</link> pour la liste complete des proprietes.</p>
+    <p><b>bar(X, Y)</b> crée un diagramme en barres avec les positions X et les valeurs Y.</p>
+    <p>Lorsqu'un seul argument est fourni, <b>bar(Y)</b> génère les positions X de 1 au nombre de lignes de Y.</p>
+    <p>Vous pouvez spécifier la largeur des barres. Une valeur de 1.0 fait toucher les barres voisines, tandis que la largeur par défaut vaut 0.8.</p>
+    <p>Lorsque Y est une matrice, <b>bar</b> crée des barres groupées par défaut. Utiliser <b>'stacked'</b> pour empiler les colonnes dans chaque groupe.</p>
+    <p>Lorsque X est un tableau catégoriel, les barres sont placées dans l'ordre des catégories (celui renvoyé par <b>categories</b>), Y est réordonné en conséquence, et les noms des catégories servent d'étiquettes de graduation.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.bar.properties">proprietes de bar</link> pour la liste complète des propriétés.</p>
   </description>
   <used_function />
   <bibliography />
@@ -73,7 +73,7 @@ bar(y);
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Diagramme avec des barres plus etroites.</example_item_description>
+      <example_item_description>Diagramme avec des barres plus étroites.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[f = figure();
 y = [91 75 123.5 105 150 131 203 179 249 226 281.5];
 bar(y, 0.5);
@@ -92,7 +92,7 @@ bar(x, y, 'r');
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Diagramme avec etiquettes de chaines.</example_item_description>
+      <example_item_description>Diagramme avec étiquettes de chaînes.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[f = figure();
 x = ["Summer", "Spring", "Winter", "Autumn"];
 y = [2 1 4 3];
@@ -102,7 +102,7 @@ bar(x, y);
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Diagramme avec proprietes de face et de contour.</example_item_description>
+      <example_item_description>Diagramme avec propriétés de face et de contour.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[f = figure();
 y = [91 75 123.5 105 150 131 203 179 249 226 281.5];
 bar(y, 'FaceColor', [0 .5 .5], 'EdgeColor', [0 .9 .9], 'LineWidth', 1.5);
@@ -111,7 +111,7 @@ bar(y, 'FaceColor', [0 .5 .5], 'EdgeColor', [0 .9 .9], 'LineWidth', 1.5);
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Barres groupees.</example_item_description>
+      <example_item_description>Barres groupées.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[f = figure();
 y = [1 2; 3 4; 5 6];
 bar(y, 'grouped');
@@ -120,7 +120,7 @@ bar(y, 'grouped');
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Barres empilees avec valeurs positives et negatives.</example_item_description>
+      <example_item_description>Barres empilées avec valeurs positives et négatives.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[f = figure();
 y = [1 -2 3; -4 5 -6];
 bar(y, 'stacked');
@@ -129,7 +129,7 @@ bar(y, 'stacked');
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Barres empilees a une position scalaire.</example_item_description>
+      <example_item_description>Barres empilées a une position scalaire.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[f = figure();
 x = 2020;
 y = [30 50 23];
@@ -139,7 +139,7 @@ bar(x, y, "stacked");
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Diagramme avec etiquettes categoriales.</example_item_description>
+      <example_item_description>Diagramme avec étiquettes catégoriales.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[f = figure();
 X = categorical({'Small', 'Medium', 'Large', 'Extra Large'});
 X = reordercats(X, {'Small', 'Medium', 'Large', 'Extra Large'});
@@ -162,7 +162,7 @@ bar(tbl.Month, tbl.Sales);
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Barres groupees depuis plusieurs variables de table.</example_item_description>
+      <example_item_description>Barres groupées depuis plusieurs variables de table.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[f = figure();
 Month = ["April"; "May"; "June"; "July"; "August"];
 Sales = [2000; 3000; 4000; 5000; 6000];

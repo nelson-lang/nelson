@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>nelson.unittest.run</keyword>
-  <short_description>Executer des tests avec le runner moderne.</short_description>
+  <short_description>Exécuter des tests avec le runner moderne.</short_description>
   <syntax>
     <syntax_item>results = nelson.unittest.run(targets, Name, Value)</syntax_item>
     <syntax_item>results = nelson.unittest.run(plan, Name, Value)</syntax_item>
@@ -16,7 +16,7 @@
     </param_input_item>
     <param_input_item>
       <param_name>Name, Value</param_name>
-      <param_description>options d'execution : Workers, Timeout, StopOnFail, Retry, RetryOnlyOn, LogDir,
+      <param_description>options d'exécution : Workers, Timeout, StopOnFail, Retry, RetryOnlyOn, LogDir,
         Format, OutputFile et Launcher.</param_description>
     </param_input_item>
   </param_input>
@@ -24,31 +24,31 @@
     <param_output_item>
       <param_name>results</param_name>
       <param_description>structure TestRunResult avec status, summary, cases normalises, diagnostics,
-        registry et donnees brutes de compatibilite.</param_description>
+        registry et données brutes de compatibilité.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>nelson.unittest.run</b> execute chaque test ou bench dans un processus enfant supervise. Il
-      n'existe pas de mode d'execution in-process pour les tests ou les benches.</p>
-    <p>Les tests et les benches s'executent par defaut dans des processus enfants separes. Un fichier peut
-      autoriser la reutilisation de processus avec le tag <b>&lt;--REUSE PROCESS--&gt;</b>.</p>
-    <p>Le superviseur natif utilise une file dynamique ponderee. Le tag optionnel
-      <b>&lt;--WEIGHT N--&gt;</b> donne la priorite aux fichiers plus lourds sans modifier leur ordre stable
+    <p><b>nelson.unittest.run</b> exécute chaque test ou bench dans un processus enfant supervise. Il
+      n'existe pas de mode d'exécution in-process pour les tests ou les benches.</p>
+    <p>Les tests et les benches s'exécutent par défaut dans des processus enfants séparés. Un fichier peut
+      autoriser la réutilisation de processus avec le tag <b>&lt;--REUSE PROCESS--&gt;</b>.</p>
+    <p>Le superviseur natif utilise une file dynamique pondérée. Le tag optionnel
+      <b>&lt;--WEIGHT N--&gt;</b> donne la priorité aux fichiers plus lourds sans modifier leur ordre stable
       d&apos;affichage.</p>
-    <p>Le tag optionnel <b>&lt;--TIMEOUT N--&gt;</b> remplace le delai d&apos;execution par fichier (en secondes)
-      pour un seul fichier ; l&apos;option globale <b>Timeout</b>, lorsqu&apos;elle est definie, reste
+    <p>Le tag optionnel <b>&lt;--TIMEOUT N--&gt;</b> remplace le délai d&apos;exécution par fichier (en secondes)
+      pour un seul fichier ; l&apos;option globale <b>Timeout</b>, lorsqu&apos;elle est définie, reste
       prioritaire.</p>
-    <p>Les resultats sont affiches progressivement dans l&apos;ordre de decouverte des que les resultats
-      precedents sont disponibles. Chaque ligne contient son statut et son temps d&apos;execution.</p>
-    <p>Si un worker reutilisable crashe ou ne retourne aucun resultat, le runner relance une fois le test par
-      le chemin isole. Un timeout est rapporte directement.</p>
+    <p>Les résultats sont affichés progressivement dans l&apos;ordre de découverte dès que les résultats
+      précédents sont disponibles. Chaque ligne contient son statut et son temps d&apos;exécution.</p>
+    <p>Si un worker reutilisable crashe ou ne retourne aucun résultat, le runner relance une fois le test par
+      le chemin isole. Un timeout est rapporté directement.</p>
     <p>Sans tag GUI ou ADV-CLI, le launcher isole est <b>nelson-cli</b>, y compris lorsque le processus parent
       est graphique.</p>
-    <p>L&apos;option <b>Launcher</b> choisit le backend graphique des tests tagues ADV-CLI : <b>'default'</b>
-      (les executables historiques) ou <b>'webview'</b>, qui execute ces tests via
+    <p>L&apos;option <b>Launcher</b> choisit le backend graphique des tests tagués ADV-CLI : <b>'default'</b>
+      (les exécutables historiques) ou <b>'webview'</b>, qui exécute ces tests via
       <b>nelson-adv-cli --webview</b> afin que les figures soient rendues par le backend web headless
       (RenderWeb). Les tags CLI et GUI ne sont pas affectes. La valeur est aussi lue depuis la variable
-      d&apos;environnement <b>NELSON_UNITTEST_LAUNCHER</b>, pratique en integration continue.</p>
+      d&apos;environnement <b>NELSON_UNITTEST_LAUNCHER</b>, pratique en intégration continue.</p>
   </description>
   <examples>
     <example_item>

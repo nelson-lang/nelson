@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>trimmean</keyword>
-  <short_description>Moyenne apres suppression des valeurs extremes.</short_description>
+  <short_description>Moyenne après suppression des valeurs extrêmes.</short_description>
   <syntax>
     <syntax_item>m = trimmean(X, percent)</syntax_item>
     <syntax_item>m = trimmean(X, percent, flag)</syntax_item>
@@ -12,8 +12,8 @@
     <syntax_item>m = trimmean(..., 'all')</syntax_item>
   </syntax>
   <description>
-    <p><b>trimmean</b> calcule la moyenne apres suppression d'un pourcentage des plus petites et plus grandes valeurs. Les valeurs <b>NaN</b> sont omises.</p>
-    <p><b>flag</b> controle les comptes de rognage non entiers et peut valoir <b>round</b>, <b>floor</b> ou <b>weighted</b>.</p>
+    <p><b>trimmean</b> calcule la moyenne après suppression d'un pourcentage des plus petites et plus grandes valeurs. Les valeurs <b>NaN</b> sont omises.</p>
+    <p><b>flag</b> contrôle les comptes de rognage non entiers et peut valoir <b>round</b>, <b>floor</b> ou <b>weighted</b>.</p>
   </description>
   <examples>
     <example_item>

@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>retime</keyword>
-  <short_description>Ajuster les donnees d&apos;une timetable a de nouveaux temps de lignes.</short_description>
+  <short_description>Ajuster les données d&apos;une timetable a de nouveaux temps de lignes.</short_description>
   <syntax>
     <syntax_item>TT2 = retime(TT1, newTimes)</syntax_item>
     <syntax_item>TT2 = retime(TT1, newTimes, method)</syntax_item>
@@ -12,18 +12,18 @@
     <syntax_item>TT2 = retime(TT1, 'regular', method, 'SampleRate', Fs)</syntax_item>
   </syntax>
   <param_input>
-    <param_input_item><param_name>TT1</param_name><param_description>Timetable d&apos;entree.</param_description></param_input_item>
+    <param_input_item><param_name>TT1</param_name><param_description>Timetable d&apos;entrée.</param_description></param_input_item>
     <param_input_item><param_name>newTimes</param_name><param_description>Nouveaux temps datetime ou duration.</param_description></param_input_item>
-    <param_input_item><param_name>newTimeStep</param_name><param_description>Pas regulier nomme comme &apos;daily&apos;, &apos;hourly&apos; ou &apos;secondly&apos;.</param_description></param_input_item>
-    <param_input_item><param_name>method</param_name><param_description>Methode de remplissage, voisinage, interpolation ou agregation.</param_description></param_input_item>
+    <param_input_item><param_name>newTimeStep</param_name><param_description>Pas régulier nomme comme &apos;daily&apos;, &apos;hourly&apos; ou &apos;secondly&apos;.</param_description></param_input_item>
+    <param_input_item><param_name>method</param_name><param_description>Méthode de remplissage, voisinage, interpolation ou agregation.</param_description></param_input_item>
   </param_input>
   <param_output>
-    <param_output_item><param_name>TT2</param_name><param_description>Timetable retimee.</param_description></param_output_item>
+    <param_output_item><param_name>TT2</param_name><param_description>Timetable retimée.</param_description></param_output_item>
   </param_output>
   <description>
-    <p><b>retime</b> renvoie une timetable dont les temps de lignes correspondent a <b>newTimes</b> ou a une grille reguliere.</p>
-    <p>Les methodes de remplissage et de voisinage incluent fillwithmissing, fillwithconstant, nearest, previous et next.</p>
-    <p>Les methodes d&apos;interpolation numerique incluent linear, spline, pchip et makima. Les methodes d&apos;agregation incluent sum, mean, min, max, median, prod, count, firstvalue et lastvalue.</p>
+    <p><b>retime</b> renvoie une timetable dont les temps de lignes correspondent à <b>newTimes</b> ou a une grille régulière.</p>
+    <p>Les méthodes de remplissage et de voisinage incluent fillwithmissing, fillwithconstant, nearest, previous et next.</p>
+    <p>Les méthodes d&apos;interpolation numérique incluent linear, spline, pchip et makima. Les méthodes d&apos;agregation incluent sum, mean, min, max, median, prod, count, firstvalue et lastvalue.</p>
   </description>
   <used_function />
   <bibliography />

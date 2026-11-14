@@ -12,7 +12,7 @@
   <param_input>
     <param_input_item>
       <param_name>X</param_name>
-      <param_description>vecteur d'entree non vide. Sa longueur doit etre au moins 2*N+1.</param_description>
+      <param_description>vecteur d'entrée non vide. Sa longueur doit être au moins 2*N+1.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>R</param_name>
@@ -20,11 +20,11 @@
     </param_input_item>
     <param_input_item>
       <param_name>N</param_name>
-      <param_description>parametre entier positif de longueur du filtre. La valeur par defaut vaut 4.</param_description>
+      <param_description>paramètre entier positif de longueur du filtre. La valeur par défaut vaut 4.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>alpha</param_name>
-      <param_description>facteur de bande limitee dans l'intervalle (0, 1]. La valeur par defaut vaut 0.5.</param_description>
+      <param_description>facteur de bande limitée dans l'intervalle (0, 1]. La valeur par défaut vaut 0.5.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -34,7 +34,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>interp</b> insere R-1 echantillons entre les echantillons d'entree puis applique un filtre FIR d'interpolation aux moindres carres. Une extrapolation lineaire aux bords est appliquee avant le filtrage pour retourner un vecteur avec la phase et la longueur attendues.</p>
+    <p><b>interp</b> insère R-1 échantillons entre les échantillons d'entrée puis applique un filtre FIR d'interpolation aux moindres carrés. Une extrapolation linéaire aux bords est appliquée avant le filtrage pour retourner un vecteur avec la phase et la longueur attendues.</p>
   </description>
   <examples>
     <example_item>

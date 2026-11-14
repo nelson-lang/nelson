@@ -13,27 +13,27 @@
   <param_input>
     <param_input_item>
       <param_name>filename</param_name>
-      <param_description>une chaine : nom du fichier a formater.</param_description>
+      <param_description>une chaîne : nom du fichier a formater.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>indentsize</param_name>
-      <param_description>un entier &gt; 0. par defaut : 2</param_description>
+      <param_description>un entier &gt; 0. par défaut : 2</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>dobackup</param_name>
-      <param_description>un booleen : false par defaut. Si true, cree un fichier .bak.</param_description>
+      <param_description>un booléen : false par défaut. Si true, crée un fichier .bak.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>fullformat</param_name>
-      <param_description>un booleen : true par defaut. Si false, seule l&apos;indentation de debut de ligne est modifiee.</param_description>
+      <param_description>un booléen : true par défaut. Si false, seule l&apos;indentation de début de ligne est modifiée.</param_description>
     </param_input_item>
   </param_input>
   <description>
-    <p><b>smartindent</b> valide, formate et indente le code Nelson sans l&apos;executer. Par defaut, il normalise l&apos;indentation, les espaces autour des operateurs courants, les separateurs et les blocs classdef. Mettre <b>fullformat</b> a false pour modifier uniquement l&apos;indentation de debut de ligne.</p>
-    <p>Le formatage complet conserve les points accoles aux noms de packages, aux membres des objets et aux champs des structures, y compris les champs dynamiques comme <b>value.(name)</b>. Les operateurs element par element conservent leur espacement d&apos;operateur.</p>
-    <p>Les noms de blocs de classe comme <b>properties</b> et <b>methods</b> restent des identifiants ordinaires dans les instructions executables. Ils ouvrent des blocs d&apos;indentation uniquement dans le corps de la classe.</p>
-    <p>Les marqueurs de commentaire de bloc dans les tableaux de caracteres, les chaines et les commentaires de ligne restent du texte. Un vrai commentaire de bloc non termine est rejete avant l&apos;ecriture du fichier.</p>
-    <p>Un bloc ouvert et ferme sur la meme ligne, comme <b>if ready, value = 1; end</b>, n&apos;augmente pas l&apos;indentation des lignes suivantes. Un <b>end</b> utilise dans une indexation ne ferme pas un bloc.</p>
+    <p><b>smartindent</b> valide, formate et indente le code Nelson sans l&apos;exécuter. Par défaut, il normalise l&apos;indentation, les espaces autour des opérateurs courants, les séparateurs et les blocs classdef. Mettre <b>fullformat</b> a false pour modifier uniquement l&apos;indentation de début de ligne.</p>
+    <p>Le formatage complet conserve les points accoles aux noms de packages, aux membres des objets et aux champs des structures, y compris les champs dynamiques comme <b>value.(name)</b>. Les opérateurs élément par élément conservent leur espacement d&apos;opérateur.</p>
+    <p>Les noms de blocs de classe comme <b>properties</b> et <b>methods</b> restent des identifiants ordinaires dans les instructions exécutables. Ils ouvrent des blocs d&apos;indentation uniquement dans le corps de la classe.</p>
+    <p>Les marqueurs de commentaire de bloc dans les tableaux de caractères, les chaînes et les commentaires de ligne restent du texte. Un vrai commentaire de bloc non termine est rejeté avant l&apos;écriture du fichier.</p>
+    <p>Un bloc ouvert et ferme sur la même ligne, comme <b>if ready, value = 1; end</b>, n&apos;augmente pas l&apos;indentation des lignes suivantes. Un <b>end</b> utilise dans une indexation ne ferme pas un bloc.</p>
   </description>
   <used_function />
   <bibliography />
@@ -49,7 +49,7 @@
       </history_item>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>parametre fullformat ajoute</history_description>
+      <history_description>paramètre fullformat ajouté</history_description>
     </history_item>
   </history>
   <authors>

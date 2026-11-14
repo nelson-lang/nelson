@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>parquetwrite</keyword>
-  <short_description>Ecrire une table dans un fichier Parquet.</short_description>
+  <short_description>Écrire une table dans un fichier Parquet.</short_description>
   <syntax>
     <syntax_item>parquetwrite(filename, T)</syntax_item>
     <syntax_item>parquetwrite(filename, T, Name, Value)</syntax_item>
@@ -11,7 +11,7 @@
   <param_input>
     <param_input_item>
       <param_name>filename</param_name>
-      <param_description>une chaine : fichier Parquet de destination.</param_description>
+      <param_description>une chaîne : fichier Parquet de destination.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>T</param_name>
@@ -19,13 +19,13 @@
     </param_input_item>
     <param_input_item>
       <param_name>Name, Value</param_name>
-      <param_description>arguments optionnels specifies sous forme de paires nom-valeur.</param_description>
+      <param_description>arguments optionnels spécifiés sous forme de paires nom-valeur.</param_description>
     </param_input_item>
   </param_input>
   <description>
-    <p><b>parquetwrite(filename, T)</b> ecrit la table ou timetable <b>T</b> dans un fichier Parquet local.</p>
-    <p>Les types de variables pris en charge incluent les valeurs logiques, les types entiers, les nombres flottants simple et double precision, le texte, les valeurs datetime, les durees, les tables imbriquees et les colonnes de cellules homogenes de vecteurs primitifs.</p>
-    <p>Les variables non prises en charge, comme les tableaux complexes, les tableaux sparse, les objets de classe non pris en charge et certaines formes imbriquees de cellules, generent une erreur.</p>
+    <p><b>parquetwrite(filename, T)</b> écrit la table ou timetable <b>T</b> dans un fichier Parquet local.</p>
+    <p>Les types de variables pris en charge incluent les valeurs logiques, les types entiers, les nombres flottants simple et double précision, le texte, les valeurs datetime, les durées, les tables imbriquées et les colonnes de cellules homogènes de vecteurs primitifs.</p>
+    <p>Les variables non prises en charge, comme les tableaux complexes, les tableaux sparse, les objets de classe non pris en charge et certaines formes imbriquées de cellules, génèrent une erreur.</p>
     <p>Les paires nom-valeur prises en charge sont <b>VariableCompression</b>, <b>VariableEncoding</b>, <b>VariableNames</b>, <b>RowGroupHeights</b> et <b>Version</b>.</p>
     <p><b>VariableCompression</b> accepte des valeurs comme <b>&apos;snappy&apos;</b>, <b>&apos;gzip&apos;</b>, <b>&apos;brotli&apos;</b>, <b>&apos;zstd&apos;</b>, <b>&apos;lz4&apos;</b> et <b>&apos;uncompressed&apos;</b>. <b>VariableEncoding</b> accepte <b>&apos;auto&apos;</b>, <b>&apos;plain&apos;</b> ou <b>&apos;dictionary&apos;</b>. <b>Version</b> accepte <b>&apos;1.0&apos;</b>, <b>&apos;2.4&apos;</b> ou <b>&apos;2.6&apos;</b>.</p>
   </description>

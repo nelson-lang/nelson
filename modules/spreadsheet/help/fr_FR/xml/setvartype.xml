@@ -3,32 +3,32 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>setvartype</keyword>
-  <short_description>Definir les types de donnees des variables selectionnees.</short_description>
+  <short_description>Définir les types de données des variables sélectionnées.</short_description>
   <syntax>
     <syntax_item>opts = setvartype(opts, selection, types)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>opts</param_name>
-      <param_description>un objet d&apos;options d&apos;importation (texte delimite ou feuille de calcul).</param_description>
+      <param_description>un objet d&apos;options d&apos;importation (texte délimite ou feuille de calcul).</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>selection</param_name>
-      <param_description>noms de variables (chaine de caracteres, tableau de chaines ou cellule) ou indices numeriques.</param_description>
+      <param_description>noms de variables (chaîne de caractères, tableau de chaînes ou cellule) ou indices numériques.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>types</param_name>
-      <param_description>un type unique applique a toutes les variables selectionnees, ou un type par variable selectionnee.</param_description>
+      <param_description>un type unique applique à toutes les variables sélectionnées, ou un type par variable sélectionnée.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>opts</param_name>
-      <param_description>l&apos;objet d&apos;options d&apos;importation mis a jour.</param_description>
+      <param_description>l&apos;objet d&apos;options d&apos;importation mis à jour.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>setvartype</b> definit les types de donnees des variables selectionnees d&apos;un objet d&apos;options d&apos;importation, en mettant a jour <b>VariableTypes</b> et les options par variable.</p>
+    <p><b>setvartype</b> définit les types de données des variables sélectionnées d&apos;un objet d&apos;options d&apos;importation, en mettant à jour <b>VariableTypes</b> et les options par variable.</p>
   </description>
   <used_function />
   <bibliography />

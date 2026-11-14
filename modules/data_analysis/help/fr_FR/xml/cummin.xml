@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>cummin</keyword>
-  <short_description>Minimum cumulatif des elements d'un tableau.</short_description>
+  <short_description>Minimum cumulatif des éléments d'un tableau.</short_description>
   <syntax>
     <syntax_item>R = cummin(A)</syntax_item>
     <syntax_item>R = cummin(A, d)</syntax_item>

@@ -11,15 +11,15 @@
   <param_input>
     <param_input_item>
       <param_name>marker</param_name>
-      <param_description>Image marqueur. Les valeurs doivent etre inferieures ou egales aux valeurs de mask.</param_description>
+      <param_description>Image marqueur. Les valeurs doivent être inférieures ou égales aux valeurs de mask.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>mask</param_name>
-      <param_description>Image masque de meme taille que marker.</param_description>
+      <param_description>Image masque de même taille que marker.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>conn</param_name>
-      <param_description>Connectivite, soit 4, 8, ou une matrice 3-by-3 equivalente.</param_description>
+      <param_description>Connectivité, soit 4, 8, ou une matrice 3-by-3 équivalente.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -29,7 +29,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>imreconstruct dilate marker de facon repetee sous la contrainte de mask jusqu'a stabilite. La fonction prend en charge les images 2-D reelles finies en niveaux de gris ou binaires.</p>
+    <p>imreconstruct dilate marker de façon répétée sous la contrainte de mask jusqu'a stabilité. La fonction prend en charge les images 2-D réelles finies en niveaux de gris ou binaires.</p>
   </description>
   <used_function />
   <bibliography />

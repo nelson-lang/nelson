@@ -10,7 +10,7 @@
     <syntax_item>[lambda, psi, T, stats, F] = factoran(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>factoran</b> estime les charges factorielles pour une matrice de donnees reelles ou une matrice de covariance.</p>
+    <p><b>factoran</b> estime les charges factorielles pour une matrice de données réelles ou une matrice de covariance.</p>
     <p>Les arguments nom-valeur incluent Xtype, Rotate, Scores, Start, Options et Coeff. Les rotations prises en charge incluent varimax, quartimax, equamax, parsimax, orthomax et none.</p>
   </description>
   <examples>

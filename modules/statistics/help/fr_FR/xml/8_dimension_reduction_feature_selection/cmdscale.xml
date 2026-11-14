@@ -10,9 +10,9 @@
     <syntax_item>[Y, e] = cmdscale(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>cmdscale</b> calcule une configuration de positionnement multidimensionnel classique a partir d'une matrice de distances, de dissimilarites ou de similarites.</p>
-    <p>D peut etre une matrice carree ou un vecteur de distances accepte par squareform. Si p est precise, seules les coordonnees associees aux valeurs propres positives parmi les p premieres dimensions sont retournees.</p>
-    <p>Le vecteur e contient les valeurs propres ordonnees de la matrice de produits internes centree. Lorsque p est precise, e contient au plus p valeurs.</p>
+    <p><b>cmdscale</b> calcule une configuration de positionnement multidimensionnel classique à partir d'une matrice de distances, de dissimilarités ou de similarités.</p>
+    <p>D peut être une matrice carrée ou un vecteur de distances accepté par squareform. Si p est précisé, seules les coordonnées associées aux valeurs propres positives parmi les p premières dimensions sont retournées.</p>
+    <p>Le vecteur e contient les valeurs propres ordonnées de la matrice de produits internes centrée. Lorsque p est précisé, e contient au plus p valeurs.</p>
   </description>
   <examples>
     <example_item>

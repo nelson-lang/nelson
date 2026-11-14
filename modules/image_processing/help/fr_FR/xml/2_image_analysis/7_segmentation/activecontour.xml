@@ -13,19 +13,19 @@
   <param_input>
     <param_input_item>
       <param_name>I</param_name>
-      <param_description>Image 2-D en niveaux de gris, RGB ou RGBA, reelle et finie. Les images couleur sont converties en luminance avant segmentation.</param_description>
+      <param_description>Image 2-D en niveaux de gris, RGB ou RGBA, réelle et finie. Les images couleur sont converties en luminance avant segmentation.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>mask</param_name>
-      <param_description>Masque initial de contour 2-D. Les masques numeriques sont convertis en valeurs logiques.</param_description>
+      <param_description>Masque initial de contour 2-D. Les masques numériques sont convertis en valeurs logiques.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>iterations</param_name>
-      <param_description>Nombre entier positif ou nul d'iterations d'evolution. La valeur par defaut est 100.</param_description>
+      <param_description>Nombre entier positif ou nul d'itérations d'evolution. La valeur par défaut est 100.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>method</param_name>
-      <param_description>Methode de segmentation : 'chan-vese' ou 'edge'.</param_description>
+      <param_description>Méthode de segmentation : 'chan-vese' ou 'edge'.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Name, Value</param_name>
@@ -35,12 +35,12 @@
   <param_output>
     <param_output_item>
       <param_name>BW</param_name>
-      <param_description>Masque logique de la region segmentee.</param_description>
+      <param_description>Masque logique de la région segmentée.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>Segmente une image 2-D reelle finie en faisant evoluer un masque initial binaire. Les images RGB et RGBA sont converties en luminance, et le canal alpha est ignore. La methode par defaut est chan-vese. La methode edge utilise le meme modele de regions avec un lissage pondere par les contours.</p>
-    <p>Les options nom-valeur prises en charge sont <b>Iterations</b>, <b>Method</b>, <b>SmoothFactor</b>, un scalaire fini non negatif, et <b>ContractionBias</b>, un scalaire fini dans l intervalle [-1, 1]. Les valeurs par defaut sont 100, chan-vese, 1 et 0.</p>
+    <p>Segmente une image 2-D réelle finie en faisant évoluer un masque initial binaire. Les images RGB et RGBA sont converties en luminance, et le canal alpha est ignoré. La méthode par défaut est chan-vese. La méthode edge utilise le même modèle de regions avec un lissage pondéré par les contours.</p>
+    <p>Les options nom-valeur prises en charge sont <b>Iterations</b>, <b>Method</b>, <b>SmoothFactor</b>, un scalaire fini non négatif, et <b>ContractionBias</b>, un scalaire fini dans l intervalle [-1, 1]. Les valeurs par défaut sont 100, chan-vese, 1 et 0.</p>
   </description>
   <used_function />
   <bibliography />

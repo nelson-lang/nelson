@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>isbetween</keyword>
-  <short_description>Determine les elements compris entre des bornes inferieure et superieure.</short_description>
+  <short_description>Détermine les éléments compris entre des bornes inférieure et supérieure.</short_description>
   <syntax>
     <syntax_item>TF = isbetween(A, lower, upper)</syntax_item>
     <syntax_item>TF = isbetween(A, lower, upper, intervalType)</syntax_item>
@@ -16,7 +16,7 @@
     </param_input_item>
     <param_input_item>
       <param_name>lower, upper</param_name>
-      <param_description>bornes inferieure et superieure.</param_description>
+      <param_description>bornes inférieure et supérieure.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>intervalType</param_name>
@@ -36,7 +36,7 @@
   </param_output>
   <description>
     <p>
-      <b>isbetween</b> renvoie true lorsque <b>A</b> est dans l&apos;intervalle defini par <b>lower</b> et <b>upper</b>. L&apos;intervalle par defaut est ferme.</p>
+      <b>isbetween</b> renvoie true lorsque <b>A</b> est dans l&apos;intervalle défini par <b>lower</b> et <b>upper</b>. L&apos;intervalle par défaut est fermé.</p>
   </description>
   <examples>
     <example_item>

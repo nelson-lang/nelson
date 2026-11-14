@@ -9,8 +9,8 @@
     <syntax_item>[coeff, score, pcvar, mu, v, S] = ppca(Y, K, Name, Value)</syntax_item>
   </syntax>
   <description>
-    <p><b>ppca</b> calcule un modele probabiliste de composantes principales pour une matrice reelle. Les valeurs manquantes codees par NaN sont estimees iterativement.</p>
-    <p>Les options nom-valeur supportees sont W0, v0 et Options. La structure Options peut etre creee avec statset et supporte Display, MaxIter, TolFun et TolX.</p>
+    <p><b>ppca</b> calcule un modèle probabiliste de composantes principales pour une matrice réelle. Les valeurs manquantes codées par NaN sont estimées itérativement.</p>
+    <p>Les options nom-valeur supportées sont W0, v0 et Options. La structure Options peut être créée avec statset et supporte Display, MaxIter, TolFun et TolX.</p>
     <p>La structure S contient les champs W, Xexp, Recon, v, NumIter, RMSResid et nloglk.</p>
   </description>
   <examples>

@@ -70,7 +70,7 @@
       <b>patch(&apos;Faces&apos;, F, &apos;Vertices&apos;, V)</b> crée un ou plusieurs polygones.</p>
     <p>
       <b>go = patch(...)</b> retourne le handle <b>go</b> de l&apos;objet patch créé.</p>
-    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.patch.properties">proprietes de patch</link> pour la liste complete des proprietes.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.patch.properties">proprietes de patch</link> pour la liste complète des propriétés.</p>
   </description>
   <used_function />
   <bibliography />

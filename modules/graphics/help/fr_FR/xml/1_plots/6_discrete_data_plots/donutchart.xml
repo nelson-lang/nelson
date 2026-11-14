@@ -14,11 +14,11 @@
   <param_input>
     <param_input_item>
       <param_name>data</param_name>
-      <param_description>Vecteur numerique des valeurs des secteurs.</param_description>
+      <param_description>Vecteur numérique des valeurs des secteurs.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>names</param_name>
-      <param_description>Tableau de chaines, chaine de caracteres ou cellule de chaines utilisee comme noms des secteurs.</param_description>
+      <param_description>Tableau de chaînes, chaîne de caractères ou cellule de chaînes utilisée comme noms des secteurs.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>fig</param_name>
@@ -26,11 +26,11 @@
     </param_input_item>
     <param_input_item>
       <param_name>propertyName</param_name>
-      <param_description>Nom de propriete du graphique.</param_description>
+      <param_description>Nom de propriété du graphique.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>propertyValue</param_name>
-      <param_description>Valeur assignee a la propriete nommee.</param_description>
+      <param_description>Valeur assignée à la propriété nommée.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -40,9 +40,9 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>donutchart(data)</b> cree un objet graphique en anneau dans la figure courante.</p>
-    <p><b>InnerRadius</b> controle le rayon du trou comme fraction du rayon externe. <b>CenterLabel</b> affiche un texte au centre de l'anneau.</p>
-    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.donutchart.properties">proprietes de donutchart</link> pour la liste complete des proprietes.</p>
+    <p><b>donutchart(data)</b> crée un objet graphique en anneau dans la figure courante.</p>
+    <p><b>InnerRadius</b> contrôle le rayon du trou comme fraction du rayon externe. <b>CenterLabel</b> affiche un texte au centre de l'anneau.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.donutchart.properties">proprietes de donutchart</link> pour la liste complète des propriétés.</p>
   </description>
   <used_function />
   <bibliography />
@@ -56,7 +56,7 @@ d = donutchart([4 3 2], ["A", "B", "C"], 'CenterLabel', '9');]]></example_item_d
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Rayon interne et couleurs personnalises.</example_item_description>
+      <example_item_description>Rayon interne et couleurs personnalisés.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[figure('Color', [1 1 1]);
 d = donutchart([5 4 3 2], 'InnerRadius', 0.35, 'FaceAlpha', 0.75, ...
   'ColorOrder', [0.8 0.2 0.2; 0.2 0.7 0.3; 0.2 0.4 0.8]);]]></example_item_data>

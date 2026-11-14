@@ -12,7 +12,7 @@
     <syntax_item>ksdensity(...)</syntax_item>
   </syntax>
   <description>
-    <p><b>ksdensity</b> estime une fonction de distribution lissee a partir de donnees univariees avec un noyau normal.</p>
+    <p><b>ksdensity</b> estime une fonction de distribution lissée à partir de données univariées avec un noyau normal.</p>
     <p>Les arguments nom-valeur incluent Bandwidth, Width, Function, NumPoints, Support, Weights, Frequency, Censoring, Kernel et BoundaryCorrection. Les types de fonction pris en charge sont pdf, cdf, survivor, cumhazard et icdf.</p>
   </description>
   <examples>

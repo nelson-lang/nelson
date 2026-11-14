@@ -12,25 +12,25 @@
   <param_input>
     <param_input_item>
       <param_name>A</param_name>
-      <param_description>Image 2-D numerique ou logique.</param_description>
+      <param_description>Image 2-D numérique ou logique.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>[m n]</param_name>
-      <param_description>Scalaire entier positif ou taille de voisinage a deux elements. La valeur par defaut est [3 3].</param_description>
+      <param_description>Scalaire entier positif ou taille de voisinage a deux éléments. La valeur par défaut est [3 3].</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>padopt</param_name>
-      <param_description>Option de padding : zeros, indexed, symmetric ou replicate.</param_description>
+      <param_description>Option de padding : zéros, indexed, symmetric ou replicate.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>B</param_name>
-      <param_description>Image filtree par mediane, avec preservation de la classe d'entree.</param_description>
+      <param_description>Image filtrée par médiane, avec preservation de la classe d'entrée.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>Applique un filtrage median 2D. Le padding par defaut utilise des zeros. Les options de padding incluent zeros, indexed, symmetric et replicate. Les options textuelles sont insensibles a la casse.</p>
+    <p>Applique un filtrage median 2D. Le padding par défaut utilise des zéros. Les options de padding incluent zéros, indexed, symmetric et replicate. Les options textuelles sont insensibles à la casse.</p>
   </description>
   <used_function />
   <bibliography />

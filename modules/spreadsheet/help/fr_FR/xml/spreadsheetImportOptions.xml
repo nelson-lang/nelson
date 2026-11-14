@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>spreadsheetImportOptions</keyword>
-  <short_description>Creer des options pour importer des donnees de feuille de calcul.</short_description>
+  <short_description>Créer des options pour importer des données de feuille de calcul.</short_description>
   <syntax>
     <syntax_item>opts = spreadsheetImportOptions()</syntax_item>
     <syntax_item>opts = spreadsheetImportOptions(Name, Value)</syntax_item>
@@ -21,7 +21,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>spreadsheetImportOptions</b> cree un objet d&apos;options d&apos;importation pour les fichiers de feuille de calcul (xlsx).</p>
+    <p><b>spreadsheetImportOptions</b> crée un objet d&apos;options d&apos;importation pour les fichiers de feuille de calcul (xlsx).</p>
     <p>L&apos;objet utilise la classe Nelson <b>nelson.io.spreadsheet.SpreadsheetImportOptions</b> et est consomme par <b>readtable</b> avec l&apos;option 'UseExcel' a false.</p>
     <p>Utilisez <b>setvaropts</b> pour configurer les options par variable comme le 'InputFormat' des dates.</p>
   </description>

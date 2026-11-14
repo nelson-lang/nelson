@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>thetalim</keyword>
-  <short_description>Definit ou retourne les limites angulaires des axes polaires.</short_description>
+  <short_description>Définit ou retourne les limites angulaires des axes polaires.</short_description>
   <syntax>
     <syntax_item>lims = thetalim()</syntax_item>
     <syntax_item>thetalim([thetamin, thetamax])</syntax_item>
@@ -15,7 +15,7 @@
   <param_input>
     <param_input_item>
       <param_name>[thetamin, thetamax]</param_name>
-      <param_description>Vecteur a deux elements de limites angulaires en degres. La seconde valeur doit etre superieure a la premiere.</param_description>
+      <param_description>Vecteur à deux éléments de limites angulaires en degrés. La seconde valeur doit être supérieure à la première.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>&apos;auto&apos;</param_name>
@@ -37,7 +37,7 @@
   <param_output>
     <param_output_item>
       <param_name>lims</param_name>
-      <param_description>Vecteur a deux elements de limites angulaires en degres.</param_description>
+      <param_description>Vecteur à deux éléments de limites angulaires en degrés.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>m</param_name>
@@ -45,15 +45,15 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>thetalim</b> retourne ou definit les limites angulaires de l&apos;axes polaire courant. Contrairement aux angles de donnees de <b>polarplot</b>, les limites angulaires sont exprimees en degres.</p>
-    <p>La definition de limites numeriques passe le mode des limites angulaires a <b>manual</b>.</p>
+    <p><b>thetalim</b> retourne ou définit les limites angulaires de l&apos;axes polaire courant. Contrairement aux angles de données de <b>polarplot</b>, les limites angulaires sont exprimées en degrés.</p>
+    <p>La définition de limites numériques passe le mode des limites angulaires a <b>manual</b>.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Afficher seulement la moitie superieure d&apos;un trace polaire.</example_item_description>
+      <example_item_description>Afficher seulement la moitié supérieure d&apos;un trace polaire.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[
 theta = linspace(0, pi, 100);
 polarplot(theta, sin(theta));

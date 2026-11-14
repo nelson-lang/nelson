@@ -5,6 +5,6 @@
   <module_name>graphics</module_name>
   <chapter>Gestion des objets graphiques</chapter>
   <chapter_description>
-    <p>Fonctions pour creer, rechercher, interroger, effacer et fermer des objets graphiques.</p>
+    <p>Fonctions pour créer, rechercher, interroger, effacer et fermer des objets graphiques.</p>
   </chapter_description>
 </xmldoc>

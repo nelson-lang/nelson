@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>stlread</keyword>
-  <short_description>Creer une triangulation depuis un fichier STL</short_description>
+  <short_description>Créer une triangulation depuis un fichier STL</short_description>
   <syntax>
     <syntax_item>TR = stlread(filename)</syntax_item>
     <syntax_item>[TR, fileformat, attributes, solidID] = stlread(filename)</syntax_item>
@@ -15,7 +15,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Ecrire et lire un fichier STL simple.</example_item_description>
+      <example_item_description>Écrire et lire un fichier STL simple.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[P = [0 0 0; 1 0 0; 0 1 0];
 T = [1 2 3];
 TR = triangulation(T, P);

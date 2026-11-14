@@ -50,7 +50,7 @@
     <param_output_item>
       <param_name>d</param_name>
       <param_description
-      >Vecteur a trois elements representant le rapport d&apos;aspect courant des donnees.</param_description>
+      >Vecteur à trois éléments représentant le rapport d&apos;aspect courant des données.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>m</param_name>

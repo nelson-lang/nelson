@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>rticks</keyword>
-  <short_description>Definit ou retourne les graduations radiales des axes polaires.</short_description>
+  <short_description>Définit ou retourne les graduations radiales des axes polaires.</short_description>
   <syntax>
     <syntax_item>ticks = rticks()</syntax_item>
     <syntax_item>rticks(values)</syntax_item>
@@ -15,11 +15,11 @@
   <param_input>
     <param_input_item>
       <param_name>values</param_name>
-      <param_description>Vecteur numerique de valeurs de graduation radiale.</param_description>
+      <param_description>Vecteur numérique de valeurs de graduation radiale.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>&apos;auto&apos;</param_name>
-      <param_description>Active la selection automatique des graduations et etiquettes radiales.</param_description>
+      <param_description>Active la sélection automatique des graduations et étiquettes radiales.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>&apos;manual&apos;</param_name>
@@ -37,7 +37,7 @@
   <param_output>
     <param_output_item>
       <param_name>ticks</param_name>
-      <param_description>Vecteur ligne numerique de valeurs de graduation radiale.</param_description>
+      <param_description>Vecteur ligne numérique de valeurs de graduation radiale.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>m</param_name>
@@ -45,15 +45,15 @@
     </param_output_item>
   </param_output>
   <description>
-    <p><b>rticks</b> retourne ou definit les valeurs des graduations radiales de l&apos;axes polaire courant.</p>
-    <p>La definition de valeurs numeriques passe le mode a <b>manual</b>. Si les etiquettes radiales sont en mode automatique, elles sont regenerees depuis les nouvelles valeurs.</p>
+    <p><b>rticks</b> retourne ou définit les valeurs des graduations radiales de l&apos;axes polaire courant.</p>
+    <p>La définition de valeurs numériques passe le mode a <b>manual</b>. Si les étiquettes radiales sont en mode automatique, elles sont régénérées depuis les nouvelles valeurs.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Definir les graduations radiales.</example_item_description>
+      <example_item_description>Définir les graduations radiales.</example_item_description>
       <example_item_data runnable="adv-cli"><![CDATA[
 polarplot(linspace(0, 2*pi, 80), linspace(0, 4, 80));
 rticks([0 1 2 3 4]);

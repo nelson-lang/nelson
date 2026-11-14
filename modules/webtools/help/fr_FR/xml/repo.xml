@@ -89,12 +89,12 @@
     </param_output_item>
     <param_output_item>
       <param_name>version</param_name>
-      <param_description>a string: version de libgit2 utilisee par repo.</param_description>
+      <param_description>a string: version de libgit2 utilisée par repo.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>capabilities</param_name>
       <param_description
-      >a structure: fonctionnalites libgit2 disponibles dans cette construction de Nelson.</param_description>
+      >a structure: fonctionnalités libgit2 disponibles dans cette construction de Nelson.</param_description>
     </param_output_item>
   </param_output>
   <description>
@@ -102,10 +102,10 @@
       <b>repo()</b> allows to clone, checkout, fetch a git repository.</p>
     <p>checkout command will be forced and remove untracked filed.</p>
     <p
-    >git HTTPS protocol works on all platforms. git SSH depend du build libgit2 utilise par Nelson.</p>
-    <p>Utilisez repo(&apos;capabilities&apos;) pour verifier si HTTPS et SSH sont disponibles dans la construction libgit2 courante.</p>
-    <p>Quand SSH n'est pas disponible, clone et fetch echouent immediatement avec un message clair pour les URLs SSH.</p>
-    <p>Les identifiants SSH peuvent utiliser un agent avec &apos;UseAgent&apos;, true, ou des fichiers de cle avec &apos;PrivateKey&apos;, &apos;PublicKey&apos; et &apos;Passphrase&apos;.</p>
+    >git HTTPS protocol works on all platforms. git SSH dépend du build libgit2 utilisé par Nelson.</p>
+    <p>Utilisez repo(&apos;capabilities&apos;) pour vérifier si HTTPS et SSH sont disponibles dans la construction libgit2 courante.</p>
+    <p>Quand SSH n'est pas disponible, clone et fetch échouent immédiatement avec un message clair pour les URLs SSH.</p>
+    <p>Les identifiants SSH peuvent utiliser un agent avec &apos;UseAgent&apos;, true, ou des fichiers de clé avec &apos;PrivateKey&apos;, &apos;PublicKey&apos; et &apos;Passphrase&apos;.</p>
     <p>repo(&apos;export&apos;, ...) clone and remove .git directory.</p>
     <p />
     <p>Tips:</p>

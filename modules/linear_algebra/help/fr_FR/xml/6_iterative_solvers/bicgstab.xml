@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>bicgstab</keyword>
-  <short_description>Methode des gradients biconjugues stabilises.</short_description>
+  <short_description>Méthode des gradients biconjugués stabilises.</short_description>
   <syntax>
     <syntax_item>x = bicgstab(A, b)</syntax_item>
     <syntax_item>x = bicgstab(A, b, tol, maxit)</syntax_item>
@@ -17,19 +17,19 @@
     </param_input_item>
     <param_input_item>
       <param_name>b</param_name>
-      <param_description>un vecteur second membre flottant reel ou complexe.</param_description>
+      <param_description>un vecteur second membre flottant réel ou complexe.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>tol</param_name>
-      <param_description>tolerance de convergence scalaire reelle finie. La valeur par defaut est 1e-6.</param_description>
+      <param_description>tolérance de convergence scalaire réelle finie. La valeur par défaut est 1e-6.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>maxit</param_name>
-      <param_description>nombre maximal d&apos;iterations, entier positif ou nul.</param_description>
+      <param_description>nombre maximal d&apos;itérations, entier positif ou nul.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>M1, M2</param_name>
-      <param_description>preconditionneurs optionnels : matrices carrees sparse ou pleines, vecteurs diagonaux ou handles de fonction appliquant le preconditionneur a un vecteur.</param_description>
+      <param_description>préconditionneurs optionnels : matrices carrées sparse ou pleines, vecteurs diagonaux ou handles de fonction appliquant le préconditionneur a un vecteur.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>x0</param_name>
@@ -39,30 +39,30 @@
   <param_output>
     <param_output_item>
       <param_name>x</param_name>
-      <param_description>vecteur solution calcule.</param_description>
+      <param_description>vecteur solution calculé.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>flag</param_name>
-      <param_description>0 si la convergence est atteinte, 1 si maxit est atteint, 4 en cas de rupture numerique.</param_description>
+      <param_description>0 si la convergence est atteinte, 1 si maxit est atteint, 4 en cas de rupture numérique.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>relres</param_name>
-      <param_description>norme relative du residu.</param_description>
+      <param_description>norme relative du résidu.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>iter</param_name>
-      <param_description>nombre d&apos;iterations. Les valeurs en demi-iteration indiquent une convergence apres la premiere etape d&apos;une iteration.</param_description>
+      <param_description>nombre d&apos;itérations. Les valeurs en demi-itération indiquent une convergence après la première étape d&apos;une itération.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>resvec</param_name>
-      <param_description>historique des normes de residu, incluant les demi-iterations.</param_description>
+      <param_description>historique des normes de résidu, incluant les demi-itérations.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>bicgstab</b> resout <b>A * x = b</b> avec la methode des gradients biconjugues stabilises.</p>
-    <p>La methode prend en charge les matrices sparse double, single, double complexes et single complexes.</p>
-    <p>Lorsque <b>M1</b> ou <b>M2</b> est une matrice, le solveur l'applique par resolution lineaire interne. Un preconditionneur vectoriel est interprete comme la diagonale d'un preconditionneur carre. Un handle de fonction doit accepter un vecteur en entree et retourner un vecteur de meme longueur.</p>
-    <p>Si <b>M1</b>, <b>M2</b> ou <b>x0</b> est complexe, le calcul utilise le chemin complexe adapte.</p>
+    <p><b>bicgstab</b> résout <b>A * x = b</b> avec la méthode des gradients biconjugués stabilises.</p>
+    <p>La méthode prend en charge les matrices sparse double, single, double complexes et single complexes.</p>
+    <p>Lorsque <b>M1</b> ou <b>M2</b> est une matrice, le solveur l'appliqué par résolution linéaire interne. Un préconditionneur vectoriel est interprété comme la diagonale d'un préconditionneur carré. Un handle de fonction doit accepter un vecteur en entrée et retourner un vecteur de même longueur.</p>
+    <p>Si <b>M1</b>, <b>M2</b> ou <b>x0</b> est complexe, le calcul utilise le chemin complexe adapté.</p>
   </description>
   <used_function />
   <bibliography />
@@ -85,7 +85,7 @@ x = bicgstab(A, b, 1e-12, 20)
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Resolution avec preconditionneur matriciel.</example_item_description>
+      <example_item_description>Résolution avec préconditionneur matriciel.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[A = sparse([4 1 0; 2 3 1; 0 1 2]);
 b = [1; 2; 3];
 M = diag(diag(full(A)));
@@ -93,7 +93,7 @@ M = diag(diag(full(A)));
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Resolution avec preconditionneurs matriciels separes.</example_item_description>
+      <example_item_description>Résolution avec préconditionneurs matriciels séparés.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[A = sparse([4 1; 2 3]);
 b = [5; 5];
 M1 = [2 0; 0 1];
@@ -102,7 +102,7 @@ M2 = [2 0.5; 2 3];
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Resolution sparse single complexe avec preconditionneur ILU.</example_item_description>
+      <example_item_description>Résolution sparse single complexe avec préconditionneur ILU.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[A = sparse(single([4 1i; 2 3]));
 b = single([1; 2]);
 [L, U] = ilu(A);
@@ -124,7 +124,7 @@ b = single([1; 2]);
     </history_item>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>prise en charge des donnees sparse single, sparse single complexes, des preconditionneurs matriciels et des handles de fonction.</history_description>
+      <history_description>prise en charge des données sparse single, sparse single complexes, des préconditionneurs matriciels et des handles de fonction.</history_description>
     </history_item>
     <history_item>
       <history_version>2.0.0</history_version>

@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>slice</keyword>
-  <short_description>Afficher des coupes orthogonales dans des donnees volumiques.</short_description>
+  <short_description>Afficher des coupes orthogonales dans des données volumiques.</short_description>
   <syntax>
     <syntax_item>slice(V, xs, ys, zs)</syntax_item>
     <syntax_item>slice(V, XI, YI, ZI)</syntax_item>
@@ -16,11 +16,11 @@
   <param_input>
     <param_input_item>
       <param_name>V</param_name>
-      <param_description>Donnees volumiques numeriques 3-D.</param_description>
+      <param_description>Données volumiques numériques 3-D.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>X, Y, Z</param_name>
-      <param_description>Coordonnees ou vecteurs de grille du volume.</param_description>
+      <param_description>Coordonnées ou vecteurs de grille du volume.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>xs, ys, zs</param_name>
@@ -28,21 +28,21 @@
     </param_input_item>
     <param_input_item>
       <param_name>XI, YI, ZI</param_name>
-      <param_description>Tableaux definissant une surface de coupe dans le volume.</param_description>
+      <param_description>Tableaux définissant une surface de coupe dans le volume.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>method</param_name>
-      <param_description>Methode d'interpolation : 'linear', 'nearest' ou 'cubic'. La valeur par defaut est 'linear'.</param_description>
+      <param_description>Méthode d'interpolation : 'linear', 'nearest' ou 'cubic'. La valeur par défaut est 'linear'.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>h</param_name>
-      <param_description>Handles des surfaces creees pour les coupes.</param_description>
+      <param_description>Handles des surfaces créées pour les coupes.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p><b>slice</b> echantillonne des donnees volumiques sur les plans demandes ou sur une surface demandee et affiche chaque resultat comme une surface coloree.</p>
+    <p><b>slice</b> échantillonne des données volumiques sur les plans demandes ou sur une surface demandée et affiche chaque résultat comme une surface colorée.</p>
   </description>
   <examples>
     <example_item>

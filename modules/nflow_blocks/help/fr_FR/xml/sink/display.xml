@@ -4,18 +4,18 @@
   <language>fr_FR</language>
   <keyword>display</keyword>
   <keyword_alias>block:display</keyword_alias>
-  <short_description>Stocke la derniere valeur d entree pour affichage.</short_description>
+  <short_description>Stocke la dernière valeur d entrée pour affichage.</short_description>
   <syntax>
     <syntax_item>Block type: display</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>input ports</param_name>
-      <param_description>1 port(s) d entree declare(s).</param_description>
+      <param_description>1 port(s) d entrée déclare(s).</param_description>
     </param_input_item>
   </param_input>
   <description>
-    <p>Stocke la derniere valeur d entree pour affichage.</p>
+    <p>Stocke la dernière valeur d entrée pour affichage.</p>
     <table border="1">
       <tbody>
         <tr>
@@ -25,7 +25,7 @@
           </td>
         </tr>
         <tr>
-          <td>Bibliotheque</td>
+          <td>Bibliothèque</td>
           <td>Blocs puits</td>
         </tr>
         <tr>
@@ -35,7 +35,7 @@
           </td>
         </tr>
         <tr>
-          <td>Libelle</td>
+          <td>Libellé</td>
           <td>Display</td>
         </tr>
       </tbody>
@@ -46,18 +46,18 @@
     <p>
       <b>Description</b>
     </p>
-    <p>Stocke la derniere valeur d entree pour affichage.</p>
+    <p>Stocke la dernière valeur d entrée pour affichage.</p>
     <p>
       <b>Ports</b>
     </p>
     <p>
-      <b>Entree(s)</b>
+      <b>Entrée(s)</b>
     </p>
     <table border="1">
       <thead>
         <tr>
           <th>Port</th>
-          <th>Role</th>
+          <th>Rôle</th>
           <th>Cote</th>
           <th>Position</th>
         </tr>
@@ -65,7 +65,7 @@
       <tbody>
         <tr>
           <td>Port_1</td>
-          <td>Signal numerique lu par le bloc.</td>
+          <td>Signal numérique lu par le bloc.</td>
           <td>left</td>
           <td>x=0, y=30</td>
         </tr>
@@ -74,15 +74,15 @@
     <p>
       <b>Sortie(s)</b>
     </p>
-    <p>Ce bloc ne declare aucune sortie.</p>
+    <p>Ce bloc ne déclare aucune sortie.</p>
     <p>
-      <b>Parametres</b>
+      <b>Paramètres</b>
     </p>
     <table border="1">
       <thead>
         <tr>
-          <th>Parametre</th>
-          <th>Valeur par defaut</th>
+          <th>Paramètre</th>
+          <th>Valeur par défaut</th>
         </tr>
       </thead>
       <tbody>
@@ -113,9 +113,9 @@
       </tbody>
     </table>
     <p>
-      <b>Cles de l inspecteur</b>
+      <b>Clés de l inspecteur</b>
     </p>
-    <p>Ces cles serialisees sont exposees par l inspecteur du bloc.</p>
+    <p>Ces clés sérialisées sont exposées par l inspecteur du bloc.</p>
     <ul>
       <li>
         <code>label</code>
@@ -131,7 +131,7 @@
       </li>
     </ul>
     <p>
-      <b>Caracteristiques du bloc</b>
+      <b>Caractéristiques du bloc</b>
     </p>
     <table border="1">
       <tbody>
@@ -152,16 +152,16 @@
           <td>INIT, AFTER_STEP</td>
         </tr>
         <tr>
-          <td>Traversee directe</td>
+          <td>Traversée directe</td>
           <td>voir Algorithmes</td>
         </tr>
         <tr>
-          <td>Etat ou historique interne</td>
+          <td>État ou historique interne</td>
           <td>oui</td>
         </tr>
         <tr>
-          <td>Type de donnees signaux</td>
-          <td>valeurs numeriques double</td>
+          <td>Type de données signaux</td>
+          <td>valeurs numériques double</td>
         </tr>
       </tbody>
     </table>
@@ -169,17 +169,17 @@
       <b>Algorithmes</b>
     </p>
     <ul>
-      <li>INIT efface le scalaire memorise.</li>
-      <li>AFTER_STEP echantillonne l entree 1 selon decimation; les valeurs sous 1 valent 1.</li>
+      <li>INIT efface le scalaire mémorise.</li>
+      <li>AFTER_STEP échantillonne l entrée 1 selon décimation; les valeurs sous 1 valent 1.</li>
       <li>Le bloc n a pas de port de sortie.</li>
     </ul>
     <p>
-      <b>Capacites et limites</b>
+      <b>Capacités et limites</b>
     </p>
-    <p>La page decrit le comportement runtime natif observe dans les sources C++ du module. Les phases declarees indiquent quand le moteur de simulation appelle le bloc.</p>
-    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <p>La page décrit le comportement runtime natif observé dans les sources C++ du module. Les phases déclarées indiquent quand le moteur de simulation appelle le bloc.</p>
+    <p>Génération de code : prise en charge pour C et Rust.</p>
     <p>
-      <b>Sources d implementation</b>
+      <b>Sources d implémentation</b>
     </p>
     <source_code label="Manifest" path="modules/nflow_blocks/libraries/sink/library.json" language="json"/>
     <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/sink/display.cpp" language="cpp"/>

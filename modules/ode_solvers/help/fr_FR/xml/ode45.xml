@@ -10,26 +10,26 @@
   </syntax>
   <description>
     <p>
-      <b>ode45</b> resout un probleme a valeur initiale avec des pas explicites adaptatifs.</p>
+      <b>ode45</b> résout un problème a valeur initiale avec des pas explicites adaptatifs.</p>
     <table style="width:100%">
       <tr>
-        <th>Element</th>
-        <th>Details</th>
+        <th>Élément</th>
+        <th>Détails</th>
       </tr>
       <tr>
-        <td>Forme du probleme</td>
+        <td>Forme du problème</td>
         <td><b>y' = f(t,y)</b>, avec valeur initiale <b>y0</b>.</td>
       </tr>
       <tr>
-        <td>Entrees</td>
-        <td><b>odefun</b>, <b>tspan</b>, <b>y0</b>, et options creees avec <b>odeset</b>.</td>
+        <td>Entrées</td>
+        <td><b>odefun</b>, <b>tspan</b>, <b>y0</b>, et options créées avec <b>odeset</b>.</td>
       </tr>
       <tr>
         <td>Sorties</td>
         <td><b>[t,y]</b> pour les tableaux ou <b>sol</b> pour une structure compatible avec <b>deval</b> et <b>odextend</b>.</td>
       </tr>
       <tr>
-        <td>Evenements</td>
+        <td>Événements</td>
         <td>Les options <b>Events</b> renseignent <b>te</b>, <b>ye</b> et <b>ie</b> ou les champs <b>xe</b>, <b>ye</b> et <b>ie</b> de la structure.</td>
       </tr>
     </table>
@@ -37,7 +37,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Decroissance exponentielle.</example_item_description>
+      <example_item_description>Décroissance exponentielle.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[[t, y] = ode45(@(t,y) -y, [0 1], 1)]]></example_item_data>
     </example_item>
   </examples>

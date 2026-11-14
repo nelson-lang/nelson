@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>imregcorr</keyword>
-  <short_description>Estime une transformation de recalage 2-D par correlation de phase.</short_description>
+  <short_description>Estime une transformation de recalage 2-D par corrélation de phase.</short_description>
   <syntax>
     <syntax_item>tform = imregcorr(moving, fixed)</syntax_item>
     <syntax_item>tform = imregcorr(moving, fixed, transformType)</syntax_item>
@@ -16,11 +16,11 @@
     </param_input_item>
     <param_input_item>
       <param_name>fixed</param_name>
-      <param_description>Image fixe en niveaux de gris ou RGB, de meme taille que moving.</param_description>
+      <param_description>Image fixe en niveaux de gris ou RGB, de même taille que moving.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>transformType</param_name>
-      <param_description>Nom du type de transformation. Les valeurs prises en charge sont translation, rigid, similarity et affine. Cette premiere implementation estime la composante de translation.</param_description>
+      <param_description>Nom du type de transformation. Les valeurs prises en charge sont translation, rigid, similarity et affine. Cette première implémentation estime la composante de translation.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -30,18 +30,18 @@
     </param_output_item>
     <param_output_item>
       <param_name>peakcorr</param_name>
-      <param_description>Valeur du pic de la surface de correlation de phase normalisee.</param_description>
+      <param_description>Valeur du pic de la surface de corrélation de phase normalisée.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>imregcorr estime la translation en pixels entiers entre deux images de meme taille avec une correlation de phase normalisee. Les entrees RGB sont converties en niveaux de gris avant le recalage. Le resultat est retourne sous forme de transformation affine2d.</p>
+    <p>imregcorr estime la translation en pixels entiers entre deux images de même taille avec une corrélation de phase normalisée. Les entrées RGB sont converties en niveaux de gris avant le recalage. Le résultat est retourné sous forme de transformation affine2d.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Recaler une image translatee</example_item_description>
+      <example_item_description>Recaler une image translatée</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[I=zeros(64,64); I(24:40,22:38)=1;

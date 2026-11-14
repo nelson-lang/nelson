@@ -3,14 +3,14 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>nonzeros</keyword>
-  <short_description>Elements non nuls d'une matrice.</short_description>
+  <short_description>Éléments non nuls d'une matrice.</short_description>
   <syntax>
     <syntax_item>v = nonzeros(A)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>A</param_name>
-      <param_description>tableau numerique, logique ou caractere, y compris les matrices sparse numeriques et logiques.</param_description>
+      <param_description>tableau numérique, logique ou caractère, y compris les matrices sparse numériques et logiques.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -21,8 +21,8 @@
   </param_output>
   <description>
     <p><b>nonzeros</b> retourne les valeurs non nulles de <b>A</b> dans l'ordre colonne.</p>
-    <p>Pour une entree sparse, la sortie est un vecteur colonne dense contenant seulement les valeurs reellement non nulles. Les valeurs nulles stockees dans une matrice sparse sont ignorees.</p>
-    <p>La sortie conserve la classe des valeurs de <b>A</b>, y compris les entrees single, single complexes, logiques et entieres.</p>
+    <p>Pour une entrée sparse, la sortie est un vecteur colonne dense contenant seulement les valeurs réellement non nulles. Les valeurs nulles stockées dans une matrice sparse sont ignorées.</p>
+    <p>La sortie conserve la classe des valeurs de <b>A</b>, y compris les entrées single, single complexes, logiques et entières.</p>
   </description>
   <used_function />
   <bibliography />
