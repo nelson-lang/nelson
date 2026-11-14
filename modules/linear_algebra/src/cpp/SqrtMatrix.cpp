@@ -9,6 +9,8 @@
 //=============================================================================
 #ifdef _MSC_VER
 #define _SCL_SECURE_NO_WARNINGS
+// The singular-root branch divides by an exact zero on purpose to produce the expected Inf.
+#pragma warning(disable : 4723)
 #endif
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
