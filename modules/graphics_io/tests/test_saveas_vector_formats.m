@@ -29,5 +29,6 @@ fid = fopen(pdfFile, 'r');
 asserts.istrue(fid > 0);
 signature = fread(fid, 4, '*char');
 fclose(fid);
-asserts.isequal(signature.', '%PDF');
+% fread('*char') orientation varies; compare as a row against the literal signature
+asserts.isequal(reshape(signature, 1, []), '%PDF');
 %=============================================================================
