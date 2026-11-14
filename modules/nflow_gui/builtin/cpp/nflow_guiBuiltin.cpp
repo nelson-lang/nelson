@@ -527,6 +527,17 @@ Nelson::NFlowGateway::nflow_guiBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     // embedded HTML, not written into the served root: modules/nflow_gui/dist is
     // read-only on a normal install. It then redirects to ./nflow.html, which is
     // served from that root over HTTP.
+    // Icon and a first title before the show: the window never appears untitled
+    // with a generic icon.
+    {
+        const std::wstring modulesDir
+            = NelsonConfiguration::getInstance()->getNelsonModulesDirectory();
+        if (!modulesDir.empty()) {
+            prepareWebUiWindowIcon(
+                entry->win->get_window_id(), modulesDir + L"/nflow_gui/resources/nflow.ico");
+        }
+        webui_set_native_title(entry->win->get_window_id(), "NFlow");
+    }
     bool shown = entry->win->show_wv(entry->bootstrapHtml.c_str());
     // show_wv() may return false when the window has already been created but its
     // startup handshake did not complete before the timeout. The current-browser
@@ -548,14 +559,6 @@ Nelson::NFlowGateway::nflow_guiBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     entry->win->set_size(windowWidth, windowHeight);
     if (savedGeometry.valid) {
         restoreWebUiWindowGeometry(entry->win->get_window_id(), savedGeometry);
-    }
-    if (entry->embeddedWebView.load()) {
-        const std::wstring modulesDir
-            = NelsonConfiguration::getInstance()->getNelsonModulesDirectory();
-        if (!modulesDir.empty()) {
-            applyWebUiWindowIcon(
-                entry->win->get_window_id(), modulesDir + L"/nflow_gui/resources/nflow.ico");
-        }
     }
 
     // Detect the C/Rust toolchains OFF the launch path. The probe is memoized

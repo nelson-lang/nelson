@@ -454,15 +454,16 @@ namespace {
         WebUiConfigScope waitForConnection(show_wait_connection, false);
         // Window icon before show: Linux/GTK applies it as the native window
         // icon, elsewhere it is the served favicon. The Windows title-bar icon
-        // is applied with WM_SETICON after show (same as the desktop windows).
+        // and a first title are set when the window is created, so it never
+        // appears untitled with a generic icon.
         const std::wstring nelsonRoot
             = NelsonConfiguration::getInstance()->getNelsonRootDirectory();
         const std::string iconFile = findNelsonApplicationIconPath(nelsonRoot);
         if (!iconFile.empty()) {
             webui_set_icon_file(state.window, iconFile.c_str());
         }
+        prepareNelsonWebUiWindow(state.window, "Nelson Package Manager");
         if (webui_show_wv(state.window, "index.html")) {
-            applyNelsonApplicationWindowIcon(state.window, nelsonRoot);
             return true;
         }
         if (webui_show_browser(state.window, "index.html", Edge)

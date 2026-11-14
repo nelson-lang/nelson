@@ -83,36 +83,6 @@ webFigureWindowStyleName(FigureWindowStyle style)
     }
 }
 //=============================================================================
-// Nelson plot icon for a separate figure window (title bar and taskbar), instead
-// of the generic WebView window icon. Windows only.
-static void
-applyFigureWindowIcon(size_t win)
-{
-#ifdef _WIN32
-    HWND hwnd = static_cast<HWND>(webui_get_hwnd(win));
-    if (hwnd == nullptr) {
-        return;
-    }
-    const std::wstring modulesDir = NelsonConfiguration::getInstance()->getNelsonModulesDirectory();
-    if (modulesDir.empty()) {
-        return;
-    }
-    const std::wstring iconPath = modulesDir + L"/graphics/resources/icon-mathematical-plot.ico";
-    HICON big = static_cast<HICON>(LoadImageW(nullptr, iconPath.c_str(), IMAGE_ICON,
-        GetSystemMetrics(SM_CXICON), GetSystemMetrics(SM_CYICON), LR_LOADFROMFILE));
-    HICON small = static_cast<HICON>(LoadImageW(nullptr, iconPath.c_str(), IMAGE_ICON,
-        GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_LOADFROMFILE));
-    if (big != nullptr) {
-        SendMessageW(hwnd, WM_SETICON, ICON_BIG, reinterpret_cast<LPARAM>(big));
-    }
-    if (small != nullptr) {
-        SendMessageW(hwnd, WM_SETICON, ICON_SMALL, reinterpret_cast<LPARAM>(small));
-    }
-#else
-    (void)win;
-#endif
-}
-//=============================================================================
 // webui_set_size sizes the whole window, but a figure Position is its client
 // area. Grow the window by its chrome so the client area matches, consistent
 // with the move/resize write-back. Windows only.
@@ -205,8 +175,8 @@ WebGuiServer::start(const std::wstring& rootFolder, const WebUiLaunchOptions& op
         return false;
     }
     // Window icon before show: Linux/GTK applies it as the native window icon;
-    // elsewhere it is the served favicon (the Windows title-bar icon is set
-    // with WM_SETICON after show, from fibonacci.ico).
+    // elsewhere it is the served favicon (the Windows title-bar icon comes from
+    // fibonacci.ico, see prepareNelsonApplicationWindowIcon).
     const std::string applicationIcon = findNelsonApplicationIconPath(
         NelsonConfiguration::getInstance()->getNelsonRootDirectory());
     if (!applicationIcon.empty()) {
@@ -302,6 +272,10 @@ WebGuiServer::start(const std::wstring& rootFolder, const WebUiLaunchOptions& op
     WebDesktopBridge::getInstance()->setWebFigureLifecycleHook(
         [](void* ctx, long long handle, bool created, FigureWindowStyle windowStyle) {
             auto* server = static_cast<WebGuiServer*>(ctx);
+            if (!created) {
+                std::lock_guard<std::mutex> lock(server->m_figureWindowsMutex);
+                server->m_figureTitles.erase(handle);
+            }
             // A Notebook figure stays inline for its whole life.
             if (server->isNotebookFigure(handle)) {
                 return;
@@ -357,6 +331,10 @@ WebGuiServer::start(const std::wstring& rootFolder, const WebUiLaunchOptions& op
     WebDesktopBridge::getInstance()->setWebFigureTitleHook(
         [](void* ctx, long long handle, const char* title) {
             auto* server = static_cast<WebGuiServer*>(ctx);
+            {
+                std::lock_guard<std::mutex> lock(server->m_figureWindowsMutex);
+                server->m_figureTitles[handle] = title != nullptr ? title : "";
+            }
             if (server->inlineFigureCaptureActive() || server->isNotebookFigure(handle)) {
                 return;
             }
@@ -366,6 +344,7 @@ WebGuiServer::start(const std::wstring& rootFolder, const WebUiLaunchOptions& op
             // A separate native window renames itself through the same push.
             const size_t figureWindow = server->windowForFigure(handle);
             if (figureWindow != 0) {
+                webui_set_native_title(figureWindow, title != nullptr ? title : "");
                 server->pushJsonToWindow(figureWindow, "figure.title", payload);
             }
         },
@@ -443,12 +422,11 @@ WebGuiServer::startListening()
         // open. The server and external-browser modes do not initialize Qt.
         m_processQtEvents = ensureQtForWebView();
         applyWebGuiWindowGeometry(m_window);
+        prepareNelsonWebUiWindow(m_window, "Nelson");
         if (webui_show_wv(m_window, "index.html")) {
             ok = true;
             m_launchResult.mode = WebUiLaunchMode::WebView;
             applyWebGuiWindowGeometry(m_window);
-            applyNelsonApplicationWindowIcon(
-                m_window, NelsonConfiguration::getInstance()->getNelsonRootDirectory());
         }
     }
     if (!ok) {
@@ -813,10 +791,12 @@ WebGuiServer::showNotebookWindow()
     webui_set_size(m_window, 1080, 760);
     // Process-global option restored after show; the interpreter must not wait for the page socket.
     WebUiConfigScope waitForConnection(show_wait_connection, false);
+    // Fixed title: keep it while the page (titled "Nelson" until mounted) loads.
+    prepareNelsonWebUiWindow(m_window, "Notebook");
+    webui_set_native_title_owned(m_window, true);
     if (!webui_show_wv(m_window, "index.html")) {
         return false;
     }
-    applyNelsonApplicationWindowIcon(m_window, nelsonRoot);
     webui_focus(m_window);
     m_notebookWindowOpen.store(true);
     m_listening.store(true);
@@ -999,17 +979,31 @@ WebGuiServer::openFigureWindowOnMainThread(long long handle, int width, int heig
     webui_set_root_folder(win, m_rootUtf8.c_str());
     webui_bind(win, "rpc", rpcCallback);
     webui_set_close_handler_wv(win, figureWindowCloseHandler);
-    // Window icon before show: on Linux/GTK WebUI applies the favicon as the
-    // native window icon; on Windows it is the served favicon (the title-bar
-    // icon is set with WM_SETICON after show). macOS has no per-window icon.
+    // Window icon and title before show, so the window never appears untitled
+    // with a generic icon: on Linux/GTK WebUI applies the favicon as the native
+    // window icon, on Windows the .ico is set when the window is created. macOS
+    // has no per-window icon.
     {
         const std::wstring modulesDir
             = NelsonConfiguration::getInstance()->getNelsonModulesDirectory();
         if (!modulesDir.empty()) {
-            const std::string iconPng
-                = wstring_to_utf8(modulesDir + L"/graphics/resources/icon-mathematical-plot.png");
-            webui_set_icon_file(win, iconPng.c_str());
+            const std::wstring iconBase = modulesDir + L"/graphics/resources/icon-mathematical-plot";
+            webui_set_icon_file(win, wstring_to_utf8(iconBase + L".png").c_str());
+            prepareWebUiWindowIcon(win, iconBase + L".ico");
         }
+    }
+    {
+        std::string title = "Figure " + std::to_string(handle + 1);
+        {
+            std::lock_guard<std::mutex> lock(m_figureWindowsMutex);
+            auto it = m_figureTitles.find(handle);
+            if (it != m_figureTitles.end()) {
+                title = it->second;
+            }
+        }
+        // The title follows the figure properties, never the page (no flicker while it loads).
+        webui_set_native_title(win, title.c_str());
+        webui_set_native_title_owned(win, true);
     }
     webui_set_size(win, width > 0 ? width : 840, height > 0 ? height : 680);
     {
@@ -1044,7 +1038,6 @@ WebGuiServer::openFigureWindowOnMainThread(long long handle, int width, int heig
     // macOS when the command window started the figure). Focus it so the new
     // figure is visible and receives keyboard and mouse input.
     webui_focus(win);
-    applyFigureWindowIcon(win);
     if (width > 0 && height > 0) {
         matchFigureWindowClientSize(win, width, height);
     }

@@ -60,6 +60,12 @@ NLSWEBVIEW_IMPEXP void
 applyWebUiWindowIcon(size_t window, const std::wstring& icoFilePath);
 NLSWEBVIEW_IMPEXP void
 applyNelsonApplicationWindowIcon(size_t window, const std::wstring& nelsonRootDirectory);
+NLSWEBVIEW_IMPEXP void
+prepareWebUiWindowIcon(size_t window, const std::wstring& icoFilePath);
+NLSWEBVIEW_IMPEXP void
+prepareNelsonApplicationWindowIcon(size_t window, const std::wstring& nelsonRootDirectory);
+NLSWEBVIEW_IMPEXP void
+prepareNelsonWebUiWindow(size_t window, const std::string& initialTitle);
 //=============================================================================
 NLSWEBVIEW_IMPEXP std::string
 escapeWebUiJsonString(const std::string& value);

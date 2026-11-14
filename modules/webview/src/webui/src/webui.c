@@ -524,6 +524,12 @@ typedef struct _webui_window_t
     const char* icon_type;
     const unsigned char* icon_file_data;
     size_t icon_file_size;
+    // NELSON PATCH: title bar text and icon applied when the native WebView
+    // window is created, before its first show.
+    const char* native_title;
+    const char* native_icon_path;
+    // The host owns the title bar text: the page title no longer replaces it.
+    bool native_title_owned;
     size_t current_browser;
     char* browser_path;
     bool custom_profile;
@@ -2157,6 +2163,8 @@ webui_destroy(size_t window)
     _webui_free_mem((void*)win->html);
     _webui_free_mem((void*)win->icon);
     _webui_free_mem((void*)win->icon_type);
+    _webui_free_mem((void*)win->native_title);
+    _webui_free_mem((void*)win->native_icon_path);
     _webui_free_mem((void*)win->browser_path);
     _webui_free_mem((void*)win->profile_path);
     _webui_free_mem((void*)win->profile_name);
@@ -2358,6 +2366,99 @@ webui_set_icon_file(size_t window, const char* path)
 
     win->icon_file_data = buffer;
     win->icon_file_size = (size_t)file_size;
+}
+
+// NELSON PATCH: replace a window-owned string by a copy of `value` (NULL or
+// empty clears it).
+static void
+_webui_win_replace_string(const char** slot, const char* value)
+{
+    char* copy = NULL;
+    if (!_webui_is_empty(value)) {
+        size_t len = _webui_strlen(value);
+        copy = (char*)_webui_malloc(len);
+        memcpy(copy, value, len);
+    }
+    if (*slot != NULL) {
+        _webui_free_mem((void*)*slot);
+    }
+    *slot = copy;
+}
+
+void
+webui_set_native_title(size_t window, const char* title)
+{
+
+#ifdef WEBUI_LOG
+    _webui_log_info("[User] webui_set_native_title([%zu], [%s])\n", window, title);
+#endif
+
+    // Initialization
+    _webui_init();
+
+    // Dereference
+    if (_webui_mutex_app_is_exit_now(WEBUI_MUTEX_GET_STATUS) || _webui.wins[window] == NULL) {
+        return;
+    }
+    _webui_window_t* win = _webui.wins[window];
+    _webui_win_replace_string(&win->native_title, title);
+#ifdef _WIN32
+    // Window already on screen: retitle it now.
+    if (_webui.is_webview_mode && win->webView && win->webView->cpp_handle) {
+        HWND hwnd = _webui_win32_wv2_get_hwnd(win->webView->cpp_handle);
+        wchar_t wide[WEBUI_MAX_PATH];
+        wide[0] = L'\0';
+        if (hwnd
+            && (_webui_is_empty(title)
+                || MultiByteToWideChar(CP_UTF8, 0, title, -1, wide, WEBUI_MAX_PATH) > 0)) {
+            // The window lives on the webview host thread: never block on it.
+            SendMessageTimeoutW(
+                hwnd, WM_SETTEXT, 0, (LPARAM)wide, SMTO_ABORTIFHUNG | SMTO_BLOCK, 500, NULL);
+        }
+    }
+#endif
+}
+
+void
+webui_set_native_title_owned(size_t window, bool owned)
+{
+
+#ifdef WEBUI_LOG
+    _webui_log_info("[User] webui_set_native_title_owned([%zu], [%d])\n", window, owned);
+#endif
+
+    // Initialization
+    _webui_init();
+
+    // Dereference
+    if (_webui_mutex_app_is_exit_now(WEBUI_MUTEX_GET_STATUS) || _webui.wins[window] == NULL) {
+        return;
+    }
+    _webui_window_t* win = _webui.wins[window];
+    win->native_title_owned = owned;
+#ifdef _WIN32
+    if (_webui.is_webview_mode && win->webView && win->webView->cpp_handle) {
+        _webui_win32_wv2_set_title_owned(win->webView->cpp_handle, owned);
+    }
+#endif
+}
+
+void
+webui_set_native_icon_file(size_t window, const char* path)
+{
+
+#ifdef WEBUI_LOG
+    _webui_log_info("[User] webui_set_native_icon_file([%zu], [%s])\n", window, path);
+#endif
+
+    // Initialization
+    _webui_init();
+
+    // Dereference
+    if (_webui_mutex_app_is_exit_now(WEBUI_MUTEX_GET_STATUS) || _webui.wins[window] == NULL) {
+        return;
+    }
+    _webui_win_replace_string(&_webui.wins[window]->native_icon_path, path);
 }
 
 void
@@ -15211,6 +15312,33 @@ _webui_wv_close(_webui_wv_win32_t* webView)
     // ...
 }
 
+// NELSON PATCH: title bar text and icon of a window that is not shown yet, so
+// it never appears untitled with the generic class icon.
+static void
+_webui_win_apply_native_chrome(_webui_window_t* win, HWND hwnd)
+{
+    wchar_t wide[WEBUI_MAX_PATH];
+    if (!_webui_is_empty(win->native_title)
+        && MultiByteToWideChar(CP_UTF8, 0, win->native_title, -1, wide, WEBUI_MAX_PATH) > 0) {
+        SetWindowTextW(hwnd, wide);
+    }
+    _webui_win32_wv2_set_title_owned(win->webView->cpp_handle, win->native_title_owned);
+    if (_webui_is_empty(win->native_icon_path)
+        || MultiByteToWideChar(CP_UTF8, 0, win->native_icon_path, -1, wide, WEBUI_MAX_PATH) <= 0) {
+        return;
+    }
+    HICON bigIcon = (HICON)LoadImageW(NULL, wide, IMAGE_ICON, GetSystemMetrics(SM_CXICON),
+        GetSystemMetrics(SM_CYICON), LR_LOADFROMFILE);
+    HICON smallIcon = (HICON)LoadImageW(NULL, wide, IMAGE_ICON, GetSystemMetrics(SM_CXSMICON),
+        GetSystemMetrics(SM_CYSMICON), LR_LOADFROMFILE);
+    if (bigIcon != NULL) {
+        SendMessageW(hwnd, WM_SETICON, ICON_BIG, (LPARAM)bigIcon);
+    }
+    if (smallIcon != NULL) {
+        SendMessageW(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)smallIcon);
+    }
+}
+
 // NELSON PATCH: create the Win32 top-level window for `win` on the host
 // thread and hand its HWND to the C++ handle. Returns the HWND, or NULL on
 // failure. Extracted from the old per-window thread so the single host thread
@@ -15283,12 +15411,14 @@ _webui_win_create_window(_webui_window_t* win)
 
     SetLastError(0);
     _webui_nelson_debug_window_args(wvClass, instance, x, y, width, height, style, exStyle);
-    HWND hwnd = CreateWindowExA(
-        exStyle, wvClass, "", style, x, y, width, height, NULL, NULL, instance, (LPVOID)win);
+    // Created hidden: the title and icon are set before the ShowWindow below.
+    HWND hwnd = CreateWindowExA(exStyle, wvClass, "", style & ~WS_VISIBLE, x, y, width, height,
+        NULL, NULL, instance, (LPVOID)win);
     if (!hwnd) {
         _webui_nelson_debug_last_error("CreateWindowExA(NelsonWebViewWindow) failed");
         return NULL;
     }
+    _webui_win_apply_native_chrome(win, hwnd);
 
     if (win->frameless) {
         _webui_dwm_set_window_attribute_fn setWindowAttribute = _webui_dwm_set_window_attribute();
@@ -16005,6 +16135,11 @@ _webui_wv_create(_webui_window_t* win)
 
     // Initialize GTK Window
     win->webView->gtk_win = gtk_window_new(0);
+
+    // NELSON PATCH: title known before the page loads (see webui_set_native_title)
+    if (!_webui_is_empty(win->native_title) && gtk_window_set_title) {
+        gtk_window_set_title(win->webView->gtk_win, win->native_title);
+    }
 
     // GTK transparent window
     if (win->transparent) {

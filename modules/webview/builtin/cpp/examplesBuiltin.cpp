@@ -12,6 +12,7 @@
 #include "ExamplesCatalogHost.hpp"
 #include "WebToolsHost.hpp"
 #include "WebUiConfigScope.hpp"
+#include "WebUiHelpers.hpp"
 #include "ExamplesCatalog.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
@@ -160,6 +161,7 @@ namespace {
         webui_bind(state.window, "examplesRpc", rpcCallback);
         webui_set_close_handler_wv(state.window, closeCallback);
         webui_set_size(state.window, 1080, 760);
+        prepareNelsonWebUiWindow(state.window, "Nelson examples");
         // Process-global: restore it once this window is shown, so the gallery
         // does not leave later windows unable to wait for their connection.
         WebUiConfigScope waitForConnection(show_wait_connection, false);

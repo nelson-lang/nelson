@@ -9,6 +9,8 @@
 //=============================================================================
 #include "WebUiHelpers.hpp"
 #include "webui.h"
+#include "characters_encoding.hpp"
+#include "NelsonConfiguration.hpp"
 #include <algorithm>
 #include <cctype>
 #include <cstdio>
@@ -150,8 +152,9 @@ findNelsonApplicationIconPath(const std::wstring& nelsonRootDirectory)
 //=============================================================================
 // Windows title-bar/taskbar icon for a native WebUI window: the WebView window
 // class carries a generic icon, so the given .ico is applied with WM_SETICON
-// once the window exists. A no-op on other platforms, where the favicon
-// (Linux/GTK) or the app bundle (macOS) provides the icon.
+// once the window exists (see prepareWebUiWindowIcon to set it before the
+// show). A no-op on other platforms, where the favicon (Linux/GTK) or the app
+// bundle (macOS) provides the icon.
 void
 applyWebUiWindowIcon(size_t window, const std::wstring& icoFilePath)
 {
@@ -183,6 +186,35 @@ applyNelsonApplicationWindowIcon(size_t window, const std::wstring& nelsonRootDi
         return;
     }
     applyWebUiWindowIcon(window, nelsonRootDirectory + L"/resources/fibonacci.ico");
+}
+//=============================================================================
+// Same icon, registered before the show: the window is created with it and
+// never appears with the generic one. Must be called before webui_show_wv.
+void
+prepareWebUiWindowIcon(size_t window, const std::wstring& icoFilePath)
+{
+    if (!icoFilePath.empty()) {
+        webui_set_native_icon_file(window, wstring_to_utf8(icoFilePath).c_str());
+    }
+}
+//=============================================================================
+void
+prepareNelsonApplicationWindowIcon(size_t window, const std::wstring& nelsonRootDirectory)
+{
+    if (nelsonRootDirectory.empty()) {
+        return;
+    }
+    prepareWebUiWindowIcon(window, nelsonRootDirectory + L"/resources/fibonacci.ico");
+}
+//=============================================================================
+// Nelson icon and a first title for a window about to be shown; the page title
+// replaces the title once loaded. Must be called before webui_show_wv.
+void
+prepareNelsonWebUiWindow(size_t window, const std::string& initialTitle)
+{
+    prepareNelsonApplicationWindowIcon(
+        window, NelsonConfiguration::getInstance()->getNelsonRootDirectory());
+    webui_set_native_title(window, initialTitle.c_str());
 }
 //=============================================================================
 std::string

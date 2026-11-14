@@ -718,6 +718,40 @@ extern "C"
     webui_set_icon_file(size_t window, const char* path);
 
     /**
+     * @brief NELSON PATCH: title bar text of the native WebView window, applied
+     * when the window is created (before its first show), or at once when the
+     * window is already on screen (Windows). The page title still replaces it
+     * once loaded, unless `webui_set_native_title_owned` is set.
+     *
+     * @param window The window number
+     * @param title The UTF-8 title
+     */
+    WEBUI_EXPORT void
+    webui_set_native_title(size_t window, const char* title);
+
+    /**
+     * @brief NELSON PATCH: when owned, the host alone sets the title bar text
+     * (`webui_set_native_title`) and the page title no longer replaces it.
+     * Windows only.
+     *
+     * @param window The window number
+     * @param owned True to ignore the page title
+     */
+    WEBUI_EXPORT void
+    webui_set_native_title_owned(size_t window, bool owned);
+
+    /**
+     * @brief NELSON PATCH: title bar / taskbar icon (.ico) of the native WebView
+     * window on Windows, applied when the window is created (before its first
+     * show). Ignored on other platforms. Call before `webui_show_wv`.
+     *
+     * @param window The window number
+     * @param path The UTF-8 path of the .ico file
+     */
+    WEBUI_EXPORT void
+    webui_set_native_icon_file(size_t window, const char* path);
+
+    /**
      * @brief Encode text to Base64. The returned buffer need to be freed.
      *
      * @param str The string to encode (Should be null terminated)

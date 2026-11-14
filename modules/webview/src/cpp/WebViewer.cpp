@@ -9,6 +9,7 @@
 //=============================================================================
 #include "WebViewer.hpp"
 #include "WebUiConfigScope.hpp"
+#include "WebUiHelpers.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
 //=============================================================================
@@ -328,6 +329,7 @@ OpenWebViewer(const std::wstring& input, const WebViewerOptions& options, size_t
                 L"Nelson:webview:cannotCreateHtmlViewer", L"Cannot create HTML viewer.");
             return false;
         }
+        Nelson::prepareNelsonWebUiWindow(window, "Nelson");
         ViewerState newState;
         newState.window = window;
         newState.showToolbar = options.showToolbar;

@@ -90,6 +90,8 @@ public:
     // (0x8007139F ERROR_INVALID_STATE) against the shared environment.
     bool needsControllerRetry;
     int controllerRetries;
+    // NELSON PATCH: the host owns the title bar text, the page title is ignored.
+    bool titleOwned = false;
 
     WebView2Instance()
         : hwnd(nullptr)
@@ -236,7 +238,7 @@ public:
     Invoke(ICoreWebView2* sender, IUnknown* args) override
     {
         (void)args;
-        if (sender && instance->hwnd) {
+        if (sender && instance->hwnd && !instance->titleOwned) {
             LPWSTR newTitle = nullptr;
             sender->get_DocumentTitle(&newTitle);
             if (newTitle) {
@@ -311,7 +313,7 @@ public:
     Invoke(ICoreWebView2* sender, IUnknown* args) override
     {
         (void)args;
-        if (sender && instance->hwnd) {
+        if (sender && instance->hwnd && !instance->titleOwned) {
             LPWSTR newTitle = nullptr;
             sender->get_DocumentTitle(&newTitle);
             if (newTitle) {
@@ -994,6 +996,14 @@ extern "C"
     {
         if (handle) {
             static_cast<WebView2Instance*>(handle)->hwnd = hwnd;
+        }
+    }
+
+    void
+    _webui_win32_wv2_set_title_owned(_webui_win32_wv2_handle handle, bool owned)
+    {
+        if (handle) {
+            static_cast<WebView2Instance*>(handle)->titleOwned = owned;
         }
     }
 

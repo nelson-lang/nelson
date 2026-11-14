@@ -327,6 +327,8 @@ private:
     mutable std::mutex m_figureWindowsMutex;
     std::map<long long, size_t> m_figureWindows;
     std::map<size_t, long long> m_windowFigure;
+    // Last title pushed for each figure, so a native window is titled before its page loads.
+    std::map<long long, std::string> m_figureTitles;
     std::mutex m_mainTaskMutex;
     std::deque<std::function<void()>> m_mainTasks;
 };

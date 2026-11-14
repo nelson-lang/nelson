@@ -10,6 +10,7 @@
 #include "UiHtmlHost.hpp"
 #include "UiHtmlBootstrap.hpp"
 #include "WebUiConfigScope.hpp"
+#include "WebUiHelpers.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 extern "C"
@@ -491,6 +492,7 @@ showWindow(UiHtmlWindow& target, std::wstring& error)
         error = L"Cannot create the uihtml window.";
         return false;
     }
+    prepareNelsonWebUiWindow(target.window, "Nelson");
     webui_set_event_blocking(target.window, true);
     webui_bind(target.window, "uihtmlRpc", rpcCallback);
     webui_set_close_handler_wv(target.window, closeCallback);

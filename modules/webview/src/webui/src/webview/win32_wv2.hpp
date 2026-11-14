@@ -54,6 +54,9 @@ extern "C"
     _webui_win32_wv2_get_hwnd(_webui_win32_wv2_handle handle);
     void
     _webui_win32_wv2_set_hwnd(_webui_win32_wv2_handle handle, HWND hwnd);
+    // NELSON PATCH: the host owns the title bar text, the page title is ignored.
+    void
+    _webui_win32_wv2_set_title_owned(_webui_win32_wv2_handle handle, bool owned);
     void
     _webui_win32_wv2_set_stop(_webui_win32_wv2_handle handle, bool stop);
     bool
