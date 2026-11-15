@@ -6,6 +6,6 @@
 <text x="393.75" y="414.134" fill="rgba(33,33,33,1.000000)" font-size="22.9167" font-family="sans-serif" text-anchor="start">Save changes before closing?</text>
 <polygon points="433.75,642.188 588.75,642.188 588.75,558.312 433.75,558.312 " fill="rgba(229,239,255,1.000000)" stroke="rgba(63,114,191,1.000000)" stroke-width="1"/>
 <polygon points="685.625,642.188 840.625,642.188 840.625,558.312 685.625,558.312 " fill="rgba(242,242,242,1.000000)" stroke="rgba(140,140,140,1.000000)" stroke-width="1"/>
-<text x="492.988" y="609.648" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Yes</text>
-<text x="749.184" y="609.648" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">No</text>
+<text x="510.938" y="609.648" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">Yes</text>
+<text x="762.5" y="609.648" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">No</text>
 </svg>

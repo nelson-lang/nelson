@@ -15,31 +15,31 @@
 <line x1="938.281" y1="410.156" x2="938.281" y2="400.781" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="1035.16" y1="410.156" x2="1035.16" y2="400.781" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="1132.03" y1="410.156" x2="1132.03" y2="400.781" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<text x="157.778" y="428.378" fill="rgba(33,33,33,1.000000)" font-size="19.7917" font-family="sans-serif" text-anchor="start">0</text>
-<text x="246.4" y="428.378" fill="rgba(33,33,33,1.000000)" font-size="19.7917" font-family="sans-serif" text-anchor="start">0.1</text>
-<text x="343.275" y="428.378" fill="rgba(33,33,33,1.000000)" font-size="19.7917" font-family="sans-serif" text-anchor="start">0.2</text>
-<text x="440.15" y="428.378" fill="rgba(33,33,33,1.000000)" font-size="19.7917" font-family="sans-serif" text-anchor="start">0.3</text>
-<text x="537.025" y="428.378" fill="rgba(33,33,33,1.000000)" font-size="19.7917" font-family="sans-serif" text-anchor="start">0.4</text>
-<text x="633.9" y="428.378" fill="rgba(33,33,33,1.000000)" font-size="19.7917" font-family="sans-serif" text-anchor="start">0.5</text>
-<text x="730.775" y="428.378" fill="rgba(33,33,33,1.000000)" font-size="19.7917" font-family="sans-serif" text-anchor="start">0.6</text>
-<text x="827.65" y="428.378" fill="rgba(33,33,33,1.000000)" font-size="19.7917" font-family="sans-serif" text-anchor="start">0.7</text>
-<text x="924.525" y="428.378" fill="rgba(33,33,33,1.000000)" font-size="19.7917" font-family="sans-serif" text-anchor="start">0.8</text>
-<text x="1021.4" y="428.378" fill="rgba(33,33,33,1.000000)" font-size="19.7917" font-family="sans-serif" text-anchor="start">0.9</text>
-<text x="1126.53" y="428.378" fill="rgba(33,33,33,1.000000)" font-size="19.7917" font-family="sans-serif" text-anchor="start">1</text>
+<text x="163.281" y="429.095" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">0</text>
+<text x="260.156" y="429.095" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">0.1</text>
+<text x="357.031" y="429.095" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">0.2</text>
+<text x="453.906" y="429.095" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">0.3</text>
+<text x="550.781" y="429.095" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">0.4</text>
+<text x="647.656" y="429.095" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">0.5</text>
+<text x="744.531" y="429.095" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">0.6</text>
+<text x="841.406" y="429.095" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">0.7</text>
+<text x="938.281" y="429.095" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">0.8</text>
+<text x="1035.16" y="429.095" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">0.9</text>
+<text x="1132.03" y="429.095" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">1</text>
 <line x1="163.281" y1="410.156" x2="172.656" y2="410.156" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="163.281" y1="349.219" x2="172.656" y2="349.219" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="163.281" y1="286.719" x2="172.656" y2="286.719" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="163.281" y1="225.781" x2="172.656" y2="225.781" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="163.281" y1="163.281" x2="172.656" y2="163.281" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="163.281" y1="102.344" x2="172.656" y2="102.344" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<text x="137.743" y="414.868" fill="rgba(33,33,33,1.000000)" font-size="19.7917" font-family="sans-serif" text-anchor="start">0</text>
-<text x="121.237" y="353.931" fill="rgba(33,33,33,1.000000)" font-size="19.7917" font-family="sans-serif" text-anchor="start">0.2</text>
-<text x="121.237" y="291.431" fill="rgba(33,33,33,1.000000)" font-size="19.7917" font-family="sans-serif" text-anchor="start">0.4</text>
-<text x="121.237" y="230.493" fill="rgba(33,33,33,1.000000)" font-size="19.7917" font-family="sans-serif" text-anchor="start">0.6</text>
-<text x="121.237" y="169.556" fill="rgba(33,33,33,1.000000)" font-size="19.7917" font-family="sans-serif" text-anchor="start">0.8</text>
-<text x="137.743" y="107.056" fill="rgba(33,33,33,1.000000)" font-size="19.7917" font-family="sans-serif" text-anchor="start">1</text>
-<text x="564.007" y="95.3865" fill="rgba(32,32,32,1.000000)" font-size="21.7708" font-family="sans-serif" font-weight="bold" text-anchor="start">Premier subplot</text>
-<text x="446.134" y="64.5645" fill="rgba(255,0,0,1.000000)" font-size="51.4167" font-family="sans-serif" text-anchor="start">Titre de la grille</text>
+<text x="148.75" y="415.116" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">0</text>
+<text x="148.75" y="354.179" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">0.2</text>
+<text x="148.75" y="291.679" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">0.4</text>
+<text x="148.75" y="230.741" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">0.6</text>
+<text x="148.75" y="169.804" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">0.8</text>
+<text x="148.75" y="107.304" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">1</text>
+<text x="646.875" y="95.1436" fill="rgba(32,32,32,1.000000)" font-size="22.9167" font-family="sans-serif" font-weight="bold" text-anchor="middle">Premier subplot</text>
+<text x="621.875" y="64.5645" fill="rgba(255,0,0,1.000000)" font-size="51.4167" font-family="sans-serif" text-anchor="middle">Titre de la grille</text>
 <polygon points="163.281,836.719 1132.03,836.719 1132.03,530.469 163.281,530.469 " fill="rgba(255,255,255,1.000000)"/>
 <line x1="163.281" y1="836.719" x2="1132.03" y2="836.719" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="163.281" y1="836.719" x2="163.281" y2="530.469" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
@@ -54,28 +54,28 @@
 <line x1="938.281" y1="836.719" x2="938.281" y2="827.344" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="1035.16" y1="836.719" x2="1035.16" y2="827.344" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="1132.03" y1="836.719" x2="1132.03" y2="827.344" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<text x="157.778" y="854.931" fill="rgba(33,33,33,1.000000)" font-size="19.7917" font-family="sans-serif" text-anchor="start">0</text>
-<text x="246.4" y="854.931" fill="rgba(33,33,33,1.000000)" font-size="19.7917" font-family="sans-serif" text-anchor="start">0.1</text>
-<text x="343.275" y="854.931" fill="rgba(33,33,33,1.000000)" font-size="19.7917" font-family="sans-serif" text-anchor="start">0.2</text>
-<text x="440.15" y="854.931" fill="rgba(33,33,33,1.000000)" font-size="19.7917" font-family="sans-serif" text-anchor="start">0.3</text>
-<text x="537.025" y="854.931" fill="rgba(33,33,33,1.000000)" font-size="19.7917" font-family="sans-serif" text-anchor="start">0.4</text>
-<text x="633.9" y="854.931" fill="rgba(33,33,33,1.000000)" font-size="19.7917" font-family="sans-serif" text-anchor="start">0.5</text>
-<text x="730.775" y="854.931" fill="rgba(33,33,33,1.000000)" font-size="19.7917" font-family="sans-serif" text-anchor="start">0.6</text>
-<text x="827.65" y="854.931" fill="rgba(33,33,33,1.000000)" font-size="19.7917" font-family="sans-serif" text-anchor="start">0.7</text>
-<text x="924.525" y="854.931" fill="rgba(33,33,33,1.000000)" font-size="19.7917" font-family="sans-serif" text-anchor="start">0.8</text>
-<text x="1021.4" y="854.931" fill="rgba(33,33,33,1.000000)" font-size="19.7917" font-family="sans-serif" text-anchor="start">0.9</text>
-<text x="1126.53" y="854.931" fill="rgba(33,33,33,1.000000)" font-size="19.7917" font-family="sans-serif" text-anchor="start">1</text>
+<text x="163.281" y="855.648" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">0</text>
+<text x="260.156" y="855.648" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">0.1</text>
+<text x="357.031" y="855.648" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">0.2</text>
+<text x="453.906" y="855.648" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">0.3</text>
+<text x="550.781" y="855.648" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">0.4</text>
+<text x="647.656" y="855.648" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">0.5</text>
+<text x="744.531" y="855.648" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">0.6</text>
+<text x="841.406" y="855.648" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">0.7</text>
+<text x="938.281" y="855.648" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">0.8</text>
+<text x="1035.16" y="855.648" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">0.9</text>
+<text x="1132.03" y="855.648" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">1</text>
 <line x1="163.281" y1="836.719" x2="172.656" y2="836.719" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="163.281" y1="775.781" x2="172.656" y2="775.781" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="163.281" y1="714.844" x2="172.656" y2="714.844" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="163.281" y1="652.344" x2="172.656" y2="652.344" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="163.281" y1="591.406" x2="172.656" y2="591.406" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="163.281" y1="530.469" x2="172.656" y2="530.469" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<text x="137.743" y="841.431" fill="rgba(33,33,33,1.000000)" font-size="19.7917" font-family="sans-serif" text-anchor="start">0</text>
-<text x="121.237" y="780.493" fill="rgba(33,33,33,1.000000)" font-size="19.7917" font-family="sans-serif" text-anchor="start">0.2</text>
-<text x="121.237" y="719.556" fill="rgba(33,33,33,1.000000)" font-size="19.7917" font-family="sans-serif" text-anchor="start">0.4</text>
-<text x="121.237" y="658.618" fill="rgba(33,33,33,1.000000)" font-size="19.7917" font-family="sans-serif" text-anchor="start">0.6</text>
-<text x="121.237" y="597.681" fill="rgba(33,33,33,1.000000)" font-size="19.7917" font-family="sans-serif" text-anchor="start">0.8</text>
-<text x="137.743" y="535.181" fill="rgba(33,33,33,1.000000)" font-size="19.7917" font-family="sans-serif" text-anchor="start">1</text>
-<text x="553.121" y="523.511" fill="rgba(32,32,32,1.000000)" font-size="21.7708" font-family="sans-serif" font-weight="bold" text-anchor="start">Deuxieme subplot</text>
+<text x="148.75" y="841.679" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">0</text>
+<text x="148.75" y="780.741" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">0.2</text>
+<text x="148.75" y="719.804" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">0.4</text>
+<text x="148.75" y="658.866" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">0.6</text>
+<text x="148.75" y="597.929" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">0.8</text>
+<text x="148.75" y="535.429" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">1</text>
+<text x="646.875" y="523.269" fill="rgba(32,32,32,1.000000)" font-size="22.9167" font-family="sans-serif" font-weight="bold" text-anchor="middle">Deuxieme subplot</text>
 </svg>

@@ -1,81 +1,81 @@
 <svg width="800" height="600.32" viewBox="0 0 1250 938" xmlns="http://www.w3.org/2000/svg">
 <rect x="0" y="0" width="1250" height="938" fill="#ffffff"/>
 <rect x="0" y="0" width="1250" height="937.5" fill="rgba(255,255,255,1.000000)"/>
-<polygon points="163.281,832.031 1132.03,832.031 1132.03,67.9688 163.281,67.9688 " fill="rgba(255,255,255,1.000000)"/>
+<polygon points="163.281,832.031 1132.03,832.031 1132.03,69.5312 163.281,69.5312 " fill="rgba(255,255,255,1.000000)"/>
 <text x="404.688" y="637.773" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
 <text x="404.688" y="456.523" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
 <text x="404.688" y="275.273" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="614.45" y="637.773" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="614.45" y="456.523" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="614.45" y="275.273" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="824.213" y="637.773" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="824.213" y="456.523" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="824.213" y="275.273" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
+<text x="646.875" y="637.773" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">Nelson</text>
+<text x="646.875" y="456.523" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">Nelson</text>
+<text x="646.875" y="275.273" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">Nelson</text>
+<text x="889.062" y="637.773" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">Nelson</text>
+<text x="889.062" y="456.523" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">Nelson</text>
+<text x="889.062" y="275.273" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">Nelson</text>
 <text x="0" y="0" transform="translate(401.566,639.066) rotate(-45)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
 <text x="0" y="0" transform="translate(408.195,455.07) rotate(-45)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
 <text x="0" y="0" transform="translate(414.824,271.074) rotate(-45)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(620.825,661.994) rotate(-45)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(627.454,477.998) rotate(-45)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(634.084,294.002) rotate(-45)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(840.085,684.921) rotate(-45)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(846.714,500.926) rotate(-45)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(853.343,316.93) rotate(-45)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
+<text x="0" y="0" transform="translate(643.753,639.066) rotate(-45)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">Nelson</text>
+<text x="0" y="0" transform="translate(650.382,455.07) rotate(-45)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">Nelson</text>
+<text x="0" y="0" transform="translate(657.011,271.074) rotate(-45)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">Nelson</text>
+<text x="0" y="0" transform="translate(885.941,639.066) rotate(-45)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">Nelson</text>
+<text x="0" y="0" transform="translate(892.57,455.07) rotate(-45)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">Nelson</text>
+<text x="0" y="0" transform="translate(899.199,271.074) rotate(-45)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">Nelson</text>
 <text x="0" y="0" transform="translate(400.273,642.188) rotate(-90)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
 <text x="0" y="0" transform="translate(409.648,451.562) rotate(-90)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
 <text x="0" y="0" transform="translate(419.023,260.937) rotate(-90)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(642.46,674.612) rotate(-90)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(651.835,483.987) rotate(-90)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(661.21,293.362) rotate(-90)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(884.648,707.037) rotate(-90)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(894.023,516.412) rotate(-90)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(903.398,325.787) rotate(-90)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
+<text x="0" y="0" transform="translate(642.46,642.188) rotate(-90)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">Nelson</text>
+<text x="0" y="0" transform="translate(651.835,451.562) rotate(-90)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">Nelson</text>
+<text x="0" y="0" transform="translate(661.21,260.937) rotate(-90)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">Nelson</text>
+<text x="0" y="0" transform="translate(884.648,642.188) rotate(-90)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">Nelson</text>
+<text x="0" y="0" transform="translate(894.023,451.562) rotate(-90)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">Nelson</text>
+<text x="0" y="0" transform="translate(903.398,260.937) rotate(-90)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">Nelson</text>
 <text x="0" y="0" transform="translate(401.566,645.309) rotate(-135)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
 <text x="0" y="0" transform="translate(408.195,448.055) rotate(-135)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
 <text x="0" y="0" transform="translate(414.824,250.801) rotate(-135)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(666.681,668.237) rotate(-135)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(673.31,470.983) rotate(-135)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(679.939,273.729) rotate(-135)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(931.796,691.165) rotate(-135)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(938.426,493.911) rotate(-135)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(945.055,296.657) rotate(-135)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
+<text x="0" y="0" transform="translate(643.753,645.309) rotate(-135)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">Nelson</text>
+<text x="0" y="0" transform="translate(650.382,448.055) rotate(-135)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">Nelson</text>
+<text x="0" y="0" transform="translate(657.011,250.801) rotate(-135)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">Nelson</text>
+<text x="0" y="0" transform="translate(885.941,645.309) rotate(-135)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">Nelson</text>
+<text x="0" y="0" transform="translate(892.57,448.055) rotate(-135)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">Nelson</text>
+<text x="0" y="0" transform="translate(899.199,250.801) rotate(-135)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">Nelson</text>
 <text x="0" y="0" transform="translate(404.688,646.602) rotate(-180)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
 <text x="0" y="0" transform="translate(404.688,446.602) rotate(-180)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
 <text x="0" y="0" transform="translate(404.688,246.602) rotate(-180)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(679.3,646.602) rotate(-180)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(679.3,446.602) rotate(-180)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(679.3,246.602) rotate(-180)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(953.912,646.602) rotate(-180)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(953.912,446.602) rotate(-180)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(953.912,246.602) rotate(-180)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
+<text x="0" y="0" transform="translate(646.875,646.602) rotate(-180)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">Nelson</text>
+<text x="0" y="0" transform="translate(646.875,446.602) rotate(-180)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">Nelson</text>
+<text x="0" y="0" transform="translate(646.875,246.602) rotate(-180)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">Nelson</text>
+<text x="0" y="0" transform="translate(889.062,646.602) rotate(-180)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">Nelson</text>
+<text x="0" y="0" transform="translate(889.062,446.602) rotate(-180)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">Nelson</text>
+<text x="0" y="0" transform="translate(889.062,246.602) rotate(-180)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">Nelson</text>
 <text x="0" y="0" transform="translate(407.809,645.309) rotate(-225)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
 <text x="0" y="0" transform="translate(401.18,448.055) rotate(-225)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
 <text x="0" y="0" transform="translate(394.551,250.801) rotate(-225)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(672.925,622.381) rotate(-225)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(666.296,425.127) rotate(-225)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(659.666,227.873) rotate(-225)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(938.04,599.454) rotate(-225)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(931.411,402.199) rotate(-225)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(924.782,204.945) rotate(-225)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
+<text x="0" y="0" transform="translate(649.997,645.309) rotate(-225)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">Nelson</text>
+<text x="0" y="0" transform="translate(643.368,448.055) rotate(-225)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">Nelson</text>
+<text x="0" y="0" transform="translate(636.739,250.801) rotate(-225)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">Nelson</text>
+<text x="0" y="0" transform="translate(892.184,645.309) rotate(-225)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">Nelson</text>
+<text x="0" y="0" transform="translate(885.555,448.055) rotate(-225)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">Nelson</text>
+<text x="0" y="0" transform="translate(878.926,250.801) rotate(-225)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">Nelson</text>
 <text x="0" y="0" transform="translate(409.102,642.188) rotate(-270)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
 <text x="0" y="0" transform="translate(399.727,451.562) rotate(-270)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
 <text x="0" y="0" transform="translate(390.352,260.937) rotate(-270)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(651.29,609.763) rotate(-270)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(641.915,419.138) rotate(-270)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(632.54,228.513) rotate(-270)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(893.477,577.338) rotate(-270)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(884.102,386.713) rotate(-270)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(874.727,196.088) rotate(-270)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
+<text x="0" y="0" transform="translate(651.29,642.188) rotate(-270)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">Nelson</text>
+<text x="0" y="0" transform="translate(641.915,451.562) rotate(-270)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">Nelson</text>
+<text x="0" y="0" transform="translate(632.54,260.937) rotate(-270)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">Nelson</text>
+<text x="0" y="0" transform="translate(893.477,642.188) rotate(-270)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">Nelson</text>
+<text x="0" y="0" transform="translate(884.102,451.562) rotate(-270)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">Nelson</text>
+<text x="0" y="0" transform="translate(874.727,260.937) rotate(-270)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">Nelson</text>
 <text x="0" y="0" transform="translate(407.809,639.066) rotate(-315)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
 <text x="0" y="0" transform="translate(401.18,455.07) rotate(-315)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
 <text x="0" y="0" transform="translate(394.551,271.074) rotate(-315)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(627.069,616.138) rotate(-315)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(620.44,432.142) rotate(-315)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(613.811,248.146) rotate(-315)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(846.329,593.21) rotate(-315)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(839.699,409.214) rotate(-315)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
-<text x="0" y="0" transform="translate(833.07,225.218) rotate(-315)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Nelson</text>
+<text x="0" y="0" transform="translate(649.997,639.066) rotate(-315)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">Nelson</text>
+<text x="0" y="0" transform="translate(643.368,455.07) rotate(-315)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">Nelson</text>
+<text x="0" y="0" transform="translate(636.739,271.074) rotate(-315)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">Nelson</text>
+<text x="0" y="0" transform="translate(892.184,639.066) rotate(-315)" fill="rgba(255,0,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">Nelson</text>
+<text x="0" y="0" transform="translate(885.555,455.07) rotate(-315)" fill="rgba(0,255,0,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">Nelson</text>
+<text x="0" y="0" transform="translate(878.926,271.074) rotate(-315)" fill="rgba(0,0,255,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">Nelson</text>
 <line x1="163.281" y1="832.031" x2="1132.03" y2="832.031" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<line x1="163.281" y1="832.031" x2="163.281" y2="67.9688" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
+<line x1="163.281" y1="832.031" x2="163.281" y2="69.5312" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="163.281" y1="832.031" x2="163.281" y2="822.656" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="260.156" y1="832.031" x2="260.156" y2="822.656" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="357.031" y1="832.031" x2="357.031" y2="822.656" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
@@ -87,40 +87,40 @@
 <line x1="938.281" y1="832.031" x2="938.281" y2="822.656" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="1035.16" y1="832.031" x2="1035.16" y2="822.656" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="1132.03" y1="832.031" x2="1132.03" y2="822.656" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<text x="157.488" y="857.827" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">0</text>
-<text x="245.676" y="857.827" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">0.1</text>
-<text x="342.551" y="857.827" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">0.2</text>
-<text x="439.426" y="857.827" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">0.3</text>
-<text x="536.301" y="857.827" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">0.4</text>
-<text x="633.176" y="857.827" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">0.5</text>
-<text x="730.051" y="857.827" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">0.6</text>
-<text x="826.926" y="857.827" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">0.7</text>
-<text x="923.801" y="857.827" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">0.8</text>
-<text x="1020.68" y="857.827" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">0.9</text>
-<text x="1126.24" y="857.827" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">1</text>
+<text x="163.281" y="857.804" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">0</text>
+<text x="260.156" y="857.804" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">0.1</text>
+<text x="357.031" y="857.804" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">0.2</text>
+<text x="453.906" y="857.804" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">0.3</text>
+<text x="550.781" y="857.804" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">0.4</text>
+<text x="647.656" y="857.804" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">0.5</text>
+<text x="744.531" y="857.804" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">0.6</text>
+<text x="841.406" y="857.804" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">0.7</text>
+<text x="938.281" y="857.804" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">0.8</text>
+<text x="1035.16" y="857.804" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">0.9</text>
+<text x="1132.03" y="857.804" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">1</text>
 <line x1="163.281" y1="832.031" x2="172.656" y2="832.031" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="163.281" y1="755.469" x2="172.656" y2="755.469" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="163.281" y1="678.906" x2="172.656" y2="678.906" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<line x1="163.281" y1="602.344" x2="172.656" y2="602.344" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<line x1="163.281" y1="525.781" x2="172.656" y2="525.781" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<line x1="163.281" y1="449.219" x2="172.656" y2="449.219" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
+<line x1="163.281" y1="603.906" x2="172.656" y2="603.906" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
+<line x1="163.281" y1="527.344" x2="172.656" y2="527.344" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
+<line x1="163.281" y1="450.781" x2="172.656" y2="450.781" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="163.281" y1="374.219" x2="172.656" y2="374.219" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="163.281" y1="297.656" x2="172.656" y2="297.656" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<line x1="163.281" y1="221.094" x2="172.656" y2="221.094" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<line x1="163.281" y1="144.531" x2="172.656" y2="144.531" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<line x1="163.281" y1="67.9688" x2="172.656" y2="67.9688" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<text x="137.163" y="836.991" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">0</text>
-<text x="119.789" y="761.991" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">0.1</text>
-<text x="119.789" y="685.429" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">0.2</text>
-<text x="119.789" y="608.866" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">0.3</text>
-<text x="119.789" y="532.304" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">0.4</text>
-<text x="119.789" y="455.741" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">0.5</text>
-<text x="119.789" y="379.179" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">0.6</text>
-<text x="119.789" y="302.616" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">0.7</text>
-<text x="119.789" y="226.054" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">0.8</text>
-<text x="119.789" y="149.491" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">0.9</text>
-<text x="137.163" y="72.9289" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">1</text>
-<text x="540.862" y="900.312" fill="rgba(33,33,33,1.000000)" font-size="22.9167" font-family="sans-serif" text-anchor="start">Horizontal alignment</text>
-<text x="0" y="0" transform="translate(92.0186,542.636) rotate(-90)" fill="rgba(33,33,33,1.000000)" font-size="22.9167" font-family="sans-serif" text-anchor="start">Vertical alignment</text>
-<text x="392.822" y="54.5186" fill="rgba(32,32,32,1.000000)" font-size="22.9167" font-family="sans-serif" font-weight="bold" text-anchor="start">Text alignment and rotation (0:45:360 degrees)</text>
+<line x1="163.281" y1="222.656" x2="172.656" y2="222.656" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
+<line x1="163.281" y1="146.094" x2="172.656" y2="146.094" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
+<line x1="163.281" y1="69.5312" x2="172.656" y2="69.5312" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
+<text x="148.75" y="836.991" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">0</text>
+<text x="148.75" y="761.991" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">0.1</text>
+<text x="148.75" y="685.429" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">0.2</text>
+<text x="148.75" y="608.866" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">0.3</text>
+<text x="148.75" y="532.304" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">0.4</text>
+<text x="148.75" y="455.741" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">0.5</text>
+<text x="148.75" y="380.741" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">0.6</text>
+<text x="148.75" y="304.179" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">0.7</text>
+<text x="148.75" y="227.616" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">0.8</text>
+<text x="148.75" y="151.054" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">0.9</text>
+<text x="148.75" y="74.4914" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">1</text>
+<text x="645.312" y="900.312" fill="rgba(33,33,33,1.000000)" font-size="22.9167" font-family="sans-serif" text-anchor="middle">Horizontal alignment</text>
+<text x="0" y="0" transform="translate(92.0186,451.562) rotate(-90)" fill="rgba(33,33,33,1.000000)" font-size="22.9167" font-family="sans-serif" text-anchor="middle">Vertical alignment</text>
+<text x="646.875" y="62.3311" fill="rgba(32,32,32,1.000000)" font-size="22.9167" font-family="sans-serif" font-weight="bold" text-anchor="middle">Text alignment and rotation (0:45:360 degrees)</text>
 </svg>

@@ -11,18 +11,18 @@
 <polyline points="812.976,738.669 480.774,164.456 " fill="none" stroke="rgba(216,216,216,1.000000)" stroke-width="2.08333"/>
 <polyline points="934.57,617.323 359.18,285.802 " fill="none" stroke="rgba(216,216,216,1.000000)" stroke-width="2.08333"/>
 <polyline points="979.076,451.562 314.674,451.562 " fill="none" stroke="rgba(216,216,216,1.000000)" stroke-width="2.08333"/>
-<text x="950.913" y="275.273" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">30</text>
-<text x="312.308" y="639.335" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">210</text>
-<text x="816.538" y="140.898" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">60</text>
-<text x="446.683" y="773.71" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">240</text>
-<text x="635.288" y="92.4601" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">90</text>
-<text x="629.495" y="822.148" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">270</text>
-<text x="446.683" y="140.898" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">120</text>
-<text x="810.745" y="773.71" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">300</text>
-<text x="312.308" y="275.273" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">150</text>
-<text x="945.12" y="639.335" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">330</text>
-<text x="263.87" y="456.523" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">180</text>
-<text x="1005.14" y="456.523" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">0</text>
+<text x="962.5" y="275.273" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">30</text>
+<text x="329.688" y="639.335" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">210</text>
+<text x="828.125" y="140.898" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">60</text>
+<text x="464.062" y="773.71" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">240</text>
+<text x="646.875" y="92.4601" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">90</text>
+<text x="646.875" y="822.148" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">270</text>
+<text x="464.062" y="140.898" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">120</text>
+<text x="828.125" y="773.71" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">300</text>
+<text x="329.688" y="275.273" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">150</text>
+<text x="962.5" y="639.335" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">330</text>
+<text x="281.25" y="456.523" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">180</text>
+<text x="1010.94" y="456.523" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">0</text>
 <polyline points="646.875,451.562 779.755,186.345 731.918,228.78 779.755,186.345 774.44,249.997 " fill="none" stroke="rgba(16,112,189,1.000000)" stroke-width="1.04167"/>
 <polyline points="646.875,451.562 912.636,584.171 870.114,536.432 912.636,584.171 848.853,578.867 " fill="none" stroke="rgba(16,112,189,1.000000)" stroke-width="1.04167"/>
 <polyline points="646.875,451.562 513.995,318.954 529.94,356.084 513.995,318.954 551.201,334.867 " fill="none" stroke="rgba(16,112,189,1.000000)" stroke-width="1.04167"/>

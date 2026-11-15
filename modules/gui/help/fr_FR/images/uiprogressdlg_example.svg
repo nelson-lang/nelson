@@ -7,5 +7,5 @@
 <polygon points="375.625,504.937 918.125,504.937 918.125,451.562 375.625,451.562 " fill="rgba(255,255,255,1.000000)" stroke="rgba(140,140,140,1.000000)" stroke-width="1"/>
 <polygon points="375.625,504.937 666.25,504.937 666.25,451.562 375.625,451.562 " fill="rgba(0,114,188,1.000000)" stroke="rgba(0,114,188,1.000000)" stroke-width="1"/>
 <polygon points="569.375,649.812 724.375,649.812 724.375,565.938 569.375,565.938 " fill="rgba(242,242,242,1.000000)" stroke="rgba(140,140,140,1.000000)" stroke-width="1"/>
-<text x="614.45" y="617.46" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Cancel</text>
+<text x="646.875" y="617.46" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">Cancel</text>
 </svg>

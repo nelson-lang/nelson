@@ -1,13 +1,13 @@
 <svg width="800" height="600.32" viewBox="0 0 1250 938" xmlns="http://www.w3.org/2000/svg">
 <rect x="0" y="0" width="1250" height="938" fill="#ffffff"/>
 <rect x="0" y="0" width="1250" height="937.5" fill="rgba(255,255,255,1.000000)"/>
-<text x="365.96" y="345.017" fill="rgba(191,76,11,1.000000)" font-size="149.703" font-family="sans-serif" text-anchor="start">solver</text>
-<text x="65.6473" y="646.31" fill="rgba(191,76,11,1.000000)" font-size="135.446" font-family="sans-serif" text-anchor="start">matrix</text>
-<text x="181.74" y="849.843" fill="rgba(191,76,11,1.000000)" font-size="117.624" font-family="sans-serif" text-anchor="start">plot</text>
-<text x="126.992" y="128.947" fill="rgba(191,76,11,1.000000)" font-size="111.386" font-family="sans-serif" text-anchor="start">graphics</text>
-<text x="685.917" y="122.232" fill="rgba(21,113,187,1.000000)" font-size="87.3267" font-family="sans-serif" text-anchor="start">signal</text>
-<text x="1010.73" y="281.035" fill="rgba(23,113,186,1.000000)" font-size="71.2871" font-family="sans-serif" text-anchor="start">model</text>
-<text x="323.821" y="480.688" fill="rgba(24,113,186,1.000000)" font-size="63.2673" font-family="sans-serif" text-anchor="start">tests</text>
-<text x="164.806" y="316.356" fill="rgba(25,113,185,1.000000)" font-size="49.0099" font-family="sans-serif" text-anchor="start">data</text>
-<text x="591.912" y="19.5186" fill="rgba(0,0,0,1.000000)" font-size="22.9167" font-family="sans-serif" font-weight="bold" text-anchor="start">Count</text>
+<text x="565.625" y="344.311" fill="rgba(191,76,11,1.000000)" font-size="146.737" font-family="sans-serif" text-anchor="middle">solver</text>
+<text x="250" y="645.671" fill="rgba(191,76,11,1.000000)" font-size="132.762" font-family="sans-serif" text-anchor="middle">matrix</text>
+<text x="276.562" y="849.041" fill="rgba(191,76,11,1.000000)" font-size="115.293" font-family="sans-serif" text-anchor="middle">plot</text>
+<text x="337.5" y="128.187" fill="rgba(191,76,11,1.000000)" font-size="109.179" font-family="sans-serif" text-anchor="middle">graphics</text>
+<text x="800" y="121.636" fill="rgba(21,113,187,1.000000)" font-size="85.5966" font-family="sans-serif" text-anchor="middle">signal</text>
+<text x="1107.81" y="280.699" fill="rgba(23,113,186,1.000000)" font-size="69.8748" font-family="sans-serif" text-anchor="middle">model</text>
+<text x="390.625" y="480.39" fill="rgba(24,113,186,1.000000)" font-size="62.0138" font-family="sans-serif" text-anchor="middle">tests</text>
+<text x="212.5" y="316.125" fill="rgba(25,113,185,1.000000)" font-size="48.0389" font-family="sans-serif" text-anchor="middle">data</text>
+<text x="625" y="17.9561" fill="rgba(0,0,0,1.000000)" font-size="22.9167" font-family="sans-serif" font-weight="bold" text-anchor="middle">Count</text>
 </svg>

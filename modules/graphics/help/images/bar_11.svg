@@ -3,39 +3,39 @@
 <rect x="0" y="0" width="1250" height="937.5" fill="rgba(255,255,255,1.000000)"/>
 <polygon points="163.281,832.031 1132.03,832.031 1132.03,69.5312 163.281,69.5312 " fill="rgba(255,255,255,1.000000)"/>
 <g fill="rgba(16,112,189,1.000000)" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167">
-<rect x="249.31" y="578.646" width="40.2597" height="254.167"/>
-<rect x="425.446" y="451.562" width="40.2597" height="381.25"/>
-<rect x="601.583" y="324.479" width="40.2597" height="508.333"/>
-<rect x="777.719" y="197.396" width="40.2597" height="635.417"/>
-<rect x="953.856" y="70.3125" width="40.2597" height="762.5"/>
+<rect x="207.04" y="578.646" width="44.5402" height="254.167"/>
+<rect x="401.904" y="451.562" width="44.5402" height="381.25"/>
+<rect x="596.767" y="324.479" width="44.5402" height="508.333"/>
+<rect x="791.631" y="197.396" width="44.5402" height="635.417"/>
+<rect x="986.494" y="70.3125" width="44.5402" height="762.5"/>
 </g>
 <g fill="rgba(220,83,0,1.000000)" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167">
-<rect x="299.635" y="642.188" width="40.2597" height="190.625"/>
-<rect x="475.771" y="604.062" width="40.2597" height="228.75"/>
-<rect x="651.907" y="578.646" width="40.2597" height="254.167"/>
-<rect x="828.044" y="451.562" width="40.2597" height="381.25"/>
-<rect x="1004.18" y="324.479" width="40.2597" height="508.333"/>
+<rect x="262.716" y="642.188" width="44.5402" height="190.625"/>
+<rect x="457.579" y="604.062" width="44.5402" height="228.75"/>
+<rect x="652.443" y="578.646" width="44.5402" height="254.167"/>
+<rect x="847.306" y="451.562" width="44.5402" height="381.25"/>
+<rect x="1042.17" y="324.479" width="44.5402" height="508.333"/>
 </g>
 <line x1="162.5" y1="832.812" x2="1131.25" y2="832.812" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="163.281" y1="832.031" x2="1132.03" y2="832.031" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="163.281" y1="69.5312" x2="1132.03" y2="69.5312" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="163.281" y1="832.031" x2="163.281" y2="69.5312" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="1132.03" y1="832.031" x2="1132.03" y2="69.5312" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<line x1="296.094" y1="832.031" x2="296.094" y2="822.656" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<line x1="296.094" y1="69.5312" x2="296.094" y2="78.9062" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<line x1="471.094" y1="832.031" x2="471.094" y2="822.656" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<line x1="471.094" y1="69.5312" x2="471.094" y2="78.9062" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
+<line x1="258.594" y1="832.031" x2="258.594" y2="822.656" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
+<line x1="258.594" y1="69.5312" x2="258.594" y2="78.9062" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
+<line x1="452.344" y1="832.031" x2="452.344" y2="822.656" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
+<line x1="452.344" y1="69.5312" x2="452.344" y2="78.9062" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="647.656" y1="832.031" x2="647.656" y2="822.656" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="647.656" y1="69.5312" x2="647.656" y2="78.9062" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<line x1="824.219" y1="832.031" x2="824.219" y2="822.656" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<line x1="824.219" y1="69.5312" x2="824.219" y2="78.9062" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<line x1="999.219" y1="832.031" x2="999.219" y2="822.656" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<line x1="999.219" y1="69.5312" x2="999.219" y2="78.9062" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<text x="273.693" y="862.219" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">April</text>
-<text x="451.415" y="862.219" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">May</text>
-<text x="625.068" y="857.804" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">June</text>
-<text x="804.132" y="862.219" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">July</text>
-<text x="966.789" y="862.219" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">August</text>
+<line x1="842.969" y1="832.031" x2="842.969" y2="822.656" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
+<line x1="842.969" y1="69.5312" x2="842.969" y2="78.9062" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
+<line x1="1036.72" y1="832.031" x2="1036.72" y2="822.656" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
+<line x1="1036.72" y1="69.5312" x2="1036.72" y2="78.9062" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
+<text x="257.031" y="862.219" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">April</text>
+<text x="452.344" y="862.219" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">May</text>
+<text x="647.656" y="857.804" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">June</text>
+<text x="841.406" y="862.219" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">July</text>
+<text x="1036.72" y="862.219" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="middle">August</text>
 <line x1="163.281" y1="832.031" x2="172.656" y2="832.031" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="1132.03" y1="832.031" x2="1122.66" y2="832.031" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="163.281" y1="705.469" x2="172.656" y2="705.469" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
@@ -50,13 +50,13 @@
 <line x1="1132.03" y1="196.094" x2="1122.66" y2="196.094" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="163.281" y1="69.5312" x2="172.656" y2="69.5312" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="1132.03" y1="69.5312" x2="1122.66" y2="69.5312" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<text x="137.163" y="836.991" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">0</text>
-<text x="102.404" y="710.429" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">1000</text>
-<text x="102.404" y="583.866" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">2000</text>
-<text x="102.404" y="455.741" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">3000</text>
-<text x="102.404" y="329.179" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">4000</text>
-<text x="102.404" y="202.616" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">5000</text>
-<text x="102.404" y="74.4914" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">6000</text>
+<text x="148.75" y="836.991" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">0</text>
+<text x="148.75" y="710.429" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">1000</text>
+<text x="148.75" y="583.866" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">2000</text>
+<text x="148.75" y="455.741" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">3000</text>
+<text x="148.75" y="329.179" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">4000</text>
+<text x="148.75" y="202.616" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">5000</text>
+<text x="148.75" y="74.4914" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">6000</text>
 <polygon points="179.167,134.335 333.854,134.335 333.854,85.4167 179.167,85.4167 " fill="rgba(255,255,255,1.000000)"/>
 <polyline points="179.167,134.335 333.854,134.335 333.854,85.4167 179.167,85.4167 179.167,134.335 " fill="none" stroke="rgba(32,32,32,1.000000)" stroke-width="1.04167"/>
 <polygon points="185.417,106.617 247.917,106.617 247.917,91.4098 185.417,91.4098 " fill="rgba(16,112,189,1.000000)"/>

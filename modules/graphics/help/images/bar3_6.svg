@@ -209,11 +209,11 @@
 <line x1="449.44" y1="700.539" x2="426.093" y2="709.478" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="515.308" y1="743.372" x2="491.961" y2="752.311" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="581.177" y1="786.205" x2="557.829" y2="795.144" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<text x="276.846" y="640.415" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">1</text>
-<text x="342.714" y="683.248" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">2</text>
-<text x="408.583" y="726.081" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">3</text>
-<text x="474.451" y="768.914" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">4</text>
-<text x="540.32" y="811.747" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">5</text>
+<text x="288.433" y="640.415" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">1</text>
+<text x="354.301" y="683.248" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">2</text>
+<text x="420.169" y="726.081" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">3</text>
+<text x="486.038" y="768.914" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">4</text>
+<text x="551.906" y="811.747" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">5</text>
 <line x1="251.834" y1="572.04" x2="230.876" y2="558.411" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="251.834" y1="522.502" x2="230.876" y2="508.873" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="251.834" y1="472.964" x2="230.876" y2="459.335" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
@@ -222,12 +222,12 @@
 <line x1="251.834" y1="324.351" x2="230.876" y2="310.722" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="251.834" y1="274.813" x2="230.876" y2="261.184" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
 <line x1="251.834" y1="225.275" x2="230.876" y2="211.646" stroke="rgba(33,33,33,1.000000)" stroke-width="1.04167"/>
-<text x="206.424" y="550.141" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">-6</text>
-<text x="206.424" y="500.604" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">-4</text>
-<text x="206.424" y="451.066" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">-2</text>
-<text x="213.361" y="401.528" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">0</text>
-<text x="213.361" y="351.99" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">2</text>
-<text x="213.361" y="302.452" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">4</text>
-<text x="213.361" y="252.914" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">6</text>
-<text x="213.361" y="203.376" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">8</text>
+<text x="224.948" y="550.141" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">-6</text>
+<text x="224.948" y="500.604" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">-4</text>
+<text x="224.948" y="451.066" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">-2</text>
+<text x="224.948" y="401.528" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">0</text>
+<text x="224.948" y="351.99" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">2</text>
+<text x="224.948" y="302.452" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">4</text>
+<text x="224.948" y="252.914" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">6</text>
+<text x="224.948" y="203.376" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="end">8</text>
 </svg>
