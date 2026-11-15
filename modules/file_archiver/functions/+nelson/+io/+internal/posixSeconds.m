@@ -10,7 +10,7 @@
 function seconds = posixSeconds(when)
   % POSIX time of a datetime scalar (local time when it has no time zone).
   if ~isa(when, 'datetime') || ~isscalar(when)
-    error('Nelson:io:invalidOption', 'Modified must be a datetime scalar.');
+    error('Nelson:io:invalidModified', 'Modified must be a datetime scalar.');
   end
   localTime = when;
   if isempty(localTime.TimeZone)

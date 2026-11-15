@@ -12,7 +12,7 @@ function data = decompressData(codec, bytes, varargin)
   defaults = struct('MaxSize', Inf, 'MaxCompressionRatio', Inf);
   options = nelson.io.internal.nameValueOptions(defaults, varargin{:});
   if ~isa(bytes, 'uint8')
-    error('Nelson:io:invalidData', 'Data must be uint8.');
+    error('Nelson:io:invalidCompressedData', 'Data must be uint8.');
   end
   data = __stream_decompress__(codec, reshape(bytes, 1, []), double(options.MaxSize), ...
     double(options.MaxCompressionRatio));

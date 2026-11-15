@@ -26,7 +26,7 @@ Nelson::FileArchiverGateway::streamDecompressBuiltin(int nLhs, const ArrayOfVect
     nargoutcheck(nLhs, 0, 1);
     const StreamCodec codec = streamCodec(argIn[0]);
     if (argIn[1].dataClass() != NLS_UINT8) {
-        Error(L"Nelson:io:invalidData", L"Data must be uint8.");
+        Error(L"Nelson:io:invalidCompressedData", L"Data must be uint8.");
     }
     const auto* data = static_cast<const uint8_t*>(argIn[1].dataPointer());
     const uint64_t maxSize = sizeLimit(argIn[2]);

@@ -35,7 +35,7 @@ catch e
   identifier = e.identifier;
 end
 asserts.isequal(identifier, 'Nelson:io:gzip:invalidData');
-asserts.checkerror('nelson.io.gzip.decompress(''abc'')', 'Data must be uint8.', 'Nelson:io:invalidData');
+asserts.checkerror('nelson.io.gzip.decompress(''abc'')', 'Data must be uint8.', 'Nelson:io:invalidCompressedData');
 %=============================================================================
 mkdir(WORK);
 SOURCE = [WORK, '/data.txt'];

@@ -10,7 +10,7 @@
 function options = nameValueOptions(options, varargin)
   % Updates the fields of options from name-value pairs (names are case-insensitive).
   if mod(numel(varargin), 2) ~= 0
-    error('Nelson:io:invalidOption', 'Options must be name-value pairs.');
+    error('Nelson:io:invalidOptionPairs', 'Options must be name-value pairs.');
   end
   names = fieldnames(options);
   for k = 1:2:numel(varargin)

@@ -31,7 +31,7 @@ solveLeastSquareLapack(NelsonType destinationClass, const ArrayOf& matA, const A
     double tolerance = 0;
     ArrayOf res = solveLapackLeastSquares<T>(destinationClass, matA, matB, rank, info, &tolerance);
     if (info != 0) {
-        Error(L"Nelson:operators:solverFailed", L"Linear least squares solver failed.");
+        Error(L"Nelson:operators:leastSquaresSolverFailed", L"Linear least squares solver failed.");
     }
     if (isRankDeficient<T>(m, n, rank)) {
         std::string format = resolveMessageTemplate("Nelson:operators:matrixRankDeficientTolerance",
