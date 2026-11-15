@@ -10415,8 +10415,8 @@ _webui_get_child_process_id(_webui_window_t* win)
             return (size_t)getpid();
 #endif
         } else {
-// Web Browser Mode
-// Filter process by WebUI's web server URL in process CLI
+            // Web Browser Mode
+            // Filter process by WebUI's web server URL in process CLI
             // NELSON PATCH: a window never shown has no URL, hence no browser process
             // (the lookups below dereferenced the null URL).
             if (win->url == NULL) {

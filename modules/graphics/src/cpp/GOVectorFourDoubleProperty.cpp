@@ -139,8 +139,7 @@ checkRectangle(ArrayOf value)
         Error(L"Nelson:graphics:positionMustBeNumeric", L"Position values must be numeric.");
     }
     if (value.elementCount() != 4) {
-        Error(L"Nelson:graphics:positionFourElements",
-            L"Position must be a four-element vector.");
+        Error(L"Nelson:graphics:positionFourElements", L"Position must be a four-element vector.");
     }
     value.promoteType(NLS_DOUBLE);
     const double* dp = static_cast<const double*>(value.dataPointer());

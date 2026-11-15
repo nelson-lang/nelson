@@ -394,7 +394,7 @@ isShownInFigure(GraphicsObject* go)
 {
     int guard = 0;
     for (GraphicsObject* current = go; current && guard < 64;
-         current = parentContainer(current), ++guard) {
+        current = parentContainer(current), ++guard) {
         if (!isContainerVisible(current)) {
             return false;
         }
@@ -407,7 +407,7 @@ containerDepth(GraphicsObject* go)
 {
     int depth = 0;
     for (GraphicsObject* current = parentContainer(go); current && depth < 64;
-         current = parentContainer(current)) {
+        current = parentContainer(current)) {
         ++depth;
     }
     return depth;
@@ -481,7 +481,7 @@ owningTabHandle(GraphicsObject* go)
 {
     int guard = 0;
     for (GraphicsObject* current = go; current && guard < 64;
-         current = parentContainer(current), ++guard) {
+        current = parentContainer(current), ++guard) {
         if (current->isType(GO_PROPERTY_VALUE_UITAB_STR)) {
             return findGraphicsObjectHandle(current);
         }

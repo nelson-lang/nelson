@@ -23,7 +23,8 @@ public:
     ~SizeChangedScope();
     SizeChangedScope(const SizeChangedScope&) = delete;
     SizeChangedScope&
-    operator=(const SizeChangedScope&) = delete;
+    operator=(const SizeChangedScope&)
+        = delete;
 };
 //=============================================================================
 // While alive, what is raised waits for the next callback processing (drawnow, pause, prompt).
@@ -34,7 +35,8 @@ public:
     ~SizeChangedDeferral();
     SizeChangedDeferral(const SizeChangedDeferral&) = delete;
     SizeChangedDeferral&
-    operator=(const SizeChangedDeferral&) = delete;
+    operator=(const SizeChangedDeferral&)
+        = delete;
 };
 //=============================================================================
 // Raises SizeChangedFcn of a figure or a container: at scope end, else queued.

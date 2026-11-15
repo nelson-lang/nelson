@@ -87,7 +87,8 @@ GOUIComponent::updateState()
         && uiComponentBindingFactory) {
         binding = uiComponentBindingFactory(this);
     }
-    // Before the children are refreshed: a shown container releases what it holds in one ordered pass.
+    // Before the children are refreshed: a shown container releases what it holds in one ordered
+    // pass.
     notifyContainerShown(this);
     bool isNewWidget = false;
     if (binding && !binding->exists()) {

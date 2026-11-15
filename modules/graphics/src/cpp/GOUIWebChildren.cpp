@@ -117,10 +117,9 @@ uiNotifyWebContainerGeometry(GOUIComponent* container)
 void
 uiNotifyWebChildContainers(GraphicsObject* parent)
 {
-    auto* childProperty = parent
-        ? dynamic_cast<GOGObjectsProperty*>(
-              parent->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false))
-        : nullptr;
+    auto* childProperty = parent ? dynamic_cast<GOGObjectsProperty*>(
+                                       parent->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false))
+                                 : nullptr;
     if (childProperty == nullptr) {
         return;
     }

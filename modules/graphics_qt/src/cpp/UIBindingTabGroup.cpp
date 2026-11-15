@@ -66,16 +66,17 @@ namespace {
                 return native;
             }
             const QRect whole = widget->rect();
-            const QRect pane
-                = north ? whole.adjusted(0, TAB_BAR_HEIGHT, 0, 0) : whole.adjusted(0, 0, 0, -TAB_BAR_HEIGHT);
+            const QRect pane = north ? whole.adjusted(0, TAB_BAR_HEIGHT, 0, 0)
+                                     : whole.adjusted(0, 0, 0, -TAB_BAR_HEIGHT);
             switch (element) {
             case SE_TabWidgetTabBar:
-                return QRect(native.x(), north ? 0 : whole.height() - TAB_BAR_HEIGHT, native.width(),
-                    TAB_BAR_HEIGHT);
+                return QRect(native.x(), north ? 0 : whole.height() - TAB_BAR_HEIGHT,
+                    native.width(), TAB_BAR_HEIGHT);
             case SE_TabWidgetTabPane:
                 return pane;
             case SE_TabWidgetTabContents:
-                return pane.adjusted(TAB_PAGE_FRAME, TAB_PAGE_FRAME, -TAB_PAGE_FRAME, -TAB_PAGE_FRAME);
+                return pane.adjusted(
+                    TAB_PAGE_FRAME, TAB_PAGE_FRAME, -TAB_PAGE_FRAME, -TAB_PAGE_FRAME);
             default:
                 return native;
             }
