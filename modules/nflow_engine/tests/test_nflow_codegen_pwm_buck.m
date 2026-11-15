@@ -72,8 +72,11 @@ skip_testsuite(~__nflow_codegen_toolchain__('C'), 'No C toolchain for code gener
 crate = [tempdir(), 'nfpwmbuck'];
 if isdir(crate); try; rmdir(crate, 's'); catch; end; end
 nflow_codegenerate(model, tempdir(), true, 'C', struct('build', true, 'buildConfig', 'Release'));
-exe = [crate, '/build/Release/nflow_run'];
-if ispc(); exe = [exe, '.exe']; end
+if ispc()
+  exe = [crate, '/build/Release/nflow_run.exe'];  % multi-config generator
+else
+  exe = [crate, '/build/nflow_run'];               % single-config generator
+end
 assert_istrue(isfile(exe));
 csv = [tempdir(), 'nfpwmbuck_C.csv'];
 [st, out] = system(['"', exe, '" -t ', num2str(d.duration), ' -o "', csv, '"']);
