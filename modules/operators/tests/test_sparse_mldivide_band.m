@@ -10,66 +10,59 @@
 % Sparse divisors with a dense band use a band LU, singular or not.
 M = [1 2 3; 4 5 6; 7 8 9];
 %=============================================================================
-% M is singular: which exact solution comes out depends on FMA in the BLAS kernels.
+% M is exactly singular: whether the band LU yields a tiny pivot (nearly singular,
+% a finite solution) or an exact zero pivot (singular, a non-finite result) depends
+% on FMA in the BLAS kernels, so both warnings are accepted (see checkSingularSolve).
 lastwarn('', '');
 X = sparse(M) \ [1; 2; 3];
 [msg, id] = lastwarn();
-asserts.isequal(id, 'Nelson:nearlySingularMatrix');
-asserts.istrue(all(isfinite(X)));
-asserts.istrue(norm(M * X - [1; 2; 3]) < 1e-12);
+checkSingularSolve(id, X, @(Xf) norm(M * Xf - [1; 2; 3]) < 1e-12);
 %=============================================================================
 lastwarn('', '');
 X = sparse(M) \ sparse([1; 2; 3]);
 [msg, id] = lastwarn();
 asserts.istrue(issparse(X));
-asserts.isequal(id, 'Nelson:nearlySingularMatrix');
-asserts.istrue(all(isfinite(full(X))));
-asserts.istrue(norm(M * full(X) - [1; 2; 3]) < 1e-12);
+checkSingularSolve(id, X, @(Xf) norm(M * Xf - [1; 2; 3]) < 1e-12);
 %=============================================================================
 % '/' factors the divisor itself and solves with its transpose.
 lastwarn('', '');
 Y = [1 2 3] / sparse(M);
 [msg, id] = lastwarn();
 asserts.isfalse(issparse(Y));
-asserts.isequal(id, 'Nelson:nearlySingularMatrix');
-asserts.istrue(norm(Y - [1 0 0]) < 1e-12);
+checkSingularSolve(id, Y, @(Yf) norm(Yf * M - [1 2 3]) < 1e-12);
 %=============================================================================
+lastwarn('', '');
 Y = sparse([1 2 3]) / sparse(M);
+[msg, id] = lastwarn();
 asserts.istrue(issparse(Y));
-asserts.istrue(norm(full(Y) - [1 0 0]) < 1e-12);
+checkSingularSolve(id, Y, @(Yf) norm(Yf * M - [1 2 3]) < 1e-12);
 %=============================================================================
 lastwarn('', '');
 X = sparse(M') \ [1; 2; 3];
 [msg, id] = lastwarn();
-asserts.isequal(id, 'Nelson:singularMatrix');
-asserts.isequal(msg, _('Matrix is singular to working precision.'));
-asserts.isfalse(any(isfinite(X)));
+checkSingularSolve(id, X, @(Xf) norm(M' * Xf - [1; 2; 3]) < 1e-12);
 %=============================================================================
 lastwarn('', '');
 Y = [1 2 3; 4 5 6] / sparse(M');
 [msg, id] = lastwarn();
-asserts.isequal(id, 'Nelson:singularMatrix');
-asserts.isfalse(any(isfinite(Y(:))));
+checkSingularSolve(id, Y, @(Yf) norm(Yf * M' - [1 2 3; 4 5 6]) < 1e-12);
 %=============================================================================
 lastwarn('', '');
 X = sparse(single(M)) \ single([1; 2; 3]);
 [msg, id] = lastwarn();
 asserts.isequal(class(X), 'single');
-asserts.isequal(id, 'Nelson:nearlySingularMatrix');
-asserts.istrue(norm(single(M) * X - single([1; 2; 3])) < 1e-4);
+checkSingularSolve(id, X, @(Xf) norm(single(M) * Xf - single([1; 2; 3])) < 1e-4);
 %=============================================================================
 lastwarn('', '');
 Y = single([1 2 3]) / sparse(single(M));
 [msg, id] = lastwarn();
-asserts.isequal(id, 'Nelson:nearlySingularMatrix');
-asserts.istrue(norm(Y * single(M) - single([1 2 3])) < 1e-4);
+checkSingularSolve(id, Y, @(Yf) norm(Yf * single(M) - single([1 2 3])) < 1e-4);
 %=============================================================================
 lastwarn('', '');
 X = sparse(single(M')) \ single([1; 2; 3]);
 [msg, id] = lastwarn();
-asserts.isequal(id, 'Nelson:singularMatrix');
 asserts.isequal(class(X), 'single');
-asserts.isfalse(any(isfinite(X)));
+checkSingularSolve(id, X, @(Xf) norm(single(M') * Xf - single([1; 2; 3])) < 1e-4);
 %=============================================================================
 % Regular band systems give no warning.
 A = speye(5) * 4;
@@ -95,4 +88,19 @@ asserts.istrue(norm(Y - [0 2 -1]) < 1e-14);
 Z = sparse([1 1i 1; 1i 1 1; 1 1 1i]);
 asserts.isapprox([1 2 3] / Z, [0.8 - 0.4i, 1.3 + 0.1i, 0.3 - 0.9i], 1e-14);
 asserts.isapprox(Z \ [1; 2; 3], [0.8 - 0.4i; 1.3 + 0.1i; 0.3 - 0.9i], 1e-14);
+%=============================================================================
+% The band LU of an exactly singular matrix lands on either a tiny pivot (nearly
+% singular, a finite solution) or an exact zero pivot (singular, a non-finite
+% result) depending on BLAS rounding; both are valid platform outcomes, so accept
+% either warning and check the regime that matches it.
+function checkSingularSolve(id, X, residualOk)
+  Xf = full(X);
+  if isequal(id, 'Nelson:singularMatrix')
+    asserts.istrue(any(~isfinite(Xf(:))));
+  else
+    asserts.isequal(id, 'Nelson:nearlySingularMatrix');
+    asserts.istrue(all(isfinite(Xf(:))));
+    asserts.istrue(residualOk(Xf));
+  end
+end
 %=============================================================================

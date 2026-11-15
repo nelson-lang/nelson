@@ -244,7 +244,22 @@ struct ZipArchive::Impl
     validateLzmaDictionary(size_t entryIndex) const
     {
         const ZipEntryInfo& info = entries[entryIndex];
-        if (info.method != static_cast<uint16_t>(ZipCompression::Lzma) || info.isEncrypted) {
+        const bool isLzma = info.method == static_cast<uint16_t>(ZipCompression::Lzma);
+        const bool isXz = info.method == static_cast<uint16_t>(ZipCompression::Xz);
+        if (!isLzma && !isXz) {
+            return;
+        }
+        if (info.isEncrypted) {
+            // The compressed stream carries the LZMA dictionary size in its header, but
+            // that header is encrypted, so the memory liblzma allocates up front cannot
+            // be bounded before decompression. Refuse rather than risk an unbounded
+            // allocation (decompression bomb).
+            fail(ZipErrorCode::UnsupportedEncryption,
+                "Encrypted LZMA or XZ ZIP entries are not supported.", info.name);
+        }
+        if (!isLzma) {
+            // XZ carries its dictionary size inside the stream too, but it is not
+            // validated here yet; see validateLzmaDictionary follow-up.
             return;
         }
         const uint64_t localOffset = directory[entryIndex].localOffset;

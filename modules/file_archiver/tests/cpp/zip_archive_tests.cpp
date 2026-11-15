@@ -58,6 +58,8 @@ testUnsupportedMethod();
 static void
 testLzmaDictionaryLimit();
 static void
+testEncryptedLzmaRejected();
+static void
 testCp437Name();
 static void
 testFilesAndModes();
@@ -105,6 +107,7 @@ main()
     testCrcMismatch();
     testUnsupportedMethod();
     testLzmaDictionaryLimit();
+    testEncryptedLzmaRejected();
     testCp437Name();
     testFilesAndModes();
     testNotAnArchive();
@@ -284,6 +287,28 @@ testLzmaDictionaryLimit()
     ZipArchive reader = ZipArchive::openMemory(bytes);
     checkThrows([&] { reader.readEntry(*reader.find("folder/hello.txt")); },
         ZipErrorCode::EntryTooLarge, "oversized LZMA dictionary rejected");
+}
+//=============================================================================
+// An encrypted LZMA entry hides its dictionary size behind encryption, so the reader
+// cannot bound the liblzma allocation and must refuse it instead of risking an OOM.
+static void
+testEncryptedLzmaRejected()
+{
+    if (!ZipArchive::supportsCompression(static_cast<uint16_t>(ZipCompression::Lzma))) {
+        return;
+    }
+    std::vector<uint8_t> bytes = buildArchive(ZipCompression::Lzma);
+    const size_t local = findSignature(bytes, localHeader, findSignature(bytes, localHeader) + 4);
+    writeUint16(bytes, local + 6, static_cast<uint16_t>(readUint16(bytes, local + 6) | 0x0001));
+    const size_t central
+        = findSignature(bytes, centralHeader, findSignature(bytes, centralHeader) + 4);
+    writeUint16(bytes, central + 8, static_cast<uint16_t>(readUint16(bytes, central + 8) | 0x0001));
+    ZipArchive reader = ZipArchive::openMemory(bytes);
+    reader.setPassword("secret");
+    check(reader.entries()[*reader.find("folder/hello.txt")].isEncrypted,
+        "entry flagged as encrypted");
+    checkThrows([&] { reader.readEntry(*reader.find("folder/hello.txt")); },
+        ZipErrorCode::UnsupportedEncryption, "encrypted LZMA entry rejected");
 }
 //=============================================================================
 static void
