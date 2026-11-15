@@ -12,7 +12,10 @@ function X = betaincinv(Y, Z, W, tail)
   narginchk(3, 4);
   upper = false;
   if nargin > 3
-    upper = parseTail(tail, 'Nelson:betaincinv:invalidTail');
+    upper = parseTail(tail);
+    if isempty(upper)
+      error('Nelson:betaincinv:invalidTail', 'Tail must be ''lower'' or ''upper''.');
+    end
   end
   [Y, Z, W] = checkInverseInputs(Y, Z, W, 'betaincinv');
   if any(Z(:) < 0) || any(W(:) < 0)

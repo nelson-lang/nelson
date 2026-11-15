@@ -383,7 +383,8 @@ void
 mustBeNonpositive(const ArrayOf& arg, int argPosition, bool asCaller)
 {
     mustCompareWithZero(arg, LE_OPERATOR_STR, L"Nelson:validators:mustBeNonpositive",
-        L"%s must be nonpositive.", argPosition, asCaller);
+        resolveMessageTemplate(L"Nelson:validators:mustBeNonpositive", L"%s must be nonpositive."),
+        argPosition, asCaller);
 }
 //=============================================================================
 void
@@ -397,7 +398,8 @@ void
 mustBeNegative(const ArrayOf& arg, int argPosition, bool asCaller)
 {
     mustCompareWithZero(arg, LT_OPERATOR_STR, L"Nelson:validators:mustBeNegative",
-        L"%s must be negative.", argPosition, asCaller);
+        resolveMessageTemplate(L"Nelson:validators:mustBeNegative", L"%s must be negative."),
+        argPosition, asCaller);
 }
 //=============================================================================
 void

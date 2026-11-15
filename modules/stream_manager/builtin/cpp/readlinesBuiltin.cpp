@@ -62,6 +62,8 @@ setOption(ReadLinesOptions& options, const std::wstring& name, const ArrayOf& va
         ENCODING
     };
     const std::wstring errorId = L"Nelson:readlines:invalidOptionValue";
+    const std::wstring errorTemplate = resolveMessageTemplate(
+        L"Nelson:readlines:invalidOptionValue", L"%s must be one of these values: %s.");
     switch (matchChoicePrefix(
         name, { L"lineending", L"whitespace", L"emptylinerule", L"whitespacerule", L"encoding" })) {
     case LINE_ENDING: {
@@ -91,14 +93,14 @@ setOption(ReadLinesOptions& options, const std::wstring& name, const ArrayOf& va
         const ReadLinesEmptyLineRule rules[] = { ReadLinesEmptyLineRule::READ,
             ReadLinesEmptyLineRule::SKIP, ReadLinesEmptyLineRule::ERROR_ON_EMPTY };
         options.emptyLineRule = rules[matchOptionValue(
-            value, L"EmptyLineRule", { L"read", L"skip", L"error" }, errorId)];
+            value, L"EmptyLineRule", { L"read", L"skip", L"error" }, errorId, errorTemplate)];
     } break;
     case WHITESPACE_RULE: {
         const ReadLinesWhitespaceRule rules[]
             = { ReadLinesWhitespaceRule::PRESERVE, ReadLinesWhitespaceRule::TRIM,
                   ReadLinesWhitespaceRule::TRIM_LEADING, ReadLinesWhitespaceRule::TRIM_TRAILING };
         options.whitespaceRule = rules[matchOptionValue(value, L"WhitespaceRule",
-            { L"preserve", L"trim", L"trimleading", L"trimtrailing" }, errorId)];
+            { L"preserve", L"trim", L"trimleading", L"trimtrailing" }, errorId, errorTemplate)];
     } break;
     case ENCODING: {
         if (!isTextScalar(value)) {

@@ -110,7 +110,7 @@ end
 function ax = currentAxesForText()
   ax = gca();
   if isgraphics(ax, 'heatmap')
-    error('Nelson:heatmap:invalidChild', _('A heatmap cannot hold a %s.'), 'text');
+    error('Nelson:heatmap:invalidChild', 'A heatmap cannot hold a %s.', 'text');
   end
 end
 %=============================================================================

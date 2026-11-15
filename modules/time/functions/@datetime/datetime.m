@@ -1003,8 +1003,9 @@ classdef datetime
       days = cellfun(@(tok) str2double(tok{dayField}), matched);
       if ~isempty(days) && all(days <= 12)
         other = ['dd/MM/', spec.format(7:end)];
-        warning('Nelson:datetime:AmbiguousDateString', ['The text was read with the format ''%s'', ', ...
-          'but ''%s'' could also apply. Use the ''InputFormat'' option to choose.'], spec.format, other);
+        warning('Nelson:datetime:AmbiguousDateString', ...
+          'The text was read with the format ''%s'', but ''%s'' could also apply. Use the ''InputFormat'' option to choose.', ...
+          spec.format, other);
       end
     end
 

@@ -70,6 +70,8 @@ setOption(WriteLinesOptions& options, const std::wstring& name, const ArrayOf& v
         TRAILING_LINE_ENDING_RULE
     };
     const std::wstring errorId = L"Nelson:writelines:invalidOptionValue";
+    const std::wstring errorTemplate = resolveMessageTemplate(
+        L"Nelson:writelines:invalidOptionValue", L"%s must be one of these values: %s.");
     switch (matchChoicePrefix(
         name, { L"lineending", L"encoding", L"writemode", L"trailinglineendingrule" })) {
     case LINE_ENDING: {
@@ -96,14 +98,15 @@ setOption(WriteLinesOptions& options, const std::wstring& name, const ArrayOf& v
         }
     } break;
     case WRITE_MODE: {
-        options.append
-            = matchOptionValue(value, L"WriteMode", { L"overwrite", L"append" }, errorId) == 1;
+        options.append = matchOptionValue(value, L"WriteMode", { L"overwrite", L"append" }, errorId,
+                             errorTemplate)
+            == 1;
     } break;
     case TRAILING_LINE_ENDING_RULE: {
         const WriteLinesTrailingRule rules[] = { WriteLinesTrailingRule::AUTO,
             WriteLinesTrailingRule::ALWAYS, WriteLinesTrailingRule::NEVER };
-        options.trailingRule = rules[matchOptionValue(
-            value, L"TrailingLineEndingRule", { L"auto", L"always", L"never" }, errorId)];
+        options.trailingRule = rules[matchOptionValue(value, L"TrailingLineEndingRule",
+            { L"auto", L"always", L"never" }, errorId, errorTemplate)];
     } break;
     default: {
         Error(L"Nelson:writelines:unknownParameter", L"Unknown Parameter '%s'.", name);

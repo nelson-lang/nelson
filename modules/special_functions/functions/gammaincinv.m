@@ -12,7 +12,10 @@ function X = gammaincinv(Y, A, tail)
   narginchk(2, 3);
   upper = false;
   if nargin > 2
-    upper = parseTail(tail, 'Nelson:gammaincinv:invalidTail');
+    upper = parseTail(tail);
+    if isempty(upper)
+      error('Nelson:gammaincinv:invalidTail', 'Tail must be ''lower'' or ''upper''.');
+    end
   end
   [Y, A] = checkInverseInputs(Y, A, 'gammaincinv');
   if any(A(:) < 0)

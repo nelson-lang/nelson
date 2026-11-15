@@ -17,7 +17,10 @@ function filenames = gunzip(files, varargin)
     filenames = gunzipUrl(files, outputFolder, limits);
     return
   end
-  sources = nelson.io.internal.expandFileList(files, 'Nelson:gunzip:fileNotFound');
+  [sources, missing] = nelson.io.internal.expandFileList(files);
+  if ~isempty(missing)
+    error('Nelson:gunzip:fileNotFound', 'File not found: %s', missing);
+  end
   sources = sources(endsWith(sources, '.gz', 'IgnoreCase', true));
   filenames = cell(1, numel(sources));
   for k = 1:numel(sources)

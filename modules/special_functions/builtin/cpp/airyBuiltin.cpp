@@ -10,6 +10,7 @@
 #include "airyBuiltin.hpp"
 #include "BesselFunctions.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -24,7 +25,8 @@ Nelson::SpecialFunctionsGateway::airyBuiltin(int nLhs, const ArrayOfVector& argI
     if (argIn.size() > 1) {
         zIndex = 1;
         k = getBesselOrderSelector(argIn[0], 0, 3, L"Nelson:special_functions:airyInvalidKind",
-            L"K must be equal to 0, 1, 2 or 3.");
+            resolveMessageTemplate(
+                L"Nelson:special_functions:airyInvalidKind", L"K must be equal to 0, 1, 2 or 3."));
     }
     bool scaled = (argIn.size() == 3) ? getBesselScaleArgument(argIn[2]) : false;
     ArrayOfVector retval;

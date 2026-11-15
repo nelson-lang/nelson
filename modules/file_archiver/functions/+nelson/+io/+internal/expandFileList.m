@@ -7,10 +7,12 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function files = expandFileList(names, identifier)
+function [files, missing] = expandFileList(names)
   % Full names of the files named by text, wildcards or folders (folders are listed recursively).
+  % missing is the first name matching nothing (files is then empty); '' when every name matched.
   names = cellstr(convertStringsToChars(names));
   files = {};
+  missing = '';
   for k = 1:numel(names)
     name = names{k};
     if isfolder(name)
@@ -21,7 +23,9 @@ function files = expandFileList(names, identifier)
       found = fullfile({listing.folder}, {listing.name});
     end
     if isempty(found)
-      error(identifier, 'File not found: %s', name);
+      files = {};
+      missing = name;
+      return
     end
     files = [files, found]; %#ok<AGROW>
   end

@@ -111,7 +111,7 @@ function [x, covariance, dfe] = solveWeighted(Aw, bw)
 end
 %=============================================================================
 function invalidCovarianceError()
-  message = 'V must be an m-by-m covariance matrix or a vector of m nonnegative weights.';
-  error('Nelson:lscov:invalidCovariance', message);
+  error('Nelson:lscov:invalidCovariance', ...
+    'V must be an m-by-m covariance matrix or a vector of m nonnegative weights.');
 end
 %=============================================================================

@@ -560,11 +560,11 @@ integerPowerDoubleExponent(const ArrayOf& exponent, NelsonType integerClass)
     double e = static_cast<const double*>(exponent.dataPointer())[0];
     if (e < 0) {
         Error(L"Nelson:operators:invalidBitInput:onlyPositiveIntegersExpected",
-            _W("Only positive integers expected."));
+            L"Only positive integers expected.");
     }
     if (std::isnan(e) || (std::isfinite(e) && std::trunc(e) != e)) {
         Error(L"Nelson:interpreter:positiveIntegralPowerExpected",
-            _W("Positive integral powers expected."));
+            L"Positive integral powers expected.");
     }
     if (e > 64) {
         // doubles from 2^53 up are even
@@ -587,7 +587,7 @@ doubleBasePowerInteger(NelsonType integerClass, double base, const ArrayOf& expo
         for (indexType k = 0; k < n; ++k) {
             if (ptrE[k] < 0) {
                 Error(L"Nelson:operators:invalidBitInput:onlyPositiveIntegersExpected",
-                    _W("Only positive integers expected."));
+                    L"Only positive integers expected.");
             }
         }
     }

@@ -39,8 +39,8 @@ function [lengths, dims, opts] = padTrimOptions(A, m, allowPadding, args)
       case 'pattern'
         patterns = {'constant', 'edge', 'circular', 'flip', 'reflect'};
         if ~((ischar(value) || isstring(value)) && any(strcmpi(char(value), patterns)))
-          message = 'Pattern must be ''constant'', ''edge'', ''circular'', ''flip'' or ''reflect''.';
-          error('Nelson:padtrim:invalidPattern', message);
+          error('Nelson:padtrim:invalidPattern', ...
+            'Pattern must be ''constant'', ''edge'', ''circular'', ''flip'' or ''reflect''.');
         end
         opts.Pattern = lower(char(value));
       case 'fillvalue'

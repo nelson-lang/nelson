@@ -16,10 +16,11 @@ function setpixelposition(h, position, recursive)
   end
   h = scalarObject(h);
   if ~(isnumeric(position) && isreal(position) && numel(position) == 4)
-    raise('invalidPosition');
+    error('Nelson:graphics:setpixelposition:invalidPosition', ...
+      'A real four-element numeric vector is expected as second argument.');
   end
   if ~(isprop(h, 'Position') && numel(h.Position) == 4)
-    raise('noPosition');
+    error('Nelson:graphics:setpixelposition:noPosition', 'The object has no four-element Position.');
   end
   position = reshape(double(position), 1, 4);
   if recursive
@@ -30,7 +31,7 @@ end
 %=============================================================================
 function tf = isRecursive(recursive)
   if ~(isscalar(recursive) && (islogical(recursive) || isnumeric(recursive)))
-    raise('invalidRecursive');
+    error('Nelson:graphics:setpixelposition:invalidRecursive', 'A logical scalar is expected as third argument.');
   end
   tf = logical(recursive);
 end
@@ -68,12 +69,8 @@ function h = scalarObject(h)
     h = findall(groot, 'Type', 'figure', 'Number', double(h));
   end
   if ~(isscalar(h) && isgraphics(h))
-    raise('invalidHandle');
+    error('Nelson:graphics:setpixelposition:invalidHandle', ...
+      'A valid scalar graphics object is expected as first argument.');
   end
-end
-%=============================================================================
-function raise(mnemonic)
-  id = ['Nelson:graphics:setpixelposition:', mnemonic];
-  error(id, getString(message(id)));
 end
 %=============================================================================

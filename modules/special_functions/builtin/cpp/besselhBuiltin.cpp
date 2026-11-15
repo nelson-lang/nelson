@@ -10,6 +10,7 @@
 #include "besselhBuiltin.hpp"
 #include "BesselFunctions.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -24,7 +25,9 @@ Nelson::SpecialFunctionsGateway::besselhBuiltin(int nLhs, const ArrayOfVector& a
     if (argIn.size() > 2) {
         zIndex = 2;
         kind = (getBesselOrderSelector(argIn[1], 1, 2,
-                    L"Nelson:special_functions:besselhInvalidKind", L"K must be equal to 1 or 2.")
+                    L"Nelson:special_functions:besselhInvalidKind",
+                    resolveMessageTemplate(L"Nelson:special_functions:besselhInvalidKind",
+                        L"K must be equal to 1 or 2."))
                    == 1)
             ? BesselFunctionKind::H1
             : BesselFunctionKind::H2;

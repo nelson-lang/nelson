@@ -12,8 +12,8 @@ function [in, on] = inpolygon(x, y, xv, yv)
   narginchk(4, 4);
   nargoutchk(0, 2);
   if ~isequal(size(x), size(y)) || numel(xv) ~= numel(yv)
-    message = 'X and Y must have the same size, and XV and YV the same number of elements.';
-    error('Nelson:inpolygon:sizeMismatch', message);
+    error('Nelson:inpolygon:sizeMismatch', ...
+      'X and Y must have the same size, and XV and YV the same number of elements.');
   end
   xq = x(:);
   yq = y(:);

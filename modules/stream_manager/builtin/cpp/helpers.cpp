@@ -72,7 +72,8 @@ matchChoicePrefix(const std::wstring& text, const wstringVector& lowerCaseChoice
 //=============================================================================
 size_t
 matchOptionValue(const ArrayOf& value, const std::wstring& name,
-    const wstringVector& lowerCaseChoices, const std::wstring& errorId)
+    const wstringVector& lowerCaseChoices, const std::wstring& errorId,
+    const std::wstring& errorTemplate)
 {
     if (isTextScalar(value)) {
         int index = matchChoicePrefix(value.asWideString(), lowerCaseChoices);
@@ -84,7 +85,7 @@ matchOptionValue(const ArrayOf& value, const std::wstring& name,
     for (const std::wstring& choice : lowerCaseChoices) {
         expected += (expected.empty() ? L"'" : L", '") + choice + L"'";
     }
-    Error(errorId, L"%s must be one of these values: %s.", name, expected);
+    Error(errorId, errorTemplate, name, expected);
     return 0;
 }
 //=============================================================================

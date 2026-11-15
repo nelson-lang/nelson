@@ -10,7 +10,10 @@
 function filenames = gzip(files, outputFolder)
   % Compresses files (names, wildcards or folders) into .gz files.
   narginchk(1, 2);
-  sources = nelson.io.internal.expandFileList(files, 'Nelson:gzip:fileNotFound');
+  [sources, missing] = nelson.io.internal.expandFileList(files);
+  if ~isempty(missing)
+    error('Nelson:gzip:fileNotFound', 'File not found: %s', missing);
+  end
   filenames = cell(1, numel(sources));
   for k = 1:numel(sources)
     [~, name, ext] = fileparts(sources{k});

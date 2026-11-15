@@ -295,7 +295,32 @@ scanTsFileForUiStrings(const std::string& text, std::set<std::string>& texts)
         while (cursor < text.size()) {
             char c = text[cursor++];
             if (c == '\\' && cursor < text.size()) {
-                literal.push_back(text[cursor++]);
+                // decode the escape so the key matches the string the TS runtime passes to
+                // t()/tf() (the JS engine has already unescaped it), like the C/C++ and .m scanners
+                char escaped = text[cursor++];
+                switch (escaped) {
+                case 'n':
+                    literal.push_back('\n');
+                    break;
+                case 't':
+                    literal.push_back('\t');
+                    break;
+                case 'r':
+                    literal.push_back('\r');
+                    break;
+                case 'b':
+                    literal.push_back('\b');
+                    break;
+                case 'f':
+                    literal.push_back('\f');
+                    break;
+                case 'v':
+                    literal.push_back('\v');
+                    break;
+                default:
+                    literal.push_back(escaped);
+                    break;
+                }
                 continue;
             }
             if (c == quote) {

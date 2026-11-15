@@ -7,11 +7,12 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function upper = parseTail(tail, identifier)
-  % true for 'upper', false for 'lower'
-  if ~((ischar(tail) || isstring(tail)) && any(strcmpi(char(tail), {'lower', 'upper'})))
-    error(identifier, 'Tail must be ''lower'' or ''upper''.');
+function upper = parseTail(tail)
+  % true for 'upper', false for 'lower', [] when tail is neither
+  if (ischar(tail) || isstring(tail)) && any(strcmpi(char(tail), {'lower', 'upper'}))
+    upper = strcmpi(char(tail), 'upper');
+  else
+    upper = [];
   end
-  upper = strcmpi(char(tail), 'upper');
 end
 %=============================================================================

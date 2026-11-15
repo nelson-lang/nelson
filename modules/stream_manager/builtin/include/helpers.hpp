@@ -41,7 +41,8 @@ matchChoicePrefix(const std::wstring& text, const wstringVector& lowerCaseChoice
 // Index of the choice named by a text value, or an error listing the choices.
 size_t
 matchOptionValue(const ArrayOf& value, const std::wstring& name,
-    const wstringVector& lowerCaseChoices, const std::wstring& errorId);
+    const wstringVector& lowerCaseChoices, const std::wstring& errorId,
+    const std::wstring& errorTemplate);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================
