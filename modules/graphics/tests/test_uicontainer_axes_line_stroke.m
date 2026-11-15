@@ -8,6 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <--ADV-CLI MODE-->
+% <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
 % An axes held by a uipanel is painted by the container through the QPainter
 % renderer. Stroking a long, self-intersecting polyline there in one piece
