@@ -64,8 +64,11 @@ for useUIFigure = [false true]
       assert_istrue(all(all(selected(:, 1:round(4 * sx)))));
       % the other tab keeps the bar color: its page color is not in the bar
       assert_isfalse(any(any(b > 200 & r < 60 & g < 60)));
-      % one label per tab: dark text on the selected label and on the next one
-      dark = r < 110 & g < 110 & b < 110;
+      % one label per tab: dark text on the selected label and on the next one.
+      % The threshold sits below the label border (176) and the bar (224) so it
+      % catches only glyph pixels, with room for the lighter antialiasing a
+      % different platform font renders.
+      dark = r < 150 & g < 150 & b < 150;
       textColumns = find(any(dark, 1));
       selectedColumns = find(any(selected, 1));
       assert_istrue(any(textColumns <= max(selectedColumns)));
