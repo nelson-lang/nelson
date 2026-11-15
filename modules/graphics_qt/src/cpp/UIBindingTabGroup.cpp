@@ -178,9 +178,9 @@ namespace {
         void
         applyPositionToWidget() override
         {
-            // The whole geometry apply is programmatic: a page it resizes must
-            // report the new size now, not hold the old one until a deferred run.
-            RequestedTabGeometryScope requested;
+            // Resize the page now so its geometry is current within the statement,
+            // but a group-driven resize keeps the tab's reported size deferred:
+            // the page reports its former size until its own deferred event.
             QtUIComponentBinding::applyPositionToWidget();
             flushPageLayout(qobject_cast<QTabWidget*>(widget.data()));
         }
