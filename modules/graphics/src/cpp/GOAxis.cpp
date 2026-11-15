@@ -8410,6 +8410,17 @@ keepBarEdges(GOAxis* axis, bool yRuler, const std::vector<double>& dataLimits, d
     }
 }
 //=============================================================================
+// Polar layout maps font points to pixels at a fixed 96 dpi, so the title and
+// theta-label geometry matches the reference on any display. The on-screen
+// pointsToPixels follows the display dpi (RenderHelpers), which would shift the
+// layout on a screen that is not 96 dpi, while the figure box is a fixed pixel
+// canvas; the axes layout manager converts points the same fixed way.
+static double
+polarPointsToPixels(double points)
+{
+    return points * 96.0 / 72.0;
+}
+//=============================================================================
 // Data Y of a polar title bottom: 2 px above the highest theta label (measured on the reference).
 static double
 polarTitleDataYPosition(GOAxis* axis, const std::vector<double>& limits, bool aboveSubtitle)
@@ -8432,7 +8443,7 @@ polarTitleDataYPosition(GOAxis* axis, const std::vector<double>& limits, bool ab
             }
             std::vector<double> position
                 = child->findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR);
-            double fontPixels = pointsToPixels(fontSizeInPoints(child));
+            double fontPixels = polarPointsToPixels(fontSizeInPoints(child));
             if (position.size() < 2 || !std::isfinite(position[1]) || !std::isfinite(fontPixels)) {
                 continue;
             }
@@ -8455,7 +8466,7 @@ polarTitleDataYPosition(GOAxis* axis, const std::vector<double>& limits, bool ab
         double fontSize
             = fontSizeInPoints(subtitle ? static_cast<GraphicsObject*>(subtitle) : axis);
         // The title sits one subtitle line higher.
-        offsetPixels += 1.3 * pointsToPixels(fontSize);
+        offsetPixels += 1.3 * polarPointsToPixels(fontSize);
     }
     return limits[3] + offsetPixels / scale;
 }
@@ -8525,7 +8536,7 @@ layoutPolarGridLabels(GOAxis* axis)
     double scale = polarPixelsPerDataUnit(axis, limits);
     double fontSize = fontSizeInPoints(axis);
     std::wstring fontName = axis->findStringProperty(GO_FONT_NAME_PROPERTY_NAME_STR);
-    double fontPixels = pointsToPixels(fontSize);
+    double fontPixels = polarPointsToPixels(fontSize);
     // Gap from the disc to the label anchor, measured on the reference.
     double gapPixels = POLAR_THETA_LABEL_GAP_BASE + POLAR_THETA_LABEL_GAP_EM * fontPixels;
     // Labels near the vertical axis are centred, those near the horizontal one middled.
@@ -8604,14 +8615,14 @@ polarTitleTopMargin(GOAxis* axis, double boxWidth, double boxHeight)
         if (!text || !axisTextHasString(axis, name)) {
             return 0.;
         }
-        double pixels = pointsToPixels(fontSizeInPoints(text));
+        double pixels = polarPointsToPixels(fontSizeInPoints(text));
         return std::isfinite(pixels) ? pixels : 0.;
     };
     double titlePixels = textPixels(GO_TITLE_PROPERTY_NAME_STR);
     double subtitlePixels = textPixels(GO_SUBTITLE_PROPERTY_NAME_STR);
     double stack
         = titlePixels > 0. ? 1.29 * titlePixels + 1.385 * subtitlePixels : 1.29 * subtitlePixels;
-    double fontPixels = pointsToPixels(fontSizeInPoints(axis));
+    double fontPixels = polarPointsToPixels(fontSizeInPoints(axis));
     if (!std::isfinite(fontPixels)) {
         fontPixels = 0.;
     }
