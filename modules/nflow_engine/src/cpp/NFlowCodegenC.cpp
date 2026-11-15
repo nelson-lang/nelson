@@ -1057,6 +1057,13 @@ generateC(const json& sourceDiagram, const CodegenOptions& opts)
     int rk4NX = 0;
     const bool rk4Requested = (solverName == "ode4" || isOde45);
     std::string rk4DowngradeReason;
+    // A demotion is a real loss of the requested sub-stepping only when some
+    // continuous state that would have been RK4-integrated is now advanced by
+    // fused Euler: a model-level reason, an eligible packed block (rk4NX > 0), or
+    // a block whose state is mutated once per sub-stage. A self-integrating
+    // implicit island (its own backward-Euler + Newton step, identical to the
+    // simulator's) never joined the packed vector and is not such a loss.
+    bool rk4DemotedByRealLoss = false;
     bool gatedRk4 = rk4Requested;
     if (gatedRk4 && hasMultiRate) {
         gatedRk4 = false;
@@ -1073,6 +1080,9 @@ generateC(const json& sourceDiagram, const CodegenOptions& opts)
     } else if (gatedRk4 && (anyTypedInput || anyTypedOutput)) {
         gatedRk4 = false;
         rk4DowngradeReason = "the model has int64/uint64-typed external ports";
+    }
+    if (!gatedRk4 && !rk4DowngradeReason.empty()) {
+        rk4DemotedByRealLoss = true; // a model-level demotion of the whole step
     }
     if (gatedRk4) {
         for (const auto& gid : order) {
@@ -1104,6 +1114,7 @@ generateC(const json& sourceDiagram, const CodegenOptions& opts)
                 const int w = gctpl.continuousWidth(wa);
                 if (w < 0) {
                     gatedRk4 = false; // stateful but not RK4-compatible
+                    rk4DemotedByRealLoss = true;
                     rk4DowngradeReason = "block '" + gid + "' (" + gtype
                         + ") has no RK4-compatible state lowering";
                     break;
@@ -1136,6 +1147,23 @@ generateC(const json& sourceDiagram, const CodegenOptions& opts)
             // fallback; a stateless block is simply skipped.
             if (haveTpl && (gctpl.emitState || !gctpl.state.empty())) {
                 gatedRk4 = false;
+                if (gctpl.continuousWidth) {
+                    // Self-integrating block (physicalIsland): it declares a
+                    // continuous width yet lowers to no RK4 seam, i.e. it runs its
+                    // own embedded implicit (backward-Euler + Newton) step, the same
+                    // scheme the simulator uses for it. It never joined the packed
+                    // vector, so it is not itself a sub-stepping loss; record why RK4
+                    // is off but keep scanning for a block that genuinely loses it.
+                    if (rk4DowngradeReason.empty()) {
+                        rk4DowngradeReason = "stateful block '" + gid + "' (" + gtype
+                            + ") does not join the packed RK4 state";
+                    }
+                    continue;
+                }
+                // A stateful block whose state would be mutated once per RK4
+                // sub-stage inside rhs() (e.g. a derivative's der_prev): a genuine
+                // loss of the requested sub-stepping.
+                rk4DemotedByRealLoss = true;
                 rk4DowngradeReason = "stateful block '" + gid + "' (" + gtype
                     + ") does not join the packed RK4 state";
                 break;
@@ -1143,12 +1171,18 @@ generateC(const json& sourceDiagram, const CodegenOptions& opts)
             continue;
         }
     }
-    if (rk4NX == 0) {
-        // No continuous state to integrate: fused Euler is numerically identical,
-        // so this demotion is not a divergence and raises no warning by itself.
+    // A fallback is a real divergence only when some continuous state that would
+    // have been RK4-integrated is now advanced by fused Euler: a model-level
+    // reason, or an eligible block that was packed (rk4NX > 0) and is now off the
+    // RK4 path. When the only continuous state lives in self-integrating implicit
+    // islands (or there is none), the generated step runs the simulator's own
+    // embedded backward-Euler solve, so the fallback is numerically identical /
+    // matches the simulation and raises no warning by itself.
+    const bool rk4RealLoss = rk4DemotedByRealLoss || (rk4NX > 0);
+    if (!rk4RealLoss) {
         gatedRk4 = false;
     }
-    if (rk4Requested && !gatedRk4 && !rk4DowngradeReason.empty()) {
+    if (rk4Requested && !gatedRk4 && !rk4DowngradeReason.empty() && rk4RealLoss) {
         CodegenDiagnostic d;
         d.severity = CodegenDiagnostic::Severity::Warning;
         d.gate = "solverDowngrade";
