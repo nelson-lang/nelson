@@ -39,6 +39,19 @@ public:
         = delete;
 };
 //=============================================================================
+// While alive, a tab page resized by a programmatic Position or TabLocation
+// change reports its new size at once instead of holding the old one.
+class NLSGRAPHICS_IMPEXP RequestedTabGeometryScope
+{
+public:
+    RequestedTabGeometryScope();
+    ~RequestedTabGeometryScope();
+    RequestedTabGeometryScope(const RequestedTabGeometryScope&) = delete;
+    RequestedTabGeometryScope&
+    operator=(const RequestedTabGeometryScope&)
+        = delete;
+};
+//=============================================================================
 // Raises SizeChangedFcn of a figure or a container: at scope end, else queued.
 NLSGRAPHICS_IMPEXP void
 notifySizeChanged(GraphicsObject* go);

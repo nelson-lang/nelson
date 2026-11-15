@@ -40,6 +40,8 @@ struct DeferredBatch
 static const std::chrono::milliseconds DEFERRED_DELAY(20);
 static std::vector<DeferredBatch> deferredBatches;
 static bool deferredRunQueued = false;
+// >0 while a programmatic Position/TabLocation change applies a tab page resize.
+static int requestedTabGeometryDepth = 0;
 // Handles raised inside a scope, in raise order.
 static std::vector<int64> scopedHandles;
 // Objects raised while their figure, themselves or a container holding them were invisible.
@@ -105,6 +107,10 @@ SizeChangedScope::~SizeChangedScope()
 SizeChangedDeferral::SizeChangedDeferral() { ++deferralDepth; }
 //=============================================================================
 SizeChangedDeferral::~SizeChangedDeferral() { --deferralDepth; }
+//=============================================================================
+RequestedTabGeometryScope::RequestedTabGeometryScope() { ++requestedTabGeometryDepth; }
+//=============================================================================
+RequestedTabGeometryScope::~RequestedTabGeometryScope() { --requestedTabGeometryDepth; }
 //=============================================================================
 void
 notifySizeChanged(GraphicsObject* go)
@@ -208,9 +214,15 @@ notifyTabPageResized(GraphicsObject* tab, double width, double height)
     }
     GOFigure* fig = owningFigure(tab);
     if (fig && isUiFigure(fig)) {
-        // The reference keeps the old Position of a uifigure tab until its deferred event.
-        reportedTabSizes.emplace(tab, previousSize);
-        deferTabPageSize(tab, width, height);
+        if (requestedTabGeometryDepth > 0) {
+            // A programmatic Position/TabLocation change reports the new size now:
+            // a running script never reaches the deferred run that would clear it.
+            reportedTabSizes.erase(tab);
+        } else {
+            // The reference keeps the old Position of a uifigure tab until its deferred event.
+            reportedTabSizes.emplace(tab, previousSize);
+            deferTabPageSize(tab, width, height);
+        }
     }
     SizeChangedDeferral deferral;
     notifySizeChanged(tab);

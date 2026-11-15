@@ -101,7 +101,7 @@ protected:
     QWidget*
     getParentQWidget();
     //=============================================================================
-    void
+    virtual void
     applyPositionToWidget();
     void
     applyFontToWidget();

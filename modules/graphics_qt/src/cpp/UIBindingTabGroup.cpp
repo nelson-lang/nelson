@@ -7,6 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <QtCore/QCoreApplication>
+#include <QtCore/QEvent>
+#include <QtGui/QResizeEvent>
 #include <QtWidgets/QProxyStyle>
 #include <QtWidgets/QTabBar>
 #include <QtWidgets/QTabWidget>
@@ -18,6 +21,7 @@
 #include "GOPropertyValues.hpp"
 #include "GOGObjectsProperty.hpp"
 #include "GOHelpers.hpp"
+#include "SizeChangedDispatcher.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -33,6 +37,26 @@ namespace {
     {
         return shape == QTabBar::RoundedNorth || shape == QTabBar::RoundedSouth
             || shape == QTabBar::TriangularNorth || shape == QTabBar::TriangularSouth;
+    }
+    //=============================================================================
+    // A programmatic Position or TabLocation change resizes the pages through a
+    // posted layout request that a running script never yields to: deliver it now.
+    static void
+    flushPageLayout(QTabWidget* tabWidget)
+    {
+        if (!tabWidget) {
+            return;
+        }
+        // The layout resizes the current page to fit the group.
+        QEvent layoutRequest(QEvent::LayoutRequest);
+        QCoreApplication::sendEvent(tabWidget, &layoutRequest);
+        if (QWidget* page = tabWidget->currentWidget()) {
+            // An unmapped page (host window not yet exposed) only gets a posted
+            // resize event: deliver the pending one, then a final resize, now.
+            QCoreApplication::sendPostedEvents(page, QEvent::Resize);
+            QResizeEvent resize(page->size(), QSize(-1, -1));
+            QCoreApplication::sendEvent(page, &resize);
+        }
     }
     //=============================================================================
     class QUITabBar : public QTabBar
@@ -133,7 +157,9 @@ namespace {
                 } else if (location == GO_PROPERTY_VALUE_RIGHT_STR) {
                     tabPosition = QTabWidget::East;
                 }
+                RequestedTabGeometryScope requested;
                 tabWidget->setTabPosition(tabPosition);
+                flushPageLayout(tabWidget);
             }
             if (model->hasChanged(GO_SELECTED_TAB_PROPERTY_NAME_STR)) {
                 GOGObjectsProperty* selectedTab = static_cast<GOGObjectsProperty*>(
@@ -147,6 +173,16 @@ namespace {
                     }
                 }
             }
+        }
+        //=============================================================================
+        void
+        applyPositionToWidget() override
+        {
+            // The whole geometry apply is programmatic: a page it resizes must
+            // report the new size now, not hold the old one until a deferred run.
+            RequestedTabGeometryScope requested;
+            QtUIComponentBinding::applyPositionToWidget();
+            flushPageLayout(qobject_cast<QTabWidget*>(widget.data()));
         }
         //=============================================================================
         void
