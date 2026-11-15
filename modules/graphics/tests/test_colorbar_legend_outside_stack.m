@@ -13,6 +13,14 @@
 % (8pt apart) and the axes shrinks for all of them.
 %=============================================================================
 tol = 1e-2;
+% The axes left/bottom insets and the legend box come from tick-label and
+% legend-text widths, which are font-metric values that differ by up to a
+% pixel across platforms (the same figure gives a slightly narrower '10' tick
+% label here than on some systems). A relative tolerance alone turns that
+% sub-pixel drift into a ~2% error on the small left inset, so pin the boxes
+% with an absolute floor of a few pixels as well; the stacking order and the
+% room given back on delete stay locked by the structural asserts below.
+abstol = 1e-2;
 %=============================================================================
 % legend first, then the colorbar to its right
 [f, ax] = make_axes();
@@ -20,15 +28,15 @@ lg = legend(ax, 'data1');
 lg.Location = 'northeastoutside';
 cb = colorbar(ax);
 drawnow();
-assert_isapprox(ax.Position, [0.078542 0.11 0.46823 0.815], tol);
-assert_isapprox(lg.Position, [0.59167 0.86667 0.2035 0.058667], tol);
-assert_isapprox(cb.Position, [0.82183 0.10933 0.0468 0.816], tol);
+assert_isapprox(ax.Position, [0.078542 0.11 0.46823 0.815], tol, abstol);
+assert_isapprox(lg.Position, [0.59167 0.86667 0.2035 0.058667], tol, abstol);
+assert_isapprox(cb.Position, [0.82183 0.10933 0.0468 0.816], tol, abstol);
 assert_stacked(lg, cb);
 % deleting the colorbar gives its room back
 delete(cb);
 drawnow();
-assert_isapprox(ax.Position, [0.097608 0.11 0.5819 0.815], tol);
-assert_isapprox(lg.Position, [0.72567 0.86667 0.2035 0.058667], tol);
+assert_isapprox(ax.Position, [0.097608 0.11 0.5819 0.815], tol, abstol);
+assert_isapprox(lg.Position, [0.72567 0.86667 0.2035 0.058667], tol, abstol);
 close(f);
 %=============================================================================
 % colorbar first, then the legend to its right
@@ -37,15 +45,15 @@ cb = colorbar(ax);
 lg = legend(ax, 'data1');
 lg.Location = 'northeastoutside';
 drawnow();
-assert_isapprox(ax.Position, [0.078542 0.11 0.46823 0.815], tol);
-assert_isapprox(lg.Position, [0.7318 0.86667 0.2035 0.058667], tol);
-assert_isapprox(cb.Position, [0.59167 0.10933 0.0468 0.816], tol);
+assert_isapprox(ax.Position, [0.078542 0.11 0.46823 0.815], tol, abstol);
+assert_isapprox(lg.Position, [0.7318 0.86667 0.2035 0.058667], tol, abstol);
+assert_isapprox(cb.Position, [0.59167 0.10933 0.0468 0.816], tol, abstol);
 assert_stacked(cb, lg);
 % deleting the legend gives its room back
 delete(lg);
 drawnow();
-assert_isapprox(ax.Position, [0.10846 0.11 0.64661 0.815], tol);
-assert_isapprox(cb.Position, [0.80167 0.10933 0.053333 0.816], tol);
+assert_isapprox(ax.Position, [0.10846 0.11 0.64661 0.815], tol, abstol);
+assert_isapprox(cb.Position, [0.80167 0.10933 0.053333 0.816], tol, abstol);
 close(f);
 %=============================================================================
 % an 'eastoutside' legend is centered on the box, the colorbar still after it
@@ -54,9 +62,9 @@ lg = legend(ax, 'data1');
 lg.Location = 'eastoutside';
 cb = colorbar(ax);
 drawnow();
-assert_isapprox(ax.Position, [0.078542 0.11 0.46823 0.815], tol);
-assert_isapprox(lg.Position, [0.59167 0.488 0.2035 0.058667], tol);
-assert_isapprox(cb.Position, [0.82183 0.10933 0.0468 0.816], tol);
+assert_isapprox(ax.Position, [0.078542 0.11 0.46823 0.815], tol, abstol);
+assert_isapprox(lg.Position, [0.59167 0.488 0.2035 0.058667], tol, abstol);
+assert_isapprox(cb.Position, [0.82183 0.10933 0.0468 0.816], tol, abstol);
 close(f);
 %=============================================================================
 % a legend moved inside leaves the stack; back outside it comes after the colorbar
@@ -67,14 +75,14 @@ cb = colorbar(ax);
 drawnow();
 lg.Location = 'northeast';
 drawnow();
-assert_isapprox(ax.Position, [0.10846 0.11 0.64661 0.815], tol);
-assert_isapprox(lg.Position, [0.52583 0.83111 0.2035 0.058667], tol);
-assert_isapprox(cb.Position, [0.80167 0.10933 0.053333 0.816], tol);
+assert_isapprox(ax.Position, [0.10846 0.11 0.64661 0.815], tol, abstol);
+assert_isapprox(lg.Position, [0.52583 0.83111 0.2035 0.058667], tol, abstol);
+assert_isapprox(cb.Position, [0.80167 0.10933 0.053333 0.816], tol, abstol);
 lg.Location = 'northeastoutside';
 drawnow();
-assert_isapprox(ax.Position, [0.078542 0.11 0.46823 0.815], tol);
-assert_isapprox(lg.Position, [0.7318 0.86667 0.2035 0.058667], tol);
-assert_isapprox(cb.Position, [0.59167 0.10933 0.0468 0.816], tol);
+assert_isapprox(ax.Position, [0.078542 0.11 0.46823 0.815], tol, abstol);
+assert_isapprox(lg.Position, [0.7318 0.86667 0.2035 0.058667], tol, abstol);
+assert_isapprox(cb.Position, [0.59167 0.10933 0.0468 0.816], tol, abstol);
 close(f);
 %=============================================================================
 % different sides do not stack
@@ -83,9 +91,9 @@ lg = legend(ax, 'data1');
 lg.Location = 'northeastoutside';
 cb = colorbar(ax, 'westoutside');
 drawnow();
-assert_isapprox(ax.Position, [0.26987 0.11 0.42845 0.815], tol);
-assert_isapprox(lg.Position, [0.74367 0.86667 0.2035 0.058667], tol);
-assert_isapprox(cb.Position, [0.1492 0.10933 0.0428 0.816], tol);
+assert_isapprox(ax.Position, [0.26987 0.11 0.42845 0.815], tol, abstol);
+assert_isapprox(lg.Position, [0.74367 0.86667 0.2035 0.058667], tol, abstol);
+assert_isapprox(cb.Position, [0.1492 0.10933 0.0428 0.816], tol, abstol);
 close(f);
 %=============================================================================
 % north side: legend above the box, colorbar above the legend
@@ -94,9 +102,9 @@ lg = legend(ax, 'data1');
 lg.Location = 'northoutside';
 cb = colorbar(ax, 'northoutside');
 drawnow();
-assert_isapprox(ax.Position, [0.13 0.075338 0.775 0.55818], tol);
-assert_isapprox(lg.Position, [0.41625 0.69556 0.2035 0.058667], tol);
-assert_isapprox(cb.Position, [0.13 0.78978 0.776 0.056], tol);
+assert_isapprox(ax.Position, [0.13 0.075338 0.775 0.55818], tol, abstol);
+assert_isapprox(lg.Position, [0.41625 0.69556 0.2035 0.058667], tol, abstol);
+assert_isapprox(cb.Position, [0.13 0.78978 0.776 0.056], tol, abstol);
 assert_istrue(lg.Position(2) + lg.Position(4) < cb.Position(2));
 close(f);
 %=============================================================================
@@ -133,9 +141,9 @@ lg.Location = 'northeastoutside';
 cb = colorbar(ax);
 drawnow();
 assert_istrue(isequal(cb.Parent, p));
-assert_isapprox(ax.Position, [0.078231 0.11 0.46638 0.815], tol);
-assert_isapprox(lg.Position, [0.59121 0.86559 0.20473 0.05914], tol);
-assert_isapprox(cb.Position, [0.82277 0.11022 0.04668 0.81452], tol);
+assert_isapprox(ax.Position, [0.078231 0.11 0.46638 0.815], tol, abstol);
+assert_isapprox(lg.Position, [0.59121 0.86559 0.20473 0.05914], tol, abstol);
+assert_isapprox(cb.Position, [0.82277 0.11022 0.04668 0.81452], tol, abstol);
 assert_stacked(lg, cb);
 close(f);
 %=============================================================================
