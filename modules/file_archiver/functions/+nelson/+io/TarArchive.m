@@ -70,7 +70,9 @@ classdef (Sealed) TarArchive < handle & nelson.mixin.CustomDisplay
       options = nelson.io.internal.nameValueOptions(struct('Modified', []), varargin{:});
       modified = 0;
       if ~isempty(options.Modified)
-        modified = nelson.io.internal.posixSeconds(options.Modified);
+        % tar stores whole-second mtimes; round so a platform-dependent
+        % fractional posixtime is not truncated to the previous second.
+        modified = round(nelson.io.internal.posixSeconds(options.Modified));
       end
       __tar_write__(obj.Id, char(name), nelson.io.internal.bytesFromData(data), modified);
     end
