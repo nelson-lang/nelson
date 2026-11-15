@@ -244,12 +244,26 @@ struct ZipArchive::Impl
     validateLzmaDictionary(size_t entryIndex) const
     {
         const ZipEntryInfo& info = entries[entryIndex];
-        const bool isLzma = info.method == static_cast<uint16_t>(ZipCompression::Lzma);
-        const bool isXz = info.method == static_cast<uint16_t>(ZipCompression::Xz);
+        // libarchive decodes each entry from its local file header, never from the
+        // central directory. A crafted archive can therefore advertise a harmless
+        // method (for example "stored") in the central directory while the local
+        // header asks libarchive for LZMA with a multi-gigabyte dictionary. Key the
+        // validation off the local header, which is what actually drives the decoder.
+        const uint64_t localOffset = directory[entryIndex].localOffset;
+        uint8_t localHeader[30];
+        if (!readSource(localOffset, localHeader, sizeof(localHeader))
+            || littleEndian32(localHeader) != localHeaderSignature) {
+            // A missing or malformed local header is reported when the entry is opened.
+            return;
+        }
+        const uint16_t localMethod = littleEndian16(localHeader + 8);
+        const bool isLzma = localMethod == static_cast<uint16_t>(ZipCompression::Lzma);
+        const bool isXz = localMethod == static_cast<uint16_t>(ZipCompression::Xz);
         if (!isLzma && !isXz) {
             return;
         }
-        if (info.isEncrypted) {
+        const bool isEncrypted = (littleEndian16(localHeader + 6) & 0x1U) != 0 || info.isEncrypted;
+        if (isEncrypted) {
             // The compressed stream carries the LZMA dictionary size in its header, but
             // that header is encrypted, so the memory liblzma allocates up front cannot
             // be bounded before decompression. Refuse rather than risk an unbounded
@@ -261,12 +275,6 @@ struct ZipArchive::Impl
             // XZ carries its dictionary size inside the stream too, but it is not
             // validated here yet; see validateLzmaDictionary follow-up.
             return;
-        }
-        const uint64_t localOffset = directory[entryIndex].localOffset;
-        uint8_t localHeader[30];
-        if (!readSource(localOffset, localHeader, sizeof(localHeader))
-            || littleEndian32(localHeader) != localHeaderSignature) {
-            fail(ZipErrorCode::NotAZipArchive, "Invalid ZIP local header.", info.name);
         }
         const uint64_t dataOffset = localOffset + sizeof(localHeader)
             + littleEndian16(localHeader + 26) + littleEndian16(localHeader + 28);

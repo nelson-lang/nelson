@@ -24,7 +24,10 @@ asserts.isequal(D \ B, B ./ (1:6)');
 asserts.isequal(B' / D, B' ./ (1:6));
 %=============================================================================
 R = diag([2+1i, 3-1i]) \ [1; 1i];
-asserts.isequal(R, [1 / (2+1i); 1i / (3-1i)]);
+% The diagonal fast path and scalar '/' divide by the same value but round their
+% complex divisions in a different order, so GCC/FMA builds (e.g. Linux arm64) can
+% differ by one ULP (1i/(3-1i) = -0.1+0.3i vs -0.0999...+0.3i); compare within a few ULP.
+asserts.isapprox(R, [1 / (2+1i); 1i / (3-1i)], 1e-14);
 R = diag([2+0i, 4]) \ [1; 1];
 asserts.isequal(R, [0.5; 0.25]);
 asserts.istrue(isreal(R));
