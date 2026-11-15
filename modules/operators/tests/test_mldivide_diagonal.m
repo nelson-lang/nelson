@@ -104,9 +104,12 @@ asserts.isequal(class(R), 'single');
 %=============================================================================
 dc = [2+1i, 3-1i, 0.5i];
 Bc = [1, 1i, 2-1i; 1-1i, 3, 1i];
-asserts.isequal(Bc / diag(dc), Bc ./ dc);
-asserts.isequal(Bc(1, :) / diag(dc), Bc(1, :) ./ dc);
-asserts.isequal(single(Bc) / single(diag(dc)), single(Bc) ./ single(dc));
+% The diagonal fast path and elementwise './' both divide by dc, but their complex
+% divisions round in a different order, so GCC/FMA builds can differ by one ULP
+% (e.g. 1i/(3-1i) = -0.1+0.3i vs -0.0999...+0.3i); compare within a few ULP.
+asserts.isapprox(Bc / diag(dc), Bc ./ dc, 1e-14);
+asserts.isapprox(Bc(1, :) / diag(dc), Bc(1, :) ./ dc, 1e-14);
+asserts.isapprox(single(Bc) / single(diag(dc)), single(Bc) ./ single(dc), 1e-5);
 R = [1 2] / diag([2+0i, 4]);
 asserts.isequal(R, [0.5, 0.5]);
 asserts.istrue(isreal(R));
