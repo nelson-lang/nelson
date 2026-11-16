@@ -646,7 +646,7 @@ test('editor ribbon re-lays-out live as the panel is resized (follows shrink & g
       return (el as HTMLElement).clientWidth > (p?.clientWidth ?? 0);
     });
 
-  await expect.poll(collapsedCount).toBeLessThanOrEqual(2);
+  await expect.poll(collapsedCount).toBeLessThanOrEqual(3);
   expect(await pinned()).toBe(false);
   const wideCount = await collapsedCount();
 

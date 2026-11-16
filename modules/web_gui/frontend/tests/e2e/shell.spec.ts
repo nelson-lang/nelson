@@ -502,7 +502,7 @@ test('menus and focus zones support keyboard-only navigation', async ({ page }) 
 
   await page.getByRole('button', { name: 'More panels' }).click();
   const morePanelButtons = page.locator('.sidebar__menu button');
-  await expect(morePanelButtons).toHaveCount(11);
+  await expect(morePanelButtons).toHaveCount(12);
   await morePanelButtons.first().focus();
   await page.keyboard.press('ArrowDown');
   await expect(morePanelButtons.nth(1)).toBeFocused();
