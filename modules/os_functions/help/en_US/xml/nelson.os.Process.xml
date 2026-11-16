@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.os.Process</keyword>
+  <short_description
+  >Run an external program and stream its standard input and output.</short_description>
+  <syntax>
+    <syntax_item>p = nelson.os.Process(command)</syntax_item>
+    <syntax_item>p = nelson.os.Process(command, arg1, ..., argN)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>command</param_name>
+      <param_description
+      >string scalar or character vector: the program to start.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>arg1, ..., argN</param_name>
+      <param_description
+      >string scalars or character vectors: command-line arguments passed to the program.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>p</param_name>
+      <param_description>process object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.os.Process</b> starts an external program and returns an object that streams
+    its standard input and output without blocking the interpreter.</p>
+    <p>The program runs in the background. Its output is buffered as it arrives and is read on
+    demand; input is written to the program at any time.</p>
+    <p>A real program is launched directly on every platform, with no shell: on Windows the
+    command is resolved against the PATH and PATHEXT (a .bat or .cmd script is run through the
+    command shell automatically).</p>
+    <p>This feature is not available in the WebAssembly build.</p>
+    <p>Properties (read with dot notation, for example <b>p.Running</b>):</p>
+    <p><b>Command</b>: the program that was started.</p>
+    <p><b>Arguments</b>: the command-line arguments, as a cell array.</p>
+    <p><b>WorkingDirectory</b>: the working directory of the program.</p>
+    <p><b>ProcessId</b>: the operating-system process identifier.</p>
+    <p><b>Running</b>: true while the program is still running.</p>
+    <p><b>ExitCode</b>: the exit code once the program has finished, otherwise empty.</p>
+    <p><b>BytesAvailable</b>: the number of output bytes buffered and ready to read.</p>
+    <p>Methods (called with dot notation, for example <b>p.read()</b>):</p>
+    <p><b>write(data)</b>: send bytes to the program standard input, from a character vector,
+    string scalar, or uint8 vector.</p>
+    <p><b>read()</b>: read and return all buffered standard output as a character vector.</p>
+    <p><b>readline()</b>: read and return the next complete output line, or an empty character
+    vector when no line is ready.</p>
+    <p><b>stderr()</b>: read and return all buffered standard error as a character vector.</p>
+    <p><b>close()</b>: close the standard input, signalling end of input to the program.</p>
+    <p><b>wait(timeout)</b>: block until the program exits or the timeout in seconds elapses;
+    a negative or omitted timeout waits forever.</p>
+    <p><b>terminate()</b>: stop the program and its child processes.</p>
+    <p>Use <b>delete(p)</b> to terminate the program and release the object.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Start a program, read its output, then release the object.</example_item_description>
+      <example_item_data
+      ><![CDATA[% a real program is launched directly on every platform
+p = nelson.os.Process('git', 'status');
+p.wait(10);
+disp(p.read());
+disp(p.ExitCode);
+delete(p);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${os_functions}system">system</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

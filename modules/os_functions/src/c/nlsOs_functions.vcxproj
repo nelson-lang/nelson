@@ -190,6 +190,7 @@
     <ClCompile Include="..\cpp\GetVariableEnvironment.cpp" />
     <ClCompile Include="..\cpp\LoadEnvironment.cpp" />
     <ClCompile Include="..\cpp\PlatformInfo.cpp" />
+    <ClCompile Include="..\cpp\ProcessObject.cpp" />
     <ClCompile Include="..\cpp\SearchVariableEnvironment.cpp" />
     <ClCompile Include="..\cpp\SetVariableEnvironment.cpp" />
     <ClCompile Include="..\cpp\SystemCommand.cpp" />
@@ -202,6 +203,7 @@
     <ClInclude Include="..\..\src\include\GetVariableEnvironment.hpp" />
     <ClInclude Include="..\..\src\include\nlsOs_functions_exports.h" />
     <ClInclude Include="..\..\src\include\PlatformInfo.hpp" />
+    <ClInclude Include="..\..\src\include\ProcessObject.hpp" />
     <ClInclude Include="..\..\src\include\SearchVariableEnvironment.hpp" />
     <ClInclude Include="..\..\src\include\SetVariableEnvironment.hpp" />
     <ClInclude Include="..\..\src\include\SystemCommand.hpp" />

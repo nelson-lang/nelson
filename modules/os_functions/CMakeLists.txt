@@ -66,6 +66,10 @@ target_include_directories(${module_library_builtin_name}
     ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../display_format/src/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 )
 

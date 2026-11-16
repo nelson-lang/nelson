@@ -328,7 +328,11 @@ SystemCommandTask::executeAttachedProcess(const std::wstring& cmd,
     PROCESS_INFORMATION pi {};
     std::wstring commandLine = cmd; // CreateProcessW may modify buffer
     bool startSuspended = job != nullptr;
-    DWORD creationFlags = startSuspended ? CREATE_SUSPENDED : 0;
+    // CREATE_NO_WINDOW: output is captured through redirected handles, so a console
+    // subprocess must not flash its own window (consistent with the other spawn
+    // paths here). Without it, each captured-output system()/unix() call pops a
+    // black console, e.g. the several that blink at NFlow startup under the webview.
+    DWORD creationFlags = CREATE_NO_WINDOW | (startSuspended ? CREATE_SUSPENDED : 0);
     BOOL ok = CreateProcessW(nullptr, &commandLine[0], nullptr, nullptr, TRUE, creationFlags,
         nullptr, nullptr, &si, &pi);
     if (!ok) {

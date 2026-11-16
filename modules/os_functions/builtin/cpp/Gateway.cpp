@@ -24,6 +24,7 @@
 #include "winqueryregBuiltin.hpp"
 #include "usernameBuiltin.hpp"
 #include "hostnameBuiltin.hpp"
+#include "process_dispatchBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -52,7 +53,8 @@ static const nlsGateway gateway[] = {
     { "winqueryreg", (ptrBuiltin)Nelson::OsFunctionsGateway::winqueryregBuiltin, 1, -2 },
     { "hostname", (ptrBuiltin)Nelson::OsFunctionsGateway::hostnameBuiltin, 1, 0 },
     { "username", (ptrBuiltin)Nelson::OsFunctionsGateway::usernameBuiltin, 1, 0 },
-
+    { "__process__", (ptrBuiltin)Nelson::OsFunctionsGateway::process_dispatchBuiltin, 1, -1,
+        CPP_BUILTIN },
 };
 //=============================================================================
 NLS_GATEWAY_FUNC(gateway)

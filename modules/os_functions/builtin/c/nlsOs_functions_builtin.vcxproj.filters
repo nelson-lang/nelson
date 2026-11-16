@@ -69,7 +69,13 @@
     <ClCompile Include="..\cpp\loadenvBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
+      <ClCompile Include="..\cpp\processBuiltinHelpers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\process_dispatchBuiltin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+</ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
@@ -125,7 +131,13 @@
     <ClInclude Include="..\include\loadenvBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
+      <ClInclude Include="..\include\processBuiltinHelpers.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\process_dispatchBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+</ItemGroup>
   <ItemGroup>
     <None Include="..\..\loader.m" />
     <None Include="..\..\etc\finish.m" />

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.os.Process</keyword>
+  <short_description
+  >Lance un programme externe et echange ses entrees et sorties standard.</short_description>
+  <syntax>
+    <syntax_item>p = nelson.os.Process(command)</syntax_item>
+    <syntax_item>p = nelson.os.Process(command, arg1, ..., argN)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>command</param_name>
+      <param_description
+      >chaine de caracteres: le programme a lancer.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>arg1, ..., argN</param_name>
+      <param_description
+      >chaines de caracteres: les arguments de ligne de commande passes au programme.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>p</param_name>
+      <param_description>objet process.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.os.Process</b> lance un programme externe et renvoie un objet qui echange son
+    entree et sa sortie standard sans bloquer l'interpreteur.</p>
+    <p>Le programme s'execute en arriere-plan. Sa sortie est mise en tampon au fur et a mesure
+    et lue a la demande; l'entree est ecrite vers le programme a tout moment.</p>
+    <p>Un vrai programme est lance directement sur toutes les plateformes, sans shell: sous
+    Windows la commande est resolue via PATH et PATHEXT (un script .bat ou .cmd est execute
+    automatiquement par l'interpreteur de commandes).</p>
+    <p>Cette fonctionnalite n'est pas disponible dans la version WebAssembly.</p>
+    <p>Proprietes (lues avec la notation point, par exemple <b>p.Running</b>):</p>
+    <p><b>Command</b>: le programme lance.</p>
+    <p><b>Arguments</b>: les arguments de ligne de commande, sous forme de tableau de cellules.</p>
+    <p><b>WorkingDirectory</b>: le repertoire de travail du programme.</p>
+    <p><b>ProcessId</b>: l'identifiant de processus du systeme d'exploitation.</p>
+    <p><b>Running</b>: vrai tant que le programme s'execute.</p>
+    <p><b>ExitCode</b>: le code de sortie une fois le programme termine, sinon vide.</p>
+    <p><b>BytesAvailable</b>: le nombre d'octets de sortie en tampon prets a etre lus.</p>
+    <p>Methodes (appelees avec la notation point, par exemple <b>p.read()</b>):</p>
+    <p><b>write(data)</b>: envoie des octets vers l'entree standard du programme, depuis une
+    chaine de caracteres ou un vecteur uint8.</p>
+    <p><b>read()</b>: lit et renvoie toute la sortie standard en tampon.</p>
+    <p><b>readline()</b>: lit et renvoie la prochaine ligne complete de sortie, ou une chaine
+    vide quand aucune ligne n'est prete.</p>
+    <p><b>stderr()</b>: lit et renvoie toute la sortie d'erreur standard en tampon.</p>
+    <p><b>close()</b>: ferme l'entree standard pour signaler la fin de l'entree au programme.</p>
+    <p><b>wait(timeout)</b>: bloque jusqu'a la fin du programme ou l'expiration du delai en
+    secondes; un delai negatif ou absent attend indefiniment.</p>
+    <p><b>terminate()</b>: arrete le programme et ses processus enfants.</p>
+    <p>Utilisez <b>delete(p)</b> pour arreter le programme et liberer l'objet.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Lancer un programme, lire sa sortie, puis liberer l'objet.</example_item_description>
+      <example_item_data
+      ><![CDATA[% un vrai programme est lance directement sur toutes les plateformes
+p = nelson.os.Process('git', 'status');
+p.wait(10);
+disp(p.read());
+disp(p.ExitCode);
+delete(p);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${os_functions}system">system</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
