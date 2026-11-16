@@ -179,3 +179,8 @@ export async function isDarkMode(): Promise<boolean | null> {
   }
 }
 //=============================================================================
+// True in the browser (WebAssembly) bundle; undefined/false on the desktop.
+export function isWasmRuntime(): boolean {
+  return typeof __NELSON_WASM__ !== 'undefined' && __NELSON_WASM__;
+}
+//=============================================================================

@@ -33,6 +33,7 @@ import type {
 } from '../rpc/types';
 import { DesktopIcon } from '../components/DesktopIcon';
 import { EditorAssistant } from './EditorAssistant';
+import { isWasmRuntime } from '../desktop/platform';
 import { BreakpointPopover } from '../components/BreakpointPopover';
 import { setupMonaco } from '../editor/monacoSetup';
 import {
@@ -1389,17 +1390,22 @@ export function EditorPanel({
           title: t('Profiler'),
           onClick: () => ensureCorePanel('profiler'),
         },
-        {
-          key: 'assistant',
-          className: showAssistant ? 'ribbon-btn--on' : '',
-          label: (
-            <>
-              <DesktopIcon name="assistant" size={16} /> {t('Assistant')}
-            </>
-          ),
-          title: t('Ask the assistant to write or insert Nelson code'),
-          onClick: () => setShowAssistant((v) => !v),
-        },
+        // The AI assistant has no reachable provider in wasm; hide its button.
+        ...(isWasmRuntime()
+          ? []
+          : [
+              {
+                key: 'assistant',
+                className: showAssistant ? 'ribbon-btn--on' : '',
+                label: (
+                  <>
+                    <DesktopIcon name="assistant" size={16} /> {t('Assistant')}
+                  </>
+                ),
+                title: t('Ask the assistant to write or insert Nelson code'),
+                onClick: () => setShowAssistant((v) => !v),
+              },
+            ]),
       ],
     },
     {

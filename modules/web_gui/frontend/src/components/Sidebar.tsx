@@ -59,8 +59,14 @@ const COMMAND_BUTTONS: Record<string, string> = {
 // The Diagnostics panel reports the browser runtime and the WebAssembly
 // bundle; the native engine only answers with a stub, so hide it there.
 function railPanels(): RailButton[] {
-  const panels = allPanels();
-  return isWasmRuntime() ? panels : panels.filter((button) => button.id !== 'diagnostics');
+  // Diagnostics is wasm-only; the AI assistant has no reachable provider in
+  // wasm, so its rail icon is hidden there.
+  const wasm = isWasmRuntime();
+  return allPanels().filter((button) => {
+    if (button.id === 'diagnostics') return wasm;
+    if (button.id === 'assistant') return !wasm;
+    return true;
+  });
 }
 //=============================================================================
 function dockSnapshot(): string {

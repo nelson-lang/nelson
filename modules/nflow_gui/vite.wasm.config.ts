@@ -15,6 +15,10 @@ import baseConfig from './vite.config';
 const moduleRoot = path.dirname(fileURLToPath(import.meta.url));
 export default defineConfig(
   mergeConfig(baseConfig, {
+    // Marks the browser (WebAssembly) bundle; desktop leaves it undefined.
+    define: {
+      __NELSON_WASM__: true,
+    },
     resolve: {
       alias: {
         '@nelson/wasm-client': path.resolve(

@@ -961,16 +961,18 @@ export function NotebookPanel({
               <DesktopIcon name="files" />
               <span className="nls-btn__label">{t('Outline')}</span>
             </button>
-            <button
-              type="button"
-              className={`nls-btn ${showAssistant ? 'is-on' : ''}`}
-              aria-pressed={showAssistant}
-              title={t('Ask the assistant to write or run Nelson code in this notebook')}
-              onClick={() => setShowAssistant((v) => !v)}
-            >
-              <DesktopIcon name="info" />
-              <span className="nls-btn__label">{t('Assistant')}</span>
-            </button>
+            {!isWasmRuntime() && (
+              <button
+                type="button"
+                className={`nls-btn ${showAssistant ? 'is-on' : ''}`}
+                aria-pressed={showAssistant}
+                title={t('Ask the assistant to write or run Nelson code in this notebook')}
+                onClick={() => setShowAssistant((v) => !v)}
+              >
+                <DesktopIcon name="info" />
+                <span className="nls-btn__label">{t('Assistant')}</span>
+              </button>
+            )}
             <button
               type="button"
               className={`nls-btn ${hideCode ? 'is-on' : ''}`}

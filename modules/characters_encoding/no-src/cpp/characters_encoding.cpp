@@ -270,5 +270,120 @@ isUnicodeLetter(wchar_t character)
     return (bool)std::iswalpha(character);
 }
 //=============================================================================
+// Dependency-free base64 fallback used by the reduced build (no simdutf here).
+static const char base64Alphabet[]
+    = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+//=============================================================================
+static int
+base64Value(char c)
+{
+    if (c >= 'A' && c <= 'Z') {
+        return c - 'A';
+    }
+    if (c >= 'a' && c <= 'z') {
+        return c - 'a' + 26;
+    }
+    if (c >= '0' && c <= '9') {
+        return c - '0' + 52;
+    }
+    if (c == '+') {
+        return 62;
+    }
+    if (c == '/') {
+        return 63;
+    }
+    return -1;
+}
+//=============================================================================
+std::string
+base64_encode(const std::string& bytes)
+{
+    std::string output;
+    const size_t len = bytes.size();
+    if (len == 0) {
+        return output;
+    }
+    output.reserve(((len + 2) / 3) * 4);
+    size_t i = 0;
+    while (i + 2 < len) {
+        uint32_t n = (static_cast<uint8_t>(bytes[i]) << 16)
+            | (static_cast<uint8_t>(bytes[i + 1]) << 8) | static_cast<uint8_t>(bytes[i + 2]);
+        output.push_back(base64Alphabet[(n >> 18) & 0x3F]);
+        output.push_back(base64Alphabet[(n >> 12) & 0x3F]);
+        output.push_back(base64Alphabet[(n >> 6) & 0x3F]);
+        output.push_back(base64Alphabet[n & 0x3F]);
+        i += 3;
+    }
+    if (i < len) {
+        const bool two = (i + 1 < len);
+        uint32_t n = static_cast<uint8_t>(bytes[i]) << 16;
+        if (two) {
+            n |= static_cast<uint8_t>(bytes[i + 1]) << 8;
+        }
+        output.push_back(base64Alphabet[(n >> 18) & 0x3F]);
+        output.push_back(base64Alphabet[(n >> 12) & 0x3F]);
+        output.push_back(two ? base64Alphabet[(n >> 6) & 0x3F] : '=');
+        output.push_back('=');
+    }
+    return output;
+}
+//=============================================================================
+std::string
+base64_decode(const std::string& encoded, bool& ok)
+{
+    ok = true;
+    std::string output;
+    const size_t len = encoded.size();
+    if (len == 0) {
+        return output;
+    }
+    if (len % 4 != 0) {
+        ok = false;
+        return std::string();
+    }
+    output.reserve((len / 4) * 3);
+    for (size_t i = 0; i < len; i += 4) {
+        const int v0 = base64Value(encoded[i]);
+        const int v1 = base64Value(encoded[i + 1]);
+        if (v0 < 0 || v1 < 0) {
+            ok = false;
+            return std::string();
+        }
+        const char c2 = encoded[i + 2];
+        const char c3 = encoded[i + 3];
+        uint32_t n = (static_cast<uint32_t>(v0) << 18) | (static_cast<uint32_t>(v1) << 12);
+        output.push_back(static_cast<char>((n >> 16) & 0xFF));
+        if (c2 == '=') {
+            if (c3 != '=' || i + 4 != len) {
+                ok = false;
+                return std::string();
+            }
+            continue;
+        }
+        const int v2 = base64Value(c2);
+        if (v2 < 0) {
+            ok = false;
+            return std::string();
+        }
+        n |= static_cast<uint32_t>(v2) << 6;
+        output.push_back(static_cast<char>((n >> 8) & 0xFF));
+        if (c3 == '=') {
+            if (i + 4 != len) {
+                ok = false;
+                return std::string();
+            }
+            continue;
+        }
+        const int v3 = base64Value(c3);
+        if (v3 < 0) {
+            ok = false;
+            return std::string();
+        }
+        n |= static_cast<uint32_t>(v3);
+        output.push_back(static_cast<char>(n & 0xFF));
+    }
+    return output;
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

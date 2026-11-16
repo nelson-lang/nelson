@@ -10,6 +10,8 @@
 
 /* Ambient global window augmentations used by the web UI runtime */
 declare global {
+  /** Defined (true) only in the browser WebAssembly bundle; undefined on desktop. */
+  const __NELSON_WASM__: boolean;
   interface Window {
     __nf_init_libraries_promise?: Promise<any>;
     /** Native host API - resolves to true when the OS/app is in dark mode. */

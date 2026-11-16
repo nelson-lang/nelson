@@ -33,6 +33,10 @@ target_include_directories(${module_library_name}
     ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../overload/src/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../display_format/src/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../string/src/include
 )
 
 target_link_libraries(${module_library_name}
