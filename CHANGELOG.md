@@ -61,7 +61,8 @@ Nelson 2.0 is a major release. Existing scripts run faster, larger projects can 
 - `readlines`, `writelines`, and partial loading and saving of MAT-files with `matfile`.
 - `nelson.io.zip`, `nelson.io.zstd`, `nelson.io.gzip` and `nelson.io.tar`: read and write ZIP entries, tar archives (plain, gzip or Zstandard), gzip and Zstandard data without extracting files, with `fopen` file identifiers on entries and compressed data, password-protected ZIP archives (WinZip AES and traditional encryption) and http/https sources.
 - Python package to drive Nelson from Python, with NumPy and pandas conversion.
-- Built-in MCP server for AI agents.
+- `nelson.os.Process`: start an external program and stream its standard input and output without blocking.
+- AI assistant toolkit under the `nelson.ai` namespace: `nelson.ai.ask`/`options`/`models` (Ollama, OpenAI-compatible, codex-cli), `nelson.ai.agent` (agentic loop), `nelson.ai.skills`, `nelson.ai.mcp.server`/`info`/`call` (MCP server and in-process tools), and `nelson.ai.acp.connect`/`prompt`/`close` (Agent Client Protocol client over `nelson.os.Process`).
 - Optional `compiler` module to build standalone applications and installers from `.m` files.
 
 #### Developer tools
