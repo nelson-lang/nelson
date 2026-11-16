@@ -647,6 +647,7 @@ tryParseFunctionWithNestedFunctions(
     const std::wstring originalFilenameW = getParserFilenameW();
 
     LexerContext parentLexerContext;
+    parentLexerContext.isVariableHook = lexerContext.isVariableHook;
     ParserContext parentContext
         = parseStringWithContext(parentLexerContext, parentSource, false, false);
     setParserFilename(originalFilename);
@@ -663,6 +664,7 @@ tryParseFunctionWithNestedFunctions(
             nestedSource += '\n';
         }
         LexerContext nestedLexerContext;
+        nestedLexerContext.isVariableHook = lexerContext.isVariableHook;
         ParserContext nestedContext
             = parseStringWithContext(nestedLexerContext, nestedSource, false, true);
         setParserFilename(originalFilename);
@@ -832,6 +834,7 @@ tryParseMixedScriptLocalFunctions(
         = replaceRangesWithNewlines(txt, complementRanges(functionRanges, txt.size()));
 
     LexerContext scriptLexerContext;
+    scriptLexerContext.isVariableHook = lexerContext.isVariableHook;
     ParserContext scriptContext
         = parseStringWithContext(scriptLexerContext, scriptPart, false, false);
     setParserFilename(originalFilename);
@@ -840,6 +843,7 @@ tryParseMixedScriptLocalFunctions(
     }
 
     LexerContext functionLexerContext;
+    functionLexerContext.isVariableHook = lexerContext.isVariableHook;
     // Parse the function part with the mixed-script fallbacks enabled so that a local
     // function containing a nested function is handled (tryParseFunctionWithNestedFunctions).
     // The function part never has leading script content, so it cannot re-trigger the

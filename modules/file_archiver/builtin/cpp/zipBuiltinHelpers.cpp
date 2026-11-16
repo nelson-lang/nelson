@@ -44,6 +44,10 @@ raiseZipError(const ZipArchiveError& error)
     case ZipErrorCode::SizeLimitExceeded:
         Error(L"Nelson:io:zip:tooLarge", L"ZIP entry exceeds MaxSize: %s", entry);
         break;
+    case ZipErrorCode::UnsupportedEncryption:
+        Error(L"Nelson:io:zip:unsupportedEncryption",
+            L"Encrypted LZMA or XZ ZIP entries are not supported: %s", entry);
+        break;
     case ZipErrorCode::EntryStillOpen:
         Error(
             L"Nelson:io:zip:entryOpen", L"Close the file identifier of ZIP entry %s first.", entry);

@@ -55,8 +55,9 @@ TarLibarchiveReader::reopen()
     }
     archive_read_support_filter_all(handle);
     supportFormats(handle, options.anyFormat);
-    // tar names outside pax records are taken as UTF-8.
-    archive_read_set_options(handle, "tar:hdrcharset=UTF-8");
+    // Names are stored as UTF-8 bytes; read them verbatim so a charset
+    // conversion cannot alter them (macOS would otherwise decompose accents).
+    archive_read_set_options(handle, "tar:hdrcharset=BINARY");
     if (!options.password.empty()) {
         archive_read_add_passphrase(handle, options.password.c_str());
     }
@@ -103,7 +104,7 @@ TarLibarchiveReader::scan(
         const char* utf8 = archive_entry_pathname_utf8(item);
         const char* raw = archive_entry_pathname(item);
         TarEntryInfo entry;
-        entry.name = utf8 != nullptr ? utf8 : (raw != nullptr ? raw : "");
+        entry.name = raw != nullptr ? raw : (utf8 != nullptr ? utf8 : "");
         entry.modified = archive_entry_mtime(item);
         entry.mode = static_cast<uint32_t>(archive_entry_perm(item)) & 07777;
         entry.headerIndex = headersRead - 1;

@@ -64,6 +64,9 @@ namespace {
             return context;
         }
         LexerContext lexerContext;
+        // A tooling parse has no live workspace: isolate it from the process-wide
+        // variable resolver, which reads another thread's workspace and would race.
+        lexerContext.isVariableHook = [](const std::string&) { return false; };
         context = parseFileResult(lexerContext, fp, path.generic_string());
         fclose(fp);
         return context;
@@ -73,6 +76,9 @@ namespace {
     parseSourceText(const std::string& content)
     {
         LexerContext lexerContext;
+        // A tooling parse has no live workspace: isolate it from the process-wide
+        // variable resolver, which reads another thread's workspace and would race.
+        lexerContext.isVariableHook = [](const std::string&) { return false; };
         return parseStringResult(lexerContext, content);
     }
     //=============================================================================

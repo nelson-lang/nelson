@@ -42,6 +42,45 @@ namespace {
         return static_cast<uint32_t>(bytes[0]) | (static_cast<uint32_t>(bytes[1]) << 8)
             | (static_cast<uint32_t>(bytes[2]) << 16) | (static_cast<uint32_t>(bytes[3]) << 24);
     }
+
+    // Methods libarchive decodes without liblzma, so no dictionary bomb is possible:
+    // store, deflate, deflate64, bzip2 and Zstandard.
+    bool
+    isPlainZipMethod(uint16_t method)
+    {
+        return method == 0 || method == 8 || method == 9 || method == 12 || method == 93;
+    }
+
+    // LZMA2 encodes its dictionary size in one byte; decode it (false when invalid).
+    bool
+    lzma2DictionarySize(uint8_t property, uint64_t& dictionarySize)
+    {
+        if (property > 40) {
+            return false;
+        }
+        dictionarySize = property == 40
+            ? 0xFFFFFFFFULL
+            : (static_cast<uint64_t>(2U | (property & 1U)) << (property / 2 + 11));
+        return true;
+    }
+
+    // Reads an XZ little-endian base-128 integer; false on underrun or overlong encoding.
+    bool
+    readXzVarint(const uint8_t* data, size_t size, size_t& pos, uint64_t& value)
+    {
+        value = 0;
+        for (size_t i = 0; i < 9; ++i) {
+            if (pos >= size) {
+                return false;
+            }
+            const uint8_t byte = data[pos++];
+            value |= static_cast<uint64_t>(byte & 0x7FU) << (7 * i);
+            if ((byte & 0x80U) == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
 } // namespace
 //=============================================================================
 [[noreturn]] static void
@@ -244,11 +283,10 @@ struct ZipArchive::Impl
     validateLzmaDictionary(size_t entryIndex) const
     {
         const ZipEntryInfo& info = entries[entryIndex];
-        // libarchive decodes each entry from its local file header, never from the
-        // central directory. A crafted archive can therefore advertise a harmless
-        // method (for example "stored") in the central directory while the local
-        // header asks libarchive for LZMA with a multi-gigabyte dictionary. Key the
-        // validation off the local header, which is what actually drives the decoder.
+        // libarchive's reader decodes an entry from its LOCAL header method; for a
+        // method it does not recognise it sniffs the stream. The central directory
+        // method is not used to decode (but info.method carries the AES-resolved
+        // real method, needed to refuse encrypted LZMA/XZ).
         const uint64_t localOffset = directory[entryIndex].localOffset;
         uint8_t localHeader[30];
         if (!readSource(localOffset, localHeader, sizeof(localHeader))
@@ -257,30 +295,48 @@ struct ZipArchive::Impl
             return;
         }
         const uint16_t localMethod = littleEndian16(localHeader + 8);
-        const bool isLzma = localMethod == static_cast<uint16_t>(ZipCompression::Lzma);
-        const bool isXz = localMethod == static_cast<uint16_t>(ZipCompression::Xz);
-        if (!isLzma && !isXz) {
-            return;
-        }
-        const bool isEncrypted = (littleEndian16(localHeader + 6) & 0x1U) != 0 || info.isEncrypted;
+        const auto lzmaMethod = static_cast<uint16_t>(ZipCompression::Lzma);
+        const auto xzMethod = static_cast<uint16_t>(ZipCompression::Xz);
+        // The decoder reads encryption from the LOCAL header flag; the central
+        // directory flag (info.isEncrypted) can disagree and is not what drives
+        // the decode, so a plaintext stream flagged encrypted there is still read.
+        const bool isEncrypted = (littleEndian16(localHeader + 6) & 0x1U) != 0;
         if (isEncrypted) {
-            // The compressed stream carries the LZMA dictionary size in its header, but
-            // that header is encrypted, so the memory liblzma allocates up front cannot
-            // be bounded before decompression. Refuse rather than risk an unbounded
-            // allocation (decompression bomb).
-            fail(ZipErrorCode::UnsupportedEncryption,
-                "Encrypted LZMA or XZ ZIP entries are not supported.", info.name);
-        }
-        if (!isLzma) {
-            // XZ carries its dictionary size inside the stream too, but it is not
-            // validated here yet; see validateLzmaDictionary follow-up.
+            // An encrypted stream cannot be inspected, so refuse it outright when
+            // its method (local, or the AES-resolved info.method) is LZMA or XZ:
+            // liblzma would otherwise allocate the declared dictionary up front
+            // (decompression bomb).
+            if (localMethod == lzmaMethod || localMethod == xzMethod || info.method == lzmaMethod
+                || info.method == xzMethod) {
+                fail(ZipErrorCode::UnsupportedEncryption,
+                    "Encrypted LZMA or XZ ZIP entries are not supported.", info.name);
+            }
             return;
         }
         const uint64_t dataOffset = localOffset + sizeof(localHeader)
             + littleEndian16(localHeader + 26) + littleEndian16(localHeader + 28);
+        if (dataOffset < localOffset) {
+            fail(ZipErrorCode::NotAZipArchive, "Invalid ZIP compressed data.", info.name);
+        }
+        bool asXz = localMethod == xzMethod;
+        bool asLzma = localMethod == lzmaMethod;
+        if (!asXz && !asLzma && !isPlainZipMethod(localMethod)) {
+            // An unknown method: libarchive sniffs the stream. The XZ magic is the
+            // only format it detects that liblzma allocates a dictionary for.
+            static const uint8_t xzMagic[6] = { 0xFD, 0x37, 0x7A, 0x58, 0x5A, 0x00 };
+            uint8_t magic[6];
+            asXz = readSource(dataOffset, magic, sizeof(magic))
+                && std::equal(xzMagic, xzMagic + sizeof(magic), magic);
+        }
+        if (asXz) {
+            validateXzDictionary(info, localOffset, localHeader);
+            return;
+        }
+        if (!asLzma) {
+            return;
+        }
         uint8_t lzmaHeader[9];
-        if (dataOffset < localOffset || info.compressedSize < sizeof(lzmaHeader)
-            || !readSource(dataOffset, lzmaHeader, sizeof(lzmaHeader))) {
+        if (!readSource(dataOffset, lzmaHeader, sizeof(lzmaHeader))) {
             fail(ZipErrorCode::NotAZipArchive, "Invalid ZIP LZMA data.", info.name);
         }
         if (littleEndian16(lzmaHeader + 2) != 5) {
@@ -288,6 +344,64 @@ struct ZipArchive::Impl
         }
         if (littleEndian32(lzmaHeader + 5) > maxLzmaDictionary) {
             fail(ZipErrorCode::EntryTooLarge, "ZIP LZMA dictionary is too large.", info.name);
+        }
+    }
+
+    void
+    validateXzDictionary(
+        const ZipEntryInfo& info, uint64_t localOffset, const uint8_t (&localHeader)[30]) const
+    {
+        // XZ keeps the dictionary size in the LZMA2 filter of the first block
+        // header. Parse it so a crafted multi-gigabyte dictionary is refused
+        // before libarchive asks liblzma to allocate it (decompression bomb).
+        const uint64_t dataOffset = localOffset + sizeof(localHeader)
+            + littleEndian16(localHeader + 26) + littleEndian16(localHeader + 28);
+        // The declared compressed size comes from the archive and cannot be
+        // trusted, so read the bytes that are actually present: the stream header
+        // (12 bytes) and the block-header-size byte, then the rest of the block
+        // header (at most 1024 bytes).
+        uint8_t xz[12 + 1024];
+        static const uint8_t xzMagic[6] = { 0xFD, 0x37, 0x7A, 0x58, 0x5A, 0x00 };
+        if (dataOffset < localOffset || !readSource(dataOffset, xz, 13)
+            || !std::equal(xzMagic, xzMagic + 6, xz)) {
+            fail(ZipErrorCode::NotAZipArchive, "Invalid ZIP XZ data.", info.name);
+        }
+        if (xz[12] == 0) {
+            // A zero block-header-size byte is the index indicator: no block here.
+            return;
+        }
+        const size_t blockHeader = (static_cast<size_t>(xz[12]) + 1) * 4;
+        if (!readSource(dataOffset + 13, xz + 13, 12 + blockHeader - 13)) {
+            fail(ZipErrorCode::NotAZipArchive, "Invalid ZIP XZ data.", info.name);
+        }
+        const uint8_t* block = xz + 12;
+        const uint8_t blockFlags = block[1];
+        const int filterCount = (blockFlags & 0x03) + 1;
+        size_t pos = 2;
+        uint64_t ignored = 0;
+        if (((blockFlags & 0x40U) != 0 && !readXzVarint(block, blockHeader, pos, ignored))
+            || ((blockFlags & 0x80U) != 0 && !readXzVarint(block, blockHeader, pos, ignored))) {
+            fail(ZipErrorCode::NotAZipArchive, "Invalid ZIP XZ data.", info.name);
+        }
+        for (int filter = 0; filter < filterCount; ++filter) {
+            uint64_t filterId = 0;
+            uint64_t propertySize = 0;
+            if (!readXzVarint(block, blockHeader, pos, filterId)
+                || !readXzVarint(block, blockHeader, pos, propertySize)
+                || propertySize > blockHeader - pos) {
+                fail(ZipErrorCode::NotAZipArchive, "Invalid ZIP XZ data.", info.name);
+            }
+            if (filterId == 0x21) {
+                // LZMA2 is the compression filter that owns the dictionary.
+                uint64_t dictionary = 0;
+                if (propertySize != 1 || !lzma2DictionarySize(block[pos], dictionary)) {
+                    fail(ZipErrorCode::NotAZipArchive, "Invalid ZIP XZ data.", info.name);
+                }
+                if (dictionary > maxLzmaDictionary) {
+                    fail(ZipErrorCode::EntryTooLarge, "ZIP XZ dictionary is too large.", info.name);
+                }
+            }
+            pos += static_cast<size_t>(propertySize);
         }
     }
 
