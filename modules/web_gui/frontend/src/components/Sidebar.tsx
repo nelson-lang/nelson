@@ -18,6 +18,7 @@ import {
   subscribeDesktopCapabilities,
 } from '../desktop/capabilities';
 import { handleMenuKeyDown } from '../desktop/menuKeyboard';
+import { useMenuDismiss } from './useMenuDismiss';
 import { corePanelTitle } from '../desktop/panelTitles';
 import { t, tf } from '../i18n';
 //=============================================================================
@@ -117,6 +118,7 @@ export function Sidebar(): JSX.Element {
   const [moreOpen, setMoreOpen] = useState(false);
   const moreRef = useRef<HTMLButtonElement>(null);
   const panels = railPanels();
+  useMenuDismiss(moreOpen, () => setMoreOpen(false), '.sidebar__more');
 
   return (
     <nav className="sidebar" aria-label={t('Panels sidebar')} data-focus-zone="rail">

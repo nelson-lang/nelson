@@ -38,6 +38,7 @@ import {
   saveModel,
   initModelSession,
   flushPendingCommit,
+  setBoundModel,
 } from './model-session.js';
 //=============================================================================
 beforeEach(() => {
@@ -153,6 +154,34 @@ describe('model-session live wiring', () => {
     await Promise.resolve();
     const clear = rpcCalls.find((c) => c.method === 'nflow.context.set');
     expect(clear?.params.block).toBe('');
+  });
+});
+//=============================================================================
+describe('model-session runtime rebind', () => {
+  // The bound name is a module singleton; each case restores the shared
+  // bootstrap binding ('demo') so the surrounding suite is unaffected.
+  afterEach(() => {
+    setBoundModel('demo', 0);
+  });
+
+  it('rebinds to a model and seeds its revision as the commit base', async () => {
+    setBoundModel('kettle', 5);
+    expect(getBoundModelName()).toBe('kettle');
+    rpcResponder = (method) =>
+      method === 'nflow.model.commit' ? { success: true, revision: 6 } : {};
+    const outcome = await commitModel('{"x":1}');
+    expect(outcome).toBe('ok');
+    const commit = rpcCalls.find((c) => c.method === 'nflow.model.commit');
+    expect(commit?.params.name).toBe('kettle');
+    expect(commit?.params.baseRevision).toBe(5);
+  });
+
+  it('does not commit while unbound', async () => {
+    setBoundModel('', 0);
+    expect(isModelBound()).toBe(false);
+    const outcome = await commitModel('{"x":1}');
+    expect(outcome).toBe('error');
+    expect(rpcCalls.find((c) => c.method === 'nflow.model.commit')).toBeUndefined();
   });
 });
 //=============================================================================

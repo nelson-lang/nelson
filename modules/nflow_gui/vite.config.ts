@@ -45,6 +45,10 @@ const sharedExampleGalleryStyles = path.resolve(
   moduleRoot,
   '../webview/frontend/examples/gallery-shared.css'
 );
+const sharedAssistantStyles = path.resolve(
+  moduleRoot,
+  '../webview/frontend/assistant/assistant-pane.css'
+);
 /**
  * Dev-server plugin: serves the application shell and the static assets the
  * C++ host normally provides, so `npm run dev` works standalone.
@@ -102,6 +106,9 @@ function nflowDevServer(): Plugin {
         }
         if (url === '/webview/frontend/examples/gallery-shared.css') {
           if (sendFile(res, sharedExampleGalleryStyles, 'text/css; charset=utf-8')) return;
+        }
+        if (url === '/webview/frontend/assistant/assistant-pane.css') {
+          if (sendFile(res, sharedAssistantStyles, 'text/css; charset=utf-8')) return;
         }
         if (url.startsWith('/@katex/')) {
           const rel = url.slice('/@katex/'.length);
@@ -208,6 +215,7 @@ function nflowDevServer(): Plugin {
 const dialogsAlias = path.resolve(moduleRoot, '../webview/frontend/dialogs');
 const nativeMenuAlias = path.resolve(moduleRoot, '../webview/frontend/native-menu');
 const exampleGalleryAlias = path.resolve(moduleRoot, '../webview/frontend/examples');
+const assistantAlias = path.resolve(moduleRoot, '../webview/frontend/assistant');
 export default defineConfig({
   root: moduleRoot,
   base: './',
@@ -222,6 +230,7 @@ export default defineConfig({
     dedupe: ['react', 'react-dom'],
     alias: {
       '@nelson/dialogs': dialogsAlias,
+      '@nelson/assistant': assistantAlias,
       '@nelson/native-menu': nativeMenuAlias,
       '@nelson/example-gallery': exampleGalleryAlias,
       react: path.resolve(moduleRoot, 'node_modules/react'),

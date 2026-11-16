@@ -31,7 +31,8 @@ describe('mountLayout', () => {
     expect(titlebar.querySelector('#menu-file')).toBeTruthy();
     expect(container.className).toBe('nflow-container');
     expect(container.querySelector('#svgCanvas')).toBeTruthy();
-    expect(container.querySelectorAll('.activity-icon').length).toBe(5);
+    expect(container.querySelectorAll('.activity-icon').length).toBe(6);
+    expect(container.querySelector('.activity-icon[data-panel="assistant"]')).toBeTruthy();
     expect(container.querySelector('.inspector-pane')).toBeTruthy();
     expect(container.querySelectorAll('#gridSettingsBtn').length).toBe(1);
     expect(titlebar.querySelector('#menu-simulation')).toBeTruthy();

@@ -168,6 +168,10 @@ option(NELSON_PORTABLE_WITH_WEBTOOLS
   "Build the webtools module (webread, websave, webwrite) on the browser network stack (WebAssembly only)"
   OFF
 )
+option(NELSON_PORTABLE_WITH_AI
+  "Include the AI assistant module (nelson.ai.*) in the portable Nelson runtime; needs webtools for HTTP model providers"
+  OFF
+)
 option(NELSON_PORTABLE_AUDIO_WITH_FLAC
   "Declare FLAC audio file support in the portable Nelson runtime"
   OFF

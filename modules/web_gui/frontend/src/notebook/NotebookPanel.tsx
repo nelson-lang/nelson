@@ -29,6 +29,8 @@ import { reactiveTargets, computeStale } from './reactive';
 import { markFiguresLive, closeLiveFigures, parseFigureHandles } from './liveFigures';
 import { errorCellIds } from './cellOutputs';
 import { DesktopIcon } from '../components/DesktopIcon';
+import { subscribeToolEvents } from '../desktop/webTools';
+import { NotebookAssistant } from './NotebookAssistant';
 //=============================================================================
 const titleFromName = (name: string) => name.replace(/\.(nlx|m|ipynb)$/i, '');
 import {
@@ -52,6 +54,10 @@ import { isWasmRuntime } from '../desktop/platform';
 import { hasFormat, saveNotebookDocument, type NotebookSaveFormat } from './saveDocument';
 import { baseName } from '../desktop/paths';
 import { t, tf } from '../i18n';
+//=============================================================================
+// The assistant adds its generated cell to the notebook the user last worked
+// in, even while the assistant pane itself holds focus.
+let activeAssistantNotebook: unknown = null;
 //=============================================================================
 function useDarkScheme(): boolean {
   const read = () =>
@@ -164,6 +170,7 @@ export function NotebookPanel({
   const [hideCode, setHideCode] = useState(false);
   const [outputLayout, setOutputLayout] = useState<'inline' | 'right'>('inline');
   const [showOutline, setShowOutline] = useState(false);
+  const [showAssistant, setShowAssistant] = useState(false);
   const [running, setRunning] = useState(false);
   const [runningBlockId, setRunningBlockId] = useState<string | null>(null);
   const [docVersion, setDocVersion] = useState(0);
@@ -571,6 +578,61 @@ export function NotebookPanel({
     [editor]
   );
 
+  // Append a code cell at the end of the document and, when asked, run it.
+  // Shared by the insert_into_nelson_notebook tool and the embedded assistant's
+  // Run button so both land a cell the same way.
+  const addCodeCell = useCallback(
+    (code: string, run: boolean) => {
+      if (code === '') {
+        return;
+      }
+      const blocks = editor.document as any[];
+      const ref = blocks[blocks.length - 1] as any;
+      const inserted = editor.insertBlocks(
+        [{ type: 'codecell', props: { code } } as any],
+        ref,
+        'after'
+      );
+      const id = (inserted?.[0] as any)?.id as string | undefined;
+      if (!id) {
+        return;
+      }
+      document
+        .querySelector(`[data-id="${id}"]`)
+        ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (run) {
+        void runBlockSafe(id);
+      }
+    },
+    [editor, runBlockSafe]
+  );
+
+  // Shown in the assistant header so it is clear where generated code lands.
+  const assistantTarget = docPath ? titleFromName(baseName(docPath)) : t('this notebook');
+
+  // Track which notebook is the assistant's target: the newest one on mount,
+  // then whichever the user last pointed at (see the root pointer handler).
+  useEffect(() => {
+    activeAssistantNotebook = editor;
+  }, [editor]);
+
+  // The assistant can append a generated code cell to the open notebook and,
+  // when asked, run it. Only the notebook the user last worked in reacts, so a
+  // single insertion does not land in every open document.
+  useEffect(() => {
+    return subscribeToolEvents('assistant', (channel, text) => {
+      if (channel !== 'notebookInsert' || editor !== activeAssistantNotebook) {
+        return;
+      }
+      try {
+        const payload = JSON.parse(text) as { text?: string; run?: boolean };
+        addCodeCell(payload.text ?? '', payload.run === true);
+      } catch {
+        /* ignore malformed event */
+      }
+    });
+  }, [editor, addCodeCell]);
+
   const ctx = useMemo<NotebookCtx>(
     () => ({
       runAll: runAllSafe,
@@ -622,7 +684,12 @@ export function NotebookPanel({
 
   return (
     <NotebookContext.Provider value={ctx}>
-      <div className={`nls-panel ${dark ? '' : 'nls-light'}`}>
+      <div
+        className={`nls-panel ${dark ? '' : 'nls-light'}`}
+        onPointerDownCapture={() => {
+          activeAssistantNotebook = editor;
+        }}
+      >
         <header className="nls-toolbar" role="toolbar" aria-label={t('Notebook toolbar')}>
           <div className="nls-toolbar__group">
             <button
@@ -896,6 +963,16 @@ export function NotebookPanel({
             </button>
             <button
               type="button"
+              className={`nls-btn ${showAssistant ? 'is-on' : ''}`}
+              aria-pressed={showAssistant}
+              title={t('Ask the assistant to write or run Nelson code in this notebook')}
+              onClick={() => setShowAssistant((v) => !v)}
+            >
+              <DesktopIcon name="info" />
+              <span className="nls-btn__label">{t('Assistant')}</span>
+            </button>
+            <button
+              type="button"
               className={`nls-btn ${hideCode ? 'is-on' : ''}`}
               aria-pressed={hideCode}
               title={
@@ -925,6 +1002,11 @@ export function NotebookPanel({
               </BlockNoteView>
             </div>
           </div>
+          {showAssistant && (
+            <aside className="nls-assistant" aria-label={t('Assistant')}>
+              <NotebookAssistant targetLabel={assistantTarget} onAddCell={addCodeCell} />
+            </aside>
+          )}
         </div>
       </div>
     </NotebookContext.Provider>

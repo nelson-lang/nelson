@@ -177,6 +177,16 @@ private:
     nlohmann::json
     helpText(const nlohmann::json& params);
     nlohmann::json
+    assistantPrompt(const nlohmann::json& params);
+    nlohmann::json
+    assistantModels(const nlohmann::json& params);
+    nlohmann::json
+    assistantPermissionReply(const nlohmann::json& params);
+    nlohmann::json
+    assistantSetPermissionMode(const nlohmann::json& params);
+    nlohmann::json
+    assistantGetPermissionMode(const nlohmann::json& params);
+    nlohmann::json
     examplesList();
     nlohmann::json
     examplesRun(const nlohmann::json& params);

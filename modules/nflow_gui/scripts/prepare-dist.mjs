@@ -113,6 +113,7 @@ async function main() {
     await copyManifests();
     await copyGlobalFiles();
     await inlineSharedExampleGalleryStyles();
+    await inlineSharedAssistantStyles();
     await copyLocaleFiles();
     await ensureKatexAssets();
     await copyPreGeneratedSVGs();
@@ -184,6 +185,30 @@ async function inlineSharedExampleGalleryStyles() {
     'frontend',
     'examples',
     'gallery-shared.css'
+  );
+  const [stylesheet, sharedStylesheet] = await Promise.all([
+    fs.readFile(stylesheetPath, 'utf8'),
+    fs.readFile(sharedStylesheetPath, 'utf8'),
+  ]);
+  await fs.writeFile(
+    stylesheetPath,
+    inlineStylesheetImport(stylesheet, importRule, sharedStylesheet),
+    'utf8'
+  );
+  console.log(`Inlined ${sharedStylesheetPath} -> ${stylesheetPath}`);
+}
+
+async function inlineSharedAssistantStyles() {
+  const importRule = "@import url('../../../../webview/frontend/assistant/assistant-pane.css');";
+  const stylesheetPath = path.join(distRoot, 'styles', 'style.css');
+  const sharedStylesheetPath = path.resolve(
+    repoRoot,
+    '..',
+    '..',
+    'webview',
+    'frontend',
+    'assistant',
+    'assistant-pane.css'
   );
   const [stylesheet, sharedStylesheet] = await Promise.all([
     fs.readFile(stylesheetPath, 'utf8'),

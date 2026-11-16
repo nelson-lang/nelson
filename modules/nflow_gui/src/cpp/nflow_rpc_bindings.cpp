@@ -32,6 +32,7 @@
 #include "GuiDialogProvider.hpp"
 #include "i18n.hpp"
 #include "WebUiHelpers.hpp"
+#include "AssistantSink.hpp"
 #include <webui.hpp>
 #include <nlohmann/json.hpp>
 #include <algorithm>
@@ -750,6 +751,13 @@ namespace {
         if (method == "nflow.expr.eval") {
             return stringResult(
                 Nelson::NFlow::evalExpressionJson(params.value("payload", "")), "application/json");
+        }
+        if (method == "nflow.ai.stop") {
+            // Stop the embedded assistant: the run loops off the prompt, so this
+            // raises the dedicated assistant stop flag for the "nflow" surface
+            // only (not the terminal interrupt, and not the other surfaces).
+            Nelson::RequestAssistantStop("nflow");
+            return nlohmann::json { { "success", true } };
         }
         if (method == "nflow.examples.list") {
             // The unified examples catalog: Nelson module manifests plus the

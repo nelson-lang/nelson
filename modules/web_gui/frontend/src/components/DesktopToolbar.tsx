@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 import { useRef, useState, useSyncExternalStore } from 'react';
+import { useMenuDismiss } from './useMenuDismiss';
 import { executeDesktopAction } from '../desktop/actions';
 import { isEngineBusy, subscribeEngine } from '../desktop/engineSession';
 import { primaryShortcut } from '../desktop/platform';
@@ -29,6 +30,7 @@ export function DesktopToolbar(): JSX.Element {
     getDesktopCapabilities
   );
   const [moreOpen, setMoreOpen] = useState(false);
+  useMenuDismiss(moreOpen, () => setMoreOpen(false), '.desktop-toolbar__more');
   const updatesBadge = packageUpdatesBadge(capabilities.packageUpdates);
   const moreRef = useRef<HTMLButtonElement>(null);
 

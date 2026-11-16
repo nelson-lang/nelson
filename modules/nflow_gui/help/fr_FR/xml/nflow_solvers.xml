@@ -5,36 +5,51 @@
   <keyword>nflow_solvers</keyword>
   <short_description>Choisir comment un diagramme est intégré (choix du solveur).</short_description>
   <syntax>
-    <syntax_item>Page concept : pas fixe vs solveurs ODE globaux, tolerances, generation de code</syntax_item>
+    <syntax_item>Page concept : pas fixe vs solveurs ODE globaux, tolérances, génération de code</syntax_item>
   </syntax>
   <description>
-    <p>nflow intègre un diagramme de deux manières. Par défaut il exécute un moteur <b>discret a pas fixe</b> : chaque bloc se met à jour une fois par échantillon du modèle (le <b>sampleTime</b> du diagramme), et chaque bloc continu s'intégré par un pas d'Euler par bloc. Sélectionner un <b>solveur</b> bascule sur le chemin <b>ODE global</b> : tous les états continus sont assemblés en un seul vecteur et intégrés ensemble, avec détection de passage par zéro et, pour les solveurs adaptatifs, contrôle du pas.</p>
-    <p>
-      <b>Sélectionner un solveur</b>
-    </p>
-    <p>Renseignez le champ <b>solver</b> du modèle, en script avec <b>set_param(model, 'Solver', nom)</b>, ou depuis <b>Paramètres de simulation</b> dans le menu Simulation de l'éditeur. Les réglages s'ouvrent dans l'onglet Modèle de l'inspecteur. Le défaut (pas de solveur, ou <b>'discrete'</b>) garde le moteur à pas fixe, donc les modèles existants sont inchangés &#8212; le chemin global est purement optionnel.</p>
-    <p>
-      <b>Solveurs disponibles</b>
-    </p>
+    <p>Un solveur décide comment nflow fait avancer un modèle dans le temps. Ce choix ne compte que si le modèle possède des états continus, comme des intégrateurs, des fonctions de transfert ou des composants physiques. Un modèle construit uniquement avec des blocs discrets ou logiques donne le même résultat quel que soit le solveur.</p>
+    <p>nflow propose deux voies d'intégration. Le moteur <b>discret à pas fixe</b> par défaut met à jour chaque bloc une fois par échantillon du modèle (le <b>sampleTime</b> du diagramme) et intègre chaque bloc continu séparément par un pas d'Euler explicite. Sélectionner un <b>solveur</b> bascule sur la voie <b>ODE globale</b> : nflow rassemble tous les états continus en un seul vecteur et les intègre ensemble, avec détection de passage par zéro et, pour les solveurs adaptatifs, contrôle automatique du pas. La voie globale est plus précise quand les états continus sont couplés ; le moteur discret est plus simple et plus rapide pour les modèles échantillonnés ou pilotés par de la logique.</p>
+
+    <p><b>Sélectionner un solveur</b></p>
+    <p>Renseignez le champ <b>solver</b> du modèle avec <b>set_param(model, 'Solver', nom)</b>, ou depuis <b>Paramètres de simulation</b> dans le menu Simulation de l'éditeur (les réglages s'ouvrent dans l'onglet Modèle de l'inspecteur). Sans solveur défini, ou avec <b>'discrete'</b>, le moteur à pas fixe s'exécute, et les modèles existants conservent leur comportement.</p>
+
+    <p><b>Comment choisir</b></p>
     <ul>
-      <li><b>discrete</b> (défaut) &#8212; pas fixe, Euler par bloc pour les états continus.</li>
-      <li><b>ode1</b> &#8212; Euler explicite a pas fixe sur l'état global.</li>
-      <li><b>ode4</b> &#8212; Runge-Kutta classique d'ordre 4 a pas fixe (bien plus précis qu'ode1 au même pas).</li>
-      <li><b>ode45</b> &#8212; <b>Dormand-Prince 5(4)</b> adaptatif natif : sous-pas variables dans chaque intervalle de communication, contrôles par les tolérances. Bon défaut quand la dynamique est rapide ou pour la précision sans régler le pas a la main.</li>
-      <li><b>variableNonstiff</b> / <b>variableStiff</b> / <b>cvodesBdf</b> / <b>cvodesAdams</b> &#8212; backends CVODES (SUNDIALS) adaptatifs ; utiliser une variante raide quand la dynamique a des échelles de temps très séparées.</li>
+      <li>Modèle échantillonné ou purement logique, sans état continu : gardez <b>discrete</b>.</li>
+      <li>Dynamique continue, un pas fixe convient, et vous pourriez générer du code : utilisez <b>ode4</b>.</li>
+      <li>Dynamique rapide ou mal connue, et vous voulez de la précision sans régler le pas : utilisez <b>ode45</b>.</li>
+      <li>Système raide, avec des constantes de temps séparées de plusieurs ordres de grandeur, simulation seulement : utilisez un backend CVODES raide (<b>variableStiff</b> ou <b>cvodesBdf</b>).</li>
+      <li>Modèle acausal (physique) : utilisez <b>dae</b> (voir <b>nflow_build_model</b>).</li>
     </ul>
-    <p>
-      <b>Tolerances</b>
-    </p>
-    <p>Les solveurs adaptatifs sont contrôles par <b>RelTol</b> (relative, défaut 1e-6), <b>AbsTol</b> (absolue, défaut 1e-8) et un plafond optionnel <b>MaxStep</b>. Réglez-les avec <b>set_param</b>, dans les champs du diagramme, ou dans les champs de tolérance de l'éditeur (affichés quand un solveur a pas variable est choisi). Des tolérances plus serrées donnent une trajectoire plus précise au prix de plus de sous-pas.</p>
-    <p>
-      <b>Generation de code</b>
-    </p>
-    <p>Les solveurs a pas fixe <b>ode1</b> / <b>ode4</b> et le solveur adaptatif <b>ode45</b> sont abaisses en C et Rust autonomes par <b>nflow_codegenerate</b> et <b>NFlow.exportfmu</b> : le code génère reproduit l'intégration globale du moteur (le stepper ode45 génère reproduit le backend ode45) et colle a la simulation. Les backends CVODES / IDAS n'ont pas d'abaissement embarque et sont <b>rejetes</b> par la génération de code avec un message actionnable &#8212; exportez un tel modèle avec ode4 ou ode45, ou simulez-le avec le solveur.</p>
-    <p>
-      <b>Raison du défaut</b>
-    </p>
-    <p>Le défaut reste a pas fixe pour que chaque modèle existant continue de produire exactement la même trajectoire et que le code génère corresponde par construction a la simulation par défaut. Passer a un solveur global est un changement d'une ligne.</p>
+
+    <p><b>Solveurs disponibles</b></p>
+    <ul>
+      <li><b>discrete</b> (défaut) : pas fixe, Euler par bloc pour les états continus.</li>
+      <li><b>ode1</b> : Euler explicite à pas fixe sur l'état global.</li>
+      <li><b>ode4</b> : Runge-Kutta classique d'ordre 4 à pas fixe, bien plus précis qu'ode1 au même pas.</li>
+      <li><b>ode45</b> : Dormand-Prince 5(4) adaptatif natif. Il prend des sous-pas variables dans chaque intervalle de communication, contrôlés par les tolérances.</li>
+      <li><b>variableNonstiff</b>, <b>variableStiff</b>, <b>cvodesBdf</b>, <b>cvodesAdams</b> : backends CVODES (SUNDIALS) adaptatifs. Utilisez une variante raide quand la dynamique a des échelles de temps très séparées.</li>
+      <li><b>dae</b> : pour les modèles acausaux (physiques), résolus comme un système d'équations différentielles-algébriques. Requis pour les modèles électriques, thermiques et mécaniques.</li>
+    </ul>
+
+    <p><b>Tolérances</b></p>
+    <p>Les solveurs adaptatifs sont contrôlés par <b>RelTol</b> (relative, défaut 1e-6), <b>AbsTol</b> (absolue, défaut 1e-8) et un plafond optionnel <b>MaxStep</b>. Réglez-les avec <b>set_param</b>, dans les champs du diagramme, ou dans les champs de tolérance de l'éditeur (affichés quand un solveur à pas variable est choisi). Des tolérances plus serrées donnent une trajectoire plus précise au prix de plus de sous-pas. Les tolérances n'ont aucun effet sur les solveurs à pas fixe, qui suivent le pas que vous fixez.</p>
+
+    <p><b>Génération de code</b></p>
+    <p>Les solveurs à pas fixe <b>ode1</b> et <b>ode4</b> et le solveur adaptatif <b>ode45</b> sont abaissés en C et Rust autonomes par <b>nflow_codegenerate</b> et <b>NFlow.exportfmu</b>. Le code généré reproduit l'intégration globale du moteur (le pas de temps ode45 généré reproduit le backend ode45) et correspond à la simulation. Les backends CVODES et IDAS n'ont pas d'abaissement embarqué et sont rejetés par la génération de code avec un message explicite. Pour exporter un tel modèle, passez-le en ode4 ou ode45, ou simulez-le avec le solveur au lieu de générer du code.</p>
+
+    <p><b>Erreurs fréquentes</b></p>
+    <ul>
+      <li>Régler <b>RelTol</b> ou <b>AbsTol</b> sur un solveur à pas fixe : les tolérances n'agissent que sur les solveurs adaptatifs (ode45 et les backends CVODES).</li>
+      <li>Choisir un backend CVODES ou IDAS, puis générer du code : la génération de code les rejette. Utilisez ode4 ou ode45 pour l'export.</li>
+      <li>Laisser le moteur discret par défaut sur un modèle continu raide ou fortement couplé : passez en ode45 ou en backend raide pour une trajectoire précise.</li>
+      <li>Exécuter un modèle acausal sans <b>'dae'</b> : les modèles physiques nécessitent le solveur DAE.</li>
+    </ul>
+
+    <p><b>Raison du défaut</b></p>
+    <p>Le défaut reste à pas fixe pour que chaque modèle existant continue de produire la même trajectoire, et pour que le code généré corresponde par construction à la simulation par défaut. Passer à un solveur global est un changement d'une ligne.</p>
+
     <p><b>Arrêter et réinitialiser</b></p>
     <p>Stop termine l'exécution courante tout en conservant les résultats déjà calculés. Reset remet aussi le temps de simulation à zéro et efface les résultats affichés. Aucune de ces commandes ne modifie le solveur configuré.</p>
   </description>
@@ -42,6 +57,9 @@
   <bibliography/>
   <see_also>
     <see_also_item><link linkend="${nflow_engine}sim">sim</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}set_param">set_param</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}nflow_build_model">nflow_build_model</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}nflow_codegenerate">nflow_codegenerate</link></see_also_item>
     <see_also_item><link linkend="${nflow_gui}nflow_multirate">nflow_multirate</link></see_also_item>
   </see_also>
   <history>

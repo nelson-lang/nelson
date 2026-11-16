@@ -235,6 +235,16 @@ function PlayIcon(): JSX.Element {
   );
 }
 //=============================================================================
+function AssistantIcon(): JSX.Element {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 9.3 9.3 0 0 1-4-.9L3 21l1.9-5.5a8.38 8.38 0 0 1-.9-4A8.5 8.5 0 0 1 12.5 3a8.38 8.38 0 0 1 8.5 8.5z" />
+      <path d="M12 7.5v1.2M12 15.3v1.2" />
+      <path d="M9.4 12h5.2" />
+    </svg>
+  );
+}
+//=============================================================================
 function ExamplesIcon(): JSX.Element {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -329,6 +339,9 @@ function MainContainer(): JSX.Element {
         </ActivityIcon>
         <ActivityIcon panel="simulation" title="Simulation">
           <PlayIcon />
+        </ActivityIcon>
+        <ActivityIcon panel="assistant" title="AI Assistant">
+          <AssistantIcon />
         </ActivityIcon>
         <ActivityIcon panel="examples" title="Examples">
           <ExamplesIcon />

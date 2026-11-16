@@ -19,6 +19,7 @@ function corePanelTitles(): Record<string, string> {
     newsfeed: t('News feed'),
     variables: t('Variables Editor'),
     help: t('Documentation'),
+    assistant: t('Assistant'),
     examples: t('&Examples'),
     notebook: t('&Notebook'),
     packages: t('&Package Manager'),

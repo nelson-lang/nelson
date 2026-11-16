@@ -194,6 +194,7 @@ const NON_IDEMPOTENT_METHODS = new Set<string>([
   'fs.dialog.start',
   'profile.control',
   'profile.export',
+  'assistant.prompt',
 ]);
 //=============================================================================
 export function rpc<T = unknown>(

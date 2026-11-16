@@ -328,6 +328,20 @@ if(NELSON_PORTABLE_BUILD)
     set(WITHOUT_WEBTOOLS_MODULE OFF)
     set(WITHOUT_JSON_MODULE OFF)
   endif()
+  if(NELSON_PORTABLE_WITH_AI)
+    # The AI assistant reaches HTTP model providers through webtools (webread);
+    # token streaming needs libcurl so it compiles as a stub here and callers
+    # fall back to webwrite. With the WebView module absent (as in wasm) the
+    # __ai_notify__ push uses its no-op path.
+    set(WITHOUT_AI_MODULE OFF)
+    set(WITHOUT_JSON_MODULE OFF)
+    if(NOT NELSON_PORTABLE_WITH_WEBTOOLS)
+      message(FATAL_ERROR
+        "NELSON_PORTABLE_WITH_AI requires NELSON_PORTABLE_WITH_WEBTOOLS so the "
+        "assistant can reach an HTTP model provider through webread/webwrite."
+      )
+    endif()
+  endif()
   if(NELSON_PORTABLE_WITH_PREFERENCES)
     set(WITHOUT_PREFERENCES_MODULE OFF)
     set(WITHOUT_HDF5_MODULE OFF)

@@ -1,4 +1,5 @@
 @import url('../../../../webview/frontend/examples/gallery-shared.css');
+@import url('../../../../webview/frontend/assistant/assistant-pane.css');
 
 * {
   box-sizing: border-box;
@@ -3845,6 +3846,99 @@ select option {
   border-left-color: #b42318;
   background: #fff1f0;
   color: #8f1d16;
+}
+
+/* ==========================================================================
+   Assistant permission UI (mode selector bar + file-access prompt). The mode
+   bar sits above the shared assistant pane, which then flexes to fill the rest.
+   ========================================================================== */
+.assistant-sidebar-panel {
+  min-height: 0;
+}
+
+.assistant-sidebar-panel > .assistant-panel {
+  flex: 1 1 auto;
+  min-height: 0;
+  height: auto;
+}
+
+.assistant-mode-bar {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--nflow-panel-border, #333);
+  background: var(--nflow-panel-background, #1e1e1e);
+}
+
+.assistant-mode-bar__label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--nflow-foreground-secondary, #9a9a9a);
+}
+
+.assistant-mode-bar__select {
+  background: var(--nflow-input-background, #2a2a2a);
+  color: var(--nflow-input-foreground, #d4d4d4);
+  border: 1px solid var(--nflow-input-border, #3a3a3a);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 12px;
+}
+
+.assistant-permission-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 4300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.assistant-permission-card {
+  width: min(420px, 92vw);
+  padding: 16px;
+  background: var(--nflow-widget-background, #252526);
+  color: var(--nflow-foreground, #d4d4d4);
+  border: 1px solid var(--nflow-border, #3a3a3a);
+  border-radius: 8px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+.assistant-permission-card__title {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.assistant-permission-card__message {
+  font-size: 13px;
+  margin-bottom: 16px;
+  word-break: break-word;
+}
+
+.assistant-permission-card__buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.assistant-permission-card__buttons button {
+  padding: 5px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  background: var(--nflow-button-background, #3a3a3a);
+  color: var(--nflow-button-foreground, #d4d4d4);
+  border: 1px solid var(--nflow-border, #3a3a3a);
+  border-radius: 4px;
+}
+
+.assistant-permission-card__default {
+  background: var(--accent, #0a84ff);
+  color: #fff;
+  border-color: var(--accent, #0a84ff);
 }
 
 /* ==========================================================================

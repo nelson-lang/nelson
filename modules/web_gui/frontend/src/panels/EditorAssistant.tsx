@@ -1,0 +1,72 @@
+//=============================================================================
+// Copyright (c) 2026-present Allan CORNET (Nelson)
+//=============================================================================
+// This file is part of Nelson.
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// SPDX-License-Identifier: LGPL-3.0-or-later
+// LICENCE_BLOCK_END
+//=============================================================================
+import { useMemo } from 'react';
+import { AssistantPane } from '@nelson/assistant';
+import type { AssistantBackend, AssistantCodeAction } from '@nelson/assistant';
+import { rpc } from '../rpc/client';
+import { subscribeToolEvents } from '../desktop/webTools';
+import { isWasmRuntime } from '../desktop/platform';
+import { PermissionModeSelect } from '../components/PermissionModeSelect';
+import { t } from '../i18n';
+//=============================================================================
+// Editor-side wrapper around the shared AssistantPane, embedded beside the code
+// so the assistant is reached the same way as in the notebook. Prompts/models
+// use the assistant.* RPCs and events arrive on the 'assistant' channel; the
+// action under each chat code block inserts the code at the editor cursor.
+const EDITOR_EXAMPLE_PROMPTS = [
+  'Write a function that reverses a vector',
+  'Insert a loop that sums 1 to n',
+  'Add input checks to this function',
+  'Explain what this code does',
+];
+//=============================================================================
+export function EditorAssistant({
+  targetLabel,
+  onInsert,
+}: {
+  targetLabel: string;
+  onInsert: (code: string) => void;
+}): JSX.Element {
+  const backend = useMemo<AssistantBackend>(
+    () => ({
+      listModels: () =>
+        rpc<{ models?: string[] }>('assistant.models', {}).then((result) =>
+          Array.isArray(result.models) ? result.models : []
+        ),
+      sendPrompt: (prompt, model) =>
+        rpc<{ accepted?: boolean }>('assistant.prompt', model ? { prompt, model } : { prompt }),
+      subscribe: (handler) => subscribeToolEvents('assistant', handler),
+      interrupt: () => {
+        void rpc('term.interrupt', {}).catch(() => undefined);
+      },
+      // Fallback for the default Run button; superseded by codeActions below.
+      runCode: (code) => onInsert(code),
+    }),
+    [onInsert]
+  );
+  const codeActions = useMemo<AssistantCodeAction[]>(
+    () => [{ label: t('Insert at cursor'), run: onInsert }],
+    [onInsert]
+  );
+  return (
+    <div className="assistant-stack">
+      <PermissionModeSelect />
+      <AssistantPane
+        backend={backend}
+        t={t}
+        examplePrompts={EDITOR_EXAMPLE_PROMPTS}
+        targetLabel={targetLabel}
+        codeActions={codeActions}
+        offerAcp={!isWasmRuntime()}
+      />
+    </div>
+  );
+}
+//=============================================================================

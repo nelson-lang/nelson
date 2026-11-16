@@ -254,6 +254,7 @@ function panelActions(): DesktopAction[] {
     ['callstack', 'layout', '8'],
     ['diagnostics', 'info'],
     ['terminal', 'terminal'],
+    ['assistant', 'info'],
   ];
   for (const [id, icon, key] of panels) {
     // Diagnostics describes the browser runtime and the WebAssembly bundle;

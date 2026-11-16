@@ -259,6 +259,7 @@ export class WasmDesktopBackend implements LocalRpcBackend {
   private lastBreakpointsRevision = -1;
   private removeInputListener: (() => void) | null;
   private removeFilesChangedListener: (() => void) | null = null;
+  private removeToolEventListener: (() => void) | null = null;
   private examplesChannel: BroadcastChannel | null = null;
   private packageManagerChannel: BroadcastChannel | null = null;
   private examplesCatalog: ExamplesCatalog | null = null;
@@ -325,6 +326,12 @@ export class WasmDesktopBackend implements LocalRpcBackend {
     // generation, ...) are not seen by this page's own file operations.
     this.removeFilesChangedListener =
       client.onFilesChanged?.(() => emitLocalPush('fs.changed', { path: WORKSPACE })) ?? null;
+    // Live assistant events (__ai_notify__) from the engine Worker: re-emit them as the
+    // 'tool.event' push the pane already consumes, matching the native desktop path.
+    this.removeToolEventListener =
+      client.onToolEvent?.((tool, channel, payload) =>
+        emitLocalPush('tool.event', { tool, channel, payload })
+      ) ?? null;
     if (this.options.examplesUrl && typeof BroadcastChannel === 'function') {
       this.examplesChannel = new BroadcastChannel(this.examplesChannelName);
       this.examplesChannel.onmessage = (event) => void this.handleExamplesMessage(event.data);
@@ -339,6 +346,8 @@ export class WasmDesktopBackend implements LocalRpcBackend {
   dispose(): void {
     this.removeFilesChangedListener?.();
     this.removeFilesChangedListener = null;
+    this.removeToolEventListener?.();
+    this.removeToolEventListener = null;
     this.removeFigureListener?.();
     this.removeFigureListener = null;
     this.removeFigureListListener?.();
@@ -412,6 +421,16 @@ export class WasmDesktopBackend implements LocalRpcBackend {
       case 'term.sync':
         if (this.isInterpreterBusy()) return { ok: true };
         return { prompt: this.promptText() };
+      case 'assistant.models':
+        return this.assistantModels();
+      case 'assistant.prompt':
+        return this.assistantPrompt(params);
+      case 'assistant.permissionReply':
+        return this.assistantPermissionReply(params);
+      case 'assistant.setPermissionMode':
+        return this.assistantSetPermissionMode(params);
+      case 'assistant.getPermissionMode':
+        return this.assistantGetPermissionMode();
       case 'notebook.run':
         return this.runNotebook(params);
       case 'notebook.closeFigures':
@@ -653,14 +672,21 @@ export class WasmDesktopBackend implements LocalRpcBackend {
     return this.debuggerPaused ? 'K>> ' : '>> ';
   }
   //=============================================================================
-  private async evaluate(line: string): Promise<{ accepted: boolean }> {
+  private async evaluate(
+    line: string,
+    options: { recordHistory?: boolean } = {}
+  ): Promise<{ accepted: boolean }> {
     if (!line.trim()) {
       emitLocalPush('term.prompt', { prompt: this.promptText() });
       return { accepted: true };
     }
-    this.history.push(line);
-    saveWasmHistory(this.historyStorage, this.history);
-    emitLocalPush('history.changed', {});
+    // Internal commands (the assistant agent) run through the normal lifecycle but
+    // stay out of the user-visible command history.
+    if (options.recordHistory !== false) {
+      this.history.push(line);
+      saveWasmHistory(this.historyStorage, this.history);
+      emitLocalPush('history.changed', {});
+    }
     const docTopic = parseDocCommandTopic(line);
     if (docTopic !== undefined) {
       emitLocalPush('help.show', { topic: docTopic });
@@ -720,6 +746,93 @@ export class WasmDesktopBackend implements LocalRpcBackend {
       }
     }
     return { accepted: true };
+  }
+  //=============================================================================
+  // Browser counterpart of the native web desktop assistant.* RPCs (WebGuiRpc),
+  // re-expressed on the worker-client eval interface. The same nelson.ai.*
+  // functions back both surfaces; streamed answers reach the pane once the engine
+  // pushes __ai_notify__ events onto the wasm tool-event channel.
+  private async assistantModels(): Promise<{ models: string[] }> {
+    if (this.isInterpreterBusy()) return { models: [] };
+    const text = await this.captureEngineText('disp(strjoin(nelson.ai.models(), char(10)));');
+    const models = text
+      .split('\n')
+      .map((entry) => entry.trim())
+      .filter((entry) => entry.length > 0);
+    return { models };
+  }
+  //=============================================================================
+  private assistantPrompt(params: Record<string, unknown>): { accepted: boolean } {
+    if (this.isInterpreterBusy()) {
+      throw new Error('Nelson is busy. Stop the current execution before sending a prompt.');
+    }
+    const prompt = String(params.prompt ?? '');
+    const model = String(params.model ?? '');
+    // surfaceId 'web' isolates this pane's assistant session, as on the native web
+    // desktop. It runs through the normal evaluation lifecycle (busy token, Stop,
+    // streamed output) but is kept out of the command history.
+    const modelText = model ? this.nelsonText(model) : "''";
+    const command = `nelson.ai.assistantRun(${this.nelsonText(prompt)}, ${modelText}, '', 'web');`;
+    void this.evaluate(command, { recordHistory: false });
+    return { accepted: true };
+  }
+  //=============================================================================
+  private assistantPermissionReply(params: Record<string, unknown>): { ok: true } {
+    // Feeds the user's file-access decision to a pending ACP permission on the
+    // 'web' surface. ACP cannot run in the browser engine, so this is inert there
+    // (no permission is ever pending); it is kept for RPC parity with the desktop.
+    const idValue = Number(params.id ?? 0);
+    const id = Number.isFinite(idValue) ? Math.trunc(idValue) : 0;
+    const decision = String(params.decision ?? '');
+    this.runAssistantMutation(
+      `nelson.ai.assistantPermissionReply('web', ${id}, ${this.nelsonText(decision)});`
+    );
+    return { ok: true };
+  }
+  //=============================================================================
+  private assistantSetPermissionMode(params: Record<string, unknown>): { ok: true } {
+    const mode = String(params.mode ?? '');
+    this.runAssistantMutation(`nelson.ai.acp.permissionMode(${this.nelsonText(mode)});`);
+    return { ok: true };
+  }
+  //=============================================================================
+  private async assistantGetPermissionMode(): Promise<{ mode: string }> {
+    if (this.isInterpreterBusy()) return { mode: 'always_ask' };
+    const mode = (await this.captureEngineText('disp(nelson.ai.acp.permissionMode());')).trim();
+    return { mode: mode || 'always_ask' };
+  }
+  //=============================================================================
+  private runAssistantMutation(command: string): void {
+    // Fire-and-forget: run now when idle, otherwise let the worker pick it up at
+    // its next prompt so it never overlaps an in-flight evaluation.
+    if (this.isInterpreterBusy()) {
+      this.client.queueCommand(command);
+    } else {
+      void this.client.evaluate(command).catch(() => undefined);
+    }
+  }
+  //=============================================================================
+  // Run a quiet disp() statement and return the text printed between the markers.
+  // Engine errors collapse to an empty string so callers fall back to a default.
+  private async captureEngineText(statement: string): Promise<string> {
+    const begin = '__NELSON_AI_RESULT_BEGIN__';
+    const end = '__NELSON_AI_RESULT_END__';
+    let streamed = '';
+    try {
+      const result = await this.client.evaluate(
+        `disp('${begin}'); ${statement} disp('${end}');`,
+        (output) => {
+          if (output.stream === 'stdout' && output.text) streamed += output.text;
+        }
+      );
+      const out = result.stdout || streamed;
+      const start = out.indexOf(begin);
+      const finish = out.lastIndexOf(end);
+      if (start < 0 || finish < start) return '';
+      return out.slice(start + begin.length, finish).trim();
+    } catch {
+      return '';
+    }
   }
   //=============================================================================
   private async runNotebook(params: Record<string, unknown>): Promise<{

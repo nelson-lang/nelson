@@ -25,6 +25,11 @@ const nativeMenuAlias = new URL(
   import.meta.url
 ).pathname.replace(/^\/([A-Za-z]:)/, '$1');
 //=============================================================================
+const assistantAlias = new URL(
+  '../../webview/frontend/assistant',
+  import.meta.url
+).pathname.replace(/^\/([A-Za-z]:)/, '$1');
+//=============================================================================
 const exampleGalleryAlias = new URL(
   '../../webview/frontend/examples',
   import.meta.url
@@ -66,6 +71,7 @@ export default defineConfig({
     dedupe: ['react', 'react-dom'],
     alias: {
       '@nelson/dialogs': dialogsAlias,
+      '@nelson/assistant': assistantAlias,
       '@nelson/native-menu': nativeMenuAlias,
       '@nelson/example-gallery': exampleGalleryAlias,
       '@nelson/package-manager': packageManagerAlias,

@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Editor, { type OnMount } from '@monaco-editor/react';
 import type * as Monaco from 'monaco-editor';
 import { onPush, rpc } from '../rpc/client';
@@ -15,6 +15,8 @@ import { requestSavePath } from '../components/DesktopFilePickerHost';
 import { baseName, dirName } from '../desktop/paths';
 import { isEngineBusy, onEngineReady, runCommand, subscribeEngine } from '../desktop/engineSession';
 import { openHelp, openEditor, ensureCorePanel } from '../desktop/desktop';
+import { subscribeToolEvents } from '../desktop/webTools';
+import { takePendingFileInsertFor } from '../desktop/editorInsertRouter';
 import { EditorRibbon, type RibbonGroupDef } from './EditorRibbon';
 import { getActiveScheme, subscribeScheme } from '../desktop/theme';
 import { getPrefs, subscribePrefs } from '../desktop/prefs';
@@ -30,6 +32,7 @@ import type {
   EditorSaveResult,
 } from '../rpc/types';
 import { DesktopIcon } from '../components/DesktopIcon';
+import { EditorAssistant } from './EditorAssistant';
 import { BreakpointPopover } from '../components/BreakpointPopover';
 import { setupMonaco } from '../editor/monacoSetup';
 import {
@@ -89,6 +92,9 @@ type AnalyzerDiagnostic = {
 // Latest diagnostics per model URI, so the (global) code-action provider can
 // offer each diagnostic's quick fixes.
 const modelDiagnostics = new Map<string, AnalyzerDiagnostic[]>();
+// The editor most recently focused across all open editor panels; the assistant
+// inserts generated code into this one.
+let activeAssistantEditor: Monaco.editor.IStandaloneCodeEditor | null = null;
 const monacoTheme = (s: 'light' | 'dark') => (s === 'dark' ? 'vs-dark' : 'light');
 // Cache help(name) lookups so hover / signature help don't hammer the backend.
 const helpCache = new Map<string, Promise<string>>();
@@ -356,6 +362,7 @@ export function EditorPanel({
   const [diagnostics, setDiagnostics] = useState<AnalyzerDiagnostic[]>([]);
   const [showProblems, setShowProblems] = useState(false);
   const [wrap, setWrap] = useState(false);
+  const [showAssistant, setShowAssistant] = useState(false);
   const toggleWrap = () => {
     setWrap((w) => {
       const next = !w;
@@ -592,6 +599,93 @@ export function EditorPanel({
       })
       .catch(() => setReady(true));
   }, [path]);
+
+  // A target-less editorInsert ({text}) drops code at the active editor's cursor.
+  // Filename-addressed inserts are opened+routed once by the module-level router
+  // above, then appended here by consumeFileInsert.
+  useEffect(() => {
+    return subscribeToolEvents('assistant', (channel, raw) => {
+      if (channel !== 'editorInsert') {
+        return;
+      }
+      let code = '';
+      let filename = '';
+      try {
+        const payload = JSON.parse(raw) as { text?: string; filename?: string };
+        code = payload.text ?? '';
+        filename = payload.filename ?? '';
+      } catch {
+        return;
+      }
+      if (code === '' || filename !== '') {
+        return;
+      }
+      const editor = editorRef.current;
+      // Only the most recently focused editor receives a target-less insertion.
+      if (!editor || editor !== activeAssistantEditor) {
+        return;
+      }
+      const selection = editor.getSelection();
+      if (!selection) {
+        return;
+      }
+      editor.executeEdits('assistant', [{ range: selection, text: code, forceMoveMarkers: true }]);
+      editor.focus();
+    });
+  }, []);
+
+  // Insert generated code at this editor's cursor (the embedded assistant's
+  // Insert button and its fallback Run action).
+  const insertAtCursor = useCallback((code: string) => {
+    const editor = editorRef.current;
+    if (!editor || code === '') return;
+    const selection = editor.getSelection();
+    if (!selection) return;
+    editor.executeEdits('assistant', [{ range: selection, text: code, forceMoveMarkers: true }]);
+    editor.focus();
+  }, []);
+
+  // Append the assistant's file insert to this editor when its content is ready
+  // and it is the target file (the router cleared it, so it lands exactly once).
+  const consumeFileInsert = useCallback(() => {
+    const editor = editorRef.current;
+    if (!editor) {
+      return;
+    }
+    const code = takePendingFileInsertFor(path);
+    if (code === null) {
+      return;
+    }
+    const model = editor.getModel();
+    if (!model) {
+      return;
+    }
+    const line = model.getLineCount();
+    const column = model.getLineMaxColumn(line);
+    const prefix = model.getValueLength() > 0 ? '\n' : '';
+    editor.executeEdits('assistant', [
+      {
+        range: {
+          startLineNumber: line,
+          startColumn: column,
+          endLineNumber: line,
+          endColumn: column,
+        },
+        text: prefix + code,
+        forceMoveMarkers: true,
+      },
+    ]);
+    editor.revealLine(model.getLineCount());
+    editor.focus();
+  }, [path]);
+
+  // A newly opened file consumes in onMount (editor ready); an already-open file
+  // consumes here when the router's insert event fires.
+  useEffect(() => {
+    const onInsert = () => consumeFileInsert();
+    window.addEventListener('nelson-webview.editor-insert', onInsert);
+    return () => window.removeEventListener('nelson-webview.editor-insert', onInsert);
+  }, [consumeFileInsert]);
 
   // replaces the buffer with the file on disk; undo can still bring the old text back
   const reloadFromDisk = async (automatic: boolean) => {
@@ -998,7 +1092,14 @@ export function EditorPanel({
   const onMount: OnMount = (editor, monaco) => {
     editorRef.current = editor;
     monacoRef.current = monaco;
+    activeAssistantEditor = editor;
+    editor.onDidFocusEditorText(() => {
+      activeAssistantEditor = editor;
+    });
     registerNelson(monaco);
+    // A file opened by the assistant to receive code: now that the editor is
+    // mounted and its content loaded, append the pending insert.
+    consumeFileInsert();
 
     savedVersionRef.current = editor.getModel()?.getAlternativeVersionId() ?? 0;
     dirtyRef.current = false;
@@ -1288,6 +1389,17 @@ export function EditorPanel({
           title: t('Profiler'),
           onClick: () => ensureCorePanel('profiler'),
         },
+        {
+          key: 'assistant',
+          className: showAssistant ? 'ribbon-btn--on' : '',
+          label: (
+            <>
+              <DesktopIcon name="info" size={16} /> {t('Assistant')}
+            </>
+          ),
+          title: t('Ask the assistant to write or insert Nelson code'),
+          onClick: () => setShowAssistant((v) => !v),
+        },
       ],
     },
     {
@@ -1530,28 +1642,35 @@ export function EditorPanel({
         </div>
       )}
       <div className="editor-panel__body">
-        <Editor
-          theme={monacoTheme(scheme)}
-          language={language}
-          value={content}
-          onMount={onMount}
-          onChange={onContentChange}
-          options={{
-            glyphMargin: true,
-            minimap: { enabled: false },
-            mouseWheelZoom: false,
-            fontSize: getPrefs().editorFontSize,
-            tabSize: getPrefs().editorTabSize,
-            automaticLayout: true,
-            quickSuggestions: { other: true, comments: false, strings: false },
-            suggestOnTriggerCharacters: true,
-            wordBasedSuggestions: 'off',
-            contextmenu: true,
-            // Render the context menu / suggestion widgets in a body-level fixed
-            // container so the dockview panel's overflow:hidden can't clip them.
-            fixedOverflowWidgets: true,
-          }}
-        />
+        <div className="editor-panel__main">
+          <Editor
+            theme={monacoTheme(scheme)}
+            language={language}
+            value={content}
+            onMount={onMount}
+            onChange={onContentChange}
+            options={{
+              glyphMargin: true,
+              minimap: { enabled: false },
+              mouseWheelZoom: false,
+              fontSize: getPrefs().editorFontSize,
+              tabSize: getPrefs().editorTabSize,
+              automaticLayout: true,
+              quickSuggestions: { other: true, comments: false, strings: false },
+              suggestOnTriggerCharacters: true,
+              wordBasedSuggestions: 'off',
+              contextmenu: true,
+              // Render the context menu / suggestion widgets in a body-level fixed
+              // container so the dockview panel's overflow:hidden can't clip them.
+              fixedOverflowWidgets: true,
+            }}
+          />
+        </div>
+        {showAssistant && (
+          <aside className="editor-assistant" aria-label={t('Assistant')}>
+            <EditorAssistant targetLabel={baseName(path)} onInsert={insertAtCursor} />
+          </aside>
+        )}
       </div>
       {popover && (
         <BreakpointPopover

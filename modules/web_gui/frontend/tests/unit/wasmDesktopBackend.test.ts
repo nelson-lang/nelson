@@ -3136,5 +3136,105 @@ describe('WebAssembly desktop backend', () => {
     backend.dispose();
     vi.unstubAllGlobals();
   });
+
+  it('lists assistant models from the engine marker output', async () => {
+    const fixture = clientFixture();
+    vi.mocked(fixture.client.evaluate).mockResolvedValueOnce({
+      exitCode: 0,
+      stdout:
+        '__NELSON_AI_RESULT_BEGIN__\nollama/llama3\nopenai/gpt-4o-mini\n__NELSON_AI_RESULT_END__\n',
+      stderr: '',
+      figures: [],
+    });
+    const backend = new WasmDesktopBackend(fixture.client, { historyStorage: null });
+
+    await expect(backend.handle('assistant.models', {}, signal)).resolves.toEqual({
+      models: ['ollama/llama3', 'openai/gpt-4o-mini'],
+    });
+    expect(fixture.client.evaluate).toHaveBeenCalledWith(
+      expect.stringContaining('nelson.ai.models()'),
+      expect.any(Function)
+    );
+    backend.dispose();
+  });
+
+  it('runs an assistant prompt on the web surface and quotes the model', async () => {
+    const fixture = clientFixture();
+    const backend = new WasmDesktopBackend(fixture.client, { historyStorage: null });
+
+    await expect(
+      backend.handle('assistant.prompt', { prompt: "it's me", model: 'ollama/llama3' }, signal)
+    ).resolves.toEqual({ accepted: true });
+
+    await vi.waitFor(() =>
+      expect(fixture.client.evaluate).toHaveBeenCalledWith(
+        "nelson.ai.assistantRun('it''s me', 'ollama/llama3', '', 'web');",
+        expect.any(Function)
+      )
+    );
+    backend.dispose();
+  });
+
+  it('runs an assistant prompt with no model argument', async () => {
+    const fixture = clientFixture();
+    const backend = new WasmDesktopBackend(fixture.client, { historyStorage: null });
+
+    await backend.handle('assistant.prompt', { prompt: 'hello' }, signal);
+
+    await vi.waitFor(() =>
+      expect(fixture.client.evaluate).toHaveBeenCalledWith(
+        "nelson.ai.assistantRun('hello', '', '', 'web');",
+        expect.any(Function)
+      )
+    );
+    backend.dispose();
+  });
+
+  it('keeps assistant prompts out of the command history', async () => {
+    const fixture = clientFixture();
+    const backend = new WasmDesktopBackend(fixture.client, { historyStorage: null });
+
+    await backend.handle('term.input', { line: 'x = 1;' }, signal);
+    await backend.handle('assistant.prompt', { prompt: 'summarize x' }, signal);
+
+    const result = (await backend.handle('history.list', {}, signal)) as { entries: string[] };
+    expect(result.entries).toContain('x = 1;');
+    expect(
+      result.entries.some(
+        (entry) => entry.includes('assistantRun') || entry.includes('summarize x')
+      )
+    ).toBe(false);
+    backend.dispose();
+  });
+
+  it('reads and writes the assistant permission mode through the engine', async () => {
+    const fixture = clientFixture();
+    vi.mocked(fixture.client.evaluate).mockResolvedValueOnce({
+      exitCode: 0,
+      stdout: '__NELSON_AI_RESULT_BEGIN__\nalways_allow\n__NELSON_AI_RESULT_END__\n',
+      stderr: '',
+      figures: [],
+    });
+    const backend = new WasmDesktopBackend(fixture.client, { historyStorage: null });
+
+    await expect(backend.handle('assistant.getPermissionMode', {}, signal)).resolves.toEqual({
+      mode: 'always_allow',
+    });
+
+    await expect(
+      backend.handle('assistant.setPermissionMode', { mode: 'always_ask' }, signal)
+    ).resolves.toEqual({ ok: true });
+    expect(fixture.client.evaluate).toHaveBeenCalledWith(
+      "nelson.ai.acp.permissionMode('always_ask');"
+    );
+
+    await expect(
+      backend.handle('assistant.permissionReply', { id: 7, decision: 'allow_once' }, signal)
+    ).resolves.toEqual({ ok: true });
+    expect(fixture.client.evaluate).toHaveBeenCalledWith(
+      "nelson.ai.assistantPermissionReply('web', 7, 'allow_once');"
+    );
+    backend.dispose();
+  });
 });
 //=============================================================================

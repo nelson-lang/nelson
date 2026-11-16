@@ -242,6 +242,8 @@ declare module '@nelson/wasm-client' {
     onPeersChange(handler: (peers: number) => void): () => void;
     /** Another page of the shared engine changed the virtual filesystem. */
     onFilesChanged?(handler: (event: { origin: string }) => void): () => void;
+    /** A live tool event (e.g. assistant __ai_notify__) emitted by the engine Worker. */
+    onToolEvent?(handler: (tool: string, channel: string, payload: string) => void): () => void;
     onEngineRestart(handler: (event: { reason?: string }) => void): () => void;
     terminate(): void;
   }

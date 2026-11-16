@@ -63,6 +63,9 @@ static CURLcode
 setCurlURL(CURL* curlObject, const std::string& url);
 static size_t
 write_data(void* ptr, size_t size, size_t nmemb, void* stream);
+static int
+xfer_progress(void* clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal,
+    curl_off_t ulnow);
 //=============================================================================
 std::wstring
 WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filename,
@@ -70,6 +73,9 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
     bool haveEventsLoop, size_t evaluatorID, std::wstring& contentType)
 {
     contentType.clear();
+    // Let the download callbacks pump GUI events so the desktop window stays
+    // responsive while a request is in flight (long AI model calls especially).
+    bHaveEventsLoop = haveEventsLoop;
     bool isWrite = !data.empty();
     std::wstring fullFilename;
     FILE* fw;
@@ -249,6 +255,14 @@ WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filenam
         }
     }
 
+    // A progress callback fires on curl's own timer even while no byte moves
+    // (connecting, or the server still composing its reply): it is what lets
+    // Ctrl+C / a Stop request abort a long-running request, since write_data
+    // only runs once data actually arrives.
+    curl_easy_setopt(curlObject, CURLOPT_NOPROGRESS, 0L);
+    curl_easy_setopt(curlObject, CURLOPT_XFERINFOFUNCTION, xfer_progress);
+    curl_easy_setopt(curlObject, CURLOPT_XFERINFODATA, &writeData);
+
     curlCode = curl_easy_perform(curlObject);
     fclose(fw);
     if (curlCode != CURLE_OK) {
@@ -375,6 +389,26 @@ write_data(void* ptr, size_t size, size_t nmemb, void* stream)
         Nelson::processGuiEvents(false);
     }
     return written;
+}
+//=============================================================================
+// Periodic callback: aborts the transfer when an interrupt is pending so a
+// request stuck waiting on the server can still be cancelled by the user.
+static int
+xfer_progress(void* clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal,
+    curl_off_t ulnow)
+{
+    (void)dltotal;
+    (void)dlnow;
+    (void)ultotal;
+    (void)ulnow;
+    WriteData* writeData = static_cast<WriteData*>(clientp);
+    if (writeData != nullptr && NelsonConfiguration::getInstance()->getInterruptPending(writeData->ID)) {
+        return 1;
+    }
+    if (bHaveEventsLoop) {
+        Nelson::processGuiEvents(false);
+    }
+    return 0;
 }
 //=============================================================================
 } // namespace Nelson

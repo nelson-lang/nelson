@@ -9,7 +9,15 @@
 //=============================================================================
 import { flushSync } from 'react-dom';
 import { createRoot, type Root } from 'react-dom/client';
-import { localizeDOM } from '../../utils/i18n.js';
+import { AssistantPane } from '@nelson/assistant';
+import type { AssistantCodeAction } from '@nelson/assistant';
+import { localizeDOM, t } from '../../utils/i18n.js';
+import { nflowAssistantBackend } from '../assistant-backend.js';
+import { buildModelOnCanvas } from '../assistant-canvas.js';
+import {
+  AssistantPermissionModeSelect,
+  AssistantPermissionDialog,
+} from './assistant-permission.js';
 import { SettingsPanel } from './settings-panel.js';
 import { filterBlockLibraryView } from './block-library-view.js';
 import { bindSettingsPreferences } from '../settings-preferences.js';
@@ -420,11 +428,56 @@ function SimulationPanel(): JSX.Element {
   );
 }
 //=============================================================================
+// NFlow-specific starter prompts: the assistant here builds block-diagram
+// models (the model-authoring skill is injected engine-side), so the examples
+// steer toward wiring and simulating models rather than plain Nelson snippets.
+const NFLOW_EXAMPLE_PROMPTS = [
+  'Create a constant feeding a gain into a scope',
+  'Build an RLC circuit model and simulate it',
+  'Model a mass-spring-damper system',
+  'Add a sine source wired to a scope',
+];
+//=============================================================================
+// The assistant builds models; its code blocks get a "Build on canvas" action
+// that runs the script and draws the result on the current canvas (not a new
+// window). Copy stays available; this replaces the generic Run.
+const NFLOW_CODE_ACTIONS: AssistantCodeAction[] = [
+  {
+    label: t('Build on canvas'),
+    // On a build failure, hand the error back to the agent (helpers.ask) so it
+    // corrects its own script and replies with a fixed code block to build again.
+    run: (code, helpers) => {
+      void buildModelOnCanvas(code, helpers.ask);
+    },
+  },
+];
+//=============================================================================
+function AssistantSidebarPanel(): JSX.Element {
+  // The shared, transport-agnostic assistant pane (same component as the web
+  // desktop) driven by the NFlow backend. The model-authoring skill is injected
+  // engine-side when the prompt is about NFlow, so the agent can build models.
+  return (
+    <div className="sidebar-panel assistant-sidebar-panel" id="panel-assistant">
+      <AssistantPermissionModeSelect />
+      <AssistantPane
+        backend={nflowAssistantBackend}
+        t={t}
+        examplePrompts={NFLOW_EXAMPLE_PROMPTS}
+        targetLabel={t('the canvas')}
+        codeActions={NFLOW_CODE_ACTIONS}
+        historyKey="nflow"
+      />
+      <AssistantPermissionDialog />
+    </div>
+  );
+}
+//=============================================================================
 function SidebarPanels(): JSX.Element {
   return (
     <>
       <div className="sidebar-resize-handle" />
       <LibraryPanel />
+      <AssistantSidebarPanel />
       <SettingsPanel />
     </>
   );

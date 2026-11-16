@@ -11,6 +11,7 @@
     "baseUrl": ".",
     "paths": {
       "@nelson/dialogs": ["../../../webview/frontend/dialogs/index.ts"],
+      "@nelson/assistant": ["../../../webview/frontend/assistant/index.ts"],
       "@nelson/native-menu": ["../../../webview/frontend/native-menu/index.ts"],
       "@nelson/example-gallery/*": ["../../../webview/frontend/examples/*"],
       "@nelson/wasm-client": ["wasm/wasm-client.d.ts"],

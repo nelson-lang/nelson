@@ -323,6 +323,13 @@ if(NELSON_PORTABLE_BUILD)
     )
   endif()
 
+  if(NELSON_PORTABLE_WITH_AI)
+    list(APPEND _all_modules
+      json
+      ai
+    )
+  endif()
+
   if(NELSON_PORTABLE_ENABLE_TESTS)
     list(APPEND _all_modules
       assert_functions

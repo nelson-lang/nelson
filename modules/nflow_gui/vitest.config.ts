@@ -25,6 +25,10 @@ export default defineConfig({
         replacement: path.resolve(moduleRoot, '../webview/frontend/dialogs'),
       },
       {
+        find: '@nelson/assistant',
+        replacement: path.resolve(moduleRoot, '../webview/frontend/assistant'),
+      },
+      {
         find: '@nelson/native-menu',
         replacement: path.resolve(moduleRoot, '../webview/frontend/native-menu'),
       },

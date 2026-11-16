@@ -153,6 +153,12 @@ public:
     QtTextEditor(Evaluator* eval);
     ~QtTextEditor();
 
+    // Insert assistant-generated code at the editor cursor (driven by the
+    // 'editorInsert' assistant event). When filename is non-empty, open or focus
+    // that file first (insert_into_nelson_file). Call on the GUI thread.
+    void
+    insertAssistantText(const QString& filename, const QString& text);
+
     // desktop docking: the editor window can be hosted inside the Nelson
     // desktop; undocked it stays a real top-level window.
     bool

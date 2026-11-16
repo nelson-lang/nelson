@@ -232,6 +232,20 @@
   color: var(--fg-dim);
 }
 
+/* --- embedded assistant pane --- */
+.nls-assistant {
+  width: 340px;
+  flex-shrink: 0;
+  display: flex;
+  min-height: 0;
+  border-left: 1px solid var(--border);
+  background: var(--bg-alt);
+}
+.nls-assistant .assistant-stack {
+  flex: 1;
+  min-width: 0;
+}
+
 /* --- editor surface --- */
 .nls-scroll {
   flex: 1;

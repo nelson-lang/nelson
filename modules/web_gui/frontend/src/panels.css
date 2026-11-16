@@ -212,6 +212,24 @@
 .nelson-shell .editor-panel__body {
   flex: 1;
   min-height: 0;
+  display: flex;
+}
+.nelson-shell .editor-panel__main {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+}
+.nelson-shell .editor-assistant {
+  width: 320px;
+  flex-shrink: 0;
+  display: flex;
+  min-height: 0;
+  border-left: 1px solid var(--border);
+  background: var(--bg-alt);
+}
+.nelson-shell .editor-assistant .assistant-stack {
+  flex: 1;
+  min-width: 0;
 }
 .nelson-shell .editor-toolbar {
   display: flex;

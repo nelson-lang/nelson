@@ -56,6 +56,15 @@ export function isModelBound(): boolean {
   return getBoundModelName().length > 0;
 }
 //=============================================================================
+// Bind the window to a registry model at runtime (e.g. after the assistant
+// builds one on the canvas), so edits commit to it and Save targets it. The
+// revision seeds the optimistic-concurrency guard; pass the model's current
+// revision so the first edit commits cleanly rather than conflicting.
+export function setBoundModel(name: string, revision = 0): void {
+  boundModelName = name;
+  setLastRevision(revision);
+}
+//=============================================================================
 // Mirrored on the window so a duplicated bundle instance shares it and an echoed
 // push can be recognized (same double-bundle reason as setCurrentFilePath).
 function getLastRevision(): number {
@@ -146,10 +155,14 @@ export function initModelSession(opts: {
   serialize: () => string;
   onModelChanged: () => void | Promise<void>;
 }): void {
-  if (!isModelBound()) return;
+  // Wire the listeners unconditionally and gate each on the binding, so a window
+  // that boots unbound (a blank canvas) starts live-syncing as soon as it is
+  // bound at runtime (setBoundModel), without a second init. Each gate keeps the
+  // exact unbound behaviour: no commit, no reload, no context push.
   serializeFn = opts.serialize;
 
   const scheduleCommit = () => {
+    if (!isModelBound()) return;
     if (debounceTimer) clearTimeout(debounceTimer);
     debounceTimer = setTimeout(() => {
       debounceTimer = null;
@@ -159,6 +172,7 @@ export function initModelSession(opts: {
   window.addEventListener('diagramChanged', scheduleCommit);
 
   onNFlowPush('nflow.model.changed', (payload: unknown) => {
+    if (!isModelBound()) return;
     const origin = (payload as { origin?: string })?.origin;
     if (origin && origin !== 'script') return;
     void opts.onModelChanged();
@@ -166,6 +180,7 @@ export function initModelSession(opts: {
 
   // gcb reads the current block from the editor selection.
   onAppEvent('nf-block-selected', (detail) => {
+    if (!isModelBound()) return;
     const blockId = detail?.blockId;
     const name = getBoundModelName();
     const block = blockId ? `${name}/${blockId}` : '';

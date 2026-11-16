@@ -21,6 +21,7 @@ import { GroupCollapseAction } from './panels/GroupCollapseAction';
 import { forgetGroup } from './desktop/collapse';
 import { ShellTerminalPanel } from './panels/ShellTerminalPanel';
 import { HelpPanel } from './panels/HelpPanel';
+import { AssistantPanel } from './panels/AssistantPanel';
 import { ProfilerPanel } from './panels/ProfilerPanel';
 import { BreakpointsPanel } from './panels/BreakpointsPanel';
 import { CallStackPanel } from './panels/CallStackPanel';
@@ -36,6 +37,7 @@ import { DesktopFilePickerHost } from './components/DesktopFilePickerHost';
 import { DialogHost } from './components/DialogHost';
 import { ProgressDialogHost } from './components/ProgressDialogHost';
 import { PromptHost } from './components/PromptHost';
+import { AssistantPermissionHost } from './components/AssistantPermissionHost';
 import { PreferencesHost } from './components/PreferencesHost';
 import { AboutHost } from './components/AboutHost';
 import { SetPathHost } from './components/SetPathHost';
@@ -80,6 +82,7 @@ import {
 } from './desktop/capabilities';
 import { showStatusMessage } from './desktop/statusMessage';
 import { installNelsonDesktopMessageBridge } from './desktop/externalMessages';
+import { installEditorInsertRouter } from './desktop/editorInsertRouter';
 import { notifyStartupUrlDesktopReady } from './desktop/startupUrlActions';
 //=============================================================================
 const EditorPanel = lazy(() =>
@@ -159,6 +162,7 @@ const components = {
   ),
   shell: ShellTerminalPanel,
   help: HelpPanel,
+  assistant: AssistantPanel,
   examples: () => (
     <Suspense fallback={<div className="browser__empty">{t('Loading examples…')}</div>}>
       <ExamplesPanel />
@@ -215,6 +219,12 @@ export function App(): JSX.Element {
   const shellVisibility = useShellVisibility();
 
   useEffect(() => installNelsonDesktopMessageBridge(), []);
+
+  // Route assistant file inserts (insert_into_nelson_file) even with no editor
+  // open, since the editor panel is lazy-loaded.
+  useEffect(() => {
+    installEditorInsertRouter();
+  }, []);
 
   useEffect(() => scheduleNotebookPrefetch(), []);
 
@@ -543,6 +553,7 @@ export function App(): JSX.Element {
         </div>
         <DialogHost />
         <PromptHost />
+        <AssistantPermissionHost />
         <DesktopFilePickerHost />
         <AboutHost />
         <AudioUnlockHost />
@@ -590,6 +601,7 @@ export function App(): JSX.Element {
       <DialogHost />
       <ProgressDialogHost />
       <PromptHost />
+      <AssistantPermissionHost />
       <PreferencesHost />
       <AboutHost />
       <SetPathHost />

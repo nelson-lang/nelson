@@ -1,0 +1,267 @@
+/*=============================================================================
+ Copyright (c) 2026-present Allan CORNET (Nelson)
+=============================================================================
+ This file is part of Nelson.
+=============================================================================
+ LICENCE_BLOCK_BEGIN
+ SPDX-License-Identifier: LGPL-3.0-or-later
+ LICENCE_BLOCK_END
+=============================================================================
+ Portable styles for the shared AssistantPane, for hosts that do NOT define the
+ web desktop theme tokens (web_gui ships its own themed copy in styles.css and
+ does not import this). Each property layers: web token, then the matching NFlow
+ theme token, then a literal fallback, so the pane stays theme-aware under NFlow
+ (light or dark) and still renders without any theme.
+=============================================================================*/
+.assistant-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  background: var(--bg, var(--nflow-panel-background, #1e1e1e));
+  color: var(--fg, var(--nflow-foreground, #d4d4d4));
+}
+.assistant-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--border, var(--nflow-panel-border, #333));
+  flex: 0 0 auto;
+}
+.assistant-panel__brand {
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: var(--fg-dim, var(--nflow-foreground-secondary, #9a9a9a));
+}
+.assistant-panel__model {
+  max-width: 55%;
+  background: var(--bg-alt, var(--nflow-input-background, #2a2a2a));
+  color: var(--fg, var(--nflow-input-foreground, #d4d4d4));
+  border: 1px solid var(--border, var(--nflow-input-border, #3a3a3a));
+  border-radius: var(--radius, 4px);
+  padding: 2px 6px;
+  font-size: 12px;
+}
+.assistant-panel__model--none {
+  color: var(--fg-dim, var(--nflow-foreground-secondary, #9a9a9a));
+  font-size: 12px;
+}
+.assistant-panel__messages {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.assistant-panel__empty {
+  margin: auto;
+  max-width: 420px;
+  text-align: center;
+  color: var(--fg-dim, var(--nflow-foreground-secondary, #9a9a9a));
+}
+.assistant-panel__empty-title {
+  margin-bottom: 12px;
+  font-size: 13px;
+}
+.assistant-panel__examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.assistant-panel__chip {
+  background: var(--bg-elev, var(--nflow-widget-background, #2a2a2a));
+  color: var(--fg, var(--nflow-foreground, #d4d4d4));
+  border: 1px solid var(--border, var(--nflow-panel-border, #333));
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.assistant-panel__chip:hover {
+  border-color: var(--accent, var(--nflow-accent, #2d7ff9));
+}
+.assistant-panel__msg {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  max-width: 100%;
+}
+.assistant-panel__msg--user {
+  align-items: flex-end;
+}
+.assistant-panel__role {
+  font-size: 11px;
+  color: var(--fg-dim, var(--nflow-foreground-secondary, #9a9a9a));
+  padding: 0 2px;
+}
+.assistant-panel__bubble {
+  max-width: 92%;
+  background: var(--bg-elev, var(--nflow-widget-background, #2a2a2a));
+  border: 1px solid var(--border, var(--nflow-panel-border, #333));
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 13px;
+  line-height: 1.45;
+}
+.assistant-panel__msg--user .assistant-panel__bubble {
+  background: color-mix(
+    in srgb,
+    var(--accent, var(--nflow-accent, #2d7ff9)) 16%,
+    var(--bg-alt, var(--nflow-input-background, #2a2a2a))
+  );
+  border-color: color-mix(
+    in srgb,
+    var(--accent, var(--nflow-accent, #2d7ff9)) 30%,
+    var(--border, var(--nflow-panel-border, #333))
+  );
+}
+.assistant-panel__para {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.assistant-panel__code {
+  margin: 6px 0;
+  border: 1px solid var(--border, var(--nflow-panel-border, #333));
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--bg-alt, var(--nflow-input-background, #2a2a2a));
+}
+.assistant-panel__code-actions {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+  padding: 4px 6px;
+  border-bottom: 1px solid var(--border, var(--nflow-panel-border, #333));
+}
+.assistant-panel__code-actions button {
+  background: transparent;
+  color: var(--fg-dim, var(--nflow-foreground-secondary, #9a9a9a));
+  border: 1px solid var(--border, var(--nflow-panel-border, #333));
+  border-radius: 4px;
+  padding: 1px 8px;
+  font-size: 11px;
+  cursor: pointer;
+}
+.assistant-panel__code-actions button:hover {
+  color: var(--fg, var(--nflow-foreground, #d4d4d4));
+  border-color: var(--accent, var(--nflow-accent, #2d7ff9));
+}
+.assistant-panel__code pre {
+  margin: 0;
+  padding: 8px 10px;
+  overflow-x: auto;
+  font-family: ui-monospace, "Cascadia Code", "Consolas", monospace;
+  font-size: 12.5px;
+}
+.assistant-panel__busy {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--fg-dim, var(--nflow-foreground-secondary, #9a9a9a));
+  font-size: 12px;
+}
+.assistant-panel__spinner {
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--border, var(--nflow-panel-border, #333));
+  border-top-color: var(--accent, var(--nflow-accent, #2d7ff9));
+  border-radius: 50%;
+  animation: assistant-spin 0.7s linear infinite;
+}
+@keyframes assistant-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.assistant-panel__input {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  padding: 8px 10px;
+  border-top: 1px solid var(--border, var(--nflow-panel-border, #333));
+  flex: 0 0 auto;
+}
+.assistant-panel__input textarea {
+  flex: 1 1 auto;
+  resize: none;
+  max-height: 160px;
+  background: var(--bg-alt, var(--nflow-input-background, #2a2a2a));
+  color: var(--fg, var(--nflow-input-foreground, #d4d4d4));
+  border: 1px solid var(--border, var(--nflow-input-border, #3a3a3a));
+  border-radius: 8px;
+  padding: 7px 9px;
+  font-size: 13px;
+  font-family: inherit;
+}
+.assistant-panel__input textarea:focus {
+  outline: none;
+  border-color: var(--accent, var(--nflow-accent, #2d7ff9));
+}
+.assistant-panel__send {
+  background: var(--accent, var(--nflow-button-background, #2d7ff9));
+  color: var(--accent-fg, var(--nflow-button-foreground, #fff));
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.assistant-panel__send:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.assistant-panel__send--stop {
+  background: var(--danger, var(--nflow-error-foreground, #c0392b));
+  color: #fff;
+}
+.assistant-panel__stop {
+  margin-left: auto;
+  background: transparent;
+  color: var(--danger, var(--nflow-error-foreground, #c0392b));
+  border: 1px solid var(--danger, var(--nflow-error-foreground, #c0392b));
+  border-radius: 6px;
+  padding: 2px 10px;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.assistant-panel__stop:hover {
+  background: var(--danger, var(--nflow-error-foreground, #c0392b));
+  color: #fff;
+}
+.assistant-panel__progress {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.assistant-panel__activity {
+  margin: 0 0 0 20px;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.assistant-panel__activity li {
+  color: var(--fg-dim, var(--nflow-foreground-secondary, #9a9a9a));
+  font-size: 11.5px;
+  font-family: var(--mono, monospace);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.assistant-panel__stream {
+  color: var(--fg, var(--nflow-foreground, #d4d4d4));
+  font-size: 13px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+  border-left: 2px solid var(--accent, var(--nflow-accent, #2d7ff9));
+  padding-left: 8px;
+}

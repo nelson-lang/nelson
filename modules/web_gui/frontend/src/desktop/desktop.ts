@@ -314,6 +314,7 @@ const CORE_PANEL_COMPONENTS: Record<string, string> = {
   newsfeed: 'newsfeed',
   variables: 'variables',
   help: 'help',
+  assistant: 'assistant',
   examples: 'examples',
   notebook: 'notebook',
   packages: 'packages',

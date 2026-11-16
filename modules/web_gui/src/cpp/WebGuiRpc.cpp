@@ -19,6 +19,7 @@
 #include "WebGuiPreferences.hpp"
 #include "CompleterHelper.hpp"
 #include "NelsonConfiguration.hpp"
+#include "AssistantSink.hpp"
 #include "WebDesktopBridge.hpp"
 #include "RecentDirectories.hpp"
 #include "DialogDirectories.hpp"
@@ -453,6 +454,21 @@ WebGuiRpc::handle(const std::string& method, const nlohmann::json& params)
     if (method == "dialog.reply") {
         return dialogReply(params);
     }
+    if (method == "assistant.prompt") {
+        return assistantPrompt(params);
+    }
+    if (method == "assistant.models") {
+        return assistantModels(params);
+    }
+    if (method == "assistant.permissionReply") {
+        return assistantPermissionReply(params);
+    }
+    if (method == "assistant.setPermissionMode") {
+        return assistantSetPermissionMode(params);
+    }
+    if (method == "assistant.getPermissionMode") {
+        return assistantGetPermissionMode(params);
+    }
     if (method == "i18n.translate") {
         return i18nTranslate(params);
     }
@@ -547,6 +563,10 @@ WebGuiRpc::termInput(const nlohmann::json& params)
 nlohmann::json
 WebGuiRpc::termInterrupt()
 {
+    // Always request the web assistant surface to stop: its async poll loop runs
+    // off the prompt, so the isAtPrompt() branch below would otherwise never
+    // signal it. Per-surface, so it does not stop the Qt dock or NFlow sessions.
+    RequestAssistantStop("web");
     // Ctrl+C: raise the interrupt flag the evaluator polls while a computation
     // runs; at the prompt, discard the current input line so Nelson re-emits it.
     if (m_terminal != nullptr && m_terminal->isAtPrompt()) {
@@ -1409,6 +1429,168 @@ WebGuiRpc::helpText(const nlohmann::json& params)
         },
         5000);
     return { { "name", name }, { "text", text } };
+}
+//=============================================================================
+static std::wstring
+assistantSingleQuoteSafe(const std::string& value)
+{
+    // Doubles single quotes so the value cannot break out of a Nelson string literal.
+    std::wstring safe;
+    for (wchar_t c : utf8_to_wstring(value)) {
+        if (c == L'\'') {
+            safe += L"''";
+        } else {
+            safe += c;
+        }
+    }
+    return safe;
+}
+//=============================================================================
+nlohmann::json
+WebGuiRpc::assistantPrompt(const nlohmann::json& params)
+{
+    if (m_terminal == nullptr) {
+        return { { "accepted", false } };
+    }
+    if (!m_terminal->isAtPrompt()) {
+        throw std::runtime_error(
+            "Nelson is busy. Stop the current execution before sending a prompt.");
+    }
+    const std::string prompt = params.value("prompt", std::string());
+    const std::string model = params.value("model", std::string());
+    // Queue the agent as an ordinary interpreter command instead of blocking an
+    // RPC on the interpreter thread: that way the Stop button (term.interrupt)
+    // and the rest of the UI stay responsive while the model works. The answer
+    // and streamed tokens reach the pane through assistant tool events.
+    // surfaceId 'web' gives the web pane an isolated ACP session (empty driver =
+    // Nelson-timer poll).
+    std::wstring command;
+    if (model.empty()) {
+        command = L"nelson.ai.assistantRun('" + assistantSingleQuoteSafe(prompt) + L"', '', '', "
+            + L"'web');";
+    } else {
+        command = L"nelson.ai.assistantRun('" + assistantSingleQuoteSafe(prompt) + L"', '"
+            + assistantSingleQuoteSafe(model) + L"', '', 'web');";
+    }
+    m_server->pushJson("term.busy", nlohmann::json::object());
+    m_terminal->pushInputLine(command);
+    return { { "accepted", true } };
+}
+//=============================================================================
+nlohmann::json
+WebGuiRpc::assistantModels(const nlohmann::json& params)
+{
+    (void)params;
+    std::string listText;
+    runOnInterpreterThread(
+        [&] {
+            if (m_evaluator == nullptr) {
+                return;
+            }
+            std::wstring out;
+            try {
+                EvaluateConsoleCommandToString(
+                    m_evaluator, L"disp(strjoin(nelson.ai.models(), char(10)));", out);
+            } catch (...) {
+                out.clear();
+            }
+            listText = wstring_to_utf8(out);
+        },
+        20000);
+    nlohmann::json models = nlohmann::json::array();
+    std::istringstream stream(listText);
+    std::string line;
+    while (std::getline(stream, line)) {
+        while (!line.empty() && (line.back() == '\r' || line.back() == ' ' || line.back() == '\t')) {
+            line.pop_back();
+        }
+        size_t start = line.find_first_not_of(" \t");
+        if (start != std::string::npos) {
+            models.push_back(line.substr(start));
+        }
+    }
+    return { { "models", models } };
+}
+//=============================================================================
+nlohmann::json
+WebGuiRpc::assistantPermissionReply(const nlohmann::json& params)
+{
+    // Deliver the user's file-access decision (from the modal) to the assistant's
+    // pending ACP permission on the 'web' surface. Runs quietly on the interpreter
+    // thread, serialized with the poll timer that owns the ACP client.
+    if (m_terminal == nullptr) {
+        return { { "ok", false } };
+    }
+    const long long id = params.value("id", static_cast<long long>(0));
+    const std::string decision = params.value("decision", std::string());
+    const std::wstring command = L"nelson.ai.assistantPermissionReply('web', "
+        + std::to_wstring(id) + L", '" + assistantSingleQuoteSafe(decision) + L"');";
+    m_terminal->runOnInterpreterThread([&] {
+        if (m_evaluator == nullptr) {
+            return;
+        }
+        std::wstring out;
+        try {
+            EvaluateConsoleCommandToString(m_evaluator, command, out);
+        } catch (...) {
+        }
+    });
+    return { { "ok", true } };
+}
+//=============================================================================
+nlohmann::json
+WebGuiRpc::assistantSetPermissionMode(const nlohmann::json& params)
+{
+    if (m_terminal == nullptr) {
+        return { { "ok", false } };
+    }
+    const std::string mode = params.value("mode", std::string());
+    const std::wstring command
+        = L"nelson.ai.acp.permissionMode('" + assistantSingleQuoteSafe(mode) + L"');";
+    m_terminal->runOnInterpreterThread([&] {
+        if (m_evaluator == nullptr) {
+            return;
+        }
+        std::wstring out;
+        try {
+            EvaluateConsoleCommandToString(m_evaluator, command, out);
+        } catch (...) {
+        }
+    });
+    return { { "ok", true } };
+}
+//=============================================================================
+nlohmann::json
+WebGuiRpc::assistantGetPermissionMode(const nlohmann::json& params)
+{
+    (void)params;
+    std::string mode = "always_ask";
+    if (m_terminal == nullptr) {
+        return { { "mode", mode } };
+    }
+    m_terminal->runOnInterpreterThread([&] {
+        if (m_evaluator == nullptr) {
+            return;
+        }
+        std::wstring out;
+        try {
+            EvaluateConsoleCommandToString(
+                m_evaluator, L"disp(nelson.ai.acp.permissionMode());", out);
+        } catch (...) {
+            out.clear();
+        }
+        std::string text = wstring_to_utf8(out);
+        while (!text.empty()
+            && (text.back() == '\n' || text.back() == '\r' || text.back() == ' '
+                || text.back() == '\t')) {
+            text.pop_back();
+        }
+        const size_t start = text.find_first_not_of(" \t\r\n");
+        if (start != std::string::npos) {
+            mode = text.substr(start);
+        }
+    });
+    return { { "mode", mode } };
 }
 //=============================================================================
 nlohmann::json

@@ -9,6 +9,8 @@
 //=============================================================================
 #include <QtCore/QtGlobal>
 #include <QtCore/QFileInfo>
+#include <QtCore/QJsonDocument>
+#include <QtCore/QJsonObject>
 #include <QtCore/QDir>
 #include <QtCore/QMimeData>
 #include <QtCore/QPointer>
@@ -22,6 +24,7 @@
 #include <QtGui/QKeyEvent>
 #include <QtGui/QMouseEvent>
 #include <QtGui/QTextBlock>
+#include <QtGui/QTextCursor>
 #include <QtGui/QTextDocumentFragment>
 #include <QtGui/QPainter>
 #include <QtPrintSupport/QPrintDialog>
@@ -50,6 +53,7 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
+#include "AssistantSink.hpp"
 #include "CodeAnalyzer.hpp"
 #include "StringHelpers.hpp"
 #include "QtTextEditor.h"
@@ -141,6 +145,28 @@ QtTextEditor::QtTextEditor(Evaluator* eval)
     setAcceptDrops(true);
     recentFilenames.clear();
     nlsEvaluator = eval;
+    // Receive the assistant's 'editorInsert' events (insert_into_nelson_editor):
+    // the sink fires on the interpreter thread, so marshal the insert to the GUI
+    // thread. Channel-filtered, so other assistant events are ignored here.
+    QPointer<QtTextEditor> self(this);
+    Nelson::RegisterAssistantSink(
+        "editor", [self](const std::string& channel, const std::string& payload) {
+            if (!self || channel != "editorInsert") {
+                return;
+            }
+            const QJsonObject object
+                = QJsonDocument::fromJson(QString::fromStdString(payload).toUtf8()).object();
+            const QString filename = object.value("filename").toString();
+            const QString text = object.value("text").toString();
+            QMetaObject::invokeMethod(
+                self,
+                [self, filename, text]() {
+                    if (self) {
+                        self->insertAssistantText(filename, text);
+                    }
+                },
+                Qt::QueuedConnection);
+        });
     textEditorRootPath = Nelson::GetModulePath(L"text_editor");
     QString fileNameIcon = Nelson::wstringToQString(
         textEditorRootPath + std::wstring(L"/resources/document-open.svg"));
@@ -2168,10 +2194,48 @@ QtTextEditor::open()
 //=============================================================================
 QtTextEditor::~QtTextEditor()
 {
+    Nelson::UnregisterAssistantSink("editor");
     saveAll();
     if (contextMenu) {
         delete contextMenu;
         contextMenu = nullptr;
+    }
+}
+//=============================================================================
+void
+QtTextEditor::insertAssistantText(const QString& filename, const QString& text)
+{
+    if (!filename.isEmpty()) {
+        // Open the target file (or focus its tab if already open) before inserting,
+        // so insert_into_nelson_file drops the code into the right file.
+        const QString requestedPath = QFileInfo(filename).absoluteFilePath();
+        bool fileFound = false;
+        for (int i = 0; i < tab->count(); ++i) {
+            QtEditPane* pane = qobject_cast<QtEditPane*>(tab->widget(i));
+            if (pane != nullptr
+                && QFileInfo(pane->getFileName()).absoluteFilePath() == requestedPath) {
+                tab->setCurrentIndex(i);
+                fileFound = true;
+                break;
+            }
+        }
+        if (!fileFound) {
+            loadFile(filename);
+        }
+    }
+    QtEditPane* pane = currentEditPane();
+    if (pane != nullptr && pane->getEditor() != nullptr) {
+        QTextCursor cursor = pane->getEditor()->textCursor();
+        if (!filename.isEmpty()) {
+            // insert_into_nelson_file appends at the end of the file (matches the
+            // web path and the "add code to the file" intent), not the cursor.
+            cursor.movePosition(QTextCursor::End);
+        }
+        cursor.insertText(text);
+        pane->getEditor()->setTextCursor(cursor);
+        pane->getEditor()->setFocus();
+        activateWindow();
+        raise();
     }
 }
 //=============================================================================

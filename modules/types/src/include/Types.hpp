@@ -161,6 +161,7 @@ using wstringVector = std::vector<std::wstring>;
 #define NLS_HANDLE_ONCLEANUP_CATEGORY_STR "onCleanup"
 #define NLS_HANDLE_TERMINAL_CATEGORY_STR "terminal"
 #define NLS_HANDLE_CONTAINERS_MAP_CATEGORY_STR "containers.Map"
+#define NLS_HANDLE_PROCESS_CATEGORY_STR "process"
 //=============================================================================
 } // namespace Nelson
 //=============================================================================
