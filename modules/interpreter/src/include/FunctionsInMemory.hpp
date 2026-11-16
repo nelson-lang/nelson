@@ -19,6 +19,8 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+class MacroFunctionDef;
+//=============================================================================
 class NLSINTERPRETER_IMPEXP FunctionsInMemory
 {
 private:
@@ -31,8 +33,7 @@ private:
     //=============================================================================
     std::unordered_map<std::string, bool> _notExistingFunctionsInMemory;
     //=============================================================================
-    // Definitions let go of by retireUnresolvable(), kept alive until the tables
-    // are cleared.
+    // Retired definitions are kept alive until the tables are cleared.
     std::vector<FunctionDefPtr> _retiredFunctions;
     //=============================================================================
     // Incremented whenever the function tables change; lets callers cache
@@ -96,6 +97,10 @@ public:
     //=============================================================================
     bool
     deleteMFunction(const std::string& functionName);
+    //=============================================================================
+    // Existing frames and caches may still hold the previous definition.
+    void
+    replaceMFunction(const std::string& functionName, MacroFunctionDef* function);
     //=============================================================================
     bool
     deleteMexFunction(const std::string& functionName);

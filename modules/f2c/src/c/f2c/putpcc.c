@@ -103,12 +103,11 @@ putif(register expptr p, int else_if_p)
     {
         if (else_if_p)
         {
-            if (ei_next >= ei_last)
+            if (!ei_next || ei_next == ei_last)
             {
-                k = ei_last - ei_first;
+                k = ei_first ? ei_last - ei_first : 0;
                 n = k + 100;
                 ei_next = mem(n,0);
-                ei_last = ei_first + n;
                 if (k)
                 {
                     memcpy(ei_next, ei_first, k);
@@ -1515,7 +1514,7 @@ save_argtypes(chainp arglist, Argtypes **at0, Argtypes **at1, int ccall, char *f
 {
     Argtypes *at;
     chainp cp;
-    int i, i0, j, k, nargs, nbad, *t, *te;
+    int i, i0, j, k, nargs, nbad, *begin, *t, *te;
     Atype *atypes;
     expptr q;
     char buf[208], buf1[32], buf2[32];
@@ -1527,8 +1526,10 @@ save_argtypes(chainp arglist, Argtypes **at0, Argtypes **at1, int ccall, char *f
                                      initargs, initargs+1,0,0,0,initargs+2
                                     };
     i0 = init_ac[type];
-    t = init_ap[type];
-    te = t + i0;
+    /* Empty ranges also need a valid base for the end-pointer calculation. */
+    begin = i0 ? init_ap[type] : initargs;
+    t = begin;
+    te = begin + i0;
     if (at = *at0)
     {
         *at1 = at;
@@ -1579,7 +1580,7 @@ toofew:
                 atype_squawk(at, buf);
                 if (type)
                 {
-                    t = init_ap[type];
+                    t = begin;
                     goto newlist;
                 }
                 return;
@@ -1689,8 +1690,7 @@ badtypes:
             if (type)
             {
                 /* we're defining the procedure */
-                t = init_ap[type];
-                te = t + i0;
+                t = begin;
                 proc_argchanges = 1;
                 goto newlist;
             }

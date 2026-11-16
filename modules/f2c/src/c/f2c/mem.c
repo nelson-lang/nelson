@@ -38,7 +38,7 @@ gmem(int n, int round)
 {
     static char *last, *next;
     char *rv;
-    if (round)
+    if (round && next)
 #ifdef CRAY
         if ((long)next & 0xe000000000000000)
         {
@@ -46,22 +46,19 @@ gmem(int n, int round)
         }
 #else
 #ifdef MSDOS
-        if ((int)next & 1)
-        {
-            next++;
-        }
+        next = (char *)(((size_t)next + 1) & ~(size_t)1);
 #else
         next = (char *)(((size_t)next + sizeof(char *)-1)
                         & ~((size_t)sizeof(char *)-1));
 #endif
 #endif
     rv = next;
-    if ((next += n) > last)
+    if (!rv || (size_t)rv > (size_t)last || n > last - rv)
     {
         rv = Alloc(n + GMEMBSIZE);
-        next = rv + n;
-        last = next + GMEMBSIZE;
+        last = rv + n + GMEMBSIZE;
     }
+    next = rv + n;
     return rv;
 }
 

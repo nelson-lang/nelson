@@ -50,15 +50,25 @@ namespace {
         if (!std::isfinite(value)) {
             return 0;
         }
-        int byte = static_cast<int>(value);
-        byte = std::max(0, std::min(255, byte));
-        return static_cast<unsigned char>(byte);
+        return static_cast<unsigned char>(std::clamp(value, 0.0, 255.0));
     }
     //=============================================================================
     unsigned char
     byteFromUnit(double value)
     {
         return byteFromScaled(255.0 * value);
+    }
+    //=============================================================================
+    size_t
+    clampedColorIndex(double value, size_t lastIndex)
+    {
+        if (!(value > 0.0)) {
+            return 0; // Includes NaN, which uses the first colormap entry.
+        }
+        if (value >= static_cast<double>(lastIndex)) {
+            return lastIndex;
+        }
+        return static_cast<size_t>(value);
     }
     //=============================================================================
     unsigned char
@@ -418,11 +428,8 @@ GOImage::prepareMappedRGBA(const double* dp, indexType rows, indexType cols,
     if (stringCheck(GO_C_DATA_MAPPING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_DIRECT_STR)) {
         OMP_PARALLEL_FOR_LOOP(elementCount)
         for (indexType idx = 0; idx < elementCount; idx++) {
-            int ndx = floatData ? static_cast<int>(dp[idx]) - 1 : static_cast<int>(dp[idx]);
-            // Clamp in signed arithmetic: a direct index of 0 (CData 0 gives -1 after the 1-based
-            // to 0-based shift) must land on the first colormap row, not wrap through the unsigned
-            // indexType to the last row.
-            ndx = std::min(static_cast<int>(cmaplen - 1), std::max(0, ndx));
+            const double colorIndex = floatData ? dp[idx] - 1.0 : dp[idx];
+            const size_t ndx = clampedColorIndex(colorIndex, cmaplen - 1);
             indexType row = idx % rows;
             indexType col = idx / rows;
             unsigned char* px = rgba + (static_cast<size_t>(row) * cols + col) * 4;
@@ -434,9 +441,8 @@ GOImage::prepareMappedRGBA(const double* dp, indexType rows, indexType cols,
     } else {
         OMP_PARALLEL_FOR_LOOP(elementCount)
         for (indexType idx = 0; idx < elementCount; idx++) {
-            double scaled = (dp[idx] - clim_min) / (clim_max - clim_min);
-            int ndx = static_cast<int>(std::floor(scaled * cmaplen));
-            ndx = (int)std::min<indexType>(cmaplen - 1, std::max(0, ndx));
+            const double scaled = (dp[idx] - clim_min) / (clim_max - clim_min);
+            const size_t ndx = clampedColorIndex(scaled * cmaplen, cmaplen - 1);
             indexType row = idx % rows;
             indexType col = idx / rows;
             unsigned char* px = rgba + (static_cast<size_t>(row) * cols + col) * 4;

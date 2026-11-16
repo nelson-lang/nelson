@@ -65,7 +65,7 @@ close(f);
 f = figure('Visible', 'off', 'Position', [100 100 120 120]);
 ax = axes('Position', [0 0 1 1]);
 colormap([1 0 0; 0 1 0; 0 0 1; 1 1 0]);
-image([1 2; 3 4]);
+IM = image([1 2; 3 4]);
 axis off;
 frame = getframe(ax).cdata;
 rows = size(frame, 1);
@@ -74,6 +74,17 @@ asserts.isequal(double(squeeze(frame(round(rows * 0.25), round(cols * 0.25), :))
 asserts.isequal(double(squeeze(frame(round(rows * 0.25), round(cols * 0.75), :))'), [0 255 0]);
 asserts.isequal(double(squeeze(frame(round(rows * 0.75), round(cols * 0.25), :))'), [0 0 255]);
 asserts.isequal(double(squeeze(frame(round(rows * 0.75), round(cols * 0.75), :))'), [255 255 0]);
+% Clamp out-of-range color indices before converting them to integers.
+ax.CLim = [0 1];
+IM.CData = [-realmax, realmax; NaN, Inf];
+for mapping = {'direct', 'scaled'}
+  IM.CDataMapping = mapping{1};
+  frame = getframe(ax).cdata;
+  asserts.isequal(double(squeeze(frame(round(rows * 0.25), round(cols * 0.25), :))'), [255 0 0]);
+  asserts.isequal(double(squeeze(frame(round(rows * 0.25), round(cols * 0.75), :))'), [255 255 0]);
+  asserts.isequal(double(squeeze(frame(round(rows * 0.75), round(cols * 0.25), :))'), [255 0 0]);
+  asserts.isequal(double(squeeze(frame(round(rows * 0.75), round(cols * 0.75), :))'), [255 255 0]);
+end
 close(f);
 %=============================================================================
 f = figure('Visible', 'off');

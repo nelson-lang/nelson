@@ -42,8 +42,8 @@ registerGeneratedFunction(const std::string& key, MacroFunctionDef* macro)
         return;
     }
     macro->setOverload(!key.empty() && key.front() == OVERLOAD_SYMBOL_CHAR);
-    FunctionsInMemory::getInstance()->deleteMFunction(key);
-    FunctionsInMemory::getInstance()->add(key, macro);
+    // Resolving a class can replace a generated function while its bytecode is on the stack.
+    FunctionsInMemory::getInstance()->replaceMFunction(key, macro);
 }
 //=============================================================================
 void

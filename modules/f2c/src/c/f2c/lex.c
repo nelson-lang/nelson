@@ -1896,7 +1896,7 @@ store_comment(char *str)
         return;
     }
     len = strlen(str) + 1;
-    if (cbnext + len > cblast)
+    if (!cbnext || len > cblast - cbnext)
     {
         if (!cbcur || !(ncb = cbcur->next))
         {

@@ -145,16 +145,17 @@ sliceAlongDimension(const ArrayOf& x, indexType dim, indexType offset, indexType
     size_t blockBytes = static_cast<size_t>(inner * x.elementSize());
     size_t chunkBytes = blockBytes * count;
     NelsonType type = x.dataClass();
-    void* data = ArrayOf::allocateArrayOf(type, inner * count * outer);
-    const auto* src = static_cast<const char*>(x.dataPointer()) + offset * blockBytes;
-    auto* dst = static_cast<char*>(data);
-    for (indexType o = 0; o < outer; ++o) {
-        std::memcpy(dst + o * chunkBytes, src + o * blockBytes * length, chunkBytes);
-    }
     Dimensions sliceDims = dims;
     sliceDims.setDimensionLength(dim, count);
+    indexType elementCount = sliceDims.elementCount();
+    void* data = ArrayOf::allocateArrayOf(type, elementCount);
     // Same shape as indexing: trailing singletons are dropped unless the slice is empty.
-    if (sliceDims.elementCount() > 0) {
+    if (elementCount > 0) {
+        const auto* src = static_cast<const char*>(x.dataPointer()) + offset * blockBytes;
+        auto* dst = static_cast<char*>(data);
+        for (indexType o = 0; o < outer; ++o) {
+            std::memcpy(dst + o * chunkBytes, src + o * blockBytes * length, chunkBytes);
+        }
         sliceDims.simplify();
     }
     return ArrayOf(type, sliceDims, data, false);

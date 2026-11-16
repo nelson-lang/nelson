@@ -76,7 +76,7 @@ UniqueComplexRowsOneLhs(const ArrayOf& input)
 
     OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType k = 0; k < (ompIndexType)len; k++) {
-        sp[k] = { k, (ompIndexType)cols, rows, dp + 2 * k };
+        sp[k] = { k, (ompIndexType)cols, rows, cols == 0 ? dp : dp + 2 * k };
     }
     parallelSort(sp);
     cnt = 1;
@@ -132,7 +132,7 @@ UniqueComplexRowsTwoLhs(const ArrayOf& input)
 
     OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType k = 0; k < (ompIndexType)len; k++) {
-        sp[k] = { k, (ompIndexType)cols, rows, dp + 2 * k };
+        sp[k] = { k, (ompIndexType)cols, rows, cols == 0 ? dp : dp + 2 * k };
     }
     parallelSort(sp);
     cnt = 1;
@@ -191,7 +191,7 @@ UniqueComplexRowsThreeLhs(const ArrayOf& input)
 
     OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType k = 0; k < (ompIndexType)len; k++) {
-        sp[k] = { k, (ompIndexType)cols, rows, dp + 2 * k };
+        sp[k] = { k, (ompIndexType)cols, rows, cols == 0 ? dp : dp + 2 * k };
     }
     parallelSort(sp);
     cnt = 1;

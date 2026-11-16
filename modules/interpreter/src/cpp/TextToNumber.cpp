@@ -29,7 +29,7 @@ textToInt64Converter(const std::string& str)
         size_t idx;
         unsigned long long int v = std::stoull(str.substr(startPos), &idx, 10);
         if (startPos == 1) {
-            if (v > static_cast<unsigned long long int>(std::numeric_limits<int64>::max()) + 1ULL) {
+            if (v > static_cast<unsigned long long int>(std::numeric_limits<int64>::max())) {
                 result = std::numeric_limits<int64>::min();
             } else {
                 result = -static_cast<int64>(v);

@@ -18,6 +18,7 @@
 #include "NelsonConfiguration.hpp"
 #include <cstring>
 #include <cmath>
+#include <memory>
 #include <vector>
 //=============================================================================
 namespace Nelson {
@@ -860,7 +861,14 @@ PyMemoryViewToArrayOf(PyObject* pyObject)
     if (NLSPyObject_GetBuffer(pyObject, &pyBuffer, PyBUF_FORMAT | PyBUF_STRIDES) == -1) {
         Error(L"Nelson:Python:memoryViewBufferFailed", L"Failed to get buffer from memory view.");
     }
-    size_t nbElements = pyBuffer.len / pyBuffer.itemsize;
+    const std::unique_ptr<Py_buffer, decltype(&NLSPyBuffer_Release)> bufferLease(
+        &pyBuffer, &NLSPyBuffer_Release);
+    if (pyBuffer.format == nullptr || pyBuffer.itemsize <= 0 || pyBuffer.len < 0
+        || pyBuffer.len % pyBuffer.itemsize != 0 || pyBuffer.ndim < 0
+        || (pyBuffer.ndim > 0 && pyBuffer.shape == nullptr)) {
+        Error(L"Nelson:Python:unsupportedDataFormat", L"Unsupported data format.");
+    }
+    const size_t nbElements = pyBuffer.len / pyBuffer.itemsize;
 
     size_t ndim = pyBuffer.ndim;
     std::vector<indexType> dimsVector;
@@ -879,6 +887,14 @@ PyMemoryViewToArrayOf(PyObject* pyObject)
     }
     Dimensions dims(dimsVector);
     NelsonType nelsonType = PyTypecodeToNelsonType(pyBuffer.format);
+    // PEP 3118 codes 'l' and 'L' use the buffer exporter's width.
+    if (pyBuffer.itemsize == sizeof(int64)) {
+        if (strcmp(pyBuffer.format, "l") == 0) {
+            nelsonType = NLS_INT64;
+        } else if (strcmp(pyBuffer.format, "L") == 0) {
+            nelsonType = NLS_UINT64;
+        }
+    }
     switch (nelsonType) {
     case NLS_DCOMPLEX:
     case NLS_SCOMPLEX:
@@ -893,10 +909,12 @@ PyMemoryViewToArrayOf(PyObject* pyObject)
     case NLS_UINT32:
     case NLS_UINT64:
     case NLS_LOGICAL: {
+        if (pyBuffer.itemsize != getTypeSize(nelsonType) || nbElements != dims.elementCount()) {
+            Error(L"Nelson:Python:unsupportedDataFormat", L"Unsupported data format.");
+        }
         void* ptr = (void*)ArrayOf::allocateArrayOf(nelsonType, dims.elementCount());
         res = ArrayOf(nelsonType, dims, ptr);
         copyBufferToColumnMajor(pyBuffer, ptr);
-        NLSPyBuffer_Release(&pyBuffer);
         return res;
     } break;
     case NLS_CHAR:
@@ -913,7 +931,6 @@ PyMemoryViewToArrayOf(PyObject* pyObject)
     } break;
     }
 
-    NLSPyBuffer_Release(&pyBuffer);
     Error(L"Nelson:Python:unsupportedDataFormat", L"Unsupported data format.");
 
     return res;

@@ -1056,19 +1056,14 @@ GOSurface::paintMe(RenderInterface& gc)
     if (zdata.isEmpty()) {
         return;
     }
-    GORestrictedStringScalarProperty* meshStyleProperty
-        = static_cast<GORestrictedStringScalarProperty*>(
-            findProperty(GO_MESH_STYLE_PROPERTY_NAME_STR));
+    const std::wstring meshStyleValue = findStringProperty(GO_MESH_STYLE_PROPERTY_NAME_STR);
     meshStyle meshstyle = meshStyle::Both;
-    if (meshStyleProperty->isEqual(GO_PROPERTY_VALUE_BOTH_STR)) {
-        meshstyle = meshStyle::Both;
-    } else if (meshStyleProperty->isEqual(GO_PROPERTY_VALUE_ROW_STR)) {
+    if (meshStyleValue == GO_PROPERTY_VALUE_ROW_STR) {
         meshstyle = meshStyle::Row;
-    } else {
+    } else if (meshStyleValue != GO_PROPERTY_VALUE_BOTH_STR) {
         meshstyle = meshStyle::Column;
     }
-    std::wstring lineStyle
-        = ((GORestrictedStringColorProperty*)findProperty(GO_LINE_STYLE_PROPERTY_NAME_STR))->data();
+    std::wstring lineStyle = findStringProperty(GO_LINE_STYLE_PROPERTY_NAME_STR);
 
     if (stringCheck(GO_EDGE_COLOR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NONE_STR)) {
         lineStyle = GO_PROPERTY_VALUE_NONE_STR;

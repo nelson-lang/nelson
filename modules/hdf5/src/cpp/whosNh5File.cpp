@@ -84,7 +84,7 @@ whosNh5File(Interface* io, const std::wstring& filename, const wstringVector& na
     }
     stringVector _names;
     std::vector<Dimensions> _size;
-    std::vector<double> _bytes;
+    std::vector<size_t> _bytes;
     stringVector _class;
     std::vector<logical> _global;
     std::vector<logical> _sparse;
@@ -111,14 +111,12 @@ whosNh5File(Interface* io, const std::wstring& filename, const wstringVector& na
             nbSpaceName = std::max(nbSpaceName, name.size());
 
             std::string className = ClassName(value);
-            double sizeAsByte;
-            if (value.isSparse()) {
-                sizeAsByte = std::nan("");
-            } else {
-                sizeAsByte = (double)value.byteSize();
-            }
+            const bool isSparse = value.isSparse();
+            const size_t sizeAsByte = isSparse ? 0 : value.byteSize();
             _bytes.push_back(sizeAsByte);
-            nbSpaceBytes = std::max(nbSpaceBytes, std::to_string((int)sizeAsByte).size());
+            if (!isSparse) {
+                nbSpaceBytes = std::max(nbSpaceBytes, std::to_string(sizeAsByte).size());
+            }
 
             _class.push_back(className);
             nbSpaceClass = std::max(nbSpaceClass, className.size());
@@ -128,7 +126,7 @@ whosNh5File(Interface* io, const std::wstring& filename, const wstringVector& na
             nbSpaceSize = std::max(nbSpaceSize, dims.toString().size());
 
             _global.push_back(0);
-            _sparse.push_back(value.isSparse());
+            _sparse.push_back(isSparse);
             _complex.push_back(value.isComplex());
             _persistent.push_back(false);
         } else {
@@ -190,7 +188,8 @@ whosNh5File(Interface* io, const std::wstring& filename, const wstringVector& na
                     ptrDouble[k] = (double)_size[i][k];
                 }
                 sizeArray.push_back(s);
-                bytesArray.push_back(ArrayOf::doubleScalar(_bytes[i]));
+                const double bytes = _sparse[i] ? std::nan("") : static_cast<double>(_bytes[i]);
+                bytesArray.push_back(ArrayOf::doubleScalar(bytes));
                 classArray.push_back(ArrayOf::characterArray(_class[i]));
                 globalArray.push_back(ArrayOf::logicalScalar(_global[i]));
                 sparseArray.push_back(ArrayOf::logicalScalar(_sparse[i]));
@@ -228,7 +227,7 @@ whosNh5File(Interface* io, const std::wstring& filename, const wstringVector& na
             for (indexType i = 0; i < (indexType)_names.size(); ++i) {
                 ssLine.str("");
 
-                std::string bytes = std::isnan(_bytes[i]) ? "-" : std::to_string((int)_bytes[i]);
+                std::string bytes = _sparse[i] ? "-" : std::to_string(_bytes[i]);
 
                 ssLine << "  " << std::left << std::setfill(' ') << std::setw(nbSpaceName)
                        << _names[i];

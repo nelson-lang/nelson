@@ -209,15 +209,15 @@ ArrayOf::logicalOrdinalData(indexType elementCount, bool isRowVector)
     return putOrdinalData(dimensions, lp);
 }
 //=============================================================================
+// The exclusive power-of-two bound is exact even when the largest index is not.
+static const double ordinalLimit = std::ldexp(1.0, std::numeric_limits<indexType>::digits);
+//=============================================================================
 template <class T>
 Data*
 ArrayOf::realOrdinalData(indexType elementCount, indexType stride)
 {
     const T* rp = (const T*)dp->data();
     std::unique_ptr<indexType[]> lp(new_with_exception<indexType>(elementCount, false));
-    // An exclusive power-of-two bound is exact even when the largest ordinal
-    // cannot be represented as a double. Validate before any integer cast.
-    const double ordinalLimit = std::ldexp(1.0, std::numeric_limits<indexType>::digits);
     for (indexType i = 0; i < elementCount; i++) {
         const double value = static_cast<double>(rp[i * stride]);
         if (!std::isfinite(value) || value < 0 || value >= ordinalLimit
@@ -456,9 +456,7 @@ ArrayOf::asScalarIndex(
         valueAsDouble = qp[0];
     }
     if ((floor(valueAsDouble) == valueAsDouble) && IsFinite((valueAsDouble))) {
-        double maxIndexType = (double)std::numeric_limits<indexType>::max();
-        if ((valueAsDouble) > maxIndexType) {
-            idx = static_cast<indexType>(maxIndexType);
+        if (valueAsDouble >= ordinalLimit) {
             Error(L"Nelson:badsubscript", L"Index exceeds array bounds.");
         } else if (valueAsDouble < 0) {
             if (convertNegativeValueAsZero) {
@@ -492,11 +490,10 @@ ArrayOf::asIndexVector()
     promoteType(NLS_DOUBLE);
     const double* qp = static_cast<const double*>(dataPointer());
     size_t nbElements = elementCount();
-    constexpr double maxIndexType = (double)std::numeric_limits<indexType>::max();
     for (size_t k = 0; k < nbElements; k++) {
         if ((fabs(floor(qp[k]) - qp[k]) < std::numeric_limits<double>::epsilon())
             && IsFinite((qp[k]))) {
-            if ((qp[k]) > maxIndexType) {
+            if (qp[k] >= ordinalLimit) {
                 index.push_back(std::numeric_limits<indexType>::max());
             } else if (qp[k] < 0) {
                 index.push_back(0);
@@ -522,11 +519,10 @@ ArrayOf::indexPointer()
     const double* qp = static_cast<const double*>(dataPointer());
     size_t nbElements = elementCount();
     indexType* pIndex = new_with_exception<indexType>(nbElements, false);
-    constexpr double maxIndexType = (double)std::numeric_limits<indexType>::max();
     for (size_t k = 0; k < nbElements; k++) {
         if ((fabs(floor(qp[k]) - qp[k]) < std::numeric_limits<double>::epsilon())
             && IsFinite((qp[k]))) {
-            if ((qp[k]) > maxIndexType) {
+            if (qp[k] >= ordinalLimit) {
                 pIndex[k] = std::numeric_limits<indexType>::max();
             } else if (qp[k] < 0) {
                 pIndex[k] = 0;

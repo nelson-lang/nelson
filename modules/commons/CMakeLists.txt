@@ -43,6 +43,14 @@ target_link_libraries(${module_library_name}
 
 if(NOT WITHOUT_TBB AND TBB_FOUND)
   target_link_libraries(${module_library_name} PRIVATE ${TBB_LIBRARY})
+  if(APPLE AND ENABLE_SANITIZERS)
+    get_filename_component(_tbb_library_dir "${TBB_LIBRARY}" DIRECTORY)
+    find_library(TBBMALLOC_LIBRARY NAMES tbbmalloc HINTS "${_tbb_library_dir}" NO_DEFAULT_PATH)
+    if(TBBMALLOC_LIBRARY)
+      # Keep TBB's allocator loaded through scheduler teardown under ASan.
+      target_link_libraries(${module_library_name} PRIVATE "${TBBMALLOC_LIBRARY}")
+    endif()
+  endif()
 endif()
 # ==============================================================================
 file(GLOB COMMONS_HEADER

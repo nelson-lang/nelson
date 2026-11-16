@@ -80,7 +80,7 @@ namespace {
         static const std::string alphabet
             = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
         std::vector<unsigned char> out;
-        int value = 0;
+        unsigned int value = 0;
         int bits = -8;
         for (char c : in) {
             const size_t pos = alphabet.find(c);
@@ -90,7 +90,7 @@ namespace {
                 }
                 continue;
             }
-            value = (value << 6) | static_cast<int>(pos);
+            value = (value << 6) | static_cast<unsigned int>(pos);
             bits += 6;
             if (bits >= 0) {
                 out.push_back(static_cast<unsigned char>((value >> bits) & 0xFF));

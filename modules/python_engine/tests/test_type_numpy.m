@@ -58,11 +58,11 @@ if (maxsize == 2147483647)
   asserts.isequal(R.numeric(), int32(R));
 else
   asserts.isequal(class(R), 'py.numpy.int64')
-  if ispc()
-    asserts.isequal(R.numeric(), int64(R));
-  else
-    % Welcome in python world linux vs windows
-    asserts.isequal(R.numeric(), int32(R));
-  end
+  asserts.isequal(R.numeric(), int64(R));
 end
+%=============================================================================
+R = pyrun('R = np.array([1 << 40, -(1 << 40)], dtype=np.int64)', 'R');
+asserts.isequal(R.numeric(), int64([2^40, -2^40]));
+R = pyrun('R = np.array([1 << 63, (1 << 64) - 1], dtype=np.uint64)', 'R');
+asserts.isequal(R.numeric(), [uint64(2^63), intmax('uint64')]);
 %=============================================================================

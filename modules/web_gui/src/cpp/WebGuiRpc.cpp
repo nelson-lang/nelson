@@ -1265,12 +1265,13 @@ namespace {
         }
         std::string out;
         out.reserve((in.size() / 4) * 3);
-        int val = 0, bits = -8;
+        unsigned int val = 0;
+        int bits = -8;
         for (unsigned char c : in) {
             if (c == '=' || rev[c] == -1) {
                 continue; // skip padding, whitespace, or a data: URI prefix's stray chars
             }
-            val = (val << 6) | rev[c];
+            val = (val << 6) | static_cast<unsigned int>(rev[c]);
             bits += 6;
             if (bits >= 0) {
                 out.push_back(static_cast<char>((val >> bits) & 0xFF));

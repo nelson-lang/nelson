@@ -12,7 +12,9 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include "dSFMT19937.hpp"
+#include <algorithm>
 #include <cstring>
+#include <limits>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -40,12 +42,11 @@ zigset()
     }
     z[0] = 0.0;
 
+    constexpr double scale = 4294967296.0;
+    constexpr double maxThreshold = static_cast<double>(std::numeric_limits<uint32_t>::max());
     for (int i = 0; i < N; i++) {
-        if (i == 0) {
-            kn[i] = (uint32_t)(z[1] / area * 4294967296.0);
-        } else {
-            kn[i] = (uint32_t)(z[i] / z[i + 1] * 4294967296.0);
-        }
+        const double ratio = i == 0 ? z[1] / area : z[i] / z[i + 1];
+        kn[i] = static_cast<uint32_t>(std::min(ratio * scale, maxThreshold));
         wn[i] = (i == 0) ? 0.0 : z[i - 1] / z[i];
         fn[i] = z[i];
     }

@@ -770,7 +770,7 @@ yyparse(void)
     {
         YYSTYPE	yyv;
         int	yys;
-    } yys[YYMAXDEPTH], *yyp, *yypt;
+    } yys[YYMAXDEPTH + 1], *yyp, *yypt;
     short *yyxi;
     int yyj, yym, yystate, yyn, yyg;
     YYSTYPE save1, save2;
@@ -784,7 +784,9 @@ yyparse(void)
     yychar = -1;
     yynerrs = 0;
     yyerrflag = 0;
-    yyp = &yys[-1];
+    /* Reserve a sentinel below the first parser state. */
+    yyp = yys;
+    yyp->yys = -1;
     goto yystack;
 ret0:
     yyn = 0;
@@ -805,7 +807,7 @@ yystack:
         printf("char %s in %s", yytokname(yychar), yystatname(yystate));
     }
     yyp++;
-    if(yyp >= &yys[YYMAXDEPTH])
+    if(yyp == &yys[YYMAXDEPTH + 1])
     {
         yyerror("yacc stack overflow");
         goto ret1;
@@ -885,7 +887,7 @@ yydefault:
             case 2: /* incompletely recovered error ... try again */
                 yyerrflag = 3;
                 /* find a state where "error" is a legal shift action */
-                while(yyp >= yys)
+                while(yyp > yys)
                 {
                     yyn = yypact[yyp->yys] + YYERRCODE;
                     if(yyn >= 0 && yyn < YYLAST)

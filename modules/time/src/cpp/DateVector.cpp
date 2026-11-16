@@ -20,7 +20,6 @@ void
 DateVector(double dateSerial, double& Y, double& M, double& D, double& H, double& MN, double& S,
     double& MS, bool rf)
 {
-    double ts = 0.;
     if (!IsFinite(dateSerial)) {
         Y = nan("");
         M = nan("");
@@ -63,26 +62,32 @@ DateVector(double dateSerial, double& Y, double& M, double& D, double& H, double
         M = 0.;
         D = 0.;
     } else {
-        double y = floor(dateSerial / 365.2425);
-        ts = dateSerial - (365.0 * y + ceil(0.25 * y) - ceil(0.01 * y) + ceil(0.0025 * y));
-        if (ts <= 0) {
-            y = y - 1.;
-            dateSerial
-                = dateSerial - (365.0 * y + ceil(0.25 * y) - ceil(0.01 * y) + ceil(0.0025 * y));
-        } else {
-            dateSerial = ts;
+        // Work within a Gregorian cycle so leap-year checks and month indices
+        // remain exact even when the year cannot be represented as an int.
+        constexpr double daysPerCycle = 146097.0;
+        double dayOfCycle = std::fmod(dateSerial, daysPerCycle);
+        if (dayOfCycle <= 0.0) {
+            dayOfCycle += daysPerCycle;
         }
-        Y = y;
+        const double cycles = std::round((dateSerial - dayOfCycle) / daysPerCycle);
+        double y = floor(dayOfCycle / 365.2425);
+        double dayOfYear
+            = dayOfCycle - (365.0 * y + ceil(0.25 * y) - ceil(0.01 * y) + ceil(0.0025 * y));
+        if (dayOfYear <= 0.0) {
+            y = y - 1.;
+            dayOfYear
+                = dayOfCycle - (365.0 * y + ceil(0.25 * y) - ceil(0.01 * y) + ceil(0.0025 * y));
+        }
+        Y = cycles * 400.0 + y;
         int iy = static_cast<int>(y);
-        int leap = static_cast<int>((iy % 4 == 0) && (iy % 100 != 0) || (iy % 400 == 0));
-        double* cdm = (leap != 0 ? leap_year : common_year);
-        int mon = static_cast<int>(dateSerial / 29. - 1);
-        if (dateSerial > cdm[mon + 1]) {
+        bool leap = (iy % 4 == 0 && iy % 100 != 0) || iy % 400 == 0;
+        const double* cdm = leap ? leap_year : common_year;
+        int mon = static_cast<int>(dayOfYear / 29. - 1);
+        if (dayOfYear > cdm[mon + 1]) {
             mon++;
         }
         M = mon + 1;
-        dateSerial = dateSerial - cdm[mon];
-        D = dateSerial;
+        D = dayOfYear - cdm[mon];
     }
 }
 //=============================================================================

@@ -52,8 +52,6 @@ summarizeCellIntegerEntry(const ArrayOf& A, size_t beginningLineLength, size_t t
         } else {
             msg.append(L"[");
         }
-        FormatDisplayInformation formatInfo = computeFormatInfo(A, currentNumericFormat);
-        formatInfo.trim = true;
         for (indexType k = 0; k < A.elementCount(); ++k) {
             std::wstring numberAsStr;
             switch (currentNumericFormat) {
@@ -71,7 +69,10 @@ summarizeCellIntegerEntry(const ArrayOf& A, size_t beginningLineLength, size_t t
             } break;
             case NLS_NUMERIC_FORMAT_PLUS:
             case NLS_NUMERIC_FORMAT_HEX: {
-                numberAsStr = formatScalarNumber((double)values[k], false, formatInfo);
+                const double value = static_cast<double>(values[k]);
+                auto formatInfo = computeFormatInfo(value, false, currentNumericFormat);
+                formatInfo.trim = true;
+                numberAsStr = formatScalarNumber(value, false, formatInfo);
             } break;
             default: {
             } break;

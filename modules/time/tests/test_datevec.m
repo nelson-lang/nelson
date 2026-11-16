@@ -67,6 +67,11 @@ R = datevec(Inf);
 REF = [NaN NaN NaN NaN NaN NaN];
 asserts.isequal(R, REF);
 %=============================================================================
+% February 29 in distant positive and negative Gregorian cycles.
+cycles = 1e8;
+asserts.isequal(datevec(146097 * cycles + 60), [400 * cycles, 2, 29, 0, 0, 0]);
+asserts.isequal(datevec(-146097 * cycles + 60), [-400 * cycles, 2, 29, 0, 0, 0]);
+%=============================================================================
 R = datevec(sparse(eye(3, 3)));
 REF = [0 1 1 0 0 0;
   0 1 1 0 0 0;

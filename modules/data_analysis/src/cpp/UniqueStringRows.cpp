@@ -97,7 +97,7 @@ UniqueStringRowsOneLhs(const ArrayOf& input)
 
     OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType k = 0; k < (ompIndexType)len; k++) {
-        sp[k] = { k, (ompIndexType)cols, rows, dp + k };
+        sp[k] = { k, (ompIndexType)cols, rows, cols == 0 ? dp : dp + k };
     }
 
     parallelSort(sp);
@@ -148,7 +148,7 @@ UniqueStringRowsTwoLhs(const ArrayOf& input)
 
     OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType k = 0; k < (ompIndexType)len; k++) {
-        sp[k] = { k, (ompIndexType)cols, rows, dp + k };
+        sp[k] = { k, (ompIndexType)cols, rows, cols == 0 ? dp : dp + k };
     }
 
     parallelSort(sp);
@@ -202,7 +202,7 @@ UniqueStringRowsThreeLhs(const ArrayOf& input)
 
     OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType k = 0; k < (ompIndexType)len; k++) {
-        sp[k] = { k, (ompIndexType)cols, rows, dp + k };
+        sp[k] = { k, (ompIndexType)cols, rows, cols == 0 ? dp : dp + k };
     }
     parallelSort(sp);
     cnt = 1;

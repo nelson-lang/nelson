@@ -32,7 +32,6 @@
 #include "GOStringVectorProperty.hpp"
 #include "GOScalarDoubleProperty.hpp"
 #include "GOFontAngleProperty.hpp"
-#include "GOFontUnitsProperty.hpp"
 #include "GOFontWeightProperty.hpp"
 #include "GOAlignHorizProperty.hpp"
 #include "GOUnitsProperty.hpp"
@@ -80,8 +79,8 @@ fontSizeStyle(GOUIControl* control)
 {
     GOScalarProperty* size
         = static_cast<GOScalarProperty*>(control->findProperty(GO_FONT_SIZE_PROPERTY_NAME_STR));
-    GOFontUnitsProperty* units
-        = static_cast<GOFontUnitsProperty*>(control->findProperty(GO_FONT_UNITS_PROPERTY_NAME_STR));
+    auto* units = static_cast<GOStringProperty*>(
+        control->findProperty(GO_FONT_UNITS_PROPERTY_NAME_STR));
     if (!size || !units) {
         return {};
     }

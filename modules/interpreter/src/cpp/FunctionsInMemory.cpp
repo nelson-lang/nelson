@@ -84,6 +84,18 @@ FunctionsInMemory::add(const std::string& functionName, FunctionDefPtr function)
     }
 }
 //=============================================================================
+void
+FunctionsInMemory::replaceMFunction(const std::string& functionName, MacroFunctionDef* function)
+{
+    std::unique_lock<std::shared_mutex> lock(tablesMutex);
+    auto [entry, inserted] = _macroFunctionsInMemory.try_emplace(functionName, function);
+    if (!inserted) {
+        _retiredFunctions.push_back(entry->second);
+        entry->second = function;
+    }
+    clearMapCacheLocked();
+}
+//=============================================================================
 bool
 FunctionsInMemory::deleteMFunction(const std::string& functionName)
 {
