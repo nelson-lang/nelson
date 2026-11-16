@@ -425,6 +425,10 @@ export class WasmDesktopBackend implements LocalRpcBackend {
         return this.assistantModels();
       case 'assistant.prompt':
         return this.assistantPrompt(params);
+      case 'assistant.step':
+        // The browser engine has no local process, so claude-agent-acp never runs
+        // here and there is no async ACP reply to advance: stepping is a no-op.
+        return { accepted: true };
       case 'assistant.permissionReply':
         return this.assistantPermissionReply(params);
       case 'assistant.setPermissionMode':

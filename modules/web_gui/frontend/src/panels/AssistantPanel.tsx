@@ -37,6 +37,12 @@ export function AssistantPanel(): JSX.Element {
       runCode: (code) => {
         void rpc('term.input', { line: code }).catch(() => undefined);
       },
+      // Drive the ACP reply poll from the pane (the engine runs the turn with
+      // driver='external', so no Nelson timer advances it). Fire-and-forget; the
+      // backend steps the 'web' surface quietly on the interpreter thread.
+      step: () => {
+        void rpc('assistant.step', {}).catch(() => undefined);
+      },
     }),
     []
   );

@@ -457,6 +457,9 @@ WebGuiRpc::handle(const std::string& method, const nlohmann::json& params)
     if (method == "assistant.prompt") {
         return assistantPrompt(params);
     }
+    if (method == "assistant.step") {
+        return assistantStep(params);
+    }
     if (method == "assistant.models") {
         return assistantModels(params);
     }
@@ -1463,18 +1466,43 @@ WebGuiRpc::assistantPrompt(const nlohmann::json& params)
     // RPC on the interpreter thread: that way the Stop button (term.interrupt)
     // and the rest of the UI stay responsive while the model works. The answer
     // and streamed tokens reach the pane through assistant tool events.
-    // surfaceId 'web' gives the web pane an isolated ACP session (empty driver =
-    // Nelson-timer poll).
+    // surfaceId 'web' gives the web pane an isolated ACP session; driver
+    // 'external' stops the engine from starting a Nelson timer to poll the reply
+    // (that timer needs a GUI event loop a headless webui host lacks). The pane
+    // drives the poll instead, through the assistant.step RPC below.
     std::wstring command;
     if (model.empty()) {
-        command = L"nelson.ai.assistantRun('" + assistantSingleQuoteSafe(prompt) + L"', '', '', "
-            + L"'web');";
+        command = L"nelson.ai.assistantRun('" + assistantSingleQuoteSafe(prompt)
+            + L"', '', 'external', 'web');";
     } else {
         command = L"nelson.ai.assistantRun('" + assistantSingleQuoteSafe(prompt) + L"', '"
-            + assistantSingleQuoteSafe(model) + L"', '', 'web');";
+            + assistantSingleQuoteSafe(model) + L"', 'external', 'web');";
     }
     m_server->pushJson("term.busy", nlohmann::json::object());
     m_terminal->pushInputLine(command);
+    return { { "accepted", true } };
+}
+//=============================================================================
+nlohmann::json
+WebGuiRpc::assistantStep(const nlohmann::json& params)
+{
+    (void)params;
+    // Advance the pending claude-agent-acp reply of the 'web' surface by one
+    // non-blocking step, the way the Qt dock drives it from its own QTimer. The
+    // pane polls this while a turn is active (driver='external' leaves the engine
+    // without a timer). Fire-and-forget on the interpreter thread so the RPC never
+    // waits: streamed tokens and the final answer still arrive as assistant
+    // events, and acpAsyncStep no-ops once the turn is done.
+    MainThreadTaskQueue::getInstance()->postToInterpreterThread([](Evaluator* eval) {
+        if (eval == nullptr) {
+            return;
+        }
+        std::wstring out;
+        try {
+            EvaluateConsoleCommandToString(eval, L"nelson.ai.assistantStep('web');", out);
+        } catch (...) {
+        }
+    });
     return { { "accepted", true } };
 }
 //=============================================================================

@@ -54,9 +54,10 @@ test('sendPrompt tags the run with the nflow surface and escapes the prompt', as
   expect(method).toBe('nflow.callback.invoke');
   // The surface id selects the NFlow guide engine-side (no process-wide env pin
   // that would leak to the Qt dock / web pane). Single quotes in the prompt are
-  // doubled for the Nelson char literal; the empty driver keeps the Nelson timer.
+  // doubled for the Nelson char literal; the 'external' driver stops the engine
+  // from starting a Nelson timer (the pane drives the poll through step()).
   expect(params.code).toContain(
-    "nelson.ai.assistantRun('it''s rlc', 'claude-agent-acp', '', 'nflow')"
+    "nelson.ai.assistantRun('it''s rlc', 'claude-agent-acp', 'external', 'nflow')"
   );
   expect(params.code).not.toContain('NELSON_AI_CONTEXT_SKILL');
 });
@@ -86,6 +87,14 @@ test('runCode runs the snippet through the callback bridge', () => {
   nflowAssistantBackend.runCode('disp(42)');
   expect(nflowRpc).toHaveBeenCalledWith('nflow.callback.invoke', {
     code: 'disp(42)',
+    blockId: '',
+  });
+});
+//=============================================================================
+test('step advances the ACP poll for the nflow surface through the bridge', () => {
+  nflowAssistantBackend.step?.();
+  expect(nflowRpc).toHaveBeenCalledWith('nflow.callback.invoke', {
+    code: "nelson.ai.assistantStep('nflow');",
     blockId: '',
   });
 });

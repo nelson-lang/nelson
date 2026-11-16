@@ -37,6 +37,12 @@ export interface AssistantBackend {
   interrupt(): void;
   // Run a code snippet in the live session (the Run button under a code block).
   runCode(code: string): void;
+  // Advance the claude-agent-acp reply by one non-blocking step on the live
+  // interpreter. Hosts whose ACP run is driven by an engine timer omit this; the
+  // web and NFlow panes provide it so the pane drives the poll from the browser
+  // (like the Qt dock's QTimer), which works even without a GUI event loop. It is
+  // fire-and-forget: streamed tokens and the final answer still arrive as events.
+  step?(): void;
 }
 //=============================================================================
 // Helpers the pane hands a code action when its button is pressed, so the action
@@ -253,6 +259,22 @@ export function AssistantPane({
       node.scrollTop = node.scrollHeight;
     }
   }, [messages, busy, activity, streaming]);
+
+  // Drive the claude-agent-acp poll from the browser while a turn is active, the
+  // way the Qt dock drives it from its own QTimer. The engine runs the ACP turn
+  // with driver='external', so no Nelson timer advances it; without this the pane
+  // would hang on "Thinking…" in any host lacking a GUI event loop (a headless
+  // webui host). Only the ACP backend is stepped; local providers answer in one
+  // synchronous run. Each tick is fire-and-forget; the answer still arrives as an
+  // event (which clears busy and so stops the poll).
+  useEffect(() => {
+    if (!busy || model !== ACP_MODEL || !backend.step) {
+      return;
+    }
+    const tick = backend.step.bind(backend);
+    const id = setInterval(tick, 100);
+    return () => clearInterval(id);
+  }, [busy, model, backend]);
 
   // Remember a sent prompt for up/down recall: skip an immediate repeat, cap the
   // list, reset the recall cursor and persist when a surface key is set.

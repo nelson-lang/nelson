@@ -77,10 +77,13 @@ export const nflowAssistantBackend: AssistantBackend = {
     const augmented = catalog ? `${catalog}\n\n--- Request: ${prompt}` : prompt;
     // surfaceId 'nflow' routes this run's events (and its Stop) to the NFlow
     // sink only, AND selects the NFlow build guide engine-side, so the Qt dock
-    // and web pane keep their own sessions and their own guidance.
+    // and web pane keep their own sessions and their own guidance. driver
+    // 'external' stops the engine from starting a Nelson timer to poll the ACP
+    // reply (that timer never ticks in a webui host without a GUI event loop);
+    // the pane drives the poll instead through step() below.
     const code = `nelson.ai.assistantRun('${toNelsonLiteral(augmented)}', '${toNelsonLiteral(
       chosen
-    )}', '', 'nflow');`;
+    )}', 'external', 'nflow');`;
     await nflowRpc('nflow.callback.invoke', { code, blockId: '' });
     return { accepted: true };
   },
@@ -99,6 +102,16 @@ export const nflowAssistantBackend: AssistantBackend = {
 
   runCode: (code) => {
     void nflowRpc('nflow.callback.invoke', { code, blockId: '' }).catch(() => undefined);
+  },
+
+  // Advance the ACP reply by one step on the live interpreter (the engine runs
+  // the turn with driver='external', so the pane owns the poll). Fire-and-forget
+  // through the generic callback bridge; acpAsyncStep no-ops once the turn ends.
+  step: () => {
+    void nflowRpc('nflow.callback.invoke', {
+      code: "nelson.ai.assistantStep('nflow');",
+      blockId: '',
+    }).catch(() => undefined);
   },
 };
 //=============================================================================

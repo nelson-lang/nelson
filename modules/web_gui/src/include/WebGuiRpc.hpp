@@ -179,6 +179,8 @@ private:
     nlohmann::json
     assistantPrompt(const nlohmann::json& params);
     nlohmann::json
+    assistantStep(const nlohmann::json& params);
+    nlohmann::json
     assistantModels(const nlohmann::json& params);
     nlohmann::json
     assistantPermissionReply(const nlohmann::json& params);

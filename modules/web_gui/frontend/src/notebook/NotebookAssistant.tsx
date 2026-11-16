@@ -50,6 +50,11 @@ export function NotebookAssistant({
       },
       // Fallback for the default Run button; superseded by codeActions below.
       runCode: (code) => onAddCell(code, true),
+      // Drive the ACP reply poll from the pane (the 'web' surface runs with
+      // driver='external', so no Nelson timer advances it). Fire-and-forget.
+      step: () => {
+        void rpc('assistant.step', {}).catch(() => undefined);
+      },
     }),
     [onAddCell]
   );
