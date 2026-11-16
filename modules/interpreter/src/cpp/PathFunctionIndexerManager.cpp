@@ -16,6 +16,7 @@
 #include <thread>
 #include "nlsBuildConfig.h"
 #include "PathFunctionIndexerManager.hpp"
+#include "VendorPackageAliasName.hpp"
 #include "ClassdefParser.hpp"
 #include "StringHelpers.hpp"
 #include "characters_encoding.hpp"
@@ -433,9 +434,10 @@ PathFunctionIndexerManager::findAndProcessFile(const std::string& name)
 }
 //=============================================================================
 bool
-PathFunctionIndexerManager::find(const std::string& name, FunctionDefPtr& ptr)
+PathFunctionIndexerManager::find(const std::string& rawName, FunctionDefPtr& ptr)
 {
     std::lock_guard<std::recursive_mutex> lock(m_mutex);
+    const std::string name = canonicalizeVendorPackageName(rawName);
     if (findIndexed(name, ptr)) {
         return true;
     }
@@ -495,9 +497,10 @@ PathFunctionIndexerManager::rehashWatchedPathOwningFile(const std::string& funct
 }
 //=============================================================================
 bool
-PathFunctionIndexerManager::find(const std::string& name, FileFunction** ff)
+PathFunctionIndexerManager::find(const std::string& rawName, FileFunction** ff)
 {
     bool res = false;
+    const std::string name = canonicalizeVendorPackageName(rawName);
     auto it = _pathFuncMap.find(name);
     if (it != _pathFuncMap.end()) {
         *ff = it->second;
@@ -532,8 +535,9 @@ PathFunctionIndexerManager::functionFileExists(const std::string& functionName)
 //=============================================================================
 bool
 PathFunctionIndexerManager::findPackageClassFile(
-    const std::string& functionName, std::wstring* filename)
+    const std::string& rawFunctionName, std::wstring* filename)
 {
+    const std::string functionName = canonicalizeVendorPackageName(rawFunctionName);
     if (functionName.find('.') == std::string::npos) {
         return false;
     }

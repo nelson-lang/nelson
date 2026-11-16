@@ -553,8 +553,9 @@ classdefLoadConstructor(const std::wstring& filename, const std::string& expecte
 }
 //=============================================================================
 bool
-classdefLoadClass(const std::string& className)
+classdefLoadClass(const std::string& rawClassName)
 {
+    const std::string className = classdef_detail::canonicalizeClassdefName(rawClassName);
     // one relaxed load unless a class file changed on disk
     PathFunctionIndexerManager::applyPendingClassFileChanges();
     if (classdefDefinitions().find(className) != classdefDefinitions().end()

@@ -14,8 +14,18 @@
 #include "ClassdefParser.hpp"
 #include "ClassdefLayout.hpp"
 #include "ArrayOf.hpp"
+#include "VendorPackageAliasName.hpp"
 //=============================================================================
 namespace Nelson::classdef_detail {
+//=============================================================================
+// Resolve a classdef name through the shared vendor-package alias (see
+// VendorPackageAliasName.hpp): a vendor-prefixed base resolves to its nelson.*
+// class.
+inline std::string
+canonicalizeClassdefName(const std::string& className)
+{
+    return canonicalizeVendorPackageName(className);
+}
 //=============================================================================
 std::unordered_map<std::string, ClassdefDefinition>&
 classdefDefinitions();

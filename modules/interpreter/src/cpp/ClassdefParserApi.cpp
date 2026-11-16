@@ -356,6 +356,12 @@ classdefIsA(const std::string& className, const std::string& expectedClassName)
         if (definition == nullptr) {
             return false;
         }
+        // The reference name may be an alias that resolves to a differently named
+        // definition (e.g. a vendor-prefixed base resolving to its nelson.* class):
+        // match the resolved definition's canonical name, as definitionIsA does.
+        if (equalsIgnoreCase(definition->name, expectedClassName)) {
+            return true;
+        }
         for (const auto& superclass : definition->superclasses) {
             if (visit(superclass)) {
                 return true;

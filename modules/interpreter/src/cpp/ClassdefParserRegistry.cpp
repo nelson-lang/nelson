@@ -32,8 +32,9 @@ builtinClassdefDefinitions()
 }
 //=============================================================================
 const ClassdefDefinition*
-findClassdefDefinition(const std::string& className)
+findClassdefDefinition(const std::string& rawClassName)
 {
+    const std::string className = canonicalizeClassdefName(rawClassName);
     const auto classdefIt = classdefDefinitions().find(className);
     if (classdefIt != classdefDefinitions().end()) {
         return &classdefIt->second;
@@ -46,8 +47,9 @@ findClassdefDefinition(const std::string& className)
 }
 //=============================================================================
 bool
-isBuiltinClassdef(const std::string& className)
+isBuiltinClassdef(const std::string& rawClassName)
 {
+    const std::string className = canonicalizeClassdefName(rawClassName);
     return builtinClassdefDefinitions().find(className) != builtinClassdefDefinitions().end();
 }
 //=============================================================================
