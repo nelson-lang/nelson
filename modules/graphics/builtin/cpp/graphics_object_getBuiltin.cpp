@@ -141,8 +141,7 @@ filterHandleVisibleChildren(const ArrayOf& children)
     }
     if (kept.empty()) {
         Dimensions emptyDims(0, 0);
-        return ArrayOf::emptyGraphicsObject(
-            std::string("mat") + "lab" + ".graphics.GraphicsPlaceholder", emptyDims);
+        return ArrayOf::emptyGraphicsObject(GO_CLASS_NAME_GRAPHICS_PLACEHOLDER_STR, emptyDims);
     }
     auto* dp = (nelson_handle*)ArrayOf::allocateArrayOf(NLS_GO_HANDLE, kept.size());
     ArrayOf ret = ArrayOf(NLS_GO_HANDLE, Dimensions(kept.size(), 1), dp);

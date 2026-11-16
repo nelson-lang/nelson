@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "GOPropertyNames.hpp"
+#include "GOPropertyValues.hpp"
 #include "GOGObjectsProperty.hpp"
 #include "GraphicsObject.hpp"
 #include "GORoot.hpp"
@@ -21,7 +22,7 @@ namespace Nelson {
 static std::string
 graphicsPlaceholderClassName()
 {
-    return std::string("mat") + "lab" + ".graphics.GraphicsPlaceholder";
+    return GO_CLASS_NAME_GRAPHICS_PLACEHOLDER_STR;
 }
 //=============================================================================
 GOGObjectsProperty::GOGObjectsProperty() { }
