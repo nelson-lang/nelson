@@ -25,6 +25,7 @@ const iconUrls = {
   profiler: new URL('../../../../../resources/panel-profiler.svg', import.meta.url).href,
   newsfeed: new URL('../../../../../resources/panel-newsfeed.svg', import.meta.url).href,
   terminal: new URL('../../../../../resources/panel-terminal.svg', import.meta.url).href,
+  assistant: new URL('../../../../../resources/panel-assistant.svg', import.meta.url).href,
   folder: new URL('../../../../../resources/action-folder.svg', import.meta.url).href,
   help: new URL('../../../../../resources/action-help.svg', import.meta.url).href,
   load: new URL('../../../../../resources/action-load.svg', import.meta.url).href,

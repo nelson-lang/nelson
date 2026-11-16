@@ -632,6 +632,8 @@ QtMainWindow::activatePanelFromRail(QAction* action)
         dock = profilerBrowserDock;
     } else if (action == newsfeedBrowserAction) {
         dock = newsfeedBrowserDock;
+    } else if (action == assistantBrowserAction) {
+        dock = assistantBrowserDock;
     }
     if (!dock) {
         return;
@@ -909,7 +911,8 @@ QtMainWindow::refreshDesktopUi()
         { historyBrowserAction, "panel-history.svg" },
         { variablesEditorAction, "panel-variables.svg" },
         { profilerBrowserAction, "panel-profiler.svg" }, { terminalAction, "panel-terminal.svg" },
-        { newsfeedBrowserAction, "panel-newsfeed.svg" } };
+        { newsfeedBrowserAction, "panel-newsfeed.svg" },
+        { assistantBrowserAction, "panel-assistant.svg" } };
     for (const ActionIcon& icon : icons) {
         if (icon.action) {
             icon.action->setIcon(desktopTintedIcon(resources + icon.file, palette));
@@ -1037,6 +1040,7 @@ QtMainWindow::bindPanelRailDocks()
         variablesEditorAction, (QDockWidget*)VariablesEditor::getVariablesEditor());
     panelsSidebar->bindDock(profilerBrowserAction, profilerBrowserDock);
     panelsSidebar->bindDock(newsfeedBrowserAction, newsfeedBrowserDock);
+    panelsSidebar->bindDock(assistantBrowserAction, assistantBrowserDock);
     focusChangedConnection = connect(qApp, &QApplication::focusChanged, this,
         [this](QWidget*, QWidget* focus) { updateActivePanel(focus); });
     updateActivePanel(QApplication::focusWidget());
@@ -1220,6 +1224,7 @@ QtMainWindow::createPanelsSidebar()
     panelsSidebar->addPanelAction(variablesEditorAction);
     panelsSidebar->addPanelAction(profilerBrowserAction);
     panelsSidebar->addPanelAction(newsfeedBrowserAction);
+    panelsSidebar->addPanelAction(assistantBrowserAction);
     panelsSidebar->addRailSeparator();
     panelsSidebar->addCommandAction(terminalAction);
 #if WITH_WEBVIEW_MODULE

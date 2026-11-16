@@ -38,6 +38,7 @@ function allPanels(): RailButton[] {
     { id: 'variables', icon: 'variables', label: corePanelTitle('variables'), key: '4' },
     { id: 'profiler', icon: 'profiler', label: corePanelTitle('profiler'), key: '5' },
     { id: 'newsfeed', icon: 'newsfeed', label: corePanelTitle('newsfeed'), key: '6' },
+    { id: 'assistant', icon: 'assistant', label: corePanelTitle('assistant') },
     { id: 'breakpoints', icon: 'stop', label: corePanelTitle('breakpoints'), key: '7' },
     { id: 'callstack', icon: 'layout', label: corePanelTitle('callstack'), key: '8' },
     { id: 'diagnostics', icon: 'info', label: corePanelTitle('diagnostics') },

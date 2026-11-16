@@ -1394,7 +1394,7 @@ export function EditorPanel({
           className: showAssistant ? 'ribbon-btn--on' : '',
           label: (
             <>
-              <DesktopIcon name="info" size={16} /> {t('Assistant')}
+              <DesktopIcon name="assistant" size={16} /> {t('Assistant')}
             </>
           ),
           title: t('Ask the assistant to write or insert Nelson code'),
