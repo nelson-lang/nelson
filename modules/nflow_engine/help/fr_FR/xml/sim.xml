@@ -54,6 +54,7 @@ out = sim([modulepath('nflow_blocks'), '/examples/workspace/From_Workspace_Demo.
     </example_item>
   </examples>
   <see_also>
+    <see_also_item><link linkend="${nflow_engine}nflow_build_model">nflow_build_model</link></see_also_item>
     <see_also_item><link linkend="${nflow_engine}load_system">load_system</link></see_also_item>
     <see_also_item><link linkend="${nflow_engine}new_system">new_system</link></see_also_item>
     <see_also_item><link linkend="${nflow_blocks}source/fromWorkspace">fromWorkspace</link></see_also_item>

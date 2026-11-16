@@ -3,28 +3,53 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>en_US</language>
   <keyword>add_line</keyword>
-  <short_description>Connect two block ports in an nflow model.</short_description>
+  <short_description>Connect two block ports or physical pins in an nflow model.</short_description>
   <syntax>
     <syntax_item>h = add_line(system, outPort, inPort)</syntax_item>
     <syntax_item>h = add_line(system, outPort, inPort, 'autorouting', 'on')</syntax_item>
+    <syntax_item>h = add_line(system, pinA, pinB)</syntax_item>
   </syntax>
-  <param_input><param_input_item><param_name>args</param_name><param_description>see the syntaxes above.</param_description></param_input_item></param_input>
-  <param_output><param_output_item><param_name>varargout</param_name><param_description>see the syntaxes above.</param_description></param_output_item></param_output>
-  <description><p><b>add_line</b> connects two block ports in an nflow model.</p></description>
+  <param_input>
+    <param_input_item><param_name>system</param_name><param_description>a string: the name of the loaded nflow model.</param_description></param_input_item>
+    <param_input_item><param_name>outPort</param_name><param_description>a string <b>'Block/port'</b>: the source endpoint. A numbered port (for example <b>'Src/1'</b>) is a 1-based signal output port.</param_description></param_input_item>
+    <param_input_item><param_name>inPort</param_name><param_description>a string <b>'Block/port'</b>: the target endpoint, a 1-based signal input port.</param_description></param_input_item>
+    <param_input_item><param_name>pinA, pinB</param_name><param_description>a string <b>'Block/pin'</b> with a named pin (for example <b>'R1/p'</b>, <b>'M1/flange'</b>): a physical pin of an acausal block. Both endpoints must be named pins.</param_description></param_input_item>
+  </param_input>
+  <param_output><param_output_item><param_name>h</param_name><param_description>a handle to the created line.</param_description></param_output_item></param_output>
+  <description>
+  <p><b>add_line</b> connects two block ports in an nflow model.</p>
+  <p>The kind of connection is chosen from the endpoints. A <b>numbered</b> endpoint such as <b>'Src/1'</b> is a 1-based <b>signal</b> port; a <b>named</b> endpoint such as <b>'R1/p'</b> or <b>'M1/flange'</b> is a <b>physical pin</b> of an acausal block (electrical, thermal or mechanical). Both endpoints must be of the same kind; mixing a numbered port with a named pin raises an error.</p>
+  <p>Joining two physical pins makes them share one node (the acausal across/through variables are balanced there), so a physical connection has no fixed direction. To join three or more pins at a single node, make successive <b>add_line</b> calls that share a pin: they merge into the same node. Physical models require the <b>'dae'</b> solver.</p>
+  </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description />
+      <example_item_description>Signal ports (numbered endpoints).</example_item_description>
       <example_item_data><![CDATA[new_system('demo');
 add_block('nflow/source/sine', 'demo/Sine');
 add_block('nflow/math/gain', 'demo/Gain', 'Gain', 2);
 add_line('demo', 'Sine/1', 'Gain/1');
 bdclose('demo');]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Physical pins (named endpoints). The last two calls share pin 'L1/n', so L1.n, C1.p and VS.p merge into one electrical node.</example_item_description>
+      <example_item_data><![CDATA[new_system('rlc');
+add_block('nflow/acausal_electrical/Resistor', 'rlc/R1', 'R', 1);
+add_block('nflow/acausal_electrical/Inductor', 'rlc/L1', 'L', 1);
+add_block('nflow/acausal_electrical/Capacitor', 'rlc/C1', 'C', 1);
+add_block('nflow/acausal_electrical/VoltageSensor', 'rlc/VS');
+add_line('rlc', 'R1/n', 'L1/p');
+add_line('rlc', 'L1/n', 'C1/p');
+add_line('rlc', 'L1/n', 'VS/p');
+bdclose('rlc');]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
+    <see_also_item><link linkend="${nflow_engine}nflow_build_model">nflow_build_model</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}nflow_model_format">nflow_model_format</link></see_also_item>
     <see_also_item><link linkend="${nflow_engine}new_system">new_system</link></see_also_item>
     <see_also_item><link linkend="${nflow_engine}add_block">add_block</link></see_also_item>
     <see_also_item><link linkend="${nflow_engine}set_param">set_param</link></see_also_item>

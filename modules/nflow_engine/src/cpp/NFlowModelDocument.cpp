@@ -681,6 +681,27 @@ NFlowModelDocument::setModelParam(
             err = "Model parameter '" + key + "' must be a number.";
             return false;
         }
+    } else if (key == "StopTime" || key == "SampleTime") {
+        // Numeric timing params: store as JSON numbers so the engine honors them.
+        // A stringified sampleTime/runtime is ignored and the default step is used
+        // instead. Integral values are stored as integers to match the hand-authored
+        // .nflow convention.
+        try {
+            size_t consumed = 0;
+            double d = std::stod(value, &consumed);
+            if (consumed != value.size()) {
+                err = "Model parameter '" + key + "' must be a number.";
+                return false;
+            }
+            if (d == static_cast<double>(static_cast<long long>(d))) {
+                m_diagram[jsonKey] = static_cast<long long>(d);
+            } else {
+                m_diagram[jsonKey] = d;
+            }
+        } catch (...) {
+            err = "Model parameter '" + key + "' must be a number.";
+            return false;
+        }
     } else {
         m_diagram[jsonKey] = value;
     }
@@ -855,6 +876,76 @@ NFlowModelDocument::connectBlocks(const std::string& src, const std::string& dst
     }
     err = "You must connect to a block with at least one unconnected input port.";
     return false;
+}
+//=============================================================================
+bool
+NFlowModelDocument::addPhysicalWire(const std::string& blockA, const std::string& pinA,
+    const std::string& blockB, const std::string& pinB, std::string& err)
+{
+    std::lock_guard<std::recursive_mutex> lk(m_mutex);
+    // A physical wire is an acausal node: pins sharing one domain variable, stored
+    // at the top level (sibling to blocks/connections), not per-container. Acausal
+    // models are flat, so each pin names a root block.
+    if (pinA.empty() || pinB.empty()) {
+        err = "A physical pin name is empty.";
+        return false;
+    }
+    if (findBlock(blockA) == nullptr) {
+        err = "No block named '" + blockA + "'.";
+        return false;
+    }
+    if (findBlock(blockB) == nullptr) {
+        err = "No block named '" + blockB + "'.";
+        return false;
+    }
+    const std::string refA = blockA + "." + pinA;
+    const std::string refB = blockB + "." + pinB;
+    if (refA == refB) {
+        err = "A physical pin cannot be connected to itself.";
+        return false;
+    }
+    static constexpr const char* kPhysicalWires = "physicalWires";
+    static constexpr const char* kPins = "pins";
+    if (!m_diagram.contains(kPhysicalWires) || !m_diagram[kPhysicalWires].is_array()) {
+        m_diagram[kPhysicalWires] = json::array();
+    }
+    json& wires = m_diagram[kPhysicalWires];
+    // Index of the node that already contains a given pin, or -1.
+    auto nodeOf = [&](const std::string& ref) -> long long {
+        for (size_t i = 0; i < wires.size(); ++i) {
+            if (!wires[i].contains(kPins) || !wires[i][kPins].is_array()) {
+                continue;
+            }
+            for (const auto& p : wires[i][kPins]) {
+                if (p.is_string() && p.get<std::string>() == ref) {
+                    return static_cast<long long>(i);
+                }
+            }
+        }
+        return -1;
+    };
+    long long nodeA = nodeOf(refA);
+    long long nodeB = nodeOf(refB);
+    if (nodeA == -1 && nodeB == -1) {
+        json node = json::object();
+        node[kPins] = json::array({ refA, refB });
+        wires.push_back(std::move(node));
+    } else if (nodeA != -1 && nodeB == -1) {
+        wires[static_cast<size_t>(nodeA)][kPins].push_back(refB);
+    } else if (nodeA == -1 && nodeB != -1) {
+        wires[static_cast<size_t>(nodeB)][kPins].push_back(refA);
+    } else if (nodeA == nodeB) {
+        err = "This physical connection already exists.";
+        return false;
+    } else {
+        // Both pins already live in different nodes: merge B into A, then drop B.
+        for (const auto& p : wires[static_cast<size_t>(nodeB)][kPins]) {
+            wires[static_cast<size_t>(nodeA)][kPins].push_back(p);
+        }
+        wires.erase(wires.begin() + static_cast<std::ptrdiff_t>(nodeB));
+    }
+    markMutated(ChangeOrigin::Script);
+    return true;
 }
 //=============================================================================
 bool

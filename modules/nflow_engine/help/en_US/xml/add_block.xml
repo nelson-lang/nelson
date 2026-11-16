@@ -26,6 +26,8 @@ bdclose('demo');]]></example_item_data>
     </example_item>
   </examples>
   <see_also>
+    <see_also_item><link linkend="${nflow_engine}nflow_build_model">nflow_build_model</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}nflow_model_format">nflow_model_format</link></see_also_item>
     <see_also_item><link linkend="${nflow_engine}new_system">new_system</link></see_also_item>
     <see_also_item><link linkend="${nflow_engine}add_line">add_line</link></see_also_item>
     <see_also_item><link linkend="${nflow_engine}set_param">set_param</link></see_also_item>

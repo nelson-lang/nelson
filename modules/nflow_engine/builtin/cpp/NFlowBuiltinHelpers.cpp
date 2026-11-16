@@ -252,6 +252,16 @@ applyTypedBlockParam(NFlowModelDocument& doc, const std::string& blockName, cons
         ok = doc.setBlockPosition(blockName, p[0], p[1], p[2] - p[0], p[3] - p[1], err);
     } else if (isNonScalarNumericValue(value)) {
         ok = doc.setBlockParamJson(blockName, key, numericArrayToJson(value), err);
+    } else if (value.isNumeric() && !value.isEmpty() && value.isScalar()) {
+        // Store a scalar numeric parameter as a JSON number (integral values as
+        // integers), matching the hand-authored .nflow convention. The acausal
+        // solver reads block parameters as numbers; a stringified scalar is ignored
+        // and the physical model would silently solve the wrong equations.
+        double d = value.asDoubleScalar();
+        nlohmann::json jv = (d == static_cast<double>(static_cast<long long>(d)))
+            ? nlohmann::json(static_cast<long long>(d))
+            : nlohmann::json(d);
+        ok = doc.setBlockParamJson(blockName, key, jv, err);
     } else {
         ok = doc.setBlockParam(blockName, key, paramValueToString(value), err);
     }

@@ -30,6 +30,25 @@ isDashboardControl(const std::string& type)
         && type != "dashboardCallbackButton";
 }
 //=============================================================================
+// A dashboard binding is a JSON object. A missing or null Binding means the
+// widget is unbound; so does an empty array, which is what a null Binding
+// becomes once the acausal lowering round-trips the document through
+// jsondecode/jsonencode (JSON null decodes to []). Returning the object only
+// when it really is one keeps value("kind", ...) off a non-object value, which
+// would otherwise raise json type_error.306 ("cannot use value() with array").
+static const json*
+bindingObjectOf(const json& params)
+{
+    if (!params.is_object()) {
+        return nullptr;
+    }
+    const auto found = params.find("Binding");
+    if (found == params.end() || !found->is_object()) {
+        return nullptr;
+    }
+    return &(*found);
+}
+//=============================================================================
 static std::vector<std::string>
 bindingPath(const json& binding)
 {
@@ -220,11 +239,11 @@ static bool
 validateOne(Block& block, BlockState* dashboardState, std::vector<Block>& blocks,
     std::vector<BlockState>& states, const ValMap& variables, DashboardBindingDiagnostic& error)
 {
-    if (!asJson(block.params).is_object() || !asJson(block.params).contains("Binding")
-        || asJson(block.params)["Binding"].is_null()) {
+    const json* bindingPtr = bindingObjectOf(asJson(block.params));
+    if (!bindingPtr) {
         return true;
     }
-    const json& binding = asJson(block.params)["Binding"];
+    const json& binding = *bindingPtr;
     const std::string kind = binding.value("kind", std::string());
     if (kind.empty()) {
         return true;
@@ -335,12 +354,13 @@ applyDashboardBindingValue(std::vector<Block>& blocks, std::vector<BlockState>& 
         return false;
     }
     RuntimeBlockRef control = findBlockById(blocks, states, id);
-    if (!control.block || !isDashboardControl(control.block->type)
-        || !asJson(control.block->params).contains("Binding")) {
+    const json* bindingPtr
+        = control.block ? bindingObjectOf(asJson(control.block->params)) : nullptr;
+    if (!control.block || !isDashboardControl(control.block->type) || !bindingPtr) {
         error = { id, "dashboard_binding(" + id + "): control was not found" };
         return false;
     }
-    const json& binding = asJson(control.block->params)["Binding"];
+    const json& binding = *bindingPtr;
     const std::string kind = binding.value("kind", std::string());
     const double value = event["value"].get<double>();
     if (kind == "variable") {

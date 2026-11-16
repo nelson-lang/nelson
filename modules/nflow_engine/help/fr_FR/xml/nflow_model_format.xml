@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nflow_model_format</keyword>
+  <short_description>Le format de fichier modèle .nflow, expliqué (référence du schéma JSON).</short_description>
+  <syntax>
+    <syntax_item>Référence : la structure JSON d'un fichier modèle .nflow.</syntax_item>
+  </syntax>
+  <description>
+    <p>Un modèle nflow est enregistré sous la forme d'un unique fichier texte <b>JSON</b> portant l'extension <b>.nflow</b>, encodé en UTF-8. Le fichier est écrit par <b>save_system</b> et relu par <b>load_system</b>. L'éditeur et l'API scriptée partagent la même structure sur disque.</p>
+    <p>On modifie rarement ce fichier à la main, car on construit un modèle avec l'API scriptée (voir <b>nflow_build_model</b>) ou l'éditeur. Le lire reste utile : il montre comment un diagramme est représenté, ce qui facilite l'inspection d'un modèle, la comparaison de deux versions dans un diff, ou la génération de modèles depuis votre propre code. Cette page décrit la structure partie par partie, puis liste chaque clé.</p>
+
+    <p><b>La structure d'un fichier modèle</b></p>
+    <p>La racine est un objet JSON. Ses premières clés sont des champs d'identité : <b>version</b> et <b>format</b> donnent le schéma, <b>metadata</b> enregistre l'outil d'édition, et <b>name</b> est le nom du modèle. Viennent ensuite les deux tableaux principaux : <b>blocks</b> (les boîtes) et <b>connections</b> (les fils). Viennent enfin les réglages d'exécution, <b>runtime</b> et <b>sampleTime</b>, qui donnent la durée et le pas de base. Tout fichier modèle a cette forme : quelques champs d'identité, une liste de blocs, une liste de fils, et les réglages d'exécution. Le premier exemple ci-dessous montre un modèle de signaux complet.</p>
+
+    <p><b>Un bloc</b></p>
+    <p>Chaque entrée de <b>blocks</b> est une boîte sur le canevas :</p>
+    <ul>
+      <li><b>id</b> : l'identifiant du bloc, unique dans son (sous-)système. C'est le nom que vous adressez dans <b>add_line</b> et <b>set_param</b> : <code>"id": "Gain"</code> est le bloc que vous appelez <code>'Gain'</code>.</li>
+      <li><b>type</b> : le type de bloc, déduit de son chemin de bibliothèque (par exemple <code>"gain"</code>, <code>"Resistor"</code>).</li>
+      <li><b>params</b> : les paramètres du bloc. L'étiquette affichée y est enregistrée sous <code>"name"</code>. Chaque paramètre documenté garde son propre nom, donc un gain de 2 s'écrit <code>"Gain": 2</code>.</li>
+      <li><b>x</b>, <b>y</b> : la position du bloc sur le canevas. <b>rotation</b> est son orientation en degrés.</li>
+    </ul>
+    <p>Les blocs dont le nombre de ports est explicite peuvent aussi porter des compteurs <b>inputs</b> et <b>outputs</b>. Un bloc sous-système contient son diagramme interne sous <code>params.subsystem</code>, lui-même un objet avec ses propres tableaux <b>blocks</b> et <b>connections</b>. Le format s'imbrique.</p>
+
+    <p><b>Une connexion de signal, et l'indexation des ports</b></p>
+    <p>Chaque entrée de <b>connections</b> est un fil de signal entre deux blocs d'un même (sous-)système :</p>
+    <ul>
+      <li><b>from</b>, <b>to</b> : les identifiants des blocs source et cible.</li>
+      <li><b>fromIndex</b>, <b>toIndex</b> : le port de sortie et le port d'entrée, sous forme d'index <b>indexé à partir de 0</b>.</li>
+    </ul>
+    <p>Les index de ports diffèrent entre le fichier et l'API. Dans le <b>fichier</b>, ils commencent à <b>0</b> ; dans l'<b>API scriptée</b>, ils commencent à <b>1</b>. Ainsi <code>add_line(model, 'Src/1', 'K/1')</code> (port 1 vers port 1) s'écrit dans le fichier <code>"fromIndex": 0, "toIndex": 0</code>. L'index du fichier vaut le numéro de l'API moins un. Une connexion peut aussi porter un <b>name</b> facultatif (une étiquette de signal) et des <b>waypoints</b> (la géométrie de routage dessinée par l'éditeur).</p>
+
+    <p><b>Fils physiques dans les modèles acausaux</b></p>
+    <p>Un modèle causal s'écoule dans un sens, de la sortie vers l'entrée, si bien qu'un fil a un <b>from</b> et un <b>to</b>. Un modèle physique (acausal) est différent : il joint les <b>broches</b> de vrais composants (les deux extrémités d'une résistance, le flasque d'une masse) en points partagés, sans direction. Le fichier l'enregistre dans un tableau de premier niveau distinct, <b>physicalWires</b>, à côté de <b>blocks</b> et <b>connections</b>.</p>
+    <p>Chaque entrée de <b>physicalWires</b> est un <b>nœud</b> : un ensemble de broches partageant une même valeur (tension électrique, température ou position, avec la grandeur de flux correspondante équilibrée en ce point).</p>
+    <ul>
+      <li><b>pins</b> : un tableau de chaînes, chacune écrite <code>"BlockId.pinName"</code> (par exemple <code>"R1.p"</code>, <code>"L1.n"</code>, <code>"M1.flange"</code>).</li>
+    </ul>
+    <p>Un nœud joint toujours <b>deux broches ou plus</b>. Des appels successifs à <b>add_line</b> qui partagent une broche fusionnent dans le même nœud, si bien qu'un tableau <b>pins</b> peut contenir trois entrées ou plus. Dans l'exemple acausal ci-dessous, <code>["L1.n", "C1.p", "VS.p"]</code> est une telle jonction fusionnée. Deux autres signes marquent un modèle physique : le solveur est <code>"solver": "dae"</code>, et un capteur apparaît dans les <b>deux</b> tableaux, car il a des broches physiques (dans <b>physicalWires</b>) et une sortie de signal (dans <b>connections</b>).</p>
+
+    <p><b>Les clés racine au complet</b></p>
+    <ul>
+      <li><b>version</b> : une chaîne, la version d'édition (par exemple <code>"1.0.0"</code>).</li>
+      <li><b>format</b> : l'identifiant de schéma. La génération courante est <code>"nflow-2"</code>. Un <b>format</b> absent est lu comme le format courant, et les générations héritées sont rejetées.</li>
+      <li><b>metadata</b> : un objet contenant au moins <code>"tool"</code> (<code>"Nelson nflow"</code>), plus des champs de provenance facultatifs comme <code>"author"</code> et <code>"created"</code>.</li>
+      <li><b>name</b> : le nom du modèle. L'identité du modèle chargé appartient au document et reste stable au fil des modifications.</li>
+      <li><b>blocks</b>, <b>connections</b>, <b>physicalWires</b> : les tableaux décrits ci-dessus (le dernier présent uniquement dans les modèles physiques).</li>
+      <li><b>variables</b> : une chaîne de définitions de l'espace de travail du modèle, vide par défaut.</li>
+      <li><b>runtime</b> : un nombre, le temps d'arrêt en secondes (<b>set_param(model, 'StopTime', ...)</b>).</li>
+      <li><b>sampleTime</b> : un nombre, le pas d'échantillonnage de base en secondes (<b>set_param(model, 'SampleTime', ...)</b>).</li>
+      <li><b>solver</b> : une chaîne nommant la méthode d'intégration. Absente (ou <code>"discrete"</code>), le moteur à pas fixe par défaut est conservé ; les modèles physiques utilisent <code>"dae"</code>.</li>
+      <li><b>autoRoute</b>, <b>locked</b> : des booléens, indiquant si les fils sont routés automatiquement et si le diagramme est en lecture seule dans l'éditeur.</li>
+    </ul>
+    <p>Les tolérances de solveur facultatives <b>relTol</b>, <b>absTol</b> et <b>maxStep</b> (définies avec <b>set_param</b> sous <b>RelTol</b>, <b>AbsTol</b>, <b>MaxStep</b>) sont enregistrées comme nombres lorsqu'elles sont présentes. Les champs de temps <b>runtime</b> et <b>sampleTime</b> sont enregistrés comme <b>nombres</b> JSON, et non comme chaînes, afin que le moteur les respecte.</p>
+
+    <p>Les extraits ci-dessous sont annotés ; les commentaires sont illustratifs et ne font pas partie du JSON. Les deux derniers exemples produisent de vrais fichiers que vous pouvez ouvrir et lire.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>json</example_item_type>
+      <example_item_description>Modèle causal (signal) : champs d'identité, blocs, connexions indexées à partir de 0, réglages d'exécution numériques.</example_item_description>
+      <example_item_data><![CDATA[{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": { "tool": "Nelson nflow" },
+  "name": "demo",
+  "blocks": [
+    { "id": "Sine",  "type": "sine", "params": { "name": "Sine" },           "x": 60,  "y": 120, "rotation": 0 },
+    { "id": "Gain",  "type": "gain", "params": { "name": "Gain", "Gain": 2 }, "x": 220, "y": 120, "rotation": 0 },
+    { "id": "Scope", "type": "scope","params": { "name": "Scope" },          "x": 380, "y": 120, "rotation": 0 }
+  ],
+  "connections": [
+    { "from": "Sine", "to": "Gain",  "fromIndex": 0, "toIndex": 0 },
+    { "from": "Gain", "to": "Scope", "fromIndex": 0, "toIndex": 0 }
+  ],
+  "runtime": 10,
+  "sampleTime": 0.01,
+  "autoRoute": true,
+  "locked": false
+}]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>json</example_item_type>
+      <example_item_description>RLC série acausal (physique) : physicalWires joint des broches nommées ; le nœud à 3 broches est une jonction fusionnée ; le solveur est "dae".</example_item_description>
+      <example_item_data><![CDATA[{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": { "tool": "Nelson nflow" },
+  "name": "rlc",
+  "blocks": [
+    { "id": "V1", "type": "ConstantVoltage", "params": { "name": "Vin", "V": 1 }, "x": 50,  "y": 280, "rotation": 90 },
+    { "id": "R1", "type": "Resistor",        "params": { "name": "R1", "R": 1 },  "x": 200, "y": 210, "rotation": 0  },
+    { "id": "L1", "type": "Inductor",        "params": { "name": "L1", "L": 1, "i0": 0 }, "x": 400, "y": 210, "rotation": 0 },
+    { "id": "C1", "type": "Capacitor",       "params": { "name": "C1", "C": 1, "v0": 0 }, "x": 550, "y": 280, "rotation": 90 },
+    { "id": "VS", "type": "VoltageSensor",   "params": { "name": "Vc" },          "x": 690, "y": 280, "rotation": 90 },
+    { "id": "G",  "type": "Ground",          "params": {},                        "x": 50,  "y": 400, "rotation": 90 },
+    { "id": "G2", "type": "Ground",          "params": {},                        "x": 550, "y": 400, "rotation": 90 },
+    { "id": "sc", "type": "scope",           "params": { "name": "Scope" },       "x": 850, "y": 300, "rotation": 0 }
+  ],
+  "connections": [
+    { "from": "VS", "to": "sc", "fromIndex": 0, "toIndex": 0 }
+  ],
+  "solver": "dae",
+  "runtime": 10,
+  "sampleTime": 0.05,
+  "physicalWires": [
+    { "pins": ["V1.p", "R1.p"] },
+    { "pins": ["R1.n", "L1.p"] },
+    { "pins": ["L1.n", "C1.p", "VS.p"] },
+    { "pins": ["G.p", "V1.n"] },
+    { "pins": ["G2.p", "C1.n", "VS.n"] }
+  ]
+}]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Produire un fichier .nflow causal et le relire pour voir le format par vous-même.</example_item_description>
+      <example_item_data><![CDATA[new_system('fmt_demo');
+add_block('nflow/source/sine', 'fmt_demo/Sine');
+add_block('nflow/math/gain', 'fmt_demo/Gain', 'Gain', 2);
+add_block('nflow/sink/scope', 'fmt_demo/Scope');
+add_line('fmt_demo', 'Sine/1', 'Gain/1');
+add_line('fmt_demo', 'Gain/1', 'Scope/1');
+set_param('fmt_demo', 'StopTime', 10, 'SampleTime', 0.01);
+f = [tempdir(), 'fmt_demo.nflow'];
+save_system('fmt_demo', f);
+disp(fileread(f));
+bdclose('fmt_demo');]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Produire un fichier .nflow RLC série acausal ; le bloc physicalWires montre le nœud fusionné L1.n-C1.p-VS.p.</example_item_description>
+      <example_item_data><![CDATA[new_system('rlc_fmt');
+add_block('nflow/acausal_electrical/ConstantVoltage', 'rlc_fmt/V1', 'V', 1);
+add_block('nflow/acausal_electrical/Resistor', 'rlc_fmt/R1', 'R', 1);
+add_block('nflow/acausal_electrical/Inductor', 'rlc_fmt/L1', 'L', 1, 'i0', 0);
+add_block('nflow/acausal_electrical/Capacitor', 'rlc_fmt/C1', 'C', 1, 'v0', 0);
+add_block('nflow/acausal_electrical/VoltageSensor', 'rlc_fmt/VS');
+add_block('nflow/acausal_electrical/Ground', 'rlc_fmt/G1');
+add_block('nflow/acausal_electrical/Ground', 'rlc_fmt/G2');
+add_line('rlc_fmt', 'V1/p', 'R1/p');
+add_line('rlc_fmt', 'R1/n', 'L1/p');
+add_line('rlc_fmt', 'L1/n', 'C1/p');
+add_line('rlc_fmt', 'C1/p', 'VS/p');
+add_line('rlc_fmt', 'G1/p', 'V1/n');
+add_line('rlc_fmt', 'C1/n', 'VS/n');
+add_line('rlc_fmt', 'G2/p', 'C1/n');
+set_param('rlc_fmt', 'StopTime', 10, 'SampleTime', 0.05, 'Solver', 'dae');
+f = [tempdir(), 'rlc_fmt.nflow'];
+save_system('rlc_fmt', f);
+disp(fileread(f));
+bdclose('rlc_fmt');]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_engine}nflow_build_model">nflow_build_model</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}new_system">new_system</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}add_block">add_block</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}add_line">add_line</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}set_param">set_param</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}save_system">save_system</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}load_system">load_system</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>1.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

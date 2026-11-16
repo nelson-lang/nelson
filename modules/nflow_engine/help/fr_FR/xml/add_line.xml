@@ -3,28 +3,53 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>add_line</keyword>
-  <short_description>Connecte deux ports de blocs dans un modèle nflow.</short_description>
+  <short_description>Connecte deux ports de blocs ou deux broches physiques dans un modèle nflow.</short_description>
   <syntax>
     <syntax_item>h = add_line(system, outPort, inPort)</syntax_item>
     <syntax_item>h = add_line(system, outPort, inPort, 'autorouting', 'on')</syntax_item>
+    <syntax_item>h = add_line(system, pinA, pinB)</syntax_item>
   </syntax>
-  <param_input><param_input_item><param_name>args</param_name><param_description>see the syntaxes above.</param_description></param_input_item></param_input>
-  <param_output><param_output_item><param_name>varargout</param_name><param_description>see the syntaxes above.</param_description></param_output_item></param_output>
-  <description><p><b>add_line</b> connecte deux ports de blocs dans un modèle nflow.</p></description>
+  <param_input>
+    <param_input_item><param_name>system</param_name><param_description>une chaîne : le nom du modèle nflow chargé.</param_description></param_input_item>
+    <param_input_item><param_name>outPort</param_name><param_description>une chaîne <b>'Block/port'</b> : l'extrémité source. Un port numéroté (par exemple <b>'Src/1'</b>) est un port de sortie de signal indexé à partir de 1.</param_description></param_input_item>
+    <param_input_item><param_name>inPort</param_name><param_description>une chaîne <b>'Block/port'</b> : l'extrémité cible, un port d'entrée de signal indexé à partir de 1.</param_description></param_input_item>
+    <param_input_item><param_name>pinA, pinB</param_name><param_description>une chaîne <b>'Block/pin'</b> avec une broche nommée (par exemple <b>'R1/p'</b>, <b>'M1/flange'</b>) : une broche physique d'un bloc acausal. Les deux extrémités doivent être des broches nommées.</param_description></param_input_item>
+  </param_input>
+  <param_output><param_output_item><param_name>h</param_name><param_description>un identifiant de la ligne créée.</param_description></param_output_item></param_output>
+  <description>
+  <p><b>add_line</b> connecte deux ports de blocs dans un modèle nflow.</p>
+  <p>Le type de connexion est déduit des extrémités. Une extrémité <b>numérotée</b> telle que <b>'Src/1'</b> est un port de <b>signal</b> indexé à partir de 1 ; une extrémité <b>nommée</b> telle que <b>'R1/p'</b> ou <b>'M1/flange'</b> est une <b>broche physique</b> d'un bloc acausal (électrique, thermique ou mécanique). Les deux extrémités doivent être de même type ; mélanger un port numéroté et une broche nommée provoque une erreur.</p>
+  <p>Joindre deux broches physiques les fait partager un même nœud (les variables acausales d'effort et de flux y sont équilibrées), de sorte qu'une connexion physique n'a pas de direction fixe. Pour réunir trois broches ou plus sur un même nœud, enchaînez des appels à <b>add_line</b> qui partagent une broche : ils fusionnent dans le même nœud. Les modèles physiques nécessitent le solveur <b>'dae'</b>.</p>
+  </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description />
+      <example_item_description>Ports de signaux (extrémités numérotées).</example_item_description>
       <example_item_data><![CDATA[new_system('demo');
 add_block('nflow/source/sine', 'demo/Sine');
 add_block('nflow/math/gain', 'demo/Gain', 'Gain', 2);
 add_line('demo', 'Sine/1', 'Gain/1');
 bdclose('demo');]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Broches physiques (extrémités nommées). Les deux derniers appels partagent la broche 'L1/n', donc L1.n, C1.p et VS.p fusionnent en un seul nœud électrique.</example_item_description>
+      <example_item_data><![CDATA[new_system('rlc');
+add_block('nflow/acausal_electrical/Resistor', 'rlc/R1', 'R', 1);
+add_block('nflow/acausal_electrical/Inductor', 'rlc/L1', 'L', 1);
+add_block('nflow/acausal_electrical/Capacitor', 'rlc/C1', 'C', 1);
+add_block('nflow/acausal_electrical/VoltageSensor', 'rlc/VS');
+add_line('rlc', 'R1/n', 'L1/p');
+add_line('rlc', 'L1/n', 'C1/p');
+add_line('rlc', 'L1/n', 'VS/p');
+bdclose('rlc');]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
+    <see_also_item><link linkend="${nflow_engine}nflow_build_model">nflow_build_model</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}nflow_model_format">nflow_model_format</link></see_also_item>
     <see_also_item><link linkend="${nflow_engine}new_system">new_system</link></see_also_item>
     <see_also_item><link linkend="${nflow_engine}add_block">add_block</link></see_also_item>
     <see_also_item><link linkend="${nflow_engine}set_param">set_param</link></see_also_item>

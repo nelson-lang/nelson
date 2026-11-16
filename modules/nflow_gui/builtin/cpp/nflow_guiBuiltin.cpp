@@ -57,6 +57,7 @@
 #include "BackgroundWorkerPool.hpp"
 #include "MainThreadTaskQueue.hpp"
 #include "Warning.hpp"
+#include "AssistantSink.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -102,6 +103,45 @@ Nelson::NFlowGateway::BackgroundWorkerPool simulationWorkers;
 // Separate pool for the (memoized) C/Rust toolchain probe so it never contends
 // with, or is gated by, the simulation pool. Joined on shutdown.
 Nelson::NFlowGateway::BackgroundWorkerPool toolchainWorkers;
+//=============================================================================
+// Forward the assistant's live events to every open NFlow window so the
+// embedded assistant pane (which subscribes through window.__nelsonPush) sees
+// reset/token/activity/answer/error and surface channels like nflowApply. The
+// sink fires on the interpreter thread; win->run() is the same path the model
+// change listener already uses from that thread, so no extra marshalling.
+void
+pushAssistantEventToWindows(const std::string& channel, const std::string& payloadJson)
+{
+    nlohmann::json event;
+    event["channel"] = channel;
+    event["payload"] = payloadJson;
+    const std::string js = std::string("if(typeof window.__nelsonPush==='function')")
+        + "window.__nelsonPush('assistant'," + event.dump() + ");";
+    std::vector<std::shared_ptr<WindowEntry>> entries;
+    {
+        std::lock_guard<std::mutex> lock(windowsMutex);
+        entries = openWindows;
+    }
+    for (const auto& entry : entries) {
+        if (entry && entry->win && entry->win->is_shown()) {
+            try {
+                entry->win->run(js);
+            } catch (...) {
+            }
+        }
+    }
+}
+//=============================================================================
+// Register the NFlow assistant sink once, the first time a window opens, under
+// the "nflow" surface id so per-surface routing (assistantRun/__ai_notify__ with
+// surfaceId="nflow") delivers only this surface's events here.
+void
+registerNFlowAssistantSinkOnce()
+{
+    static std::once_flag flag;
+    std::call_once(
+        flag, []() { Nelson::RegisterAssistantSink("nflow", pushAssistantEventToWindows); });
+}
 std::string
 runSimulationForEntry(std::weak_ptr<WindowEntry> entryWeak, const std::string& diagramJson,
     bool pushProgress, bool prepareState = true);
@@ -279,6 +319,9 @@ Nelson::NFlowGateway::nflow_guiBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     // Simulations launched from this window run on a detached thread and marshal their
     // workspace accesses (fromWorkspace / toWorkspace / nelsonFunction) back here.
     ensureNelsonWorkspaceBridge(eval);
+
+    // Route the assistant's live events to the embedded assistant pane.
+    registerNFlowAssistantSinkOnce();
 
     Nelson::NFlow::BootstrapVars bootstrapVars;
     bootstrapVars.uiPath = wstring_to_utf8(getNFlowDistributionDirectory());

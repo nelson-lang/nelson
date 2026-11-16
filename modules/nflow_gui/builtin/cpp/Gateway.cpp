@@ -14,6 +14,7 @@
 #include "WebDesktopBridge.hpp"
 #include "ExamplesCatalogHost.hpp"
 #include "ModulePath.hpp"
+#include "AssistantSink.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -60,6 +61,7 @@ finishNFlowGuiModule(Nelson::Evaluator* eval)
     } catch (...) {
     }
     Nelson::WebDesktopBridge::getInstance()->setWebNFlowOpener(nullptr, nullptr);
+    Nelson::UnregisterAssistantSink("nflow");
     Nelson::NFlowGateway::closeAllNFlowWindows(eval);
     return true;
 }

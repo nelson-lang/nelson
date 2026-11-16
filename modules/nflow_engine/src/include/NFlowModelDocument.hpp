@@ -143,6 +143,14 @@ public:
     // Connect first output of src to the first unconnected input of dst.
     bool
     connectBlocks(const std::string& src, const std::string& dst, std::string& err);
+    // Join two named physical pins into one acausal node. The pins are named
+    // physical pins (e.g. "p", "flange", "port"), not numbered signal ports.
+    // Stored in the top-level physicalWires array as { "pins": ["Block.pin", ...] },
+    // matching the .nflow-2 schema. Calls that share a pin merge into one node, so
+    // a node joining three or more pins is built from successive two-pin calls.
+    bool
+    addPhysicalWire(const std::string& blockA, const std::string& pinA, const std::string& blockB,
+        const std::string& pinB, std::string& err);
     // Signal name of an existing connection. Endpoints use the 1-based port
     // convention of addLine; both must be in one container.
     bool

@@ -119,3 +119,27 @@ TEST_CASE("dashboard controls inside subsystems update their own runtime state")
     CHECK(states[0].scalar == 0.0);
 }
 //=============================================================================
+TEST_CASE("dashboard binding tolerates a non-object Binding")
+{
+    // A null Binding turns into an empty JSON array once the acausal lowering
+    // round-trips the document through jsondecode/jsonencode (JSON null decodes
+    // to []). Both forms mean "unbound": validation must pass without reading
+    // value("kind", ...) off a non-object, which raised json type_error.306
+    // ("cannot use value() with array") mid-simulation for any model that paired
+    // a dashboard widget with a physical island (the only path that re-encodes).
+    for (const json& unboundBinding : { json(nullptr), json::array() }) {
+        std::vector<Block> blocks;
+        blocks.push_back(makeBlock("gain", "gain", 0, { { "Gain", 2.0 } }));
+        blocks.push_back(
+            makeBlock("control", "dashboardSlider", 1, { { "Binding", unboundBinding } }));
+        std::vector<BlockState> states(2);
+        CHECK(validateDashboardBindings(blocks, states, {}).empty());
+
+        DashboardBindingDiagnostic error;
+        ValMap variables;
+        const json event
+            = { { "id", "control" }, { "type", "setDashboardValue" }, { "value", 5.0 } };
+        CHECK_FALSE(applyDashboardBindingValue(blocks, states, variables, event, error));
+    }
+}
+//=============================================================================

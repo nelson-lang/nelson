@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nflow_build_model</keyword>
+  <short_description>Build an nflow model with the scripted API, step by step.</short_description>
+  <syntax>
+    <syntax_item>Guide: new_system, add_block, add_line, set_param, sim, save_system.</syntax_item>
+  </syntax>
+  <description>
+    <p>This guide teaches how to build a complete nflow model from the Nelson command line, without the editor. We start from the smallest model that runs, explain every line, then grow it into a realistic signal model and a physical (acausal) circuit. If you have not seen nflow before, read it top to bottom; if you only need a reminder, jump to the examples.</p>
+
+    <p><b>The mental model</b></p>
+    <p>An nflow model is a set of <b>blocks</b> (boxes that produce or transform values) joined by <b>wires</b>. You build one in the same five moves every time:</p>
+    <ol>
+      <li><b>Create</b> the model with <b>new_system</b>.</li>
+      <li><b>Add</b> each block with <b>add_block</b>.</li>
+      <li><b>Wire</b> the blocks together with <b>add_line</b>.</li>
+      <li><b>Configure</b> the run (duration, step, solver) with <b>set_param</b>.</li>
+      <li><b>Run or save</b> with <b>sim</b>, <b>save_system</b>, and tidy the picture with <b>nflow_layout</b>.</li>
+    </ol>
+    <p>There are two families of model. A <b>causal</b> (signal) model flows in one direction: a value leaves an output port, travels along a wire, and arrives at an input port, like the blocks of a flowchart. A <b>physical</b> (acausal) model instead describes real components (resistors, masses, thermal bodies) whose <b>pins</b> are tied together into nodes, with no fixed direction of flow. We build a causal model first, then a physical one.</p>
+
+    <p><b>Step 1: the smallest model that runs</b></p>
+    <p>Before anything realistic, here is the whole workflow in four blocks of code: a constant value shown on a scope. Read the comments, then run it.</p>
+    <p>Line by line: <b>new_system</b> opens an empty model named <code>'first'</code>. Each <b>add_block</b> takes a <b>library path</b> (<code>'nflow/&lt;library&gt;/&lt;type&gt;'</code>, telling nflow which kind of block to create) and a <b>destination</b> (<code>'first/Name'</code>, where <b>Name</b> is how you will refer to that block). Optional name/value pairs set parameters, so <code>'Value', 1</code> makes the constant equal to 1. <b>add_line</b> draws the wire: <code>'C/1'</code> is output port 1 of block <b>C</b>, <code>'Scope/1'</code> is input port 1 of block <b>Scope</b>. <b>set_param</b> says how long to run. <b>bdclose</b> discards the in-memory model at the end so the example leaves nothing behind.</p>
+
+    <p><b>Step 2: a realistic signal model</b></p>
+    <p>Now the same recipe with three blocks that actually compute something: a sine source, a gain that multiplies by 2, and a scope. The new ideas are that a block can transform its input (the gain), and that you can chain several wires. We also lay the diagram out and save it to a file, then run it from that file.</p>
+    <p>Two practices are worth keeping. We call <b>nflow_layout</b> so the auto-placed blocks are spread into a readable left-to-right diagram instead of stacked. And we write the file under <b>tempdir</b> (a scratch folder), never into your project, so the example is self-contained.</p>
+
+    <p><b>Wiring: numbered ports vs named pins</b></p>
+    <p>An <b>add_line</b> endpoint is written <code>'Block/port'</code>. The text after the slash decides what kind of connection you are making, and this is the single most important rule to understand:</p>
+    <ul>
+      <li>A <b>number</b>, such as <code>'Src/1'</code>, means a <b>signal port</b>: output port 1 on the source side, input port 1 on the target side. Numbering is <b>1-based</b> (the first port is 1, not 0). Signal wires have a direction: value flows from the output to the input.</li>
+      <li>A <b>name</b>, such as <code>'R1/p'</code> or <code>'M1/flange'</code>, means a <b>physical pin</b> of an acausal block. Physical joints have no direction; they tie two pins into one node.</li>
+    </ul>
+    <p>Both ends of one <b>add_line</b> must be the <b>same kind</b>. Joining <code>'A/1'</code> (a number) to <code>'B/p'</code> (a name) is an error, because a signal wire and a physical joint are different things.</p>
+
+    <p><b>Step 3: a physical (acausal) model: series RLC</b></p>
+    <p>Physical models look different because you wire real components, not signals. A few points explain how they work:</p>
+    <ul>
+      <li>A pin carries two quantities at once: an <b>across</b> variable (voltage, temperature, position) and a <b>through</b> variable (current, heat flow, force). When you join pins, nflow balances both at that point. That is what <b>acausal</b> means: you state what is connected, and the solver works out the directions.</li>
+      <li>Joining two pins makes one <b>node</b>. To tie three or more pins to the same node (a single electrical junction, mechanical joint, or thermal point), make successive <b>add_line</b> calls that <b>share a pin</b>: they merge into one node. In the example, the two calls on <code>'C1/p'</code> put <b>L1.n</b>, <b>C1.p</b> and <b>VS.p</b> on one node.</li>
+      <li>An electrical circuit needs a <b>Ground</b> on every reference node, or the equations have no unique solution. We add two grounds and wire their <code>'p'</code> pins.</li>
+      <li>A <b>sensor</b> is a bridge between the two worlds: it has physical pins (wired with named <b>add_line</b>) <b>and</b> one numbered signal output (wired with a numbered <b>add_line</b> to the scope). So <code>'VS/p'</code> and <code>'VS/n'</code> join the circuit, while <code>'VS/1'</code> carries the measured voltage out as a signal.</li>
+      <li>Every physical model uses the <b>'dae'</b> solver: <code>set_param(model, 'Solver', 'dae')</code>.</li>
+    </ul>
+    <p>The example below builds a series RLC circuit: a constant voltage source drives a resistor, inductor and capacitor in series back to ground, and a voltage sensor reads the capacitor voltage onto a scope.</p>
+
+    <p><b>Choosing the solver and the step</b></p>
+    <p>Set the run with <b>set_param</b>: <b>StopTime</b> (how many seconds), <b>SampleTime</b> (the base step), and <b>Solver</b>. Causal models use <b>'discrete'</b> (the default fixed-step engine), <b>'ode4'</b> (fixed-step Runge-Kutta, more accurate) or <b>'ode45'</b> (adaptive step). Physical models require <b>'dae'</b>. See <b>nflow_solvers</b> for the full list and the tolerances.</p>
+
+    <p><b>Common mistakes</b></p>
+    <ul>
+      <li>Mixing a numbered port and a named pin in one <b>add_line</b>: pick one kind for both ends.</li>
+      <li>Forgetting a <b>Ground</b> on a physical reference node: the solver reports a singular system.</li>
+      <li>Leaving the solver on the default for a physical model: set <b>'dae'</b>.</li>
+      <li>Expecting a signal input to stay unconnected: every input port a block needs must be wired.</li>
+      <li>Confusing the API and the file: <b>add_line</b> uses <b>1-based</b> port numbers, while the saved <b>.nflow</b> stores <b>0-based</b> indices (see <b>nflow_model_format</b>).</li>
+    </ul>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Step 1: the smallest model that runs, a constant shown on a scope.</example_item_description>
+      <example_item_data><![CDATA[new_system('first');                              % create an empty model
+add_block('nflow/source/constant', 'first/C', 'Value', 1);  % a block named C
+add_block('nflow/sink/scope', 'first/Scope');     % a scope named Scope
+add_line('first', 'C/1', 'Scope/1');              % wire C output 1 -> Scope input 1
+set_param('first', 'StopTime', 5);                % run for 5 seconds
+bdclose('first');                                 % discard the in-memory model]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Step 2: a signal model (sine -> gain -> scope); lay it out, save to tempdir, then simulate from the file.</example_item_description>
+      <example_item_data><![CDATA[new_system('sig');
+add_block('nflow/source/sine', 'sig/Src');
+add_block('nflow/math/gain', 'sig/K', 'Gain', 2);
+add_block('nflow/sink/scope', 'sig/Scope');
+add_line('sig', 'Src/1', 'K/1');      % numbered: signal port 1 -> 1
+add_line('sig', 'K/1', 'Scope/1');
+set_param('sig', 'StopTime', 10, 'SampleTime', 0.01, 'Solver', 'discrete');
+nflow_layout('sig');
+f = [tempdir(), 'sig.nflow'];
+save_system('sig', f);
+bdclose('sig');
+out = sim(f, 'StopTime', 10);]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Step 3: a physical series RLC; named pins joined with add_line, shared pins merge into one node, solver 'dae'.</example_item_description>
+      <example_item_data><![CDATA[new_system('rlc');
+add_block('nflow/acausal_electrical/ConstantVoltage', 'rlc/V1', 'V', 1);
+add_block('nflow/acausal_electrical/Resistor', 'rlc/R1', 'R', 1);
+add_block('nflow/acausal_electrical/Inductor', 'rlc/L1', 'L', 1, 'i0', 0);
+add_block('nflow/acausal_electrical/Capacitor', 'rlc/C1', 'C', 1, 'v0', 0);
+add_block('nflow/acausal_electrical/VoltageSensor', 'rlc/VS');
+add_block('nflow/acausal_electrical/Ground', 'rlc/G1');
+add_block('nflow/acausal_electrical/Ground', 'rlc/G2');
+add_block('nflow/sink/scope', 'rlc/Scope');
+add_line('rlc', 'V1/p', 'R1/p');      % named pins: physical joints
+add_line('rlc', 'R1/n', 'L1/p');
+add_line('rlc', 'L1/n', 'C1/p');      % node L1.n-C1.p ...
+add_line('rlc', 'C1/p', 'VS/p');      % ... VS.p merges into it
+add_line('rlc', 'G1/p', 'V1/n');
+add_line('rlc', 'C1/n', 'VS/n');      % node C1.n-VS.n ...
+add_line('rlc', 'G2/p', 'C1/n');      % ... G2.p merges into it
+add_line('rlc', 'VS/1', 'Scope/1');   % numbered: sensor signal output
+set_param('rlc', 'StopTime', 10, 'SampleTime', 0.05, 'Solver', 'dae');
+nflow_layout('rlc');
+f = [tempdir(), 'rlc.nflow'];
+save_system('rlc', f);
+bdclose('rlc');
+out = sim(f, 'StopTime', 10);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_engine}nflow_model_format">nflow_model_format</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}new_system">new_system</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}add_block">add_block</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}add_line">add_line</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}set_param">set_param</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}sim">sim</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}save_system">save_system</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}nflow_layout">nflow_layout</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>1.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

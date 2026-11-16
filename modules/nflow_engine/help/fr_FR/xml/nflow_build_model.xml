@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nflow_build_model</keyword>
+  <short_description>Construire un modèle nflow avec l'API scriptée, pas à pas.</short_description>
+  <syntax>
+    <syntax_item>Guide : new_system, add_block, add_line, set_param, sim, save_system.</syntax_item>
+  </syntax>
+  <description>
+    <p>Ce guide apprend à construire un modèle nflow complet depuis la ligne de commande Nelson, sans l'éditeur. Nous partons du plus petit modèle qui s'exécute, expliquons chaque ligne, puis le faisons grandir vers un modèle de signaux réaliste et un circuit physique (acausal). Si vous découvrez nflow, lisez de haut en bas ; s'il ne vous faut qu'un rappel, passez aux exemples.</p>
+
+    <p><b>Le modèle mental</b></p>
+    <p>Un modèle nflow est un ensemble de <b>blocs</b> (des boîtes qui produisent ou transforment des valeurs) reliés par des <b>fils</b>. On en construit un toujours avec les mêmes cinq gestes :</p>
+    <ol>
+      <li><b>Créer</b> le modèle avec <b>new_system</b>.</li>
+      <li><b>Ajouter</b> chaque bloc avec <b>add_block</b>.</li>
+      <li><b>Câbler</b> les blocs entre eux avec <b>add_line</b>.</li>
+      <li><b>Configurer</b> l'exécution (durée, pas, solveur) avec <b>set_param</b>.</li>
+      <li><b>Exécuter ou enregistrer</b> avec <b>sim</b>, <b>save_system</b>, et ranger le schéma avec <b>nflow_layout</b>.</li>
+    </ol>
+    <p>Il existe deux familles de modèles. Un modèle <b>causal</b> (de signaux) s'écoule dans un sens : une valeur quitte un port de sortie, parcourt un fil et arrive à un port d'entrée, comme les cases d'un organigramme. Un modèle <b>physique</b> (acausal) décrit au contraire de vrais composants (résistances, masses, corps thermiques) dont les <b>broches</b> sont reliées en nœuds, sans sens d'écoulement fixe. Nous construisons d'abord un modèle causal, puis un modèle physique.</p>
+
+    <p><b>Étape 1 : le plus petit modèle qui s'exécute</b></p>
+    <p>Avant tout exemple réaliste, voici tout le déroulement en quatre lignes : une valeur constante affichée sur un oscilloscope. Lisez les commentaires, puis exécutez.</p>
+    <p>Ligne par ligne : <b>new_system</b> ouvre un modèle vide nommé <code>'first'</code>. Chaque <b>add_block</b> prend un <b>chemin de bibliothèque</b> (<code>'nflow/&lt;library&gt;/&lt;type&gt;'</code>, qui indique à nflow le type de bloc à créer) et une <b>destination</b> (<code>'first/Name'</code>, où <b>Name</b> est le nom par lequel vous désignerez ce bloc). Les paires nom/valeur facultatives règlent les paramètres : <code>'Value', 1</code> fixe la constante à 1. <b>add_line</b> trace le fil : <code>'C/1'</code> est le port de sortie 1 du bloc <b>C</b>, <code>'Scope/1'</code> le port d'entrée 1 du bloc <b>Scope</b>. <b>set_param</b> indique la durée d'exécution. <b>bdclose</b> jette le modèle en mémoire à la fin, afin que l'exemple ne laisse rien derrière lui.</p>
+
+    <p><b>Étape 2 : un modèle de signaux réaliste</b></p>
+    <p>La même recette, maintenant avec trois blocs qui calculent vraiment quelque chose : une source sinusoïdale, un gain qui multiplie par 2 et un oscilloscope. Les idées nouvelles : un bloc peut transformer son entrée (le gain), et l'on peut enchaîner plusieurs fils. Nous disposons aussi le schéma et l'enregistrons dans un fichier, puis l'exécutons depuis ce fichier.</p>
+    <p>Deux pratiques à garder. Nous appelons <b>nflow_layout</b> pour que les blocs placés automatiquement s'étalent en un schéma lisible de gauche à droite au lieu d'être empilés. Et nous écrivons le fichier dans <b>tempdir</b> (un dossier temporaire), jamais dans votre projet, pour que l'exemple soit autonome.</p>
+
+    <p><b>Câblage : ports numérotés ou broches nommées</b></p>
+    <p>Une extrémité de <b>add_line</b> s'écrit <code>'Block/port'</code>. Ce qui suit la barre oblique décide du type de connexion que vous créez, et c'est la règle la plus importante à comprendre :</p>
+    <ul>
+      <li>Un <b>numéro</b>, comme <code>'Src/1'</code>, désigne un <b>port de signal</b> : le port de sortie 1 côté source, le port d'entrée 1 côté cible. La numérotation est <b>indexée à partir de 1</b> (le premier port est 1, pas 0). Les fils de signaux ont un sens : la valeur va de la sortie vers l'entrée.</li>
+      <li>Un <b>nom</b>, comme <code>'R1/p'</code> ou <code>'M1/flange'</code>, désigne une <b>broche physique</b> d'un bloc acausal. Les jonctions physiques n'ont pas de sens ; elles relient deux broches en un seul nœud.</li>
+    </ul>
+    <p>Les deux extrémités d'un même <b>add_line</b> doivent être de <b>même type</b>. Joindre <code>'A/1'</code> (un numéro) à <code>'B/p'</code> (un nom) est une erreur, car un fil de signal et une jonction physique sont deux choses différentes.</p>
+
+    <p><b>Étape 3 : un modèle physique (acausal) : RLC série</b></p>
+    <p>Les modèles physiques ont l'air différents car on câble de vrais composants, pas des signaux. Quelques points expliquent leur fonctionnement :</p>
+    <ul>
+      <li>Une broche porte deux grandeurs à la fois : une variable <b>d'effort</b> (tension, température, position) et une variable <b>de flux</b> (courant, flux de chaleur, force). Quand vous joignez des broches, nflow équilibre les deux en ce point. C'est ce que veut dire <b>acausal</b> : vous énoncez ce qui est connecté, et le solveur détermine les sens.</li>
+      <li>Joindre deux broches crée un <b>nœud</b>. Pour relier trois broches ou plus au même nœud (une seule jonction électrique, articulation mécanique ou point thermique), enchaînez des appels à <b>add_line</b> qui <b>partagent une broche</b> : ils fusionnent en un seul nœud. Dans l'exemple, les deux appels sur <code>'C1/p'</code> placent <b>L1.n</b>, <b>C1.p</b> et <b>VS.p</b> sur un même nœud.</li>
+      <li>Un circuit électrique a besoin d'une <b>Ground</b> (masse) sur chaque nœud de référence, sinon les équations n'ont pas de solution unique. Nous ajoutons deux masses et câblons leurs broches <code>'p'</code>.</li>
+      <li>Un <b>capteur</b> est un pont entre les deux mondes : il possède des broches physiques (câblées avec un <b>add_line</b> nommé) <b>et</b> une sortie de signal numérotée (câblée vers l'oscilloscope avec un <b>add_line</b> numéroté). Ainsi <code>'VS/p'</code> et <code>'VS/n'</code> rejoignent le circuit, tandis que <code>'VS/1'</code> transporte la tension mesurée sous forme de signal.</li>
+      <li>Tout modèle physique utilise le solveur <b>'dae'</b> : <code>set_param(model, 'Solver', 'dae')</code>.</li>
+    </ul>
+    <p>L'exemple ci-dessous construit un circuit RLC série : une source de tension constante alimente une résistance, une inductance et un condensateur en série jusqu'à la masse, un capteur de tension relevant la tension du condensateur sur un oscilloscope.</p>
+
+    <p><b>Choisir le solveur et le pas</b></p>
+    <p>Réglez l'exécution avec <b>set_param</b> : <b>StopTime</b> (combien de secondes), <b>SampleTime</b> (le pas de base) et <b>Solver</b>. Les modèles causaux utilisent <b>'discrete'</b> (le moteur à pas fixe par défaut), <b>'ode4'</b> (Runge-Kutta à pas fixe, plus précis) ou <b>'ode45'</b> (pas adaptatif). Les modèles physiques nécessitent <b>'dae'</b>. Voir <b>nflow_solvers</b> pour la liste complète et les tolérances.</p>
+
+    <p><b>Erreurs fréquentes</b></p>
+    <ul>
+      <li>Mélanger un port numéroté et une broche nommée dans un même <b>add_line</b> : choisissez un seul type pour les deux extrémités.</li>
+      <li>Oublier une <b>Ground</b> sur un nœud de référence physique : le solveur signale un système singulier.</li>
+      <li>Laisser le solveur par défaut pour un modèle physique : mettez <b>'dae'</b>.</li>
+      <li>Croire qu'une entrée de signal peut rester libre : chaque port d'entrée dont un bloc a besoin doit être câblé.</li>
+      <li>Confondre l'API et le fichier : <b>add_line</b> utilise des numéros de ports <b>indexés à partir de 1</b>, alors que le fichier <b>.nflow</b> enregistré stocke des index <b>indexés à partir de 0</b> (voir <b>nflow_model_format</b>).</li>
+    </ul>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Étape 1 : le plus petit modèle qui s'exécute, une constante affichée sur un oscilloscope.</example_item_description>
+      <example_item_data><![CDATA[new_system('first');                              % create an empty model
+add_block('nflow/source/constant', 'first/C', 'Value', 1);  % a block named C
+add_block('nflow/sink/scope', 'first/Scope');     % a scope named Scope
+add_line('first', 'C/1', 'Scope/1');              % wire C output 1 -> Scope input 1
+set_param('first', 'StopTime', 5);                % run for 5 seconds
+bdclose('first');                                 % discard the in-memory model]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Étape 2 : un modèle de signaux (sine -> gain -> scope) ; disposer, enregistrer dans tempdir, puis simuler depuis le fichier.</example_item_description>
+      <example_item_data><![CDATA[new_system('sig');
+add_block('nflow/source/sine', 'sig/Src');
+add_block('nflow/math/gain', 'sig/K', 'Gain', 2);
+add_block('nflow/sink/scope', 'sig/Scope');
+add_line('sig', 'Src/1', 'K/1');      % numbered: signal port 1 -> 1
+add_line('sig', 'K/1', 'Scope/1');
+set_param('sig', 'StopTime', 10, 'SampleTime', 0.01, 'Solver', 'discrete');
+nflow_layout('sig');
+f = [tempdir(), 'sig.nflow'];
+save_system('sig', f);
+bdclose('sig');
+out = sim(f, 'StopTime', 10);]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Étape 3 : un RLC série physique ; broches nommées jointes avec add_line, les broches partagées fusionnent en un nœud, solveur 'dae'.</example_item_description>
+      <example_item_data><![CDATA[new_system('rlc');
+add_block('nflow/acausal_electrical/ConstantVoltage', 'rlc/V1', 'V', 1);
+add_block('nflow/acausal_electrical/Resistor', 'rlc/R1', 'R', 1);
+add_block('nflow/acausal_electrical/Inductor', 'rlc/L1', 'L', 1, 'i0', 0);
+add_block('nflow/acausal_electrical/Capacitor', 'rlc/C1', 'C', 1, 'v0', 0);
+add_block('nflow/acausal_electrical/VoltageSensor', 'rlc/VS');
+add_block('nflow/acausal_electrical/Ground', 'rlc/G1');
+add_block('nflow/acausal_electrical/Ground', 'rlc/G2');
+add_block('nflow/sink/scope', 'rlc/Scope');
+add_line('rlc', 'V1/p', 'R1/p');      % named pins: physical joints
+add_line('rlc', 'R1/n', 'L1/p');
+add_line('rlc', 'L1/n', 'C1/p');      % node L1.n-C1.p ...
+add_line('rlc', 'C1/p', 'VS/p');      % ... VS.p merges into it
+add_line('rlc', 'G1/p', 'V1/n');
+add_line('rlc', 'C1/n', 'VS/n');      % node C1.n-VS.n ...
+add_line('rlc', 'G2/p', 'C1/n');      % ... G2.p merges into it
+add_line('rlc', 'VS/1', 'Scope/1');   % numbered: sensor signal output
+set_param('rlc', 'StopTime', 10, 'SampleTime', 0.05, 'Solver', 'dae');
+nflow_layout('rlc');
+f = [tempdir(), 'rlc.nflow'];
+save_system('rlc', f);
+bdclose('rlc');
+out = sim(f, 'StopTime', 10);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_engine}nflow_model_format">nflow_model_format</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}new_system">new_system</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}add_block">add_block</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}add_line">add_line</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}set_param">set_param</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}sim">sim</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}save_system">save_system</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}nflow_layout">nflow_layout</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>1.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>
