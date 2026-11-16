@@ -26,6 +26,14 @@ enum CHARSETENCODING
 NLSCHARACTERS_ENCODING_IMPEXP bool
 isSupportedEncoding(const std::string& encoding);
 //=============================================================================
+// Standard base64 (RFC 4648, with padding). base64_decode sets ok=false on
+// invalid input.
+NLSCHARACTERS_ENCODING_IMPEXP std::string
+base64_encode(const std::string& bytes);
+//=============================================================================
+NLSCHARACTERS_ENCODING_IMPEXP std::string
+base64_decode(const std::string& encoded, bool& ok);
+//=============================================================================
 NLSCHARACTERS_ENCODING_IMPEXP bool
 isSupportedEncoding(const std::wstring& encoding);
 //=============================================================================

@@ -415,5 +415,38 @@ isUnicodeLetter(wchar_t character)
     return (bool)u_isalpha((UChar32)(character));
 }
 //=============================================================================
+std::string
+base64_encode(const std::string& bytes)
+{
+    if (bytes.empty()) {
+        return std::string();
+    }
+    size_t outLen = simdutf::base64_length_from_binary(bytes.size());
+    std::string output;
+    output.resize(outLen);
+    size_t written = simdutf::binary_to_base64(bytes.data(), bytes.size(), &output[0]);
+    output.resize(written);
+    return output;
+}
+//=============================================================================
+std::string
+base64_decode(const std::string& encoded, bool& ok)
+{
+    ok = true;
+    if (encoded.empty()) {
+        return std::string();
+    }
+    size_t maxLen = simdutf::maximal_binary_length_from_base64(encoded.data(), encoded.size());
+    std::string output;
+    output.resize(maxLen);
+    simdutf::result r = simdutf::base64_to_binary(encoded.data(), encoded.size(), &output[0]);
+    if (r.error != simdutf::error_code::SUCCESS) {
+        ok = false;
+        return std::string();
+    }
+    output.resize(r.count);
+    return output;
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

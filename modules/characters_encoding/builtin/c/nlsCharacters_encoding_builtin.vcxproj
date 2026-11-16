@@ -188,6 +188,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\nativecharsetBuiltin.cpp" />
+    <ClCompile Include="..\cpp\base64encodeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\base64decodeBuiltin.cpp" />
     <ClCompile Include="..\cpp\unicode2nativeBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\native2unicodeBuiltin.cpp" />
@@ -214,6 +216,8 @@
     <Text Include="..\..\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\base64encodeBuiltin.hpp" />
+    <ClInclude Include="..\include\base64decodeBuiltin.hpp" />
     <ClInclude Include="..\include\native2unicodeBuiltin.hpp" />
     <ClInclude Include="..\include\nativecharsetBuiltin.hpp" />
     <ClInclude Include="..\include\nlsCharacters_encoding_builtin_exports.h" />

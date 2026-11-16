@@ -11,6 +11,8 @@
 #include "native2unicodeBuiltin.hpp"
 #include "unicode2nativeBuiltin.hpp"
 #include "nativecharsetBuiltin.hpp"
+#include "base64encodeBuiltin.hpp"
+#include "base64decodeBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -22,6 +24,10 @@ static const nlsGateway gateway[] = {
     { "native2unicode", (ptrBuiltin)Nelson::CharactersEncodingGateway::native2unicodeBuiltin, 1,
         2 },
     { "nativecharset", (ptrBuiltin)Nelson::CharactersEncodingGateway::nativecharsetBuiltin, 1, 1 },
+    { "__base64encode__", (ptrBuiltin)Nelson::CharactersEncodingGateway::base64encodeBuiltin, 1,
+        1 },
+    { "__base64decode__", (ptrBuiltin)Nelson::CharactersEncodingGateway::base64decodeBuiltin, 1,
+        1 },
 };
 //=============================================================================
 NLS_GATEWAY_FUNC(gateway)
