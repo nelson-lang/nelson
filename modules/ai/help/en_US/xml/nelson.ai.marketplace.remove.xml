@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.ai.marketplace.remove</keyword>
+  <short_description>Remove an installed assistant skill package.</short_description>
+  <syntax>
+    <syntax_item>nelson.ai.marketplace.remove(name)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>name</param_name>
+      <param_description>a string: the name of an installed package, as listed by <b>nelson.ai.marketplace.installed</b>.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>nelson.ai.marketplace.remove</b> deletes an installed assistant skill package from the user skills directory.</p>
+    <p>When no package of that name is installed, an error is raised.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Remove an installed package.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+nelson.ai.marketplace.remove('nelson-plotting')
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.marketplace.installed">nelson.ai.marketplace.installed</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.marketplace.install">nelson.ai.marketplace.install</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+</xmldoc>

@@ -696,5 +696,86 @@ createNelsonPlot(Evaluator* eval, const ArrayOf& args, const McpOptions& options
     return result;
 }
 //=============================================================================
+// Capture the current figure as a PNG so the assistant can look at what is
+// already on screen (the vision loop feeds result.image back to the model).
+ToolResult
+captureNelsonFigure(Evaluator* eval, const ArrayOf& args, const McpOptions& options)
+{
+    (void)args;
+    if (options.displayMode == "cli") {
+        return { false, L"", L"capture_nelson_figure is not available in cli display mode.", L"",
+            "", 0 };
+    }
+    std::filesystem::path outputDir = std::filesystem::temp_directory_path() / "nelson-ai";
+    std::filesystem::create_directories(outputDir);
+    auto stamp = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now().time_since_epoch())
+                     .count();
+    std::filesystem::path outputFile = outputDir / ("capture_" + std::to_string(stamp) + ".png");
+    std::wstring output = normalizePathForNelson(outputFile);
+    // Error out when there is no open figure rather than creating a blank one.
+    std::wstring command = L"if isempty(findobj('Type', 'figure')); error('No figure is open.'); "
+                           L"end; drawnow(); saveas(gcf(), "
+        + nelsonStringLiteral(output) + L");";
+    ToolResult result = evaluate(eval, command);
+    if (result.success && std::filesystem::is_regular_file(outputFile)) {
+        result.image = output;
+        auto size = std::filesystem::file_size(outputFile);
+        result.text = L"Captured the current figure.";
+        result.dataJson = "{\"path\":" + jsonString(output)
+            + ",\"mimeType\":\"image/png\",\"size\":" + std::to_string(size) + "}";
+    } else if (result.success) {
+        result.success = false;
+        result.error = L"Figure image was not created.";
+    }
+    return result;
+}
+//=============================================================================
+// Write generated code to a file and open it in the active editor (Qt desktop,
+// web desktop or notebook host, through the host-agnostic edit() function), so
+// the assistant can hand a script to the user instead of only running it.
+ToolResult
+openInNelsonEditor(Evaluator* eval, const ArrayOf& args, const McpOptions& options)
+{
+    if (options.displayMode == "cli") {
+        return { false, L"", L"open_in_nelson_editor is not available in cli display mode.", L"",
+            "", 0 };
+    }
+    std::wstring code = fieldAsString(args, "code");
+    if (code.empty()) {
+        return { false, L"", L"code is required.", L"", "", 0 };
+    }
+    std::filesystem::path outputDir = std::filesystem::temp_directory_path() / "nelson-ai";
+    std::filesystem::create_directories(outputDir);
+    // Only a bare filename is honored (model output never writes outside the
+    // scratch directory); default to a timestamped name.
+    std::wstring requested = fieldAsString(args, "filename");
+    std::filesystem::path base
+        = requested.empty() ? std::filesystem::path() : std::filesystem::path(requested).filename();
+    if (base.empty()) {
+        auto stamp = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::system_clock::now().time_since_epoch())
+                         .count();
+        base = "assistant_" + std::to_string(stamp) + ".m";
+    } else if (base.extension() != ".m") {
+        base += ".m";
+    }
+    std::filesystem::path outputFile = outputDir / base;
+    std::ofstream fileStream(outputFile, std::ios::binary);
+    if (!fileStream.is_open()) {
+        return { false, L"", L"Cannot create the editor file.", L"", "", 0 };
+    }
+    const std::string utf8 = wstring_to_utf8(code);
+    fileStream.write(utf8.data(), (std::streamsize)utf8.size());
+    fileStream.close();
+    std::wstring output = normalizePathForNelson(outputFile);
+    ToolResult result = evaluate(eval, L"edit(" + nelsonStringLiteral(output) + L");");
+    if (result.success) {
+        result.text = L"Opened " + output + L" in the editor.";
+        result.dataJson = "{\"path\":" + jsonString(output) + "}";
+    }
+    return result;
+}
+//=============================================================================
 } // namespace Nelson::AiMcp
 //=============================================================================

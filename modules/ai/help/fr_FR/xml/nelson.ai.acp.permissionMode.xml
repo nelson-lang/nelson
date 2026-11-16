@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.ai.acp.permissionMode</keyword>
+  <short_description>Lit ou définit le mode de permission d'accès aux fichiers de l'assistant.</short_description>
+  <syntax>
+    <syntax_item>mode = nelson.ai.acp.permissionMode()</syntax_item>
+    <syntax_item>mode = nelson.ai.acp.permissionMode(newMode)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>newMode</param_name>
+      <param_description>une chaîne de caractères : <b>always_ask</b>, <b>auto</b> ou <b>full</b>. Une valeur non reconnue est ignorée.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>mode</param_name>
+      <param_description>une chaîne de caractères : le mode de permission effectif après l'appel.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.ai.acp.permissionMode</b> lit ou modifie la manière dont les demandes d'accès aux fichiers de l'assistant sont approuvées. Appelée sans argument, elle retourne le mode courant ; appelée avec un mode, elle le définit et retourne la valeur effective.</p>
+    <p>Les modes sont :</p>
+    <p><b>always_ask</b> : demander à chaque requête. C'est la valeur par défaut et la plus sûre.</p>
+    <p><b>auto</b> : autoriser automatiquement les requêtes sûres (lecture, liste, recherche) et ne demander que pour les requêtes risquées (écriture, édition, exécution, réseau).</p>
+    <p><b>full</b> : ne jamais demander, tout autoriser.</p>
+    <p>Le mode s'applique à toute la session et est mémorisé entre les redémarrages dans le répertoire des préférences, de sorte qu'il est défini une fois plutôt qu'à chaque session. Le sélecteur de permission du pane de l'assistant lit et écrit cette valeur.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Lire le mode de permission courant.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+mode = nelson.ai.acp.permissionMode()
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Autoriser automatiquement les requêtes sûres et ne demander que pour les risquées.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+nelson.ai.acp.permissionMode('auto')
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.agent">nelson.ai.agent</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.skills">nelson.ai.skills</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+</xmldoc>

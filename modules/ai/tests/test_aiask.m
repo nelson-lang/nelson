@@ -7,21 +7,21 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-asserts.isequal(nargin('aiask'), 2);
-asserts.isequal(nargout('aiask'), -1);
+asserts.isequal(nargin('nelson.ai.ask'), 2);
+asserts.isequal(nargout('nelson.ai.ask'), -1);
 %=============================================================================
-opts = aioptions('Provider', 'unknown');
-asserts.checkerror('aiask(''hello'', opts)', _('Unsupported AI provider.'));
+opts = nelson.ai.options('Provider', 'unknown');
+asserts.checkerror('nelson.ai.ask(''hello'', opts)', _('Unsupported AI provider.'));
 %=============================================================================
 % a non-text prompt is rejected before any provider request is attempted.
-asserts.checkerror('aiask(5)', _('prompt must be a character vector or string scalar.'));
+asserts.checkerror('nelson.ai.ask(5)', _('prompt must be a character vector or string scalar.'));
 %=============================================================================
 % a non-scalar string prompt is rejected.
-asserts.checkerror('aiask(["a", "b"])', _('prompt must be a character vector or string scalar.'));
+asserts.checkerror('nelson.ai.ask(["a", "b"])', _('prompt must be a character vector or string scalar.'));
 %=============================================================================
 % a multi-row char prompt is rejected.
-asserts.checkerror('aiask([''ab''; ''cd''])', _('prompt must be a character vector or string scalar.'));
+asserts.checkerror('nelson.ai.ask([''ab''; ''cd''])', _('prompt must be a character vector or string scalar.'));
 %=============================================================================
 % options must be a scalar struct.
-asserts.checkerror('aiask(''hello'', 1)', _('options must be a scalar struct returned by aioptions.'));
+asserts.checkerror('nelson.ai.ask(''hello'', 1)', _('options must be a scalar struct returned by nelson.ai.options.'));
 %=============================================================================

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.ai.ask</keyword>
+  <short_description>Interroge un fournisseur IA externe depuis Nelson.</short_description>
+  <syntax>
+    <syntax_item>text = nelson.ai.ask(prompt)</syntax_item>
+    <syntax_item>[text, response] = nelson.ai.ask(prompt, options)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>nelson.ai.ask</b> appelle un fournisseur IA configure tel qu'Ollama ou un endpoint HTTP compatible OpenAI.</p>
+    <p>Pour Ollama, <b>nelson.ai.ask</b> utilisé par défaut l'endpoint HTTP local <b>http://127.0.0.1:11434/api/generate</b> et envoie des requêtes sans streaming.</p>
+    <p>Cette fonction interroge le fournisseur directement depuis Nelson. Elle n'expose pas les outils MCP. Utiliser <b>nelson.ai.mcp.server</b> lorsqu'un agent externe doit appeler les outils Nelson.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Interroger un modèle Ollama local avec l'endpoint par défaut.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+% Dans un terminal, demarrer Ollama et telecharger un modele:
+%   ollama serve
+%   ollama pull llama3.2
+
+opts = nelson.ai.options('Provider', 'ollama', ...
+                 'Model', 'llama3.2', ...
+                 'Endpoint', 'http://127.0.0.1:11434/api/generate', ...
+                 'Timeout', 120, ...
+                 'SystemPrompt', 'Retourne uniquement du code Nelson. Les fonctions Nelson utilisent la syntaxe: function y = name(x), instructions, end.', ...
+                 'Think', false, ...
+                 'NumPredict', 200, ...
+                 'Temperature', 0);
+
+answer = nelson.ai.ask('Ecris une fonction y = vector_mean(x). Utilise y = mean(x).', opts)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Retourner le texte génère et la réponse Ollama brute.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+opts = nelson.ai.options('Provider', 'ollama', 'Model', 'llama3.2');
+[text, response] = nelson.ai.ask('Explique la difference entre plot et semilogy dans Nelson.', opts);
+disp(text)
+disp(response.total_duration)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Utiliser le premier modèle Ollama local avec une réponse limitée.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+models = nelson.ai.models();
+opts = nelson.ai.options('Provider', 'ollama', ...
+                 'Model', models{1}, ...
+                 'SystemPrompt', 'Retourne uniquement du code Nelson. Les fonctions Nelson utilisent la syntaxe: function y = name(x), instructions, end.', ...
+                 'Think', false, ...
+                 'NumPredict', 120, ...
+                 'Temperature', 0);
+answer = nelson.ai.ask('Ecris une fonction y = vector_mean(x). Utilise y = mean(x).', opts)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.models">nelson.ai.models</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.options">nelson.ai.options</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.mcp.server">nelson.ai.mcp.server</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+</xmldoc>

@@ -6,7 +6,7 @@
   <short_description>Use Nelson through MCP from an AI agent.</short_description>
   <description>
     <p><b>mcpusage</b> explains how to connect an MCP-capable AI agent to Nelson.</p>
-    <p>Nelson runs the MCP server with <b>mcpserver</b>. The AI agent is the MCP client. A local model provider such as Ollama can run the language model, but Ollama itself is not the MCP client.</p>
+    <p>Nelson runs the MCP server with <b>nelson.ai.mcp.server</b>. The AI agent is the MCP client. A local model provider such as Ollama can run the language model, but Ollama itself is not the MCP client.</p>
     <p>The recommended executable is <b>nelson-adv-cli</b>, because it can run graphical commands used by <b>create_nelson_plot</b> while keeping standard output reserved for MCP JSON-RPC messages.</p>
     <p>Registering Nelson in an MCP client is usually a one-time configuration step. Repeat it only when the Nelson executable path, server name, workspace root, or server options change.</p>
     <p>Use <b>--workspace-root</b> to restrict file-based tools to a project folder. Use <b>--allow-execution=false</b> to disable execution tools, and <b>--allow-format=false</b> to disable formatting tools.</p>
@@ -16,7 +16,7 @@
       <example_item_type>nelson</example_item_type>
       <example_item_description>Start the Nelson MCP server manually.</example_item_description>
       <example_item_data runnable="false"><![CDATA[
-nelson-adv-cli --quiet --no-ipc --no-user-startup --no-user-modules -e "mcpserver('--workspace-root=D:/work/nelson-project --nelson-display-mode=adv-cli')"
+nelson-adv-cli --quiet --no-ipc --no-user-startup --no-user-modules -e "nelson.ai.mcp.server('--workspace-root=D:/work/nelson-project --nelson-display-mode=adv-cli')"
 ]]></example_item_data>
     </example_item>
     <example_item>
@@ -24,7 +24,7 @@ nelson-adv-cli --quiet --no-ipc --no-user-startup --no-user-modules -e "mcpserve
       <example_item_description>Register Nelson as an MCP server in Codex.</example_item_description>
       <example_item_data runnable="false"><![CDATA[
 # Run this once per Codex configuration. Run it again only to change the command or options.
-codex mcp add nelson -- nelson-adv-cli --quiet --no-ipc --no-user-startup --no-user-modules -e "mcpserver('--workspace-root=D:/work/nelson-project --nelson-display-mode=adv-cli')"
+codex mcp add nelson -- nelson-adv-cli --quiet --no-ipc --no-user-startup --no-user-modules -e "nelson.ai.mcp.server('--workspace-root=D:/work/nelson-project --nelson-display-mode=adv-cli')"
 ]]></example_item_data>
     </example_item>
     <example_item>
@@ -46,7 +46,7 @@ codex mcp add nelson -- nelson-adv-cli --quiet --no-ipc --no-user-startup --no-u
         "--no-user-startup",
         "--no-user-modules",
         "-e",
-        "mcpserver('--workspace-root=D:/work/nelson-project --nelson-display-mode=adv-cli --max-output-characters=200000')"
+        "nelson.ai.mcp.server('--workspace-root=D:/work/nelson-project --nelson-display-mode=adv-cli --max-output-characters=200000')"
       ]
     }
   }
@@ -96,7 +96,7 @@ If the client cannot list tools:
 
 If the workspace or options changed:
   Update the MCP client registration.
-  In Codex, run codex mcp add again with the new mcpserver options.
+  In Codex, run codex mcp add again with the new nelson.ai.mcp.server options.
 
 If file tools are refused:
   Check --workspace-root and use paths inside that folder.
@@ -112,10 +112,10 @@ If responses are too large:
   </examples>
    <see_also>
     <see_also_item>
-      <link linkend="${ai}mcpserver">mcpserver</link>
+      <link linkend="${ai}nelson.ai.mcp.server">nelson.ai.mcp.server</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${ai}mcpinfo">mcpinfo</link>
+      <link linkend="${ai}nelson.ai.mcp.info">nelson.ai.mcp.info</link>
     </see_also_item>
   </see_also>
   <history>

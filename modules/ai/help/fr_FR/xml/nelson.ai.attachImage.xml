@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.ai.attachImage</keyword>
+  <short_description>Attache une image aux options IA pour un modèle de vision.</short_description>
+  <syntax>
+    <syntax_item>options = nelson.ai.attachImage(options, imagePath)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>options</param_name>
+      <param_description>une structure d'options IA, telle que retournée par <b>nelson.ai.options</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>imagePath</param_name>
+      <param_description>une chaîne de caractères : le chemin d'un fichier image sur le disque.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>options</param_name>
+      <param_description>les mêmes options avec l'image ajoutée à leur champ <b>Images</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.ai.attachImage</b> lit un fichier image, l'encode en base64 et l'ajoute au champ <b>Images</b> des options, afin qu'un modèle capable de vision reçoive l'image en même temps que la requête passée à <b>nelson.ai.ask</b>.</p>
+    <p>Le champ <b>Images</b> est un tableau de cellules de chaînes base64. Appeler <b>nelson.ai.attachImage</b> plusieurs fois attache plusieurs images.</p>
+    <p>Lorsque le fichier n'existe pas ou ne peut pas être lu, les options sont retournées inchangées.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Attacher une image et demander à un modèle de vision de la décrire.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+opts = nelson.ai.options('Provider', 'ollama', 'Model', 'llava:latest');
+opts = nelson.ai.attachImage(opts, [nelsonroot(), '/resources/fruits.png']);
+answer = nelson.ai.ask('Describe this image.', opts)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.ask">nelson.ai.ask</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.options">nelson.ai.options</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+</xmldoc>

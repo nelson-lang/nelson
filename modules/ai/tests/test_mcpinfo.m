@@ -7,10 +7,10 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-asserts.isequal(nargin('mcpinfo'), 0);
-asserts.isequal(nargout('mcpinfo'), 1);
+asserts.isequal(nargin('nelson.ai.mcp.info'), 0);
+asserts.isequal(nargout('nelson.ai.mcp.info'), 1);
 %=============================================================================
-info = mcpinfo();
+info = nelson.ai.mcp.info();
 asserts.istrue(isstruct(info));
 asserts.isequal(info.name, 'nelson');
 asserts.isequal(info.transport, 'stdio');

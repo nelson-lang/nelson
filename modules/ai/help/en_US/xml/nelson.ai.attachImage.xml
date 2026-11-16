@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.ai.attachImage</keyword>
+  <short_description>Attach an image to the AI options for a vision model.</short_description>
+  <syntax>
+    <syntax_item>options = nelson.ai.attachImage(options, imagePath)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>options</param_name>
+      <param_description>a struct of AI options, as returned by <b>nelson.ai.options</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>imagePath</param_name>
+      <param_description>a string: the path to an image file on disk.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>options</param_name>
+      <param_description>the same options with the image appended to its <b>Images</b> field.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.ai.attachImage</b> reads an image file, encodes it in base64 and appends it to the <b>Images</b> field of the options, so a vision-capable model receives the image together with the prompt passed to <b>nelson.ai.ask</b>.</p>
+    <p>The <b>Images</b> field is a cell array of base64 strings. Calling <b>nelson.ai.attachImage</b> several times attaches several images.</p>
+    <p>When the file does not exist or cannot be read, the options are returned unchanged.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Attach an image and ask a vision model to describe it.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+opts = nelson.ai.options('Provider', 'ollama', 'Model', 'llava:latest');
+opts = nelson.ai.attachImage(opts, [nelsonroot(), '/resources/fruits.png']);
+answer = nelson.ai.ask('Describe this image.', opts)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.ask">nelson.ai.ask</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.options">nelson.ai.options</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+</xmldoc>

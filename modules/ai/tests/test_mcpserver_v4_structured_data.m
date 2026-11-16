@@ -21,7 +21,7 @@ requests = {
   '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"detect_nelson_modules","arguments":{"module":"ai"}}}';
   ['{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"run_nelson_test_file","arguments":{"target":"', ...
     test_file, '"}}}'];
-  '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"find_nelson_symbol","arguments":{"symbol":"mcpserver"}}}'
+  '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"find_nelson_symbol","arguments":{"symbol":"nelson.ai.mcp.server"}}}'
 };
 response = ai_mcp_request(requests, 120, ['--workspace-root=''', test_dir, '''']);
 asserts.isequal(response.status, 0);
@@ -39,9 +39,9 @@ asserts.isequal(test_response.result.structuredContent.data.failed, 0);
 asserts.istrue(test_response.result.structuredContent.data.passed >= 1);
 asserts.istrue(isfield(symbol_response.result.structuredContent.data, 'matches'));
 % Symbol search anchors on source files (help XML, src, builtin). Installed
-% builds ship only compiled help (*.nhz), so a builtin like mcpserver has no
+% builds ship only compiled help (*.nhz), so a builtin like nelson.ai.mcp.server has no
 % name-anchored file to match there; only assert matches on a source checkout.
-if isfile([nelsonroot(), '/modules/ai/help/en_US/xml/mcpserver.xml'])
+if isfile([nelsonroot(), '/modules/ai/help/en_US/xml/nelson.ai.mcp.server.xml'])
   asserts.istrue(numel(symbol_response.result.structuredContent.data.matches) >= 1);
 end
 

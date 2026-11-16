@@ -34,9 +34,9 @@ function response = ai_mcp_request(requests, timeout, varargin)
   cleanup_output = onCleanup(@() rmfile(output_file));
 
   if isempty(server_options)
-    server_command = 'mcpserver; quit';
+    server_command = 'nelson.ai.mcp.server; quit';
   else
-    server_command = ['mcpserver(''', strrep(server_options, '''', ''''''), '''); quit'];
+    server_command = ['nelson.ai.mcp.server(''', strrep(server_options, '''', ''''''), '''); quit'];
   end
   command_argument = escape_mcp_command_argument(server_command);
   process_timeout = int2str(max(1, ceil(timeout) + 5));

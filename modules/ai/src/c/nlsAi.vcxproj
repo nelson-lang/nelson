@@ -93,9 +93,9 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_SILENCE_CXX17_OLD_ALLOCATOR_MEMBERS_DEPRECATION_WARNING;_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;_SILENCE_CXX17_RESULT_OF_DEPRECATION_WARNING;_DEBUG;_WINDOWS;_USRDLL;NLSAI_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_SILENCE_CXX17_OLD_ALLOCATOR_MEMBERS_DEPRECATION_WARNING;_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;_SILENCE_CXX17_RESULT_OF_DEPRECATION_WARNING;_DEBUG;_WINDOWS;_USRDLL;NLSAI_EXPORTS;NELSON_AI_WITH_CURL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/ai/src/include;$(SolutionDir)modules/ai/src/cpp;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/json/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/ai/src/include;$(SolutionDir)modules/ai/src/cpp;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/json/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/curl/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -103,6 +103,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
+      <AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/curl/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -112,9 +113,9 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_SILENCE_CXX17_OLD_ALLOCATOR_MEMBERS_DEPRECATION_WARNING;_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;_SILENCE_CXX17_RESULT_OF_DEPRECATION_WARNING;_DEBUG;_WINDOWS;_USRDLL;NLSAI_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_SILENCE_CXX17_OLD_ALLOCATOR_MEMBERS_DEPRECATION_WARNING;_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;_SILENCE_CXX17_RESULT_OF_DEPRECATION_WARNING;_DEBUG;_WINDOWS;_USRDLL;NLSAI_EXPORTS;NELSON_AI_WITH_CURL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/ai/src/include;$(SolutionDir)modules/ai/src/cpp;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/json/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/ai/src/include;$(SolutionDir)modules/ai/src/cpp;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/json/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/curl/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -122,6 +123,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
+      <AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/curl/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -134,9 +136,9 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;_SILENCE_CXX17_OLD_ALLOCATOR_MEMBERS_DEPRECATION_WARNING;_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;_SILENCE_CXX17_RESULT_OF_DEPRECATION_WARNING;NDEBUG;_WINDOWS;_USRDLL;NLSAI_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_SILENCE_CXX17_OLD_ALLOCATOR_MEMBERS_DEPRECATION_WARNING;_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;_SILENCE_CXX17_RESULT_OF_DEPRECATION_WARNING;NDEBUG;_WINDOWS;_USRDLL;NLSAI_EXPORTS;NELSON_AI_WITH_CURL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/ai/src/include;$(SolutionDir)modules/ai/src/cpp;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/json/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/ai/src/include;$(SolutionDir)modules/ai/src/cpp;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/json/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/curl/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -145,6 +147,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
+      <AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/curl/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
@@ -159,9 +162,9 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;_SILENCE_CXX17_OLD_ALLOCATOR_MEMBERS_DEPRECATION_WARNING;_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;_SILENCE_CXX17_RESULT_OF_DEPRECATION_WARNING;NDEBUG;_WINDOWS;_USRDLL;NLSAI_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_SILENCE_CXX17_OLD_ALLOCATOR_MEMBERS_DEPRECATION_WARNING;_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;_SILENCE_CXX17_RESULT_OF_DEPRECATION_WARNING;NDEBUG;_WINDOWS;_USRDLL;NLSAI_EXPORTS;NELSON_AI_WITH_CURL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/ai/src/include;$(SolutionDir)modules/ai/src/cpp;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/json/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/ai/src/include;$(SolutionDir)modules/ai/src/cpp;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/json/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/curl/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -169,6 +172,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
+      <AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/curl/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
@@ -208,13 +212,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\AiMcpServer.cpp" />
+    <ClCompile Include="..\cpp\AiStreamChat.cpp" />
+    <ClCompile Include="..\cpp\AiToolRegistry.cpp" />
     <ClCompile Include="..\cpp\AiMcpServerQualityTools.cpp" />
     <ClCompile Include="..\cpp\AiMcpSkillCatalog.cpp" />
     <ClCompile Include="..\cpp\AiMcpServerTools.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\AiMcpServer.hpp" />
+    <ClInclude Include="..\include\AiStreamChat.hpp" />
     <ClInclude Include="..\include\AiMcpServerPrivate.hpp" />
+    <ClInclude Include="..\include\AiToolRegistry.hpp" />
     <ClInclude Include="..\cpp\AiMcpSymbolSearch.hpp" />
     <ClInclude Include="..\include\nlsAi_exports.h" />
   </ItemGroup>

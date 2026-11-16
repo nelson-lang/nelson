@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.ai.agent</keyword>
+  <short_description
+  >Execute une boucle d'assistant agentique capable d'appeler des outils Nelson.</short_description>
+  <syntax>
+    <syntax_item>answer = nelson.ai.agent(prompt)</syntax_item>
+    <syntax_item>answer = nelson.ai.agent(prompt, options)</syntax_item>
+    <syntax_item>[answer, transcript] = nelson.ai.agent(prompt, options)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>prompt</param_name>
+      <param_description
+      >chaine de caracteres: la tache decrite en langage naturel.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>options</param_name>
+      <param_description
+      >structure scalaire issue de nelson.ai.options; un champ optionnel MaxSteps limite le nombre d'etapes d'outil.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>answer</param_name>
+      <param_description>chaine de caracteres: la reponse finale de l'assistant.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>transcript</param_name>
+      <param_description>chaine de caracteres: l'echange complet, avec les resultats d'outils.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.ai.agent</b> pilote une boucle agentique: le modele peut demander des outils Nelson,
+    executes dans la session vivante avec <b>nelson.ai.mcp.call</b>, et les resultats lui sont renvoyes
+    jusqu'a une reponse finale.</p>
+    <p>Elle requiert un fournisseur d'IA joignable via <b>nelson.ai.options</b> et <b>nelson.ai.ask</b>, par
+    exemple un serveur Ollama local ou un point d'acces compatible OpenAI.</p>
+    <p>Le modele demande un outil en repondant par un objet JSON
+    <b>{"tool": "&lt;name&gt;", "arguments": {...}}</b>, et termine en repondant par du texte simple.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Requiert un fournisseur configure (par exemple un serveur Ollama local).</example_item_description>
+      <example_item_data
+      ><![CDATA[opts = nelson.ai.options();
+answer = nelson.ai.agent('Compute the mean of 1:10 and show it.', opts);
+disp(answer)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.ask">nelson.ai.ask</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.options">nelson.ai.options</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.mcp.call">nelson.ai.mcp.call</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

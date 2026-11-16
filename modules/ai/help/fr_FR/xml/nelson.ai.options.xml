@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.ai.options</keyword>
+  <short_description>Crée les options pour les requêtes a un fournisseur IA.</short_description>
+  <syntax>
+    <syntax_item>options = nelson.ai.options()</syntax_item>
+    <syntax_item>options = nelson.ai.options(name, value, ...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>nelson.ai.options</b> crée une structure scalaire utilisée par <b>nelson.ai.ask</b>.</p>
+    <p>Le fournisseur par défaut est <b>ollama</b>, le modèle par défaut est <b>llama3</b>, et l'endpoint par défaut est <b>http://127.0.0.1:11434/api/generate</b>.</p>
+    <p>Les options supportées sont <b>Provider</b>, <b>Model</b>, <b>Endpoint</b>, <b>TokenEnvVar</b>, <b>Timeout</b>, <b>SystemPrompt</b>, <b>Think</b>, <b>NumPredict</b> et <b>Temperature</b>.</p>
+    <p>Pour Ollama, <b>Think</b>, <b>NumPredict</b> et <b>Temperature</b> sont envoyés dans la requête. Utilisez-les pour limiter les réponses des modèles locaux.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Créer des options Ollama pour un modèle local.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+opts = nelson.ai.options('Provider', 'ollama', ...
+                 'Model', 'llama3.2', ...
+                 'Endpoint', 'http://127.0.0.1:11434/api/generate', ...
+                 'Timeout', 180, ...
+                 'Think', false, ...
+                 'NumPredict', 200, ...
+                 'Temperature', 0);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.ask">nelson.ai.ask</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.models">nelson.ai.models</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+</xmldoc>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.ai.skills</keyword>
+  <short_description>Liste les compétences disponibles de l'assistant.</short_description>
+  <syntax>
+    <syntax_item>result = nelson.ai.skills()</syntax_item>
+    <syntax_item>result = nelson.ai.skills(query)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>query</param_name>
+      <param_description>une chaîne de caractères : lorsqu'elle est fournie, seules les compétences dont les déclencheurs ou les mots du nom correspondent au texte sont retournées.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>result</param_name>
+      <param_description>un tableau de structures, une entrée par compétence, avec les champs <b>name</b>, <b>description</b>, <b>triggers</b>, <b>path</b> et <b>source</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.ai.skills</b> retourne les compétences de l'assistant découvertes depuis trois sources, fusionnées par nom.</p>
+    <p>Les sources sont, par priorité croissante : le catalogue intégré fourni avec le module <b>ai</b>, un dossier <b>skills</b> dans tout module chargé, et le dossier utilisateur situé sous le répertoire des préférences. Une compétence définie dans une source de priorité supérieure remplace une compétence intégrée ou de module portant le même nom.</p>
+    <p>Chaque compétence est un fichier <b>SKILL.md</b> ; ses métadonnées sont lues par <b>nelson.ai.parseSkill</b>. Le champ <b>source</b> du résultat indique où la compétence a été trouvée et vaut <b>builtin</b>, <b>module</b> ou <b>user</b>.</p>
+    <p>Lorsqu'une chaîne <b>query</b> est donnée, le résultat ne conserve que les compétences dont les déclencheurs déclarés, ou dont les mots du nom de quatre caractères ou plus, apparaissent dans le texte. C'est ainsi que l'assistant sélectionne les compétences pertinentes pour une requête.</p>
+    <p>Les compétences utilisateur sont installées sous le répertoire des préférences et peuvent être gérées avec <b>nelson.ai.marketplace.install</b> et les fonctions associées.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Lister toutes les compétences disponibles.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+result = nelson.ai.skills()
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Lire le nom et la source de chaque compétence.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+result = nelson.ai.skills();
+for k = 1:numel(result)
+  disp([result(k).name, ' (', result(k).source, ')']);
+end
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Ne garder que les compétences pertinentes pour une requête.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+result = nelson.ai.skills('help me write a unit test')
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.agent">nelson.ai.agent</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.marketplace.search">nelson.ai.marketplace.search</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.marketplace.install">nelson.ai.marketplace.install</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+</xmldoc>

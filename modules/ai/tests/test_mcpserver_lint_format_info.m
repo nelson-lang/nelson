@@ -47,7 +47,7 @@ requests = {
     ok_file, '","format":"json"}}}'];
   ['{"jsonrpc":"2.0","id":4,"method":"tools/call","params":{"name":"check_nelson_format","arguments":{"path":"', ...
     format_file, '","config_path":"', format_config_file, '"}}}'];
-  '{"jsonrpc":"2.0","id":5,"method":"tools/call","params":{"name":"get_nelson_function_info","arguments":{"symbol":"mcpserver"}}}';
+  '{"jsonrpc":"2.0","id":5,"method":"tools/call","params":{"name":"get_nelson_function_info","arguments":{"symbol":"nelson.ai.mcp.server"}}}';
   ['{"jsonrpc":"2.0","id":6,"method":"tools/call","params":{"name":"lint_nelson_code","arguments":{"path":"', ...
     outside_file, '"}}}']
 };
@@ -80,12 +80,12 @@ asserts.isfalse(contains(fileread(format_file), '    a = 1'));
 
 info_response = ai_mcp_response_by_id(response.output, 5);
 asserts.isequal(info_response.result.structuredContent.success, true);
-asserts.isequal(info_response.result.structuredContent.data.symbol, 'mcpserver');
+asserts.isequal(info_response.result.structuredContent.data.symbol, 'nelson.ai.mcp.server');
 asserts.isfalse(isempty(info_response.result.structuredContent.data.which));
 % has_tests/has_help are derived from a source-tree symbol search anchored on
 % help XML. Installed builds ship only compiled help (*.nhz), so these flags are
 % only meaningful on a source checkout.
-if isfile([nelsonroot(), '/modules/ai/help/en_US/xml/mcpserver.xml'])
+if isfile([nelsonroot(), '/modules/ai/help/en_US/xml/nelson.ai.mcp.server.xml'])
   asserts.istrue(info_response.result.structuredContent.data.has_tests);
   asserts.istrue(info_response.result.structuredContent.data.has_help);
 end

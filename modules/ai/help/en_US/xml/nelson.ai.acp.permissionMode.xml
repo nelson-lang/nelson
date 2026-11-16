@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.ai.acp.permissionMode</keyword>
+  <short_description>Get or set the assistant file-access permission mode.</short_description>
+  <syntax>
+    <syntax_item>mode = nelson.ai.acp.permissionMode()</syntax_item>
+    <syntax_item>mode = nelson.ai.acp.permissionMode(newMode)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>newMode</param_name>
+      <param_description>a string: <b>always_ask</b>, <b>auto</b> or <b>full</b>. An unrecognized value is ignored.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>mode</param_name>
+      <param_description>a string: the effective permission mode after the call.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.ai.acp.permissionMode</b> reads or changes how the assistant's file-access requests are approved. Called with no argument it returns the current mode; called with a mode it sets it and returns the effective value.</p>
+    <p>The modes are:</p>
+    <p><b>always_ask</b>: prompt on every request. This is the default and the safest.</p>
+    <p><b>auto</b>: auto-allow safe requests (read, list, search) and prompt only for risky ones (write, edit, execute, network).</p>
+    <p><b>full</b>: never prompt, allow everything.</p>
+    <p>The mode is session-wide and is remembered across restarts in the preferences directory, so it is set once rather than every session. The assistant pane permission selector reads and writes this value.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Read the current permission mode.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+mode = nelson.ai.acp.permissionMode()
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Auto-allow safe requests and prompt only for risky ones.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+nelson.ai.acp.permissionMode('auto')
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.agent">nelson.ai.agent</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.skills">nelson.ai.skills</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+</xmldoc>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.ai.agent</keyword>
+  <short_description
+  >Run an agentic assistant loop that can call Nelson tools.</short_description>
+  <syntax>
+    <syntax_item>answer = nelson.ai.agent(prompt)</syntax_item>
+    <syntax_item>answer = nelson.ai.agent(prompt, options)</syntax_item>
+    <syntax_item>[answer, transcript] = nelson.ai.agent(prompt, options)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>prompt</param_name>
+      <param_description
+      >string scalar or character vector: the task described in plain language.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>options</param_name>
+      <param_description
+      >scalar struct from nelson.ai.options; an optional MaxSteps field limits the number of tool steps.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>answer</param_name>
+      <param_description>character vector: the final assistant answer.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>transcript</param_name>
+      <param_description>character vector: the full exchange, including tool results.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.ai.agent</b> drives an agentic loop: the model may request Nelson tools, which are
+    run in the live session with <b>nelson.ai.mcp.call</b>, and the results are fed back until a final
+    answer is produced.</p>
+    <p>It requires an AI provider reachable through <b>nelson.ai.options</b> and <b>nelson.ai.ask</b>, for
+    example a local Ollama server or an OpenAI-compatible endpoint.</p>
+    <p>The model requests a tool by replying with a JSON object
+    <b>{"tool": "&lt;name&gt;", "arguments": {...}}</b>, and ends by replying with plain text.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Requires a configured provider (for example a local Ollama server).</example_item_description>
+      <example_item_data
+      ><![CDATA[opts = nelson.ai.options();
+answer = nelson.ai.agent('Compute the mean of 1:10 and show it.', opts);
+disp(answer)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.ask">nelson.ai.ask</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.options">nelson.ai.options</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.mcp.call">nelson.ai.mcp.call</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

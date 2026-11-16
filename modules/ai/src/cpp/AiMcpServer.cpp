@@ -10,6 +10,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "AiMcpServer.hpp"
 #include "AiMcpServerPrivate.hpp"
+#include "AiToolRegistry.hpp"
+#include <optional>
 #include "JsonDecode.hpp"
 #include "characters_encoding.hpp"
 #include <cstdlib>
@@ -447,39 +449,11 @@ namespace {
         if (arguments.isEmpty()) {
             arguments = ArrayOf::structArray(stringVector {}, ArrayOfVector {});
         }
-        ToolResult result;
-        if (name == L"detect_nelson_modules") {
-            result = detectNelsonModules(arguments);
-        } else if (name == L"check_nelson_code") {
-            result = checkNelsonCode(eval, arguments, options);
-        } else if (name == L"lint_nelson_code") {
-            result = lintNelsonCode(eval, arguments, options);
-        } else if (name == L"check_nelson_format") {
-            result = checkNelsonFormat(eval, arguments, options);
-        } else if (name == L"evaluate_nelson_code") {
-            result = evaluateNelsonCode(eval, arguments, options);
-        } else if (name == L"run_nelson_file") {
-            result = runNelsonFile(eval, arguments, options);
-        } else if (name == L"run_nelson_test_file") {
-            result = runNelsonTest(eval, arguments, options);
-        } else if (name == L"format_nelson_file") {
-            result = formatNelsonFile(eval, arguments, options);
-        } else if (name == L"get_nelson_help") {
-            result = getNelsonHelp(eval, arguments);
-        } else if (name == L"find_nelson_symbol") {
-            result = findNelsonSymbol(arguments);
-        } else if (name == L"get_nelson_function_info") {
-            result = getNelsonFunctionInfo(eval, arguments, options);
-        } else if (name == L"get_nelson_version") {
-            result = getNelsonVersion(eval, options);
-        } else if (name == L"get_nelson_workspace") {
-            result = getNelsonWorkspace(options);
-        } else if (name == L"create_nelson_plot") {
-            result = createNelsonPlot(eval, arguments, options);
-        } else {
+        std::optional<ToolResult> result = invokeTool(eval, name, arguments, options);
+        if (!result.has_value()) {
             return errorResponse(id, -32602, L"Unknown tool.");
         }
-        return toolContentResponse(id, applyOutputLimit(result, options));
+        return toolContentResponse(id, applyOutputLimit(result.value(), options));
     }
     //=============================================================================
     std::string

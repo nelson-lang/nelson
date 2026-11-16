@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.ai.marketplace.installed</keyword>
+  <short_description>Liste les paquets de compétence installés de l'assistant.</short_description>
+  <syntax>
+    <syntax_item>result = nelson.ai.marketplace.installed()</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>result</param_name>
+      <param_description>un tableau de structures, une entrée par paquet installé, avec les champs <b>name</b> et <b>path</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.ai.marketplace.installed</b> liste les paquets de compétence de l'assistant installés dans le répertoire des compétences utilisateur, sous le répertoire des préférences.</p>
+    <p>Chaque entrée donne le <b>name</b> du paquet et le <b>path</b> de son dossier installé. Utilisez <b>nelson.ai.marketplace.remove</b> pour en désinstaller un par son nom.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Lister les paquets installés.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+result = nelson.ai.marketplace.installed()
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.marketplace.install">nelson.ai.marketplace.install</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.marketplace.remove">nelson.ai.marketplace.remove</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.marketplace.search">nelson.ai.marketplace.search</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+</xmldoc>

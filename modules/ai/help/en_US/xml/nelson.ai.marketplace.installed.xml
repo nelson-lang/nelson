@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.ai.marketplace.installed</keyword>
+  <short_description>List the installed assistant skill packages.</short_description>
+  <syntax>
+    <syntax_item>result = nelson.ai.marketplace.installed()</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>result</param_name>
+      <param_description>a struct array, one entry per installed package, with the fields <b>name</b> and <b>path</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.ai.marketplace.installed</b> lists the assistant skill packages installed in the user skills directory, under the preferences directory.</p>
+    <p>Each entry gives the package <b>name</b> and the <b>path</b> of its installed folder. Use <b>nelson.ai.marketplace.remove</b> to uninstall one by name.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>List the installed packages.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+result = nelson.ai.marketplace.installed()
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.marketplace.install">nelson.ai.marketplace.install</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.marketplace.remove">nelson.ai.marketplace.remove</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.marketplace.search">nelson.ai.marketplace.search</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+</xmldoc>

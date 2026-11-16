@@ -155,5 +155,11 @@ getNelsonWorkspace(const McpOptions& options);
 ToolResult
 createNelsonPlot(Evaluator* eval, const ArrayOf& args, const McpOptions& options);
 //=============================================================================
+ToolResult
+openInNelsonEditor(Evaluator* eval, const ArrayOf& args, const McpOptions& options);
+//=============================================================================
+ToolResult
+captureNelsonFigure(Evaluator* eval, const ArrayOf& args, const McpOptions& options);
+//=============================================================================
 } // namespace Nelson::AiMcp
 //=============================================================================

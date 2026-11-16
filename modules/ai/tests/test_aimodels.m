@@ -7,18 +7,18 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-asserts.isequal(nargin('aimodels'), 1);
-asserts.isequal(nargout('aimodels'), -1);
+asserts.isequal(nargin('nelson.ai.models'), 1);
+asserts.isequal(nargout('nelson.ai.models'), -1);
 %=============================================================================
-opts = aioptions('Provider', 'unknown');
-asserts.checkerror('aimodels(opts)', _('Unsupported AI provider.'));
+opts = nelson.ai.options('Provider', 'unknown');
+asserts.checkerror('nelson.ai.models(opts)', _('Unsupported AI provider.'));
 %=============================================================================
-opts = aioptions('Provider', 'openai-compatible', 'TokenEnvVar', 'NELSON_AI_MISSING_TOKEN_FOR_TEST');
-asserts.checkerror('aimodels(opts)', _('AI provider token environment variable is not defined.'));
+opts = nelson.ai.options('Provider', 'openai-compatible', 'TokenEnvVar', 'NELSON_AI_MISSING_TOKEN_FOR_TEST');
+asserts.checkerror('nelson.ai.models(opts)', _('AI provider token environment variable is not defined.'));
 %=============================================================================
-asserts.checkerror('aimodels(1)', _('options must be a scalar struct returned by aioptions.'));
+asserts.checkerror('nelson.ai.models(1)', _('options must be a scalar struct returned by nelson.ai.options.'));
 %=============================================================================
-% aimodels does not support the codex-cli provider (unlike aiask).
-opts = aioptions('Provider', 'codex-cli');
-asserts.checkerror('aimodels(opts)', _('Unsupported AI provider.'));
+% nelson.ai.models does not support the codex-cli provider (unlike nelson.ai.ask).
+opts = nelson.ai.options('Provider', 'codex-cli');
+asserts.checkerror('nelson.ai.models(opts)', _('Unsupported AI provider.'));
 %=============================================================================

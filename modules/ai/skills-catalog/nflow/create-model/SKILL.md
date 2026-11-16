@@ -1,6 +1,7 @@
 ---
 name: nflow-create-model
 description: Create, save, validate, and test NFlow block-diagram models through the scripted API or the nflow-2 JSON format. Use when building a new .nflow example, generating a model programmatically, wiring blocks and subsystems, selecting a solver, adding physical connections, or preparing a model for simulation and C or Rust generation.
+triggers: nflow, .nflow, nflow model, block diagram, block-diagram, diagramme de blocs, schema bloc, schema de blocs, modele nflow, new_system, add_block, add_line, set_param, save_system
 ---
 
 # Create an NFlow Model

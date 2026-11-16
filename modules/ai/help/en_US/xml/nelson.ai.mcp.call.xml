@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.ai.mcp.call</keyword>
+  <short_description
+  >Invoke a Nelson assistant tool in the current session.</short_description>
+  <syntax>
+    <syntax_item>result = nelson.ai.mcp.call(name)</syntax_item>
+    <syntax_item>result = nelson.ai.mcp.call(name, args)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>name</param_name>
+      <param_description
+      >string scalar or character vector: the tool name, for example &apos;evaluate_nelson_code&apos;.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>args</param_name>
+      <param_description
+      >scalar struct: the tool arguments, whose fields match the tool input schema.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>result</param_name>
+      <param_description
+      >scalar struct with fields success, output, error, image, data, and duration.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.ai.mcp.call</b> runs one of the Nelson assistant tools directly in the live interpreter,
+    without the stdio transport used by <b>nelson.ai.mcp.server</b>.</p>
+    <p>It is the in-process bridge used by assistant loops such as <b>nelson.ai.agent</b>.</p>
+    <p>Available tools include evaluate_nelson_code, run_nelson_file, create_nelson_plot,
+    get_nelson_workspace, get_nelson_help, find_nelson_symbol, lint_nelson_code, and
+    check_nelson_code. See <b>nelson.ai.mcp.info</b> for the full list.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+      ><![CDATA[result = nelson.ai.mcp.call('evaluate_nelson_code', struct('code', 'disp(2 + 3)'));
+disp(result.output)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.agent">nelson.ai.agent</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.mcp.info">nelson.ai.mcp.info</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.mcp.server">nelson.ai.mcp.server</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
