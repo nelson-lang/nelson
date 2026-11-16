@@ -85,7 +85,8 @@ public:
     exitCode();
     size_t
     bytesAvailable();
-    int64 processId() const;
+    int64
+    processId() const;
 
     void
     retainUntilDeleted();

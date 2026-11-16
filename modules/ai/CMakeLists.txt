@@ -50,7 +50,9 @@ target_link_libraries(${module_library_name}
 # Token streaming of model replies needs libcurl; without it (e.g. a wasm build)
 # the streaming client compiles as a stub and callers fall back to webwrite.
 if(WITH_LIBCURL)
-  target_include_directories(${module_library_name} PRIVATE ${CURL_INCLUDE_DIRS})
+  target_include_directories(${module_library_name}
+    PRIVATE ${CURL_INCLUDE_DIRS}
+  )
   target_link_libraries(${module_library_name} PRIVATE ${CURL_LIBRARIES})
   target_compile_definitions(${module_library_name} PRIVATE NELSON_AI_WITH_CURL)
 endif()
@@ -99,15 +101,21 @@ target_link_libraries(${module_library_builtin_name}
 # host; when that module is disabled (minimal/wasm builds) that one call compiles
 # as a no-op, but the AssistantSink routing (nelson_manager, linked above) stays.
 if(WITHOUT_WEBVIEW_MODULE)
-  target_compile_definitions(${module_library_builtin_name} PRIVATE NLSAI_WITHOUT_WEBVIEW)
+  target_compile_definitions(${module_library_builtin_name}
+    PRIVATE NLSAI_WITHOUT_WEBVIEW
+  )
 else()
   target_include_directories(${module_library_builtin_name}
     PRIVATE
       ${CMAKE_CURRENT_SOURCE_DIR}/../webview/src/include
       ${CMAKE_CURRENT_SOURCE_DIR}/../webview/src/webui/include
-      ${CMAKE_CURRENT_SOURCE_DIR}/../modules_manager/src/include)
+      ${CMAKE_CURRENT_SOURCE_DIR}/../modules_manager/src/include
+  )
   target_link_libraries(${module_library_builtin_name}
-    PRIVATE nlsWebview nlsModules_manager)
+    PRIVATE
+      nlsWebview
+      nlsModules_manager
+  )
 endif()
 # ==============================================================================
 nelson_install_library(${module_library_name})

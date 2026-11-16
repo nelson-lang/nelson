@@ -23,8 +23,8 @@ namespace Nelson::AiMcp {
 // This is the in-process entry point shared by the stdio MCP server and any
 // other caller that needs the Nelson tools without the JSON-RPC transport.
 NLSAI_IMPEXP std::optional<ToolResult>
-invokeTool(Evaluator* eval, const std::wstring& name, const ArrayOf& args,
-    const McpOptions& options);
+invokeTool(
+    Evaluator* eval, const std::wstring& name, const ArrayOf& args, const McpOptions& options);
 //=============================================================================
 } // namespace Nelson::AiMcp
 //=============================================================================

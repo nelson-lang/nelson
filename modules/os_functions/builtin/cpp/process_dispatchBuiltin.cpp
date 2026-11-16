@@ -101,8 +101,7 @@ static ArrayOfVector
 openProcess(const ArrayOfVector& argIn)
 {
 #if defined(__EMSCRIPTEN__)
-    Error(L"Nelson:os_functions:processNotSupported",
-        L"process is not supported in this build.");
+    Error(L"Nelson:os_functions:processNotSupported", L"process is not supported in this build.");
 #endif
     nargincheck(argIn, 2);
     std::wstring command = textScalar(argIn[1]);
@@ -171,8 +170,8 @@ toBytes(const ArrayOf& value)
     }
     if (value.dataClass() == NLS_UINT8) {
         const auto* data = static_cast<const uint8*>(value.dataPointer());
-        return std::string(reinterpret_cast<const char*>(data),
-            static_cast<size_t>(value.elementCount()));
+        return std::string(
+            reinterpret_cast<const char*>(data), static_cast<size_t>(value.elementCount()));
     }
     Error(L"Nelson:os_functions:writeDataExpected", L"%s expected.",
         L"a character vector, string scalar, or uint8 vector");

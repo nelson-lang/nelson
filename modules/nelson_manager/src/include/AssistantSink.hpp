@@ -19,7 +19,8 @@ namespace Nelson {
 // activity/answer/error, payloadJson = the event data). The Qt desktop's
 // dockable assistant registers one; it is called from the interpreter thread,
 // so the sink must marshal UI work to its own thread.
-using AssistantSinkFn = std::function<void(const std::string& channel, const std::string& payloadJson)>;
+using AssistantSinkFn
+    = std::function<void(const std::string& channel, const std::string& payloadJson)>;
 //=============================================================================
 NLSNELSON_MANAGER_IMPEXP void
 SetAssistantSink(const AssistantSinkFn& sink);

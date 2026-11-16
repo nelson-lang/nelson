@@ -64,8 +64,8 @@ setCurlURL(CURL* curlObject, const std::string& url);
 static size_t
 write_data(void* ptr, size_t size, size_t nmemb, void* stream);
 static int
-xfer_progress(void* clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal,
-    curl_off_t ulnow);
+xfer_progress(
+    void* clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal, curl_off_t ulnow);
 //=============================================================================
 std::wstring
 WebREST(const std::wstring& url, const std::wstring& data, std::wstring& filename,
@@ -394,15 +394,16 @@ write_data(void* ptr, size_t size, size_t nmemb, void* stream)
 // Periodic callback: aborts the transfer when an interrupt is pending so a
 // request stuck waiting on the server can still be cancelled by the user.
 static int
-xfer_progress(void* clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal,
-    curl_off_t ulnow)
+xfer_progress(
+    void* clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal, curl_off_t ulnow)
 {
     (void)dltotal;
     (void)dlnow;
     (void)ultotal;
     (void)ulnow;
     WriteData* writeData = static_cast<WriteData*>(clientp);
-    if (writeData != nullptr && NelsonConfiguration::getInstance()->getInterruptPending(writeData->ID)) {
+    if (writeData != nullptr
+        && NelsonConfiguration::getInstance()->getInterruptPending(writeData->ID)) {
         return 1;
     }
     if (bHaveEventsLoop) {

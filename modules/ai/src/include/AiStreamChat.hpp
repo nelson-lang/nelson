@@ -27,9 +27,9 @@ aiStreamingAvailable();
 // available in this build.
 NLSAI_IMPEXP std::string
 aiStreamOllamaGenerate(const std::string& endpoint, const std::string& model,
-    const std::string& prompt, const std::string& systemPrompt, long numPredict,
-    bool hasNumPredict, double temperature, bool hasTemperature, double timeoutSeconds,
-    std::size_t evaluatorID, const std::function<void(const std::string&)>& onDelta);
+    const std::string& prompt, const std::string& systemPrompt, long numPredict, bool hasNumPredict,
+    double temperature, bool hasTemperature, double timeoutSeconds, std::size_t evaluatorID,
+    const std::function<void(const std::string&)>& onDelta);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

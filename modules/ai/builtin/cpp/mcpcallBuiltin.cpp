@@ -27,7 +27,8 @@ Nelson::AiGateway::mcpcallBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
     ArrayOf args;
     if (argIn.size() == 2) {
         if (!argIn[1].isStruct() || !argIn[1].isScalar()) {
-            Error(L"Nelson:ai:argsStructExpected", L"%s expected.", L"a scalar struct of arguments");
+            Error(
+                L"Nelson:ai:argsStructExpected", L"%s expected.", L"a scalar struct of arguments");
         }
         args = argIn[1];
     } else {

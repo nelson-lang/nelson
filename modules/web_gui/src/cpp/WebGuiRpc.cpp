@@ -1501,7 +1501,8 @@ WebGuiRpc::assistantModels(const nlohmann::json& params)
     std::istringstream stream(listText);
     std::string line;
     while (std::getline(stream, line)) {
-        while (!line.empty() && (line.back() == '\r' || line.back() == ' ' || line.back() == '\t')) {
+        while (
+            !line.empty() && (line.back() == '\r' || line.back() == ' ' || line.back() == '\t')) {
             line.pop_back();
         }
         size_t start = line.find_first_not_of(" \t");
@@ -1523,8 +1524,8 @@ WebGuiRpc::assistantPermissionReply(const nlohmann::json& params)
     }
     const long long id = params.value("id", static_cast<long long>(0));
     const std::string decision = params.value("decision", std::string());
-    const std::wstring command = L"nelson.ai.assistantPermissionReply('web', "
-        + std::to_wstring(id) + L", '" + assistantSingleQuoteSafe(decision) + L"');";
+    const std::wstring command = L"nelson.ai.assistantPermissionReply('web', " + std::to_wstring(id)
+        + L", '" + assistantSingleQuoteSafe(decision) + L"');";
     m_terminal->runOnInterpreterThread([&] {
         if (m_evaluator == nullptr) {
             return;

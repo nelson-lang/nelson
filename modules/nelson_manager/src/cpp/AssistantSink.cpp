@@ -79,7 +79,7 @@ NFlowAssistantSinkPush(const std::string& channel, const std::string& payloadJso
 static std::atomic<bool>&
 assistantStopFlag()
 {
-    static std::atomic<bool> flag{ false };
+    static std::atomic<bool> flag { false };
     return flag;
 }
 //=============================================================================

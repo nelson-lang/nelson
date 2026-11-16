@@ -123,8 +123,8 @@ QtAssistantBrowser::QtAssistantBrowser(QWidget* parent) : QDockWidget(parent)
     connect(m_send, &QPushButton::clicked, this, &QtAssistantBrowser::onSend);
     connect(m_input, &QLineEdit::returnPressed, this, &QtAssistantBrowser::onSend);
     connect(m_output, &QTextBrowser::anchorClicked, this, &QtAssistantBrowser::onAnchorClicked);
-    connect(this, &QtAssistantBrowser::assistantEvent, this,
-        &QtAssistantBrowser::onAssistantEvent, Qt::QueuedConnection);
+    connect(this, &QtAssistantBrowser::assistantEvent, this, &QtAssistantBrowser::onAssistantEvent,
+        Qt::QueuedConnection);
 
     // The sink is called from the interpreter thread: emit a queued signal so the
     // text is updated on the GUI thread only.
@@ -153,10 +153,7 @@ QtAssistantBrowser::eventFilter(QObject* watched, QEvent* event)
     return QDockWidget::eventFilter(watched, event);
 }
 //=============================================================================
-QtAssistantBrowser::~QtAssistantBrowser()
-{
-    Nelson::UnregisterAssistantSink("qt");
-}
+QtAssistantBrowser::~QtAssistantBrowser() { Nelson::UnregisterAssistantSink("qt"); }
 //=============================================================================
 void
 QtAssistantBrowser::onSend()
@@ -207,16 +204,18 @@ QtAssistantBrowser::onPollTick()
         m_pollTimer->stop();
         return;
     }
-    Nelson::MainThreadTaskQueue::getInstance()->postToInterpreterThread([](Nelson::Evaluator* eval) {
-        if (eval == nullptr) {
-            return;
-        }
-        std::wstring out;
-        try {
-            Nelson::EvaluateConsoleCommandToString(eval, L"nelson.ai.assistantStep('qt');", out);
-        } catch (...) {
-        }
-    });
+    Nelson::MainThreadTaskQueue::getInstance()->postToInterpreterThread(
+        [](Nelson::Evaluator* eval) {
+            if (eval == nullptr) {
+                return;
+            }
+            std::wstring out;
+            try {
+                Nelson::EvaluateConsoleCommandToString(
+                    eval, L"nelson.ai.assistantStep('qt');", out);
+            } catch (...) {
+            }
+        });
 }
 //=============================================================================
 void
@@ -283,7 +282,8 @@ QtAssistantBrowser::onAssistantEvent(const QString& channel, const QString& payl
         QPushButton* allowOnce = box.addButton(TR("Allow once"), QMessageBox::AcceptRole);
         // "Always for this file" remembers just this path for the session; a global
         // "never ask" is the Full access permission mode, so no global allow here.
-        QPushButton* allowAlways = box.addButton(TR("Always for this file"), QMessageBox::AcceptRole);
+        QPushButton* allowAlways
+            = box.addButton(TR("Always for this file"), QMessageBox::AcceptRole);
         QPushButton* rejectButton = box.addButton(TR("Reject"), QMessageBox::RejectRole);
         box.setDefaultButton(rejectButton);
         box.exec();
@@ -403,30 +403,31 @@ QtAssistantBrowser::updateTheme()
 void
 QtAssistantBrowser::requestModels()
 {
-    Nelson::MainThreadTaskQueue::getInstance()->postToInterpreterThread([](Nelson::Evaluator* eval) {
-        if (eval == nullptr) {
-            return;
-        }
-        std::wstring out;
-        try {
-            Nelson::EvaluateConsoleCommandToString(
-                eval, L"try; disp(jsonencode(nelson.ai.models())); catch; disp('[]'); end", out);
-        } catch (...) {
-            out.clear();
-        }
-        std::string list = Nelson::wstring_to_utf8(out);
-        const size_t start = list.find_first_not_of(" \t\r\n");
-        const size_t end = list.find_last_not_of(" \t\r\n");
-        if (start == std::string::npos || end == std::string::npos) {
-            list = "[]";
-        } else {
-            list = list.substr(start, end - start + 1);
-        }
-        if (list.empty() || list.front() != '[') {
-            list = "[]";
-        }
-        Nelson::AssistantSinkPush("models", std::string("{\"models\":") + list + "}");
-    });
+    Nelson::MainThreadTaskQueue::getInstance()->postToInterpreterThread(
+        [](Nelson::Evaluator* eval) {
+            if (eval == nullptr) {
+                return;
+            }
+            std::wstring out;
+            try {
+                Nelson::EvaluateConsoleCommandToString(eval,
+                    L"try; disp(jsonencode(nelson.ai.models())); catch; disp('[]'); end", out);
+            } catch (...) {
+                out.clear();
+            }
+            std::string list = Nelson::wstring_to_utf8(out);
+            const size_t start = list.find_first_not_of(" \t\r\n");
+            const size_t end = list.find_last_not_of(" \t\r\n");
+            if (start == std::string::npos || end == std::string::npos) {
+                list = "[]";
+            } else {
+                list = list.substr(start, end - start + 1);
+            }
+            if (list.empty() || list.front() != '[') {
+                list = "[]";
+            }
+            Nelson::AssistantSinkPush("models", std::string("{\"models\":") + list + "}");
+        });
 }
 //=============================================================================
 void
@@ -463,8 +464,9 @@ QtAssistantBrowser::renderMessages()
         if (isUser) {
             // A faint tinted strip keeps the prompt readable without a loud fill.
             html += "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\"><tr>"
-                    "<td style=\"background:" + m_theme.userBg + "; padding:6px 8px; color:"
-                + m_theme.userText + ";\">" + renderBubble(message.text) + "</td></tr></table>";
+                    "<td style=\"background:"
+                + m_theme.userBg + "; padding:6px 8px; color:" + m_theme.userText + ";\">"
+                + renderBubble(message.text) + "</td></tr></table>";
         } else {
             // The reply stays flat on the terminal background, like the console.
             html += "<div style=\"margin:0 2px 2px 2px; color:" + m_theme.text + ";\">"
@@ -481,8 +483,9 @@ QtAssistantBrowser::renderMessages()
         }
         const QString trimmed = m_stream.trimmed();
         if (!trimmed.isEmpty() && !trimmed.startsWith('{')) {
-            html += "<div style=\"color:" + m_theme.text + "; margin:4px 2px; "
-                    "white-space:pre-wrap;\">"
+            html += "<div style=\"color:" + m_theme.text
+                + "; margin:4px 2px; "
+                  "white-space:pre-wrap;\">"
                 + renderInline(m_stream) + "</div>";
         }
     }
@@ -512,15 +515,17 @@ QtAssistantBrowser::renderBubble(const QString& text)
         m_codeBlocks.insert(id, code);
         html += "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" "
                 "style=\"margin:6px 0;\"><tr>"
-                "<td style=\"background:" + m_theme.codeBg + "; border:1px solid " + m_theme.border
+                "<td style=\"background:"
+            + m_theme.codeBg + "; border:1px solid " + m_theme.border
             + ";\"><div style=\"text-align:right; padding:2px 6px;\">"
-              "<a href=\"copy:" + QString::number(id) + "\" style=\"color:" + m_theme.link
+              "<a href=\"copy:"
+            + QString::number(id) + "\" style=\"color:" + m_theme.link
             + "; text-decoration:none;\">" + escapeHtml(TR("Copy"))
             + "</a>&nbsp;&nbsp;<a href=\"run:" + QString::number(id) + "\" style=\"color:"
             + m_theme.link + "; text-decoration:none;\">" + escapeHtml(TR("Run"))
             + "</a></div>"
-              "<pre style=\"margin:0; padding:8px; color:" + m_theme.text
-            + "; font-family:Consolas,'Courier New',monospace;\">" + escapeHtml(code)
+              "<pre style=\"margin:0; padding:8px; color:"
+            + m_theme.text + "; font-family:Consolas,'Courier New',monospace;\">" + escapeHtml(code)
             + "</pre></td></tr></table>";
         last = match.capturedEnd();
     }

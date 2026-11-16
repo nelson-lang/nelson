@@ -35,19 +35,26 @@ public:
     ~QtAssistantBrowser() override;
 
 signals:
-    void assistantEvent(const QString& channel, const QString& payload);
+    void
+    assistantEvent(const QString& channel, const QString& payload);
 
 protected:
-    void changeEvent(QEvent* event) override;
+    void
+    changeEvent(QEvent* event) override;
     // Refresh the model list when the selector is opened, so a provider that
     // became reachable after startup (e.g. a local Ollama) shows up.
-    bool eventFilter(QObject* watched, QEvent* event) override;
+    bool
+    eventFilter(QObject* watched, QEvent* event) override;
 
 private slots:
-    void onSend();
-    void onAssistantEvent(const QString& channel, const QString& payload);
-    void onAnchorClicked(const QUrl& url);
-    void onPollTick();
+    void
+    onSend();
+    void
+    onAssistantEvent(const QString& channel, const QString& payload);
+    void
+    onAnchorClicked(const QUrl& url);
+    void
+    onPollTick();
 
 private:
     struct ChatMessage
@@ -70,14 +77,22 @@ private:
         QString link;
     };
 
-    void updateTheme();
-    void requestModels();
-    void submitPrompt(const QString& prompt);
-    void rebuild();
-    QString renderMessages();
-    QString renderBubble(const QString& text);
-    QString renderInline(const QString& text) const;
-    static QString escapeHtml(const QString& text);
+    void
+    updateTheme();
+    void
+    requestModels();
+    void
+    submitPrompt(const QString& prompt);
+    void
+    rebuild();
+    QString
+    renderMessages();
+    QString
+    renderBubble(const QString& text);
+    QString
+    renderInline(const QString& text) const;
+    static QString
+    escapeHtml(const QString& text);
 
     Theme m_theme;
 

@@ -80,8 +80,7 @@ ProcessObject::ProcessObject(const std::wstring& command, const wstringVector& a
 {
     propertiesNames = { L"Arguments", L"BytesAvailable", L"Command", L"ExitCode", L"ProcessId",
         L"Running", L"Type", L"WorkingDirectory" };
-    methodsNames
-        = { L"close", L"read", L"readline", L"stderr", L"terminate", L"wait", L"write" };
+    methodsNames = { L"close", L"read", L"readline", L"stderr", L"terminate", L"wait", L"write" };
     launch();
 }
 //=============================================================================
@@ -691,8 +690,7 @@ static std::wstring
 buildWindowsCommandLine(const std::wstring& command, const wstringVector& arguments)
 {
     auto quote = [](const std::wstring& token) -> std::wstring {
-        if (!token.empty()
-            && token.find_first_of(L" \t\"") == std::wstring::npos) {
+        if (!token.empty() && token.find_first_of(L" \t\"") == std::wstring::npos) {
             return token;
         }
         std::wstring quoted = L"\"";
