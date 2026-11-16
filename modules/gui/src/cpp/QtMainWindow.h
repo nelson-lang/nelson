@@ -117,6 +117,8 @@ private slots:
     void
     newsfeedBrowserToggle();
     void
+    assistantBrowserToggle();
+    void
     terminal();
 
     void
@@ -239,6 +241,7 @@ private:
     QAction* workspaceBrowserAction;
     QAction* variablesEditorAction;
     QAction* profilerBrowserAction;
+    QAction* assistantBrowserAction = nullptr;
     QAction* newsfeedBrowserAction;
     QAction* terminalAction;
     QAction* commandPaletteAction = nullptr;
@@ -294,6 +297,7 @@ private:
     QDockWidget* commandWindowDock;
     QDockWidget* profilerBrowserDock;
     QDockWidget* newsfeedBrowserDock;
+    QDockWidget* assistantBrowserDock = nullptr;
 
     QToolBar* toolBar = nullptr;
     DesktopPanelRail* panelsSidebar = nullptr;

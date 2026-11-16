@@ -62,6 +62,7 @@
 #include "QtHistoryBrowser.h"
 #include "QtFileBrowser.h"
 #include "QtVariablesEditor.h"
+#include "QtAssistantBrowser.h"
 #include "QtProfilerBrowser.h"
 #include "QtNewsfeedBrowser.h"
 #include "QtDockTitleBar.h"
@@ -702,6 +703,12 @@ QtMainWindow::profilerBrowserToggle()
 }
 //=============================================================================
 void
+QtMainWindow::assistantBrowserToggle()
+{
+    toggleDockWidget(assistantBrowserDock);
+}
+//=============================================================================
+void
 QtMainWindow::newsfeedBrowserToggle()
 {
     toggleDockWidget(newsfeedBrowserDock);
@@ -928,6 +935,8 @@ QtMainWindow::createDockWidgets(Evaluator* eval)
     VariablesEditor::createVariablesEditor(eval);
     profilerBrowserDock = new QtProfilerBrowser(this);
     newsfeedBrowserDock = new QtNewsfeedBrowser(this);
+    assistantBrowserDock = new QtAssistantBrowser(this);
+    addDockWidget(Qt::RightDockWidgetArea, assistantBrowserDock);
 
     QtWorkspaceBrowser* qtWorkspaceBrowser
         = (QtWorkspaceBrowser*)WorkspaceBrowser::getWorkspaceBrowser();
@@ -974,6 +983,8 @@ QtMainWindow::createDockWidgets(Evaluator* eval)
         [=](bool visible) { profilerBrowserAction->setChecked(visible); });
     connect(newsfeedBrowserDock, &QDockWidget::visibilityChanged, this,
         [=](bool visible) { newsfeedBrowserAction->setChecked(visible); });
+    connect(assistantBrowserDock, &QDockWidget::visibilityChanged, this,
+        [=](bool visible) { assistantBrowserAction->setChecked(visible); });
 
     const bool restoredDockState = restoreDockWidgetPositions();
 
@@ -1572,6 +1583,12 @@ QtMainWindow::createMenus()
     newsfeedBrowserAction->setCheckable(true);
     connect(newsfeedBrowserAction, SIGNAL(triggered()), this, SLOT(newsfeedBrowserToggle()));
     viewMenu->addAction(newsfeedBrowserAction);
+
+    assistantBrowserAction = new QAction(TR("&Assistant"), this);
+    setActionTips(assistantBrowserAction, TR("Assistant"));
+    assistantBrowserAction->setCheckable(true);
+    connect(assistantBrowserAction, SIGNAL(triggered()), this, SLOT(assistantBrowserToggle()));
+    viewMenu->addAction(assistantBrowserAction);
 
     viewMenu->addSeparator();
     toolbarVisibilityAction = new QAction(TR("Main toolbar"), this);

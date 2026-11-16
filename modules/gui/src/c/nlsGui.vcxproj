@@ -40,6 +40,7 @@
     <ClCompile Include="..\cpp\GuiDialogsInput.cpp" />
     <ClCompile Include="..\cpp\GuiDialogsPreferences.cpp" />
     <ClCompile Include="..\cpp\HistoryBrowser.cpp" />
+    <ClCompile Include="..\cpp\moc_QtAssistantBrowser.cpp" />
     <ClCompile Include="..\cpp\moc_QtDockTitleBar.cpp" />
     <ClCompile Include="..\cpp\moc_QtFileBrowser.cpp" />
     <ClCompile Include="..\cpp\moc_QtHistoryBrowser.cpp" />
@@ -66,6 +67,7 @@
     <ClCompile Include="..\cpp\moc_DesktopCommandPalette.cpp" />
     <ClCompile Include="..\cpp\moc_DesktopPanelRail.cpp" />
     <ClCompile Include="..\cpp\QtDockTitleBar.cpp" />
+    <ClCompile Include="..\cpp\QtAssistantBrowser.cpp" />
     <ClCompile Include="..\cpp\QtFileBrowser.cpp" />
     <ClCompile Include="..\cpp\QtFileBrowserIconProvider.cpp" />
     <ClCompile Include="..\cpp\QtHistoryBrowser.cpp" />
@@ -409,6 +411,17 @@
     <ClInclude Include="..\include\NelsonMinimized.hpp" />
     <ClInclude Include="..\include\QStringConverter.hpp" />
     <ClInclude Include="..\include\ScreenInfo.hpp" />
+    <CustomBuild Include="..\cpp\QtAssistantBrowser.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
+    </CustomBuild>
     <CustomBuild Include="..\cpp\QtFileBrowser.h">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
