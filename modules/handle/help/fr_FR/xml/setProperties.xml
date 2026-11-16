@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>setProperties</keyword>
+  <short_description>Affecte des valeurs de propriétés à partir des arguments du constructeur.</short_description>
+  <syntax>
+    <syntax_item>setProperties(obj, numArgs, name1, value1, ...)</syntax_item>
+    <syntax_item>setProperties(obj, numArgs, arg1, ..., argN, valueOnlyName1, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>obj</param_name>
+      <param_description>un objet handle dont les propriétés sont affectées.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>numArgs</param_name>
+      <param_description>un entier positif ou nul : le nombre d'arguments fournis par le constructeur (en général nargin).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>name1, value1, ...</param_name>
+      <param_description>des paires nom-valeur, où chaque nom est une chaîne désignant une propriété.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>valueOnlyName1, ...</param_name>
+      <param_description>les noms des propriétés qui peuvent être affectées par valeur seule, dans l'ordre, avant les paires nom-valeur.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>setProperties</b> affecte des valeurs de propriétés à <b>obj</b> à partir des arguments transmis à un constructeur. C'est le compagnon du motif d'affectation des propriétés à la construction utilisé par les objets System.</p>
+    <p><b>numArgs</b> est le nombre d'arguments reçus par le constructeur. Tout argument fourni après les <b>numArgs</b> premiers est interprété comme le nom d'une propriété pouvant être affectée par valeur seule.</p>
+    <p>Les premiers arguments sont consommés par position et affectés, dans l'ordre, aux noms de propriétés par valeur seule, jusqu'à ce qu'un argument soit un nom de propriété de <b>obj</b>. À partir de là, les arguments restants sont lus comme des paires nom-valeur.</p>
+    <p>Fournir plus d'arguments par valeur seule qu'il n'existe de noms de propriétés par valeur seule provoque une erreur ; une cause fréquente est un nom de propriété mal orthographié.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Affecter des propriétés depuis un constructeur, par valeur seule et par nom-valeur.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[clear classes
+d = [tempdir(), 'nelson_help_setProperties/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpColor.m'], ["classdef NelsonHelpColor < handle"; "  properties"; "    R = 0"; "    G = 0"; "    B = 0"; "  end"; "  methods"; "    function obj = NelsonHelpColor(varargin)"; "      setProperties(obj, nargin, varargin{:}, 'R', 'G', 'B');"; "    end"; "  end"; "end"]);
+addpath(d);
+c1 = NelsonHelpColor(255, 128)
+c2 = NelsonHelpColor('B', 64)
+delete(c1);
+delete(c2)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${handle}isprop">isprop</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}properties">properties</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}classdef">classdef</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

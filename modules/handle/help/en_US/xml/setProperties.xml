@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>setProperties</keyword>
+  <short_description>Set property values from constructor arguments.</short_description>
+  <syntax>
+    <syntax_item>setProperties(obj, numArgs, name1, value1, ...)</syntax_item>
+    <syntax_item>setProperties(obj, numArgs, arg1, ..., argN, valueOnlyName1, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>obj</param_name>
+      <param_description>a handle object whose properties are set.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>numArgs</param_name>
+      <param_description>a non-negative integer: the number of arguments supplied by the constructor (usually nargin).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>name1, value1, ...</param_name>
+      <param_description>name-value pairs, where each name is a property name string.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>valueOnlyName1, ...</param_name>
+      <param_description>names of the properties that may be set by value only, in order, before the name-value pairs.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>setProperties</b> assigns property values to <b>obj</b> from the arguments passed to a constructor. It is the companion of the construction-time property pattern used by System objects.</p>
+    <p><b>numArgs</b> is the number of arguments that the constructor received. Any argument supplied after the first <b>numArgs</b> ones is interpreted as the name of a property that may be set by value only.</p>
+    <p>The first arguments are consumed by position and assigned, in order, to the value-only property names, until an argument is a property name of <b>obj</b>. From that point, the remaining arguments are read as name-value pairs.</p>
+    <p>Supplying more value-only arguments than there are value-only property names raises an error; a common cause is a misspelled property name.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Set properties from a constructor, by value only and by name-value.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[clear classes
+d = [tempdir(), 'nelson_help_setProperties/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpColor.m'], ["classdef NelsonHelpColor < handle"; "  properties"; "    R = 0"; "    G = 0"; "    B = 0"; "  end"; "  methods"; "    function obj = NelsonHelpColor(varargin)"; "      setProperties(obj, nargin, varargin{:}, 'R', 'G', 'B');"; "    end"; "  end"; "end"]);
+addpath(d);
+c1 = NelsonHelpColor(255, 128)
+c2 = NelsonHelpColor('B', 64)
+delete(c1);
+delete(c2)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${handle}isprop">isprop</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}properties">properties</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}classdef">classdef</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

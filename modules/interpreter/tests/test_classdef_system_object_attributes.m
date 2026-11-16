@@ -12,7 +12,7 @@
 fixtureDirectory = tempname();
 mkdir(fixtureDirectory);
 addpath(fixtureDirectory);
-systemBase = ['mat', 'lab.System'];
+systemBase = 'nelson.System';
 %=============================================================================
 filewrite([fixtureDirectory, '/ClassdefPlainNontunable.m'], ...
   ["classdef ClassdefPlainNontunable"; ...

@@ -42,9 +42,7 @@
 #define CLASSDEF_ATTR_WEAK_HANDLE "WeakHandle"
 #define CLASSDEF_DEFAULT_PROPERTY_VALUE "[]"
 #define CLASSDEF_DYNAMICPROPS_STR "dynamicprops"
-#define CLASSDEF_SYSTEM_OBJECT_CLASS                                                               \
-    "mat"                                                                                          \
-    "lab.System"
+#define CLASSDEF_SYSTEM_OBJECT_CLASS "nelson.System"
 #define CLASSDEF_ENUM_NAME_DEFAULT "''"
 #define CLASSDEF_ENUM_ORDINAL_DEFAULT "0"
 #define CLASSDEF_ENUM_PROPERTY_NAME "Name"
