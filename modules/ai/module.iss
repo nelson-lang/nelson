@@ -16,7 +16,7 @@ Source: {#RootPath}modules\{#MODULE_NAME}\loader.m; DestDir: {app}\modules\{#MOD
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;Components: {#COMPONENT_AI};
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;Components: {#COMPONENT_AI};
 ;==============================================================================
-Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\;Components: {#COMPONENT_AI};
+Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\; Flags: recursesubdirs;Components: {#COMPONENT_AI};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\skills-catalog\*; DestDir: {app}\modules\{#MODULE_NAME}\skills-catalog\; Flags: recursesubdirs;Components: {#COMPONENT_AI};
 ;==============================================================================

@@ -31,6 +31,7 @@ target_include_directories(${module_library_name}
     ${CMAKE_CURRENT_SOURCE_DIR}/../core/src/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../json/src/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include # nlohmann/json
     ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
 )
