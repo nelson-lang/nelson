@@ -27,6 +27,7 @@
 // reloads a page only when HTMLSource changes to a different value. So a host is
 // hidden, never destroyed, while its component still exists.
 import type { UIControl } from '../rpc/types';
+import type { UiHtmlHostMessage, UiHtmlPageMessage } from './uihtmlProtocol';
 //=============================================================================
 export interface UiHtmlPullResult {
   dataJson: string;
@@ -352,19 +353,19 @@ async function pushState(
   }
   clearHostError(entry);
   entry.revision = state.revision;
-  entry.frame.contentWindow?.postMessage(
-    {
-      __uihtml: first ? 'init' : 'apply',
-      revision: state.revision,
-      value: JSON.parse(state.dataJson || 'null'),
-    },
-    '*'
-  );
+  const stateMessage: UiHtmlHostMessage = {
+    __uihtml: first ? 'init' : 'apply',
+    revision: state.revision,
+    value: JSON.parse(state.dataJson || 'null'),
+  };
+  entry.frame.contentWindow?.postMessage(stateMessage, '*');
   for (const event of state.events) {
-    entry.frame.contentWindow?.postMessage(
-      { __uihtml: 'event', name: event.name, data: JSON.parse(event.data || 'null') },
-      '*'
-    );
+    const eventMessage: UiHtmlHostMessage = {
+      __uihtml: 'event',
+      name: event.name,
+      data: JSON.parse(event.data || 'null'),
+    };
+    entry.frame.contentWindow?.postMessage(eventMessage, '*');
   }
 }
 //=============================================================================
@@ -587,7 +588,7 @@ function pushInOrder(entry: FigureHosts, handle: number, envelope: string): void
 //=============================================================================
 function onPageMessage(event: MessageEvent): void {
   const message = event.data as
-    | { __uihtml?: string; value?: unknown; name?: string; data?: unknown }
+    | { __uihtml?: UiHtmlPageMessage['__uihtml']; value?: unknown; name?: string; data?: unknown }
     | undefined;
   if (!message || typeof message !== 'object' || !message.__uihtml) {
     return;

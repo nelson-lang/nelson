@@ -9,6 +9,7 @@
 //=============================================================================
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { uihtmlBootstrapPlugin } from './vite.uihtml-bootstrap';
 //=============================================================================
 // Shared, Qt-free dialog components live in the neutral webview module so that
 // neither web front end depends on the other. See modules/webview/frontend.
@@ -66,7 +67,7 @@ const repositoryRoot = new URL('../../..', import.meta.url).pathname.replace(
 // server resolves this dist from the module tree at runtime; no extra copy step.
 export default defineConfig({
   base: './',
-  plugins: [react()],
+  plugins: [react(), uihtmlBootstrapPlugin()],
   resolve: {
     dedupe: ['react', 'react-dom'],
     alias: {

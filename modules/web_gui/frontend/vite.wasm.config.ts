@@ -9,6 +9,7 @@
 //=============================================================================
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { uihtmlBootstrapPlugin } from './vite.uihtml-bootstrap';
 //=============================================================================
 const reactAlias = new URL('./node_modules/react', import.meta.url).pathname.replace(
   /^\/([A-Za-z]:)/,
@@ -56,7 +57,7 @@ export default defineConfig({
     __NELSON_WASM_NFLOW__: JSON.stringify(process.env.NELSON_WASM_NFLOW !== '0'),
     __NELSON_WASM_NMM__: JSON.stringify(process.env.NELSON_WASM_NMM !== '0'),
   },
-  plugins: [react()],
+  plugins: [react(), uihtmlBootstrapPlugin()],
   resolve: {
     dedupe: ['react', 'react-dom'],
     alias: {
