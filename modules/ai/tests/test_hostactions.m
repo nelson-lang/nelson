@@ -113,4 +113,30 @@ asserts.istrue(isempty(cleaned));
 pre = acpHostActionPreamble();
 asserts.istrue(contains(pre, 'never reply with only a marker'));
 asserts.istrue(contains(pre, 'NOT saved'));
+% It also tells the agent the marker must be valid JSON on one line (escape line
+% breaks), the guidance that prevents the malformed-marker failure below.
+asserts.istrue(contains(pre, 'valid JSON on a single line'));
+%=============================================================================
+% Regression (user report): "crée d:\demo.m, ouvre-le et mets-y le code". The agent
+% emits insert_into_nelson_file with a MULTI-LINE code value and a Windows path, so
+% the inline JSON has raw line breaks and a lone backslash and is invalid. It is
+% now repaired before decoding, so the action runs (a no-op without a pane) and the
+% reply confirms the editor instead of silently dropping it behind false prose.
+code = sprintf('x = 1\ny = 2\nsurf(x)');
+marked = ['<<nelson-action>>{"tool": "insert_into_nelson_file", "arguments": ', ...
+  '{"filename": "d:\demo.m", "code": "', code, '"}}<<end>>'];
+cleaned = acpRunHostActions(marked, 'test');
+asserts.istrue(~contains(cleaned, 'nelson-action'));
+asserts.istrue(contains(cleaned, 'editor'));
+asserts.istrue(~contains(lower(cleaned), 'malformed'));
+%=============================================================================
+% A marker that names a real action but is structurally broken JSON cannot be
+% repaired: it is surfaced as a plain note (not dropped in silence) and the model's
+% own prose is kept, so the user is never left with a false success.
+marked = ['It is open. <<nelson-action>>{"tool" "open_nelson_file" ', ...
+  '"arguments": {}}<<end>>'];
+cleaned = acpRunHostActions(marked, 'test');
+asserts.istrue(~contains(cleaned, 'nelson-action'));
+asserts.istrue(contains(lower(cleaned), 'malformed'));
+asserts.istrue(contains(cleaned, 'It is open.'));
 %=============================================================================

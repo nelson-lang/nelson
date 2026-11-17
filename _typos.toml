@@ -181,11 +181,14 @@ exemple = "exemple"
 Exemple = "Exemple"
 exemples = "exemples"
 Exemples = "Exemples"
-# French assistant-skill triggers
+# French assistant-skill triggers and example-grounding words
 fonction = "fonction"
 Fonction = "Fonction"
 syntaxe = "syntaxe"
 Syntaxe = "Syntaxe"
+reponse = "reponse"
+Reponse = "Reponse"
+REPONSE = "REPONSE"
 # identifiers and identifier fragments
 iy = "iy"
 IY = "IY"
