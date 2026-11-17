@@ -49,6 +49,14 @@ vi.mock('./modal-handlers.js', () => ({
 vi.mock('./menu-handlers.js', () => ({
   handleMenuAction: (action: string) => handleMenuAction(action),
 }));
+// The post-build validator reads the loaded-library registry. Default is empty
+// (no engine), so it resolves no port shapes and stays silent, leaving the
+// build-flow assertions unchanged; the structural-issue test sets a shape so the
+// validator can flag a dangling input. Hoisted so the mock factory sees the ref.
+const { librariesRef } = vi.hoisted(() => ({ librariesRef: { map: new Map<string, unknown>() } }));
+vi.mock('./library-loader.js', () => ({
+  getLoadedLibraries: () => librariesRef.map,
+}));
 //=============================================================================
 // Imported after the mocks are registered.
 import { buildModelOnCanvas } from './assistant-canvas.js';
@@ -76,6 +84,7 @@ beforeEach(() => {
   sessionState.dirty = false;
   confirmChoice = false;
   boundModelRef.name = '';
+  librariesRef.map = new Map();
 });
 afterEach(() => {
   vi.restoreAllMocks();
@@ -208,6 +217,46 @@ test('a build error is handed back to the assistant to self-correct', async () =
   expect(loadDiagram).not.toHaveBeenCalled();
   expect(requestFix).toHaveBeenCalledTimes(1);
   expect(requestFix.mock.calls[0][0]).toContain('Q_flow');
+});
+//=============================================================================
+test('a build that runs but is structurally broken is handed back for a fix', async () => {
+  // The script runs WITHOUT a thrown error, but the built model leaves a signal
+  // input dangling - the silent failure the post-build validator must catch. No
+  // AI model is involved: we assert only that the fix is requested, not produced.
+  librariesRef.map = new Map<string, unknown>([
+    [
+      'builtin.math',
+      { id: 'builtin.math', library: { blocks: [{ type: 'gain', inputs: [{}], outputs: [{}] }] } },
+    ],
+  ]);
+  const brokenModel = {
+    format: 'nflow-2',
+    name: 'demo',
+    blocks: [{ id: 'K', type: 'gain' }],
+    connections: [],
+    solver: 'discrete',
+  };
+  const brokenEnvelope = JSON.stringify({
+    success: true,
+    name: 'demo',
+    revision: 1,
+    content: JSON.stringify(brokenModel),
+  });
+  nflowRpc.mockImplementation(async (method: string) =>
+    method === 'nflow.model.getDiagram' ? brokenEnvelope : {}
+  );
+  const requestFix = vi.fn();
+
+  await buildModelOnCanvas(
+    "new_system('demo');\nadd_block('nflow/math/gain', 'demo/K', 'Gain', 2);",
+    requestFix
+  );
+
+  // The model drew (no thrown error), but its dangling input triggers a single
+  // correction request that names the offending block.
+  expect(loadDiagram).toHaveBeenCalledTimes(1);
+  expect(requestFix).toHaveBeenCalledTimes(1);
+  expect(requestFix.mock.calls[0][0]).toContain('"K"');
 });
 //=============================================================================
 test('an edit without new_system updates the bound model in place, not a rebuild', async () => {

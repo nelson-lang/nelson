@@ -1,5 +1,6 @@
 ---
 name: nelson-core-help-authoring
+audience: contributor
 description: Write and review Nelson XML help, examples, syntax sections, See Also entries, bilingual help updates, MCP usage docs, and user-facing documentation for changed behavior.
 ---
 

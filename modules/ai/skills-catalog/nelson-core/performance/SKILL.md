@@ -1,5 +1,6 @@
 ---
 name: nelson-core-performance
+audience: contributor
 description: Analyze and improve Nelson runtime performance, memory use, array growth, repeated filesystem scans, process startup cost, tool output size, native loops, and MCP response payloads.
 ---
 

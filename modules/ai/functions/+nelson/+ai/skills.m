@@ -12,7 +12,8 @@
 % text argument, only skills whose triggers match the text are returned.
 function result = skills(query)
   narginchk(0, 1);
-  result = struct('name', {}, 'description', {}, 'triggers', {}, 'path', {}, 'source', {});
+  result = struct('name', {}, 'description', {}, 'triggers', {}, 'audience', {}, ...
+    'path', {}, 'source', {});
   names = {};
   sources = skillSources();
   for s = 1:numel(sources)
@@ -79,13 +80,7 @@ function matched = filterByTrigger(allSkills, query)
   query = lower(query);
   keep = false(1, numel(allSkills));
   for k = 1:numel(allSkills)
-    tokens = allSkills(k).triggers;
-    nameWords = strsplit(lower(allSkills(k).name), {'-', '_', '.', ' '});
-    for w = 1:numel(nameWords)
-      if length(nameWords{w}) >= 4
-        tokens{end + 1} = nameWords{w};
-      end
-    end
+    tokens = skillTokens(allSkills(k));
     for t = 1:numel(tokens)
       token = lower(tokens{t});
       if ~isempty(token) && contains(query, token)
@@ -95,5 +90,23 @@ function matched = filterByTrigger(allSkills, query)
     end
   end
   matched = allSkills(keep);
+end
+%=============================================================================
+% Match tokens for a skill: the curated triggers, plus name words that are
+% SPECIFIC enough to be a real intent signal. Generic catalog-structure words
+% (mostly the family prefixes such as 'nelson' and 'core') are dropped: left in,
+% 'nelson' alone matched any prompt mentioning Nelson and flooded every skill.
+% Curated triggers remain the primary, reliable signal.
+function tokens = skillTokens(skill)
+  tokens = skill.triggers;
+  stop = {'nelson', 'core', 'data', 'companion', 'work', 'tool', 'tools', ...
+    'model', 'code', 'native', 'basics', 'workflows', 'assistant'};
+  nameWords = strsplit(lower(skill.name), {'-', '_', '.', ' '});
+  for w = 1:numel(nameWords)
+    word = nameWords{w};
+    if length(word) >= 4 && ~any(strcmp(word, stop))
+      tokens{end + 1} = word;
+    end
+  end
 end
 %=============================================================================

@@ -1,5 +1,6 @@
 ---
 name: nelson-core-native-builtins
+audience: contributor
 description: Implement, review, and test Nelson C++ builtins, gateway entries, argument validation, evaluator interactions, native helper code, JSON protocol responses, and structured native outputs.
 ---
 

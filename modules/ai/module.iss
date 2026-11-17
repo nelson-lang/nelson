@@ -20,6 +20,8 @@ Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\skills-catalog\*; DestDir: {app}\modules\{#MODULE_NAME}\skills-catalog\; Flags: recursesubdirs;Components: {#COMPONENT_AI};
 ;==============================================================================
+Source: {#RootPath}modules\{#MODULE_NAME}\resources\*; DestDir: {app}\modules\{#MODULE_NAME}\resources\; Flags: recursesubdirs;Components: {#COMPONENT_AI};
+;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\examples\*; DestDir: {app}\modules\{#MODULE_NAME}\examples\; Flags: recursesubdirs;Components: {#COMPONENT_AI};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.nhz; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs;Components: {#COMPONENT_AI} and {#COMPONENT_HELP_FILES};

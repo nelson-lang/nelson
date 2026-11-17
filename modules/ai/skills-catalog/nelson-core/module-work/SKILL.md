@@ -1,5 +1,6 @@
 ---
 name: nelson-core-module-work
+audience: contributor
 description: Change Nelson modules safely, including functions, native code, loaders, help, tests, installed data, and module boundaries. Use when adding features, fixing module behavior, moving files, or updating module packaging.
 ---
 

@@ -1,5 +1,6 @@
 ---
 name: nelson-core-code-review
+audience: contributor
 description: Review Nelson code for correctness, quality, performance, maintainability, packaging, tests, help, and repository conventions. Use when reviewing .m files, C++ builtins, module changes, MCP tools, installer changes, or preparing Nelson code for handoff.
 ---
 

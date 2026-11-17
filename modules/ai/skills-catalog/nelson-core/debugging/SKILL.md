@@ -1,5 +1,6 @@
 ---
 name: nelson-core-debugging
+audience: contributor
 description: Debug Nelson failures, crashes, hangs, incorrect results, test regressions, CLI startup issues, and MCP stdio problems. Use when behavior is broken and the root cause is not yet known.
 ---
 

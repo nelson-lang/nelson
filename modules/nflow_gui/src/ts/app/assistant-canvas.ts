@@ -9,6 +9,7 @@
 //=============================================================================
 import { loadDiagram } from './diagram-handlers.js';
 import { parseDiagram } from './file-operations.js';
+import { validateBuiltModel } from './assistant-validate.js';
 import { nflowRpc } from './native-rpc.js';
 import { setBoundModel, getBoundModelName } from './model-session.js';
 import { showConfirmSaveModal } from './modal-handlers.js';
@@ -83,6 +84,53 @@ function reportBuildFailure(error: string, requestFix?: (prompt: string) => void
     return;
   }
   writeStatus(statusBar(), t('Could not build the model: {error}', { error }), 'error');
+}
+//=============================================================================
+// After a model is built and shown, run conservative structural checks. A build
+// that threw is already handled; this catches the silent failures (a dangling
+// input port, a physical model left on a non-DAE solver) that run WITHOUT an
+// error. Found issues are handed back to the agent for correction when the pane
+// gave an `ask` callback, otherwise surfaced as a warning in the status bar.
+async function checkBuiltModel(
+  name: string,
+  requestFix?: (prompt: string) => void
+): Promise<boolean> {
+  let issues: string[] = [];
+  try {
+    const result = await fetchDiagram(name);
+    if (result && result.success === true && typeof result.content === 'string') {
+      issues = validateBuiltModel(JSON.parse(result.content));
+    }
+  } catch (_e) {
+    // Validation is best-effort: a fetch/parse problem must not fail the build.
+    return false;
+  }
+  if (!issues.length) {
+    return false;
+  }
+  const summary = issues.join('; ');
+  if (requestFix) {
+    writeStatus(
+      statusBar(),
+      t('Model built with issues; asking the assistant to fix it...'),
+      'warn'
+    );
+    requestFix(
+      t(
+        'The model built but has structural problems: {issues}. Fix the script so every ' +
+          "input port is wired and physical/acausal models use Solver='dae', then reply " +
+          'with a single corrected code block.',
+        { issues: summary }
+      )
+    );
+  } else {
+    writeStatus(
+      statusBar(),
+      t('Model built but may be incomplete: {issues}', { issues: summary }),
+      'warn'
+    );
+  }
+  return true;
 }
 //=============================================================================
 // Building replaces the whole canvas, so unsaved work on it would be lost. When
@@ -162,7 +210,9 @@ export async function buildModelOnCanvas(
       }
     }
     if (await refreshCanvas(name)) {
-      writeStatus(statusBar(), t('Model {name} is on the canvas.', { name }), 'success');
+      if (!(await checkBuiltModel(name, requestFix))) {
+        writeStatus(statusBar(), t('Model {name} is on the canvas.', { name }), 'success');
+      }
     } else {
       writeStatus(
         statusBar(),
@@ -186,7 +236,9 @@ export async function buildModelOnCanvas(
       return;
     }
     if (await refreshCanvas(bound)) {
-      writeStatus(statusBar(), t('Model {name} updated.', { name: bound }), 'success');
+      if (!(await checkBuiltModel(bound, requestFix))) {
+        writeStatus(statusBar(), t('Model {name} updated.', { name: bound }), 'success');
+      }
     } else {
       writeStatus(
         statusBar(),

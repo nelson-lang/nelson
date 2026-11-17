@@ -7,9 +7,14 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% Parse a SKILL.md file: read its front-matter name, description, and triggers.
+% Parse a SKILL.md file: read its front-matter name, description, triggers, and
+% audience. audience is 'user' (served to the live end-user assistant) or
+% 'contributor' (Nelson-development guidance, served only through the MCP skill
+% resources); it defaults to 'contributor' so a skill without the field is never
+% injected into an end-user prompt by accident.
 function meta = parseSkill(skillPath)
-  meta = struct('name', '', 'description', '', 'triggers', {{}}, 'path', skillPath);
+  meta = struct('name', '', 'description', '', 'triggers', {{}}, ...
+    'audience', 'contributor', 'path', skillPath);
   if ~isfile(skillPath)
     return
   end
@@ -23,6 +28,8 @@ function meta = parseSkill(skillPath)
         meta.description = value;
       case 'triggers'
         meta.triggers = splitList(value);
+      case 'audience'
+        meta.audience = normalizeAudience(value);
     end
   end
   if isempty(meta.name)
@@ -75,5 +82,16 @@ end
 function name = parentFolderName(skillPath)
   folder = fileparts(skillPath);
   [~, name] = fileparts(folder);
+end
+%=============================================================================
+% Only 'user' and 'contributor' are valid; anything else (or empty) falls back to
+% 'contributor', the safe default that keeps a skill out of end-user prompts.
+function audience = normalizeAudience(value)
+  value = lower(strtrim(value));
+  if strcmp(value, 'user')
+    audience = 'user';
+  else
+    audience = 'contributor';
+  end
 end
 %=============================================================================

@@ -24,15 +24,7 @@ function assistantRun(prompt, model, driver, surfaceId)
   end
   model = char(model);
   surfaceId = char(surfaceId);
-  % Prepend any applicable project skill guide (for example the NFlow model
-  % authoring API when the assistant is opened from the editor). The augmented
-  % prompt feeds the model; the pane still shows only the user's own text.
-  augmentedPrompt = char(prompt);
-  preamble = aiSkillContext(augmentedPrompt, surfaceId);
-  if ~isempty(preamble)
-    augmentedPrompt = [preamble, newline, newline, ...
-      'User request:', newline, newline, augmentedPrompt];
-  end
+  userPrompt = char(prompt);
   % wasm has no subprocess, so the ACP backend (which spawns claude-agent-acp)
   % cannot run there: tell the user to pick an HTTP provider instead.
   if strcmpi(model, 'claude-agent-acp') && iswasm()
@@ -47,14 +39,14 @@ function assistantRun(prompt, model, driver, surfaceId)
   % caller drives the poll itself (the Qt dock from its own QTimer); otherwise a
   % Nelson timer drives it (web pane / Command Window). surfaceId isolates the
   % session so concurrent prompts on different surfaces do not collide.
+  % aiComposePrompt layers identity, verified API, skills, and (ACP) the
+  % host-action bridge around the user's text; the pane still shows only the text.
   if strcmpi(model, 'claude-agent-acp')
-    % Give the agent the in-session widget-piloting bridge (parsed by the poll in
-    % acpRunHostActions); it works without the MCP subprocess.
-    augmentedPrompt = [acpHostActionPreamble(), newline, newline, ...
-      'User request:', newline, newline, augmentedPrompt];
+    augmentedPrompt = aiComposePrompt(userPrompt, surfaceId, true);
     startAcpAsync(augmentedPrompt, ~strcmpi(char(driver), 'external'), surfaceId);
     return
   end
+  augmentedPrompt = aiComposePrompt(userPrompt, surfaceId, false);
   if isempty(model)
     options = nelson.ai.options('Timeout', 90, 'MaxSteps', 6, 'Stream', true);
   else

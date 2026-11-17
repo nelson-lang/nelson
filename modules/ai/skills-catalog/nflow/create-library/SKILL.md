@@ -1,5 +1,6 @@
 ---
 name: nflow-create-library
+audience: contributor
 description: Create and validate reusable NFlow block libraries, including library.json manifests, declarative or custom renderers, SVG assets, native plugin wiring, discovery, packaging, and tests. Use when adding a built-in palette family, assembling a third-party block library, or changing an existing library's manifest and loading behavior.
 ---
 

@@ -58,6 +58,10 @@ skillDefinitions()
         { "skills://nflow/create-model", "NFlow create model",
             "Skill for authoring and validating runnable NFlow models.", L"Create an NFlow Model",
             L"modules/ai/skills-catalog/nflow/create-model/SKILL.md" },
+        { "skills://nelson-usage/language-basics", "Nelson usage language basics",
+            "Skill for everyday Nelson language usage questions (syntax, indexing, idioms).",
+            L"Nelson Language Basics",
+            L"modules/ai/skills-catalog/nelson-usage/language-basics/SKILL.md" },
     };
     return skills;
 }

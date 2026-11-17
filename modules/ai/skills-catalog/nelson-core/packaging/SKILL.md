@@ -1,5 +1,6 @@
 ---
 name: nelson-core-packaging
+audience: contributor
 description: Add and review Nelson installed files, module data directories, help archives, tests, Windows installer entries, CMake install rules, and packaging integration tests. Use when files must ship with Nelson.
 ---
 

@@ -102,8 +102,11 @@ function client = acpStorePendingPermission(client, message)
   mode = nelson.ai.acp.permissionMode();
   allowAll = isfield(client, 'permissionAllowAll') && client.permissionAllowAll;
   pathAllowed = acpPathRemembered(client, perm.path);
+  % Read-only Nelson MCP lookups are always auto-allowed: the server runs with
+  % execution/format disabled, so they cannot touch the session, and leaving them
+  % to wait for the UI is exactly what made the agent stall on grounding.
   autoAllow = strcmp(mode, 'full') || (strcmp(mode, 'auto') && ~acpIsRisky(perm)) ...
-    || allowAll || pathAllowed;
+    || allowAll || pathAllowed || acpIsNelsonTool(perm);
   if autoAllow
     client = nelson.ai.acp.respondToPermission(client, true, perm.allowOptionId);
   end

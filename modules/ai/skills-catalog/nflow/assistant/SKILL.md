@@ -1,5 +1,6 @@
 ---
 name: nflow-assistant
+audience: user
 description: Build an NFlow block-diagram model from a natural-language request inside the live NFlow assistant. Use when the user asks the embedded NFlow assistant to create, wire, or simulate a model. Favors a single ready-to-run scripted-API script over exploration.
 triggers: nflow, .nflow, nflow model, block diagram, diagramme de blocs, schema bloc, modele nflow, new_system, add_block, add_line, set_param, save_system, constant, gain, scope, oscilloscope, bouilloire, circuit, rlc, acausal, physical, physique, electrical, electrique, resistor, resistance, capacitor, condensateur, inductor, bobine, thermal, thermique, mass, masse, ressort, spring, damper, amortisseur, mechanical, mecanique, pendulum, pendule
 ---
@@ -33,6 +34,38 @@ add_line('my_model', 'K/1', 'Scope/1');
 set_param('my_model', 'StopTime', 10, 'SampleTime', 0.01, 'Solver', 'discrete');
 nflow_layout('my_model');
 ```
+
+## Self-check before you reply
+
+Go through this list and fix the script BEFORE sending it; the host rejects or
+silently mis-builds a model that fails any of these:
+
+1. Every signal INPUT port of every block is wired with `add_line`. A block left
+   with a dangling input is the most common failure — connect it or remove it.
+2. Only block paths and parameter names from the Live block catalog are used. If
+   it is not listed, it does not exist.
+3. Scalar and text parameters only in the script. NEVER pass an array, vector, or
+   struct value (e.g. a dashboard `Limits`, a filter coefficient vector): the
+   scripted API stores only scalars/text and an array raises a host error
+   (`type_error.306`). Add the block and tell the user to set that value in the
+   editor.
+4. Dashboard blocks (`nflow/dashboard/...`) have NO ports: never `add_line` them,
+   never pass a `Binding`.
+5. Physical/acausal model → `set_param(model, ..., 'Solver', 'dae')`, a `Ground`
+   on every electrical reference node, and each `...Sensor` signal output wired to
+   a scope if the result must be observed.
+6. A logic/comparison block (`relationalOperator`, `logicalOperator`,
+   `compareToConstant`) outputs a BOOLEAN. Arithmetic blocks (`gain`, `sum`,
+   `product`) keep their input's type, so `gain 2000 x true` stays boolean and
+   SATURATES to 1, not 2000. Insert `nflow/utility/convert` (`'OutDataType',
+   'double'`) between a logic block and the first arithmetic block that follows
+   it. See "Signal data types and on/off control".
+7. On/off (bang-bang) control of a `dae` physical model: a hard switching signal
+   driving an acausal island stalls the implicit DAE solver at the first switch
+   (`IDASolve ... mxstep`, flag -1). Use `ode4` (or `ode45`), not `dae`, and give
+   the switch a dead band. See "Signal data types and on/off control".
+8. The script ends with `nflow_layout('<model>')` (full build, or after adding/
+   removing blocks).
 
 ## Changing a model you already built
 
@@ -69,6 +102,42 @@ explicitly asks to start over.
 - Give each block a short, descriptive Name. Use parameter names exactly as below.
 - The user may build the same request twice; that is fine, the host rebuilds in
   place. Do not add cleanup or `bdclose` calls yourself.
+
+## Signal data types and on/off control
+
+Two traps turn a correct-looking control model into a flat, "empty" scope or a
+failed run. Watch for both whenever a comparison or an on/off decision drives the
+rest of the model (thermostats, limiters, enable logic, bang-bang drives).
+
+**1. A boolean never carries a magnitude.** `relationalOperator`,
+`logicalOperator`, and `compareToConstant` output a BOOLEAN (0/1). Arithmetic
+blocks — `gain`, `sum`, `product` — inherit the data type of their input, so
+`2000 x true` is computed as a boolean and saturates back to 1. A `gain` of 2000
+on a comparison output therefore delivers 1, not 2000, and the actuator barely
+moves. Insert an explicit cast with `nflow/utility/convert`
+(`'OutDataType', 'double'`) between the logic block and the first arithmetic
+block:
+
+```nelson
+add_block('nflow/logic/relationalOperator', 'm/Cmp', 'Operator', '<');
+add_block('nflow/utility/convert', 'm/ToReal', 'OutDataType', 'double');
+add_block('nflow/math/gain', 'm/Power', 'Gain', 2000);
+add_line('m', 'Cmp/1', 'ToReal/1');     % cast the boolean ...
+add_line('m', 'ToReal/1', 'Power/1');   % ... before the gain
+```
+
+**2. Hard switching breaks the `dae` solver.** A discontinuous signal (a relay or
+a comparison output) feeding an acausal island makes the implicit DAE solver
+(`dae`/IDAS) take ever smaller steps and fail at the first switch (`IDASolve ...
+mxstep steps taken`, flag -1). For on/off control of a physical model:
+
+- Run it with a fixed-step `'ode4'` (or `'ode45'`) solver, not `'dae'`. The
+  initial conditions of the physical island are still honored.
+- Give the switch a dead band instead of a single threshold so it cannot
+  chatter: drive the actuator from `nflow/nonlinear/hysteresis`
+  (`uLow`, `uHigh`, `yLow`, `yHigh` — its output is already numeric, so it needs
+  no `convert` and no `gain`). For a 2000 W heater that turns off at 101 and back
+  on at 99: `'uLow', 99, 'uHigh', 101, 'yLow', 2000, 'yHigh', 0`.
 
 ## Available blocks — use the live catalog
 

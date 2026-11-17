@@ -1,5 +1,6 @@
 ---
 name: nelson-companion-mcp-workflows
+audience: contributor
 description: Connect MCP clients to Nelson, validate stdio transport, inspect tools/resources/prompts, call Nelson MCP tools, debug JSON-RPC responses, and configure stable server startup.
 ---
 

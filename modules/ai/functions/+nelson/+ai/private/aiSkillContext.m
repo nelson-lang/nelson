@@ -51,10 +51,14 @@ function names = wantedSkillNames(prompt, surfaceId)
   try
     matched = nelson.ai.skills(prompt);
   catch
-    matched = struct('name', {}, 'path', {});
+    matched = struct('name', {}, 'audience', {});
   end
   names = {};
   if ~isempty(matched)
+    % Only end-user skills reach the live assistant prompt. Contributor skills
+    % (Nelson-development guidance) stay out: they are served to dev agents through
+    % the MCP skill resources, and prepending them here only floods the answer.
+    matched = matched(strcmp({matched.audience}, 'user'));
     names = {matched.name};
   end
   % The NFlow-pane guide is surface-specific; never inject it on other surfaces.

@@ -1,5 +1,6 @@
 ---
 name: nelson-data-analysis-workflows
+audience: user
 description: Build reproducible Nelson data workflows for loading files, validating shapes and missing values, computing summaries, creating plots, exporting artifacts, and returning concise numerical reports.
 ---
 

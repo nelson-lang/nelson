@@ -1,5 +1,6 @@
 ---
 name: nelson-core-testing
+audience: contributor
 description: Design, write, stabilize, and run Nelson tests for modules, builtins, CLI behavior, MCP tools, packaging, and regression fixes. Use when adding coverage, reproducing a bug, preventing hangs, or validating changed Nelson behavior.
 ---
 

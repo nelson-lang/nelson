@@ -1,5 +1,6 @@
 ---
 name: nflow-create-block
+audience: contributor
 description: Create or extend NFlow simulation blocks, including runtime handlers, signal metadata, C and Rust code generation, palette manifests, icons, bilingual help, and regression tests. Use when adding a built-in NFlow block, implementing a native plugin block, or completing a block that is missing simulation, rendering, or code-generation behavior.
 ---
 

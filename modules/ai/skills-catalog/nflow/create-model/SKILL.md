@@ -1,5 +1,6 @@
 ---
 name: nflow-create-model
+audience: contributor
 description: Create, save, validate, and test NFlow block-diagram models through the scripted API or the nflow-2 JSON format. Use when building a new .nflow example, generating a model programmatically, wiring blocks and subsystems, selecting a solver, adding physical connections, or preparing a model for simulation and C or Rust generation.
 triggers: nflow, .nflow, nflow model, block diagram, block-diagram, diagramme de blocs, schema bloc, schema de blocs, modele nflow, new_system, add_block, add_line, set_param, save_system
 ---
@@ -52,6 +53,16 @@ Give every block a unique string `id`, a manifest-backed `type`, placement coord
 4. Connect scripted ports with 1-based `Block/port` names. Raw JSON connection indices are normalized by readers, but new files should follow the nearest current example consistently.
 5. Set model `StopTime`, `SampleTime`, variables, and solver explicitly when numerical behavior depends on them.
 6. Add `toWorkspace`, scope, or label endpoints needed to assert results.
+
+Mind signal data types when a comparison or on/off decision drives the model. A
+logic block (`relationalOperator`, `logicalOperator`, `compareToConstant`)
+outputs a boolean; arithmetic blocks (`gain`, `sum`, `product`) inherit their
+input's type, so `2000 x true` saturates back to 1 rather than scaling to 2000.
+Insert `nflow/utility/convert` (`'OutDataType', 'double'`) between the logic
+block and the first arithmetic block. And a hard switching signal driving an
+acausal island stalls the `dae`/IDAS solver at the first switch
+(`IDASolve ... mxstep`, flag -1): run bang-bang control of a physical model with
+`ode4`/`ode45` and give the switch a dead band (`nflow/nonlinear/hysteresis`).
 
 Use the default discrete path for legacy fixed-step behavior, `ode4` for global fixed-step RK4, `ode45` for native adaptive integration, and `dae` for acausal residual models. Do not choose CVODES or IDAS when standalone C/Rust generation is required.
 
