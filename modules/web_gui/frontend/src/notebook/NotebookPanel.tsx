@@ -969,7 +969,7 @@ export function NotebookPanel({
                 title={t('Ask the assistant to write or run Nelson code in this notebook')}
                 onClick={() => setShowAssistant((v) => !v)}
               >
-                <DesktopIcon name="info" />
+                <DesktopIcon name="assistant" />
                 <span className="nls-btn__label">{t('Assistant')}</span>
               </button>
             )}
