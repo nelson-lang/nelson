@@ -244,20 +244,24 @@ export async function closeDesktopPanel(panel: IDockviewPanel): Promise<void> {
   if (api?.getPanel(panel.id) === panel) panel.api.close();
 }
 //=============================================================================
+// Documents (editors, notebooks) stack as tabs in the console group (center),
+// next to the Command Window, not the active group (e.g. the Files sidebar,
+// which would cover the file list). An open document of the same kind wins.
+function documentPosition(
+  prefix: string
+): Parameters<DockviewApi['addPanel']>[0]['position'] | undefined {
+  if (!api) return undefined;
+  const existing = api.panels.find((p) => p.id.startsWith(prefix));
+  if (existing) return { referencePanel: existing.id, direction: 'within' };
+  return api.getPanel('console') ? { referencePanel: 'console', direction: 'within' } : undefined;
+}
+//=============================================================================
 // One tab per Notebook file: a .nlx focuses its existing tab or adds one titled
 // by file name. No path opens a fresh untitled document.
 let notebookSeq = 0;
 export function openNotebook(path?: string): void {
   if (!api) return;
-  // Documents stack as tabs in one group: the group that already holds a Live
-  // Script, else the console group (next to the Command Window), not the active
-  // group (e.g. the Files sidebar, which would cover the file list).
-  const existing = api.panels.find((p) => p.id.startsWith('notebook:'));
-  const position: Parameters<DockviewApi['addPanel']>[0]['position'] = existing
-    ? { referencePanel: existing.id, direction: 'within' }
-    : api.getPanel('console')
-    ? { referencePanel: 'console', direction: 'within' }
-    : undefined;
+  const position = documentPosition('notebook:');
   if (path) {
     const base = path.split(/[\\/]/).pop() ?? path;
     addRecentFile(path);
@@ -283,11 +287,13 @@ export function openEditor(path: string, line?: number, column?: number): void {
   const base = path.split(/[\\/]/).pop() ?? path;
   if (path) addRecentFile(path);
   // the id follows one spelling of the path: a stop must find the tab the user opened
-  focusOrAdd(`editor:${normalizePathKey(path)}`, 'editor', base || 'untitled.m', {
-    path,
-    line,
-    column,
-  });
+  focusOrAdd(
+    `editor:${normalizePathKey(path)}`,
+    'editor',
+    base || 'untitled.m',
+    { path, line, column },
+    documentPosition('editor:')
+  );
   if (line && line > 0) {
     setTimeout(
       () =>
