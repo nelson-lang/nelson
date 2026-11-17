@@ -43,7 +43,7 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "feval", (ptrBuiltin)Nelson::FunctionsGateway::fevalBuiltin, -1, -1,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "what", (ptrBuiltin)Nelson::FunctionsGateway::whatBuiltin, -1, 0,
+    { "what", (ptrBuiltin)Nelson::FunctionsGateway::whatBuiltin, -1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "addpath", (ptrBuiltin)Nelson::FunctionsGateway::addpathBuiltin, 1, -1 },
     { "clearfun", (ptrBuiltin)Nelson::FunctionsGateway::clearfunBuiltin, 1, 1 },

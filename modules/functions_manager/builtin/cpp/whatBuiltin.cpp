@@ -9,6 +9,7 @@
 //=============================================================================
 #include "whatBuiltin.hpp"
 #include "Error.hpp"
+#include "i18n.hpp"
 #include "What.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -19,7 +20,25 @@ Nelson::FunctionsGateway::whatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 2);
-    nargincheck(argIn, 0, 0);
+    nargincheck(argIn, 0, 1);
+    if (argIn.size() == 1) {
+        ArrayOf param1 = argIn[0];
+        if (!param1.isRowVectorCharacterArray()
+            && !(param1.isStringArray() && param1.isScalar())) {
+            Error(_W("Wrong type for argument #1: a module name (a string) is expected."));
+        }
+        std::wstring moduleName = param1.asWideString();
+        if (!WhatIsModule(moduleName)) {
+            Error(_W("Unknown module name:") + L" '" + moduleName + L"'.");
+        }
+        retval << ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(
+            WhatListOfBuiltin(eval, moduleName));
+        if (nLhs == 2) {
+            retval << ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(
+                WhatListOfMacro(eval, moduleName));
+        }
+        return retval;
+    }
     retval << ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(WhatListOfBuiltin(eval));
     if (nLhs == 2) {
         retval << ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(WhatListOfMacro(eval));

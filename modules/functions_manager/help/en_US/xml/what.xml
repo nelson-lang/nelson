@@ -7,7 +7,15 @@
   <syntax>
     <syntax_item>list_builtin = what()</syntax_item>
     <syntax_item>[list_builtin, list_macro] = what()</syntax_item>
+    <syntax_item>list_builtin = what(module_name)</syntax_item>
+    <syntax_item>[list_builtin, list_macro] = what(module_name)</syntax_item>
   </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>module_name</param_name>
+      <param_description>a string: an existing module name. Restricts the result to the builtin and macro functions of that module.</param_description>
+    </param_input_item>
+  </param_input>
   <param_output>
     <param_output_item>
       <param_name>list_builtin</param_name>
@@ -21,6 +29,7 @@
   <description>
     <p>
       <b>what</b> returns the list of all builtin and macro available in current Nelson&apos;s session.</p>
+    <p>With a <b>module_name</b> argument, <b>what</b> returns only the builtin and macro functions that belong to that module. An unknown module name raises an error.</p>
   </description>
   <used_function />
   <bibliography />
@@ -31,7 +40,8 @@
       <example_item_data
         runnable="cli"
       ><![CDATA[l = what()
-[l, m] = what()]]></example_item_data>
+[l, m] = what()
+[l, m] = what('functions_manager')]]></example_item_data>
     </example_item>
   </examples>
   <see_also>

@@ -23,5 +23,14 @@ WhatListOfMacro(Evaluator* eval);
 NLSFUNCTIONS_MANAGER_IMPEXP wstringVector
 WhatListOfMacro();
 //=============================================================================
+// Scoped to a single module. WhatIsModule tells whether a module name is known,
+// so the builtin can reject an unknown name with a clear error.
+NLSFUNCTIONS_MANAGER_IMPEXP bool
+WhatIsModule(const std::wstring& moduleName);
+NLSFUNCTIONS_MANAGER_IMPEXP wstringVector
+WhatListOfBuiltin(Evaluator* eval, const std::wstring& moduleName, bool bSorted = true);
+NLSFUNCTIONS_MANAGER_IMPEXP wstringVector
+WhatListOfMacro(Evaluator* eval, const std::wstring& moduleName);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================
