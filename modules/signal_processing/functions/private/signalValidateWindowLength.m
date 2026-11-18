@@ -8,9 +8,9 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function signalValidateWindowLength(m)
-  isPositiveIntegerOrEmpty = isempty(m) || (isscalar(m) && (m == fix(m)) && (m > 0));
-  if ~isPositiveIntegerOrEmpty
-    error('Nelson:validators:mustBePositiveInteger', '%s must be a positive integer.', 'M');
+  isNonnegativeIntegerOrEmpty = isempty(m) || (isscalar(m) && (m == fix(m)) && (m >= 0));
+  if ~isNonnegativeIntegerOrEmpty
+    error('Nelson:validators:mustBePositiveInteger', '%s must be a nonnegative integer.', 'M');
   end
 end
 %=============================================================================

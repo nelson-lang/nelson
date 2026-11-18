@@ -38,7 +38,7 @@ function y = rms(x, varargin)
 end
 %=============================================================================
 function [mode, dims, omitNan, outputType] = parseRmsOptions(x, varargin)
-  mode = 'dim';
+  mode = 'auto';
   dims = [];
   omitNan = false;
   outputType = 'default';
@@ -66,13 +66,12 @@ function [mode, dims, omitNan, outputType] = parseRmsOptions(x, varargin)
       if hasDimension
         error('Nelson:signal:dimensionAlreadySpecified', 'Dimension already specified.');
       end
+      mode = 'dim';
       dims = value;
       hasDimension = true;
     end
   end
-  if ~hasDimension
-    dims = firstNonSingletonDimension(x);
-  elseif strcmp(mode, 'dim')
+  if strcmp(mode, 'dim')
     dims = validateDimensions(dims);
   end
 end
@@ -97,17 +96,15 @@ function dims = uniqueSorted(dims)
   end
 end
 %=============================================================================
-function dim = firstNonSingletonDimension(x)
-  shape = size(x);
-  dim = find(shape ~= 1, 1, 'first');
-  if isempty(dim)
-    dim = 1;
-  end
-end
-%=============================================================================
 function y = reduceMean(values, mode, dims)
   if strcmp(mode, 'all')
     y = mean(values(:));
+    return;
+  end
+  if strcmp(mode, 'auto')
+    % no dimension given: reduce along the first non-singleton dimension,
+    % which also yields the scalar NaN for a 0-by-0 empty input
+    y = mean(values);
     return;
   end
   y = values;
@@ -119,6 +116,10 @@ end
 function y = reduceSum(values, mode, dims)
   if strcmp(mode, 'all')
     y = sum(values(:));
+    return;
+  end
+  if strcmp(mode, 'auto')
+    y = sum(values);
     return;
   end
   y = values;

@@ -27,7 +27,7 @@ R = blackman(8);
 REF = [0; 0.0905; 0.4592; 0.9204; 0.9204; 0.4592; 0.0905; 0];
 asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
-asserts.checkerror('R = blackman(-4)', _('M must be a positive integer.'));
+asserts.checkerror('R = blackman(-4)', _('M must be a nonnegative integer.'));
 %=============================================================================
 R = blackman(8, 'symmetric');
 REF = [0; 0.0905; 0.4592; 0.9204; 0.9204; 0.4592; 0.0905; 0];

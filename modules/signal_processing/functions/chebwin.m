@@ -17,7 +17,7 @@ function w = chebwin(varargin)
     ripple = varargin{2};
   end
   signalValidateWindowLength(m);
-  if isempty(m)
+  if isempty(m) || (m == 0)
     w = zeros(0, 1);
   elseif m == 1
     w = 1;

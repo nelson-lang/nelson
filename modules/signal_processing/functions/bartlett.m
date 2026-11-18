@@ -11,11 +11,11 @@ function c = bartlett(varargin)
   % Oppenheim, Alan V., Ronald W. Schafer, and John R. Buck. Discrete-Time Signal Processing. Upper Saddle River, NJ: Prentice Hall, 1999, pp.
   narginchk(1, 1);
   m = varargin{1};
-  isPositiveIntegerOrEmpty = isempty(m) || (isscalar(m) && (m == fix(m)) && (m > 0));
-  if ~isPositiveIntegerOrEmpty
-    error('Nelson:validators:mustBePositiveInteger', '%s must be a positive integer.', 'M');
+  isNonnegativeIntegerOrEmpty = isempty(m) || (isscalar(m) && (m == fix(m)) && (m >= 0));
+  if ~isNonnegativeIntegerOrEmpty
+    error('Nelson:validators:mustBePositiveInteger', '%s must be a nonnegative integer.', 'M');
   end
-  if isempty(m)
+  if isempty(m) || (m == 0)
     c = zeros(0, 1);
   elseif (m ~= 1)
     m = m - 1;

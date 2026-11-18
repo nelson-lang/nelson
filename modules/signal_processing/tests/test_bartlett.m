@@ -15,7 +15,7 @@ R = bartlett(1);
 REF = 1;
 asserts.isequal(R, REF);
 %=============================================================================
-asserts.checkerror('R = bartlett(-4)', _('M must be a positive integer.'));
+asserts.checkerror('R = bartlett(-4)', _('M must be a nonnegative integer.'));
 %=============================================================================
 R = bartlett(8);
 REF = [0; 0.2857; 0.5714; 0.8571; 0.8571; 0.5714; 0.2857; 0];

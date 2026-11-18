@@ -27,7 +27,7 @@ R = hamming(8);
 REF = [0.08; 0.2532; 0.6424; 0.9544; 0.9544; 0.6424; 0.2531; 0.08];
 asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
-asserts.checkerror('R = hamming(-4)', _('M must be a positive integer.'));
+asserts.checkerror('R = hamming(-4)', _('M must be a nonnegative integer.'));
 %=============================================================================
 R = hamming(8, 'symmetric');
 REF = [0.08; 0.2532; 0.6424; 0.9544; 0.9544; 0.6424; 0.2531; 0.08];
