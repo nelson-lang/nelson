@@ -260,8 +260,9 @@ function panelActions(): DesktopAction[] {
     // Diagnostics describes the browser runtime and the WebAssembly bundle;
     // the native engine only returns a stub, so it has no View entry there.
     if (id === 'diagnostics' && !isWasmRuntime()) continue;
-    // The AI assistant has no reachable provider in wasm; hide its View entry.
-    if (id === 'assistant' && isWasmRuntime()) continue;
+    // The AI assistant View entry shows only when NELSON_ASSISTANT_AI=1 (off by
+    // default) and never in wasm, where it has no reachable provider.
+    if (id === 'assistant' && (isWasmRuntime() || !getDesktopCapabilities().assistant)) continue;
     actions.push({
       id: `view.${id}`,
       title: corePanelTitle(id),

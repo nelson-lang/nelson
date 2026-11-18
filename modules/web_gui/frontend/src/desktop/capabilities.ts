@@ -12,7 +12,7 @@ import type { AppCapabilitiesResult, ConfigUrls } from '../rpc/types';
 import { t, tf } from '../i18n';
 import { DEFAULT_CONFIG_URLS } from './configUrls';
 //=============================================================================
-const unavailable: AppCapabilitiesResult = { nflow: false, packageManager: false };
+const unavailable: AppCapabilitiesResult = { nflow: false, assistant: false, packageManager: false };
 let capabilities = unavailable;
 const listeners = new Set<() => void>();
 //=============================================================================
@@ -30,6 +30,12 @@ export function getDesktopCapabilities(): AppCapabilitiesResult {
   return capabilities;
 }
 //=============================================================================
+// AI assistant UI gate (NELSON_ASSISTANT_AI=1, off by default). False until the
+// first app.capabilities poll resolves, so the assistant stays hidden on boot.
+export function isAssistantUiEnabled(): boolean {
+  return capabilities.assistant === true;
+}
+//=============================================================================
 export function subscribeDesktopCapabilities(listener: () => void): () => void {
   listeners.add(listener);
   return () => listeners.delete(listener);
@@ -43,6 +49,7 @@ export function setDesktopCapabilities(next: AppCapabilitiesResult): void {
     next.launchMode && next.launchMode !== 'none' ? next.launchMode : capabilities.launchMode;
   capabilities = {
     nflow: !!next.nflow,
+    assistant: !!next.assistant,
     packageManager: !!next.packageManager,
     packageUpdates: updatesCount(next.packageUpdates),
     launchMode,

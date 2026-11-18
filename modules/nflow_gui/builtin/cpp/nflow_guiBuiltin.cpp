@@ -20,6 +20,7 @@
 #include "WebUiHelpers.hpp"
 #include "NFlowToolchainCache.hpp"
 #include <webui.hpp>
+#include <cstdlib>
 #include "WebUiWindowGeometry.hpp"
 #include <thread>
 #include <mutex>
@@ -334,6 +335,9 @@ Nelson::NFlowGateway::nflow_guiBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         = Nelson::NFlow::loadToolchainCache(bootstrapVars.nflowPreferencesPath);
     bootstrapVars.haveCToolChain = toolchainCache.haveC;
     bootstrapVars.haveRustToolChain = toolchainCache.haveRust;
+    // AI assistant pane is opt-in: on only when NELSON_ASSISTANT_AI=1 (off by default).
+    const char* assistantAiEnv = std::getenv("NELSON_ASSISTANT_AI");
+    bootstrapVars.assistantAi = (assistantAiEnv != nullptr && std::string(assistantAiEnv) == "1");
 
     if (argIn.size() > 0) {
         if (!argIn[0].isRowVectorCharacterArray() && !argIn[0].isScalarStringArray()) {

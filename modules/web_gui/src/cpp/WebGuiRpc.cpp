@@ -44,6 +44,7 @@
 #include "PathFunctionIndexerManager.hpp"
 #include "Profiler.hpp"
 #include "PackageUpdatesCount.hpp"
+#include "GetVariableEnvironment.hpp"
 #include "Nelson_VERSION.h"
 #include <string>
 #include <vector>
@@ -488,11 +489,20 @@ WebGuiRpc::ping()
         { "version", std::string(NELSON_VERSION_STRING) + " (" + NELSON_RELEASE_NAME + ")" } };
 }
 //=============================================================================
+// AI assistant UI is opt-in: on only when NELSON_ASSISTANT_AI=1 (off by
+// default). The nelson.ai.* functions stay available regardless.
+static bool
+assistantAiEnabled()
+{
+    return GetVariableEnvironment(L"NELSON_ASSISTANT_AI", L"") == L"1";
+}
+//=============================================================================
 nlohmann::json
 WebGuiRpc::appCapabilities()
 {
     NelsonConfiguration* config = NelsonConfiguration::getInstance();
     return { { "nflow", IsConfiguredModuleName(L"nflow_gui") },
+        { "assistant", assistantAiEnabled() },
         { "packageManager", IsConfiguredModuleName(L"nmm_gui") },
         { "packageUpdates", getPackageUpdatesCount() },
         { "launchMode", WebDesktopBridge::getInstance()->getWebLaunchMode() },

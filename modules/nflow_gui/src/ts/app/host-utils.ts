@@ -184,3 +184,14 @@ export function isWasmRuntime(): boolean {
   return typeof __NELSON_WASM__ !== 'undefined' && __NELSON_WASM__;
 }
 //=============================================================================
+// AI assistant pane is opt-in: shown only when the host sets NELSON_ASSISTANT_AI=1
+// (relayed through the bootstrap). Read synchronously so the first render gates it.
+export function isAssistantAiEnabled(): boolean {
+  try {
+    const bs = (window as any).__nf_bootstrap;
+    return !!(bs && bs.assistantAi === true);
+  } catch (_e) {
+    return false;
+  }
+}
+//=============================================================================

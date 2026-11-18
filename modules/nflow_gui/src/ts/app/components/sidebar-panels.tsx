@@ -14,7 +14,7 @@ import type { AssistantCodeAction } from '@nelson/assistant';
 import { localizeDOM, t } from '../../utils/i18n.js';
 import { nflowAssistantBackend } from '../assistant-backend.js';
 import { buildModelOnCanvas } from '../assistant-canvas.js';
-import { isWasmRuntime } from '../host-utils.js';
+import { isWasmRuntime, isAssistantAiEnabled } from '../host-utils.js';
 import {
   AssistantPermissionModeSelect,
   AssistantPermissionDialog,
@@ -478,7 +478,7 @@ function SidebarPanels(): JSX.Element {
     <>
       <div className="sidebar-resize-handle" />
       <LibraryPanel />
-      {!isWasmRuntime() && <AssistantSidebarPanel />}
+      {!isWasmRuntime() && isAssistantAiEnabled() && <AssistantSidebarPanel />}
       <SettingsPanel />
     </>
   );

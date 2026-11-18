@@ -73,6 +73,25 @@ describe('sanitizeDockviewForPersistence', () => {
     // The now-missing active group is reassigned to a surviving one.
     expect(result.activeGroup).toBe('g1');
   });
+
+  // The assistant panel is opt-in (NELSON_ASSISTANT_AI=1); a stale layout saved
+  // while it was open must not restore it when the gate is off, even as the
+  // active view of its group.
+  it('drops the assistant panel so a disabled run never restores it', () => {
+    const root = {
+      type: 'branch',
+      data: [leaf('g1', ['files']), leaf('g2', ['console', 'assistant'], 'assistant')],
+      size: 1000,
+    };
+    const result = sanitizeDockviewForPersistence(
+      layoutWith(root, ['files', 'console', 'assistant'], 'g2')
+    );
+    expect(Object.keys(result.panels)).not.toContain('assistant');
+    const groups = flattenLeaves(result.grid.root as unknown);
+    const g2 = groups.find((g) => g.id === 'g2');
+    expect(g2?.views).toEqual(['console']);
+    expect(g2?.activeView).toBe('console');
+  });
 });
 //=============================================================================
 interface LeafGroup {

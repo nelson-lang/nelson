@@ -955,6 +955,14 @@ QtMainWindow::terminal()
     postCommand(L"terminal()");
 }
 //=============================================================================
+// The AI assistant UI is opt-in: its panels appear only when NELSON_ASSISTANT_AI
+// is '1' (off by default). The nelson.ai.* functions stay available regardless.
+static bool
+assistantAiEnabled()
+{
+    return qgetenv("NELSON_ASSISTANT_AI").trimmed() == "1";
+}
+//=============================================================================
 void
 QtMainWindow::createDockWidgets(Evaluator* eval)
 {
@@ -964,10 +972,12 @@ QtMainWindow::createDockWidgets(Evaluator* eval)
     VariablesEditor::createVariablesEditor(eval);
     profilerBrowserDock = new QtProfilerBrowser(this);
     newsfeedBrowserDock = new QtNewsfeedBrowser(this);
-    assistantBrowserDock = new QtAssistantBrowser(this);
-    addDockWidget(Qt::RightDockWidgetArea, assistantBrowserDock);
-    connect(qobject_cast<QtAssistantBrowser*>(assistantBrowserDock),
-        &QtAssistantBrowser::requestShowPanel, this, &QtMainWindow::onAssistantShowPanel);
+    if (assistantAiEnabled()) {
+        assistantBrowserDock = new QtAssistantBrowser(this);
+        addDockWidget(Qt::RightDockWidgetArea, assistantBrowserDock);
+        connect(qobject_cast<QtAssistantBrowser*>(assistantBrowserDock),
+            &QtAssistantBrowser::requestShowPanel, this, &QtMainWindow::onAssistantShowPanel);
+    }
 
     QtWorkspaceBrowser* qtWorkspaceBrowser
         = (QtWorkspaceBrowser*)WorkspaceBrowser::getWorkspaceBrowser();
@@ -1014,8 +1024,10 @@ QtMainWindow::createDockWidgets(Evaluator* eval)
         [=](bool visible) { profilerBrowserAction->setChecked(visible); });
     connect(newsfeedBrowserDock, &QDockWidget::visibilityChanged, this,
         [=](bool visible) { newsfeedBrowserAction->setChecked(visible); });
-    connect(assistantBrowserDock, &QDockWidget::visibilityChanged, this,
-        [=](bool visible) { assistantBrowserAction->setChecked(visible); });
+    if (assistantBrowserDock) {
+        connect(assistantBrowserDock, &QDockWidget::visibilityChanged, this,
+            [=](bool visible) { assistantBrowserAction->setChecked(visible); });
+    }
 
     const bool restoredDockState = restoreDockWidgetPositions();
 
@@ -1068,7 +1080,9 @@ QtMainWindow::bindPanelRailDocks()
         variablesEditorAction, (QDockWidget*)VariablesEditor::getVariablesEditor());
     panelsSidebar->bindDock(profilerBrowserAction, profilerBrowserDock);
     panelsSidebar->bindDock(newsfeedBrowserAction, newsfeedBrowserDock);
-    panelsSidebar->bindDock(assistantBrowserAction, assistantBrowserDock);
+    if (assistantBrowserAction && assistantBrowserDock) {
+        panelsSidebar->bindDock(assistantBrowserAction, assistantBrowserDock);
+    }
     focusChangedConnection = connect(qApp, &QApplication::focusChanged, this,
         [this](QWidget*, QWidget* focus) { updateActivePanel(focus); });
     updateActivePanel(QApplication::focusWidget());
@@ -1252,7 +1266,9 @@ QtMainWindow::createPanelsSidebar()
     panelsSidebar->addPanelAction(variablesEditorAction);
     panelsSidebar->addPanelAction(profilerBrowserAction);
     panelsSidebar->addPanelAction(newsfeedBrowserAction);
-    panelsSidebar->addPanelAction(assistantBrowserAction);
+    if (assistantBrowserAction) {
+        panelsSidebar->addPanelAction(assistantBrowserAction);
+    }
     panelsSidebar->addRailSeparator();
     panelsSidebar->addCommandAction(terminalAction);
 #if WITH_WEBVIEW_MODULE
@@ -1617,11 +1633,13 @@ QtMainWindow::createMenus()
     connect(newsfeedBrowserAction, SIGNAL(triggered()), this, SLOT(newsfeedBrowserToggle()));
     viewMenu->addAction(newsfeedBrowserAction);
 
-    assistantBrowserAction = new QAction(TR("&Assistant"), this);
-    setActionTips(assistantBrowserAction, TR("Assistant"));
-    assistantBrowserAction->setCheckable(true);
-    connect(assistantBrowserAction, SIGNAL(triggered()), this, SLOT(assistantBrowserToggle()));
-    viewMenu->addAction(assistantBrowserAction);
+    if (assistantAiEnabled()) {
+        assistantBrowserAction = new QAction(TR("&Assistant"), this);
+        setActionTips(assistantBrowserAction, TR("Assistant"));
+        assistantBrowserAction->setCheckable(true);
+        connect(assistantBrowserAction, SIGNAL(triggered()), this, SLOT(assistantBrowserToggle()));
+        viewMenu->addAction(assistantBrowserAction);
+    }
 
     viewMenu->addSeparator();
     toolbarVisibilityAction = new QAction(TR("Main toolbar"), this);

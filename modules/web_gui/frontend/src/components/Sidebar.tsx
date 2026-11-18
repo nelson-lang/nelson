@@ -77,6 +77,10 @@ function dockSnapshot(): string {
 //=============================================================================
 function RailPanelButton({ button }: { button: RailButton }): JSX.Element | null {
   const capabilities = useSyncExternalStore(subscribeDesktopCapabilities, getDesktopCapabilities);
+  // The assistant rail icon appears only when NELSON_ASSISTANT_AI=1 (off by default).
+  if (button.id === 'assistant' && !capabilities.assistant) {
+    return null;
+  }
   const command = COMMAND_BUTTONS[button.id];
   if (command) {
     if (button.id === 'packageManager' && !capabilities.packageManager) {

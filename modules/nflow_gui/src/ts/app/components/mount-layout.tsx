@@ -12,7 +12,7 @@ import { createRoot } from 'react-dom/client';
 import type { ReactNode } from 'react';
 import { localizeDOM } from '../../utils/i18n.js';
 import { onAppEvent } from '../app-events.js';
-import { isWasmRuntime } from '../host-utils.js';
+import { isWasmRuntime, isAssistantAiEnabled } from '../host-utils.js';
 //=============================================================================
 function renderDetachedElement(element: JSX.Element): HTMLElement {
   const host = document.createElement('div');
@@ -341,7 +341,7 @@ function MainContainer(): JSX.Element {
         <ActivityIcon panel="simulation" title="Simulation">
           <PlayIcon />
         </ActivityIcon>
-        {!isWasmRuntime() && (
+        {!isWasmRuntime() && isAssistantAiEnabled() && (
           <ActivityIcon panel="assistant" title="AI Assistant">
             <AssistantIcon />
           </ActivityIcon>

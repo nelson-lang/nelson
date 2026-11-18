@@ -30,6 +30,8 @@ struct BootstrapVars
     bool darkMode = false;
     bool haveCToolChain = false;
     bool haveRustToolChain = false;
+    // AI assistant pane opt-in (NELSON_ASSISTANT_AI=1, off by default).
+    bool assistantAi = false;
 };
 //=============================================================================
 // Build the tiny bootstrap HTML document served to the WebView: it seeds the

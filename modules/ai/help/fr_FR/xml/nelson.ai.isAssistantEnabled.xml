@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.ai.isAssistantEnabled</keyword>
+  <short_description>Vrai lorsque l'interface de l'assistant IA est activee.</short_description>
+  <syntax>
+    <syntax_item>tf = nelson.ai.isAssistantEnabled()</syntax_item>
+  </syntax>
+  <description>
+    <p><b>nelson.ai.isAssistantEnabled</b> renvoie <b>true</b> lorsque l'interface de l'assistant IA est activee pour la session courante, et <b>false</b> sinon.</p>
+    <p>Les panneaux de l'assistant (le dock de la console, les aides de l'editeur et du notebook, et le panneau de construction NFlow) sont masques par defaut. Ils apparaissent uniquement lorsque la variable d'environnement <b>NELSON_ASSISTANT_AI</b> vaut <b>1</b> avant le demarrage de Nelson.</p>
+    <p>Les fonctions <b>nelson.ai.*</b> restent appelables depuis la console et les scripts, que l'interface soit activee ou non. Les interfaces Qt, web et NFlow lisent la meme variable d'environnement, donc cette fonction est le reflet scriptable de ce controle.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Verifier si l'interface de l'assistant est activee.</example_item_description>
+      <example_item_data runnable="true"><![CDATA[
+tf = nelson.ai.isAssistantEnabled()
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.ask">nelson.ai.ask</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ai}nelson.ai.agent">nelson.ai.agent</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+</xmldoc>

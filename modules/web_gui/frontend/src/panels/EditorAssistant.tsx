@@ -7,13 +7,14 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-import { useMemo } from 'react';
+import { useMemo, useSyncExternalStore } from 'react';
 import { AssistantPane } from '@nelson/assistant';
 import type { AssistantBackend, AssistantCodeAction } from '@nelson/assistant';
 import { rpc } from '../rpc/client';
 import { subscribeToolEvents } from '../desktop/webTools';
 import { loadAssistantHistory } from '../desktop/assistantHistory';
 import { isWasmRuntime } from '../desktop/platform';
+import { getDesktopCapabilities, subscribeDesktopCapabilities } from '../desktop/capabilities';
 import { PermissionModeSelect } from '../components/PermissionModeSelect';
 import { t } from '../i18n';
 //=============================================================================
@@ -34,7 +35,11 @@ export function EditorAssistant({
 }: {
   targetLabel: string;
   onInsert: (code: string) => void;
-}): JSX.Element {
+}): JSX.Element | null {
+  const assistantEnabled = useSyncExternalStore(
+    subscribeDesktopCapabilities,
+    () => getDesktopCapabilities().assistant === true
+  );
   const backend = useMemo<AssistantBackend>(
     () => ({
       listModels: () =>
@@ -64,6 +69,10 @@ export function EditorAssistant({
     () => [{ label: t('Insert at cursor'), run: onInsert }],
     [onInsert]
   );
+  // Opt-in: hidden unless NELSON_ASSISTANT_AI=1 (off by default for 2.0).
+  if (!assistantEnabled) {
+    return null;
+  }
   return (
     <div className="assistant-stack">
       <PermissionModeSelect />

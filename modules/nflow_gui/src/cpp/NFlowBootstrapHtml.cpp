@@ -24,11 +24,15 @@ buildNFlowBootstrapHtml(const BootstrapVars& bootstrapVars)
     std::string uiPathUtf = bootstrapVars.uiPath;
     std::string haveCToolChainJson = bootstrapVars.haveCToolChain ? "true" : "false";
     std::string haveRustToolChainJson = bootstrapVars.haveRustToolChain ? "true" : "false";
+    // The AI assistant pane is opt-in (NELSON_ASSISTANT_AI=1, off by default);
+    // the caller resolves the flag and passes it in via BootstrapVars.
+    std::string assistantAiJson = bootstrapVars.assistantAi ? "true" : "false";
     std::string bootstrapVarsJson = "{\"modelFilename\":\"" + escapeWebUiJsonString(modelUtf)
         + "\",\"modelName\":\"" + escapeWebUiJsonString(bootstrapVars.modelName)
         + "\",\"uiPath\":\"" + escapeWebUiJsonString(uiPathUtf) + "\",\"locale\":\""
         + escapeWebUiJsonString(bootstrapVars.locale) + "\",\"haveCToolChain\":"
-        + haveCToolChainJson + ",\"haveRustToolChain\":" + haveRustToolChainJson + "}";
+        + haveCToolChainJson + ",\"haveRustToolChain\":" + haveRustToolChainJson
+        + ",\"assistantAi\":" + assistantAiJson + "}";
 
     std::string seedScript;
     seedScript += "<script>\n";

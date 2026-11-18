@@ -151,6 +151,10 @@ export function persistLast(api: DockviewApi): void {
 // window (see helpWindow.ts); it is created on demand by ensureCorePanel('help')
 // and deliberately not persisted, so a restored layout never brings back an
 // empty Documentation panel once help moved to its own window.
+// The assistant panel is deliberately not persisted: it is opt-in
+// (NELSON_ASSISTANT_AI=1, resolved asynchronously via app.capabilities) and must
+// never be restored from a stale layout when the gate is off, so a disabled run
+// stays assistant-free. When enabled, it is reopened from the rail.
 const PERSISTENT_PANEL_IDS = new Set([
   'console',
   'files',
@@ -162,7 +166,6 @@ const PERSISTENT_PANEL_IDS = new Set([
   'breakpoints',
   'callstack',
   'terminal',
-  'assistant',
 ]);
 //=============================================================================
 interface SerializedGroupData {

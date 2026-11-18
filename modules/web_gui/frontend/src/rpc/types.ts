@@ -29,6 +29,9 @@ export interface ConfigUrls {
 //=============================================================================
 export interface AppCapabilitiesResult {
   nflow: boolean;
+  // AI assistant UI enabled via NELSON_ASSISTANT_AI=1 (off by default): gates the
+  // assistant rail icon, View entry and the editor/notebook helpers.
+  assistant?: boolean;
   // nmm_gui module configured: exposes the Window > Package Manager panel.
   packageManager?: boolean;
   // Installed packages with a newer registry version, as last computed by the
