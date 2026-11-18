@@ -110,6 +110,14 @@ function info = writeRegistrySignature(registryFile)
   info.public_key = '';
   seed = signingSeed();
   if isempty(seed)
+    % No signing key configured. The registry content has just changed, so any
+    % existing signature is now stale and would make the next verification fail
+    % and block the registry. Drop it and warn rather than leave it behind.
+    if isfile(info.signature_file)
+      rmfile(info.signature_file);
+      warning('Nelson:nmm:RegistrySignatureNotRenewed', ...
+        _('Registry updated without a signing key (NELSON_NMM_REGISTRY_SIGNING_KEY): the previous signature was stale and has been removed. Re-sign the registry before publishing it.'));
+    end
     return
   end
   [signature, publicKey] = crypto.ed25519.sign(registryFile, seed, '-file');

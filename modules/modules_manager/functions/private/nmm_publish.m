@@ -219,7 +219,12 @@ function verifyRegistryChecksum(registryFile)
 end
 %=============================================================================
 function writeRegistryChecksum(registryFile)
-  filewrite([registryFile, '.sha256'], sha256(registryFile, '-file'));
+  % Canonical "<hex>  <filename>\n" layout, matching the sha256sum tool and the
+  % signing script, so an externally signed sidecar and a publish-written one
+  % stay byte-identical. The verifier only reads the hex before the first space.
+  [~, name, ext] = fileparts(registryFile);
+  filewrite([registryFile, '.sha256'], ...
+    [sha256(registryFile, '-file'), '  ', name, ext, newline]);
 end
 %=============================================================================
 function entry = packageEntry(lock, moduleInfo, package_file, sourceOverride)
