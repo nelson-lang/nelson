@@ -152,14 +152,42 @@ describe('makePortHandlers', () => {
       expect((ctx.state as any).pendingPort).not.toBeNull();
     });
 
-    test('click on in port when no pendingPort does nothing', () => {
+    test('click on in port when no pendingPort starts a pending from the input', () => {
       const ctx = makeCtx();
       const { createPortCircle, handlePortClick } = makePortHandlers(ctx as any);
       const inGroup = createPortCircle('b1', 'in', 0, makePort() as any);
 
       handlePortClick(inGroup);
 
-      expect((ctx.state as any).pendingPort).toBeNull();
+      expect((ctx.state as any).pendingPort).toMatchObject({ blockId: 'b1', portType: 'in' });
+    });
+
+    test('in then out click routes input -> output via createConnection', () => {
+      const createConnection = vi.fn();
+      const ctx = makeCtx({ createConnection });
+      const { createPortCircle, handlePortClick } = makePortHandlers(ctx as any);
+      const inGroup = createPortCircle('b2', 'in', 0, makePort() as any);
+      const outGroup = createPortCircle('b1', 'out', 0, makePort() as any);
+
+      handlePortClick(inGroup);
+      handlePortClick(outGroup);
+
+      expect(createConnection).toHaveBeenCalledWith('b1', 'b2', 0, 0);
+    });
+
+    test('out then out click reports an error, no connection', () => {
+      const createConnection = vi.fn();
+      const onConnectionError = vi.fn();
+      const ctx = makeCtx({ createConnection, onConnectionError });
+      const { createPortCircle, handlePortClick } = makePortHandlers(ctx as any);
+      const out1 = createPortCircle('b1', 'out', 0, makePort() as any);
+      const out2 = createPortCircle('b2', 'out', 0, makePort() as any);
+
+      handlePortClick(out1);
+      handlePortClick(out2);
+
+      expect(createConnection).not.toHaveBeenCalled();
+      expect(onConnectionError).toHaveBeenCalled();
     });
 
     test('suppresses click when suppressNextPortClick is true', () => {
@@ -197,6 +225,101 @@ describe('makePortHandlers', () => {
       handlePortClick(in1);
 
       expect((ctx.state as any).pendingPort).toBeNull();
+    });
+  });
+
+  describe('drag-to-connect', () => {
+    // Build two ports wired into an on-document svg so pointer events reach the
+    // window-level capture listeners the drag handler installs.
+    const setup = (extra: any = {}) => {
+      const svg = makeSvg();
+      document.body.appendChild(svg);
+      const createConnection = vi.fn();
+      const ctx = makeCtx({ svg, createConnection, ...extra });
+      const { createPortCircle } = makePortHandlers(ctx as any);
+      const outGroup = createPortCircle('b1', 'out', 0, makePort() as any);
+      const inGroup = createPortCircle('b2', 'in', 0, makePort() as any);
+      svg.appendChild(outGroup);
+      svg.appendChild(inGroup);
+      return { ctx, createConnection, outGroup, inGroup, svg };
+    };
+
+    const press = (el: Element, x: number, y: number) =>
+      el.dispatchEvent(
+        new PointerEvent('pointerdown', {
+          bubbles: true,
+          pointerId: 1,
+          button: 0,
+          clientX: x,
+          clientY: y,
+        })
+      );
+    const move = (x: number, y: number) =>
+      window.dispatchEvent(
+        new PointerEvent('pointermove', { pointerId: 1, clientX: x, clientY: y })
+      );
+    const release = (el: Element, x: number, y: number) =>
+      el.dispatchEvent(
+        new PointerEvent('pointerup', { bubbles: true, pointerId: 1, clientX: x, clientY: y })
+      );
+
+    test('drag from output released on input creates a connection', () => {
+      const { createConnection, outGroup, inGroup } = setup();
+
+      press(outGroup, 0, 0);
+      move(40, 0);
+      release(inGroup, 40, 0);
+
+      expect(createConnection).toHaveBeenCalledWith('b1', 'b2', 0, 0);
+    });
+
+    test('drag from input released on output routes input -> output', () => {
+      const { createConnection, outGroup, inGroup } = setup();
+
+      press(inGroup, 0, 0);
+      move(40, 0);
+      release(outGroup, 40, 0);
+
+      expect(createConnection).toHaveBeenCalledWith('b1', 'b2', 0, 0);
+    });
+
+    test('drag released in empty space creates nothing and clears pending', () => {
+      const { ctx, createConnection, outGroup, svg } = setup();
+
+      press(outGroup, 0, 0);
+      move(40, 0);
+      release(svg, 400, 400);
+
+      expect(createConnection).not.toHaveBeenCalled();
+      expect((ctx.state as any).pendingPort).toBeNull();
+    });
+
+    test('press without travel does not create a connection (click fallback)', () => {
+      const { createConnection, outGroup } = setup();
+
+      press(outGroup, 0, 0);
+      release(outGroup, 0, 0);
+
+      expect(createConnection).not.toHaveBeenCalled();
+    });
+
+    test('a completed drag suppresses the trailing synthetic port click', () => {
+      const { ctx, outGroup, inGroup } = setup();
+
+      press(outGroup, 0, 0);
+      move(40, 0);
+      release(inGroup, 40, 0);
+
+      expect((ctx.state as any).suppressNextPortClick).toBe(true);
+    });
+
+    test('a fresh port press clears a stale suppression flag', () => {
+      const { ctx, outGroup } = setup();
+      (ctx.state as any).suppressNextPortClick = true;
+
+      press(outGroup, 0, 0);
+
+      expect((ctx.state as any).suppressNextPortClick).toBe(false);
     });
   });
 });

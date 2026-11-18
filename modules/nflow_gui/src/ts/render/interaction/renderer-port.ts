@@ -27,6 +27,8 @@ interface ExtState extends RendererState {
   suppressNextPortClick?: boolean;
 }
 //=============================================================================
+const DRAG_CONNECT_THRESHOLD_PX = 4; // client-space travel before a port press becomes a drag
+//=============================================================================
 export function makePortHandlers(ctx: RendererCtx) {
   const C = ctx as unknown as ExtCtx;
   const S = ctx.state as unknown as ExtState;
@@ -111,11 +113,109 @@ export function makePortHandlers(ctx: RendererCtx) {
 
     group.addEventListener('pointerenter', () => group.classList.add('hovered'));
     group.addEventListener('pointerleave', () => group.classList.remove('hovered'));
+    group.addEventListener('pointerdown', (event) =>
+      onPortPointerDown(event as PointerEvent, group)
+    );
     hit.addEventListener('click', onClick);
     shape.addEventListener('click', onClick);
     group.appendChild(hit);
     group.appendChild(shape);
     return group;
+  }
+
+  // Begin the pending state from either port side: highlight the opposite side as
+  // compatible targets, mark the source and show the ghost wire that follows the pointer.
+  function beginPending(portEl: Element) {
+    const blockId = portEl.getAttribute('data-block-id') ?? '';
+    const portType = (portEl.getAttribute('data-port-type') as 'in' | 'out') ?? 'in';
+    const portIndex = Number(portEl.getAttribute('data-port-index'));
+    S.pendingPort = { blockId, portType, portIndex } as unknown;
+    const dot = portEl.querySelector('.port');
+    if (dot) dot.classList.add('pending');
+    C.svg?.classList.add('connection-pending');
+    const targetType = portType === 'out' ? 'in' : 'out';
+    C.svg
+      ?.querySelectorAll(`.port-group[data-port-type="${targetType}"]`)
+      .forEach((port) => port.classList.add('compatible'));
+    C.svg
+      ?.querySelectorAll(`.port-group[data-port-type="${portType}"]`)
+      .forEach((port) => port.classList.add('incompatible'));
+    startPreview(portEl);
+    updatePortVisibility();
+  }
+
+  // Create a connection between the pending port and `portEl`, resolving which
+  // end is the output and which is the input so either drag direction works.
+  function completeConnectionTo(portEl: Element) {
+    const from = S.pendingPort as {
+      blockId: string;
+      portType: 'in' | 'out';
+      portIndex?: number;
+    } | null;
+    if (!from) return;
+    const blockId = portEl.getAttribute('data-block-id') ?? '';
+    const portType = (portEl.getAttribute('data-port-type') as 'in' | 'out') ?? 'in';
+    const portIndex = Number(portEl.getAttribute('data-port-index'));
+    if (from.blockId === blockId) return;
+    if (portType === from.portType) {
+      C.onConnectionError?.('Connect an output port to an input port.');
+      return;
+    }
+    const out = from.portType === 'out' ? from : { blockId, portIndex };
+    const inp = from.portType === 'in' ? from : { blockId, portIndex };
+    C.createConnection?.(out.blockId, inp.blockId, inp.portIndex ?? 0, out.portIndex ?? 0);
+  }
+
+  // Press on a port: arm a drag-to-connect. A real drag (past the threshold) draws
+  // the ghost and creates the wire on release over a port; a press with no travel
+  // falls through to the click handler so the click-then-click flow still works.
+  function onPortPointerDown(startEvent: PointerEvent, portEl: Element) {
+    if (startEvent.button !== 0) return;
+    // Drop any stale suppression from a previous drag so this fresh press is honored.
+    S.suppressNextPortClick = false;
+    if (S.pendingPort) return; // a connection is already being composed via clicks
+    const pointerId = startEvent.pointerId;
+    const startX = startEvent.clientX;
+    const startY = startEvent.clientY;
+    let armed = false;
+
+    const cleanup = () => {
+      window.removeEventListener('pointermove', onMove, true);
+      window.removeEventListener('pointerup', onUp, true);
+      window.removeEventListener('pointercancel', onCancel, true);
+    };
+
+    const onMove = (event: PointerEvent) => {
+      if (event.pointerId !== pointerId) return;
+      if (!armed) {
+        if (Math.hypot(event.clientX - startX, event.clientY - startY) < DRAG_CONNECT_THRESHOLD_PX)
+          return;
+        armed = true;
+        beginPending(portEl);
+      }
+      updatePreview(event);
+    };
+
+    const onUp = (event: PointerEvent) => {
+      if (event.pointerId !== pointerId) return;
+      cleanup();
+      if (!armed) return; // no drag: let the trailing click compose the connection
+      // A drag completed: neutralize the synthetic click that may follow.
+      S.suppressNextPortClick = true;
+      const target = (event.target as Element | null)?.closest?.('.port-group') ?? null;
+      if (target) completeConnectionTo(target);
+      clearPending();
+    };
+
+    const onCancel = (event: PointerEvent) => {
+      if (event.pointerId !== pointerId) return;
+      cleanup();
+      if (armed) clearPending();
+    };
+
+    window.addEventListener('pointermove', onMove, true);
+    window.addEventListener('pointerup', onUp, true);
+    window.addEventListener('pointercancel', onCancel, true);
   }
 
   function handlePortClick(portEl: Element) {
@@ -124,36 +224,20 @@ export function makePortHandlers(ctx: RendererCtx) {
       return;
     }
     const blockId = portEl.getAttribute('data-block-id') ?? '';
-    const portType = (portEl.getAttribute('data-port-type') as 'in' | 'out') ?? 'in';
-    const portIndex = Number(portEl.getAttribute('data-port-index'));
 
+    // First click: start pending from this port (either side is accepted, so a
+    // press on an input gives immediate feedback and routes input -> output).
     if (!S.pendingPort) {
-      if (portType !== 'out') return;
-      S.pendingPort = { blockId, portType, portIndex } as unknown;
-      const dot = portEl.querySelector('.port');
-      if (dot) dot.classList.add('pending');
-      C.svg?.classList.add('connection-pending');
-      C.svg
-        ?.querySelectorAll('.port-group[data-port-type="in"]')
-        .forEach((port) => port.classList.add('compatible'));
-      C.svg
-        ?.querySelectorAll('.port-group[data-port-type="out"]')
-        .forEach((port) => port.classList.add('incompatible'));
-      startPreview(portEl);
-      updatePortVisibility();
+      beginPending(portEl);
       return;
     }
 
-    const from = S.pendingPort as { blockId: string; portType: string; portIndex?: number };
+    const from = S.pendingPort as { blockId: string };
     if (from.blockId === blockId) {
       clearPending();
       return;
     }
-    if (portType === 'in') {
-      C.createConnection?.(from.blockId, blockId, portIndex, from.portIndex ?? 0);
-    } else {
-      C.onConnectionError?.('Connect an output port to an input port.');
-    }
+    completeConnectionTo(portEl);
     clearPending();
   }
 
