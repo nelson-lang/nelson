@@ -261,6 +261,14 @@ export function makePortHandlers(ctx: RendererCtx) {
     C.svg.classList.toggle('ports-visible', show);
   }
 
-  return { createPortCircle, handlePortClick, clearPending, updatePortVisibility };
+  // beginPending/clearPending are shared with wire-endpoint re-targeting (P5) so
+  // the ghost wire and compatible-target highlighting are not duplicated there.
+  return {
+    createPortCircle,
+    handlePortClick,
+    beginPending,
+    clearPending,
+    updatePortVisibility,
+  };
 }
 //=============================================================================

@@ -9,6 +9,8 @@
   </syntax>
   <description>
     <p><b>Créer une connexion</b></p>
+    <p
+    >Les ports sont attenues au repos pour rester discrets. Passez le pointeur sur un port : il s'eclaircit et grossit un peu, et le curseur devient une croix sur sa zone de clic. Cela fonctionne sans selectionner un bloc au prealable, vous pouvez donc trouver ou demarrer un fil en survolant simplement un bord de bloc. Selectionner un bloc affiche toujours tous ses ports d'un coup.</p>
     <p>Faites glisser depuis un port de sortie vers un port d'entrée. Un fil fantôme suit le pointeur, les cibles compatibles sont mises en évidence et la cible active est accentuée sans déplacer le diagramme. Une cible incompatible est refusée immédiatement avec une explication concise dans Diagnostics.</p>
     <p
     >L'éditeur nflow route automatiquement les fils de connexion avec un routeur orthogonal (segments horizontaux/verticaux) qui évite les blocs, écarte les fils superposés, dessine des arcs de saut aux croisements et garde des routes stables au fil des éditions (un fil re-routé conserve sa forme sauf si une route nettement meilleure existe).</p>
@@ -31,6 +33,15 @@
     <p
     >Les waypoints épinglés sont enregistrés dans le fichier <b>.nflow</b> (chaque point épinglé est stocké comme <code
       >[x, y, 1]</code> dans le tableau <code>points</code> de la connexion) et restaurés au chargement ; annuler/rétablir couvre les éditions de segments.</p>
+    <p>
+      <b>Re-cibler l'extremite d'un fil</b>
+    </p>
+    <p
+    >Vous pouvez deplacer l'extremite d'un fil existant vers un autre port au lieu de supprimer le fil et d'en tracer un nouveau. Saisissez le fil juste au-dela d'un de ses ports, la ou le curseur affiche une croix, puis faites glisser cette extremite vers un autre port. Un fil fantome suit le pointeur et les ports compatibles sont mis en evidence, comme lors de la creation d'une connexion.</p>
+    <p
+    >Relachez sur un port valide pour deplacer l'extremite : la connexion est mise a jour (sa source ou sa cible change) et le fil est re-route. Relachez sur une zone vide ou sur une cible invalide pour annuler, et le fil conserve sa forme.</p>
+    <p
+    >Les regles d'une nouvelle connexion s'appliquent. Une extremite de sortie ne peut aller que vers un port de sortie, et une extremite d'entree que vers un port d'entree. Une entree qui a deja une connexion est refusee, une connexion en double est refusee, et un diagramme verrouille n'est pas modifie.</p>
     <p>
       <b>Apparence</b>
     </p>

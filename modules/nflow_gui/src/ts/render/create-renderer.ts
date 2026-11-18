@@ -15,6 +15,7 @@ import { setupRendererDom } from './core/renderer-setup.js';
 import { setupSvgListeners } from './interaction/renderer-events.js';
 import { makeWireCornerHandlers } from './wire/renderer-wire-corner.js';
 import { makeWireSegmentHandlers } from './interaction/renderer-wire-segment.js';
+import { makeWireReconnectHandlers } from './interaction/renderer-wire-reconnect.js';
 import { makePortHandlers } from './interaction/renderer-port.js';
 import { makeScopeCommentLayout } from './core/renderer-scope-layout.js';
 import { makeDragHandlers } from './interaction/renderer-drag.js';
@@ -122,6 +123,7 @@ export function createRenderer({
     makeWireCornerHandlers,
     makeWireSegmentHandlers,
     makePortHandlers,
+    makeWireReconnectHandlers,
     makeWireGeometryHandlers,
     makeWireCheckHandlers,
     makeDebugSnapshotHandlers,

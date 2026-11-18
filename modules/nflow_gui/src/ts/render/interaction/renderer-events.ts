@@ -33,11 +33,15 @@ export function setupSvgListeners(ctx: RendererCtx) {
     cancelWireSegmentDrag?: (e?: PointerEvent | null) => boolean;
     handleWireDoubleClick?: (e: MouseEvent) => boolean;
     handleWireSegmentHover?: (e: PointerEvent) => void;
+    armWireEndpointDrag?: (e: PointerEvent) => boolean;
+    cancelWireEndpointDrag?: () => boolean;
+    handleWireEndpointHover?: (e: PointerEvent) => boolean;
   };
 
   C.svg?.addEventListener('pointerdown', (event: PointerEvent) => {
-    // Arm a wire-segment drag when pressing on a wire (no propagation stop:
-    // a plain click still selects the wire).
+    // A press near a wire end re-targets that endpoint; it takes priority over
+    // segment dragging. Neither stops propagation, so a plain click still selects.
+    if (C.armWireEndpointDrag?.(event)) return;
     C.armWireSegmentDrag?.(event);
   });
 
@@ -48,7 +52,10 @@ export function setupSvgListeners(ctx: RendererCtx) {
 
   if (typeof window !== 'undefined') {
     window.addEventListener('keydown', (event: KeyboardEvent) => {
-      if (event.key === 'Escape') C.cancelWireSegmentDrag?.(null);
+      if (event.key === 'Escape') {
+        C.cancelWireEndpointDrag?.();
+        C.cancelWireSegmentDrag?.(null);
+      }
     });
   }
 
@@ -73,7 +80,8 @@ export function setupSvgListeners(ctx: RendererCtx) {
       C.updateMarqueeRect?.(C.marqueeState.start, point);
       return;
     }
-    // Idle pointer move: hover feedback for draggable wire segments.
+    // Idle pointer move: wire-end re-target hint takes priority over segment hover.
+    if (C.handleWireEndpointHover?.(event)) return;
     C.handleWireSegmentHover?.(event);
   });
 

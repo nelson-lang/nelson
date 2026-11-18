@@ -1501,6 +1501,7 @@ g.masked-indicator text.mask-lock-char {
   fill: transparent;
   stroke: transparent;
   pointer-events: all;
+  cursor: crosshair;
 }
 
 .port.pending {
@@ -1617,10 +1618,13 @@ g.masked-indicator text.mask-lock-char {
   pointer-events: none;
 }
 
-.ports-visible .port-group.hovered .port:not(.pending) {
+/* Hover affordance is permanent (not gated by ports-visible): hovering any port
+   reveals it even with no block selected, so wiring is discoverable at rest. */
+.port-group.hovered .port:not(.pending) {
   fill: var(--nflow-list-active-background);
   stroke: var(--accent);
   stroke-width: 2.4;
+  opacity: 1;
   transform: scale(1.2);
   transform-box: fill-box;
   transform-origin: center;

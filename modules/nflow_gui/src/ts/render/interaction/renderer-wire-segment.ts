@@ -32,7 +32,9 @@ export type WireSegmentDrag = {
 };
 //=============================================================================
 const ARM_THRESHOLD_PX = 4;
-const HIT_THRESHOLD_PX = 6;
+// Arming tolerance, widened to better match the 12px-wide .wire-hit click zone so
+// grabbing a wire reliably moves its segment instead of only selecting it.
+const HIT_THRESHOLD_PX = 10;
 function distancePointToSegment(p: Point, a: Point, b: Point): number {
   const dx = b.x - a.x;
   const dy = b.y - a.y;

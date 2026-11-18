@@ -9,6 +9,8 @@
   </syntax>
   <description>
     <p><b>Creating a connection</b></p>
+    <p
+    >Ports are faint when idle so they stay discreet. Move the pointer over a port and it brightens and grows a little, and the cursor turns into a crosshair over its click area. This works without selecting a block first, so you can find where to start a wire just by hovering near a block edge. Selecting a block still shows all of its ports at once.</p>
     <p>Drag from an output port toward an input port. A ghost wire follows the pointer, compatible targets are highlighted, and the active target is emphasized without moving the diagram. An incompatible target is refused immediately with a short explanation in Diagnostics.</p>
     <p
     >The nflow editor routes connection wires automatically with an orthogonal (horizontal/vertical) router that avoids blocks, spreads overlapping wires apart, draws hop arcs at crossings, and keeps routes stable across edits (a rerouted wire keeps its shape unless a clearly better route exists).</p>
@@ -31,6 +33,15 @@
     <p
     >Pinned waypoints are saved in the <b>.nflow</b> file (each pinned point is stored as <code
       >[x, y, 1]</code> in the connection's <code>points</code> array) and restored on load; undo and redo cover segment edits.</p>
+    <p>
+      <b>Re-targeting a wire end</b>
+    </p>
+    <p
+    >You can move the end of an existing wire to another port instead of deleting the wire and drawing a new one. Grab the wire just past one of its ports, where the cursor shows a crosshair, and drag that end onto another port. A ghost wire follows the pointer and compatible ports are highlighted, as when you create a connection.</p>
+    <p
+    >Release on a valid port to move the end: the connection is updated (its source or its target changes) and the wire is re-routed. Release on an empty area or on an invalid target to cancel, and the wire keeps its shape.</p>
+    <p
+    >The rules of a new connection apply. An output end can only move to an output port and an input end only to an input port. An input that already has a connection is refused, a duplicate connection is refused, and a locked diagram is not changed.</p>
     <p>
       <b>Appearance</b>
     </p>

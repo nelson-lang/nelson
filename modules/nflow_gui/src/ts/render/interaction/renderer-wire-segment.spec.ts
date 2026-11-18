@@ -70,8 +70,20 @@ describe('wire segment editing', () => {
     expect(hit).not.toBeNull();
     expect(hit!.segIndex).toBe(2);
     expect(hit!.orient).toBe('V');
-    // On the from-port stub (beyond the interior segment's threshold): no hit.
-    expect(h.resolveWireSegmentAt({ x: 2, y: 0 })).toBeNull();
+    // Well away from every segment: no hit (terminal stubs are never returned).
+    expect(h.resolveWireSegmentAt({ x: 50, y: 40 })).toBeNull();
+  });
+
+  it('arms within the widened tolerance band (~10px from the segment)', () => {
+    const conn = makeConn(baseline);
+    const { ctx } = makeCtx(conn);
+    const h = makeWireSegmentHandlers(ctx);
+    // 9px off the V segment at x=100: within the widened band, was missed at 6px.
+    const hit = h.resolveWireSegmentAt({ x: 109, y: 40 });
+    expect(hit).not.toBeNull();
+    expect(hit!.segIndex).toBe(2);
+    // Clearly outside the band: still no hit.
+    expect(h.resolveWireSegmentAt({ x: 115, y: 40 })).toBeNull();
   });
 
   it('stays armed below the 4px threshold (click-through selection preserved)', () => {
