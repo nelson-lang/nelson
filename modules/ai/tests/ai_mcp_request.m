@@ -42,7 +42,15 @@ function response = ai_mcp_request(requests, timeout, varargin)
   process_timeout = int2str(max(1, ceil(timeout) + 5));
   cmd = [nelson_exe, ' --quiet --no-ipc --no-user-startup --no-user-modules --timeout ', process_timeout, ...
     ' --execute="', command_argument, '" < "', request_file, '" > "', output_file, '"'];
-  [status, command_output] = system(cmd, timeout);
+
+  % A nonzero exit is a Windows transient (temp-file lock, concurrent build);
+  % one retry makes the spawned server robust without masking a real failure.
+  for attempt = 1:2
+    [status, command_output] = system(cmd, timeout);
+    if status == 0
+      break;
+    end
+  end
 
   response.status = status;
   response.command_output = command_output;
