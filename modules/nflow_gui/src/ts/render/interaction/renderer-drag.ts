@@ -22,6 +22,7 @@ interface ExtCtx {
   updateBlockTransform?: (b: Block, animated?: boolean) => void;
   updateConnections?: (force?: boolean) => void;
   detectBlockOverlap?: (ids: string[]) => boolean;
+  insertBlockOnWire?: (blockId: string, point?: { x: number; y: number }) => boolean;
   updateSelectionBox?: () => void;
   signalDiagramChanged?: () => void;
 }
@@ -434,6 +435,8 @@ export function makeDragHandlers(ctx: RendererCtx) {
       markDirty(movedIds);
       S.routingDirty = true;
       C.updateConnections?.(true);
+      // A single block dropped on a wire splices itself in.
+      if (movedIds.length === 1) C.insertBlockOnWire?.(movedIds[0]);
       try {
         void movedIds.map((id) => {
           const b = S.blocks.get(id) as Block | undefined;

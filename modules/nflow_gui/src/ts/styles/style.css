@@ -1618,6 +1618,32 @@ g.masked-indicator text.mask-lock-char {
   pointer-events: none;
 }
 
+/* Align-to-connect hint: clickable arrow between a lined-up output and input. */
+.align-connect-hint {
+  cursor: pointer;
+}
+
+.align-connect-hit {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 12;
+  pointer-events: stroke;
+}
+
+.align-connect-arrow {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-dasharray: 5 4;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.align-connect-hint:hover .align-connect-arrow {
+  opacity: 1;
+  stroke-width: 2.6;
+}
+
 /* Hover affordance is permanent (not gated by ports-visible): hovering any port
    reveals it even with no block selected, so wiring is discoverable at rest. */
 .port-group.hovered .port:not(.pending) {

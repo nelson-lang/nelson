@@ -21,6 +21,11 @@ describe('mountLayout', () => {
 
   beforeEach(() => {
     document.body.innerHTML = '';
+    // The AI assistant activity icon is opt-in via the bootstrap flag; enable it
+    // so the full-layout assertions below can see all six activity icons.
+    (window as unknown as { __nf_bootstrap?: { assistantAi?: boolean } }).__nf_bootstrap = {
+      assistantAi: true,
+    };
   });
 
   test('creates titlebar and main container from React components', () => {

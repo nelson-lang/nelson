@@ -277,6 +277,32 @@ describe('block-library-handlers - renderBlockLibrary', () => {
     expect(mockRenderer.current.createBlock).toHaveBeenCalled();
   });
 
+  test('clicking tool commits the add so the align-to-connect hint refreshes', () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    handlers.setBlockLibraryGroups(container);
+    handlers.setBlockLibrary([
+      { id: 'g1', title: 'Group 1', blocks: [{ type: 'constant', label: 'Const' }] },
+    ]);
+
+    handlers.setRendererRef({
+      current: { createBlock: vi.fn().mockReturnValue({ id: 'new1' }), updateConnections: vi.fn() },
+    });
+    handlers.setStatusEl(document.createElement('div'));
+
+    const committed = vi.fn();
+    window.addEventListener('diagramCommitted', committed);
+    try {
+      handlers.renderBlockLibrary();
+      (container.querySelector('.tool') as HTMLElement).dispatchEvent(
+        new MouseEvent('click', { bubbles: true })
+      );
+      expect(committed).toHaveBeenCalledTimes(1);
+    } finally {
+      window.removeEventListener('diagramCommitted', committed);
+    }
+  });
+
   test('clicking tool sets error status when createBlock throws', () => {
     const container = document.createElement('div');
     document.body.appendChild(container);

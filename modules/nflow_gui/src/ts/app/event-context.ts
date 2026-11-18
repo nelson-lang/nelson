@@ -115,6 +115,7 @@ export type RendererLike = {
     setMultiSelection?: (ids: any, conns: any) => void;
     createBlock?: (type: string, x: number, y: number, options?: Record<string, unknown>) => any;
     clientToSvg?: (x: number, y: number) => { x: number; y: number };
+    insertBlockOnWire?: (blockId: string, point?: { x: number; y: number }) => boolean;
     startMarqueeSelection?: (ev: PointerEvent) => void;
     updateSelectionBox?: () => void;
     clearPending?: () => void;

@@ -137,7 +137,9 @@ test('permission prompt appears on a request and replies with the decision', asy
   expect(nflowRpc).toHaveBeenCalledWith(
     'nflow.callback.invoke',
     expect.objectContaining({
-      code: expect.stringContaining("nelson.ai.internal.assistantPermissionReply('nflow', 7, 'reject')"),
+      code: expect.stringContaining(
+        "nelson.ai.internal.assistantPermissionReply('nflow', 7, 'reject')"
+      ),
     })
   );
   expect(container.querySelector('.assistant-permission-card')).toBeNull();

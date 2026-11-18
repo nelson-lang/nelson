@@ -36,11 +36,19 @@ export function setupSvgListeners(ctx: RendererCtx) {
     armWireEndpointDrag?: (e: PointerEvent) => boolean;
     cancelWireEndpointDrag?: () => boolean;
     handleWireEndpointHover?: (e: PointerEvent) => boolean;
+    armWireBranchDrag?: (e: PointerEvent) => boolean;
+    cancelWireBranchDrag?: () => boolean;
+    refreshAlignHints?: () => void;
+    clearAlignHints?: () => void;
   };
 
   C.svg?.addEventListener('pointerdown', (event: PointerEvent) => {
-    // A press near a wire end re-targets that endpoint; it takes priority over
-    // segment dragging. Neither stops propagation, so a plain click still selects.
+    // Any press that is not on the align-connect hint itself dismisses it, so a
+    // stale hint never lingers once the user starts another interaction.
+    if (!(event.target as Element | null)?.closest?.('#_nflow-align-hint')) C.clearAlignHints?.();
+    // Ctrl or Cmd drag on a wire branches from its source. A press near a wire
+    // end re-targets that endpoint. Neither stops a plain click from selecting.
+    if (C.armWireBranchDrag?.(event)) return;
     if (C.armWireEndpointDrag?.(event)) return;
     C.armWireSegmentDrag?.(event);
   });
@@ -53,10 +61,14 @@ export function setupSvgListeners(ctx: RendererCtx) {
   if (typeof window !== 'undefined') {
     window.addEventListener('keydown', (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
+        C.cancelWireBranchDrag?.();
         C.cancelWireEndpointDrag?.();
         C.cancelWireSegmentDrag?.(null);
       }
     });
+    // After a block move, insert or route commits, show an align to connect
+    // hint for the best newly lined up output and input pair.
+    window.addEventListener('diagramCommitted', () => C.refreshAlignHints?.());
   }
 
   C.svg?.addEventListener('pointermove', (event: PointerEvent) => {

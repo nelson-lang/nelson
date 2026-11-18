@@ -206,7 +206,11 @@ export function initCanvasEvents(refs: EventRefs) {
         if (block) {
           state.routingDirty = true;
           if (state.dirtyBlocks) state.dirtyBlocks.add(block.id);
+          // Splice the new block onto a wire it was dropped on, if any.
+          rendererRef?.current?.insertBlockOnWire?.(block.id, svgPoint);
           rendererRef?.current?.updateConnections?.(true);
+          // Commit the drop so the align-to-connect hint refreshes for the new block.
+          window.dispatchEvent(new Event('diagramCommitted'));
           _setStatus(
             statusEl,
             t('Added {type}', { type: draggedBlockType ?? '' }),

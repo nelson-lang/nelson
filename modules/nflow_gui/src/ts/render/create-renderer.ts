@@ -16,12 +16,15 @@ import { setupSvgListeners } from './interaction/renderer-events.js';
 import { makeWireCornerHandlers } from './wire/renderer-wire-corner.js';
 import { makeWireSegmentHandlers } from './interaction/renderer-wire-segment.js';
 import { makeWireReconnectHandlers } from './interaction/renderer-wire-reconnect.js';
+import { makeWireBranchHandlers } from './interaction/renderer-wire-branch.js';
+import { makeAlignConnectHandlers } from './interaction/renderer-align-connect.js';
 import { makePortHandlers } from './interaction/renderer-port.js';
 import { makeScopeCommentLayout } from './core/renderer-scope-layout.js';
 import { makeDragHandlers } from './interaction/renderer-drag.js';
 import { makeInteractionHandlers } from './interaction/renderer-interaction.js';
 import { makeSelectionHandlers } from './interaction/renderer-selection.js';
 import { makeConnectionHandlers } from './interaction/renderer-connection.js';
+import { makeInsertOnWireHandlers } from './interaction/renderer-insert-on-wire.js';
 import { makeRoutingHandlers } from './wire/renderer-routing.js';
 import { makeRoutingQualityHandlers } from './wire/renderer-routing-quality.js';
 import { makeWireApplyHandlers } from './wire/renderer-wire-apply.js';
@@ -124,6 +127,8 @@ export function createRenderer({
     makeWireSegmentHandlers,
     makePortHandlers,
     makeWireReconnectHandlers,
+    makeWireBranchHandlers,
+    makeAlignConnectHandlers,
     makeWireGeometryHandlers,
     makeWireCheckHandlers,
     makeDebugSnapshotHandlers,
@@ -140,6 +145,7 @@ export function createRenderer({
     makeInteractionHandlers,
     makeSelectionHandlers,
     makeConnectionHandlers,
+    makeInsertOnWireHandlers,
     makeBlockCreation,
   ];
 
@@ -161,6 +167,7 @@ export function createRenderer({
     startMarqueeSelection: ctx.startMarqueeSelection,
     clearWorkspace: ctx.clearWorkspace,
     findNearestConnection: ctx.findNearestConnection,
+    insertBlockOnWire: ctx.insertBlockOnWire,
     deleteConnection: ctx.deleteConnection,
     deleteBlock: ctx.deleteBlock,
     updateBlockLabel: ctx.updateBlockLabel,

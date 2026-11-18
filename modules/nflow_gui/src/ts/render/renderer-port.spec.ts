@@ -322,5 +322,60 @@ describe('makePortHandlers', () => {
       expect((ctx.state as any).suppressNextPortClick).toBe(false);
     });
   });
+
+  describe('shift-chaining', () => {
+    // createConnection must return truthy so a successful connection re-arms the
+    // chain; ports live in an on-document svg so the source output is found again.
+    const setup = () => {
+      const svg = makeSvg();
+      document.body.appendChild(svg);
+      const createConnection = vi.fn(() => ({ from: 'b1', fromIndex: 0 }));
+      const ctx = makeCtx({ svg, createConnection });
+      const { createPortCircle, handlePortClick } = makePortHandlers(ctx as any);
+      const outGroup = createPortCircle('b1', 'out', 0, makePort() as any);
+      const in2 = createPortCircle('b2', 'in', 0, makePort() as any);
+      const in3 = createPortCircle('b3', 'in', 0, makePort() as any);
+      svg.append(outGroup, in2, in3);
+      return { ctx, createConnection, handlePortClick, outGroup, in2, in3 };
+    };
+
+    test('Shift keeps the source pending to chain a second connection', () => {
+      const { ctx, createConnection, handlePortClick, outGroup, in2, in3 } = setup();
+
+      handlePortClick(outGroup);
+      handlePortClick(in2, true); // Shift held: connect and keep source pending
+      expect((ctx.state as any).pendingPort).toMatchObject({ blockId: 'b1', portType: 'out' });
+
+      handlePortClick(in3, true);
+      expect(createConnection).toHaveBeenNthCalledWith(1, 'b1', 'b2', 0, 0);
+      expect(createConnection).toHaveBeenNthCalledWith(2, 'b1', 'b3', 0, 0);
+    });
+
+    test('without Shift the pending state clears after one connection', () => {
+      const { ctx, createConnection, handlePortClick, outGroup, in2 } = setup();
+
+      handlePortClick(outGroup);
+      handlePortClick(in2, false);
+
+      expect(createConnection).toHaveBeenCalledTimes(1);
+      expect((ctx.state as any).pendingPort).toBeNull();
+    });
+
+    test('no chaining when the connection is refused', () => {
+      const svg = makeSvg();
+      document.body.appendChild(svg);
+      const createConnection = vi.fn(() => null); // refused (e.g. input occupied)
+      const ctx = makeCtx({ svg, createConnection });
+      const { createPortCircle, handlePortClick } = makePortHandlers(ctx as any);
+      const outGroup = createPortCircle('b1', 'out', 0, makePort() as any);
+      const in2 = createPortCircle('b2', 'in', 0, makePort() as any);
+      svg.append(outGroup, in2);
+
+      handlePortClick(outGroup);
+      handlePortClick(in2, true);
+
+      expect((ctx.state as any).pendingPort).toBeNull();
+    });
+  });
 });
 //=============================================================================

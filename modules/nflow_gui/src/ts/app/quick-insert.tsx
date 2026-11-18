@@ -99,6 +99,8 @@ function insertType(type: string): void {
       state.routingDirty = true;
       renderer?.updateConnections?.(true);
       signalDiagramChanged();
+      // Commit the add so the align-to-connect hint refreshes for the new block.
+      window.dispatchEvent(new Event('diagramCommitted'));
       // Link the console entry to the new block: clicking it selects/centers.
       writeStatus(null, t('Added {type}', { type }), 'success', 2000, block.id ?? null);
     } else {

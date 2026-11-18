@@ -656,6 +656,8 @@ export function renderBlockLibrary(): void {
           state.routingDirty = true;
           rendererRef?.current?.updateConnections?.(true);
           signalDiagramChanged();
+          // Commit the add so the align-to-connect hint refreshes for the new block.
+          window.dispatchEvent(new Event('diagramCommitted'));
           _setStatus(statusEl, t('Added {type}', { type }), 'success', 2000);
         }
       } catch (error) {

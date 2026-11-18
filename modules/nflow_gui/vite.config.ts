@@ -49,6 +49,77 @@ const sharedAssistantStyles = path.resolve(
   moduleRoot,
   '../webview/frontend/assistant/assistant-pane.css'
 );
+// Declarative block libraries (library.json manifests + exported SVG icons).
+// The palette and head-init request icons relative to document.baseURI
+// (/libraries/...), but the real SVGs live here, not under src/ts/libraries.
+const blocksLibrariesRoot = path.resolve(moduleRoot, '..', 'nflow_blocks', 'libraries');
+/**
+ * Build one <symbol> for a builtin icon, mirroring scripts/prepare-dist.mjs so
+ * the dev sprite matches the one the build generates into dist/.
+ */
+function svgToSymbol(raw: string, lib: string, fname: string): string | null {
+  const m = raw.match(/<svg\b([^>]*)>([\s\S]*)<\/svg>/i);
+  if (!m) return null;
+  const attrs = m[1];
+  // Drop editor metadata (Inkscape/Sodipodi): its prefixes are unbound here and break the XML.
+  const inner = m[2]
+    .replace(/<metadata\b[\s\S]*?<\/metadata>/gi, '')
+    .replace(/<(sodipodi|inkscape):[\w.-]+\b[^>]*?\/>/gi, '')
+    .replace(/<(sodipodi|inkscape):([\w.-]+)\b[^>]*>[\s\S]*?<\/\1:\2>/gi, '')
+    .replace(/\s(sodipodi|inkscape):[\w.-]+\s*=\s*"[^"]*"/gi, '');
+  const grab = (re: RegExp): string => {
+    const mm = attrs.match(re);
+    return mm && mm[1] ? mm[1] : '';
+  };
+  const vb = grab(/\bviewBox\s*=\s*"([^"]*)"/i);
+  const w = grab(/\bwidth\s*=\s*"([^"]*)"/i);
+  const h = grab(/\bheight\s*=\s*"([^"]*)"/i);
+  const fill = grab(/\bfill\s*=\s*"([^"]*)"/i);
+  const stroke = grab(/\bstroke\s*=\s*"([^"]*)"/i);
+  let viewBox = vb;
+  if (!viewBox && /^\d*\.?\d+/.test(w) && /^\d*\.?\d+/.test(h)) {
+    viewBox = `0 0 ${parseFloat(w)} ${parseFloat(h)}`;
+  }
+  const id = `${lib}__${fname.replace(/\.svg$/i, '')}`;
+  const esc = (s: string): string => String(s).replace(/"/g, '&quot;');
+  const vbAttr = viewBox ? ` viewBox="${esc(viewBox)}"` : '';
+  const fillAttr = fill ? ` fill="${esc(fill)}"` : '';
+  const strokeAttr = stroke ? ` stroke="${esc(stroke)}"` : '';
+  return `<symbol id="${esc(id)}" data-lib="${esc(lib)}" data-name="${esc(
+    fname
+  )}"${vbAttr}${fillAttr}${strokeAttr}>${inner}</symbol>`;
+}
+let _builtinIconSprite: string | null = null;
+/** Builtin icon sprite built once from nflow_blocks/libraries/<lib>/exports/*.svg. */
+function buildBuiltinIconSprite(): string {
+  if (_builtinIconSprite != null) return _builtinIconSprite;
+  const symbols: string[] = [];
+  try {
+    for (const le of fs.readdirSync(blocksLibrariesRoot, { withFileTypes: true })) {
+      if (!le.isDirectory()) continue;
+      const exportsDir = path.join(blocksLibrariesRoot, le.name, 'exports');
+      let files: fs.Dirent[];
+      try {
+        files = fs.readdirSync(exportsDir, { withFileTypes: true });
+      } catch {
+        continue;
+      }
+      for (const f of files) {
+        if (!f.isFile() || !f.name.toLowerCase().endsWith('.svg')) continue;
+        const raw = fs.readFileSync(path.join(exportsDir, f.name), 'utf8');
+        const sym = svgToSymbol(raw, le.name, f.name);
+        if (sym) symbols.push(sym);
+      }
+    }
+  } catch {
+    // ignore; the per-file icon route still serves individual SVGs
+  }
+  _builtinIconSprite =
+    '<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">\n' +
+    symbols.join('\n') +
+    '\n</svg>\n';
+  return _builtinIconSprite;
+}
 /**
  * Dev-server plugin: serves the application shell and the static assets the
  * C++ host normally provides, so `npm run dev` works standalone.
@@ -181,6 +252,29 @@ function nflowDevServer(): Plugin {
         }
         if (url.startsWith('/libraries/')) {
           const rel = url.slice('/libraries/'.length);
+          // Icons and the sprite are requested relative to document.baseURI
+          // (/libraries/...). Serve them from nflow_blocks (the build copies
+          // them into dist/libraries, absent from the dev tree).
+          if (rel === '_builtin-icons.sprite.svg') {
+            res.setHeader('Content-Type', 'image/svg+xml');
+            res.end(buildBuiltinIconSprite());
+            return;
+          }
+          if (rel.endsWith('.svg')) {
+            const direct = path.join(blocksLibrariesRoot, rel);
+            const exported = path.join(
+              blocksLibrariesRoot,
+              path.dirname(rel),
+              'exports',
+              path.basename(rel)
+            );
+            if (sendFile(res, direct, 'image/svg+xml')) return;
+            if (sendFile(res, exported, 'image/svg+xml')) return;
+          }
+          if (rel.endsWith('.json')) {
+            if (sendFile(res, path.join(blocksLibrariesRoot, rel), 'application/json')) return;
+          }
+          // Fallback: legacy src/ts/libraries location for any non-icon asset.
           const type = url.endsWith('.json')
             ? 'application/json'
             : url.endsWith('.svg')

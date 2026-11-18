@@ -19,7 +19,7 @@ interface ExtCtx {
     toBlockId: string,
     toIndex: number,
     fromIndex: number
-  ) => void;
+  ) => unknown;
 }
 //=============================================================================
 interface ExtState extends RendererState {
@@ -108,7 +108,7 @@ export function makePortHandlers(ctx: RendererCtx) {
 
     const onClick = (event: Event) => {
       event.stopPropagation();
-      handlePortClick(group);
+      handlePortClick(group, (event as MouseEvent).shiftKey);
     };
 
     group.addEventListener('pointerenter', () => group.classList.add('hovered'));
@@ -144,26 +144,53 @@ export function makePortHandlers(ctx: RendererCtx) {
     updatePortVisibility();
   }
 
-  // Create a connection between the pending port and `portEl`, resolving which
-  // end is the output and which is the input so either drag direction works.
-  function completeConnectionTo(portEl: Element) {
+  // Connect the pending port to portEl, resolving which end is output and which
+  // is input. Returns the output end on success (for Shift chaining), else null.
+  function completeConnectionTo(portEl: Element): { blockId: string; index: number } | null {
     const from = S.pendingPort as {
       blockId: string;
       portType: 'in' | 'out';
       portIndex?: number;
     } | null;
-    if (!from) return;
+    if (!from) return null;
     const blockId = portEl.getAttribute('data-block-id') ?? '';
     const portType = (portEl.getAttribute('data-port-type') as 'in' | 'out') ?? 'in';
     const portIndex = Number(portEl.getAttribute('data-port-index'));
-    if (from.blockId === blockId) return;
+    if (from.blockId === blockId) return null;
     if (portType === from.portType) {
       C.onConnectionError?.('Connect an output port to an input port.');
-      return;
+      return null;
     }
     const out = from.portType === 'out' ? from : { blockId, portIndex };
     const inp = from.portType === 'in' ? from : { blockId, portIndex };
-    C.createConnection?.(out.blockId, inp.blockId, inp.portIndex ?? 0, out.portIndex ?? 0);
+    const created = C.createConnection?.(
+      out.blockId,
+      inp.blockId,
+      inp.portIndex ?? 0,
+      out.portIndex ?? 0
+    );
+    if (!created) return null;
+    return { blockId: out.blockId, index: Number(out.portIndex ?? 0) };
+  }
+
+  // The DOM group of a given output port (used to re-arm a Shift chain).
+  function outputPortEl(blockId: string, index: number): Element | null {
+    return (
+      C.svg?.querySelector(
+        `.port-group[data-block-id="${blockId}"][data-port-type="out"][data-port-index="${index}"]`
+      ) ?? null
+    );
+  }
+
+  // Finish a connection. With Shift held and on success, keep the source output
+  // pending so the next target chains from the same source.
+  function finishConnection(targetEl: Element, chain: boolean) {
+    const out = completeConnectionTo(targetEl);
+    clearPending();
+    if (chain && out) {
+      const el = outputPortEl(out.blockId, out.index);
+      if (el) beginPending(el);
+    }
   }
 
   // Press on a port: arm a drag-to-connect. A real drag (past the threshold) draws
@@ -203,8 +230,8 @@ export function makePortHandlers(ctx: RendererCtx) {
       // A drag completed: neutralize the synthetic click that may follow.
       S.suppressNextPortClick = true;
       const target = (event.target as Element | null)?.closest?.('.port-group') ?? null;
-      if (target) completeConnectionTo(target);
-      clearPending();
+      if (target) finishConnection(target, event.shiftKey);
+      else clearPending();
     };
 
     const onCancel = (event: PointerEvent) => {
@@ -218,7 +245,7 @@ export function makePortHandlers(ctx: RendererCtx) {
     window.addEventListener('pointercancel', onCancel, true);
   }
 
-  function handlePortClick(portEl: Element) {
+  function handlePortClick(portEl: Element, shiftKey = false) {
     if (S.suppressNextPortClick) {
       S.suppressNextPortClick = false;
       return;
@@ -237,8 +264,7 @@ export function makePortHandlers(ctx: RendererCtx) {
       clearPending();
       return;
     }
-    completeConnectionTo(portEl);
-    clearPending();
+    finishConnection(portEl, shiftKey);
   }
 
   function clearPending() {
@@ -261,8 +287,8 @@ export function makePortHandlers(ctx: RendererCtx) {
     C.svg.classList.toggle('ports-visible', show);
   }
 
-  // beginPending/clearPending are shared with wire-endpoint re-targeting (P5) so
-  // the ghost wire and compatible-target highlighting are not duplicated there.
+  // beginPending and clearPending are shared with wire-endpoint re-targeting so
+  // the ghost wire and target highlighting are not duplicated there.
   return {
     createPortCircle,
     handlePortClick,

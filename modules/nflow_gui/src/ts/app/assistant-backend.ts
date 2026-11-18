@@ -81,9 +81,9 @@ export const nflowAssistantBackend: AssistantBackend = {
     // 'external' stops the engine from starting a Nelson timer to poll the ACP
     // reply (that timer never ticks in a webui host without a GUI event loop);
     // the pane drives the poll instead through step() below.
-    const code = `nelson.ai.internal.assistantRun('${toNelsonLiteral(augmented)}', '${toNelsonLiteral(
-      chosen
-    )}', 'external', 'nflow');`;
+    const code = `nelson.ai.internal.assistantRun('${toNelsonLiteral(
+      augmented
+    )}', '${toNelsonLiteral(chosen)}', 'external', 'nflow');`;
     await nflowRpc('nflow.callback.invoke', { code, blockId: '' });
     return { accepted: true };
   },

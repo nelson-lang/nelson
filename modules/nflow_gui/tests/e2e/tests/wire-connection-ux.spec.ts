@@ -7,14 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-// Connection usability: ports stay discoverable on hover without a prior
-// selection (P3), and an existing wire end can be re-targeted onto another
-// compatible port by dragging it, instead of deleting and recreating (P5).
-//
-// Segment-grab tolerance (P4) is a pixel-threshold change exercised by the
-// Vitest unit suite; like wire-corner dragging it is not reproduced here,
-// because synthetic wires in the headless harness keep a 2-point route and the
-// interior-segment geometry is not deterministic enough for a stable e2e.
+// Connection usability: hover reveals ports, a wire end re-targets by drag,
+// fan-out, block on wire insert and Shift chaining. Pixel-exact gestures
+// (segment tolerance, align to connect) live in the unit suites instead.
 //=============================================================================
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -55,7 +50,7 @@ async function portCenter(
 }
 //=============================================================================
 test.describe('connection usability', () => {
-  test('P3 - a port is revealed on hover with no block selected', async ({ mockPage: page }) => {
+  test('a port is revealed on hover with no block selected', async ({ mockPage: page }) => {
     const app = new AppPage(page);
     await app.open();
     const editor = new CanvasEditor(page);
@@ -83,7 +78,7 @@ test.describe('connection usability', () => {
       .toBe('1');
   });
 
-  test('P5 - dragging a wire end re-targets it to another port', async ({ mockPage: page }) => {
+  test('dragging a wire end re-targets it to another port', async ({ mockPage: page }) => {
     const app = new AppPage(page);
     await app.open();
     const editor = new CanvasEditor(page);
@@ -110,9 +105,7 @@ test.describe('connection usability', () => {
     expect((await connections(page)).some((c) => c.from === 'b2' && c.to === 'b3')).toBe(false);
   });
 
-  test('P5 - dropping a wire end in empty space leaves it unchanged', async ({
-    mockPage: page,
-  }) => {
+  test('dropping a wire end in empty space leaves it unchanged', async ({ mockPage: page }) => {
     const app = new AppPage(page);
     await app.open();
     const editor = new CanvasEditor(page);
@@ -127,6 +120,137 @@ test.describe('connection usability', () => {
 
     await expect.poll(() => editor.wireCount(), { timeout: 3000 }).toBe(2);
     expect((await connections(page)).some((c) => c.from === 'b1' && c.to === 'b2')).toBe(true);
+  });
+
+  test('Ctrl drag from a wire branches its source to another input', async ({ mockPage: page }) => {
+    const app = new AppPage(page);
+    await app.open();
+    const editor = new CanvasEditor(page);
+    await loadChain(page, editor);
+
+    // A fresh scope gives a free input to fan out into.
+    const sink = await editor.insertBlock('scope', { x: 320, y: 360 });
+    await editor.canvas.click({ position: { x: 20, y: 20 } });
+    const sinkIn = await portCenter(editor, sink, 'in');
+
+    // Ctrl+drag the middle of the b1->b2 wire onto the new input: b1 now drives
+    // both b2 (unchanged) and the sink, so a third wire appears.
+    const b1Out = await portCenter(editor, 'b1', 'out');
+    const b2In = await portCenter(editor, 'b2', 'in');
+    const mid = { x: (b1Out.x + b2In.x) / 2, y: (b1Out.y + b2In.y) / 2 };
+    await page.keyboard.down('Control');
+    await page.mouse.move(mid.x, mid.y);
+    await page.mouse.down();
+    await page.mouse.move(mid.x + 20, mid.y + 30, { steps: 6 });
+    await page.mouse.move(sinkIn.x, sinkIn.y, { steps: 10 });
+    await page.mouse.up();
+    await page.keyboard.up('Control');
+
+    await expect.poll(() => editor.wireCount(), { timeout: 3000 }).toBe(3);
+    await expect
+      .poll(async () => (await connections(page)).some((c) => c.from === 'b1' && c.to === sink), {
+        timeout: 3000,
+      })
+      .toBe(true);
+    // The original b1->b2 wire is untouched.
+    expect((await connections(page)).some((c) => c.from === 'b1' && c.to === 'b2')).toBe(true);
+  });
+
+  test('Ctrl drag from a wire dropped in empty space adds nothing', async ({ mockPage: page }) => {
+    const app = new AppPage(page);
+    await app.open();
+    const editor = new CanvasEditor(page);
+    await loadChain(page, editor);
+
+    const b1Out = await portCenter(editor, 'b1', 'out');
+    const b2In = await portCenter(editor, 'b2', 'in');
+    const mid = { x: (b1Out.x + b2In.x) / 2, y: (b1Out.y + b2In.y) / 2 };
+    await page.keyboard.down('Control');
+    await page.mouse.move(mid.x, mid.y);
+    await page.mouse.down();
+    await page.mouse.move(mid.x - 80, mid.y + 200, { steps: 8 });
+    await page.mouse.up();
+    await page.keyboard.up('Control');
+
+    await expect.poll(() => editor.wireCount(), { timeout: 3000 }).toBe(2);
+  });
+
+  test('dragging a block onto a wire splices it into the chain', async ({ mockPage: page }) => {
+    const app = new AppPage(page);
+    await app.open();
+    const editor = new CanvasEditor(page);
+    await loadChain(page, editor);
+
+    // Widen the b2->b3 wire by sliding b3 far right, so the dropped block has a
+    // long free span to land on without overlapping either neighbour.
+    const b3box = (await editor.blockBoxes())['b3'];
+    const b3c = { x: b3box.x + b3box.w / 2, y: b3box.y + b3box.h / 2 };
+    await page.mouse.move(b3c.x, b3c.y);
+    await page.mouse.down();
+    await page.mouse.move(b3c.x + 20, b3c.y, { steps: 3 });
+    await page.mouse.move(b3c.x + 340, b3c.y, { steps: 12 });
+    await page.mouse.up();
+
+    // A spare gain to drop onto the middle of the b2->b3 wire.
+    const g = await editor.insertBlock('gain', { x: 360, y: 440 });
+    await editor.canvas.click({ position: { x: 20, y: 40 } });
+
+    const b2Out = await portCenter(editor, 'b2', 'out');
+    const b3In = await portCenter(editor, 'b3', 'in');
+    const mid = { x: (b2Out.x + b3In.x) / 2, y: (b2Out.y + b3In.y) / 2 };
+    const box = (await editor.blockBoxes())[g];
+    const from = { x: box.x + box.w / 2, y: box.y + box.h / 2 };
+
+    // Drag the block body (not a port) onto the middle of the wire.
+    await page.mouse.move(from.x, from.y);
+    await page.mouse.down();
+    await page.mouse.move(from.x + 12, from.y - 12, { steps: 4 });
+    await page.mouse.move(mid.x, mid.y, { steps: 14 });
+    await page.mouse.up();
+
+    // The wire is cut and the block threaded in: b2->g and g->b3 replace b2->b3.
+    await expect.poll(() => editor.wireCount(), { timeout: 3000 }).toBe(3);
+    await expect
+      .poll(
+        async () => {
+          const conns = await connections(page);
+          return (
+            conns.some((c) => c.from === 'b2' && c.to === g) &&
+            conns.some((c) => c.from === g && c.to === 'b3')
+          );
+        },
+        { timeout: 3000 }
+      )
+      .toBe(true);
+    expect((await connections(page)).some((c) => c.from === 'b2' && c.to === 'b3')).toBe(false);
+  });
+
+  test('holding Shift chains several connections from one source', async ({ mockPage: page }) => {
+    const app = new AppPage(page);
+    await app.open();
+    const editor = new CanvasEditor(page);
+    await loadChain(page, editor);
+
+    // One atan2 block offers two free inputs to fan the Sine (b1) output into.
+    const sink = await editor.insertBlock('atan2', { x: 340, y: 380 });
+    await editor.canvas.click({ position: { x: 20, y: 20 } });
+
+    // Click the source output to start, then Shift-click both inputs in a row:
+    // the source stays pending between them, so both wires come from b1.
+    await editor.portGroup('b1', 'out', 0).click();
+    await editor.portGroup(sink, 'in', 0).click({ modifiers: ['Shift'] });
+    await editor.portGroup(sink, 'in', 1).click({ modifiers: ['Shift'] });
+
+    await expect.poll(() => editor.wireCount(), { timeout: 3000 }).toBe(4);
+    await expect
+      .poll(
+        async () =>
+          (await connections(page)).filter((c) => c.from === 'b1' && c.to === sink).length,
+        {
+          timeout: 3000,
+        }
+      )
+      .toBe(2);
   });
 });
 //=============================================================================
