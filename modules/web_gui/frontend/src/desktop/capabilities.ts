@@ -12,7 +12,11 @@ import type { AppCapabilitiesResult, ConfigUrls } from '../rpc/types';
 import { t, tf } from '../i18n';
 import { DEFAULT_CONFIG_URLS } from './configUrls';
 //=============================================================================
-const unavailable: AppCapabilitiesResult = { nflow: false, assistant: false, packageManager: false };
+const unavailable: AppCapabilitiesResult = {
+  nflow: false,
+  assistant: false,
+  packageManager: false,
+};
 let capabilities = unavailable;
 const listeners = new Set<() => void>();
 //=============================================================================

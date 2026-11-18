@@ -776,7 +776,9 @@ export class WasmDesktopBackend implements LocalRpcBackend {
     // desktop. It runs through the normal evaluation lifecycle (busy token, Stop,
     // streamed output) but is kept out of the command history.
     const modelText = model ? this.nelsonText(model) : "''";
-    const command = `nelson.ai.internal.assistantRun(${this.nelsonText(prompt)}, ${modelText}, '', 'web');`;
+    const command = `nelson.ai.internal.assistantRun(${this.nelsonText(
+      prompt
+    )}, ${modelText}, '', 'web');`;
     void this.evaluate(command, { recordHistory: false });
     return { accepted: true };
   }
