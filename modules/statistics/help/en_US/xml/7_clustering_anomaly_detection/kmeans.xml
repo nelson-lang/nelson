@@ -8,6 +8,7 @@
     <syntax_item>idx = kmeans(X, k)</syntax_item>
     <syntax_item>idx = kmeans(X, k, &apos;Distance&apos;, distance)</syntax_item>
     <syntax_item>idx = kmeans(X, k, &apos;Start&apos;, start)</syntax_item>
+    <syntax_item>idx = kmeans(X, k, &apos;Engine&apos;, engine)</syntax_item>
     <syntax_item>[idx, C, sumd, D] = kmeans(...)</syntax_item>
   </syntax>
   <param_input>
@@ -26,6 +27,10 @@
     <param_input_item>
       <param_name>start</param_name>
       <param_description>initial centroid choice: &apos;plus&apos;, &apos;sample&apos;, &apos;uniform&apos;, &apos;cluster&apos;, a k-by-p matrix, or a k-by-p-by-r array.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>engine</param_name>
+      <param_description>squared Euclidean assignment engine: &apos;auto&apos; (default), &apos;legacy&apos;, &apos;elkan&apos;, or &apos;hamerly&apos;. This is a performance choice only; every engine returns the same result. &apos;elkan&apos; and &apos;hamerly&apos; skip centroid distance computations using the triangle inequality and speed up large clustered data. &apos;auto&apos; selects the engine from the problem size. Engines other than &apos;legacy&apos; apply only to the squared Euclidean distance.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -49,6 +54,11 @@
   <description>
     <p><b>kmeans</b> partitions observations into k clusters by iteratively assigning each observation to the nearest centroid and recomputing centroids from assigned observations.</p>
     <p>Random starts use Nelson&apos;s global random generator. Use <b>rng</b> before calling <b>kmeans</b>, or pass <b>Options</b> created by <b>statset</b> with a <b>RandStream</b> in <b>Streams</b>, for reproducible random initialization.</p>
+    <p>For the squared Euclidean distance the assignment step can run on one of three engines, selected by <b>Engine</b>. The engines return the same clustering; they differ only in how many point to centroid distances they evaluate at each iteration.</p>
+    <p>The legacy engine computes the distance from every observation to every centroid at each iteration, at a cost proportional to n*k*p, where n is the number of observations, k the number of clusters and p the number of variables.</p>
+    <p>The elkan and hamerly engines use the triangle inequality to skip distances that cannot change an assignment. For each observation they keep an upper bound on the distance to its assigned centroid and one or more lower bounds on the distance to the other centroids. When the centroids move, the bounds are shifted by the centroid displacements instead of being recomputed. An observation keeps its current centroid without any distance evaluation when its upper bound is smaller than half the distance from that centroid to the nearest other centroid, or smaller than its lower bound. Only when this test fails are exact distances evaluated, and only to the centroids the bounds cannot rule out.</p>
+    <p>The elkan engine keeps one lower bound per centroid for every observation. It rules out more centroids, which helps when clusters overlap, but updating the bounds costs an amount proportional to n*k per iteration. The hamerly engine keeps a single lower bound per observation, the distance to the second closest centroid. Its bound update costs an amount proportional to n, which is cheaper, but a failed test forces a full scan of all centroids.</p>
+    <p>The pruning becomes effective once observations settle into stable clusters, so the speedup appears on large data sets that have real cluster structure. On small or unstructured data the extra bookkeeping is not repaid and the legacy engine is as fast. The default <b>auto</b> setting selects elkan when there are at least 2000 observations and at least 4 clusters, and the legacy engine otherwise.</p>
   </description>
   <used_function>
     <link linkend="${statistics}statset">statset</link>

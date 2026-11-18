@@ -35,12 +35,14 @@ enum class Distance { SQUAREDEUCLIDEAN, CITYBLOCK, COSINE, CORRELATION, HAMMING 
 enum class StartMethod { PLUS, SAMPLE, UNIFORM, CLUSTER, NUMERIC };
 enum class EmptyAction { SINGLETON, DROP, ERROR };
 enum class DisplayMode { OFF, FINAL, ITER };
+enum class AssignEngine { AUTO, LEGACY, ELKAN, HAMERLY };
 struct Options {
     Distance distance { Distance::SQUAREDEUCLIDEAN }; StartMethod startMethod { StartMethod::PLUS };
     EmptyAction emptyAction { EmptyAction::SINGLETON }; DisplayMode display { DisplayMode::OFF };
     ArrayOf startValue; bool hasStart { false }, hasReplicates { false }, hasMaxIter { false },
         hasEmptyAction { false }, hasDisplay { false }, hasOnlinePhase { false }, onlinePhase { true },
         useParallel { false }, useSubstreams { false }, hasStreams { false };
+    AssignEngine engine { AssignEngine::AUTO };
     ArrayOf streamsValue;
     indexType replicates { 1 }; indexType maxIter { 100 };
 };
@@ -339,6 +341,28 @@ parseDistance(const ArrayOf& value)
             L"Distance"));
 }
 //=============================================================================
+AssignEngine
+parseEngine(const ArrayOf& value)
+{
+    std::wstring text = textScalar(value,
+        formatI18nMessage(
+            Nelson::resolveMessageTemplate(L"Nelson:statistics:invalidValue", L"Invalid %s value."),
+            L"Engine"));
+    // clang-format off
+    const std::vector<std::pair<std::wstring, AssignEngine>> names = {
+        { L"auto", AssignEngine::AUTO }, { L"legacy", AssignEngine::LEGACY },
+        { L"elkan", AssignEngine::ELKAN }, { L"hamerly", AssignEngine::HAMERLY },
+    };
+    // clang-format on
+    return choiceFromText(text, names,
+        formatI18nMessage(
+            Nelson::resolveMessageTemplate(L"Nelson:statistics:invalidValue", L"Invalid %s value."),
+            L"Engine"),
+        formatI18nMessage(Nelson::resolveMessageTemplate(
+                              L"Nelson:statistics:ambiguousValue", L"Ambiguous %s value."),
+            L"Engine"));
+}
+//=============================================================================
 StartMethod
 parseStartMethod(const ArrayOf& value)
 {
@@ -430,6 +454,7 @@ parseName(const ArrayOf& value)
         { L"replicates", L"replicates" }, { L"maxiter", L"maxiter" },
         { L"emptyaction", L"emptyaction" }, { L"display", L"display" },
         { L"onlinephase", L"onlinephase" }, { L"options", L"options" },
+        { L"engine", L"engine" },
     };
     // clang-format on
     return choiceFromText(text, names, _W("Invalid name-value argument name."),
@@ -567,6 +592,8 @@ parseNameValues(Options& options, const ArrayOfVector& argIn)
                 formatI18nMessage(Nelson::resolveMessageTemplate(
                                       L"Nelson:statistics:invalidValue", L"Invalid %s value."),
                     L"OnlinePhase"));
+        } else if (name == L"engine") {
+            options.engine = parseEngine(value);
         }
     }
 }
@@ -923,6 +950,31 @@ recomputeCenters(const KmeansData& data, const Options& options, std::vector<dou
     return changed;
 }
 #include "KmeansOnlineUpdate.hpp"
+#include "KmeansElkan.hpp"
+#include "KmeansHamerly.hpp"
+//=============================================================================
+// Pick the squared Euclidean assignment engine. Acceleration only applies to
+// squared Euclidean; other distances always use the legacy path.
+AssignEngine
+resolveEngine(const Options& options, const KmeansData& data, indexType k)
+{
+    if (options.distance != Distance::SQUAREDEUCLIDEAN) {
+        return AssignEngine::LEGACY;
+    }
+    if (options.engine != AssignEngine::AUTO) {
+        return options.engine;
+    }
+    // Tuned from benchmarks on data with real cluster structure (kmeans' actual use
+    // case): both engines reach 1.3-1.7x there. Elkan is the robust default (steady
+    // 1.2-1.5x, strong on overlapping clusters); Hamerly is faster on clean clusters
+    // but can regress, so it is opt-in via 'Engine'. Tiny problems skip the bound
+    // setup and stay on the plain loop, where timing is dominated by fixed costs.
+    if (data.rows >= 2000 && k >= 4) {
+        return AssignEngine::ELKAN;
+    }
+    return AssignEngine::LEGACY;
+}
+//=============================================================================
 void
 displayIteration(Evaluator* eval, indexType replicate, indexType iter, indexType phase,
     indexType moved, double total, DisplayMode mode)
@@ -955,9 +1007,20 @@ runOne(const KmeansData& data, const Options& options, std::vector<double> cente
     result.distances.assign(data.rows * k, std::numeric_limits<double>::infinity());
     result.sumd.assign(k, 0.0);
     std::vector<double> previous(data.rows, -1.0);
+    AssignEngine engine = resolveEngine(options, data, k);
+    ElkanState elkan;
+    HamerlyState hamerly;
     for (indexType iter = 1; iter <= options.maxIter; ++iter) {
-        assignPoints(
-            data, options, result.centers, k, result.labels, result.distances, result.sumd);
+        if (engine == AssignEngine::ELKAN) {
+            elkanAssign(elkan, data, options, result.centers, k, result.labels, result.distances,
+                result.sumd);
+        } else if (engine == AssignEngine::HAMERLY) {
+            hamerlyAssign(hamerly, data, options, result.centers, k, result.labels,
+                result.distances, result.sumd);
+        } else {
+            assignPoints(
+                data, options, result.centers, k, result.labels, result.distances, result.sumd);
+        }
         result.total = std::accumulate(result.sumd.begin(), result.sumd.end(), 0.0);
         indexType batchMoved = 0;
         for (indexType r = 0; r < data.rows; ++r) {

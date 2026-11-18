@@ -8,6 +8,7 @@
     <syntax_item>idx = kmeans(X, k)</syntax_item>
     <syntax_item>idx = kmeans(X, k, &apos;Distance&apos;, distance)</syntax_item>
     <syntax_item>idx = kmeans(X, k, &apos;Start&apos;, start)</syntax_item>
+    <syntax_item>idx = kmeans(X, k, &apos;Engine&apos;, engine)</syntax_item>
     <syntax_item>[idx, C, sumd, D] = kmeans(...)</syntax_item>
   </syntax>
   <param_input>
@@ -26,6 +27,10 @@
     <param_input_item>
       <param_name>start</param_name>
       <param_description>choix des centroïdes initiaux : &apos;plus&apos;, &apos;sample&apos;, &apos;uniform&apos;, &apos;cluster&apos;, une matrice k-par-p ou un tableau k-par-p-par-r.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>engine</param_name>
+      <param_description>moteur d&apos;affectation pour la distance euclidienne au carre : &apos;auto&apos; (defaut), &apos;legacy&apos;, &apos;elkan&apos; ou &apos;hamerly&apos;. Il s&apos;agit d&apos;un choix de performance uniquement ; tous les moteurs renvoient le meme resultat. &apos;elkan&apos; et &apos;hamerly&apos; evitent des calculs de distance aux centroides grace a l&apos;inegalite triangulaire et accelerent les grands jeux de donnees groupees. &apos;auto&apos; choisit le moteur selon la taille du probleme. Les moteurs autres que &apos;legacy&apos; s&apos;appliquent uniquement a la distance euclidienne au carre.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -49,6 +54,11 @@
   <description>
     <p><b>kmeans</b> partitionne les observations en k groupes en affectant itérativement chaque observation au centroide le plus proche puis en recalculant les centroïdes.</p>
     <p>Les initialisations aléatoires utilisent le générateur global de Nelson. Utiliser <b>rng</b> avant <b>kmeans</b>, ou transmettre <b>Options</b> crée avec <b>statset</b> et un <b>RandStream</b> dans <b>Streams</b>, pour obtenir une initialisation reproductible.</p>
+    <p>Pour la distance euclidienne au carre, l&apos;etape d&apos;affectation peut utiliser l&apos;un de trois moteurs, choisi par <b>Engine</b>. Les moteurs renvoient le meme partitionnement ; ils ne different que par le nombre de distances point vers centroide evaluees a chaque iteration.</p>
+    <p>Le moteur legacy calcule la distance de chaque observation a chaque centroide a chaque iteration, pour un cout proportionnel a n*k*p, ou n est le nombre d&apos;observations, k le nombre de groupes et p le nombre de variables.</p>
+    <p>Les moteurs elkan et hamerly utilisent l&apos;inegalite triangulaire pour eviter les distances qui ne peuvent pas changer une affectation. Pour chaque observation ils conservent une borne superieure sur la distance au centroide affecte et une ou plusieurs bornes inferieures sur la distance aux autres centroides. Quand les centroides se deplacent, les bornes sont decalees par le deplacement des centroides au lieu d&apos;etre recalculees. Une observation garde son centroide sans aucun calcul de distance quand sa borne superieure est plus petite que la moitie de la distance de ce centroide au centroide le plus proche, ou plus petite que sa borne inferieure. Les distances exactes ne sont evaluees que lorsque ce test echoue, et seulement vers les centroides que les bornes ne permettent pas d&apos;ecarter.</p>
+    <p>Le moteur elkan conserve une borne inferieure par centroide pour chaque observation. Il ecarte davantage de centroides, ce qui aide quand les groupes se chevauchent, mais la mise a jour des bornes coute une quantite proportionnelle a n*k par iteration. Le moteur hamerly conserve une seule borne inferieure par observation, la distance au deuxieme centroide le plus proche. Sa mise a jour coute une quantite proportionnelle a n, moins chere, mais un test qui echoue force un parcours complet de tous les centroides.</p>
+    <p>L&apos;elagage devient efficace une fois que les observations se stabilisent dans des groupes, donc le gain apparait sur de grands jeux de donnees ayant une vraie structure de groupes. Sur des donnees petites ou sans structure le surcout de gestion n&apos;est pas amorti et le moteur legacy est aussi rapide. Le reglage par defaut <b>auto</b> choisit elkan quand il y a au moins 2000 observations et au moins 4 groupes, et le moteur legacy sinon.</p>
   </description>
   <used_function>
     <link linkend="${statistics}statset">statset</link>
