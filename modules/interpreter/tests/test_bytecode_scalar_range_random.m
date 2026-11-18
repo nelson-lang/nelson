@@ -44,5 +44,5 @@ for sample = 1:40
   filewrite([directory, '/', forName, '.m'], strjoin(forLines, sprintf('\n')));
   filewrite([directory, '/', whileName, '.m'], strjoin(whileLines, sprintf('\n')));
   rehash();
-  asserts.istrue(isequaln(feval(forName), feval(whileName)));
+  asserts.isequal(feval(forName), feval(whileName));
 end

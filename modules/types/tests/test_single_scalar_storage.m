@@ -17,21 +17,21 @@ for k = 1:numel(constructors)
   value = constructors{k}();
   asserts.isequal(class(value), 'single');
   asserts.isequal(size(value), [1 1]);
-  asserts.istrue(isequaln(value, expected(k)));
+  asserts.isequal(value, expected(k));
   asserts.istrue(isfloat(value));
   asserts.istrue(isreal(value));
   copy = value;
   value(1) = single(19);
-  asserts.istrue(isequaln(copy, expected(k)));
+  asserts.isequal(copy, expected(k));
   value = copy;
   value(2) = single(5);
-  asserts.istrue(isequaln(value, [expected(k), single(5)]));
+  asserts.isequal(value, [expected(k), single(5)]);
   asserts.isequal(class(copy(false)), 'single');
   asserts.istrue(isempty(copy(false)));
   asserts.isequal(class(copy([])), 'single');
-  asserts.istrue(isequaln(copy(true), copy));
-  asserts.istrue(isequaln(copy(single(1)), copy));
-  asserts.istrue(isequaln(copy(1, 1), copy));
+  asserts.isequal(copy(true), copy);
+  asserts.isequal(copy(single(1)), copy);
+  asserts.isequal(copy(1, 1), copy);
   asserts.isequal(class(double(copy)), 'double');
   if ~isnan(copy)
     asserts.isequal(class(logical(copy)), 'logical');

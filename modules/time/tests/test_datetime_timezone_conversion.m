@@ -124,7 +124,7 @@ assert_isfalse(u == missing);
 %=============================================================================
 % two time zones combine by instant, in the time zone of the first operand
 assert_istrue(isequal(u, p));
-assert_istrue(isequaln(u, p));
+assert_isequal(u, p);
 assert_istrue(u == p);
 assert_istrue(ismember(u, p));
 assert_istrue(isbetween(u, p - minutes(30), p + minutes(30)));

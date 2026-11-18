@@ -35,5 +35,5 @@ ipc(getpid, 'put', REF, 'R')
 q = 0; while (~isvar('R') && q < 1000), sleep(0.01), q = q + 1; end
 asserts.isequal(size(R), [2, 3]);
 asserts.isequal(ismissing(R), ismissing(REF));
-asserts.istrue(isequaln(double(R), double(REF)));
+asserts.isequal(double(R), double(REF));
 %=============================================================================

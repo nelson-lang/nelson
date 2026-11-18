@@ -48,8 +48,8 @@ assert_checkerror('q = gpuArray(single(magic(3))); q(12) = 1;', _('Attempt to gr
 % sorted distinct values and set operations on the device
 a = single([3 1 2 3 NaN 1]);
 b = single([4 1; 1 NaN]);
-assert_istrue(isequaln(gather(unique(gpuArray(a))), unique(a)));
-assert_istrue(isequaln(gather(unique(gpuArray(b))), unique(b)));
+assert_isequal(gather(unique(gpuArray(a))), unique(a));
+assert_isequal(gather(unique(gpuArray(b))), unique(b));
 assert_isequal(gather(unique(gpuArray(single(5)))), single(5));
 cases = {a, b, single([3; 1; 2; 3]), single([Inf -Inf 2 Inf]), single([7 8 9])};
 names = {'union', 'intersect', 'setdiff', 'setxor', 'ismember'};
@@ -60,7 +60,7 @@ for f = 1:numel(names)
       computed = feval(names{f}, gpuArray(cases{i}), gpuArray(cases{j}));
       assert_istrue(isgpuarray(computed));
       assert_isequal(size(gather(computed)), size(expected));
-      assert_istrue(isequaln(double(gather(computed)), double(expected)));
+      assert_isequal(double(gather(computed)), double(expected));
     end
   end
 end

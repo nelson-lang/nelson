@@ -158,7 +158,7 @@ emptyValues = zeros(0, 2);
 textValue = 'saved';
 save(dataFile, 'numericValues', 'emptyValues', 'textValue');
 loaded = load(dataFile);
-asserts.istrue(isequaln(loaded.numericValues, numericValues));
+asserts.isequal(loaded.numericValues, numericValues);
 asserts.isequal(loaded.emptyValues, emptyValues);
 asserts.isequal(loaded.textValue, textValue);
 %=============================================================================

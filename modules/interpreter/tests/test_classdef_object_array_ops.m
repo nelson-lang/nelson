@@ -46,7 +46,7 @@ asserts.istrue(isequal(p, q));
 q.X = 9;
 asserts.isfalse(isequal(p, q));
 asserts.isfalse(isequal(p, struct('X', 1, 'Y', 2)));
-asserts.istrue(isequaln(ClassdefPoint(NaN, 2), ClassdefPoint(NaN, 2)));
+asserts.isequal(ClassdefPoint(NaN, 2), ClassdefPoint(NaN, 2));
 %=============================================================================
 % methods() lists the implicit or explicit visible constructor
 m = methods('ClassdefPoint');

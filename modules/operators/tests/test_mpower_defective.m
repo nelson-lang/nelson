@@ -56,7 +56,7 @@ R = [0 1; 0 0] ^ 0.5;
 asserts.isequal(lastwarn(), '');
 asserts.isequal(R, [0 Inf; 0 0]);
 asserts.isequal([0 1; 0 0] ^ -0.5, [Inf -Inf; 0 Inf]);
-asserts.istrue(isequaln([0 1; 0 0] ^ 1.5, [0 NaN; 0 NaN]));
+asserts.isequal([0 1; 0 0] ^ 1.5, [0 NaN; 0 NaN]);
 R = [0 1 0; 0 0 1; 0 0 0] ^ 0.5;
 asserts.isequal(lastwarn(), '');
 asserts.isequal(R(1, 2), Inf);

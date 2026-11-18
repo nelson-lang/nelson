@@ -19,14 +19,14 @@ for k = 1:numel(constructors)
   asserts.isequal(size(value), [1 1]);
   asserts.isfalse(issparse(value));
   asserts.istrue(isreal(value));
-  asserts.istrue(isequaln(value, expected(k)));
+  asserts.isequal(value, expected(k));
   copy = value;
   value(1) = 19;
-  asserts.istrue(isequaln(copy, expected(k)));
+  asserts.isequal(copy, expected(k));
   value = copy;
   value(2) = 5;
-  asserts.istrue(isequaln(value, [expected(k), 5]));
-  asserts.istrue(isequaln(copy, expected(k)));
+  asserts.isequal(value, [expected(k), 5]);
+  asserts.isequal(copy, expected(k));
 end
 %=============================================================================
 % These functions allocate their output before filling it.

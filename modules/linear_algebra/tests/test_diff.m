@@ -61,7 +61,7 @@ R = diff((1:4)', 1, 2);
 asserts.isequal(size(R), [4 0]);
 %=============================================================================
 R = diff([1 Inf NaN 2]);
-asserts.istrue(isequaln(R, [Inf NaN NaN]));
+asserts.isequal(R, [Inf NaN NaN]);
 %=============================================================================
 % matrices: along the first non-singleton dimension only; an order not below
 % its length gives an empty result there

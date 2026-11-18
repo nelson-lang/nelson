@@ -67,10 +67,10 @@ asserts.isequal(plus([1, 2], [3, 4]), [4, 6]);
 
 % Special floating-point values and the sign of zero must be preserved.
 values = [Inf, -Inf, NaN, 0, -0.0];
-asserts.istrue(isequaln(values + [1, -1, 2, -0.0, -0.0], [Inf, -Inf, NaN, 0, -0.0]));
+asserts.isequal(values + [1, -1, 2, -0.0, -0.0], [Inf, -Inf, NaN, 0, -0.0]);
 zerosResult = [-0.0, -0.0] + [-0.0, 0.0];
 asserts.isequal(1 ./ zerosResult, [-Inf, Inf]);
-asserts.istrue(isequaln(values + 0, [Inf, -Inf, NaN, 0, 0]));
+asserts.isequal(values + 0, [Inf, -Inf, NaN, 0, 0]);
 
 % Incompatible shapes must continue to report the same error as plus().
 try

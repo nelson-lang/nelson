@@ -62,7 +62,7 @@ f.PointerShapeHotSpot = [2 1];
 f.Pointer = 'custom';
 drawnow();
 asserts.isequal(f.Pointer, 'custom');
-asserts.istrue(isequaln(f.PointerShapeCData, [1 NaN; 2 1]));
+asserts.isequal(f.PointerShapeCData, [1 NaN; 2 1]);
 asserts.isequal(f.PointerShapeHotSpot, [2 1]);
 %=============================================================================
 function position = expected_default_figure_position()

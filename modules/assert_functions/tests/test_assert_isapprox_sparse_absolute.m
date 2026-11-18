@@ -49,7 +49,7 @@ asserts.isapprox(sparse([1000; tau]), sparse([1001; 0]), .002, tau);
 % Non-finite values retain their documented comparison and are never erased.
 a = sparse([NaN, 0; Inf, -Inf]); b = a;
 asserts.isapprox(a, b, 0, tau);
-asserts.istrue(isequaln(a, b));
+asserts.isequal(a, b);
 b(1, 2) = tau;
 asserts.isapprox(a, b, 0, tau);
 b(2, 2) = Inf;

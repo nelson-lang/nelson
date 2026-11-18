@@ -83,5 +83,5 @@ asserts.isapprox(X, [-0.071428571428572424; 0.50000000000000078], 1e-13);
 X = [1 NaN; 2 3; 4 5] \ [1; 1; 1];
 [msg, id] = lastwarn();
 asserts.isequal(id, '');
-asserts.istrue(isequaln(X, [NaN; NaN]));
+asserts.isequal(X, [NaN; NaN]);
 %=============================================================================

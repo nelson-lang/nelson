@@ -74,9 +74,9 @@ for k = 1:numel(values)
   copy = value;
   asserts.isequal(class(value), 'double');
   asserts.isequal(size(value), [1 1]);
-  asserts.istrue(isequaln(copy, value));
+  asserts.isequal(copy, value);
   value(2) = 1;
-  asserts.istrue(isequaln(copy, values(k)));
+  asserts.isequal(copy, values(k));
 end
 negativeZero = -0.0;
 copy = negativeZero;

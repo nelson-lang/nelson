@@ -60,7 +60,7 @@ for k = 1:size(CASES, 1)
     relTol = 4 * eps(cast(1, class(y)));
     asserts.isapprox(y, ref, relTol);
   else
-    asserts.istrue(isequaln(y, ref));
+    asserts.isequal(y, ref);
   end
 end
 %=============================================================================

@@ -86,9 +86,9 @@ asserts.isequal(T \ Bc(1, :).', REF.');
 %=============================================================================
 % a singular system keeps 0/0 in the substitution
 warning('off', 'Nelson:singularMatrix');
-asserts.istrue(isequaln([1 2; 2 4] \ [1; 2], [NaN; NaN]));
-asserts.istrue(isequaln([1 0; Inf 1] \ [0; 1], [0; NaN]));
-asserts.istrue(isequaln([0 1] / [1 0; Inf 1], [-Inf 1]));
+asserts.isequal([1 2; 2 4] \ [1; 2], [NaN; NaN]);
+asserts.isequal([1 0; Inf 1] \ [0; 1], [0; NaN]);
+asserts.isequal([0 1] / [1 0; Inf 1], [-Inf 1]);
 warning('on', 'Nelson:singularMatrix');
 %=============================================================================
 % larger matrices keep LAPACK: results still solve the system
