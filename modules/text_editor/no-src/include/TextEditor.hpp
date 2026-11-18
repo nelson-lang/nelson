@@ -13,12 +13,17 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+class Evaluator;
+//=============================================================================
 NLSTEXT_EDITOR_IMPEXP bool
 isTextEditorVisible();
 NLSTEXT_EDITOR_IMPEXP void
 showTextEditor();
 NLSTEXT_EDITOR_IMPEXP bool
 closeTextEditor();
+// No native editor in this build: the assistant 'editorInsert' router is a no-op.
+NLSTEXT_EDITOR_IMPEXP void
+installTextEditorAssistantRouter(Evaluator* eval);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -7,14 +7,17 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% Parse a SKILL.md file: read its front-matter name, description, triggers, and
-% audience. audience is 'user' (served to the live end-user assistant) or
+% Parse a SKILL.md file: read its front-matter name, description, triggers,
+% audience, and the optional functions/modules lists. functions names the skill's
+% key Nelson functions (grounded when cited); modules names the focused domain
+% modules whose full inventory is worth surfacing (see aiModuleInventoryContext).
+% audience is 'user' (served to the live end-user assistant) or
 % 'contributor' (Nelson-development guidance, served only through the MCP skill
 % resources); it defaults to 'contributor' so a skill without the field is never
 % injected into an end-user prompt by accident.
 function meta = parseSkill(skillPath)
   meta = struct('name', '', 'description', '', 'triggers', {{}}, ...
-    'audience', 'contributor', 'path', skillPath);
+    'audience', 'contributor', 'functions', {{}}, 'modules', {{}}, 'path', skillPath);
   if ~isfile(skillPath)
     return
   end
@@ -30,6 +33,10 @@ function meta = parseSkill(skillPath)
         meta.triggers = splitList(value);
       case 'audience'
         meta.audience = normalizeAudience(value);
+      case 'functions'
+        meta.functions = splitList(value);
+      case 'modules'
+        meta.modules = splitList(value);
     end
   end
   if isempty(meta.name)

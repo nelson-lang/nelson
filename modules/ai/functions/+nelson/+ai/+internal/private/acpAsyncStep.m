@@ -22,7 +22,7 @@ function active = acpAsyncStep(surfaceId)
   active = false;
   if __ai_interrupt_pending__(surfaceId)
     disconnectAcpAsync(surfaceId);
-    aiAgentEmit('error', struct('text', '(stopped)'), surfaceId);
+    nelson.ai.internal.aiAgentEmit('error', struct('text', '(stopped)'), surfaceId);
     return
   end
   client = acpAsyncState('get', surfaceId);
@@ -36,11 +36,11 @@ function active = acpAsyncStep(surfaceId)
     return
   end
   try
-    [done, text, client] = nelson.ai.acp.poll(client, @(note) acpAsyncToken(note, surfaceId));
+    [done, text, client] = nelson.ai.acp.internal.poll(client, @(note) acpAsyncToken(note, surfaceId));
     acpAsyncState('set', surfaceId, client);
   catch e
     disconnectAcpAsync(surfaceId);
-    aiAgentEmit('error', struct('text', char(e.message)), surfaceId);
+    nelson.ai.internal.aiAgentEmit('error', struct('text', char(e.message)), surfaceId);
     return
   end
   if done
@@ -48,8 +48,63 @@ function active = acpAsyncStep(surfaceId)
     acpAsyncState('set', surfaceId, client);
     % Run any widget-piloting actions the agent requested, then show the reply
     % without the action markers.
-    text = acpRunHostActions(char(text), surfaceId);
-    aiAgentEmit('answer', struct('text', char(text)), surfaceId);
+    [text, failureText, dataText] = acpRunHostActions(char(text), surfaceId);
+    % A host action the agent requested failed (e.g. the file was not open). Feed
+    % the reason back so the agent corrects itself, ONCE per user turn (bounded, so
+    % a persistent failure cannot loop). The direct backend gets this for free (the
+    % tool result is its observation); the ACP agent's markers are one-shot, so the
+    % correction has to be sent as a follow-up prompt on the same session.
+    retries = 0;
+    if isfield(client, 'hostActionRetries') && ~isempty(client.hostActionRetries)
+      retries = client.hostActionRetries;
+    end
+    if ~isempty(failureText) && retries < 1
+      client.hostActionRetries = retries + 1;
+      nelson.ai.internal.aiAgentEmit('activity', struct('kind', 'result', 'name', 'action', ...
+        'text', ['Retrying after a failed action: ', failureText]), surfaceId);
+      corrective = ['A host action you just requested did not work: ', failureText, ...
+        ' Fix it and try again (for example save the file first, or pass an existing path), ', ...
+        'then confirm in words.'];
+      try
+        client = nelson.ai.acp.internal.send(client, corrective);
+        acpAsyncState('set', surfaceId, client);
+        active = true;
+        return
+      catch
+        % Could not re-prompt: fall through and show the reply with its note.
+      end
+    end
+    client.hostActionRetries = 0;
+    % A data-producing action (profiling) returned a result the agent did not have
+    % when it wrote its reply (markers run AFTER the turn). Feed it back ONCE so the
+    % agent actually analyzes it for the user, instead of only pointing at the panel.
+    % Bounded like the failure retry, so it cannot loop. The original reply (which
+    % could only say "I launched it") is dropped in favour of the analysis.
+    dataFeeds = 0;
+    if isfield(client, 'hostActionDataFeeds') && ~isempty(client.hostActionDataFeeds)
+      dataFeeds = client.hostActionDataFeeds;
+    end
+    if ~isempty(dataText) && dataFeeds < 1
+      client.hostActionDataFeeds = dataFeeds + 1;
+      followup = ['The action you requested produced this result:', char(10), char(10), ...
+        dataText, char(10), char(10), 'Use it now to answer the user - for example ', ...
+        'analyze the profile: name the main hot spots and what to optimize. Do not only ', ...
+        'tell them to open a panel.'];
+      try
+        client = nelson.ai.acp.internal.send(client, followup);
+        acpAsyncState('set', surfaceId, client);
+        active = true;
+        return
+      catch
+        % Could not re-prompt: fall through and show the reply as is.
+      end
+    end
+    client.hostActionDataFeeds = 0;
+    acpAsyncState('set', surfaceId, client);
+    % Record the completed assistant turn (markers already stripped) so the
+    % conversation persists across restarts and the pane can reload it.
+    nelson.ai.internal.history.append(surfaceId, 'assistant', char(text));
+    nelson.ai.internal.aiAgentEmit('answer', struct('text', char(text)), surfaceId);
     return
   end
   % The agent may be waiting on a file-access permission: announce it to the UI
@@ -65,13 +120,13 @@ function client = acpStepPermission(client, surfaceId)
   end
   pp = client.pendingPermission;
   if ~pp.announced
-    aiAgentEmit('permission', struct('id', pp.reqId, 'tool', pp.tool, ...
+    nelson.ai.internal.aiAgentEmit('permission', struct('id', pp.reqId, 'tool', pp.tool, ...
       'path', pp.path, 'title', pp.title), surfaceId);
     client.pendingPermission.announced = true;
     return
   end
   if (now - pp.time) * 86400 > 120
-    client = nelson.ai.acp.respondToPermission(client, false, pp.rejectOptionId);
+    client = nelson.ai.acp.internal.respondToPermission(client, false, pp.rejectOptionId);
   end
 end
 %=============================================================================
@@ -82,12 +137,12 @@ function acpAsyncToken(note, surfaceId)
   update = note.params.update;
   fragment = acpAsyncUpdateText(update);
   if ~isempty(fragment)
-    aiAgentEmit('token', struct('text', fragment), surfaceId);
+    nelson.ai.internal.aiAgentEmit('token', struct('text', fragment), surfaceId);
   end
   % Report a tool call as an activity line so the pane shows what the agent does.
   act = acpUpdateActivity(update);
   if ~isempty(act)
-    aiAgentEmit('activity', act, surfaceId);
+    nelson.ai.internal.aiAgentEmit('activity', act, surfaceId);
   end
 end
 %=============================================================================

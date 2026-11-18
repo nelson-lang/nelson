@@ -43,6 +43,14 @@ export interface AssistantBackend {
   // (like the Qt dock's QTimer), which works even without a GUI event loop. It is
   // fire-and-forget: streamed tokens and the final answer still arrive as events.
   step?(): void;
+  // Load this surface's persisted conversation so a restart re-displays the prior
+  // turns. Best-effort: a host without stored history (or that does not implement
+  // this) simply starts with an empty pane. Resolves to the turns, oldest first.
+  loadHistory?(): Promise<Message[]>;
+  // Forget the stored conversation AND reset the live agent, so the next prompt
+  // starts clean. The pane clears its own on-screen messages; this persists the
+  // clear. Omitted by hosts that do not support it (then no "New" button is shown).
+  newConversation?(): Promise<void>;
 }
 //=============================================================================
 // Helpers the pane hands a code action when its button is pressed, so the action
@@ -139,11 +147,79 @@ export function AssistantPane({
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
   const stoppedRef = useRef(false);
+  // Mirror of `busy` for the event subscription (whose closure captures state once),
+  // so a live 'history' refresh from the peer surface can tell this pane is idle.
+  const busyRef = useRef(false);
+  useEffect(() => {
+    busyRef.current = busy;
+  }, [busy]);
   // Prompt history: sent prompts oldest-first, the position being recalled
   // (null while editing a live draft) and the draft saved when recall starts.
   const historyRef = useRef<string[]>([]);
   const histIndexRef = useRef<number | null>(null);
   const draftRef = useRef("");
+  // Guard so the persisted conversation is seeded at most once per mount.
+  const historyLoadedRef = useRef(false);
+
+  // Re-display the surface's persisted conversation when the pane opens, so a
+  // restart restores the prior turns. Best-effort and run once: a host without
+  // loadHistory, an empty store, or a seed that loses a race with a prompt the
+  // user sent first all just leave the live conversation untouched.
+  useEffect(() => {
+    if (historyLoadedRef.current || !backend.loadHistory) {
+      return;
+    }
+    historyLoadedRef.current = true;
+    let cancelled = false;
+    backend
+      .loadHistory()
+      .then((turns) => {
+        if (cancelled || !Array.isArray(turns) || turns.length === 0) {
+          return;
+        }
+        // Only seed while the pane is still empty, so a turn already in flight is
+        // never clobbered by the restored history.
+        setMessages((current) => (current.length === 0 ? turns : current));
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, [backend]);
+
+  // Cross-process refresh: another GUI (Qt / web) may have written the shared
+  // conversation while this one was in the background. On regaining focus, re-read
+  // it and seed only while this pane is idle and empty, so nothing in view is lost.
+  useEffect(() => {
+    if (!backend.loadHistory) {
+      return;
+    }
+    const refresh = (): void => {
+      if (busyRef.current || !backend.loadHistory) {
+        return;
+      }
+      backend
+        .loadHistory()
+        .then((turns) => {
+          if (!Array.isArray(turns) || turns.length === 0) {
+            return;
+          }
+          setMessages((current) => (current.length === 0 ? turns : current));
+        })
+        .catch(() => undefined);
+    };
+    const onVisible = (): void => {
+      if (document.visibilityState === "visible") {
+        refresh();
+      }
+    };
+    window.addEventListener("focus", refresh);
+    document.addEventListener("visibilitychange", onVisible);
+    return () => {
+      window.removeEventListener("focus", refresh);
+      document.removeEventListener("visibilitychange", onVisible);
+    };
+  }, [backend]);
 
   // Load the persisted history for this surface once, best-effort: a blocked or
   // empty store (private window, cleared data) just starts from no history.
@@ -353,6 +429,19 @@ export function AssistantPane({
     setActivity([]);
   };
 
+  // Start a fresh conversation: empty the on-screen transcript now, then tell the
+  // host to forget the stored (shared) history and reset the live agent. The
+  // one-time history load already ran, so the cleared pane is not re-seeded.
+  const startNewConversation = (): void => {
+    stoppedRef.current = true;
+    backend.interrupt();
+    setMessages([]);
+    setStreaming("");
+    setActivity([]);
+    setBusy(false);
+    void backend.newConversation?.();
+  };
+
   const moveCaretToEnd = (): void => {
     const apply = (): void => {
       const el = inputRef.current;
@@ -471,25 +560,48 @@ export function AssistantPane({
             </span>
           ) : null}
         </div>
-        {models.length > 0 ? (
-          <select
-            className="assistant-panel__model"
-            value={model}
-            onChange={(event) => setModel(event.target.value)}
-            disabled={busy}
-            aria-label={tr("Model")}
-          >
-            {models.map((name) => (
-              <option key={name} value={name}>
-                {modelLabel(name)}
-              </option>
-            ))}
-          </select>
-        ) : (
-          <span className="assistant-panel__model assistant-panel__model--none">
-            {tr("no model")}
-          </span>
-        )}
+        <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+          {models.length > 0 ? (
+            <select
+              className="assistant-panel__model"
+              value={model}
+              onChange={(event) => setModel(event.target.value)}
+              disabled={busy}
+              aria-label={tr("Model")}
+            >
+              {models.map((name) => (
+                <option key={name} value={name}>
+                  {modelLabel(name)}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <span className="assistant-panel__model assistant-panel__model--none">
+              {tr("no model")}
+            </span>
+          )}
+          {backend.newConversation ? (
+            <button
+              type="button"
+              className="assistant-panel__new"
+              onClick={startNewConversation}
+              title={tr("Clear the conversation and start fresh")}
+              aria-label={tr("New conversation")}
+              style={{
+                fontSize: "11px",
+                padding: "2px 8px",
+                cursor: "pointer",
+                border: "1px solid var(--border, #d0d0d0)",
+                borderRadius: "4px",
+                background: "transparent",
+                color: "var(--fg, inherit)",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {tr("New")}
+            </button>
+          ) : null}
+        </div>
       </div>
       <div className="assistant-panel__messages" ref={scrollRef}>
         {messages.length === 0 ? (

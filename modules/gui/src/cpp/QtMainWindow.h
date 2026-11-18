@@ -118,6 +118,10 @@ private slots:
     newsfeedBrowserToggle();
     void
     assistantBrowserToggle();
+    // Bring a GUI panel requested by an assistant host action (e.g. the profiler) to
+    // the front; always shows it (never toggles), so the assistant reliably reveals it.
+    void
+    onAssistantShowPanel(const QString& panel);
     void
     terminal();
 

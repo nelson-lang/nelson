@@ -12,6 +12,7 @@ import { AssistantPane } from '@nelson/assistant';
 import type { AssistantBackend, AssistantCodeAction } from '@nelson/assistant';
 import { rpc } from '../rpc/client';
 import { subscribeToolEvents } from '../desktop/webTools';
+import { loadAssistantHistory } from '../desktop/assistantHistory';
 import { isWasmRuntime } from '../desktop/platform';
 import { PermissionModeSelect } from '../components/PermissionModeSelect';
 import { t } from '../i18n';
@@ -43,6 +44,15 @@ export function AssistantPanel(): JSX.Element {
       step: () => {
         void rpc('assistant.step', {}).catch(() => undefined);
       },
+      // Restore the 'web' surface's stored conversation so a restart re-displays
+      // the prior turns. Best-effort: an unreachable RPC just starts empty.
+      loadHistory: () => loadAssistantHistory(),
+      // Forget the shared conversation and reset the live agent (same push-to-
+      // interpreter path as a prompt). The pane clears its own transcript.
+      newConversation: () =>
+        rpc('term.input', { line: "nelson.ai.internal.newConversation('web')" })
+          .then(() => undefined)
+          .catch(() => undefined),
     }),
     []
   );

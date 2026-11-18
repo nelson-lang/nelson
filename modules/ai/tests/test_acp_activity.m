@@ -14,7 +14,7 @@
 % The activity feed turns an ACP tool-call update into one line so the pane shows
 % what the agent does (read/write a file, run a tool), not just "thinking". Only
 % the initial tool_call announces an action; text chunks and status updates do not.
-addpath([modulepath('ai', 'functions'), '/+nelson/+ai/private']);
+addpath([modulepath('ai', 'functions'), '/+nelson/+ai/+internal/private']);
 %=============================================================================
 % The agent's own title is used verbatim when present.
 act = acpUpdateActivity(struct('sessionUpdate', 'tool_call', 'title', 'Read d:/demo.m'));

@@ -23,8 +23,7 @@ Nelson::FunctionsGateway::whatBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     nargincheck(argIn, 0, 1);
     if (argIn.size() == 1) {
         ArrayOf param1 = argIn[0];
-        if (!param1.isRowVectorCharacterArray()
-            && !(param1.isStringArray() && param1.isScalar())) {
+        if (!param1.isRowVectorCharacterArray() && !(param1.isStringArray() && param1.isScalar())) {
             Error(_W("Wrong type for argument #1: a module name (a string) is expected."));
         }
         std::wstring moduleName = param1.asWideString();

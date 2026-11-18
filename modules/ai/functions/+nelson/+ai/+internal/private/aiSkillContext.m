@@ -26,11 +26,11 @@ function text = aiSkillContext(prompt, surfaceId)
     surfaceId = '';
   end
   text = '';
-  wanted = wantedSkillNames(char(prompt), char(surfaceId));
-  if isempty(wanted)
+  selected = aiSelectedUserSkills(char(prompt), char(surfaceId));
+  if isempty(selected)
     return
   end
-  blocks = skillBlocks(wanted);
+  blocks = skillBlocks(selected);
   if isempty(blocks)
     return
   end
@@ -39,63 +39,16 @@ function text = aiSkillContext(prompt, surfaceId)
   text = [header, newline, newline, strjoin(blocks, [newline, newline])];
 end
 %=============================================================================
-% Names of the skills that apply, selected by surface then by trigger match.
-function names = wantedSkillNames(prompt, surfaceId)
-  % The embedded NFlow pane gets its dedicated build guide, selected by surface
-  % so it never leaks to the Qt dock or the web pane (which share the process and
-  % have no canvas to build on).
-  if strcmp(surfaceId, 'nflow')
-    names = {'nflow-assistant'};
-    return
-  end
-  try
-    matched = nelson.ai.skills(prompt);
-  catch
-    matched = struct('name', {}, 'audience', {});
-  end
-  names = {};
-  if ~isempty(matched)
-    % Only end-user skills reach the live assistant prompt. Contributor skills
-    % (Nelson-development guidance) stay out: they are served to dev agents through
-    % the MCP skill resources, and prepending them here only floods the answer.
-    matched = matched(strcmp({matched.audience}, 'user'));
-    names = {matched.name};
-  end
-  % The NFlow-pane guide is surface-specific; never inject it on other surfaces.
-  names = names(~strcmp(names, 'nflow-assistant'));
-  if ~isempty(names)
-    names = unique(names, 'stable');
-  end
-end
-%=============================================================================
-% For each wanted name present in the catalog, a '<skill>...</skill>' block
-% wrapping the SKILL.md body.
-function blocks = skillBlocks(wanted)
-  catalog = allSkills();
+% For each selected skill, a '<skill>...</skill>' block wrapping the SKILL.md body.
+function blocks = skillBlocks(selected)
   blocks = cell(1, 0);
-  if isempty(catalog)
-    return
-  end
-  catalogNames = {catalog.name};
-  for k = 1:numel(wanted)
-    index = find(strcmp(catalogNames, wanted{k}), 1);
-    if isempty(index)
-      continue
-    end
-    body = skillBody(catalog(index).path);
+  for k = 1:numel(selected)
+    body = skillBody(selected(k).path);
     if isempty(body)
       continue
     end
-    blocks{end + 1} = ['<skill name="', catalog(index).name, '">', newline, ...
+    blocks{end + 1} = ['<skill name="', selected(k).name, '">', newline, ...
       body, newline, '</skill>']; %#ok<AGROW>
-  end
-end
-%=============================================================================
-function catalog = allSkills()
-  try
-    catalog = nelson.ai.skills();
-  catch
-    catalog = struct('name', {}, 'path', {});
   end
 end
 %=============================================================================

@@ -42,21 +42,45 @@ function assistantRun(prompt, model, driver, surfaceId)
   % aiComposePrompt layers identity, verified API, skills, and (ACP) the
   % host-action bridge around the user's text; the pane still shows only the text.
   if strcmpi(model, 'claude-agent-acp')
-    augmentedPrompt = aiComposePrompt(userPrompt, surfaceId, true);
+    % Seed the prompt with recent history ONLY when this surface's ACP session is
+    % fresh (no live agent yet): then the agent starts with the conversation the user
+    % sees - one continued from the other surface (Qt/web share history) or from before
+    % a restart. A session that is already live remembers its own turns, so it is NOT
+    % re-seeded. Compose BEFORE recording the user turn, so the seeded history holds
+    % only the PRIOR turns; the assistant turn is recorded in acpAsyncStep.
+    seedHistory = acpSessionIsFresh(surfaceId);
+    augmentedPrompt = aiComposePrompt(userPrompt, surfaceId, true, seedHistory);
+    nelson.ai.internal.history.append(surfaceId, 'user', userPrompt);
     startAcpAsync(augmentedPrompt, ~strcmpi(char(driver), 'external'), surfaceId);
     return
   end
+  % Compose BEFORE recording the user turn so the injected history holds only the
+  % PRIOR turns (the current prompt is already the clearly delimited user request).
   augmentedPrompt = aiComposePrompt(userPrompt, surfaceId, false);
+  nelson.ai.internal.history.append(surfaceId, 'user', userPrompt);
   if isempty(model)
     options = nelson.ai.options('Timeout', 90, 'MaxSteps', 6, 'Stream', true);
   else
     options = nelson.ai.options('Model', model, 'Timeout', 90, 'MaxSteps', 6, 'Stream', true);
   end
+  % Route live progress (tool-call activity, streamed tokens) to THIS surface, so
+  % the direct backend's feed reaches the right pane like the ACP backend's does.
+  options.SurfaceId = surfaceId;
   try
     reply = nelson.ai.agent(augmentedPrompt, options);
+    nelson.ai.internal.history.append(surfaceId, 'assistant', char(reply));
     __ai_notify__('answer', jsonencode(struct('text', char(reply))), surfaceId);
   catch e
     __ai_notify__('error', jsonencode(struct('text', char(e.message))), surfaceId);
   end
+end
+%=============================================================================
+% True when this surface has no live ACP agent yet (first prompt, or the previous
+% agent process is gone): the composed prompt then seeds the agent with the shared
+% history. Mirrors startAcpAsync's own reuse test.
+function tf = acpSessionIsFresh(surfaceId)
+  client = acpAsyncState('get', surfaceId);
+  tf = isempty(client) ...
+    || ~(isstruct(client) && isfield(client, 'proc') && isvalid(client.proc));
 end
 %=============================================================================

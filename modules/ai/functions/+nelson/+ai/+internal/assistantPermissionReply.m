@@ -32,7 +32,7 @@ function assistantPermissionReply(surfaceId, reqId, decision)
   elseif strcmpi(decision, 'allow_always_path')
     rememberPath = true;
   end
-  client = nelson.ai.acp.respondToPermission(client, allow, '', rememberPath);
+  client = nelson.ai.acp.internal.respondToPermission(client, allow, '', rememberPath);
   acpAsyncState('set', surfaceId, client);
 end
 %=============================================================================

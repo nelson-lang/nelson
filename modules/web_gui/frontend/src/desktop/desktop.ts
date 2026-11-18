@@ -66,6 +66,10 @@ export function watchDebuggerStops(): void {
     const revision = typeof state.revision === 'number' ? state.revision : -1;
     if (revision === lastDebugStopRevision) return;
     lastDebugStopRevision = revision;
+    // Surface the Call Stack on every pause so the debugger GUI shows where we are
+    // (and brings the tab to the front even when it was a background tab); the editor
+    // is opened LAST so it keeps keyboard focus for stepping.
+    ensureCorePanel('callstack');
     openEditor(state.currentFile, state.currentLine);
   });
 }

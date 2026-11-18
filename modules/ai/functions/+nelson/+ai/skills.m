@@ -13,7 +13,7 @@
 function result = skills(query)
   narginchk(0, 1);
   result = struct('name', {}, 'description', {}, 'triggers', {}, 'audience', {}, ...
-    'path', {}, 'source', {});
+    'functions', {}, 'modules', {}, 'path', {}, 'source', {});
   names = {};
   sources = skillSources();
   for s = 1:numel(sources)
@@ -77,13 +77,12 @@ function files = findSkillFiles(root)
 end
 %=============================================================================
 function matched = filterByTrigger(allSkills, query)
-  query = lower(query);
+  [foldedQuery, queryWords] = nelson.ai.internal.aiPromptWords(query);
   keep = false(1, numel(allSkills));
   for k = 1:numel(allSkills)
     tokens = skillTokens(allSkills(k));
     for t = 1:numel(tokens)
-      token = lower(tokens{t});
-      if ~isempty(token) && contains(query, token)
+      if nelson.ai.internal.aiTokenMatch(foldedQuery, queryWords, tokens{t})
         keep(k) = true;
         break
       end

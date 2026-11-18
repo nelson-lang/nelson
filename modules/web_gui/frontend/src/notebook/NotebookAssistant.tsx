@@ -12,6 +12,7 @@ import { AssistantPane } from '@nelson/assistant';
 import type { AssistantBackend, AssistantCodeAction } from '@nelson/assistant';
 import { rpc } from '../rpc/client';
 import { subscribeToolEvents } from '../desktop/webTools';
+import { loadAssistantHistory } from '../desktop/assistantHistory';
 import { isWasmRuntime } from '../desktop/platform';
 import { PermissionModeSelect } from '../components/PermissionModeSelect';
 import { t } from '../i18n';
@@ -55,6 +56,9 @@ export function NotebookAssistant({
       step: () => {
         void rpc('assistant.step', {}).catch(() => undefined);
       },
+      // Re-display the 'web' surface's stored conversation on open (shared with
+      // the docked pane, since both drive the same surface).
+      loadHistory: () => loadAssistantHistory(),
     }),
     [onAddCell]
   );

@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % Send a prompt to a connected ACP agent WITHOUT waiting for the reply: the
-% response is then read incrementally with nelson.ai.acp.poll. Optional images
+% response is then read incrementally with nelson.ai.acp.internal.poll. Optional images
 % (cell of base64 PNGs) are sent as image content blocks. Keeps the interpreter
 % free so the console stays usable while the model works.
 function client = send(client, message, images)

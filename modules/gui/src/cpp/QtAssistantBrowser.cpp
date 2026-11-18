@@ -99,6 +99,9 @@ QtAssistantBrowser::QtAssistantBrowser(QWidget* parent) : QDockWidget(parent)
     header->addStretch(1);
     header->addWidget(m_permMode);
     header->addWidget(m_model);
+    m_newChat = new QPushButton(TR("New"), content);
+    m_newChat->setToolTip(TR("Clear the conversation and start fresh"));
+    header->addWidget(m_newChat);
     layout->addLayout(header);
 
     m_output = new QTextBrowser(content);
@@ -121,7 +124,15 @@ QtAssistantBrowser::QtAssistantBrowser(QWidget* parent) : QDockWidget(parent)
     connect(m_pollTimer, &QTimer::timeout, this, &QtAssistantBrowser::onPollTick);
 
     connect(m_send, &QPushButton::clicked, this, &QtAssistantBrowser::onSend);
+    connect(m_newChat, &QPushButton::clicked, this, &QtAssistantBrowser::onNewConversation);
     connect(m_input, &QLineEdit::returnPressed, this, &QtAssistantBrowser::onSend);
+    // Re-read the shared conversation whenever the dock is shown/fronted, so it
+    // catches up with a talk continued in another GUI (seeds only if empty+idle).
+    connect(this, &QDockWidget::visibilityChanged, this, [this](bool visible) {
+        if (visible) {
+            refreshHistory();
+        }
+    });
     connect(m_output, &QTextBrowser::anchorClicked, this, &QtAssistantBrowser::onAnchorClicked);
     connect(this, &QtAssistantBrowser::assistantEvent, this, &QtAssistantBrowser::onAssistantEvent,
         Qt::QueuedConnection);
@@ -139,9 +150,25 @@ QtAssistantBrowser::QtAssistantBrowser(QWidget* parent) : QDockWidget(parent)
 
     rebuild();
     requestModels();
-    // Retry once the interpreter has settled: the first query can run before a
-    // local provider is reachable, which would leave only the ACP entry.
+    // Restore the prior conversation of this surface so a restart re-displays it.
+    requestHistory();
+    // Retry the model list once the interpreter has settled (a local provider may
+    // not be reachable at the first query).
     QTimer::singleShot(2000, this, [this]() { requestModels(); });
+    // Keep re-reading the shared history at short intervals until the dock is seeded:
+    // the startup read can run before the engine is ready and return empty. Stops as
+    // soon as a turn appears, or after a few seconds if the conversation is empty.
+    m_historyRetryTimer = new QTimer(this);
+    m_historyRetryTimer->setInterval(250);
+    connect(m_historyRetryTimer, &QTimer::timeout, this, [this]() {
+        if (!m_messages.isEmpty() || m_historyRetryAttempts >= 16) {
+            m_historyRetryTimer->stop();
+            return;
+        }
+        ++m_historyRetryAttempts;
+        requestHistory();
+    });
+    m_historyRetryTimer->start();
 }
 //=============================================================================
 bool
@@ -154,6 +181,12 @@ QtAssistantBrowser::eventFilter(QObject* watched, QEvent* event)
 }
 //=============================================================================
 QtAssistantBrowser::~QtAssistantBrowser() { Nelson::UnregisterAssistantSink("qt"); }
+//=============================================================================
+void
+QtAssistantBrowser::refreshHistory()
+{
+    requestHistory();
+}
 //=============================================================================
 void
 QtAssistantBrowser::onSend()
@@ -174,6 +207,34 @@ QtAssistantBrowser::onSend()
 }
 //=============================================================================
 void
+QtAssistantBrowser::onNewConversation()
+{
+    // Stop any running turn, clear the on-screen transcript now, then on the
+    // interpreter thread forget the shared stored history and reset the live agent,
+    // so the next prompt starts clean. The Qt dock and the web pane share one
+    // conversation, so this clears both.
+    if (m_busy) {
+        Nelson::RequestAssistantStop("qt");
+    }
+    m_busy = false;
+    m_messages.clear();
+    m_activity.clear();
+    m_stream.clear();
+    rebuild();
+    Nelson::MainThreadTaskQueue::getInstance()->postToInterpreterThread([](Nelson::Evaluator* eval) {
+        if (eval == nullptr) {
+            return;
+        }
+        std::wstring out;
+        try {
+            Nelson::EvaluateConsoleCommandToString(
+                eval, L"try; nelson.ai.internal.newConversation('qt'); catch; end", out);
+        } catch (...) {
+        }
+    });
+}
+//=============================================================================
+void
 QtAssistantBrowser::submitPrompt(const QString& prompt)
 {
     if (m_busy || prompt.trimmed().isEmpty()) {
@@ -189,7 +250,7 @@ QtAssistantBrowser::submitPrompt(const QString& prompt)
     const QString model = m_model->currentData().toString();
     // 'external' driver (this dock drives the poll from its own QTimer below) and
     // surfaceId 'qt' so this dock owns an isolated ACP session.
-    const std::wstring command = L"nelson.ai.assistantRun('" + singleQuoteSafe(prompt) + L"', '"
+    const std::wstring command = L"nelson.ai.internal.assistantRun('" + singleQuoteSafe(prompt) + L"', '"
         + singleQuoteSafe(model) + L"', 'external', 'qt');";
     postCommand(command);
     m_pollTimer->start();
@@ -212,7 +273,7 @@ QtAssistantBrowser::onPollTick()
             std::wstring out;
             try {
                 Nelson::EvaluateConsoleCommandToString(
-                    eval, L"nelson.ai.assistantStep('qt');", out);
+                    eval, L"nelson.ai.internal.assistantStep('qt');", out);
             } catch (...) {
             }
         });
@@ -222,6 +283,15 @@ void
 QtAssistantBrowser::onAssistantEvent(const QString& channel, const QString& payload)
 {
     const QJsonObject object = QJsonDocument::fromJson(payload.toUtf8()).object();
+    if (channel == "showPanel") {
+        // A host action (for example profile_current_file) asks to bring a GUI panel
+        // to the front; forward it to the main window, which owns the docks.
+        const QString panel = object.value("panel").toString();
+        if (!panel.isEmpty()) {
+            emit requestShowPanel(panel);
+        }
+        return;
+    }
     if (channel == "models") {
         const QString current = m_model->currentData().toString();
         m_model->clear();
@@ -237,6 +307,26 @@ QtAssistantBrowser::onAssistantEvent(const QString& channel, const QString& payl
             = m_model->findData(current.isEmpty() ? QStringLiteral("claude-agent-acp") : current);
         if (index >= 0) {
             m_model->setCurrentIndex(index);
+        }
+        return;
+    }
+    if (channel == "history") {
+        // Seed the prior conversation only while the pane is still empty and idle,
+        // so a turn the user started before the history arrived is never clobbered.
+        if (!m_messages.isEmpty() || m_busy) {
+            return;
+        }
+        const QJsonArray turns = object.value("turns").toArray();
+        for (const QJsonValue& value : turns) {
+            const QJsonObject turn = value.toObject();
+            const QString role = turn.value("role").toString();
+            const QString text = turn.value("text").toString();
+            if ((role == "user" || role == "assistant") && !text.isEmpty()) {
+                m_messages.append(ChatMessage { role, text });
+            }
+        }
+        if (!m_messages.isEmpty()) {
+            rebuild();
         }
         return;
     }
@@ -293,7 +383,7 @@ QtAssistantBrowser::onAssistantEvent(const QString& channel, const QString& payl
         } else if (box.clickedButton() == allowAlways) {
             decision = L"allow_always_path";
         }
-        const std::wstring command = L"nelson.ai.assistantPermissionReply('qt', "
+        const std::wstring command = L"nelson.ai.internal.assistantPermissionReply('qt', "
             + std::to_wstring(id) + L", '" + decision + L"');";
         Nelson::MainThreadTaskQueue::getInstance()->postToInterpreterThread(
             [command](Nelson::Evaluator* eval) {
@@ -426,7 +516,45 @@ QtAssistantBrowser::requestModels()
             if (list.empty() || list.front() != '[') {
                 list = "[]";
             }
-            Nelson::AssistantSinkPush("models", std::string("{\"models\":") + list + "}");
+            // Route to THIS dock's registered "qt" sink. The legacy no-arg
+            // AssistantSinkPush targets a global sink nothing ever sets (a dead
+            // no-op), so the "models" event never reached onAssistantEvent and the
+            // local providers never populated the selector.
+            Nelson::AssistantSinkPushTo("qt", "models", std::string("{\"models\":") + list + "}");
+        });
+}
+//=============================================================================
+// Load this dock's stored conversation off the GUI thread and feed it back as a
+// 'history' event, so a restart re-displays the prior turns. The JSON is built on
+// the interpreter thread (where the history package lives) and pushed to the 'qt'
+// sink only; onAssistantEvent seeds m_messages from it while the pane is empty.
+void
+QtAssistantBrowser::requestHistory()
+{
+    Nelson::MainThreadTaskQueue::getInstance()->postToInterpreterThread(
+        [](Nelson::Evaluator* eval) {
+            if (eval == nullptr) {
+                return;
+            }
+            std::wstring out;
+            try {
+                Nelson::EvaluateConsoleCommandToString(
+                    eval, L"try; disp(nelson.ai.internal.history.json('qt')); catch; disp('[]'); end", out);
+            } catch (...) {
+                out.clear();
+            }
+            std::string json = Nelson::wstring_to_utf8(out);
+            const size_t start = json.find_first_not_of(" \t\r\n");
+            const size_t end = json.find_last_not_of(" \t\r\n");
+            if (start == std::string::npos || end == std::string::npos) {
+                json = "[]";
+            } else {
+                json = json.substr(start, end - start + 1);
+            }
+            if (json.empty() || json.front() != '[') {
+                json = "[]";
+            }
+            Nelson::AssistantSinkPushTo("qt", "history", std::string("{\"turns\":") + json + "}");
         });
 }
 //=============================================================================

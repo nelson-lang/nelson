@@ -8,6 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
+#include "NelsonConfiguration.hpp"
+#include "NelSon_engine_mode.h"
 #include "TextEditor.hpp"
 #include "editorBuiltin.hpp"
 #include "editorHookBuiltin.hpp"
@@ -23,7 +25,19 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
 };
 //=============================================================================
-NLS_GATEWAY_FUNC(gateway)
+static bool
+initializeTextEditorModule(Nelson::Evaluator* eval)
+{
+    // Only the Qt desktop has a native editor window and a QApplication to host it.
+    // Install the persistent assistant 'editorInsert' router here so an assistant
+    // insert can open the editor on demand even before any editor window exists.
+    if (NelsonConfiguration::getInstance()->getNelsonEngineMode() == GUI) {
+        installTextEditorAssistantRouter(eval);
+    }
+    return true;
+}
+//=============================================================================
+NLS_GATEWAY_FUNC_EXTENDED(gateway, (void*)initializeTextEditorModule)
 //=============================================================================
 static bool
 finishTextEditorModule(Nelson::Evaluator* eval)

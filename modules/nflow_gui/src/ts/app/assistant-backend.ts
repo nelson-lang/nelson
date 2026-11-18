@@ -81,7 +81,7 @@ export const nflowAssistantBackend: AssistantBackend = {
     // 'external' stops the engine from starting a Nelson timer to poll the ACP
     // reply (that timer never ticks in a webui host without a GUI event loop);
     // the pane drives the poll instead through step() below.
-    const code = `nelson.ai.assistantRun('${toNelsonLiteral(augmented)}', '${toNelsonLiteral(
+    const code = `nelson.ai.internal.assistantRun('${toNelsonLiteral(augmented)}', '${toNelsonLiteral(
       chosen
     )}', 'external', 'nflow');`;
     await nflowRpc('nflow.callback.invoke', { code, blockId: '' });
@@ -109,9 +109,53 @@ export const nflowAssistantBackend: AssistantBackend = {
   // through the generic callback bridge; acpAsyncStep no-ops once the turn ends.
   step: () => {
     void nflowRpc('nflow.callback.invoke', {
-      code: "nelson.ai.assistantStep('nflow');",
+      code: "nelson.ai.internal.assistantStep('nflow');",
       blockId: '',
     }).catch(() => undefined);
   },
+
+  // Restore the 'nflow' surface's stored conversation on open, the same one-shot
+  // way listModels does: the engine emits a 'history' event the NFlow sink routes
+  // back here. Best-effort; a timeout or a malformed reply just starts empty.
+  loadHistory: () =>
+    new Promise((resolve) => {
+      let settled = false;
+      const finish = (turns: { role: 'user' | 'assistant'; text: string }[]): void => {
+        if (settled) {
+          return;
+        }
+        settled = true;
+        unsubscribe();
+        clearTimeout(timer);
+        resolve(turns);
+      };
+      const unsubscribe = onNFlowPush('assistant', (payload) => {
+        const event = payload as AssistantPushEvent;
+        if (!event || event.channel !== 'history') {
+          return;
+        }
+        try {
+          const parsed: unknown = JSON.parse(event.payload ?? '[]');
+          finish(Array.isArray(parsed) ? parsed.filter(isHistoryTurn) : []);
+        } catch {
+          finish([]);
+        }
+      });
+      const timer = setTimeout(() => finish([]), 4000);
+      void nflowRpc('nflow.callback.invoke', {
+        code:
+          "try; __ai_notify__('history', nelson.ai.internal.history.json('nflow'), 'nflow'); " +
+          "catch; __ai_notify__('history', '[]', 'nflow'); end",
+        blockId: '',
+      }).catch(() => finish([]));
+    }),
 };
+//=============================================================================
+function isHistoryTurn(value: unknown): value is { role: 'user' | 'assistant'; text: string } {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+  const turn = value as { role?: unknown; text?: unknown };
+  return (turn.role === 'user' || turn.role === 'assistant') && typeof turn.text === 'string';
+}
 //=============================================================================

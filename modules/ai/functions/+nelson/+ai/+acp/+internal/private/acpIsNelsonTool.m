@@ -9,7 +9,7 @@
 %=============================================================================
 % True when a pending permission is for one of Nelson's own READ-ONLY MCP lookup
 % tools. That server is started read-only (execution and format disabled in
-% nelson.ai.acp.connect), so these calls cannot mutate the session and are safe to
+% nelson.ai.acp.internal.connect), so these calls cannot mutate the session and are safe to
 % auto-allow -- which is what stops the agent stalling on an unanswered grounding
 % lookup. Matching is on an explicit allowlist (not merely the word 'nelson') so a
 % file edit whose path happens to contain 'nelson' is NOT swept in: it keeps its

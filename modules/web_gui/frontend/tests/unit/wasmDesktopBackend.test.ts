@@ -3168,7 +3168,7 @@ describe('WebAssembly desktop backend', () => {
 
     await vi.waitFor(() =>
       expect(fixture.client.evaluate).toHaveBeenCalledWith(
-        "nelson.ai.assistantRun('it''s me', 'ollama/llama3', '', 'web');",
+        "nelson.ai.internal.assistantRun('it''s me', 'ollama/llama3', '', 'web');",
         expect.any(Function)
       )
     );
@@ -3183,7 +3183,7 @@ describe('WebAssembly desktop backend', () => {
 
     await vi.waitFor(() =>
       expect(fixture.client.evaluate).toHaveBeenCalledWith(
-        "nelson.ai.assistantRun('hello', '', '', 'web');",
+        "nelson.ai.internal.assistantRun('hello', '', '', 'web');",
         expect.any(Function)
       )
     );
@@ -3232,7 +3232,7 @@ describe('WebAssembly desktop backend', () => {
       backend.handle('assistant.permissionReply', { id: 7, decision: 'allow_once' }, signal)
     ).resolves.toEqual({ ok: true });
     expect(fixture.client.evaluate).toHaveBeenCalledWith(
-      "nelson.ai.assistantPermissionReply('web', 7, 'allow_once');"
+      "nelson.ai.internal.assistantPermissionReply('web', 7, 'allow_once');"
     );
     backend.dispose();
   });

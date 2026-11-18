@@ -19,11 +19,11 @@ function reply = aiAgentAcp(prompt, options)
     images = options.Images;
   end
   if isempty(client) || ~isAcpSessionAlive(client)
-    client = nelson.ai.acp.connect(command);
+    client = nelson.ai.acp.internal.connect(command);
   end
-  aiAgentEmit('reset', struct());
+  nelson.ai.internal.aiAgentEmit('reset', struct());
   try
-    [reply, client] = nelson.ai.acp.prompt(client, prompt, @emitAcpToken, images);
+    [reply, client] = nelson.ai.acp.internal.prompt(client, prompt, @emitAcpToken, images);
   catch e
     % A dead session must not be reused on the next prompt.
     client = [];
@@ -46,7 +46,7 @@ function emitAcpToken(note)
   end
   fragment = acpUpdateText(note.params.update);
   if ~isempty(fragment)
-    aiAgentEmit('token', struct('text', fragment));
+    nelson.ai.internal.aiAgentEmit('token', struct('text', fragment));
   end
 end
 %=============================================================================

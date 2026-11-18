@@ -17,19 +17,19 @@
 binpath = modulepath('nelson', 'bin');
 nelson_exe = [binpath, '/nelson-adv-cli'];
 mock = [modulepath('ai', 'tests'), '/acp_mock_agent.m'];
-client = nelson.ai.acp.connect(nelson_exe, '--quiet', '--no-ipc', '--no-user-startup', ...
+client = nelson.ai.acp.internal.connect(nelson_exe, '--quiet', '--no-ipc', '--no-user-startup', ...
   '--no-user-modules', '-f', mock);
 asserts.isequal(client.sessionId, 'mock-session-1');
 %=============================================================================
 % send returns immediately and marks a pending request active.
-client = nelson.ai.acp.send(client, 'ping');
+client = nelson.ai.acp.internal.send(client, 'ping');
 asserts.istrue(client.pending.active);
 %=============================================================================
 % poll reads incrementally; the reply ('pong') arrives and done becomes true.
 done = false;
 text = '';
 for k = 1:300
-  [done, text, client] = nelson.ai.acp.poll(client, []);
+  [done, text, client] = nelson.ai.acp.internal.poll(client, []);
   if done
     break
   end
@@ -41,5 +41,5 @@ asserts.isequal(strtrim(text), 'pong');
 % the pending request is cleared once the reply is complete.
 asserts.istrue(~client.pending.active);
 %=============================================================================
-nelson.ai.acp.close(client);
+nelson.ai.acp.internal.close(client);
 %=============================================================================

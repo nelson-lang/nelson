@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % Read whatever the ACP agent has produced so far for the pending request (from
-% nelson.ai.acp.send), without blocking. Returns done=true once the matching
+% nelson.ai.acp.internal.send), without blocking. Returns done=true once the matching
 % response has arrived (or the agent exited). onNotification is invoked for each
 % streaming update. text is the reply accumulated so far.
 function [done, text, client] = poll(client, onNotification)
@@ -108,7 +108,7 @@ function client = acpStorePendingPermission(client, message)
   autoAllow = strcmp(mode, 'full') || (strcmp(mode, 'auto') && ~acpIsRisky(perm)) ...
     || allowAll || pathAllowed || acpIsNelsonTool(perm);
   if autoAllow
-    client = nelson.ai.acp.respondToPermission(client, true, perm.allowOptionId);
+    client = nelson.ai.acp.internal.respondToPermission(client, true, perm.allowOptionId);
   end
 end
 %=============================================================================

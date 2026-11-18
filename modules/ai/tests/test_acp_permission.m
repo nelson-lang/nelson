@@ -32,15 +32,15 @@ try
   binpath = modulepath('nelson', 'bin');
   nelson_exe = [binpath, '/nelson-adv-cli'];
   mock = [modulepath('ai', 'tests'), '/acp_mock_agent_permission.m'];
-  client = nelson.ai.acp.connect(nelson_exe, '--quiet', '--no-ipc', '--no-user-startup', ...
+  client = nelson.ai.acp.internal.connect(nelson_exe, '--quiet', '--no-ipc', '--no-user-startup', ...
     '--no-user-modules', '-f', mock);
   asserts.isequal(client.sessionId, 'mock-session-perm');
-  client = nelson.ai.acp.send(client, 'edit a file');
+  client = nelson.ai.acp.internal.send(client, 'edit a file');
   asserts.istrue(client.pending.active);
   % Poll until the permission request is captured (stored, not yet answered).
   captured = false;
   for k = 1:500
-    [done, text, client] = nelson.ai.acp.poll(client, []);
+    [done, text, client] = nelson.ai.acp.internal.poll(client, []);
     if isfield(client, 'pendingPermission') && ~isempty(client.pendingPermission)
       captured = true;
       break
@@ -56,11 +56,11 @@ try
   asserts.isequal(client.pendingPermission.rejectOptionId, 'reject');
   % Grant the permission: the agent resumes and the run completes. The pending
   % permission is cleared.
-  client = nelson.ai.acp.respondToPermission(client, true, '');
+  client = nelson.ai.acp.internal.respondToPermission(client, true, '');
   asserts.istrue(isempty(client.pendingPermission));
   done = false;
   for k = 1:500
-    [done, text, client] = nelson.ai.acp.poll(client, []);
+    [done, text, client] = nelson.ai.acp.internal.poll(client, []);
     if done
       break
     end
@@ -68,7 +68,7 @@ try
   end
   asserts.istrue(done);
   asserts.istrue(contains(text, 'permission-answered'));
-  nelson.ai.acp.close(client);
+  nelson.ai.acp.internal.close(client);
 catch e
   ok = false;
   errMsg = e.message;

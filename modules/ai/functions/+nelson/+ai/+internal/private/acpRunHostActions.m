@@ -12,10 +12,12 @@
 % <<nelson-action>>{json}<<end>> is dispatched through nelson.ai.mcp.call in this
 % live session, reported as an activity line, then stripped from the text shown to
 % the user. Returns the cleaned reply. Runs in-session, so it needs no MCP server.
-function cleaned = acpRunHostActions(text, surfaceId)
+function [cleaned, failureText, dataText] = acpRunHostActions(text, surfaceId)
   narginchk(2, 2);
-  nargoutchk(0, 1);
+  nargoutchk(0, 3);
   cleaned = char(text);
+  failureText = '';
+  dataText = '';
   surfaceId = char(surfaceId);
   pattern = '<<nelson-action>>([\s\S]*?)<<end>>';
   tokens = regexp(cleaned, pattern, 'tokens');
@@ -24,6 +26,8 @@ function cleaned = acpRunHostActions(text, surfaceId)
   end
   done = {};
   badParse = 0;
+  failures = {};
+  dataResults = {};
   for k = 1:numel(tokens)
     [spec, reason] = parseActionSpec(tokens{k}{1});
     if isempty(spec)
@@ -35,14 +39,25 @@ function cleaned = acpRunHostActions(text, surfaceId)
       % noise, matching the allowlist's intent.
       if strcmp(reason, 'badjson')
         badParse = badParse + 1;
-        aiAgentEmit('activity', struct('kind', 'result', 'name', 'action', ...
+        nelson.ai.internal.aiAgentEmit('activity', struct('kind', 'result', 'name', 'action', ...
           'text', 'A requested editor action was skipped: its format was not valid.'), ...
           surfaceId);
       end
       continue
     end
-    if runOneAction(spec.tool, spec.args, surfaceId)
+    [ok, note] = runOneAction(spec.tool, spec.args, surfaceId);
+    if ok
       done{end + 1} = spec.tool; %#ok<AGROW>
+      % A data-producing action (profiling) returns a result the agent must reason
+      % about, not just a confirmation; keep it so acpAsyncStep can feed it back.
+      if isDataTool(spec.tool) && ~isempty(note)
+        dataResults{end + 1} = char(note); %#ok<AGROW>
+      end
+    else
+      % The action parsed and ran but the host could not carry it out (no editor
+      % surface, missing file, ...). Keep its reason so the reply is corrected,
+      % not just logged as an activity line.
+      failures{end + 1} = note; %#ok<AGROW>
     end
   end
   % Drop the markers from the reply the pane displays.
@@ -56,6 +71,36 @@ function cleaned = acpRunHostActions(text, surfaceId)
   % the user is never left with "the code is in the editor" while nothing happened.
   if badParse > 0
     cleaned = appendActionWarning(cleaned);
+  end
+  % An action that ran but failed is corrected in the displayed reply, so the
+  % model's optimistic prose ("the code is in the editor") never stands over a
+  % host action that did not actually happen. The joined reasons are also returned
+  % so the caller (acpAsyncStep) can feed them back to the agent for a retry.
+  if ~isempty(failures)
+    reasons = dedupReasons(failures);
+    failureText = strjoin(reasons, ' ');
+    cleaned = appendActionFailure(cleaned, reasons);
+  end
+  % Results of data-producing actions, for the caller to feed back to the agent so
+  % it reasons about them (e.g. analyzes the profile) instead of only opening a panel.
+  if ~isempty(dataResults)
+    dataText = strjoin(dataResults, [char(10), char(10)]);
+  end
+end
+%=============================================================================
+% A host action whose successful output is DATA the agent should analyze (not just
+% an "opened/ran it" confirmation).
+function tf = isDataTool(tool)
+  tf = strcmp(tool, 'profile_current_file');
+end
+%=============================================================================
+function reasons = dedupReasons(failures)
+  reasons = {};
+  for k = 1:numel(failures)
+    r = strtrim(char(failures{k}));
+    if ~isempty(r) && ~any(strcmp(r, reasons))
+      reasons{end + 1} = r; %#ok<AGROW>
+    end
   end
 end
 %=============================================================================
@@ -81,7 +126,9 @@ function [spec, reason] = parseActionSpec(jsonText)
   % read cannot run arbitrary code here.
   tool = char(decoded.tool);
   allowed = {'open_nelson_file', 'launch_nflow', 'open_nelson_notebook', ...
-    'insert_into_nelson_file'};
+    'insert_into_nelson_file', 'open_nelson_doc', 'run_current_file', ...
+    'profile_current_file', 'debug_nelson_file', 'clear_breakpoints', ...
+    'propose_nelson_edit'};
   if ~any(strcmp(tool, allowed))
     reason = 'disallowed';
     return
@@ -159,12 +206,12 @@ function out = sanitizeMarkerJson(jsonText)
   out = out(1:m);
 end
 %=============================================================================
-function ok = runOneAction(toolName, args, surfaceId)
+function [ok, note] = runOneAction(toolName, args, surfaceId)
   ok = false;
-  aiAgentEmit('activity', struct('kind', 'call', 'name', toolName), surfaceId);
+  note = '';
+  nelson.ai.internal.aiAgentEmit('activity', struct('kind', 'call', 'name', toolName), surfaceId);
   try
     result = nelson.ai.mcp.call(toolName, args);
-    note = '';
     failed = false;
     if isstruct(result)
       if isfield(result, 'success') && ~result.success && isfield(result, 'error')
@@ -175,11 +222,12 @@ function ok = runOneAction(toolName, args, surfaceId)
       end
     end
     ok = ~failed;
-    aiAgentEmit('activity', ...
+    nelson.ai.internal.aiAgentEmit('activity', ...
       struct('kind', 'result', 'name', toolName, 'text', char(note)), surfaceId);
   catch e
-    aiAgentEmit('activity', ...
-      struct('kind', 'result', 'name', toolName, 'text', char(e.message)), surfaceId);
+    note = char(e.message);
+    nelson.ai.internal.aiAgentEmit('activity', ...
+      struct('kind', 'result', 'name', toolName, 'text', note), surfaceId);
   end
 end
 %=============================================================================
@@ -211,6 +259,18 @@ function s = friendlyAction(tool)
       s = 'Opened the notebook.';
     case 'insert_into_nelson_file'
       s = 'Put the code in the editor for you to review and save.';
+    case 'open_nelson_doc'
+      s = 'Opened the documentation.';
+    case 'run_current_file'
+      s = 'Ran the file in the console.';
+    case 'profile_current_file'
+      s = 'Profiled the file and summarized its hot spots.';
+    case 'debug_nelson_file'
+      s = 'Set a breakpoint and opened the file for debugging.';
+    case 'clear_breakpoints'
+      s = 'Cleared breakpoints.';
+    case 'propose_nelson_edit'
+      s = 'Opened the proposed changes in the editor for you to review and save.';
     otherwise
       s = '';
   end
@@ -222,6 +282,23 @@ end
 function out = appendActionWarning(cleaned)
   note = ['Note: a requested editor action could not be carried out (the action ', ...
     'was malformed), so no file was opened or changed.'];
+  if isempty(cleaned)
+    out = note;
+  else
+    out = [cleaned, char(10), char(10), note];
+  end
+end
+%=============================================================================
+% Append an honest correction when an action ran but the host could not complete
+% it (no editor surface, missing file, ...). Reasons are collected from the tool
+% results so the user learns what actually failed, separate from the model's prose.
+function out = appendActionFailure(cleaned, reasons)
+  if isempty(reasons)
+    detail = 'a requested editor action could not be completed';
+  else
+    detail = strjoin(reasons, ' ');
+  end
+  note = ['Note: ', detail, ' No file was opened or changed.'];
   if isempty(cleaned)
     out = note;
   else

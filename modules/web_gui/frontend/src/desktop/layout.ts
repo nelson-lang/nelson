@@ -162,6 +162,7 @@ const PERSISTENT_PANEL_IDS = new Set([
   'breakpoints',
   'callstack',
   'terminal',
+  'assistant',
 ]);
 //=============================================================================
 interface SerializedGroupData {

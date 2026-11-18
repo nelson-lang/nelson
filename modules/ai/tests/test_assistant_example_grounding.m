@@ -11,13 +11,13 @@
 % and the accent fold they share. These read catalog data shipped in the binary,
 % so each block is guarded on the relevant files being present.
 %=============================================================================
-privateDir = [modulepath('ai', 'root'), '/functions/+nelson/+ai/private'];
+privateDir = [modulepath('ai', 'root'), '/functions/+nelson/+ai/+internal/private'];
 addpath(privateDir);
 cleaner = onCleanup(@() rmpath(privateDir)); %#ok<NASGU>
 %=============================================================================
 % accent fold: 'REPONSE' with an accented E (code 201) folds to ascii 'reponse'
-assert_isequal(aiFoldAccents(char([82, 201, 80, 79, 78, 83, 69])), 'reponse');
-assert_isequal(aiFoldAccents('PLOT'), 'plot');
+assert_isequal(nelson.ai.internal.aiFoldAccents(char([82, 201, 80, 79, 78, 83, 69])), 'reponse');
+assert_isequal(nelson.ai.internal.aiFoldAccents('PLOT'), 'plot');
 %=============================================================================
 % NFlow example grounding (needs the shipped .nflow examples)
 nflowRoot = [modulepath('nflow_blocks', 'root'), '/examples'];
@@ -48,4 +48,22 @@ if isfile([modulepath('control_system', 'root'), '/examples/index.json'])
   % a greeting matches nothing
   assert_istrue(isempty(aiNelsonDemoContext('bonjour', 'web')));
 end
+%=============================================================================
+% Live session context: reports the base workspace (names/sizes/classes, never
+% values) and the last error, so the model answers about the running session.
+assignin('base', 'aiCtxMatrix', magic(3));
+assignin('base', 'aiCtxText', 'hello');
+try
+  error('Nelson:test:ctxBoom', 'context boom message');
+catch
+end
+ctx = aiLiveSessionContext('qt');
+assert_istrue(contains(ctx, 'aiCtxMatrix'));
+assert_istrue(contains(ctx, '3x3'));
+assert_istrue(contains(ctx, 'double'));
+assert_istrue(contains(ctx, 'aiCtxText'));
+% the value itself is never leaked, only the shape/class
+assert_isfalse(contains(ctx, 'hello'));
+assert_istrue(contains(ctx, 'context boom message'));
+evalin('base', 'clear aiCtxMatrix aiCtxText');
 %=============================================================================

@@ -11,7 +11,7 @@
 // so these run with NO AI model and NO engine (what CI has): they pin the bridge
 // contract — reading/writing the session-wide permission mode and answering a
 // tool-permission prompt through nelson.ai.acp.permissionMode /
-// nelson.ai.assistantPermissionReply.
+// nelson.ai.internal.assistantPermissionReply.
 import { afterEach, beforeEach, expect, test, vi } from 'vitest';
 import { createRoot } from 'react-dom/client';
 import { act } from 'react-dom/test-utils';
@@ -137,7 +137,7 @@ test('permission prompt appears on a request and replies with the decision', asy
   expect(nflowRpc).toHaveBeenCalledWith(
     'nflow.callback.invoke',
     expect.objectContaining({
-      code: expect.stringContaining("nelson.ai.assistantPermissionReply('nflow', 7, 'reject')"),
+      code: expect.stringContaining("nelson.ai.internal.assistantPermissionReply('nflow', 7, 'reject')"),
     })
   );
   expect(container.querySelector('.assistant-permission-card')).toBeNull();
@@ -179,7 +179,7 @@ test('permission prompt remembers this file with allow_always_path', async () =>
     'nflow.callback.invoke',
     expect.objectContaining({
       code: expect.stringContaining(
-        "nelson.ai.assistantPermissionReply('nflow', 5, 'allow_always_path')"
+        "nelson.ai.internal.assistantPermissionReply('nflow', 5, 'allow_always_path')"
       ),
     })
   );

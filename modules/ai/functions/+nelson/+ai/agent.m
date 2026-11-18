@@ -64,11 +64,12 @@ function varargout = agent(prompt, options)
 end
 %=============================================================================
 function [transcript, observation, options] = runToolStep(transcript, reply, name, args, options)
-  aiAgentEmit('activity', struct('kind', 'tool', 'name', name));
+  surfaceId = emitSurface(options);
+  nelson.ai.internal.aiAgentEmit('activity', struct('kind', 'tool', 'name', name), surfaceId);
   result = nelson.ai.mcp.call(name, args);
   observation = aiAgentFormatObservation(name, result);
-  aiAgentEmit('activity', struct('kind', 'result', 'name', name, ...
-    'text', firstLine(observation)));
+  nelson.ai.internal.aiAgentEmit('activity', struct('kind', 'result', 'name', name, ...
+    'text', firstLine(observation)), surfaceId);
   transcript = [transcript, char(10), 'Assistant: ', reply, char(10), observation];
   if isfield(result, 'image') && ~isempty(result.image)
     options = nelson.ai.attachImage(options, result.image);
@@ -105,6 +106,17 @@ function reply = finalReply(reply, lastObservation)
     reply = lastObservation;
   else
     reply = 'The assistant could not complete the request within the step limit.';
+  end
+end
+%=============================================================================
+% The surface (qt / web / nflow) that live progress events (activity, streamed
+% tokens) belong to, so the direct backend routes them to the same pane the ACP
+% backend does. Defaults to 'web' (the historical target) when unset.
+function surfaceId = emitSurface(options)
+  surfaceId = 'web';
+  if isfield(options, 'SurfaceId') && ~isempty(options.SurfaceId) ...
+      && (ischar(options.SurfaceId) || isstring(options.SurfaceId))
+    surfaceId = char(options.SurfaceId);
   end
 end
 %=============================================================================

@@ -8,6 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <QtCore/QCoreApplication>
+#include <QtCore/QJsonDocument>
+#include <QtCore/QJsonObject>
 #include <QtCore/QPointer>
 #include <QtCore/QTimer>
 #include <algorithm>
@@ -16,6 +18,7 @@
 #include "QStringConverter.hpp"
 #include "QtTextEditor.h"
 #include "QtBreakpointArea.h"
+#include "AssistantSink.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
 #include "ForceWindowsTitleBarToDark.hpp"
@@ -189,6 +192,47 @@ closeTextEditor()
         return true;
     }
     return false;
+}
+//=============================================================================
+static bool assistantRouterInstalled = false;
+//=============================================================================
+// Persistent handler for the assistant's host-agnostic 'editorInsert' event
+// (insert_into_nelson_file / insert_into_nelson_editor). The per-window sink in
+// QtTextEditor only exists while an editor window is open; this router lives for
+// the whole session, so an assistant insert opens (or creates) the editor on
+// demand even when none is open yet. It is the single owner of the channel on the
+// Qt desktop, mirroring installEditorInsertRouter() in the web frontend.
+void
+installTextEditorAssistantRouter(Evaluator* eval)
+{
+    if (assistantRouterInstalled) {
+        return;
+    }
+    assistantRouterInstalled = true;
+    RegisterAssistantSink("editor", [eval](const std::string& channel, const std::string& payload) {
+        if (channel != "editorInsert") {
+            return;
+        }
+        const QJsonObject object
+            = QJsonDocument::fromJson(QString::fromStdString(payload).toUtf8()).object();
+        const QString filename = object.value("filename").toString();
+        const QString text = object.value("text").toString();
+        const bool replace = object.value("replace").toBool();
+        // The sink fires on the interpreter thread; create and drive the editor
+        // window on the GUI thread only. qApp lives on the GUI thread, so it is
+        // the context object for the queued call.
+        QMetaObject::invokeMethod(
+            qApp,
+            [eval, filename, text, replace]() {
+                QtTextEditor* editor = ensureTextEditor(eval);
+                if (editor == nullptr) {
+                    return;
+                }
+                showTextEditorWindow();
+                editor->insertAssistantText(filename, text, replace);
+            },
+            Qt::QueuedConnection);
+    });
 }
 //=============================================================================
 bool

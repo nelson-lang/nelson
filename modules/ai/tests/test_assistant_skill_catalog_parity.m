@@ -8,31 +8,28 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % Anti-drift guard between the SKILL.md files on disk and the MCP skill catalog
-% registered in C++ (AiMcpSkillCatalog.cpp). A new skill folder must be either
-% registered as an MCP resource or listed as an intentional exclusion, so adding a
-% skill without wiring the C++ catalog is caught here instead of silently shipping
-% a skill the MCP agents cannot see.
-%=============================================================================
-% Skills whose guide is deliberately NOT exposed as an MCP resource.
-EXCLUDED = { ...
-  'skills://nflow/assistant' ...  % live NFlow-pane-only guide, injected engine-side
-  };
+% registered in C++ (AiMcpSkillCatalog.cpp). The rule is by audience:
+%   - every 'contributor' skill MUST be registered (dev agents reach it over MCP);
+%   - 'user' skills are served to the assistant through aiSkillContext and need NOT
+%     be registered, so new end-user skills add no C++ work;
+%   - every registered resource (bar the catalog index) must have a folder.
+% So a new contributor skill missing from the C++ catalog, or a stale registration,
+% is caught here instead of shipping silently.
 %=============================================================================
 registered = nelson.ai.mcp.info().resources;
 registered = registered(startsWith(registered, 'skills://'));
 %=============================================================================
-% Every SKILL.md on disk maps to an MCP uri; it must be registered or excluded.
 skills = nelson.ai.skills();
 folderUris = {};
 for k = 1:numel(skills)
   uri = uriFromPath(skills(k).path);
   assert_istrue(~isempty(uri));
   folderUris{end + 1} = uri; %#ok<AGROW>
-  isRegistered = any(strcmp(registered, uri));
-  isExcluded = any(strcmp(EXCLUDED, uri));
-  assert_istrue(isRegistered || isExcluded, ...
-    ['Skill ', uri, ' (', skills(k).name, ') is neither registered in ', ...
-    'AiMcpSkillCatalog.cpp nor listed as an intentional exclusion.']);
+  if strcmp(skills(k).audience, 'contributor')
+    assert_istrue(any(strcmp(registered, uri)), ...
+      ['Contributor skill ', uri, ' (', skills(k).name, ') is not registered in ', ...
+      'AiMcpSkillCatalog.cpp.']);
+  end
 end
 %=============================================================================
 % Reverse: every registered skill resource (bar the catalog index) has a folder.

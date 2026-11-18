@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % Start an ACP agent and perform the initialize and session/new handshake.
-% Returns a client struct used by nelson.ai.acp.prompt and nelson.ai.acp.close.
+% Returns a client struct used by nelson.ai.acp.internal.prompt and nelson.ai.acp.internal.close.
 function client = connect(command, varargin)
   narginchk(1, inf);
   timeoutSeconds = 30;

@@ -83,6 +83,7 @@ import {
 import { showStatusMessage } from './desktop/statusMessage';
 import { installNelsonDesktopMessageBridge } from './desktop/externalMessages';
 import { installEditorInsertRouter } from './desktop/editorInsertRouter';
+import { installShowPanelRouter } from './desktop/showPanelRouter';
 import { notifyStartupUrlDesktopReady } from './desktop/startupUrlActions';
 //=============================================================================
 const EditorPanel = lazy(() =>
@@ -224,6 +225,7 @@ export function App(): JSX.Element {
   // open, since the editor panel is lazy-loaded.
   useEffect(() => {
     installEditorInsertRouter();
+    installShowPanelRouter();
   }, []);
 
   useEffect(() => scheduleNotebookPrefetch(), []);

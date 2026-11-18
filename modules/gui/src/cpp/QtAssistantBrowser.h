@@ -34,9 +34,18 @@ public:
     QtAssistantBrowser(QWidget* parent = nullptr);
     ~QtAssistantBrowser() override;
 
+    // Re-read the shared conversation (seeds only an empty, idle dock), so the dock
+    // catches up after a talk continued in another GUI.
+    void
+    refreshHistory();
+
 signals:
     void
     assistantEvent(const QString& channel, const QString& payload);
+    // A host action asked the main window to bring a GUI panel (e.g. the profiler)
+    // to the front; the main window, which owns the docks, acts on it.
+    void
+    requestShowPanel(const QString& panel);
 
 protected:
     void
@@ -49,6 +58,10 @@ protected:
 private slots:
     void
     onSend();
+    // Clear the on-screen transcript and start a fresh conversation (forgets the
+    // shared stored history and resets the live agent).
+    void
+    onNewConversation();
     void
     onAssistantEvent(const QString& channel, const QString& payload);
     void
@@ -81,6 +94,10 @@ private:
     updateTheme();
     void
     requestModels();
+    // Load this dock's ('qt' surface) stored conversation so a restart restores
+    // the prior turns; the result comes back as a 'history' assistant event.
+    void
+    requestHistory();
     void
     submitPrompt(const QString& prompt);
     void
@@ -101,9 +118,14 @@ private:
     QTextBrowser* m_output = nullptr;
     QLineEdit* m_input = nullptr;
     QPushButton* m_send = nullptr;
+    QPushButton* m_newChat = nullptr;
     // Drives the claude-agent-acp poll from the GUI side, so the reply does not
     // depend on a Nelson timer firing at this dock's prompt.
     QTimer* m_pollTimer = nullptr;
+    // Short repeated retry to load the shared history at startup: the first read can
+    // run before the engine is ready (returns empty); stops once the dock is seeded.
+    QTimer* m_historyRetryTimer = nullptr;
+    int m_historyRetryAttempts = 0;
 
     QList<ChatMessage> m_messages;
     QStringList m_activity;

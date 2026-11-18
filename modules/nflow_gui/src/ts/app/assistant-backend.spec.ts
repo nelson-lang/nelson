@@ -57,7 +57,7 @@ test('sendPrompt tags the run with the nflow surface and escapes the prompt', as
   // doubled for the Nelson char literal; the 'external' driver stops the engine
   // from starting a Nelson timer (the pane drives the poll through step()).
   expect(params.code).toContain(
-    "nelson.ai.assistantRun('it''s rlc', 'claude-agent-acp', 'external', 'nflow')"
+    "nelson.ai.internal.assistantRun('it''s rlc', 'claude-agent-acp', 'external', 'nflow')"
   );
   expect(params.code).not.toContain('NELSON_AI_CONTEXT_SKILL');
 });
@@ -94,7 +94,7 @@ test('runCode runs the snippet through the callback bridge', () => {
 test('step advances the ACP poll for the nflow surface through the bridge', () => {
   nflowAssistantBackend.step?.();
   expect(nflowRpc).toHaveBeenCalledWith('nflow.callback.invoke', {
-    code: "nelson.ai.assistantStep('nflow');",
+    code: "nelson.ai.internal.assistantStep('nflow');",
     blockId: '',
   });
 });

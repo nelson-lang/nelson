@@ -17,7 +17,7 @@ import { subscribeToolEvents } from './webTools';
 import { openEditor } from './desktop';
 import { samePath } from '../editor/debugDecorations';
 //=============================================================================
-let pendingFileInsert: { filename: string; text: string } | null = null;
+let pendingFileInsert: { filename: string; text: string; replace: boolean } | null = null;
 let installed = false;
 //=============================================================================
 export function installEditorInsertRouter(): void {
@@ -31,17 +31,19 @@ export function installEditorInsertRouter(): void {
     }
     let text = '';
     let filename = '';
+    let replace = false;
     try {
-      const payload = JSON.parse(raw) as { text?: string; filename?: string };
+      const payload = JSON.parse(raw) as { text?: string; filename?: string; replace?: boolean };
       text = payload.text ?? '';
       filename = payload.filename ?? '';
+      replace = payload.replace ?? false;
     } catch {
       return;
     }
     if (text === '' || filename === '') {
       return;
     }
-    pendingFileInsert = { filename, text };
+    pendingFileInsert = { filename, text, replace };
     openEditor(filename);
     // Nudge the (possibly already open) panel to consume once; a freshly opened
     // panel instead consumes when its content becomes ready.
@@ -55,13 +57,14 @@ export function installEditorInsertRouter(): void {
   });
 }
 //=============================================================================
-// If a pending file insert targets `path`, return its code and clear it (so it
-// lands exactly once); otherwise null.
-export function takePendingFileInsertFor(path: string): string | null {
+// If a pending file insert targets `path`, return its code (and whether it
+// replaces the whole buffer) and clear it (so it lands exactly once); otherwise
+// null.
+export function takePendingFileInsertFor(path: string): { text: string; replace: boolean } | null {
   if (pendingFileInsert && samePath(path, pendingFileInsert.filename)) {
-    const text = pendingFileInsert.text;
+    const { text, replace } = pendingFileInsert;
     pendingFileInsert = null;
-    return text;
+    return { text, replace };
   }
   return null;
 }

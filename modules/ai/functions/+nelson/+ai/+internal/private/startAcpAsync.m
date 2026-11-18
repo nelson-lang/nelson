@@ -24,11 +24,14 @@ function startAcpAsync(prompt, useTimer, surfaceId)
   surfaceId = char(surfaceId);
   client = acpAsyncState('get', surfaceId);
   if isempty(client) || ~isAcpAsyncAlive(client)
-    client = nelson.ai.acp.connect('claude-agent-acp');
+    client = nelson.ai.acp.internal.connect('claude-agent-acp');
   end
-  aiAgentEmit('reset', struct(), surfaceId);
+  % A fresh user turn starts with no host-action retries used (the bounded
+  % self-correction in acpAsyncStep is per user turn, not per session).
+  client.hostActionRetries = 0;
+  nelson.ai.internal.aiAgentEmit('reset', struct(), surfaceId);
   __ai_interrupt_pending__(surfaceId);  % clear a stale Stop for this surface
-  client = nelson.ai.acp.send(client, char(prompt));
+  client = nelson.ai.acp.internal.send(client, char(prompt));
   acpAsyncState('set', surfaceId, client);
   if useTimer
     t = timer('Period', 0.1, 'ExecutionMode', 'fixedSpacing', 'BusyMode', 'drop', ...

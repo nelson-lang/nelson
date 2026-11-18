@@ -15,11 +15,11 @@
 binpath = modulepath('nelson', 'bin');
 nelson_exe = [binpath, '/nelson-adv-cli'];
 mock = [modulepath('ai', 'tests'), '/acp_mock_agent.m'];
-client = nelson.ai.acp.connect(nelson_exe, '--quiet', '--no-ipc', '--no-user-startup', ...
+client = nelson.ai.acp.internal.connect(nelson_exe, '--quiet', '--no-ipc', '--no-user-startup', ...
   '--no-user-modules', '-f', mock);
 assert_isequal(client.initialize.agentInfo.name, 'mock-agent');
 assert_isequal(client.sessionId, 'mock-session-1');
-[answer, client] = nelson.ai.acp.prompt(client, 'ping');
+[answer, client] = nelson.ai.acp.internal.prompt(client, 'ping');
 assert_isequal(answer, 'pong');
-nelson.ai.acp.close(client);
+nelson.ai.acp.internal.close(client);
 %=============================================================================

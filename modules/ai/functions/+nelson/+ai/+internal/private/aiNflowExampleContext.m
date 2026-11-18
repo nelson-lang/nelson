@@ -51,7 +51,7 @@ function tokens = requestTokens(prompt)
   if ~isempty(pos)
     text = text(pos(end) + length(marker):end);
   end
-  raw = regexp(aiFoldAccents(text), '[a-z]+', 'match');
+  raw = regexp(nelson.ai.internal.aiFoldAccents(text), '[a-z]+', 'match');
   tokens = {};
   for k = 1:numel(raw)
     word = raw{k};

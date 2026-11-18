@@ -33,7 +33,7 @@ try
   asserts.isequal(nelson.ai.acp.permissionMode('bogus'), 'auto');
   asserts.isequal(nelson.ai.acp.permissionMode('full'), 'full');
   % Risk classification (private helper, reached by putting its folder on path).
-  addpath([modulepath('ai', 'functions'), '/+nelson/+ai/+acp/private']);
+  addpath([modulepath('ai', 'functions'), '/+nelson/+ai/+acp/+internal/private']);
   asserts.istrue(~acpIsRisky(struct('tool', 'read file', 'kind', 'read')));
   asserts.istrue(acpIsRisky(struct('tool', 'write file', 'kind', 'write')));
   asserts.istrue(acpIsRisky(struct('tool', 'mystery', 'kind', '')));
@@ -43,13 +43,13 @@ try
   binpath = modulepath('nelson', 'bin');
   nelson_exe = [binpath, '/nelson-adv-cli'];
   mock = [modulepath('ai', 'tests'), '/acp_mock_agent_permission.m'];
-  client = nelson.ai.acp.connect(nelson_exe, '--quiet', '--no-ipc', '--no-user-startup', ...
+  client = nelson.ai.acp.internal.connect(nelson_exe, '--quiet', '--no-ipc', '--no-user-startup', ...
     '--no-user-modules', '-f', mock);
-  client = nelson.ai.acp.send(client, 'edit a file');
+  client = nelson.ai.acp.internal.send(client, 'edit a file');
   done = false;
   text = '';
   for k = 1:500
-    [done, text, client] = nelson.ai.acp.poll(client, []);
+    [done, text, client] = nelson.ai.acp.internal.poll(client, []);
     if done
       break
     end
@@ -57,7 +57,7 @@ try
   end
   asserts.istrue(done);
   asserts.istrue(contains(text, 'permission-answered'));
-  nelson.ai.acp.close(client);
+  nelson.ai.acp.internal.close(client);
   nelson.ai.acp.permissionMode('always_ask');
   asserts.isequal(nelson.ai.acp.permissionMode(), 'always_ask');
 catch e

@@ -463,6 +463,9 @@ WebGuiRpc::handle(const std::string& method, const nlohmann::json& params)
     if (method == "assistant.models") {
         return assistantModels(params);
     }
+    if (method == "assistant.history") {
+        return assistantHistory(params);
+    }
     if (method == "assistant.permissionReply") {
         return assistantPermissionReply(params);
     }
@@ -1472,10 +1475,10 @@ WebGuiRpc::assistantPrompt(const nlohmann::json& params)
     // drives the poll instead, through the assistant.step RPC below.
     std::wstring command;
     if (model.empty()) {
-        command = L"nelson.ai.assistantRun('" + assistantSingleQuoteSafe(prompt)
+        command = L"nelson.ai.internal.assistantRun('" + assistantSingleQuoteSafe(prompt)
             + L"', '', 'external', 'web');";
     } else {
-        command = L"nelson.ai.assistantRun('" + assistantSingleQuoteSafe(prompt) + L"', '"
+        command = L"nelson.ai.internal.assistantRun('" + assistantSingleQuoteSafe(prompt) + L"', '"
             + assistantSingleQuoteSafe(model) + L"', 'external', 'web');";
     }
     m_server->pushJson("term.busy", nlohmann::json::object());
@@ -1499,7 +1502,7 @@ WebGuiRpc::assistantStep(const nlohmann::json& params)
         }
         std::wstring out;
         try {
-            EvaluateConsoleCommandToString(eval, L"nelson.ai.assistantStep('web');", out);
+            EvaluateConsoleCommandToString(eval, L"nelson.ai.internal.assistantStep('web');", out);
         } catch (...) {
         }
     });
@@ -1543,6 +1546,45 @@ WebGuiRpc::assistantModels(const nlohmann::json& params)
 }
 //=============================================================================
 nlohmann::json
+WebGuiRpc::assistantHistory(const nlohmann::json& params)
+{
+    (void)params;
+    // Return the 'web' surface's stored conversation so the pane re-displays the
+    // prior turns on open. nelson.ai.internal.history.json prints a single-line JSON array
+    // of {role,text}; capture it and parse it back for the pane.
+    std::string jsonText;
+    runOnInterpreterThread(
+        [&] {
+            if (m_evaluator == nullptr) {
+                return;
+            }
+            std::wstring out;
+            try {
+                EvaluateConsoleCommandToString(
+                    m_evaluator, L"disp(nelson.ai.internal.history.json('web'));", out);
+            } catch (...) {
+                out.clear();
+            }
+            jsonText = wstring_to_utf8(out);
+        },
+        20000);
+    const size_t start = jsonText.find_first_not_of(" \t\r\n");
+    const size_t end = jsonText.find_last_not_of(" \t\r\n");
+    nlohmann::json turns = nlohmann::json::array();
+    if (start != std::string::npos && end != std::string::npos) {
+        try {
+            turns = nlohmann::json::parse(jsonText.substr(start, end - start + 1));
+        } catch (...) {
+            turns = nlohmann::json::array();
+        }
+    }
+    if (!turns.is_array()) {
+        turns = nlohmann::json::array();
+    }
+    return { { "turns", turns } };
+}
+//=============================================================================
+nlohmann::json
 WebGuiRpc::assistantPermissionReply(const nlohmann::json& params)
 {
     // Deliver the user's file-access decision (from the modal) to the assistant's
@@ -1553,7 +1595,7 @@ WebGuiRpc::assistantPermissionReply(const nlohmann::json& params)
     }
     const long long id = params.value("id", static_cast<long long>(0));
     const std::string decision = params.value("decision", std::string());
-    const std::wstring command = L"nelson.ai.assistantPermissionReply('web', " + std::to_wstring(id)
+    const std::wstring command = L"nelson.ai.internal.assistantPermissionReply('web', " + std::to_wstring(id)
         + L", '" + assistantSingleQuoteSafe(decision) + L"');";
     m_terminal->runOnInterpreterThread([&] {
         if (m_evaluator == nullptr) {

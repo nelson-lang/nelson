@@ -17,7 +17,7 @@
 % written to disk. Checks the private helpers, respondToPermission, and the reply.
 %=============================================================================
 % Private helpers (reached by putting their folder on path).
-addpath([modulepath('ai', 'functions'), '/+nelson/+ai/+acp/private']);
+addpath([modulepath('ai', 'functions'), '/+nelson/+ai/+acp/+internal/private']);
 asserts.istrue(isempty(acpNormalizePath('   ')));
 c = struct();
 asserts.istrue(~acpPathRemembered(c, 'D:/x.m'));
@@ -39,17 +39,17 @@ end
 pp = struct('reqId', 7, 'allowOptionId', 'allow', 'rejectOptionId', 'reject', ...
   'path', 'D:/foo.m', 'tool', '', 'kind', '', 'title', '', 'announced', false, 'time', now);
 client = struct('pendingPermission', pp);
-client = nelson.ai.acp.respondToPermission(client, true, '', true);
+client = nelson.ai.acp.internal.respondToPermission(client, true, '', true);
 asserts.istrue(isempty(client.pendingPermission));
 asserts.istrue(acpPathRemembered(client, 'D:/foo.m'));
 %=============================================================================
 % The reply 'allow_always_path' remembers the file; a different file still prompts.
-addpath([modulepath('ai', 'functions'), '/+nelson/+ai/private']);
+addpath([modulepath('ai', 'functions'), '/+nelson/+ai/+internal/private']);
 pp2 = struct('reqId', 9, 'allowOptionId', 'allow', 'rejectOptionId', 'reject', ...
   'path', 'D:/bar.m', 'tool', '', 'kind', '', 'title', '', 'announced', true, 'time', now);
 client2 = struct('pendingPermission', pp2);
 acpAsyncState('set', 'testpath', client2);
-nelson.ai.assistantPermissionReply('testpath', 9, 'allow_always_path');
+nelson.ai.internal.assistantPermissionReply('testpath', 9, 'allow_always_path');
 c2 = acpAsyncState('get', 'testpath');
 asserts.istrue(isempty(c2.pendingPermission));
 asserts.istrue(acpPathRemembered(c2, 'D:/bar.m'));

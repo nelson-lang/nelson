@@ -27,7 +27,7 @@ static const nlsGateway gateway[] = {
     { "__mcp_call__", (ptrBuiltin)Nelson::AiGateway::mcpcallBuiltin, 1, -2,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "__ai_notify__", (ptrBuiltin)Nelson::AiGateway::ai_notifyBuiltin, 0, -1 },
-    { "__ai_stream__", (ptrBuiltin)Nelson::AiGateway::ai_streamBuiltin, 1, 7,
+    { "__ai_stream__", (ptrBuiltin)Nelson::AiGateway::ai_streamBuiltin, 1, 8,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "__ai_interrupt_pending__", (ptrBuiltin)Nelson::AiGateway::ai_interruptpendingBuiltin, 1,
         -1 },
@@ -35,7 +35,7 @@ static const nlsGateway gateway[] = {
 //=============================================================================
 // On module teardown (Nelson exit): stop every surface's poll timer and kill its
 // claude-agent-acp agent, so a request left in "Thinking..." and its subprocess
-// are not orphaned. The cleanup lives in nelson.ai.assistantShutdown (it holds
+// are not orphaned. The cleanup lives in nelson.ai.internal.assistantShutdown (it holds
 // the per-surface clients in a persistent).
 static bool
 finishAiModule(Nelson::Evaluator* eval)
@@ -46,7 +46,7 @@ finishAiModule(Nelson::Evaluator* eval)
             // package path may already be gone, and the bare call would print an
             // "Undefined variable: nelson" error. The ProcessObject destructor
             // still terminates any surviving ACP child as a backstop.
-            eval->evaluateString(L"try; nelson.ai.assistantShutdown(); catch; end", false);
+            eval->evaluateString(L"try; nelson.ai.internal.assistantShutdown(); catch; end", false);
         } catch (...) {
         }
     }

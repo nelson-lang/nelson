@@ -13,7 +13,7 @@
 //    written through nelson.ai.acp.permissionMode over the NFlow bridge;
 //  - a prompt shown when the agent asks to use a tool (e.g. file access): the
 //    engine pushes a 'permission' event on the 'nflow' surface and waits, and
-//    the reply goes back through nelson.ai.assistantPermissionReply('nflow', ...).
+//    the reply goes back through nelson.ai.internal.assistantPermissionReply('nflow', ...).
 // Both are self-contained: they use the same native bridge and the same
 // 'assistant' push channel the chat backend already listens on, so the shared
 // pane stays host-agnostic (no permission code in it).
@@ -148,7 +148,7 @@ export function AssistantPermissionDialog(): JSX.Element | null {
   }
 
   const decide = (decision: Decision): void => {
-    runEngine(`nelson.ai.assistantPermissionReply('nflow', ${req.id}, '${decision}');`);
+    runEngine(`nelson.ai.internal.assistantPermissionReply('nflow', ${req.id}, '${decision}');`);
     setReq(null);
   };
 

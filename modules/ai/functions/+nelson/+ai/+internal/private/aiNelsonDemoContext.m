@@ -41,7 +41,7 @@ end
 %=============================================================================
 % Meaningful lower-case tokens (>= 4 chars, not a stop word) from the request.
 function tokens = queryTokens(prompt)
-  raw = regexp(aiFoldAccents(prompt), '[a-z]+', 'match');
+  raw = regexp(nelson.ai.internal.aiFoldAccents(prompt), '[a-z]+', 'match');
   tokens = {};
   for k = 1:numel(raw)
     word = raw{k};
@@ -175,7 +175,7 @@ function value = allLanguages(field)
 end
 %=============================================================================
 function tokens = uniqueTokens(text)
-  raw = regexp(aiFoldAccents(text), '[a-z]+', 'match');
+  raw = regexp(nelson.ai.internal.aiFoldAccents(text), '[a-z]+', 'match');
   tokens = {};
   for k = 1:numel(raw)
     if length(raw{k}) >= 4 && ~any(strcmp(tokens, raw{k}))

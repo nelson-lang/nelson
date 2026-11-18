@@ -29,6 +29,13 @@ textEditor(Evaluator* eval, bool importSharedText);
 NLSTEXT_EDITOR_IMPEXP bool
 closeTextEditor();
 //=============================================================================
+// Install the persistent assistant "editorInsert" router (host actions
+// insert_into_nelson_file / insert_into_nelson_editor). Registered once at GUI
+// startup so an assistant insert opens the editor on demand even when no editor
+// window is open yet, mirroring the web router. Safe to call more than once.
+NLSTEXT_EDITOR_IMPEXP void
+installTextEditorAssistantRouter(Evaluator* eval);
+//=============================================================================
 NLSTEXT_EDITOR_IMPEXP bool
 isTextEditorVisible();
 NLSTEXT_EDITOR_IMPEXP void

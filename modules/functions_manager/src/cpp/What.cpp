@@ -130,7 +130,8 @@ WhatListOfMacro(Evaluator* eval, const std::wstring& moduleName)
             continue;
         }
         std::wstring normalized = normalizeSeparators(filename);
-        if (normalized.size() >= prefix.size() && normalized.compare(0, prefix.size(), prefix) == 0) {
+        if (normalized.size() >= prefix.size()
+            && normalized.compare(0, prefix.size(), prefix) == 0) {
             macroList.push_back(macroName);
         }
     }

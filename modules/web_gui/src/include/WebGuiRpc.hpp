@@ -183,6 +183,8 @@ private:
     nlohmann::json
     assistantModels(const nlohmann::json& params);
     nlohmann::json
+    assistantHistory(const nlohmann::json& params);
+    nlohmann::json
     assistantPermissionReply(const nlohmann::json& params);
     nlohmann::json
     assistantSetPermissionMode(const nlohmann::json& params);

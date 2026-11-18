@@ -27,13 +27,13 @@ ok = true;
 errMsg = '';
 try
   % acpAsyncStep / acpAsyncState are private, reached by putting their folder on path.
-  addpath([modulepath('ai', 'functions'), '/+nelson/+ai/private']);
+  addpath([modulepath('ai', 'functions'), '/+nelson/+ai/+internal/private']);
   binpath = modulepath('nelson', 'bin');
   nelson_exe = [binpath, '/nelson-adv-cli'];
   mock = [modulepath('ai', 'tests'), '/acp_mock_agent_permission.m'];
-  client = nelson.ai.acp.connect(nelson_exe, '--quiet', '--no-ipc', '--no-user-startup', ...
+  client = nelson.ai.acp.internal.connect(nelson_exe, '--quiet', '--no-ipc', '--no-user-startup', ...
     '--no-user-modules', '-f', mock);
-  client = nelson.ai.acp.send(client, 'edit a file');
+  client = nelson.ai.acp.internal.send(client, 'edit a file');
   acpAsyncState('set', 'testui', client);
   % Step until the permission request is captured and announced to the UI.
   reqId = [];
@@ -49,7 +49,7 @@ try
   end
   asserts.istrue(~isempty(reqId));
   % The user grants it once: the pending permission clears and the agent resumes.
-  nelson.ai.assistantPermissionReply('testui', reqId, 'allow_once');
+  nelson.ai.internal.assistantPermissionReply('testui', reqId, 'allow_once');
   c = acpAsyncState('get', 'testui');
   asserts.istrue(isempty(c.pendingPermission));
   % Step until the run completes (acpAsyncStep returns false when done).

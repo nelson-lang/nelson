@@ -103,10 +103,14 @@ function streamed = tryStreamOllama(prompt, options)
   if isfield(options, 'Temperature')
     temperature = options.Temperature;
   end
-  aiAgentEmit('reset', struct());
+  surfaceId = 'web';
+  if isfield(options, 'SurfaceId') && ~isempty(options.SurfaceId)
+    surfaceId = char(options.SurfaceId);
+  end
+  nelson.ai.internal.aiAgentEmit('reset', struct(), surfaceId);
   try
     text = __ai_stream__(options.Endpoint, options.Model, prompt, system, ...
-      numPredict, temperature, options.Timeout);
+      numPredict, temperature, options.Timeout, surfaceId);
     streamed.ok = true;
     streamed.text = text;
   catch e

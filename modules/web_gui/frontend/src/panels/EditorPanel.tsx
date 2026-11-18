@@ -653,12 +653,22 @@ export function EditorPanel({
     if (!editor) {
       return;
     }
-    const code = takePendingFileInsertFor(path);
-    if (code === null) {
+    const pending = takePendingFileInsertFor(path);
+    if (pending === null) {
       return;
     }
     const model = editor.getModel();
     if (!model) {
+      return;
+    }
+    if (pending.replace) {
+      // propose_nelson_edit: replace the whole buffer with the proposed version
+      // as one undoable edit, left unsaved for the user to review and save.
+      editor.executeEdits('assistant', [
+        { range: model.getFullModelRange(), text: pending.text, forceMoveMarkers: true },
+      ]);
+      editor.revealLine(1);
+      editor.focus();
       return;
     }
     const line = model.getLineCount();
@@ -672,7 +682,7 @@ export function EditorPanel({
           endLineNumber: line,
           endColumn: column,
         },
-        text: prefix + code,
+        text: prefix + pending.text,
         forceMoveMarkers: true,
       },
     ]);

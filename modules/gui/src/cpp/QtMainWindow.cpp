@@ -711,6 +711,23 @@ QtMainWindow::assistantBrowserToggle()
 }
 //=============================================================================
 void
+QtMainWindow::onAssistantShowPanel(const QString& panel)
+{
+    QDockWidget* dock = nullptr;
+    if (panel == "profiler") {
+        dock = profilerBrowserDock;
+    }
+    if (dock == nullptr) {
+        return;
+    }
+    dock->show();
+    dock->raise();
+    if (dock->widget() != nullptr) {
+        dock->widget()->setFocus(Qt::ShortcutFocusReason);
+    }
+}
+//=============================================================================
+void
 QtMainWindow::newsfeedBrowserToggle()
 {
     toggleDockWidget(newsfeedBrowserDock);
@@ -885,6 +902,15 @@ QtMainWindow::changeEvent(QEvent* event)
     ) {
         refreshDesktopUi();
     }
+    // Window regained focus: re-read the shared conversation so the assistant dock
+    // catches up with a talk continued in another GUI (both read one history file).
+    if (event->type() == QEvent::ActivationChange && isActiveWindow()
+        && assistantBrowserDock != nullptr) {
+        QtAssistantBrowser* dock = qobject_cast<QtAssistantBrowser*>(assistantBrowserDock);
+        if (dock != nullptr) {
+            dock->refreshHistory();
+        }
+    }
 }
 //=============================================================================
 void
@@ -940,6 +966,8 @@ QtMainWindow::createDockWidgets(Evaluator* eval)
     newsfeedBrowserDock = new QtNewsfeedBrowser(this);
     assistantBrowserDock = new QtAssistantBrowser(this);
     addDockWidget(Qt::RightDockWidgetArea, assistantBrowserDock);
+    connect(qobject_cast<QtAssistantBrowser*>(assistantBrowserDock),
+        &QtAssistantBrowser::requestShowPanel, this, &QtMainWindow::onAssistantShowPanel);
 
     QtWorkspaceBrowser* qtWorkspaceBrowser
         = (QtWorkspaceBrowser*)WorkspaceBrowser::getWorkspaceBrowser();

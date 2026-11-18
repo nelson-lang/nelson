@@ -9,6 +9,7 @@
 //=============================================================================
 #include "ai_streamBuiltin.hpp"
 #include "AiStreamChat.hpp"
+#include "AssistantSink.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
@@ -32,13 +33,16 @@ optionalScalar(const ArrayOf& value, bool& has)
 }
 //=============================================================================
 // txt = __ai_stream__(endpoint, model, prompt, system, numPredict, temperature,
-// timeout): stream an Ollama reply, pushing each fragment to the assistant pane
-// as a 'token' event, and return the full text. Errors when streaming is not
-// built in, so the caller can fall back to a non-streaming request.
+// timeout[, surfaceId]): stream an Ollama reply, pushing each fragment to the
+// assistant pane as a 'token' event, and return the full text. surfaceId routes
+// the tokens to ONE surface (qt / nflow / web / notebook) like __ai_notify__, so
+// the direct backend streams to the same pane the ACP backend does; omitted or
+// empty keeps the historical web + broadcast behavior. Errors when streaming is
+// not built in, so the caller can fall back to a non-streaming request.
 ArrayOfVector
 Nelson::AiGateway::ai_streamBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
-    nargincheck(argIn, 7, 7);
+    nargincheck(argIn, 7, 8);
     nargoutcheck(nLhs, 0, 1);
     if (!aiStreamingAvailable()) {
         Error(L"Nelson:ai:streamingUnavailable", L"Streaming is not available in this build.");
@@ -52,16 +56,29 @@ Nelson::AiGateway::ai_streamBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     bool hasTemperature = false;
     const double temperature = optionalScalar(argIn[5], hasTemperature);
     const double timeout = argIn[6].asDoubleScalar();
+    std::string surfaceId;
+    if (argIn.size() >= 8) {
+        surfaceId = argIn[7].asUtf8String();
+    }
     const std::size_t evaluatorID = (eval != nullptr) ? eval->getID() : 0;
 
-    auto onDelta = [](const std::string& fragment) {
-#ifndef NLSAI_WITHOUT_WEBVIEW
+    const bool toWeb = surfaceId.empty() || surfaceId == "web" || surfaceId == "notebook";
+    auto onDelta = [surfaceId, toWeb](const std::string& fragment) {
         nlohmann::json payload;
         payload["text"] = fragment;
-        PushWebToolEvent("assistant", "token", payload.dump());
-#else
-        (void)fragment;
+        const std::string dumped = payload.dump();
+        if (toWeb) {
+#ifndef NLSAI_WITHOUT_WEBVIEW
+            PushWebToolEvent("assistant", "token", dumped);
 #endif
+        }
+        if (surfaceId.empty()) {
+            // Historical broadcast (reaches whichever desktop pane is listening).
+            Nelson::AssistantSinkBroadcast("token", dumped);
+        } else if (!toWeb) {
+            // A specific desktop surface (its pane registered under this surfaceId).
+            Nelson::AssistantSinkPushTo(surfaceId, "token", dumped);
+        }
     };
 
     std::string full;

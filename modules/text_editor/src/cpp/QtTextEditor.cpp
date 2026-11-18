@@ -9,8 +9,6 @@
 //=============================================================================
 #include <QtCore/QtGlobal>
 #include <QtCore/QFileInfo>
-#include <QtCore/QJsonDocument>
-#include <QtCore/QJsonObject>
 #include <QtCore/QDir>
 #include <QtCore/QMimeData>
 #include <QtCore/QPointer>
@@ -53,7 +51,6 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
-#include "AssistantSink.hpp"
 #include "CodeAnalyzer.hpp"
 #include "StringHelpers.hpp"
 #include "QtTextEditor.h"
@@ -145,28 +142,11 @@ QtTextEditor::QtTextEditor(Evaluator* eval)
     setAcceptDrops(true);
     recentFilenames.clear();
     nlsEvaluator = eval;
-    // Receive the assistant's 'editorInsert' events (insert_into_nelson_editor):
-    // the sink fires on the interpreter thread, so marshal the insert to the GUI
-    // thread. Channel-filtered, so other assistant events are ignored here.
-    QPointer<QtTextEditor> self(this);
-    Nelson::RegisterAssistantSink(
-        "editor", [self](const std::string& channel, const std::string& payload) {
-            if (!self || channel != "editorInsert") {
-                return;
-            }
-            const QJsonObject object
-                = QJsonDocument::fromJson(QString::fromStdString(payload).toUtf8()).object();
-            const QString filename = object.value("filename").toString();
-            const QString text = object.value("text").toString();
-            QMetaObject::invokeMethod(
-                self,
-                [self, filename, text]() {
-                    if (self) {
-                        self->insertAssistantText(filename, text);
-                    }
-                },
-                Qt::QueuedConnection);
-        });
+    // The assistant's 'editorInsert' events (insert_into_nelson_file /
+    // insert_into_nelson_editor) are handled by the persistent session router
+    // installTextEditorAssistantRouter(), not here: it must open the editor even
+    // when no window is open yet, so registering the sink per-window (dropped when
+    // no editor exists) would miss exactly that case.
     textEditorRootPath = Nelson::GetModulePath(L"text_editor");
     QString fileNameIcon = Nelson::wstringToQString(
         textEditorRootPath + std::wstring(L"/resources/document-open.svg"));
@@ -2194,7 +2174,10 @@ QtTextEditor::open()
 //=============================================================================
 QtTextEditor::~QtTextEditor()
 {
-    Nelson::UnregisterAssistantSink("editor");
+    // The "editor" assistant sink is owned by the persistent session router
+    // (installTextEditorAssistantRouter), not by this window, so it is not
+    // unregistered here: it must outlive the window to open the editor again on
+    // the next assistant insert.
     saveAll();
     if (contextMenu) {
         delete contextMenu;
@@ -2203,7 +2186,7 @@ QtTextEditor::~QtTextEditor()
 }
 //=============================================================================
 void
-QtTextEditor::insertAssistantText(const QString& filename, const QString& text)
+QtTextEditor::insertAssistantText(const QString& filename, const QString& text, bool replace)
 {
     if (!filename.isEmpty()) {
         // Open the target file (or focus its tab if already open) before inserting,
@@ -2220,11 +2203,35 @@ QtTextEditor::insertAssistantText(const QString& filename, const QString& text)
             }
         }
         if (!fileFound) {
-            loadFile(filename);
+            if (QFileInfo::exists(requestedPath)) {
+                loadFile(filename);
+            } else {
+                // A new draft (the common insert_into_nelson_file case): open a tab
+                // named for the target file without the "create it?" prompt and
+                // without loadFile's "cannot read file" warning. Nothing is written
+                // to disk until the user saves. Mirrors loadOrCreateFile's create
+                // branch and the web router, which also drops code into a new file.
+                addTabUntitled();
+                setCurrentFile(filename);
+            }
         }
     }
     QtEditPane* pane = currentEditPane();
     if (pane != nullptr && pane->getEditor() != nullptr) {
+        if (replace && !filename.isEmpty()) {
+            // propose_nelson_edit: replace the whole buffer with the proposed
+            // version, as one undoable edit, leaving it unsaved for the user to
+            // review (a diff) and save to apply.
+            QTextCursor cursor = pane->getEditor()->textCursor();
+            cursor.beginEditBlock();
+            cursor.select(QTextCursor::Document);
+            cursor.insertText(text);
+            cursor.endEditBlock();
+            pane->getEditor()->setFocus();
+            activateWindow();
+            raise();
+            return;
+        }
         QTextCursor cursor = pane->getEditor()->textCursor();
         if (!filename.isEmpty()) {
             // insert_into_nelson_file appends at the end of the file (matches the
