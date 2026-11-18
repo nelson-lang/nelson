@@ -221,17 +221,18 @@ QtAssistantBrowser::onNewConversation()
     m_activity.clear();
     m_stream.clear();
     rebuild();
-    Nelson::MainThreadTaskQueue::getInstance()->postToInterpreterThread([](Nelson::Evaluator* eval) {
-        if (eval == nullptr) {
-            return;
-        }
-        std::wstring out;
-        try {
-            Nelson::EvaluateConsoleCommandToString(
-                eval, L"try; nelson.ai.internal.newConversation('qt'); catch; end", out);
-        } catch (...) {
-        }
-    });
+    Nelson::MainThreadTaskQueue::getInstance()->postToInterpreterThread(
+        [](Nelson::Evaluator* eval) {
+            if (eval == nullptr) {
+                return;
+            }
+            std::wstring out;
+            try {
+                Nelson::EvaluateConsoleCommandToString(
+                    eval, L"try; nelson.ai.internal.newConversation('qt'); catch; end", out);
+            } catch (...) {
+            }
+        });
 }
 //=============================================================================
 void
@@ -250,8 +251,8 @@ QtAssistantBrowser::submitPrompt(const QString& prompt)
     const QString model = m_model->currentData().toString();
     // 'external' driver (this dock drives the poll from its own QTimer below) and
     // surfaceId 'qt' so this dock owns an isolated ACP session.
-    const std::wstring command = L"nelson.ai.internal.assistantRun('" + singleQuoteSafe(prompt) + L"', '"
-        + singleQuoteSafe(model) + L"', 'external', 'qt');";
+    const std::wstring command = L"nelson.ai.internal.assistantRun('" + singleQuoteSafe(prompt)
+        + L"', '" + singleQuoteSafe(model) + L"', 'external', 'qt');";
     postCommand(command);
     m_pollTimer->start();
 }
@@ -538,8 +539,9 @@ QtAssistantBrowser::requestHistory()
             }
             std::wstring out;
             try {
-                Nelson::EvaluateConsoleCommandToString(
-                    eval, L"try; disp(nelson.ai.internal.history.json('qt')); catch; disp('[]'); end", out);
+                Nelson::EvaluateConsoleCommandToString(eval,
+                    L"try; disp(nelson.ai.internal.history.json('qt')); catch; disp('[]'); end",
+                    out);
             } catch (...) {
                 out.clear();
             }

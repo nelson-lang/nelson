@@ -1605,8 +1605,8 @@ WebGuiRpc::assistantPermissionReply(const nlohmann::json& params)
     }
     const long long id = params.value("id", static_cast<long long>(0));
     const std::string decision = params.value("decision", std::string());
-    const std::wstring command = L"nelson.ai.internal.assistantPermissionReply('web', " + std::to_wstring(id)
-        + L", '" + assistantSingleQuoteSafe(decision) + L"');";
+    const std::wstring command = L"nelson.ai.internal.assistantPermissionReply('web', "
+        + std::to_wstring(id) + L", '" + assistantSingleQuoteSafe(decision) + L"');";
     m_terminal->runOnInterpreterThread([&] {
         if (m_evaluator == nullptr) {
             return;

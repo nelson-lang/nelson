@@ -93,8 +93,9 @@ halfNearestCenter(const std::vector<double>& centers, indexType k, indexType col
 }
 //=============================================================================
 void
-elkanFullAssign(ElkanState& state, const KmeansData& data, std::vector<double>& centers, indexType k,
-    std::vector<double>& labels, std::vector<double>& distances, std::vector<double>& sumd)
+elkanFullAssign(ElkanState& state, const KmeansData& data, std::vector<double>& centers,
+    indexType k, std::vector<double>& labels, std::vector<double>& distances,
+    std::vector<double>& sumd)
 {
     indexType rows = data.rows;
     state.k = k;
@@ -107,8 +108,7 @@ elkanFullAssign(ElkanState& state, const KmeansData& data, std::vector<double>& 
         double best = std::numeric_limits<double>::infinity();
         indexType bestCluster = 0;
         for (indexType cluster = 0; cluster < k; ++cluster) {
-            double dsq
-                = distanceToCenter(data, centers, k, r, cluster, Distance::SQUAREDEUCLIDEAN);
+            double dsq = distanceToCenter(data, centers, k, r, cluster, Distance::SQUAREDEUCLIDEAN);
             distances[r + cluster * rows] = dsq;
             state.lower[r * k + cluster] = std::sqrt(dsq);
             if (dsq < best) {
