@@ -114,6 +114,20 @@ injectWebuiBridge(const std::string& content)
         return content;
     }
     std::string result(content);
+    // Insert the bridge as early as possible, right after the opening <head>
+    // tag, so the websocket handshake starts before the browser downloads and
+    // runs the page's own scripts. In a heavy page every library <script> sits
+    // in the head before </head>; injecting there used to push /webui.js behind
+    // megabytes of synchronous JS, so a cold WebView could exceed the first-show
+    // connection timeout and fall back to the system browser.
+    size_t headOpen = lowered.find("<head");
+    if (headOpen != std::string::npos) {
+        size_t tagEnd = content.find('>', headOpen);
+        if (tagEnd != std::string::npos) {
+            result.insert(tagEnd + 1, bridge);
+            return result;
+        }
+    }
     size_t headClose = lowered.find("</head>");
     if (headClose != std::string::npos) {
         result.insert(headClose, bridge);
