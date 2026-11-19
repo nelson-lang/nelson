@@ -189,7 +189,30 @@ export function isWasmRuntime(): boolean {
 export function isAssistantAiEnabled(): boolean {
   try {
     const bs = (window as any).__nf_bootstrap;
-    return !!(bs && bs.assistantAi === true);
+    if (bs && bs.assistantAi === true) {
+      return true;
+    }
+  } catch (_e) {
+    // fall through to storage
+  }
+  // window.__nf_bootstrap does not survive the seed page's location.replace to
+  // nflow.html, so fall back to the flag the seed page persisted to storage
+  // (same pattern as the toolchain flags). sessionStorage first, then localStorage.
+  try {
+    let s: string | null = null;
+    try {
+      s = sessionStorage.getItem('nf-assistant-ai');
+    } catch (_e) {
+      s = null;
+    }
+    if (s === null) {
+      try {
+        s = localStorage.getItem('nf-assistant-ai');
+      } catch (_e) {
+        s = null;
+      }
+    }
+    return s === '1' || s === 'true';
   } catch (_e) {
     return false;
   }

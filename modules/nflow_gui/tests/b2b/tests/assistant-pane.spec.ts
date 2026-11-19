@@ -19,6 +19,19 @@
 import { test, expect, type Page } from '@playwright/test';
 //=============================================================================
 async function bootApp(page: Page): Promise<void> {
+  // The assistant pane is opt-in: its activity-bar icon renders only when
+  // isAssistantAiEnabled() finds the flag. In production the seed page persists
+  // 'nf-assistant-ai' to storage (window.__nf_bootstrap is lost on its redirect
+  // to nflow.html), so seed the same key the host would — the real delivery path.
+  // This mirrors NELSON_ASSISTANT_AI=1, which start-nelson sets on the live
+  // engine for the engine-side gate.
+  await page.addInitScript(() => {
+    try {
+      localStorage.setItem('nf-assistant-ai', '1');
+    } catch (_e) {
+      /* storage unavailable */
+    }
+  });
   await page.goto('/nflow.html');
   await page.waitForFunction(() => typeof (window as any).webui !== 'undefined', undefined, {
     timeout: 20_000,

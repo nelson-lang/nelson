@@ -46,12 +46,16 @@ function varargout = buildhelpjson(varargin)
           end
           basename = f.name(1:end-4);
           xml_filename = [f.folder, '/', f.name];
-          % Index a page when its file name is a function/builtin, or when the
-          % page declares a keyword_alias. nflow block help pages expose a
-          % "block:<type>" alias (used to open a block's help from nflow) but
-          % their file name is not a Nelson function, so the function-only
+          % Index a page when its file name is a function/builtin, when the page
+          % declares a keyword_alias, or when it is a function reference page (it
+          % carries a <syntax> block). The <syntax> test is load independent, so a
+          % function whose module is not loaded while the index is built (graphics,
+          % gui, control in a headless build) is still indexed. nflow block help
+          % pages expose a "block:<type>" alias (used to open a block's help from
+          % nflow) but their file name is not a Nelson function, so the function
           % filter used to drop every block from the search index.
-          if ~(ismacro(basename) || isbuiltin(basename) || pageHasKeywordAlias(xml_filename))
+          if ~(ismacro(basename) || isbuiltin(basename) || ...
+              pageHasKeywordAlias(xml_filename) || pageIsFunctionReference(xml_filename))
             continue;
           end
           json_filename = [temp_dir, '/', m{1}, '_', lang{1}, '_', basename, '.json'];
@@ -83,6 +87,18 @@ function tf = pageHasKeywordAlias(xml_filename)
   try
     content = fileread(xml_filename);
     tf = contains(content, '<keyword_alias>');
+  catch
+    tf = false;
+  end
+end
+%=============================================================================
+% A function reference page documents a callable signature in a <syntax> block.
+% Concept, chapter and property pages have none, so they stay out of the index.
+function tf = pageIsFunctionReference(xml_filename)
+  tf = false;
+  try
+    content = fileread(xml_filename);
+    tf = contains(content, '<syntax>');
   catch
     tf = false;
   end
