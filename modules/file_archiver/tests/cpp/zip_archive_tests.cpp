@@ -60,6 +60,8 @@ testLzmaDictionaryLimit();
 static void
 testEncryptedLzmaRejected();
 static void
+testLzmaCentralMethodSpoofedLocal();
+static void
 testCp437Name();
 static void
 testFilesAndModes();
@@ -108,6 +110,7 @@ main()
     testUnsupportedMethod();
     testLzmaDictionaryLimit();
     testEncryptedLzmaRejected();
+    testLzmaCentralMethodSpoofedLocal();
     testCp437Name();
     testFilesAndModes();
     testNotAnArchive();
@@ -309,6 +312,27 @@ testEncryptedLzmaRejected()
         "entry flagged as encrypted");
     checkThrows([&] { reader.readEntry(*reader.find("folder/hello.txt")); },
         ZipErrorCode::UnsupportedEncryption, "encrypted LZMA entry rejected");
+}
+//=============================================================================
+// libarchive's seeking reader picks the decoder from the central directory method,
+// so a crafted archive can carry a garbage local method byte while the central
+// directory still declares LZMA. The oversized dictionary must be rejected from the
+// central method, not only from the local one.
+static void
+testLzmaCentralMethodSpoofedLocal()
+{
+    if (!ZipArchive::supportsCompression(static_cast<uint16_t>(ZipCompression::Lzma))) {
+        return;
+    }
+    std::vector<uint8_t> bytes = buildArchive(ZipCompression::Lzma);
+    const size_t local = findSignature(bytes, localHeader, findSignature(bytes, localHeader) + 4);
+    const size_t data = local + 30 + readUint16(bytes, local + 26) + readUint16(bytes, local + 28);
+    writeUint32(bytes, data + 5, 64 * 1024 * 1024 + 1);
+    // A method value libarchive does not recognise; the central directory keeps LZMA.
+    writeUint16(bytes, local + 8, 0x750e);
+    ZipArchive reader = ZipArchive::openMemory(bytes);
+    checkThrows([&] { reader.readEntry(*reader.find("folder/hello.txt")); },
+        ZipErrorCode::EntryTooLarge, "oversized LZMA dictionary rejected from the central method");
 }
 //=============================================================================
 static void

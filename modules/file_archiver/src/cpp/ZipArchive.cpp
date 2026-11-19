@@ -283,10 +283,10 @@ struct ZipArchive::Impl
     validateLzmaDictionary(size_t entryIndex) const
     {
         const ZipEntryInfo& info = entries[entryIndex];
-        // libarchive's reader decodes an entry from its LOCAL header method; for a
-        // method it does not recognise it sniffs the stream. The central directory
-        // method is not used to decode (but info.method carries the AES-resolved
-        // real method, needed to refuse encrypted LZMA/XZ).
+        // The decoder is chosen from the central directory method (info.method,
+        // AES-resolved) or, when that is unknown, by sniffing the stream; the local
+        // header method and encryption flag can disagree with the central ones on a
+        // crafted archive, so neither alone is trusted below.
         const uint64_t localOffset = directory[entryIndex].localOffset;
         uint8_t localHeader[30];
         if (!readSource(localOffset, localHeader, sizeof(localHeader))
@@ -318,15 +318,28 @@ struct ZipArchive::Impl
         if (dataOffset < localOffset) {
             fail(ZipErrorCode::NotAZipArchive, "Invalid ZIP compressed data.", info.name);
         }
-        bool asXz = localMethod == xzMethod;
-        bool asLzma = localMethod == lzmaMethod;
-        if (!asXz && !asLzma && !isPlainZipMethod(localMethod)) {
-            // An unknown method: libarchive sniffs the stream. The XZ magic is the
-            // only format it detects that liblzma allocates a dictionary for.
+        // libarchive's seeking reader (the one used for files and memory) selects
+        // the decoder from the CENTRAL directory method (info.method), not from the
+        // local header, and only sniffs the stream when that method is unknown. A
+        // crafted archive can leave the local method byte garbage while the central
+        // method is LZMA or XZ, so both are consulted and, failing that, the stream
+        // itself is sniffed; otherwise a multi-gigabyte dictionary would be
+        // allocated before the first byte is read.
+        bool asXz = localMethod == xzMethod || info.method == xzMethod;
+        bool asLzma = localMethod == lzmaMethod || info.method == lzmaMethod;
+        if (!asXz && !asLzma && !isPlainZipMethod(localMethod)
+            && !isPlainZipMethod(info.method)) {
+            // The XZ magic and the ZIP LZMA header (a 5-byte property block) are the
+            // only stream shapes liblzma allocates a dictionary for.
             static const uint8_t xzMagic[6] = { 0xFD, 0x37, 0x7A, 0x58, 0x5A, 0x00 };
-            uint8_t magic[6];
-            asXz = readSource(dataOffset, magic, sizeof(magic))
-                && std::equal(xzMagic, xzMagic + sizeof(magic), magic);
+            uint8_t sniff[6];
+            if (readSource(dataOffset, sniff, sizeof(sniff))) {
+                if (std::equal(xzMagic, xzMagic + sizeof(xzMagic), sniff)) {
+                    asXz = true;
+                } else if (littleEndian16(sniff + 2) == 5) {
+                    asLzma = true;
+                }
+            }
         }
         if (asXz) {
             validateXzDictionary(info, localOffset, localHeader);
