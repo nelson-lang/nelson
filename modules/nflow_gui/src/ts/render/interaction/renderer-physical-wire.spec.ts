@@ -99,8 +99,12 @@ describe('makePhysicalWireHandlers', () => {
 
     stubDropTarget(b2.pinEls[0]);
     expect(h.armPhysicalWireDrag(pointer(b1.pinEls[0], 0, 0))).toBe(true);
-    window.dispatchEvent(new PointerEvent('pointermove', { pointerId: 1, clientX: 40, clientY: 0 }));
-    window.dispatchEvent(new PointerEvent('pointerup', { pointerId: 1, clientX: 200, clientY: 40 }));
+    window.dispatchEvent(
+      new PointerEvent('pointermove', { pointerId: 1, clientX: 40, clientY: 0 })
+    );
+    window.dispatchEvent(
+      new PointerEvent('pointerup', { pointerId: 1, clientX: 200, clientY: 40 })
+    );
     expect(calls.created).toContainEqual({ from: 'R1', to: 'C1', toIndex: 0, fromIndex: 0 });
   });
 
@@ -112,8 +116,12 @@ describe('makePhysicalWireHandlers', () => {
 
     stubDropTarget(b2.pinEls[0]);
     h.armPhysicalWireDrag(pointer(b1.pinEls[0], 0, 0));
-    window.dispatchEvent(new PointerEvent('pointermove', { pointerId: 1, clientX: 40, clientY: 0 }));
-    window.dispatchEvent(new PointerEvent('pointerup', { pointerId: 1, clientX: 200, clientY: 40 }));
+    window.dispatchEvent(
+      new PointerEvent('pointermove', { pointerId: 1, clientX: 40, clientY: 0 })
+    );
+    window.dispatchEvent(
+      new PointerEvent('pointerup', { pointerId: 1, clientX: 200, clientY: 40 })
+    );
     expect(calls.created.length).toBe(0);
     expect(calls.errors.join(' ')).toMatch(/same physical domain/i);
   });
@@ -128,8 +136,12 @@ describe('makePhysicalWireHandlers', () => {
 
     stubDropTarget(b1.pinEls[1]);
     h.armPhysicalWireDrag(pointer(b1.pinEls[0], 0, 0));
-    window.dispatchEvent(new PointerEvent('pointermove', { pointerId: 1, clientX: 40, clientY: 0 }));
-    window.dispatchEvent(new PointerEvent('pointerup', { pointerId: 1, clientX: 200, clientY: 40 }));
+    window.dispatchEvent(
+      new PointerEvent('pointermove', { pointerId: 1, clientX: 40, clientY: 0 })
+    );
+    window.dispatchEvent(
+      new PointerEvent('pointerup', { pointerId: 1, clientX: 200, clientY: 40 })
+    );
     expect(calls.created.length).toBe(0);
     expect(calls.errors.join(' ')).toMatch(/different components/i);
   });

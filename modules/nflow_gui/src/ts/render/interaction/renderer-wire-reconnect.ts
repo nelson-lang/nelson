@@ -212,7 +212,10 @@ export function makeWireReconnectHandlers(ctx: RendererCtx) {
   ): { blockId: string; index: number } | null {
     let best: { blockId: string; index: number } | null = null;
     let bestDist = Infinity;
-    for (const [blockId, blk] of S.blocks as Map<string, { ports?: Array<{ type?: string; index?: number }> }>) {
+    for (const [blockId, blk] of S.blocks as Map<
+      string,
+      { ports?: Array<{ type?: string; index?: number }> }
+    >) {
       for (const p of blk?.ports ?? []) {
         if (p.type !== wantType) continue;
         const index = Number(p.index ?? 0);

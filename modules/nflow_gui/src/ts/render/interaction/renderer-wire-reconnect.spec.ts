@@ -270,7 +270,9 @@ describe('arm / drag / cancel lifecycle', () => {
       new PointerEvent('pointermove', { pointerId: 1, clientX: 140, clientY: 0 })
     );
     // Release near (but not on) c's input at (200,10); within the snap radius.
-    window.dispatchEvent(new PointerEvent('pointerup', { pointerId: 1, clientX: 205, clientY: 13 }));
+    window.dispatchEvent(
+      new PointerEvent('pointerup', { pointerId: 1, clientX: 205, clientY: 13 })
+    );
     expect(conn.to).toBe('c');
     expect(conn.toIndex).toBe(0);
   });
@@ -288,7 +290,9 @@ describe('arm / drag / cancel lifecycle', () => {
     window.dispatchEvent(
       new PointerEvent('pointermove', { pointerId: 1, clientX: 140, clientY: 0 })
     );
-    window.dispatchEvent(new PointerEvent('pointerup', { pointerId: 1, clientX: 205, clientY: 13 }));
+    window.dispatchEvent(
+      new PointerEvent('pointerup', { pointerId: 1, clientX: 205, clientY: 13 })
+    );
     expect(conn.to).toBe('b'); // unchanged
   });
 

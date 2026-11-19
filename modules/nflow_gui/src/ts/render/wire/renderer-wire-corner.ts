@@ -72,7 +72,10 @@ export function makeWireCornerHandlers(ctx: RendererCtx) {
       const seg = Math.hypot(pts[i + 1].x - pts[i].x, pts[i + 1].y - pts[i].y);
       if (acc + seg >= half) {
         const t = (half - acc) / seg;
-        return { x: pts[i].x + (pts[i + 1].x - pts[i].x) * t, y: pts[i].y + (pts[i + 1].y - pts[i].y) * t };
+        return {
+          x: pts[i].x + (pts[i + 1].x - pts[i].x) * t,
+          y: pts[i].y + (pts[i + 1].y - pts[i].y) * t,
+        };
       }
       acc += seg;
     }
@@ -95,8 +98,8 @@ export function makeWireCornerHandlers(ctx: RendererCtx) {
           : insetAlong(pts[pts.length - 1], pts[pts.length - 2], WIRE_ENDPOINT_HANDLE_INSET);
       }
       return end === 'from'
-        ? (Cx.getPortPosition?.(conn.from, 'out', Number(conn.fromIndex ?? 0)) ?? null)
-        : (Cx.getPortPosition?.(conn.to, 'in', Number(conn.toIndex ?? 0)) ?? null);
+        ? Cx.getPortPosition?.(conn.from, 'out', Number(conn.fromIndex ?? 0)) ?? null
+        : Cx.getPortPosition?.(conn.to, 'in', Number(conn.toIndex ?? 0)) ?? null;
     };
     (['from', 'to'] as const).forEach((end) => {
       const pos = endPoint(end);
