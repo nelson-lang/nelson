@@ -572,10 +572,27 @@ export class WasmWorkerHost implements NFlowHost {
       }
       return JSON.stringify({ id: envelope.id, result: JSON.stringify({ ok }) });
     }
-    let diagramJson = String(envelope.params?.diagramJson ?? '{}');
+    const modelJson = String(envelope.params?.diagramJson ?? '{}');
+    let diagramJson = modelJson;
     if (this.fmus) diagramJson = await this.fmus.prepareDiagram(diagramJson);
     const result = await this.client.simulateNFlow(diagramJson);
+    // Run the model StopFcn after the sim, like the native path. The WASM host
+    // skipped it, so a plotScopes StopFcn never opened a figure.
+    this.runModelStopFcn(modelJson, result);
     return JSON.stringify({ id: envelope.id, result });
+  }
+  //=============================================================================
+  // Run the model StopFcn on the engine after a sim. Fire-and-forget so the
+  // result returns first; a failing callback only warns.
+  private runModelStopFcn(modelJson: string, result: unknown): void {
+    // Skip when the model has no StopFcn or the engine has no evaluate.
+    if (typeof this.client.evaluate !== 'function' || !modelJson.includes('stopFcn')) {
+      return;
+    }
+    const resultJson = typeof result === 'string' ? result : JSON.stringify(result);
+    const quote = (text: string): string => text.replace(/'/g, "''");
+    const code = `NFlow.internal.runStopFcnForRun('${quote(modelJson)}', '${quote(resultJson)}');`;
+    void this.client.evaluate(code).catch(() => undefined);
   }
 }
 //=============================================================================

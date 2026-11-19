@@ -249,6 +249,45 @@ test('WasmWorkerHost exposes simulation without pretending native features exist
   }
 });
 //=============================================================================
+test('WasmWorkerHost runs the model StopFcn in the engine after a simulation', async () => {
+  const simulateNFlow = vi.fn(async () => ({ status: 'done', scopes: [] }));
+  const evaluate = vi.fn(async () => ({ stdout: '' }));
+  const interrupt = vi.fn(async () => ({ capabilities: ['nflow'] }));
+  const restore = installWasmWorkerHost({ simulateNFlow, evaluate, interrupt });
+  try {
+    // A single quote in the StopFcn must be doubled for the Nelson literal.
+    const diagramJson = JSON.stringify({
+      blocks: [],
+      stopFcn: "disp('hi'); NFlow.plotScopes(out);",
+    });
+    await nflowRpc('nflow.sim.run', { diagramJson });
+    // Result returns before the fire-and-forget callback; let its microtask run.
+    await Promise.resolve();
+    await Promise.resolve();
+    expect(evaluate).toHaveBeenCalledTimes(1);
+    const code = String(evaluate.mock.calls[0]?.[0] ?? '');
+    expect(code).toContain('NFlow.internal.runStopFcnForRun(');
+    expect(code).toContain("disp(''hi'')"); // single quotes doubled for Nelson
+  } finally {
+    restore();
+  }
+});
+//=============================================================================
+test('WasmWorkerHost skips the StopFcn when the model carries none', async () => {
+  const simulateNFlow = vi.fn(async () => ({ status: 'done', scopes: [] }));
+  const evaluate = vi.fn(async () => ({ stdout: '' }));
+  const interrupt = vi.fn(async () => ({ capabilities: ['nflow'] }));
+  const restore = installWasmWorkerHost({ simulateNFlow, evaluate, interrupt });
+  try {
+    await nflowRpc('nflow.sim.run', { diagramJson: '{"blocks":[]}' });
+    await Promise.resolve();
+    await Promise.resolve();
+    expect(evaluate).not.toHaveBeenCalled();
+  } finally {
+    restore();
+  }
+});
+//=============================================================================
 test('WasmWorkerHost restarts an older Worker client when cooperative stop is unavailable', async () => {
   const interrupt = vi.fn(async () => ({ capabilities: ['nflow'] }));
   const restore = installWasmWorkerHost({ simulateNFlow: vi.fn(), interrupt });
