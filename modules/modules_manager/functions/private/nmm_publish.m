@@ -48,7 +48,7 @@ function report = nmm_publish(varargin)
     nmm_error('PackageAlreadyExists', duplicatePackageMessage(entry.name, entry.version));
   end
   registry.packages = upsertPackage(registry.packages, entry);
-  filewrite(registryFile, jsonprettyprint(jsonencode(registry)));
+  filewrite(registryFile, jsonprettyprint(encodeRegistry(registry)));
   writeRegistryChecksum(registryFile);
   nmm_registry_signature('write', registryFile);
   report = publishReport(true, false, options.force && exists, registryFile, entry, exists);
@@ -118,6 +118,15 @@ function report = encodeReport(report, jsonOutput)
   if jsonOutput
     report = jsonencode(report);
   end
+end
+%=============================================================================
+function text = encodeRegistry(registry)
+  % "packages" is a list, so it must serialize as a JSON array whatever its
+  % length. jsonencode turns a scalar struct (a one-package registry) into an
+  % object, so wrap the entries in a cell to force the array form; num2cell
+  % leaves a multi-package struct array as the array it already was.
+  registry.packages = num2cell(registry.packages);
+  text = jsonencode(registry);
 end
 %=============================================================================
 function tf = hasPackage(packages, name, version)

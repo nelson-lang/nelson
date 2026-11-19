@@ -654,7 +654,8 @@ try
   asserts.istrue(publishReport.forced);
   registryChecksumFile = [registryFile, '.sha256'];
   asserts.istrue(isfile(registryChecksumFile));
-  asserts.isequal(strtrim(fileread(registryChecksumFile)), sha256(registryFile, '-file'));
+  % canonical "<hex>  <filename>" layout (sha256sum style), not the bare hash
+  asserts.isequal(strtrim(fileread(registryChecksumFile)), [sha256(registryFile, '-file'), '  registry.json']);
   publishedInfo = nmm('info', registryModuleName, '1.1.0');
   asserts.isequal(publishedInfo.checksum, sha256(packArchive, '-file'));
   asserts.isequal(publishedInfo.summary, 'registry install fixture');
