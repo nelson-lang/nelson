@@ -14,6 +14,7 @@
 import { test, expect } from '../fixtures/webui-mock.js';
 import { AppPage } from '../pages/AppPage.js';
 import { SimulationToolbar } from '../pages/SimulationToolbar.js';
+import { CanvasEditor } from '../pages/CanvasEditor.js';
 //=============================================================================
 test.describe('Simulation controls', () => {
   async function openSimpleDiagram(app: AppPage): Promise<void> {
@@ -110,6 +111,35 @@ test.describe('Simulation controls', () => {
     await expect(page.locator('#playPauseBtn')).toHaveAttribute('data-action', 'run', {
       timeout: 10_000,
     });
+  });
+
+  test('a fresh run clears the previous run diagnostics', async ({ mockPage: page }) => {
+    const app = new AppPage(page);
+    await app.open();
+    const editor = new CanvasEditor(page);
+    await editor.insertBlock('constant', { x: 160, y: 200 });
+    await editor.insertBlock('scope', { x: 420, y: 200 });
+
+    const errorCount = () =>
+      page.evaluate(
+        () => Number(document.getElementById('diagnosticErrorCount')?.textContent || '0')
+      );
+
+    // Make the run fail: a simulation error diagnostic is posted.
+    await page.evaluate(() => {
+      (window as unknown as { __e2eRunSimulationBackend?: unknown }).__e2eRunSimulationBackend =
+        () => Promise.resolve(JSON.stringify({ status: 'error', reason: 'e2e_sim_fail' }));
+    });
+    await page.locator('#playPauseBtn').click();
+    await expect.poll(errorCount, { timeout: 8000 }).toBeGreaterThan(0);
+
+    // A second, clean run must drop the previous run's diagnostic.
+    await page.evaluate(() => {
+      (window as unknown as { __e2eRunSimulationBackend?: unknown }).__e2eRunSimulationBackend =
+        () => Promise.resolve(JSON.stringify({ status: 'done', scopes: [] }));
+    });
+    await page.locator('#playPauseBtn').click();
+    await expect.poll(errorCount, { timeout: 8000 }).toBe(0);
   });
 
   test('Stop preserves the session display and Reset returns time to zero', async ({

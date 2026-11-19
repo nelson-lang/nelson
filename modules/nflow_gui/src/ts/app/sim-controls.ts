@@ -15,6 +15,7 @@ import type { SimPhase } from '../sim/sim-controller.js';
 import { t } from '../utils/i18n.js';
 import { nflowRpc } from './native-rpc.js';
 import { emitAppEvent } from './app-events.js';
+import { clearRunDiagnostics } from './diagnostics-service.js';
 import { _setStatus } from './event-context.js';
 import type { EventRefs } from './event-context.js';
 //=============================================================================
@@ -124,6 +125,9 @@ export function initSimulationControls(refs: EventRefs): SimulationActions {
       _setStatus(statusEl, phase === 'running' ? t('Pausing...') : t('Resuming...'), 'info');
       return;
     }
+    // Fresh run: drop the previous run's diagnostics so the panel shows only
+    // the current run's (editor / library / application diagnostics are kept).
+    clearRunDiagnostics();
     emitAppEvent('nf-sim-start');
     try {
       await simController.start();

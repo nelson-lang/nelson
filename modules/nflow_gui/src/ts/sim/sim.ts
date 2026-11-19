@@ -251,7 +251,7 @@ async function runSimulationCpp({
     unsubscribePartial();
     unsubscribeFinal();
     if (signal?.aborted) return { status: 'stopped', session: null };
-    writeStatus(statusEl, t('Error: {message}', { message: String(err) }));
+    writeStatus(statusEl, t('Error: {message}', { message: String(err) }), 'error', null, null, 'simulation');
     return { status: 'error', reason: String(err), session: null };
   }
 
@@ -264,7 +264,7 @@ async function runSimulationCpp({
   try {
     result = parseSimulationPayload(resultPayload);
   } catch (err) {
-    writeStatus(statusEl, t('Error: invalid response from C++ engine'));
+    writeStatus(statusEl, t('Error: invalid response from C++ engine'), 'error', null, null, 'simulation');
     return { status: 'error', reason: 'parse_error', session: null };
   }
 
@@ -285,7 +285,7 @@ async function runSimulationCpp({
       );
       if (hit?.id) errorBlockId = String(hit.id);
     }
-    writeStatus(statusEl, t('Error: {reason}', { reason }), 'error', null, errorBlockId);
+    writeStatus(statusEl, t('Error: {reason}', { reason }), 'error', null, errorBlockId, 'simulation');
     return { status: 'error', reason, session: null };
   }
 

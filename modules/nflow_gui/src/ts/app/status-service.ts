@@ -173,7 +173,8 @@ export function writeStatus(
   message: string,
   level?: StatusLevel,
   durationMs?: number | null,
-  blockId?: string | null
+  blockId?: string | null,
+  diagnosticSource?: StatusItem['diagnosticSource']
 ): void {
   try {
     if (el) el.textContent = message;
@@ -185,6 +186,7 @@ export function writeStatus(
     message,
     durationMs: durationMs ?? null,
     blockId: blockId ?? null,
+    diagnosticSource,
   });
 }
 //=============================================================================

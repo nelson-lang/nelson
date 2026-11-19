@@ -142,6 +142,18 @@ export function clearDocumentDiagnostics(): void {
   notify();
 }
 //=============================================================================
+// Called at the start of each simulation run so the Diagnostics panel reflects
+// only the current run, not leftovers from the previous one. Editor (live
+// validation), library (session) and application diagnostics are kept.
+export function clearRunDiagnostics(): void {
+  const kept = diagnostics.filter(
+    (item) => item.source !== 'simulation' && item.source !== 'model'
+  );
+  if (kept.length === diagnostics.length) return;
+  diagnostics = kept;
+  notify();
+}
+//=============================================================================
 export function getDiagnostics(): readonly NFlowDiagnostic[] {
   return diagnostics.slice();
 }
