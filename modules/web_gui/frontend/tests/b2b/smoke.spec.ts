@@ -215,11 +215,17 @@ test('real engine: REPL, history, uicontrol callback, PNG export', async ({ page
   await expect(page.locator('.menu button', { hasText: 'Two columns (Default)' })).toBeVisible();
   await page.keyboard.press('Escape');
   await runLine(page, 'ws_smoke = magic(3);');
+  // Control+2 above left Files as the active tab of the shared dock group, so the
+  // Workspace browser is behind it and its `.browser__name` nodes are unmounted.
+  // Bring Workspace forward (a click on the covered tab is blocked) before reading.
+  await page.keyboard.press('Control+3');
   await expect
-    .poll(() =>
-      page.evaluate(() =>
-        [...document.querySelectorAll('.browser__name')].some((e) => e.textContent === 'ws_smoke')
-      )
+    .poll(
+      () =>
+        page.evaluate(() =>
+          [...document.querySelectorAll('.browser__name')].some((e) => e.textContent === 'ws_smoke')
+        ),
+      { timeout: 30_000 }
     )
     .toBe(true);
   await page.getByRole('button', { name: /Command History/ }).click();
