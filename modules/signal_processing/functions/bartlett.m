@@ -13,7 +13,7 @@ function c = bartlett(varargin)
   m = varargin{1};
   isNonnegativeIntegerOrEmpty = isempty(m) || (isscalar(m) && (m == fix(m)) && (m >= 0));
   if ~isNonnegativeIntegerOrEmpty
-    error('Nelson:validators:mustBePositiveInteger', '%s must be a nonnegative integer.', 'M');
+    error('Nelson:validators:mustBeNonnegativeInteger', '%s must be a nonnegative integer.', 'M');
   end
   if isempty(m) || (m == 0)
     c = zeros(0, 1);

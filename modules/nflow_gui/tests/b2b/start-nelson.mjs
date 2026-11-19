@@ -166,7 +166,10 @@ function launch(nelsonCli) {
   // call every such RPC stalls for the full 30 s bridge timeout. The loop
   // reaches a statement boundary every ~100 ms.
   child = spawn(nelsonCli, ['-e', 'nflow(); while true; sleep(0.1); end'], {
-    env: { ...process.env, NFLOW_GUI_DEBUGGING_PORT: String(port) },
+    // The AI assistant pane is opt-in (NELSON_ASSISTANT_AI=1, off by default);
+    // the assistant-pane spec exercises it, so the host enables it. No model is
+    // configured in CI, so the pane only opens and lists backends (ACP).
+    env: { ...process.env, NFLOW_GUI_DEBUGGING_PORT: String(port), NELSON_ASSISTANT_AI: '1' },
     stdio: 'inherit',
   });
   child.on('exit', (code) => {

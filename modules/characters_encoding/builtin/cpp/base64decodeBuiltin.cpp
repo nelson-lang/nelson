@@ -33,7 +33,7 @@ Nelson::CharactersEncodingGateway::base64decodeBuiltin(int nLhs, const ArrayOfVe
     bool ok = true;
     std::string bytes = base64_decode(encoded, ok);
     if (!ok) {
-        Error(L"Nelson:base64decode:invalidInput", L"Input is not valid base64.");
+        Error(L"Nelson:base64decode:notValidBase64", L"Input is not valid base64.");
     }
     Dimensions dims(1, bytes.size());
     uint8* values = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, bytes.size());

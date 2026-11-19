@@ -73,7 +73,7 @@ parseEndpoint(const std::string& ref, std::string& block, std::string& token, bo
 {
     auto pos = ref.rfind('/');
     if (pos == std::string::npos || pos == 0 || pos + 1 >= ref.size()) {
-        Error("Nelson:nflow_engine:invalidPortReference",
+        Error("Nelson:nflow_engine:invalidEndpointReference",
             "Port reference must be of the form 'Block/port' or 'Block/pin': %s", ref);
     }
     block = ref.substr(0, pos);
