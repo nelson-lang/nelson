@@ -94,6 +94,11 @@ classdef NFlow
         legend(legendLabels, 'Location', 'best');
         figures(end + 1) = f; %#ok<NLS0039>
       end
+      % Force a paint so a figure opened from a Run StopFcn is shown on screen,
+      % not just created and left unpainted when the callback runs reentrantly.
+      if ~isempty(figures)
+        drawnow();
+      end
     end
 
     function fmuPath = exportfmu(modelFile, destinationDirectory)
