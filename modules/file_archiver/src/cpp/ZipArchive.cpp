@@ -318,16 +318,16 @@ struct ZipArchive::Impl
         if (dataOffset < localOffset) {
             fail(ZipErrorCode::NotAZipArchive, "Invalid ZIP compressed data.", info.name);
         }
-        // libarchive's seeking reader (the one used for files and memory) selects
-        // the decoder from the CENTRAL directory method (info.method), not from the
-        // local header, and only sniffs the stream when that method is unknown. A
-        // crafted archive can leave the local method byte garbage while the central
-        // method is LZMA or XZ, so both are consulted and, failing that, the stream
-        // itself is sniffed; otherwise a multi-gigabyte dictionary would be
-        // allocated before the first byte is read.
+        // libarchive can decode an entry as XZ or LZMA from the local method even
+        // when the central method claims otherwise, so the local and central methods
+        // are both consulted and the stream is sniffed when neither settles it. The
+        // sniff is skipped only when BOTH methods are plain: one plain method (for
+        // example a central Zstd method hiding an XZ stream) must not suppress it,
+        // or a multi-gigabyte dictionary would be allocated before the first read.
         bool asXz = localMethod == xzMethod || info.method == xzMethod;
         bool asLzma = localMethod == lzmaMethod || info.method == lzmaMethod;
-        if (!asXz && !asLzma && !isPlainZipMethod(localMethod) && !isPlainZipMethod(info.method)) {
+        if (!asXz && !asLzma
+            && (!isPlainZipMethod(localMethod) || !isPlainZipMethod(info.method))) {
             // The XZ magic and the ZIP LZMA header (a 5-byte property block) are the
             // only stream shapes liblzma allocates a dictionary for.
             static const uint8_t xzMagic[6] = { 0xFD, 0x37, 0x7A, 0x58, 0x5A, 0x00 };

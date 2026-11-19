@@ -62,6 +62,8 @@ testEncryptedLzmaRejected();
 static void
 testLzmaCentralMethodSpoofedLocal();
 static void
+testXzBombHiddenByPlainCentralMethod();
+static void
 testCp437Name();
 static void
 testFilesAndModes();
@@ -111,6 +113,7 @@ main()
     testLzmaDictionaryLimit();
     testEncryptedLzmaRejected();
     testLzmaCentralMethodSpoofedLocal();
+    testXzBombHiddenByPlainCentralMethod();
     testCp437Name();
     testFilesAndModes();
     testNotAnArchive();
@@ -333,6 +336,32 @@ testLzmaCentralMethodSpoofedLocal()
     ZipArchive reader = ZipArchive::openMemory(bytes);
     checkThrows([&] { reader.readEntry(*reader.find("folder/hello.txt")); },
         ZipErrorCode::EntryTooLarge, "oversized LZMA dictionary rejected from the central method");
+}
+//=============================================================================
+// A crafted archive can declare a plain central method (Zstd here) while the local
+// header and the stream are XZ. libarchive still decodes it with liblzma, so the
+// plain central method must not suppress the dictionary check and the oversized XZ
+// dictionary must be rejected. These bytes are the fuzzer input that first reached
+// the multi-gigabyte allocation.
+static void
+testXzBombHiddenByPlainCentralMethod()
+{
+    if (!ZipArchive::supportsCompression(static_cast<uint16_t>(ZipCompression::Zstd))) {
+        return;
+    }
+    const std::vector<uint8_t> bytes = fromHex(
+        "504b03043f0000005f10000000000b5704bb44000000100000000100"
+        "000078fd377a585a000004e6d6b4460200210126000000d5d7ce53e0"
+        "000f00065d0020ed3c000000000000f4b78343915734a3000122106f"
+        "e3839a1fb6f37d010000000004595a504b01023f003ffdff005d0000"
+        "0000000b5704bb4405002a1000000001000000000000000000000000"
+        "000000000078504b050600000000010001002f000000630000000000");
+    ZipArchive reader = ZipArchive::openMemory(bytes);
+    // The central header flags the entry encrypted (the local header does not), so a
+    // password is needed to reach the decode path the fuzzer hit.
+    reader.setPassword("secret");
+    checkThrows([&] { reader.readEntry(0, 1 << 20); }, ZipErrorCode::EntryTooLarge,
+        "oversized XZ dictionary rejected behind a plain central method");
 }
 //=============================================================================
 static void
