@@ -124,50 +124,39 @@ function openLabelEditor(conn: Conn, clientX: number, clientY: number): void {
 export function initWireLabels(svg: SVGSVGElement | null): void {
   if (!svg || (svg as unknown as { _wireLabelsBound?: boolean })._wireLabelsBound) return;
   (svg as unknown as { _wireLabelsBound?: boolean })._wireLabelsBound = true;
-  // Capture phase: connection click handlers stopPropagation() in bubble.
-  svg.addEventListener(
-    'dblclick',
-    (ev) => {
-      if (state.locked) return;
-      const target = ev.target as Element | null;
-      if (!target || !target.closest('#wireLayer')) return;
-      const conn = findConnectionByPath(target);
-      if (!conn) return;
-      ev.stopPropagation();
-      openLabelEditor(conn, ev.clientX, ev.clientY);
-    },
-    true
-  );
-  // Once a wire is selected it draws grips over itself (mid branch dot, endpoint
-  // re-target handles), so the second click of a double-click lands on a grip
-  // rather than the wire and the browser fires no `dblclick` (its two clicks have
-  // different targets). Recover the name-the-wire gesture by spotting the double
-  // click at the connection level: two clicks on the same wire or its grips,
-  // within the double-click window, open the label editor. A pair that shares a
-  // target is left to the native `dblclick` above, so the editor opens once.
-  let lastClick: { conn: Conn; target: Element; time: number } | null = null;
+  // Name-the-wire double-click. Once a wire is selected it draws grips over
+  // itself (the mid branch dot, the endpoint re-target handles), so the second
+  // click of a double-click may land on a grip instead of the wire. Whether the
+  // native `dblclick` fires then is a race: the browser only fires it when both
+  // clicks share a target, i.e. only when the grips happen not to be laid down
+  // between the two clicks. So we never rely on `dblclick`; we detect the gesture
+  // at the connection level instead. Two clicks that both resolve to the same
+  // wire (directly, or through one of its grips) within the double-click window
+  // open the label editor, regardless of whether the two hit the same element.
+  // Capture phase: the connection click handlers stopPropagation() in bubble.
+  let lastClick: { conn: Conn; time: number } | null = null;
   svg.addEventListener(
     'click',
     (ev) => {
-      if (state.locked) return;
+      if (state.locked) {
+        lastClick = null;
+        return;
+      }
       const target = ev.target as Element | null;
       const conn = target ? connForClickTarget(target) : null;
-      if (!target || !conn) {
+      if (!conn) {
         lastClick = null;
         return;
       }
       const now = (ev as MouseEvent).timeStamp;
       const prev = lastClick;
-      lastClick = { conn, target, time: now };
-      if (
-        prev &&
-        prev.conn === conn &&
-        prev.target !== target &&
-        now - prev.time <= DOUBLE_CLICK_MS
-      ) {
+      if (prev && prev.conn === conn && now - prev.time <= DOUBLE_CLICK_MS) {
         lastClick = null;
+        ev.stopPropagation();
         openLabelEditor(conn, ev.clientX, ev.clientY);
+        return;
       }
+      lastClick = { conn, time: now };
     },
     true
   );

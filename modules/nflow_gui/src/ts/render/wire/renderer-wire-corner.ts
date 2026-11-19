@@ -89,7 +89,15 @@ export function makeWireCornerHandlers(ctx: RendererCtx) {
     const state = ctx.state as unknown as { selectedConnection?: Conn | null; locked?: boolean };
     const conn = state.selectedConnection;
     if (!conn || state.locked) return;
-    const Cx = ctx as any;
+    const Cx = ctx as unknown as {
+      getPortPosition?: (
+        id: string,
+        type: 'in' | 'out',
+        index: number
+      ) => { x: number; y: number } | null;
+      armWireEndpointFromHandle?: (event: PointerEvent, conn: Conn, end: 'from' | 'to') => boolean;
+      armWireBranchFromHandle?: (event: PointerEvent, conn: Conn) => boolean;
+    };
     const pts = (conn.points as { x: number; y: number }[] | undefined) ?? [];
     const endPoint = (end: 'from' | 'to'): { x: number; y: number } | null => {
       if (Array.isArray(pts) && pts.length >= 2) {
