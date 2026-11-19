@@ -175,6 +175,57 @@ appendSymbolSearchMatches(const std::filesystem::path& root, const std::string& 
     }
 }
 //=============================================================================
+inline std::vector<std::filesystem::path>
+helpIndexFiles(const std::filesystem::path& modulesRoot)
+{
+    std::vector<std::filesystem::path> files;
+    std::filesystem::path helpDir = modulesRoot / L"help_tools" / L"help";
+    std::error_code ec;
+    if (!std::filesystem::is_directory(helpDir, ec)) {
+        return files;
+    }
+    for (const auto& entry : std::filesystem::directory_iterator(
+             helpDir, std::filesystem::directory_options::skip_permission_denied, ec)) {
+        if (ec) {
+            ec.clear();
+            continue;
+        }
+        const std::filesystem::path& path = entry.path();
+        std::string name = path.filename().string();
+        if (name.rfind("nelson_help_", 0) == 0 && path.extension() == ".json") {
+            files.push_back(path);
+        }
+    }
+    return files;
+}
+//=============================================================================
+// The installed help index lists every documented symbol, including nflow
+// builtins whose only source file is the help XML that installed builds ship as
+// compiled archives instead of raw files. Anchoring on the "keyword" field
+// matches the documented symbol name and skips see-also references.
+inline void
+appendHelpIndexSymbolMatch(const std::filesystem::path& modulesRoot, const std::wstring& symbol,
+    const std::string& symbolUtf8, std::string& json, bool& first, SymbolSearchResult& result)
+{
+    std::string needle = "\"keyword\":\"" + symbolUtf8 + "\"";
+    for (const auto& indexPath : helpIndexFiles(modulesRoot)) {
+        if (!symbolSearchFileContains(indexPath, needle)) {
+            continue;
+        }
+        result.found = true;
+        result.hasHelp = true;
+        std::wstring normalizedWide = normalizeSymbolSearchPath(indexPath);
+        if (!first) {
+            json += ",";
+        }
+        first = false;
+        json += "{\"path\":" + jsonString(normalizedWide);
+        json += ",\"name_match\":true,\"content_match\":false,\"source\":\"help_index\"";
+        json += ",\"symbol\":" + jsonString(symbol) + "}";
+        return;
+    }
+}
+//=============================================================================
 inline SymbolSearchResult
 searchNelsonSymbolMatches(const std::wstring& symbol)
 {
@@ -198,6 +249,7 @@ searchNelsonSymbolMatches(const std::wstring& symbol)
                 matchedKeys, json, first, result);
         }
     }
+    appendHelpIndexSymbolMatch(modulesRoot, symbol, symbolUtf8, json, first, result);
     json += "]";
     result.matchesJson = json;
     return result;
