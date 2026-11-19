@@ -218,7 +218,9 @@ export class MockEngine {
       case 'app.heartbeat':
         return { ok: true };
       case 'app.capabilities':
-        return { nflow: true, packageManager: true, launchMode: 'none' };
+        // Advertise the assistant so its editor and notebook panes mount; e2e
+        // drives them through tool events, no real model needed.
+        return { nflow: true, assistant: true, packageManager: true, launchMode: 'none' };
       case 'diagnostics.info':
         return {
           backend: { name: 'mock', version: '0.0.1', launchMode: 'none' },

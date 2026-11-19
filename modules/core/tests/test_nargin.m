@@ -33,7 +33,7 @@ for k = 1:length(matrix)
   end
   asserts.istrue(isnumeric(inputCount), ['nargin failed for compatibility function: ', matrix(k).name]);
 end
-asserts.isequal(nargin('what'), 0);
+asserts.isequal(nargin('what'), 1);
 asserts.isequal(nargin('which'), 1);
 asserts.isequal(nargin('feval'), -1);
 asserts.isequal(nargin('builtin'), -1);

@@ -13,6 +13,7 @@
 % help index (which also covers package functions like nelson.ai.agent).
 %=============================================================================
 helpIndex = loadHelpIndex();
+helpPages = loadHelpPages();
 skills = nelson.ai.skills();
 checked = 0;
 for k = 1:numel(skills)
@@ -23,9 +24,9 @@ for k = 1:numel(skills)
       continue
     end
     checked = checked + 1;
-    assert_istrue(functionExists(name, helpIndex), ...
+    assert_istrue(functionExists(name, helpIndex, helpPages), ...
       ['Skill ', skills(k).name, ' lists function "', name, '" which does not ', ...
-      'exist (not a builtin/macro and not in the help index).']);
+      'exist (not a builtin/macro, not in the help index, no help page).']);
   end
 end
 % checked may be 0 until skills declare a functions list; the guard is that any
@@ -52,13 +53,49 @@ for k = 1:numel(skills)
   end
 end
 %=============================================================================
-function tf = functionExists(name, helpIndex)
+function tf = functionExists(name, helpIndex, helpPages)
   tf = isbuiltin(name) || ismacro(name);
-  if tf || ~isstruct(helpIndex)
+  if tf
     return
   end
-  % Help index keys are the function names; match exactly, then case-insensitively.
+  % The headless test runner does not load graphics/gui/control/..., so their
+  % functions are not builtins here and the index built headless may miss them.
+  % A shipped help page is the load-independent proof that the function is real.
+  lowerName = lower(name);
+  if any(strcmp(helpPages, lowerName)) || any(strcmp(helpPages, strrep(lowerName, '.', '_')))
+    tf = true;
+    return
+  end
+  if ~isstruct(helpIndex)
+    return
+  end
   tf = isfield(helpIndex, name) || any(strcmpi(fieldnames(helpIndex), name));
+end
+%=============================================================================
+function pages = loadHelpPages()
+  % Every documented function name: the lowercased basename of each help xml
+  % page, across all modules. A dotted name maps to its underscore filename.
+  pages = {};
+  modulesRoot = [nelsonroot(), '/modules/'];
+  entries = dir(modulesRoot);
+  for k = 1:numel(entries)
+    if ~entries(k).isdir || entries(k).name(1) == '.'
+      continue
+    end
+    xmlDir = [modulesRoot, entries(k).name, '/help/en_US/xml/'];
+    if ~isdir(xmlDir)
+      continue
+    end
+    % '-s' recurses: some modules nest help pages in chapter subfolders.
+    files = dir([xmlDir, '*.xml'], '-s');
+    for f = 1:numel(files)
+      basename = files(f).name(1:end-4);
+      if strcmp(basename, 'chapter')
+        continue
+      end
+      pages{end + 1} = lower(basename);
+    end
+  end
 end
 %=============================================================================
 function index = loadHelpIndex()

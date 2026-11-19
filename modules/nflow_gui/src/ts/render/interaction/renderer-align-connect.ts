@@ -19,6 +19,9 @@ const Y_TOL = 6; // ports count as aligned within this vertical gap (SVG px)
 const MIN_GAP = 10; // the output must sit at least this far left of the input
 const MAX_GAP = 400; // and no farther than this (ignore distant pairs)
 const HINT_ID = '_nflow-align-hint';
+// Pull the hit stroke in past the port hit radius (12) so it never covers a
+// port in the overlay and block a wire start.
+const PORT_CLEARANCE = 16;
 //=============================================================================
 export type AlignPair = {
   from: string;
@@ -110,15 +113,42 @@ export function makeAlignConnectHandlers(ctx: RendererCtx) {
     C.overlayLayer?.querySelector(`#${HINT_ID}`)?.remove();
   }
 
+  // The segment pulled in by `pad` at each end, or null when the ports are too
+  // close to leave a clickable gap.
+  function insetSegment(
+    a: { x: number; y: number },
+    b: { x: number; y: number },
+    pad: number
+  ): [{ x: number; y: number }, { x: number; y: number }] | null {
+    const dx = b.x - a.x;
+    const dy = b.y - a.y;
+    const len = Math.hypot(dx, dy);
+    if (len <= 2 * pad) return null;
+    const ux = dx / len;
+    const uy = dy / len;
+    return [
+      { x: a.x + ux * pad, y: a.y + uy * pad },
+      { x: b.x - ux * pad, y: b.y - uy * pad },
+    ];
+  }
+
   function refreshAlignHints(): void {
     clearAlignHints();
     if (S.locked) return;
     const pair = findAlignPair();
     if (!pair) return;
+    // No room for a hit stroke clear of the ports means no safe click target.
+    const hit = insetSegment(pair.o, pair.i, PORT_CLEARANCE);
+    if (!hit) return;
     const group = createSvgElement('g', { id: HINT_ID, class: 'align-connect-hint' });
     const d = `M ${pair.o.x} ${pair.o.y} L ${pair.i.x} ${pair.i.y}`;
-    // Wide transparent hit path first so the thin dashed arrow is easy to click.
-    group.appendChild(createSvgElement('path', { class: 'align-connect-hit', d }));
+    // Wide transparent hit path first so the dashed arrow is easy to click.
+    group.appendChild(
+      createSvgElement('path', {
+        class: 'align-connect-hit',
+        d: `M ${hit[0].x} ${hit[0].y} L ${hit[1].x} ${hit[1].y}`,
+      })
+    );
     group.appendChild(
       createSvgElement('path', {
         class: 'align-connect-arrow',
