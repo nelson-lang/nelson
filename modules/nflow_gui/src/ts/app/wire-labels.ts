@@ -24,6 +24,10 @@ type Conn = {
   hitPath?: Element | null;
 };
 //=============================================================================
+// Window within which two clicks on the same wire count as a double-click when
+// the browser cannot fire a native `dblclick` (the clicks hit different grips).
+const DOUBLE_CLICK_MS = 500;
+//=============================================================================
 function midpointOf(conn: Conn): { x: number; y: number } | null {
   const path = conn.path;
   try {
@@ -77,6 +81,19 @@ function findConnectionByPath(target: Element): Conn | null {
   return null;
 }
 //=============================================================================
+// Resolves the connection a click belongs to. A direct hit on the wire (or its
+// fat hit path) matches by element; a hit on one of the overlay grips a selected
+// wire draws over itself (the mid branch dot, the endpoint re-target handles)
+// belongs to the currently selected connection.
+function connForClickTarget(target: Element): Conn | null {
+  const direct = findConnectionByPath(target);
+  if (direct) return direct;
+  if (target.closest('.wire-branch-handle') || target.closest('.wire-endpoint-handle')) {
+    return (state as unknown as { selectedConnection?: Conn | null }).selectedConnection ?? null;
+  }
+  return null;
+}
+//=============================================================================
 function openLabelEditor(conn: Conn, clientX: number, clientY: number): void {
   closeWireLabelEditor();
   let committed = false;
@@ -118,6 +135,39 @@ export function initWireLabels(svg: SVGSVGElement | null): void {
       if (!conn) return;
       ev.stopPropagation();
       openLabelEditor(conn, ev.clientX, ev.clientY);
+    },
+    true
+  );
+  // Once a wire is selected it draws grips over itself (mid branch dot, endpoint
+  // re-target handles), so the second click of a double-click lands on a grip
+  // rather than the wire and the browser fires no `dblclick` (its two clicks have
+  // different targets). Recover the name-the-wire gesture by spotting the double
+  // click at the connection level: two clicks on the same wire or its grips,
+  // within the double-click window, open the label editor. A pair that shares a
+  // target is left to the native `dblclick` above, so the editor opens once.
+  let lastClick: { conn: Conn; target: Element; time: number } | null = null;
+  svg.addEventListener(
+    'click',
+    (ev) => {
+      if (state.locked) return;
+      const target = ev.target as Element | null;
+      const conn = target ? connForClickTarget(target) : null;
+      if (!target || !conn) {
+        lastClick = null;
+        return;
+      }
+      const now = (ev as MouseEvent).timeStamp;
+      const prev = lastClick;
+      lastClick = { conn, target, time: now };
+      if (
+        prev &&
+        prev.conn === conn &&
+        prev.target !== target &&
+        now - prev.time <= DOUBLE_CLICK_MS
+      ) {
+        lastClick = null;
+        openLabelEditor(conn, ev.clientX, ev.clientY);
+      }
     },
     true
   );
