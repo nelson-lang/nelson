@@ -23,7 +23,7 @@ import {
 import { showConfirmSaveModal, handleSaveAsSubsystem } from './modal-handlers.js';
 import { loadDiagram, updateSubsystemNavUi, syncLockedUi } from './diagram-handlers.js';
 import { clearWorkspace } from './workspace-handlers.js';
-import { exportCanvasSVG } from './export-handlers.js';
+import { exportCanvasSVG, exportCanvasPNG } from './export-handlers.js';
 import { t } from '../utils/i18n.js';
 import {
   getRecentFiles,
@@ -900,6 +900,9 @@ export function handleMenuAction(action: string): void {
       break;
     case 'export-svg':
       void exportCanvasSVG();
+      break;
+    case 'export-png':
+      void exportCanvasPNG();
       break;
 
     default:

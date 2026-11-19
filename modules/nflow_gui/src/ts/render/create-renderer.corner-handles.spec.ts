@@ -116,8 +116,11 @@ test('corner handles are created when connection selected and autoRoute disabled
   const endpointLayer = overlayLayer.querySelector('.wire-endpoint-layer');
   expect(endpointLayer).toBeTruthy();
   expect(endpointLayer!.querySelectorAll('.wire-endpoint-handle').length).toBe(2);
+  // Plus one branch ("+") handle at the wire's middle for fan-out.
+  expect(endpointLayer!.querySelectorAll('.wire-branch-handle').length).toBe(1);
 
   renderer.selectConnection(null);
   expect(endpointLayer!.querySelectorAll('.wire-endpoint-handle').length).toBe(0);
+  expect(endpointLayer!.querySelectorAll('.wire-branch-handle').length).toBe(0);
 });
 //=============================================================================

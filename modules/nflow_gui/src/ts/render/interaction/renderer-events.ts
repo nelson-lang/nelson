@@ -38,6 +38,8 @@ export function setupSvgListeners(ctx: RendererCtx) {
     handleWireEndpointHover?: (e: PointerEvent) => boolean;
     armWireBranchDrag?: (e: PointerEvent) => boolean;
     cancelWireBranchDrag?: () => boolean;
+    armPhysicalWireDrag?: (e: PointerEvent) => boolean;
+    cancelPhysicalWireDrag?: () => boolean;
     refreshAlignHints?: () => void;
     clearAlignHints?: () => void;
   };
@@ -46,6 +48,8 @@ export function setupSvgListeners(ctx: RendererCtx) {
     // Any press that is not on the align-connect hint itself dismisses it, so a
     // stale hint never lingers once the user starts another interaction.
     if (!(event.target as Element | null)?.closest?.('#_nflow-align-hint')) C.clearAlignHints?.();
+    // A press on a physical pin starts an acausal (undirected) wire.
+    if (C.armPhysicalWireDrag?.(event)) return;
     // Ctrl or Cmd drag on a wire branches from its source. A press near a wire
     // end re-targets that endpoint. Neither stops a plain click from selecting.
     if (C.armWireBranchDrag?.(event)) return;
@@ -61,6 +65,7 @@ export function setupSvgListeners(ctx: RendererCtx) {
   if (typeof window !== 'undefined') {
     window.addEventListener('keydown', (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
+        C.cancelPhysicalWireDrag?.();
         C.cancelWireBranchDrag?.();
         C.cancelWireEndpointDrag?.();
         C.cancelWireSegmentDrag?.(null);

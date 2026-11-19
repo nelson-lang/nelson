@@ -276,6 +276,32 @@ export function initKeyboardShortcuts(refs: EventRefs, sim: SimulationActions) {
           return;
         }
       }
+      // Keyboard entry (a11y): with the canvas focused and nothing selected, an
+      // arrow key selects the first block, so a keyboard-only user can start
+      // navigating; the arrow keys below then nudge the selected block.
+      const isArrow =
+        event.key === 'ArrowLeft' ||
+        event.key === 'ArrowRight' ||
+        event.key === 'ArrowUp' ||
+        event.key === 'ArrowDown';
+      if (
+        isArrow &&
+        !state.selectedId &&
+        !(state.selectedIds && state.selectedIds.size > 0) &&
+        !state.selectedConnection &&
+        typeof document !== 'undefined' &&
+        document.activeElement === document.getElementById('svgCanvas')
+      ) {
+        const firstId = Array.from(state.blocks.keys())[0];
+        if (firstId != null) {
+          try {
+            rendererRef?.current?.selectBlock?.(firstId as any);
+            renderInspector(state.blocks.get(firstId) ?? null);
+          } catch (_e) {}
+          event.preventDefault();
+          return;
+        }
+      }
       let dx = 0;
       let dy = 0;
       if (event.key === 'ArrowLeft') dx = -GRID_SIZE;

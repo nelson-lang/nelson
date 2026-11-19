@@ -267,9 +267,14 @@ export function makeDragHandlers(ctx: RendererCtx) {
     // Starting drags should only occur when the user presses the block handle.
     block.group?.addEventListener('pointerdown', (evt) => {
       const event = evt as PointerEvent;
-      const fromPort = Boolean((event.target as Element)?.closest?.('.port-group'));
+      const targetEl = event.target as Element | null;
+      const fromPort = Boolean(
+        targetEl?.closest?.('.port-group') ||
+          targetEl?.closest?.('.physical-pin') ||
+          targetEl?.classList?.contains('physical-pin')
+      );
       if (fromPort) {
-        // Let port click handlers manage interactions; don't call beginPointer here.
+        // Let port / physical-pin handlers manage interactions; don't drag here.
         return;
       }
       if (dashboardBlock && event.target !== handle) return;

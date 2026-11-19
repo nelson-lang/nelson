@@ -70,6 +70,42 @@ test.describe('N4 - acausal editor', () => {
     expect(await physicalWires.count()).toBeGreaterThan(0);
   });
 
+  test('dragging between two physical pins creates a new physical wire', async ({
+    mockPage: page,
+  }) => {
+    const app = new AppPage(page);
+    await app.open();
+    await page.locator('#fileOpenInput').setInputFiles(RLC);
+    await expect(page.locator('#blockLayer > *')).toHaveCount(9, { timeout: 15_000 });
+    await expect(page.locator('#wireLayer path.physical-wire').first()).toBeAttached({
+      timeout: 5000,
+    });
+
+    const before = await page.locator('#wireLayer path.physical-wire').count();
+
+    // V1.p and C1.p are on different components, same (electrical) domain, and not
+    // yet directly wired, so connecting them adds one undirected physical wire.
+    const srcPin = page.locator(
+      '#blockLayer [data-block-id="V1"] circle.physical-pin[data-pin="p"]'
+    );
+    const dstPin = page.locator(
+      '#blockLayer [data-block-id="C1"] circle.physical-pin[data-pin="p"]'
+    );
+    const a = await srcPin.boundingBox();
+    const b = await dstPin.boundingBox();
+    if (!a || !b) throw new Error('missing physical pins');
+
+    await page.mouse.move(a.x + a.width / 2, a.y + a.height / 2);
+    await page.mouse.down();
+    await page.mouse.move((a.x + b.x) / 2, (a.y + b.y) / 2 - 20, { steps: 6 });
+    await page.mouse.move(b.x + b.width / 2, b.y + b.height / 2, { steps: 10 });
+    await page.mouse.up();
+
+    await expect
+      .poll(() => page.locator('#wireLayer path.physical-wire').count(), { timeout: 3000 })
+      .toBe(before + 1);
+  });
+
   test('selecting a component shows its parameters in the inspector', async ({
     mockPage: page,
   }) => {

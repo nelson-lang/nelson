@@ -17,6 +17,7 @@ import { makeWireCornerHandlers } from './wire/renderer-wire-corner.js';
 import { makeWireSegmentHandlers } from './interaction/renderer-wire-segment.js';
 import { makeWireReconnectHandlers } from './interaction/renderer-wire-reconnect.js';
 import { makeWireBranchHandlers } from './interaction/renderer-wire-branch.js';
+import { makePhysicalWireHandlers } from './interaction/renderer-physical-wire.js';
 import { makeAlignConnectHandlers } from './interaction/renderer-align-connect.js';
 import { makePortHandlers } from './interaction/renderer-port.js';
 import { makeScopeCommentLayout } from './core/renderer-scope-layout.js';
@@ -128,6 +129,7 @@ export function createRenderer({
     makePortHandlers,
     makeWireReconnectHandlers,
     makeWireBranchHandlers,
+    makePhysicalWireHandlers,
     makeAlignConnectHandlers,
     makeWireGeometryHandlers,
     makeWireCheckHandlers,

@@ -11,7 +11,7 @@ import { sanitizeFilename } from './file-operations.js';
 import { getGridState, getGridSize } from './grid-manager.js';
 import { state } from './state.js';
 import { canUseNativeFiles, saveViaDialog } from './file-dialogs.js';
-import { saveTextWithBrowserPicker } from './browser-file-operations.js';
+import { saveTextWithBrowserPicker, saveBlobWithBrowserPicker } from './browser-file-operations.js';
 import { getNFlowHostMode } from './host-mode.js';
 import * as FieldNames from '../FieldNames.js';
 //=============================================================================
@@ -406,6 +406,128 @@ export async function buildExportSvg(
   const svgStr = new XMLSerializer().serializeToString(clone);
   const filename = makeSvgFilename(s?.diagramName || state?.diagramName);
   return { svgStr, filename };
+}
+//=============================================================================
+// Replace every <foreignObject> with an SVG <text> of its text content, so the
+// SVG can be rasterized without tainting the canvas. Best effort: multi-line and
+// math (KaTeX) content collapses to a single centred text line.
+function flattenForeignObjects(svgStr: string): string {
+  try {
+    const svgNS = 'http://www.w3.org/2000/svg';
+    const doc = new DOMParser().parseFromString(svgStr, 'image/svg+xml');
+    if (doc.querySelector('parsererror')) return svgStr;
+    const fos = Array.from(doc.getElementsByTagNameNS(svgNS, 'foreignObject'));
+    for (const fo of fos) {
+      const parent = fo.parentNode;
+      if (!parent) continue;
+      const x = Number(fo.getAttribute('x') || '0');
+      const y = Number(fo.getAttribute('y') || '0');
+      const w = Number(fo.getAttribute('width') || '0');
+      const h = Number(fo.getAttribute('height') || '0');
+      const label = (fo.textContent || '').replace(/\s+/g, ' ').trim();
+      if (label) {
+        const text = doc.createElementNS(svgNS, 'text');
+        text.setAttribute('x', String(x + w / 2));
+        text.setAttribute('y', String(y + h / 2));
+        text.setAttribute('text-anchor', 'middle');
+        text.setAttribute('dominant-baseline', 'central');
+        text.setAttribute('font-size', String(Math.max(8, Math.min(16, h ? h * 0.5 : 12))));
+        text.setAttribute('font-family', 'sans-serif');
+        text.setAttribute('fill', '#000');
+        text.textContent = label;
+        parent.replaceChild(text, fo);
+      } else {
+        parent.removeChild(fo);
+      }
+    }
+    return new XMLSerializer().serializeToString(doc.documentElement);
+  } catch {
+    return svgStr;
+  }
+}
+//=============================================================================
+// Rasterize the fully-prepared export SVG to a PNG data URL. Reuses
+// buildExportSvg (inlined styles, fonts, grid, background) and draws it onto a
+// canvas at the diagram's pixel size times `scale` (default 2 for crispness).
+export async function buildExportPng(
+  s?: { diagramName?: string; scale?: number } | undefined
+): Promise<{ dataUrl: string; filename: string } | null> {
+  const svgRes = await buildExportSvg(s);
+  if (!svgRes) return null;
+  const filename = svgRes.filename.replace(/\.svg$/i, '') + '.png';
+  const scale = Math.max(1, Math.min(4, Number(s?.scale ?? 2) || 2));
+  // A browser taints the canvas when it rasterizes an SVG that contains a
+  // foreignObject (HTML), so toDataURL throws and no PNG comes out. Flatten
+  // those to plain SVG text first: labels survive, rich HTML/math degrades.
+  const rasterSvg = flattenForeignObjects(svgRes.svgStr);
+  const blob = new Blob([rasterSvg], { type: 'image/svg+xml;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  try {
+    const dataUrl = await new Promise<string | null>((resolve) => {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        try {
+          const w = Math.max(1, Math.round((img.naturalWidth || img.width || 1) * scale));
+          const h = Math.max(1, Math.round((img.naturalHeight || img.height || 1) * scale));
+          const c = document.createElement('canvas');
+          c.width = w;
+          c.height = h;
+          const ctx = c.getContext('2d');
+          if (!ctx) return resolve(null);
+          ctx.drawImage(img, 0, 0, w, h);
+          try {
+            resolve(c.toDataURL('image/png'));
+          } catch {
+            resolve(null);
+          }
+        } catch {
+          resolve(null);
+        }
+      };
+      img.onerror = () => resolve(null);
+      img.src = url;
+    });
+    return dataUrl ? { dataUrl, filename } : null;
+  } finally {
+    URL.revokeObjectURL(url);
+  }
+}
+//=============================================================================
+// A base64 data URL (data:<mime>;base64,<...>) to a binary Blob.
+export function dataUrlToBlob(dataUrl: string): Blob | null {
+  try {
+    const comma = dataUrl.indexOf(',');
+    if (comma < 0) return null;
+    const meta = dataUrl.slice(0, comma);
+    const b64 = dataUrl.slice(comma + 1);
+    const mime = /data:([^;]+)/.exec(meta)?.[1] || 'image/png';
+    const bin = atob(b64);
+    const bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i += 1) bytes[i] = bin.charCodeAt(i);
+    return new Blob([bytes], { type: mime });
+  } catch {
+    return null;
+  }
+}
+//=============================================================================
+// Export the diagram as a PNG. No native binary-write RPC exists, so the PNG is
+// saved through the browser picker / download, which the webview host also
+// handles.
+export async function exportCanvasPNG(): Promise<void> {
+  const res = await buildExportPng({ diagramName: state?.diagramName });
+  if (!res) return;
+  const blob = dataUrlToBlob(res.dataUrl);
+  if (!blob) return;
+  try {
+    await saveBlobWithBrowserPicker({
+      blob,
+      defaultName: res.filename,
+      extension: '.png',
+      mimeType: 'image/png',
+      description: 'PNG image',
+    });
+  } catch (e) {}
 }
 //=============================================================================
 function fontUrlForFamily(family?: string): string {

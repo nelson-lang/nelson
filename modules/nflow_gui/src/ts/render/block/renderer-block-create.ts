@@ -265,7 +265,12 @@ export function makeBlockCreation(ctx: RendererCtx) {
     }
     const inputSpecs = dynamicInputs || template.inputs;
     const outputSpecs = dynamicOutputs || template.outputs;
-    const group = createSvgElement('g', { class: `svg-block type-${type}`, 'data-block-id': id });
+    const group = createSvgElement('g', {
+      class: `svg-block type-${type}`,
+      'data-block-id': id,
+      role: 'img',
+      'aria-label': `${type} block`,
+    });
     const anchorProbe = {
       x,
       y,

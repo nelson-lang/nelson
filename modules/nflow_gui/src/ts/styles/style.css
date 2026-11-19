@@ -1769,6 +1769,39 @@ g.masked-indicator text.mask-lock-char {
   fill: var(--accent-hover);
 }
 
+.wire-branch-handle {
+  cursor: copy;
+}
+
+.wire-branch-dot {
+  fill: #2d2d2d;
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+
+.wire-branch-plus {
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  pointer-events: none;
+}
+
+.wire-branch-handle:hover .wire-branch-dot {
+  fill: var(--accent);
+}
+
+.wire-branch-handle:hover .wire-branch-plus {
+  stroke: #fff;
+}
+
+.physical-wire-preview {
+  fill: none;
+  stroke: var(--accent, #d78d33);
+  stroke-width: 2;
+  stroke-dasharray: 4 3;
+  pointer-events: none;
+}
+
 .wire.selected {
   stroke: var(--accent);
   stroke-width: 2;

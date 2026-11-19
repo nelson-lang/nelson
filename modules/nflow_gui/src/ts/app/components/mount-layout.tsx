@@ -110,6 +110,9 @@ function Titlebar(): JSX.Element {
                   <div className="menubar-item" data-action="export-svg">
                     <span>SVG</span>
                   </div>
+                  <div className="menubar-item" data-action="export-png">
+                    <span>PNG</span>
+                  </div>
                 </div>
               </div>
               <div className="menubar-divider" />
@@ -363,7 +366,12 @@ function MainContainer(): JSX.Element {
         <div className="editor-content">
           <div id="canvas" className="canvas-container">
             <div className="subsystem-nav" />
-            <svg id="svgCanvas">
+            <svg
+              id="svgCanvas"
+              role="application"
+              aria-label="NFlow diagram canvas"
+              tabIndex={0}
+            >
               <g id="wireLayer" />
               <g id="blockLayer" />
               <g id="overlayLayer" />

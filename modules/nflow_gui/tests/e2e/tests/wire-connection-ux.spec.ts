@@ -246,6 +246,42 @@ test.describe('connection usability', () => {
     expect((await connections(page)).some((c) => c.from === 'b2' && c.to === 'b3')).toBe(false);
   });
 
+  test('the branch handle on a selected wire fans the source out to another input', async ({
+    mockPage: page,
+  }) => {
+    const app = new AppPage(page);
+    await app.open();
+    const editor = new CanvasEditor(page);
+    await loadChain(page, editor);
+
+    const sink = await editor.insertBlock('scope', { x: 320, y: 440 });
+    await editor.canvas.click({ position: { x: 20, y: 20 } });
+    const sinkIn = await portCenter(editor, sink, 'in');
+
+    // Select the b1->b2 wire, then grab its branch ("+") handle at the middle.
+    const b1Out = await portCenter(editor, 'b1', 'out');
+    const b2In = await portCenter(editor, 'b2', 'in');
+    await page.mouse.click((b1Out.x + b2In.x) / 2, (b1Out.y + b2In.y) / 2);
+    await expect(page.locator('.wire-branch-handle')).toHaveCount(1);
+    const branchBox = await page.locator('.wire-branch-handle').boundingBox();
+    if (!branchBox) throw new Error('no branch-handle box');
+
+    // Drag the handle to the sink's input: b1 now drives b2 (unchanged) and the sink.
+    await page.mouse.move(branchBox.x + branchBox.width / 2, branchBox.y + branchBox.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(branchBox.x, branchBox.y + 40, { steps: 6 });
+    await page.mouse.move(sinkIn.x, sinkIn.y, { steps: 10 });
+    await page.mouse.up();
+
+    await expect.poll(() => editor.wireCount(), { timeout: 3000 }).toBe(3);
+    await expect
+      .poll(async () => (await connections(page)).some((c) => c.from === 'b1' && c.to === sink), {
+        timeout: 3000,
+      })
+      .toBe(true);
+    expect((await connections(page)).some((c) => c.from === 'b1' && c.to === 'b2')).toBe(true);
+  });
+
   test('dropping a wire end in empty space leaves it unchanged', async ({ mockPage: page }) => {
     const app = new AppPage(page);
     await app.open();

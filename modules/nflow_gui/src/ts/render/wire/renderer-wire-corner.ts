@@ -59,6 +59,25 @@ export function makeWireCornerHandlers(ctx: RendererCtx) {
     if (len <= d) return { x: a.x, y: a.y };
     return { x: a.x + (dx / len) * d, y: a.y + (dy / len) * d };
   }
+  // The point at half the polyline's length (its visual middle).
+  function midpointAlong(pts: { x: number; y: number }[]): { x: number; y: number } | null {
+    if (!Array.isArray(pts) || pts.length < 2) return null;
+    let total = 0;
+    for (let i = 0; i < pts.length - 1; i += 1)
+      total += Math.hypot(pts[i + 1].x - pts[i].x, pts[i + 1].y - pts[i].y);
+    if (total === 0) return { x: pts[0].x, y: pts[0].y };
+    const half = total / 2;
+    let acc = 0;
+    for (let i = 0; i < pts.length - 1; i += 1) {
+      const seg = Math.hypot(pts[i + 1].x - pts[i].x, pts[i + 1].y - pts[i].y);
+      if (acc + seg >= half) {
+        const t = (half - acc) / seg;
+        return { x: pts[i].x + (pts[i + 1].x - pts[i].x) * t, y: pts[i].y + (pts[i + 1].y - pts[i].y) * t };
+      }
+      acc += seg;
+    }
+    return { x: pts[pts.length - 1].x, y: pts[pts.length - 1].y };
+  }
   // Draggable handles at both ends of the selected wire. Grabbing a handle
   // re-targets that end (same flow for the source and destination, Simulink
   // style). Handles sit inset on the wire, so the ports stay free for fan-out.
@@ -96,6 +115,28 @@ export function makeWireCornerHandlers(ctx: RendererCtx) {
       });
       if (ctx.wireEndpointLayer) ctx.wireEndpointLayer.appendChild(handle);
     });
+
+    // Branch handle at the wire's middle: drag it to a free input to fan the
+    // source out to a second wire, without the Ctrl/Cmd modifier.
+    const mid = midpointAlong(pts);
+    if (mid) {
+      const group = createSvgElement('g', { class: 'wire-branch-handle', 'data-role': 'branch' });
+      group.appendChild(
+        createSvgElement('circle', { class: 'wire-branch-dot', cx: mid.x, cy: mid.y, r: 7 })
+      );
+      group.appendChild(
+        createSvgElement('path', {
+          class: 'wire-branch-plus',
+          d: `M ${mid.x - 3} ${mid.y} h 6 M ${mid.x} ${mid.y - 3} v 6`,
+        })
+      );
+      group.addEventListener('pointerdown', (event: PointerEvent) => {
+        event.preventDefault();
+        event.stopPropagation();
+        Cx.armWireBranchFromHandle?.(event, conn);
+      });
+      if (ctx.wireEndpointLayer) ctx.wireEndpointLayer.appendChild(group);
+    }
   }
   function renderSharedSourceJunctionDots() {
     clearWireJunctionDots();

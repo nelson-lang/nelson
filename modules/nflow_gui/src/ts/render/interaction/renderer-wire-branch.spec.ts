@@ -186,6 +186,27 @@ describe('arm / drag / cancel lifecycle', () => {
     expect(calls.clearPending).toBe(1);
   });
 
+  it('arms from a branch handle without a modifier and fans out on drop', () => {
+    const conn = makeConn('a', 'b', route);
+    const { ctx, svg, calls } = makeCtx([conn]);
+    svg.appendChild(portGroup('a', 'out', 0)); // source anchor for beginPending
+    const targetGroup = portGroup('c', 'in', 0);
+    svg.appendChild(targetGroup);
+    const h = makeWireBranchHandlers(ctx);
+
+    stubDropTarget(targetGroup);
+    // The handle passes the conn directly, so no Ctrl/Cmd is needed.
+    expect(h.armWireBranchFromHandle(pointer(50, 0, { ctrl: false }), conn)).toBe(true);
+    window.dispatchEvent(
+      new PointerEvent('pointermove', { pointerId: 1, clientX: 90, clientY: 0 })
+    );
+    expect(calls.beginPending).toBe(1);
+    window.dispatchEvent(
+      new PointerEvent('pointerup', { pointerId: 1, clientX: 200, clientY: 40 })
+    );
+    expect(calls.created).toContainEqual({ from: 'a', to: 'c', toIndex: 0, fromIndex: 0 });
+  });
+
   it('rejects a drop on an output port', () => {
     const conn = makeConn('a', 'b', route);
     const { ctx, svg, calls } = makeCtx([conn]);

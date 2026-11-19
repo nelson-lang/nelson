@@ -95,6 +95,58 @@ export async function saveTextWithBrowserPicker(options: {
   return { success: true, fileName, browserDownload: true };
 }
 //=============================================================================
+function browserDownloadBlob(blob: Blob, fileName: string): void {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+//=============================================================================
+/** Saves a binary Blob through the File System Access picker, else a download. */
+export async function saveBlobWithBrowserPicker(options: {
+  blob: Blob;
+  defaultName: string;
+  extension: string;
+  mimeType?: string;
+  description?: string;
+  onSaved?: (fileName: string) => void;
+}): Promise<Record<string, unknown>> {
+  const mimeType = options.mimeType || options.blob.type || 'application/octet-stream';
+  const extension = options.extension.startsWith('.') ? options.extension : `.${options.extension}`;
+  const fileName = filenameWithExtension(options.defaultName, extension);
+  if (typeof window.showSaveFilePicker === 'function') {
+    try {
+      const handle = await window.showSaveFilePicker({
+        suggestedName: fileName,
+        types: [
+          {
+            description: options.description || `${extension.slice(1).toUpperCase()} file`,
+            accept: { [mimeType]: [extension] },
+          },
+        ],
+      });
+      const writable = await handle.createWritable();
+      await writable.write(options.blob);
+      await writable.close();
+      const savedName = handle.name || fileName;
+      options.onSaved?.(savedName);
+      return { success: true, fileName: savedName, browserFilePicker: true };
+    } catch (error) {
+      if ((error as Error)?.name === 'AbortError') {
+        return { success: false, canceled: true };
+      }
+      return { success: false, error: (error as Error)?.message || String(error) };
+    }
+  }
+  browserDownloadBlob(options.blob, fileName);
+  options.onSaved?.(fileName);
+  return { success: true, fileName, browserDownload: true };
+}
+//=============================================================================
 export function saveNFlowWithBrowserDownload(
   content: string,
   defaultName: string,

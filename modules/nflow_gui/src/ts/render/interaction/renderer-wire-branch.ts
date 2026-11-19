@@ -136,6 +136,24 @@ export function makeWireBranchHandlers(ctx: RendererCtx) {
     return true;
   }
 
+  // Arm a fan-out drag from a visible branch handle (the "+" on a selected
+  // wire), no modifier needed. Same ghost and drop-to-connect flow as the
+  // Ctrl/Cmd drag, so the gesture is discoverable without a shortcut.
+  function armWireBranchFromHandle(event: PointerEvent, conn: Conn): boolean {
+    if (!editingAllowed() || active || event.button !== 0) return false;
+    active = {
+      conn,
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      armed: false,
+    };
+    window.addEventListener('pointermove', onMove, true);
+    window.addEventListener('pointerup', onUp, true);
+    window.addEventListener('pointercancel', onCancel, true);
+    return true;
+  }
+
   function cancelWireBranchDrag(): boolean {
     if (!active) return false;
     const wasArmed = active.armed;
@@ -147,6 +165,7 @@ export function makeWireBranchHandlers(ctx: RendererCtx) {
 
   return {
     armWireBranchDrag,
+    armWireBranchFromHandle,
     cancelWireBranchDrag,
     branchWireFromSource: branch,
   };

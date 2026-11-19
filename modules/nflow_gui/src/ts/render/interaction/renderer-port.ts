@@ -85,6 +85,8 @@ export function makePortHandlers(ctx: RendererCtx) {
       'data-block-id': blockId,
       'data-port-type': type,
       'data-port-index': index,
+      role: 'img',
+      'aria-label': `${type === 'in' ? 'input' : 'output'} port ${index + 1}`,
     });
 
     const hitX = port.x;

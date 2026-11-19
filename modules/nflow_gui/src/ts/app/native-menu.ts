@@ -68,7 +68,10 @@ export function nflowNativeMenuDescriptor(): NativeMenuDescriptor {
           action('Save As...', 'saveAs', 'shift+cmd+s'),
           action('Export as SSP...', 'exportSsp'),
           action('Export as FMU...', 'exportFmu'),
-          { label: t('Export Model to Image'), items: [action('SVG', 'export-svg')] },
+          {
+            label: t('Export Model to Image'),
+            items: [action('SVG', 'export-svg'), action('PNG', 'export-png')],
+          },
           separator(),
           { label: t('Close Window'), role: 'closeWindow', shortcut: 'cmd+w' },
         ],
