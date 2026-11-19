@@ -145,6 +145,7 @@ export function makeUtilHandlers(ctx: RendererCtx) {
         'selection-marquee',
         'wire-junction-layer',
         'wire-corner-layer',
+        'wire-endpoint-layer',
       ]);
       const children = Array.from(ctx.overlayLayer.children);
       for (const ch of children) {

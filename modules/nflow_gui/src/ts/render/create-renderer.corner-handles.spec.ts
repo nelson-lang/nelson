@@ -109,5 +109,15 @@ test('corner handles are created when connection selected and autoRoute disabled
     const handles = junctionLayer!.querySelectorAll('.wire-corner-handle');
     void handles.length;
   }).not.toThrow();
+
+  // Endpoint handles: a selected wire gets one draggable handle at each end,
+  // in both routing modes (not gated on autoRoute like the corner handles).
+  renderer.selectConnection(conn);
+  const endpointLayer = overlayLayer.querySelector('.wire-endpoint-layer');
+  expect(endpointLayer).toBeTruthy();
+  expect(endpointLayer!.querySelectorAll('.wire-endpoint-handle').length).toBe(2);
+
+  renderer.selectConnection(null);
+  expect(endpointLayer!.querySelectorAll('.wire-endpoint-handle').length).toBe(0);
 });
 //=============================================================================

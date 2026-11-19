@@ -56,6 +56,25 @@ export function makeAlignConnectHandlers(ctx: RendererCtx) {
   const inputOccupied = (to: string, toIndex: number): boolean =>
     (S.connections as any[]).some((c) => c.to === to && Number(c.toIndex ?? 0) === toIndex);
 
+  // A wire the user just detached (re-targeted) is not re-proposed, so the hint
+  // never nags the user to undo the move. Set by the reconnect handler, cleared
+  // on the next create/delete connection. See renderer-wire-reconnect.ts.
+  const isJustDetached = (
+    from: string,
+    fromIndex: number,
+    to: string,
+    toIndex: number
+  ): boolean => {
+    const s = S.suppressedAlignPair;
+    return (
+      !!s &&
+      s.from === from &&
+      Number(s.fromIndex ?? 0) === fromIndex &&
+      s.to === to &&
+      Number(s.toIndex ?? 0) === toIndex
+    );
+  };
+
   // True when another block overlaps the corridor between the two ports.
   const corridorBlocked = (
     ox: number,
@@ -97,6 +116,7 @@ export function makeAlignConnectHandlers(ctx: RendererCtx) {
             if (Math.abs(o.y - i.y) > Y_TOL) continue;
             if (inputOccupied(ib.id, ip.index)) continue;
             if (alreadyConnected(ob.id, op.index, ib.id, ip.index)) continue;
+            if (isJustDetached(ob.id, op.index, ib.id, ip.index)) continue;
             if (corridorBlocked(o.x, o.y, i.x, i.y, ob.id, ib.id)) continue;
             if (gap < bestGap) {
               bestGap = gap;

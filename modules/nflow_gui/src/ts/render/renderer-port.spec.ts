@@ -323,6 +323,79 @@ describe('makePortHandlers', () => {
     });
   });
 
+  describe('detach connected input (re-target)', () => {
+    const press = (el: Element, x: number, y: number) =>
+      el.dispatchEvent(
+        new PointerEvent('pointerdown', {
+          bubbles: true,
+          pointerId: 1,
+          button: 0,
+          clientX: x,
+          clientY: y,
+        })
+      );
+    const move = (x: number, y: number) =>
+      window.dispatchEvent(
+        new PointerEvent('pointermove', { pointerId: 1, clientX: x, clientY: y })
+      );
+    const release = (el: Element, x: number, y: number) =>
+      el.dispatchEvent(
+        new PointerEvent('pointerup', { bubbles: true, pointerId: 1, clientX: x, clientY: y })
+      );
+
+    // b1.out -> b2.in0 already wired; b3.in0 is a free re-target, b4.in0 is an
+    // unconnected input that must still start a fresh connection when dragged.
+    const setup = () => {
+      const svg = makeSvg();
+      document.body.appendChild(svg);
+      const reconnectWireEndpoint = vi.fn();
+      const createConnection = vi.fn();
+      const conn = { from: 'b1', to: 'b2', fromIndex: 0, toIndex: 0 };
+      const ctx = makeCtx({ svg, createConnection, reconnectWireEndpoint });
+      (ctx.state as any).connections = [conn];
+      const { createPortCircle } = makePortHandlers(ctx as any);
+      const outGroup = createPortCircle('b1', 'out', 0, makePort() as any);
+      const in2 = createPortCircle('b2', 'in', 0, makePort() as any);
+      const in3 = createPortCircle('b3', 'in', 0, makePort() as any);
+      const in4 = createPortCircle('b4', 'in', 0, makePort() as any);
+      svg.append(outGroup, in2, in3, in4);
+      return { ctx, reconnectWireEndpoint, createConnection, conn, outGroup, in2, in3, in4, svg };
+    };
+
+    test('drag from a connected input to another input re-targets the wire', () => {
+      const { reconnectWireEndpoint, createConnection, conn, in2, in3 } = setup();
+
+      press(in2, 0, 0);
+      move(60, 0);
+      release(in3, 60, 0);
+
+      expect(reconnectWireEndpoint).toHaveBeenCalledWith(conn, 'to', 'b3', 0);
+      expect(createConnection).not.toHaveBeenCalled();
+    });
+
+    test('drag from a connected input released in empty space keeps the wire', () => {
+      const { ctx, reconnectWireEndpoint, in2, svg } = setup();
+
+      press(in2, 0, 0);
+      move(60, 0);
+      release(svg, 400, 400);
+
+      expect(reconnectWireEndpoint).not.toHaveBeenCalled();
+      expect((ctx.state as any).pendingPort).toBeNull();
+    });
+
+    test('an unconnected input still starts a new connection, not a detach', () => {
+      const { reconnectWireEndpoint, createConnection, in4, outGroup } = setup();
+
+      press(in4, 0, 0);
+      move(60, 0);
+      release(outGroup, 60, 0);
+
+      expect(reconnectWireEndpoint).not.toHaveBeenCalled();
+      expect(createConnection).toHaveBeenCalledWith('b1', 'b4', 0, 0);
+    });
+  });
+
   describe('shift-chaining', () => {
     // createConnection must return truthy so a successful connection re-arms the
     // chain; ports live in an on-document svg so the source output is found again.

@@ -105,6 +105,84 @@ describe('renderScope', () => {
     expect(block.computedLimits).toHaveProperty('tMax');
   });
 
+  test('a constant signal is framed around its value, not pinned to the top', () => {
+    const axes: any = {
+      xAxis: makeLine(),
+      yAxis: makeLine(),
+      xTicks: [makeLine()],
+      yTicks: [makeLine()],
+      xTickLabels: [makeText()],
+      yTickLabels: [makeText()],
+    };
+    const block: any = {
+      scopePlot: makePlot(),
+      scopePaths: [makePath()],
+      scopeAxes: axes,
+      params: {},
+      scopeData: { time: [0, 1, 2], series: [[1, 1, 1]] },
+    };
+
+    renderScope(block);
+
+    const { yMin, yMax } = block.computedLimits;
+    // The value sits near the centre of the range, not at the very top edge of
+    // a forced [-1.2, 1.2] window (the old behaviour).
+    expect(yMin).toBeGreaterThan(0);
+    expect(yMin).toBeLessThan(1);
+    expect(yMax).toBeGreaterThan(1);
+    expect((yMin + yMax) / 2).toBeCloseTo(1, 1);
+  });
+
+  test('a single-sign signal is not forced to a symmetric-about-zero window', () => {
+    const axes: any = {
+      xAxis: makeLine(),
+      yAxis: makeLine(),
+      xTicks: [makeLine()],
+      yTicks: [makeLine()],
+      xTickLabels: [makeText()],
+      yTickLabels: [makeText()],
+    };
+    const block: any = {
+      scopePlot: makePlot(),
+      scopePaths: [makePath()],
+      scopeAxes: axes,
+      params: {},
+      scopeData: { time: [0, 1, 2], series: [[2, 3, 4]] },
+    };
+
+    renderScope(block);
+
+    const { yMin, yMax } = block.computedLimits;
+    // Old behaviour forced yMin ≈ -4.8; now the window frames the data.
+    expect(yMin).toBeGreaterThan(0);
+    expect(yMax).toBeGreaterThanOrEqual(4);
+  });
+
+  test('a bipolar signal keeps a window symmetric about zero', () => {
+    const axes: any = {
+      xAxis: makeLine(),
+      yAxis: makeLine(),
+      xTicks: [makeLine()],
+      yTicks: [makeLine()],
+      xTickLabels: [makeText()],
+      yTickLabels: [makeText()],
+    };
+    const block: any = {
+      scopePlot: makePlot(),
+      scopePaths: [makePath()],
+      scopeAxes: axes,
+      params: {},
+      scopeData: { time: [0, 1, 2], series: [[-1, 0, 1]] },
+    };
+
+    renderScope(block);
+
+    const { yMin, yMax } = block.computedLimits;
+    expect(yMin).toBeCloseTo(-yMax, 5);
+    expect(yMin).toBeLessThan(0);
+    expect(yMax).toBeGreaterThan(0);
+  });
+
   test('renders with showTickLabels = true and sets tick label text', () => {
     const axes: any = {
       xAxis: makeLine(),

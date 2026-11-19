@@ -32,6 +32,9 @@ type Active = {
 // wire just past the port (~12..22px from the tip).
 const ENDPOINT_HIT_PX = 22;
 const ARM_THRESHOLD_PX = 4; // client-space travel before a press becomes a drag
+// Forgiving drop: when a release misses the small target port, snap to the
+// nearest compatible port within this radius (SVG units), Simulink-style.
+const ENDPOINT_SNAP_PX = 24;
 //=============================================================================
 export function makeWireReconnectHandlers(ctx: RendererCtx) {
   const C = ctx as any;
@@ -90,6 +93,13 @@ export function makeWireReconnectHandlers(ctx: RendererCtx) {
       C.onConnectionError?.('Diagram is locked.');
       return false;
     }
+    // The endpoints as they stand are the pair being removed. Remember it so the
+    // align-connect hint does not immediately re-propose the wire the user just
+    // detached (Simulink leaves a re-targeted port silently unconnected).
+    const removedFrom = conn.from;
+    const removedFromIndex = Number(conn.fromIndex ?? 0);
+    const removedTo = conn.to;
+    const removedToIndex = Number(conn.toIndex ?? 0);
     const newFrom = end === 'from' ? targetBlock : conn.from;
     const newFromIndex = end === 'from' ? targetIndex : Number(conn.fromIndex ?? 0);
     const newTo = end === 'to' ? targetBlock : conn.to;
@@ -156,6 +166,14 @@ export function makeWireReconnectHandlers(ctx: RendererCtx) {
       C.applyWirePaths?.(new Map());
       C.updateWireCornerHandles?.();
     }
+    S.suppressedAlignPair = {
+      from: removedFrom,
+      fromIndex: removedFromIndex,
+      to: removedTo,
+      toIndex: removedToIndex,
+    };
+    // The endpoints moved, so the selected wire's handles follow to the new ports.
+    C.updateWireCornerHandles?.();
     if (typeof window !== 'undefined') {
       window.dispatchEvent(new CustomEvent('diagramChanged'));
       window.dispatchEvent(new CustomEvent('diagramCommitted'));
@@ -178,11 +196,36 @@ export function makeWireReconnectHandlers(ctx: RendererCtx) {
       )
         return;
       active.armed = true;
+      C.clearWireEndpointHandles?.();
       const anchor = fixedPortEl(active.conn, active.end);
       if (anchor) C.beginPending?.(anchor);
     }
     // The ghost follows the pointer via the svg pointermove listener installed by
     // beginPending, so no extra preview update is needed here.
+  }
+
+  // Nearest port of the wanted kind within the snap radius of an SVG-space point,
+  // so a drop that misses the small port still lands on the obvious target.
+  function nearestCompatiblePort(
+    point: Point,
+    wantType: 'in' | 'out'
+  ): { blockId: string; index: number } | null {
+    let best: { blockId: string; index: number } | null = null;
+    let bestDist = Infinity;
+    for (const [blockId, blk] of S.blocks as Map<string, { ports?: Array<{ type?: string; index?: number }> }>) {
+      for (const p of blk?.ports ?? []) {
+        if (p.type !== wantType) continue;
+        const index = Number(p.index ?? 0);
+        const pos = C.getPortPosition?.(blockId, wantType, index);
+        if (!pos) continue;
+        const dist = Math.hypot(point.x - pos.x, point.y - pos.y);
+        if (dist < bestDist) {
+          bestDist = dist;
+          best = { blockId, index };
+        }
+      }
+    }
+    return best && bestDist <= ENDPOINT_SNAP_PX ? best : null;
   }
 
   function onUp(event: PointerEvent): void {
@@ -191,22 +234,28 @@ export function makeWireReconnectHandlers(ctx: RendererCtx) {
     teardown();
     active = null;
     if (!current.armed) return; // no drag: the wire's click handler selects it
+    const wantType = current.end === 'from' ? 'out' : 'in';
     const el =
       typeof document !== 'undefined'
         ? document.elementFromPoint(event.clientX, event.clientY)
         : null;
     const portGroup = (el as Element | null)?.closest?.('.port-group') ?? null;
-    if (portGroup) {
-      const wantType = current.end === 'from' ? 'out' : 'in';
-      const targetType = portGroup.getAttribute('data-port-type');
-      if (targetType === wantType) {
-        reconnect(
-          current.conn,
-          current.end,
-          portGroup.getAttribute('data-block-id') ?? '',
-          Number(portGroup.getAttribute('data-port-index'))
-        );
-      } else {
+    const directType = portGroup?.getAttribute('data-port-type') ?? null;
+    if (portGroup && directType === wantType) {
+      // Released squarely on a compatible port.
+      reconnect(
+        current.conn,
+        current.end,
+        portGroup.getAttribute('data-block-id') ?? '',
+        Number(portGroup.getAttribute('data-port-index'))
+      );
+    } else {
+      // Missed the port (or hit one of the wrong kind): snap to the nearest
+      // compatible port within range, else leave the wire unchanged.
+      const near = nearestCompatiblePort(C.clientToSvg(event.clientX, event.clientY), wantType);
+      if (near) {
+        reconnect(current.conn, current.end, near.blockId, near.index);
+      } else if (portGroup) {
         C.onConnectionError?.('Connect an output port to an input port.');
       }
     }
@@ -234,6 +283,25 @@ export function makeWireReconnectHandlers(ctx: RendererCtx) {
     active = {
       conn: hit.conn,
       end: hit.end,
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      armed: false,
+    };
+    window.addEventListener('pointermove', onMove, true);
+    window.addEventListener('pointerup', onUp, true);
+    window.addEventListener('pointercancel', onCancel, true);
+    return true;
+  }
+
+  // Arm a re-target drag from a visible endpoint handle (shown on a selected
+  // wire), given the connection and which end the handle sits on. Same ghost and
+  // drop-to-reconnect flow as the wire-band grab, so both ends behave the same.
+  function armWireEndpointFromHandle(event: PointerEvent, conn: Conn, end: End): boolean {
+    if (!editingAllowed() || active || event.button !== 0) return false;
+    active = {
+      conn,
+      end,
       pointerId: event.pointerId,
       startX: event.clientX,
       startY: event.clientY,
@@ -288,6 +356,7 @@ export function makeWireReconnectHandlers(ctx: RendererCtx) {
 
   return {
     armWireEndpointDrag,
+    armWireEndpointFromHandle,
     cancelWireEndpointDrag,
     handleWireEndpointHover,
     reconnectWireEndpoint: reconnect,

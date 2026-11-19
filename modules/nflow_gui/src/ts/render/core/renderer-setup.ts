@@ -64,6 +64,10 @@ export function setupRendererDom(ctx: RendererCtx) {
   ctx.wireCornerLayer = createSvgElement('g', { class: 'wire-corner-layer' });
   C.overlayLayer.appendChild(ctx.wireCornerLayer);
 
+  // Draggable handles at a selected wire's two ends (re-target either end).
+  ctx.wireEndpointLayer = createSvgElement('g', { class: 'wire-endpoint-layer' });
+  C.overlayLayer.appendChild(ctx.wireEndpointLayer);
+
   ctx.debugLog = document.getElementById('debugLog');
   const copyDebugButton = document.getElementById('copyDebug');
   if (ctx.debugLog && copyDebugButton) {

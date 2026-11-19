@@ -258,9 +258,30 @@ export function renderScope(scopeBlock: any) {
     minVal -= 1;
   }
   if (yMinParam == null && yMaxParam == null) {
-    const maxAbs = Math.max(Math.abs(maxVal), Math.abs(minVal), 1e-6);
-    maxVal = roundToSignificant(maxAbs * 1.2, 2);
-    minVal = roundToSignificant(-maxAbs * 1.2, 2);
+    // Auto Y range, decided on the observed data (maxVal/minVal were clamped to
+    // ±1 above and would make every signal look bipolar). A signal that
+    // straddles zero keeps a window symmetric about zero, so centred traces
+    // such as a sine stay centred and a near-zero noisy signal is not
+    // magnified (the ±1 floor is preserved). A single-sign or constant signal
+    // is framed around its own range instead: forcing the symmetric window
+    // there pins the trace to one edge and wastes half the plot (a constant 1
+    // drawn as a flat line squeezed against the top).
+    if (observedMin < 0 && observedMax > 0) {
+      const maxAbs = Math.max(Math.abs(maxVal), Math.abs(minVal), 1e-6);
+      maxVal = roundToSignificant(maxAbs * 1.2, 2);
+      minVal = roundToSignificant(-maxAbs * 1.2, 2);
+    } else if (observedMax === observedMin) {
+      // Constant signal: a symmetric band around the value keeps it centred.
+      const c = observedMax;
+      const pad = c !== 0 ? Math.abs(c) * 0.2 : 1;
+      minVal = roundToSignificant(c - pad, 2);
+      maxVal = roundToSignificant(c + pad, 2);
+    } else {
+      // Single-sign varying signal: frame [min, max] with 10% padding.
+      const pad = (observedMax - observedMin) * 0.1;
+      minVal = roundToSignificant(observedMin - pad, 2);
+      maxVal = roundToSignificant(observedMax + pad, 2);
+    }
   }
   const range = maxVal - minVal;
 

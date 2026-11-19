@@ -79,6 +79,25 @@ describe('makeAlignConnectHandlers.findAlignPair', () => {
     expect(findAlignPair()).toBeNull();
   });
 
+  test('ignores the pair the user just detached (suppressedAlignPair)', () => {
+    const ctx = makeCtx([block('a', 0, 100), block('b', 200, 100)]);
+    ctx.state.suppressedAlignPair = { from: 'a', fromIndex: 0, to: 'b', toIndex: 0 };
+    const { findAlignPair } = makeAlignConnectHandlers(ctx);
+    expect(findAlignPair()).toBeNull();
+  });
+
+  test('suppressedAlignPair hides only that pair; another aligned pair is still found', () => {
+    const ctx = makeCtx([
+      block('a', 0, 100),
+      block('b', 200, 100),
+      block('d', 0, 300),
+      block('e', 200, 300),
+    ]);
+    ctx.state.suppressedAlignPair = { from: 'a', fromIndex: 0, to: 'b', toIndex: 0 };
+    const { findAlignPair } = makeAlignConnectHandlers(ctx);
+    expect(findAlignPair()).toMatchObject({ from: 'd', fromIndex: 0, to: 'e', toIndex: 0 });
+  });
+
   test('returns null when a block sits in the corridor between the ports', () => {
     const ctx = makeCtx([
       block('a', 0, 100),

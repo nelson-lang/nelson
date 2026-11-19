@@ -30,6 +30,7 @@ export function makeConnectionHandlers(ctx: RendererCtx) {
     loadingDiagram?: boolean;
     dirtyConnections?: Set<Conn>;
     routingDirty?: boolean;
+    suppressedAlignPair?: unknown;
   };
 
   function createConnection(
@@ -120,6 +121,9 @@ export function makeConnectionHandlers(ctx: RendererCtx) {
         C.updateWireCornerHandles?.();
       }
     }
+    // A deliberate new wire ends the "just detached" grace period, so the
+    // align-connect hint can propose freely again.
+    S.suppressedAlignPair = null;
     if (typeof window !== 'undefined') {
       window.dispatchEvent(new CustomEvent('diagramChanged'));
       window.dispatchEvent(new CustomEvent('updateStatusBar'));
@@ -152,6 +156,7 @@ export function makeConnectionHandlers(ctx: RendererCtx) {
       ctx.state.connections.splice(idx, 1);
     }
     S.routingDirty = true;
+    S.suppressedAlignPair = null;
     C.updateConnections?.();
     if (typeof window !== 'undefined') {
       window.dispatchEvent(new CustomEvent('diagramChanged'));

@@ -1758,6 +1758,17 @@ g.masked-indicator text.mask-lock-char {
   cursor: move;
 }
 
+.wire-endpoint-handle {
+  fill: var(--accent, #d78d33);
+  stroke: var(--accent-hover);
+  stroke-width: 2;
+  cursor: crosshair;
+}
+
+.wire-endpoint-handle:hover {
+  fill: var(--accent-hover);
+}
+
 .wire.selected {
   stroke: var(--accent);
   stroke-width: 2;

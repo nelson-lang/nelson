@@ -77,6 +77,7 @@ export function makeSelectionHandlers(ctx: RendererCtx) {
       C.onSelectConnection(null);
       C.updatePortVisibility?.();
       C.updateSelectionBox?.();
+      C.updateWireCornerHandles?.(); // clears the deselected wire's endpoint handles
       return;
     }
     const fromBlock = S.blocks.get(conn.from);

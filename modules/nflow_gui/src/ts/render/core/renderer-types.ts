@@ -67,5 +67,6 @@ export type RendererCtx = {
   marqueeRect?: Element | null;
   wireJunctionLayer?: Element | null;
   wireCornerLayer?: Element | null;
+  wireEndpointLayer?: Element | null;
 };
 //=============================================================================

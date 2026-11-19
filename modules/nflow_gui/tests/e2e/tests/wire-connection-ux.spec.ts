@@ -105,6 +105,147 @@ test.describe('connection usability', () => {
     expect((await connections(page)).some((c) => c.from === 'b2' && c.to === 'b3')).toBe(false);
   });
 
+  test('pressing a connected input port and dragging detaches and re-targets the wire', async ({
+    mockPage: page,
+  }) => {
+    const app = new AppPage(page);
+    await app.open();
+    const editor = new CanvasEditor(page);
+    await loadChain(page, editor);
+
+    // A fresh sink below the chain offers a free input to move the end to.
+    const sink = await editor.insertBlock('scope', { x: 320, y: 440 });
+    await editor.canvas.click({ position: { x: 20, y: 20 } });
+    const sinkIn = await portCenter(editor, sink, 'in');
+
+    // Press directly on b3's already-connected input port and drag to the sink.
+    // (Not the wire band: this exercises the port grab-to-detach path.)
+    const b3In = await portCenter(editor, 'b3', 'in');
+    await page.mouse.move(b3In.x, b3In.y);
+    await page.mouse.down();
+    await page.mouse.move(b3In.x - 40, b3In.y + 80, { steps: 6 });
+    await page.mouse.move(sinkIn.x, sinkIn.y, { steps: 10 });
+    await page.mouse.up();
+
+    // The wire detached from b3 and now feeds the sink; b3's input is free.
+    await expect.poll(() => editor.wireCount(), { timeout: 3000 }).toBe(2);
+    await expect
+      .poll(async () => (await connections(page)).some((c) => c.from === 'b2' && c.to === sink), {
+        timeout: 3000,
+      })
+      .toBe(true);
+    expect((await connections(page)).some((c) => c.from === 'b2' && c.to === 'b3')).toBe(false);
+  });
+
+  test('after re-targeting a wire the align hint does not re-propose it', async ({
+    mockPage: page,
+  }) => {
+    const app = new AppPage(page);
+    await app.open();
+    const editor = new CanvasEditor(page);
+    await loadChain(page, editor);
+
+    // A sink well below the chain gives the detached end a new home.
+    const sink = await editor.insertBlock('scope', { x: 320, y: 440 });
+    await editor.canvas.click({ position: { x: 20, y: 20 } });
+    const sinkIn = await portCenter(editor, sink, 'in');
+
+    // Detach the b2->b3 wire at b3's input and drop it on the sink. b3's input is
+    // freed and lines up with b2's output, so without the Simulink-style
+    // suppression the align hint would pop up proposing to recreate b2->b3.
+    const b3In = await portCenter(editor, 'b3', 'in');
+    await page.mouse.move(b3In.x - 18, b3In.y);
+    await page.mouse.down();
+    await page.mouse.move(b3In.x - 60, b3In.y + 120, { steps: 6 });
+    await page.mouse.move(sinkIn.x, sinkIn.y, { steps: 10 });
+    await page.mouse.up();
+
+    // The re-target took effect: b2 now drives the sink, and b2->b3 is gone.
+    await expect
+      .poll(async () => (await connections(page)).some((c) => c.from === 'b2' && c.to === sink), {
+        timeout: 3000,
+      })
+      .toBe(true);
+    expect((await connections(page)).some((c) => c.from === 'b2' && c.to === 'b3')).toBe(false);
+
+    // Precondition that makes this discriminating: b2's output and the freed
+    // b3 input are aligned, so without the suppression the hint WOULD appear.
+    const b2Out = await portCenter(editor, 'b2', 'out');
+    expect(Math.abs(b2Out.y - b3In.y)).toBeLessThanOrEqual(8);
+
+    // Simulink leaves a re-targeted port silently unconnected: no align hint
+    // nags the user to undo the move they just made.
+    await expect(page.locator('#_nflow-align-hint')).toHaveCount(0);
+  });
+
+  test('endpoint handles on a selected wire re-target either end, output included', async ({
+    mockPage: page,
+  }) => {
+    const app = new AppPage(page);
+    await app.open();
+    const editor = new CanvasEditor(page);
+    await loadChain(page, editor);
+
+    // Select the b2->b3 wire by clicking its midpoint.
+    const b2Out = await portCenter(editor, 'b2', 'out');
+    const b3In = await portCenter(editor, 'b3', 'in');
+    await page.mouse.click((b2Out.x + b3In.x) / 2, (b2Out.y + b3In.y) / 2);
+    await expect(page.locator('#wireLayer path.wire.selected')).toHaveCount(1);
+
+    // A selected wire shows a handle at each end; grab the source ('from') one.
+    await expect(page.locator('.wire-endpoint-handle')).toHaveCount(2);
+    const handleBox = await page.locator('.wire-endpoint-handle[data-end="from"]').boundingBox();
+    if (!handleBox) throw new Error('no from-handle box');
+    const b1Out = await portCenter(editor, 'b1', 'out');
+
+    // Drag the output end onto b1's output: the wire's source becomes b1.
+    await page.mouse.move(handleBox.x + handleBox.width / 2, handleBox.y + handleBox.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(b1Out.x, b1Out.y - 30, { steps: 6 });
+    await page.mouse.move(b1Out.x, b1Out.y, { steps: 8 });
+    await page.mouse.up();
+
+    await expect.poll(() => editor.wireCount(), { timeout: 3000 }).toBe(2);
+    await expect
+      .poll(async () => (await connections(page)).some((c) => c.from === 'b1' && c.to === 'b3'), {
+        timeout: 3000,
+      })
+      .toBe(true);
+    expect((await connections(page)).some((c) => c.from === 'b2' && c.to === 'b3')).toBe(false);
+  });
+
+  test('a near-miss drop snaps the wire end to the nearest compatible port', async ({
+    mockPage: page,
+  }) => {
+    const app = new AppPage(page);
+    await app.open();
+    const editor = new CanvasEditor(page);
+    await loadChain(page, editor);
+
+    // Select the b2->b3 wire, grab its source handle.
+    const b2Out = await portCenter(editor, 'b2', 'out');
+    const b3In = await portCenter(editor, 'b3', 'in');
+    await page.mouse.click((b2Out.x + b3In.x) / 2, (b2Out.y + b3In.y) / 2);
+    await expect(page.locator('.wire-endpoint-handle')).toHaveCount(2);
+    const handleBox = await page.locator('.wire-endpoint-handle[data-end="from"]').boundingBox();
+    if (!handleBox) throw new Error('no from-handle box');
+    const b1Out = await portCenter(editor, 'b1', 'out');
+
+    // Release NEAR b1's output, not exactly on it: the snap still re-targets.
+    await page.mouse.move(handleBox.x + handleBox.width / 2, handleBox.y + handleBox.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(b1Out.x, b1Out.y - 40, { steps: 6 });
+    await page.mouse.move(b1Out.x, b1Out.y + 15, { steps: 8 }); // ~15px below the port
+    await page.mouse.up();
+
+    await expect
+      .poll(async () => (await connections(page)).some((c) => c.from === 'b1' && c.to === 'b3'), {
+        timeout: 3000,
+      })
+      .toBe(true);
+    expect((await connections(page)).some((c) => c.from === 'b2' && c.to === 'b3')).toBe(false);
+  });
+
   test('dropping a wire end in empty space leaves it unchanged', async ({ mockPage: page }) => {
     const app = new AppPage(page);
     await app.open();

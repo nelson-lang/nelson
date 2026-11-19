@@ -206,6 +206,22 @@ export function makePortHandlers(ctx: RendererCtx) {
     const startY = startEvent.clientY;
     let armed = false;
 
+    // Press+drag on an already-connected input detaches that wire's end and
+    // re-targets it (grab the input port, drag to another input), instead of
+    // starting a new connection the occupied input would reject. The ghost is
+    // anchored at the wire's source output so the input end follows the pointer.
+    // This is the discoverable twin of the wire-endpoint grab band in
+    // renderer-wire-reconnect.ts; both end in reconnectWireEndpoint.
+    const portType = portEl.getAttribute('data-port-type');
+    const blockId = portEl.getAttribute('data-block-id') ?? '';
+    const portIndex = Number(portEl.getAttribute('data-port-index'));
+    const detachConn =
+      portType === 'in'
+        ? ((S as any).connections as any[]).find(
+            (c) => c.to === blockId && Number(c.toIndex ?? 0) === portIndex
+          ) ?? null
+        : null;
+
     const cleanup = () => {
       window.removeEventListener('pointermove', onMove, true);
       window.removeEventListener('pointerup', onUp, true);
@@ -218,7 +234,13 @@ export function makePortHandlers(ctx: RendererCtx) {
         if (Math.hypot(event.clientX - startX, event.clientY - startY) < DRAG_CONNECT_THRESHOLD_PX)
           return;
         armed = true;
-        beginPending(portEl);
+        if (detachConn) {
+          // Anchor the ghost at the wire's source output; the input end moves.
+          const anchor = outputPortEl(detachConn.from, Number(detachConn.fromIndex ?? 0));
+          if (anchor) beginPending(anchor);
+        } else {
+          beginPending(portEl);
+        }
       }
       updatePreview(event);
     };
@@ -230,6 +252,20 @@ export function makePortHandlers(ctx: RendererCtx) {
       // A drag completed: neutralize the synthetic click that may follow.
       S.suppressNextPortClick = true;
       const target = (event.target as Element | null)?.closest?.('.port-group') ?? null;
+      if (detachConn) {
+        // Re-target the detached end onto an input port; anything else (an
+        // output, or empty space) snaps the wire back to its original input.
+        if (target && target.getAttribute('data-port-type') === 'in') {
+          (C as any).reconnectWireEndpoint?.(
+            detachConn,
+            'to',
+            target.getAttribute('data-block-id') ?? '',
+            Number(target.getAttribute('data-port-index'))
+          );
+        }
+        clearPending();
+        return;
+      }
       if (target) finishConnection(target, event.shiftKey);
       else clearPending();
     };

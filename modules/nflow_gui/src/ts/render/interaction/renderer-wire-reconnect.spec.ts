@@ -225,6 +225,73 @@ describe('arm / drag / cancel lifecycle', () => {
     expect(calls.clearPending).toBe(1);
   });
 
+  it('arms from an endpoint handle and re-targets that end on drop', () => {
+    const conn = makeConn('a', 'b', route);
+    const { ctx, svg, calls } = makeCtx([conn]);
+    svg.appendChild(portGroup('a', 'out', 0)); // anchor for beginPending
+    const targetGroup = portGroup('c', 'in', 1);
+    svg.appendChild(targetGroup);
+    const h = makeWireReconnectHandlers(ctx);
+
+    stubDropTarget(targetGroup);
+    // Grab the 'to' end via its handle (not the wire band): arms directly.
+    expect(h.armWireEndpointFromHandle(pointer(0, 0), conn, 'to')).toBe(true);
+    window.dispatchEvent(
+      new PointerEvent('pointermove', { pointerId: 1, clientX: 140, clientY: 0 })
+    );
+    expect(calls.beginPending).toBe(1);
+    window.dispatchEvent(
+      new PointerEvent('pointerup', { pointerId: 1, clientX: 200, clientY: 40 })
+    );
+    expect(conn.to).toBe('c');
+    expect(conn.toIndex).toBe(1);
+  });
+
+  it('armWireEndpointFromHandle refuses when the diagram is locked', () => {
+    const conn = makeConn('a', 'b', route);
+    const { ctx } = makeCtx([conn]);
+    ctx.state.locked = true;
+    const h = makeWireReconnectHandlers(ctx);
+    expect(h.armWireEndpointFromHandle(pointer(0, 0), conn, 'from')).toBe(false);
+  });
+
+  it('snaps to the nearest compatible port when the drop misses it', () => {
+    const conn = makeConn('a', 'b', route);
+    const blocks = new Map<string, any>([['c', { id: 'c', ports: [{ type: 'in', index: 0 }] }]]);
+    const { ctx, svg } = makeCtx([conn], blocks);
+    (ctx as any).getPortPosition = (id: string, type: string) =>
+      id === 'c' && type === 'in' ? { x: 200, y: 10 } : null;
+    svg.appendChild(portGroup('a', 'out', 0)); // anchor for beginPending
+    const h = makeWireReconnectHandlers(ctx);
+
+    stubDropTarget(svg); // release lands on empty canvas, not on a port
+    expect(h.armWireEndpointDrag(pointer(96, 0))).toBe(true); // grab the 'to' end
+    window.dispatchEvent(
+      new PointerEvent('pointermove', { pointerId: 1, clientX: 140, clientY: 0 })
+    );
+    // Release near (but not on) c's input at (200,10); within the snap radius.
+    window.dispatchEvent(new PointerEvent('pointerup', { pointerId: 1, clientX: 205, clientY: 13 }));
+    expect(conn.to).toBe('c');
+    expect(conn.toIndex).toBe(0);
+  });
+
+  it('does not snap when no compatible port is within range', () => {
+    const conn = makeConn('a', 'b', route);
+    const blocks = new Map<string, any>([['c', { id: 'c', ports: [{ type: 'in', index: 0 }] }]]);
+    const { ctx, svg } = makeCtx([conn], blocks);
+    (ctx as any).getPortPosition = () => ({ x: 999, y: 999 }); // far from any drop
+    svg.appendChild(portGroup('a', 'out', 0));
+    const h = makeWireReconnectHandlers(ctx);
+
+    stubDropTarget(svg);
+    expect(h.armWireEndpointDrag(pointer(96, 0))).toBe(true);
+    window.dispatchEvent(
+      new PointerEvent('pointermove', { pointerId: 1, clientX: 140, clientY: 0 })
+    );
+    window.dispatchEvent(new PointerEvent('pointerup', { pointerId: 1, clientX: 205, clientY: 13 }));
+    expect(conn.to).toBe('b'); // unchanged
+  });
+
   it('rejects a drop on the wrong port side', () => {
     const conn = makeConn('a', 'b', route);
     const { ctx, svg, calls } = makeCtx([conn]);

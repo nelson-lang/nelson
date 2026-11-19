@@ -14,6 +14,10 @@ import { collectPhysicalNetJunctionPoints } from '../../router/physical-net.js';
 import type { RendererCtx, Conn } from '../core/renderer-types.js';
 //=============================================================================
 const WIRE_CORNER_HANDLE_RADIUS = 6;
+const WIRE_ENDPOINT_HANDLE_RADIUS = 6;
+// Pull the endpoint handle in off the port so it sits on the wire, clear of the
+// port's own hit circle: the port stays free to start a new (fan-out) wire.
+const WIRE_ENDPOINT_HANDLE_INSET = 16;
 export function makeWireCornerHandlers(ctx: RendererCtx) {
   const C = ctx as unknown as {
     segmentOrientation?: (
@@ -38,6 +42,60 @@ export function makeWireCornerHandlers(ctx: RendererCtx) {
   function clearWireJunctionDots() {
     while (ctx.wireJunctionLayer && ctx.wireJunctionLayer.firstChild)
       ctx.wireJunctionLayer.removeChild(ctx.wireJunctionLayer.firstChild);
+  }
+  function clearWireEndpointHandles() {
+    while (ctx.wireEndpointLayer && ctx.wireEndpointLayer.firstChild)
+      ctx.wireEndpointLayer.removeChild(ctx.wireEndpointLayer.firstChild);
+  }
+  // A point `d` away from `a` toward `b` (clamped when the ends are closer).
+  function insetAlong(
+    a: { x: number; y: number },
+    b: { x: number; y: number },
+    d: number
+  ): { x: number; y: number } {
+    const dx = b.x - a.x;
+    const dy = b.y - a.y;
+    const len = Math.hypot(dx, dy);
+    if (len <= d) return { x: a.x, y: a.y };
+    return { x: a.x + (dx / len) * d, y: a.y + (dy / len) * d };
+  }
+  // Draggable handles at both ends of the selected wire. Grabbing a handle
+  // re-targets that end (same flow for the source and destination, Simulink
+  // style). Handles sit inset on the wire, so the ports stay free for fan-out.
+  function updateWireEndpointHandles() {
+    clearWireEndpointHandles();
+    const state = ctx.state as unknown as { selectedConnection?: Conn | null; locked?: boolean };
+    const conn = state.selectedConnection;
+    if (!conn || state.locked) return;
+    const Cx = ctx as any;
+    const pts = (conn.points as { x: number; y: number }[] | undefined) ?? [];
+    const endPoint = (end: 'from' | 'to'): { x: number; y: number } | null => {
+      if (Array.isArray(pts) && pts.length >= 2) {
+        return end === 'from'
+          ? insetAlong(pts[0], pts[1], WIRE_ENDPOINT_HANDLE_INSET)
+          : insetAlong(pts[pts.length - 1], pts[pts.length - 2], WIRE_ENDPOINT_HANDLE_INSET);
+      }
+      return end === 'from'
+        ? (Cx.getPortPosition?.(conn.from, 'out', Number(conn.fromIndex ?? 0)) ?? null)
+        : (Cx.getPortPosition?.(conn.to, 'in', Number(conn.toIndex ?? 0)) ?? null);
+    };
+    (['from', 'to'] as const).forEach((end) => {
+      const pos = endPoint(end);
+      if (!pos) return;
+      const handle = createSvgElement('circle', {
+        class: 'wire-endpoint-handle',
+        cx: pos.x,
+        cy: pos.y,
+        r: WIRE_ENDPOINT_HANDLE_RADIUS,
+        'data-end': end,
+      });
+      handle.addEventListener('pointerdown', (event: PointerEvent) => {
+        event.preventDefault();
+        event.stopPropagation();
+        Cx.armWireEndpointFromHandle?.(event, conn, end);
+      });
+      if (ctx.wireEndpointLayer) ctx.wireEndpointLayer.appendChild(handle);
+    });
   }
   function renderSharedSourceJunctionDots() {
     clearWireJunctionDots();
@@ -117,6 +175,9 @@ export function makeWireCornerHandlers(ctx: RendererCtx) {
     return true;
   }
   function updateWireCornerHandles() {
+    // Endpoint handles show for any selected wire (both routing modes); the
+    // corner handles below are only for manually-routed (autoRoute off) wires.
+    updateWireEndpointHandles();
     clearWireCornerHandles();
     if (ctx.state.autoRoute !== false) return;
     const conn = (ctx as unknown as { state: { selectedConnection?: unknown } }).state
@@ -150,9 +211,11 @@ export function makeWireCornerHandlers(ctx: RendererCtx) {
   return {
     clearWireCornerHandles,
     clearWireJunctionDots,
+    clearWireEndpointHandles,
     renderSharedSourceJunctionDots,
     moveWireCorner,
     updateWireCornerHandles,
+    updateWireEndpointHandles,
   };
 }
 //=============================================================================
