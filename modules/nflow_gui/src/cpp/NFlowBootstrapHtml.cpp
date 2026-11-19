@@ -61,8 +61,8 @@ buildNFlowBootstrapHtml(const BootstrapVars& bootstrapVars)
     // location.replace below, so isAssistantAiEnabled() reads this from storage.
     seedScript += webUiSetSessionStorageItemScript(
         "nf-assistant-ai", bootstrapVars.assistantAi ? "1" : "0");
-    seedScript += webUiSetLocalStorageItemScript(
-        "nf-assistant-ai", bootstrapVars.assistantAi ? "1" : "0");
+    seedScript
+        += webUiSetLocalStorageItemScript("nf-assistant-ai", bootstrapVars.assistantAi ? "1" : "0");
     seedScript += "try{window.__nf_bootstrap = " + bootstrapVarsJson + ";}catch(_){}\n";
     seedScript += "</script>\n";
 

@@ -349,13 +349,13 @@ testXzBombHiddenByPlainCentralMethod()
     if (!ZipArchive::supportsCompression(static_cast<uint16_t>(ZipCompression::Zstd))) {
         return;
     }
-    const std::vector<uint8_t> bytes = fromHex(
-        "504b03043f0000005f10000000000b5704bb44000000100000000100"
-        "000078fd377a585a000004e6d6b4460200210126000000d5d7ce53e0"
-        "000f00065d0020ed3c000000000000f4b78343915734a3000122106f"
-        "e3839a1fb6f37d010000000004595a504b01023f003ffdff005d0000"
-        "0000000b5704bb4405002a1000000001000000000000000000000000"
-        "000000000078504b050600000000010001002f000000630000000000");
+    const std::vector<uint8_t> bytes
+        = fromHex("504b03043f0000005f10000000000b5704bb44000000100000000100"
+                  "000078fd377a585a000004e6d6b4460200210126000000d5d7ce53e0"
+                  "000f00065d0020ed3c000000000000f4b78343915734a3000122106f"
+                  "e3839a1fb6f37d010000000004595a504b01023f003ffdff005d0000"
+                  "0000000b5704bb4405002a1000000001000000000000000000000000"
+                  "000000000078504b050600000000010001002f000000630000000000");
     ZipArchive reader = ZipArchive::openMemory(bytes);
     // The central header flags the entry encrypted (the local header does not), so a
     // password is needed to reach the decode path the fuzzer hit.

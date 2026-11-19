@@ -65,6 +65,10 @@ const child = spawn(nelsonWeb, ['--web', '--url', 'localhost', '--port', port], 
     ...process.env,
     NELSON_PREFERENCES_PATH: b2bPreferences,
     NELSON_USERPATH: b2bWorkdir,
+    // Opt in to the AI assistant UI so the notebookAssistant spec can open the
+    // pane (appCapabilities() reports assistant:true from this env; no model is
+    // configured in CI, so the pane only opens and lists the ACP backend).
+    NELSON_ASSISTANT_AI: '1',
   },
   stdio: 'inherit',
 });
