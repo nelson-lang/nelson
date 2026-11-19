@@ -327,8 +327,7 @@ struct ZipArchive::Impl
         // allocated before the first byte is read.
         bool asXz = localMethod == xzMethod || info.method == xzMethod;
         bool asLzma = localMethod == lzmaMethod || info.method == lzmaMethod;
-        if (!asXz && !asLzma && !isPlainZipMethod(localMethod)
-            && !isPlainZipMethod(info.method)) {
+        if (!asXz && !asLzma && !isPlainZipMethod(localMethod) && !isPlainZipMethod(info.method)) {
             // The XZ magic and the ZIP LZMA header (a 5-byte property block) are the
             // only stream shapes liblzma allocates a dictionary for.
             static const uint8_t xzMagic[6] = { 0xFD, 0x37, 0x7A, 0x58, 0x5A, 0x00 };
