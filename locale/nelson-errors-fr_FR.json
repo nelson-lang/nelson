@@ -1338,7 +1338,7 @@
   "Nelson:evalc:inputNotAllowed": "Fonction d'entrée non autorisée depuis evalc.",
   "Nelson:eventtable:bothLengthsAndEnds": "Spécifiez soit les longueurs d'événement soit les fins d'événement, mais pas les deux.",
   "Nelson:eventtable:bothValueAndVariable": "Spécifiez soit les %s d'événement soit une variable de %s d'événement.",
-  "Nelson:eventtable:dimagree": "Les variables de données d'événement doivent correspondre au nombre d'instants d'événement.",
+  "Nelson:eventtable:dimagree": "'%s' doit être un scalaire ou un vecteur ayant le même nombre d'éléments que la hauteur de la première entrée.",
   "Nelson:eventtable:firstInputMustBeTimetable": "La paire nom-valeur '%s' n'est prise en charge que lorsque la première entrée est une timetable.",
   "Nelson:eventtable:incompatibleEndsRowTimes": "La variable de fins d'événement doit être du même type de données que les temps de ligne de la table d'événements.",
   "Nelson:eventtable:invalidArgumentName": "Nom d'argument non valide '%s'. Le nom doit être 'EventLabels', 'EventLabelsVariable', 'EventLengths', 'EventLengthsVariable', 'EventEnds' ou 'EventEndsVariable'.",
