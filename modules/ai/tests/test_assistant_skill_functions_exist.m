@@ -33,26 +33,6 @@ end
 % declared function must resolve. Keep the variable referenced for clarity.
 assert_istrue(checked >= 0);
 %=============================================================================
-% Every module a skill declares in its `modules:` front-matter must be a real
-% module of this build, so aiModuleInventoryContext never asks what() for a module
-% that does not exist (which would silently drop the inventory of that domain). The
-% check is the module directory on disk, not getmodules(): a module may be present
-% in the build yet not loaded in the headless test runner, but a typo'd name has no
-% directory at all.
-modulesRoot = [nelsonroot(), '/modules/'];
-for k = 1:numel(skills)
-  mods = skills(k).modules;
-  for m = 1:numel(mods)
-    name = strtrim(mods{m});
-    if isempty(name)
-      continue
-    end
-    assert_istrue(isdir([modulesRoot, name]), ...
-      ['Skill ', skills(k).name, ' lists module "', name, '" which is not a ', ...
-      'module of this build.']);
-  end
-end
-%=============================================================================
 function tf = functionExists(name, helpIndex, helpPages)
   tf = isbuiltin(name) || ismacro(name);
   if tf

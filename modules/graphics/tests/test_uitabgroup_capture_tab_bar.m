@@ -63,7 +63,14 @@ for useUIFigure = [false true]
       assert_istrue(all(abs(free(:) - 224) <= 3), ['bar background 224: ', where]);
       % the selected tab stands out on its page color, at the start of the bar
       selected = r > 200 & g < 60 & b < 60;
-      assert_istrue(all(all(selected(:, 1:round(4 * sx)))), ['selected tab red at bar start: ', where]);
+      % Pure red over the whole strip is font- and scale-fragile (the label border
+      % and text reach in): check red shows and no unselected bar gray (224) is left.
+      startCols = 1:round(4 * sx);
+      startRed = selected(:, startCols);
+      startBar = abs(r(:, startCols) - 224) <= 6 & abs(g(:, startCols) - 224) <= 6 ...
+        & abs(b(:, startCols) - 224) <= 6;
+      assert_istrue(any(startRed(:)), ['selected tab red at bar start: ', where]);
+      assert_isfalse(any(startBar(:)), ['selected tab covers bar start: ', where]);
       % the other tab keeps the bar color: its page color is not in the bar
       assert_isfalse(any(any(b > 200 & r < 60 & g < 60)));
       % one label per tab: dark text on the selected label and on the next one.
