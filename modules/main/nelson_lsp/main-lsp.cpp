@@ -28,6 +28,10 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#ifdef _WIN32
+#include <io.h>
+#include <fcntl.h>
+#endif
 //=============================================================================
 namespace Nelson::Lsp {
 //=============================================================================
@@ -855,6 +859,13 @@ handleMessage(const json& message)
 int
 main()
 {
+#ifdef _WIN32
+    // Use binary mode for stdio so the LSP Content-Length framing stays byte
+    // exact; text mode would translate \n to \r\n and corrupt the \r\n\r\n
+    // header separator that standard LSP clients expect.
+    _setmode(_fileno(stdout), _O_BINARY);
+    _setmode(_fileno(stdin), _O_BINARY);
+#endif
     while (!Nelson::Lsp::shouldExit && std::cin.good()) {
         std::string body = Nelson::Lsp::readMessage();
         if (body.empty()) {
