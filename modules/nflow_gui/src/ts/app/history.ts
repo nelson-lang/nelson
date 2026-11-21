@@ -8,8 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { state, deepClone } from './state.js';
-import { serializeDiagram } from './file-operations.js';
+import { state, deepClone, signalDiagramChanged } from './state.js';
+import { serializeDiagram, serializeConnection } from './file-operations.js';
 import { getViewBox } from './workspace-handlers.js';
 import { canUseNFlowRpc, nflowRpc } from './native-rpc.js';
 //=============================================================================
@@ -247,12 +247,13 @@ export function duplicateSelection(): boolean {
     try {
       const toIndex = Number(c.toIndex ?? 0);
       const fromIndex = Number(c.fromIndex ?? 0);
-      renderer.createConnection?.(
+      const connection = renderer.createConnection?.(
         mapping[fromKey] as number,
         mapping[toKey] as number,
         toIndex,
         fromIndex
       );
+      restoreConnectionLabels(connection, c);
     } catch (_e) {
       // ignore
     }
@@ -272,6 +273,7 @@ export function duplicateSelection(): boolean {
   } catch (_e) {
     // ignore routing errors
   }
+  if (createdIds.length > 0) signalDiagramChanged();
   return true;
 }
 //=============================================================================
@@ -306,10 +308,7 @@ export async function copySelection(): Promise<boolean> {
     const toKey = String(c.to);
     if (selKeys.has(fromKey) && selKeys.has(toKey)) {
       connections.push({
-        from: c.from,
-        to: c.to,
-        fromIndex: c.fromIndex ?? 0,
-        toIndex: c.toIndex ?? 0,
+        ...serializeConnection(c),
         points: Array.isArray(c.points) ? c.points : undefined,
       });
     }
@@ -365,6 +364,14 @@ export async function cutSelection(): Promise<boolean> {
   state.selectedIds = new Set();
   if (renderer.updateSelectionBox) renderer.updateSelectionBox();
   return true;
+}
+//=============================================================================
+function restoreConnectionLabels(connection: unknown, data: Record<string, unknown>): void {
+  if (!connection || typeof connection !== 'object') return;
+  const saved = serializeConnection(data);
+  for (const key of ['label', 'labelOffset']) {
+    if (saved[key] !== undefined) (connection as Record<string, unknown>)[key] = saved[key];
+  }
 }
 //=============================================================================
 export async function pasteSelection(): Promise<boolean> {
@@ -665,7 +672,13 @@ export async function pasteSelection(): Promise<boolean> {
       if (hasFrom && hasTo) {
         const toIndex = Number(c.toIndex ?? 0);
         const fromIndex = Number(c.fromIndex ?? 0);
-        renderer.createConnection?.(mapping[fromKey], mapping[toKey], toIndex, fromIndex);
+        const connection = renderer.createConnection?.(
+          mapping[fromKey],
+          mapping[toKey],
+          toIndex,
+          fromIndex
+        );
+        restoreConnectionLabels(connection, c);
       }
     } catch (_e) {
       // ignore
@@ -674,9 +687,7 @@ export async function pasteSelection(): Promise<boolean> {
   state.selectedId = createdIds.length === 1 ? createdIds[0] : null;
   state.selectedIds = new Set(createdIds);
   if (renderer.updateSelectionBox) renderer.updateSelectionBox();
-  if (createdIds.length === 0 && blocks.length > 0) {
-    // Some pasted blocks could not be created in this window.
-  }
+  if (createdIds.length > 0) signalDiagramChanged();
   return true;
 }
 //=============================================================================

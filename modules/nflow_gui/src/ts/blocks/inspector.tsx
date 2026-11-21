@@ -10,11 +10,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { renderBlockPanel, type BlockPanelDeps } from './inspector-block.js';
 import { renderInspectorReact, unmountInspectorReact } from './inspector-react-root.js';
-import { state } from '../app/state.js';
+import { state, signalDiagramChanged as markDiagramChanged } from '../app/state.js';
+import { setSignalName } from '../app/wire-labels.js';
 import {
   portCountsChanged,
+  desiredPortCounts,
   actualPortCounts,
   survivingConnections,
+  remapSelectorConnections,
   type SimpleConnection,
 } from './port-rebuild.js';
 //=============================================================================
@@ -104,6 +107,20 @@ function ConnectionInspectorPanel({
 }): JSX.Element {
   return (
     <>
+      <label className="param">
+        Signal name
+        <input
+          data-edit="signalName"
+          defaultValue={String((state.selectedConnection as any)?.label ?? '')}
+          onChange={(event) => {
+            const conn = state.selectedConnection as any;
+            if (!conn || typeof conn !== 'object') return;
+            const label = event.currentTarget.value;
+            setSignalName(conn, label);
+            markDiagramChanged();
+          }}
+        />
+      </label>
       <div className="param">Wire</div>
       <div className="param">From: {fromLabel}</div>
       <div className="param">
@@ -181,9 +198,38 @@ function renderConnectionPanel(
   const toLabel = tryGetBlockLabel(block.toId, block.toType);
   renderInspectorReact(
     inspectorBody,
-    <ConnectionInspectorPanel fromLabel={fromLabel} toLabel={toLabel} toIndex={block.toIndex} />
+    <ConnectionInspectorPanel
+      key={`${String(block.fromId)}:${String(block.toId)}:${String(block.toIndex)}`}
+      fromLabel={fromLabel}
+      toLabel={toLabel}
+      toIndex={block.toIndex}
+    />
   );
   if (rotateSelectionBtn) rotateSelectionBtn.disabled = true;
+}
+//=============================================================================
+function captureInspectorFocus(body: HTMLElement | null): () => void {
+  const active = document.activeElement;
+  const field = active instanceof HTMLElement && body?.contains(active) ? active : null;
+  const key = field?.getAttribute('data-edit');
+  const editable =
+    field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement ? field : null;
+  const start = editable?.selectionStart;
+  const end = editable?.selectionEnd;
+  const direction = editable?.selectionDirection;
+  return () => {
+    if (!key || !body) return;
+    const replacement = Array.from(body.querySelectorAll<HTMLElement>('[data-edit]')).find(
+      (element) => element.getAttribute('data-edit') === key
+    );
+    replacement?.focus({ preventScroll: true });
+    if (
+      (replacement instanceof HTMLInputElement || replacement instanceof HTMLTextAreaElement) &&
+      start != null &&
+      end != null
+    )
+      replacement.setSelectionRange(start, end, direction ?? undefined);
+  };
 }
 //=============================================================================
 export const createInspector = ({
@@ -208,22 +254,59 @@ export const createInspector = ({
   getRuntimeSeconds?: () => number;
 }) => {
   const getRenderer = () => renderer?.current || renderer;
+  const acceptedParams = new WeakMap<Block, Record<string, unknown>>();
+  const saveParams = (block: Block) => {
+    acceptedParams.set(block, JSON.parse(JSON.stringify(block.params || {})));
+  };
   // Blocks whose port count comes from a parameter (mux/demux/sum/...) must be
   // rebuilt when that count changes, so the ports follow the edit. The block is
   // recreated in place (same id/position/params) and the connections that still
   // address a valid port are restored.
-  const rebuildPortsIfNeeded = (b: Block) => {
+  const rebuildPortsIfNeeded = (b: Block): boolean => {
     const r = getRenderer() as any;
-    if (!r?.createBlock || !r?.deleteBlock || !portCountsChanged(b)) return;
+    const previous = acceptedParams.get(b);
+    const oldPaths = Array.isArray(previous?.SelectedSignals)
+      ? previous.SelectedSignals.map(String)
+      : [];
+    const newPaths = Array.isArray(b.params?.SelectedSignals)
+      ? b.params.SelectedSignals.map(String)
+      : [];
+    const wasBus = previous?.OutputAsBus === true;
+    const isBus = b.params?.OutputAsBus === true;
+    const selectorChanged =
+      b.type === 'busSelector' &&
+      previous &&
+      (wasBus !== isBus || JSON.stringify(oldPaths) !== JSON.stringify(newPaths));
+    if (!r?.createBlock || !r?.deleteBlock || (!portCountsChanged(b) && !selectorChanged))
+      return false;
+    const restoreFocus = captureInspectorFocus(inspectorBody);
     const id = (b as any).id;
-    const captured: SimpleConnection[] = ((state.connections as any[]) || [])
+    let captured: SimpleConnection[] = ((state.connections as any[]) || [])
       .filter((c) => c.from === id || c.to === id)
       .map((c) => ({
         from: c.from,
         to: c.to,
         fromIndex: Number(c.fromIndex ?? 0),
         toIndex: Number(c.toIndex ?? 0),
+        label: c.label,
+        labelOffset: c.labelOffset ? { ...c.labelOffset } : undefined,
+        points: Array.isArray(c.points) ? c.points.map((point: any) => ({ ...point })) : [],
       }));
+    if (selectorChanged) {
+      captured = remapSelectorConnections(captured, id, oldPaths, newPaths, wasBus, isBus);
+    }
+    const wanted = desiredPortCounts(b);
+    const removed = wanted
+      ? captured.length - survivingConnections(captured, id, wanted).length
+      : 0;
+    if (removed > 0 && !window.confirm('This change removes connected ports. Continue?')) {
+      const previous = acceptedParams.get(b);
+      if (previous) b.params = previous;
+      r.updateBlockLabel?.(b);
+      renderInspector(b);
+      restoreFocus();
+      return true;
+    }
     r.deleteBlock(id);
     r.createBlock((b as any).type, (b as any).x, (b as any).y, {
       id,
@@ -231,24 +314,36 @@ export const createInspector = ({
       params: (b as any).params,
     });
     const nb = (state.blocks as any).get(id);
-    if (!nb) return;
+    if (!nb) return true;
     const counts = actualPortCounts(nb);
     for (const c of survivingConnections(captured, id, counts)) {
-      r.createConnection?.(c.from, c.to, c.toIndex, c.fromIndex);
+      const restored = r.createConnection?.(c.from, c.to, c.toIndex, c.fromIndex);
+      if (restored) {
+        if (typeof c.label === 'string') restored.label = c.label;
+        if (c.labelOffset) restored.labelOffset = { ...c.labelOffset };
+        if (c.points?.length) restored.points = c.points.map((point) => ({ ...point }));
+      }
     }
+    r.updateConnections?.(true);
+    if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent('diagramChanged'));
     try {
       r.setMultiSelection?.(new Set([id]), new Set());
     } catch (_e) {}
     try {
       renderInspector(nb as Block);
+      restoreFocus();
     } catch (_e) {}
+    return true;
   };
   const callUpdate = (b: Block) => {
+    const current = state.blocks.get(b.id as number | string);
+    if (current && current !== b) return;
+    if (rebuildPortsIfNeeded(b)) return;
     const r = getRenderer() as Renderer | undefined;
     if (r?.updateBlockLabel) {
       r.updateBlockLabel(b);
     }
-    rebuildPortsIfNeeded(b);
+    if ((state.blocks as any).get((b as any).id) === b) saveParams(b);
   };
   const callResize = (b: Block, w: number, h: number) => {
     const r = getRenderer() as Renderer | undefined;
@@ -265,6 +360,7 @@ export const createInspector = ({
     }
 
     if (!block.params) block.params = {};
+    saveParams(block);
 
     if (block.kind === 'multi') {
       renderMultiSelectionPanel(inspectorBody, block, rotateSelectionBtn);
