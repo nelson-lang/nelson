@@ -10,6 +10,7 @@
 // Signal (wire) labels: double-click a wire to name it; the label is drawn
 // near the wire midpoint and persisted in the .nflow file.
 //=============================================================================
+import { onAppEvent } from './app-events.js';
 import { state, signalDiagramChanged } from './state.js';
 import { t } from '../utils/i18n.js';
 import { closeWireLabelEditor, renderWireLabelEditor } from './components/wire-label-editor.js';
@@ -18,7 +19,9 @@ import { renderWireLabelsView, type WireLabelViewModel } from './components/wire
 type Conn = {
   from?: unknown;
   to?: unknown;
+  fromIndex?: number;
   label?: string;
+  labelOffset?: { x: number; y: number };
   points?: Array<{ x: number; y: number }>;
   path?: SVGPathElement | null;
   hitPath?: Element | null;
@@ -50,6 +53,55 @@ function midpointOf(conn: Conn): { x: number; y: number } | null {
   return null;
 }
 //=============================================================================
+function startLabelDrag(
+  event: React.PointerEvent<SVGTextElement>,
+  conn: Conn,
+  overlay: Element
+): void {
+  if (state.locked || event.button !== 0) return;
+  event.preventDefault();
+  event.stopPropagation();
+  const matrix = (overlay as SVGGraphicsElement).getScreenCTM?.();
+  const inverse = matrix?.inverse();
+  const point = (x: number, y: number) =>
+    inverse
+      ? {
+          x: inverse.a * x + inverse.c * y + inverse.e,
+          y: inverse.b * x + inverse.d * y + inverse.f,
+        }
+      : { x, y };
+  const start = point(event.clientX, event.clientY);
+  const initial = conn.labelOffset ?? { x: 0, y: 0 };
+  let moved = false;
+  const move = (e: PointerEvent) => {
+    const current = point(e.clientX, e.clientY);
+    conn.labelOffset = { x: initial.x + current.x - start.x, y: initial.y + current.y - start.y };
+    moved = true;
+    refreshWireLabels();
+  };
+  const up = () => {
+    window.removeEventListener('pointermove', move);
+    window.removeEventListener('pointerup', up);
+    window.removeEventListener('pointercancel', up);
+    if (moved) signalDiagramChanged();
+  };
+  window.addEventListener('pointermove', move);
+  window.addEventListener('pointerup', up);
+  window.addEventListener('pointercancel', up);
+}
+//=============================================================================
+export function setSignalName(conn: Conn, label: string): void {
+  const matching = (state.connections as unknown as Conn[]).filter(
+    (other) =>
+      other.from === conn.from && Number(other.fromIndex ?? 0) === Number(conn.fromIndex ?? 0)
+  );
+  if (!matching.includes(conn)) matching.push(conn);
+  for (const other of matching) {
+    if (label.trim()) other.label = label;
+    else delete other.label;
+  }
+}
+//=============================================================================
 export function refreshWireLabels(): void {
   if (typeof document === 'undefined') return;
   const overlay = document.getElementById('overlayLayer');
@@ -66,9 +118,10 @@ export function refreshWireLabels(): void {
     if (!mid) continue;
     labels.push({
       key: `${index}:${label}:${mid.x}:${mid.y}`,
-      x: mid.x,
-      y: mid.y - 6,
+      x: mid.x + (conn.labelOffset?.x ?? 0),
+      y: mid.y - 6 + (conn.labelOffset?.y ?? 0),
       text: label,
+      onPointerDown: (event) => startLabelDrag(event, conn, overlay),
     });
   }
   renderWireLabelsView(overlay, labels);
@@ -102,8 +155,7 @@ function openLabelEditor(conn: Conn, clientX: number, clientY: number): void {
     committed = true;
     if (save) {
       const value = rawValue.trim();
-      if (value) conn.label = value;
-      else delete conn.label;
+      setSignalName(conn, value);
       refreshWireLabels();
       signalDiagramChanged();
     }
@@ -160,6 +212,7 @@ export function initWireLabels(svg: SVGSVGElement | null): void {
     },
     true
   );
+  onAppEvent('nf-wire-paths-rendered', () => refreshWireLabels());
   window.addEventListener('diagramChanged', () => refreshWireLabels());
   window.addEventListener('resize', () => refreshWireLabels());
 }

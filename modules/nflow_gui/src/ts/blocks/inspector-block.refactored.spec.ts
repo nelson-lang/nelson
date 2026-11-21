@@ -200,9 +200,19 @@ test('simple math panels render static content through React', () => {
   const body = makeContainer();
   const deps = makeDeps(body);
 
-  renderBlockPanel({ type: 'mult', params: {} } as any, deps);
-  expect(body.querySelector('[data-react-root="inspector-panel"]')).toBeTruthy();
-  expect(body.textContent).toContain('Multiply inputs');
+  const mult: any = { type: 'mult', params: {} };
+  renderBlockPanel(mult, deps);
+  const inputs = body.querySelector<HTMLInputElement>("input[data-edit='Inputs']");
+  expect(inputs?.value).toBe('3');
+  inputs!.value = '5';
+  inputs!.dispatchEvent(new Event('change', { bubbles: true }));
+  expect(mult.params.Inputs).toBe(5);
+  inputs!.value = '*/*';
+  inputs!.dispatchEvent(new Event('change', { bubbles: true }));
+  expect(mult.params.Inputs).toBe('*/*');
+  inputs!.value = 'bad';
+  inputs!.dispatchEvent(new Event('change', { bubbles: true }));
+  expect(mult.params.Inputs).toBe('*/*');
 
   renderBlockPanel({ type: 'terminator', params: {} } as any, deps);
   expect(body.querySelector('[data-react-root="inspector-panel"]')).toBeTruthy();

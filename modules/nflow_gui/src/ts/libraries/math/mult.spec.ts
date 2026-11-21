@@ -27,13 +27,13 @@ function makeHelpers() {
 }
 //=============================================================================
 describe('mult block renderer', () => {
-  test('creates circle and two lines', () => {
+  test('creates a body and one symbol per input', () => {
     const helpers = makeHelpers();
     const g = document.createElement('div');
-    const block: any = { group: g };
+    const block: any = { group: g, width: 30, height: 60, params: { Inputs: 3 } };
     mult(block, helpers);
-    expect(helpers.createSvgElement).toHaveBeenCalledTimes(3);
-    expect(g.childElementCount).toBe(3);
+    expect(helpers.createSvgElement).toHaveBeenCalledTimes(4);
+    expect(g.childElementCount).toBe(4);
   });
 });
 //=============================================================================

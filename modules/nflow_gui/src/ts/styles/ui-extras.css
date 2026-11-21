@@ -295,7 +295,8 @@ html[data-theme='dark'].nf-loading.nf-loading-activity .nf-loading-box {
   stroke: var(--nflow-editor-background, #fff);
   stroke-width: 3px;
   stroke-linejoin: round;
-  pointer-events: none;
+  pointer-events: visiblePainted;
+  cursor: move;
   user-select: none;
 }
 

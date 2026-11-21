@@ -15,6 +15,7 @@ export type WireLabelViewModel = {
   x: number;
   y: number;
   text: string;
+  onPointerDown?: (event: React.PointerEvent<SVGTextElement>) => void;
 };
 //=============================================================================
 const roots = new WeakMap<Element, Root>();
@@ -22,7 +23,14 @@ function WireLabelsView({ labels }: { labels: WireLabelViewModel[] }): JSX.Eleme
   return (
     <>
       {labels.map((label) => (
-        <text className="wire-label" x={label.x} y={label.y} textAnchor="middle" key={label.key}>
+        <text
+          className="wire-label"
+          x={label.x}
+          y={label.y}
+          textAnchor="middle"
+          key={label.key}
+          onPointerDown={label.onPointerDown}
+        >
           {label.text}
         </text>
       ))}

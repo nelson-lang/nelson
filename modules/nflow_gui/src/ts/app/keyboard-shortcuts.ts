@@ -108,7 +108,7 @@ export function initKeyboardShortcuts(refs: EventRefs, sim: SimulationActions) {
         event.preventDefault();
         return;
       }
-      if (isMod && (event.key === 'z' || event.key === 'Z')) {
+      if (isMod && !event.shiftKey && (event.key === 'z' || event.key === 'Z')) {
         try {
           void import('./history.js')
             .then((m: any) => {

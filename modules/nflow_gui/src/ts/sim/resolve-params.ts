@@ -10,6 +10,7 @@
 // Helpers to build the simulation diagram and scope map
 //=============================================================================
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { deepClone } from '../app/state.js';
 import { evalExpression } from '../utils/expr.js';
 import * as FieldNames from '../FieldNames.js';
 import type { ScopeBlock } from './parse-results.js';
@@ -86,6 +87,7 @@ export function buildDiagramAndScopeMap(
     to: c.to,
     fromIndex: c.fromIndex ?? 0,
     toIndex: c.toIndex ?? 0,
+    ...(typeof c.label === 'string' && c.label.trim() ? { label: c.label } : {}),
   }));
 
   // The engine (nflow_acausal_expand / nflow_planar_expand) only lowers a model
@@ -130,6 +132,7 @@ export function buildDiagramAndScopeMap(
     blocks,
     connections,
     ...(physicalWires ? { physicalWires } : {}),
+    ...(state.busTypes?.length ? { busTypes: deepClone(state.busTypes) } : {}),
     sampleTime: state.sampleTime ?? (variables as any).dt ?? (variables as any).sampleTime ?? 0.01,
     duration,
     variables,

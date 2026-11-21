@@ -42,6 +42,7 @@ function ContextMenus(): JSX.Element {
         <ContextMenuItem action="mirrorVertical" label="Mirror Vertical" />
         <ContextMenuItem action="rotateLeft" label="Rotate Left 90°" />
         <ContextMenuItem action="rotateRight" label="Rotate Right 90°" />
+        <ContextMenuItem action="fitBlockContent" label="Fit Block to Content" />
         <ContextMenuItem action="copy" label="Copy" />
         <ContextMenuItem action="cut" label="Cut" />
         <div className="context-menu-divider context-menu-divider--align" />

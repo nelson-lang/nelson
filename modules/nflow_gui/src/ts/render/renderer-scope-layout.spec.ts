@@ -311,3 +311,19 @@ test('updateCommentLayout resizes comment, updates text and dragRect', () => {
   expect(updateSelectionBox.calls.length).toBeGreaterThan(0);
 });
 //=============================================================================
+
+test('updatePortElement moves the output triangle and its hit area', () => {
+  const ns = 'http://www.w3.org/2000/svg';
+  const group = document.createElementNS(ns, 'g');
+  const hit = document.createElementNS(ns, 'circle');
+  hit.classList.add('port-hit');
+  const triangle = document.createElementNS(ns, 'polygon');
+  triangle.classList.add('port', 'out');
+  triangle.setAttribute('points', '74,34 74,46 86,40');
+  group.append(hit, triangle);
+  const handlers = makeScopeCommentLayout(makeCtx());
+  handlers.updatePortElement({ el: group, x: 200, y: 20 });
+  expect(hit.getAttribute('cx')).toBe('200');
+  expect(hit.getAttribute('cy')).toBe('20');
+  expect(triangle.getAttribute('points')).toBe('194,14 194,26 206,20');
+});

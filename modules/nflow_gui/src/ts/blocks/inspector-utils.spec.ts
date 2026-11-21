@@ -98,3 +98,22 @@ describe('bindGenericInputs', () => {
   });
 });
 //=============================================================================
+test('long checkbox labels name and toggle their control', () => {
+  const field: FieldDef = {
+    key: 'Nonvirtual',
+    label: 'Nonvirtual (struct at the generated interface)',
+    inputType: 'checkbox',
+    event: 'change',
+  };
+  const container = document.createElement('div');
+  container.innerHTML = fieldToHTML(field, true);
+  document.body.append(container);
+  const block = { params: { Nonvirtual: true } };
+  bindGenericInputs(container, block as any, {} as any, [field]);
+  const checkbox = container.querySelector('input')!;
+  expect(checkbox.labels?.[0].textContent).toBe(field.label);
+  container.querySelector('span')!.click();
+  expect(checkbox.checked).toBe(false);
+  expect(block.params.Nonvirtual).toBe(false);
+});
+//=============================================================================

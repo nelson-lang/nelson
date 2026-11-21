@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-import { refreshWireLabels, initWireLabels } from './wire-labels.js';
+import { refreshWireLabels, initWireLabels, setSignalName } from './wire-labels.js';
 import { state, signalDiagramChanged } from './state.js';
 import { serializeDiagram } from './file-operations.js';
 //=============================================================================
@@ -139,3 +139,48 @@ test('labels refresh on diagramChanged', () => {
   expect(document.querySelectorAll('.wire-label').length).toBe(1);
 });
 //=============================================================================
+
+test('dragging a signal name stores its offset and persists it', () => {
+  makeSvgDom();
+  const conn: any = {
+    from: 'a',
+    to: 'b',
+    label: 'speed',
+    points: [
+      { x: 0, y: 0 },
+      { x: 100, y: 0 },
+    ],
+  };
+  (state.connections as any[]).push(conn);
+  refreshWireLabels();
+  const label = document.querySelector('.wire-label')!;
+  label.dispatchEvent(
+    new PointerEvent('pointerdown', {
+      bubbles: true,
+      button: 0,
+      clientX: 50,
+      clientY: 0,
+      pointerId: 1,
+    })
+  );
+  window.dispatchEvent(new PointerEvent('pointermove', { clientX: 75, clientY: 20, pointerId: 1 }));
+  window.dispatchEvent(new PointerEvent('pointerup', { pointerId: 1 }));
+  expect(conn.labelOffset).toEqual({ x: 25, y: 20 });
+  expect(document.querySelector('.wire-label')?.getAttribute('x')).toBe('75');
+  const diagram: any = serializeDiagram(state);
+  expect(diagram.connections[0].labelOffset).toEqual({ x: 25, y: 20 });
+});
+
+test('renaming a signal updates all branches of the same source port', () => {
+  const a: any = { from: 'source', fromIndex: 0, to: 'a', label: 'old' };
+  const b: any = { from: 'source', fromIndex: 0, to: 'b' };
+  const c: any = { from: 'source', fromIndex: 1, to: 'c', label: 'other' };
+  (state.connections as any[]).push(a, b, c);
+  setSignalName(a, 'airspeed');
+  expect(a.label).toBe('airspeed');
+  expect(b.label).toBe('airspeed');
+  expect(c.label).toBe('other');
+  setSignalName(b, '');
+  expect(a.label).toBeUndefined();
+  expect(b.label).toBeUndefined();
+});

@@ -25,6 +25,8 @@
     <p><b>nflow</b> ouvre l'éditeur nflow, un éditeur de diagrammes base navigateur pour construire et simuler des modèles. Appele sans argument, il s'ouvre sur un modèle vide ; appele avec un fichier <b>.nflow</b>, il ouvre ce modèle.</p>
     <p><b>nflow</b> est le lanceur bas niveau. Pour ouvrir un modèle déjà chargé en mémoire (par nom ou par handle), ou une archive <b>.ssp</b>, utilisez <b>open_system</b>, qui résout ces entrées puis ouvre l'éditeur.</p>
     <p>L'éditeur travaille sur le modèle avec lequel il a été ouvert ; les modifications faites cote script pendant que la fenêtre est ouverte ne lui sont pas transmises en direct.</p>
+    <p>Pour ajuster une constante, un gain ou une annotation à son texte, faites un clic droit sur le bloc puis choisissez <b>Fit Block to Content</b>. Les connexions sont conservées et la modification peut être annulée ou rétablie.</p>
+    <p>Les blocs et les types de données pris en charge dépendent de l'opération et de la cible de simulation ou de génération de code. Consultez l'aide de chaque bloc avant d'utiliser un modèle avec un autre outil.</p>
   </description>
   <used_function />
   <bibliography />

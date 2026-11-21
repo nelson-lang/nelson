@@ -16,6 +16,7 @@ import {
   layoutPhysicalPinsWithFrames,
 } from '../../libraries/acausal/physical-pins.js';
 import { blockTemplates, refreshBlockTemplates } from './templates.js';
+import { usesGenericResize } from '../interaction/generic-resize.js';
 import { renderAcausalCaptionOverlay } from '../../libraries/generic-block-renderer.js';
 import type { RendererCtx } from '../core/renderer-types.js';
 import * as FieldNames from '../../FieldNames.js';
@@ -170,7 +171,12 @@ export function makeBlockCreation(ctx: RendererCtx) {
     if (
       type === 'scope' ||
       type === 'xyScope' ||
+      type === 'xyzScope' ||
       type === 'comment' ||
+      type === 'display' ||
+      type === FieldNames.kToggleSwitch ||
+      type === 'constant' ||
+      type === 'gain' ||
       type === FieldNames.kSubsystem
     ) {
       const paramWidth = Number(params.width);
@@ -197,6 +203,12 @@ export function makeBlockCreation(ctx: RendererCtx) {
       dynamicOutputs = Array.isArray(probe.dynamicOutputs)
         ? probe.dynamicOutputs.map((p: any) => ({ ...p }))
         : null;
+    }
+    if (type === 'gain') {
+      dynamicInputs = [{ x: 0, y: blockHeight / 2, side: 'left' }];
+    }
+    if (type === 'constant' || type === 'gain') {
+      dynamicOutputs = [{ x: blockWidth, y: blockHeight / 2, side: 'right' }];
     }
     // If no explicit serialized `ports` were provided, but this block is a
     // `subsystem` with `externalInputs`/`externalOutputs`, synthesize port
@@ -263,8 +275,32 @@ export function makeBlockCreation(ctx: RendererCtx) {
         // ignore malformed ports
       }
     }
-    const inputSpecs = dynamicInputs || template.inputs;
-    const outputSpecs = dynamicOutputs || template.outputs;
+    const naturalWidth = blockWidth;
+    const naturalHeight = blockHeight;
+    if (usesGenericResize(type)) {
+      if (Number.isFinite(Number(params.width)) && Number(params.width) >= 24)
+        blockWidth = Number(params.width);
+      if (Number.isFinite(Number(params.height)) && Number(params.height) >= 24)
+        blockHeight = Number(params.height);
+    }
+    const sx = blockWidth / naturalWidth;
+    const sy = blockHeight / naturalHeight;
+    const scalePort = (port: any) => ({
+      ...port,
+      x: port.x * sx,
+      y: port.y * sy,
+      wireX: (port.wireX ?? port.x) * sx,
+      wireY: (port.wireY ?? port.y) * sy,
+    });
+    const savedPorts = Array.isArray(options.ports);
+    const inputSpecs = (dynamicInputs || template.inputs).map((p: any) =>
+      savedPorts ? p : scalePort(p)
+    );
+    const outputSpecs = (dynamicOutputs || template.outputs).map((p: any) =>
+      savedPorts ? p : scalePort(p)
+    );
+    if (dynamicInputs) dynamicInputs = inputSpecs;
+    if (dynamicOutputs) dynamicOutputs = outputSpecs;
     const group = createSvgElement('g', {
       class: `svg-block type-${type}`,
       'data-block-id': id,
@@ -305,10 +341,14 @@ export function makeBlockCreation(ctx: RendererCtx) {
     } catch (e) {
       throw e;
     }
-    if (type === 'expression' || type === 'tf' || type === 'dtf')
+    if (
+      (type === 'expression' || type === 'tf' || type === 'dtf') &&
+      !params.width &&
+      !params.height
+    )
       (ctx as any).resizeUserFuncFromLabel?.(block, { force: true });
     const dragHeight = type === 'scope' ? 24 : block.height;
-    const minDragSize = 80;
+    const minDragSize = type === 'sum' || type === 'mult' ? 0 : 80;
     const dragWidth = type === 'scope' ? block.width : Math.max(block.width, minDragSize);
     const dragBoxHeight = type === 'scope' ? dragHeight : Math.max(dragHeight, minDragSize);
     const dragX = type === 'scope' ? 0 : (block.width - dragWidth) / 2;
@@ -351,6 +391,11 @@ export function makeBlockCreation(ctx: RendererCtx) {
     // connectable 'phys' ports. No-op for causal blocks (no physicalPins).
     const manifestPins = (template as any).physicalPins ?? (options as any).physicalPins;
     let physPins = Array.isArray(manifestPins) ? manifestPins.slice() : [];
+    if (usesGenericResize(type)) {
+      const px = block.width / (Number(template.width) || block.width);
+      const py = block.height / (Number(template.height) || block.height);
+      physPins = physPins.map((pin: any) => ({ ...pin, x: pin.x * px, y: pin.y * py }));
+    }
     // Per-instance named frames (PlanarBody.params.frames) become extra physical
     // pins, appended after the manifest pins so a wire to "<id>.<frame>" (e.g.
     // "r0.prox") round-trips through save/Run. block.physicalPins is the single
@@ -389,14 +434,7 @@ export function makeBlockCreation(ctx: RendererCtx) {
         block.height
       );
     }
-    if (
-      type === 'scope' ||
-      type === 'xyScope' ||
-      type === 'comment' ||
-      type === 'display' ||
-      type.startsWith('dashboard') ||
-      type === FieldNames.kToggleSwitch
-    ) {
+    {
       const resizeHandle = createSvgElement('rect', {
         class: 'resize-handle',
         x: block.width - 16,
@@ -414,11 +452,12 @@ export function makeBlockCreation(ctx: RendererCtx) {
 
     (ctx as any).blockLayer.appendChild(group);
     (ctx.state as any).blocks.set(id, block);
-    if (type === 'scope' || type === 'xyScope') (ctx as any).updateScopeLayout?.(block);
+    if (type === 'scope' || type === 'xyScope' || type === 'xyzScope')
+      (ctx as any).updateScopeLayout?.(block);
     else if (type === 'comment') (ctx as any).updateCommentLayout?.(block);
     else if (type === 'display') (ctx as any).updateDisplayLayout?.(block);
     else if (type === FieldNames.kToggleSwitch) (ctx as any).updateToggleLayout?.(block);
-    if (type === 'constant' || type === FieldNames.kGain) (ctx as any).updateBlockLabel?.(block);
+    if (type === 'constant' || type === 'gain') (ctx as any).updateBlockLabel?.(block);
     (ctx as any).updateBlockTransform?.(block);
     (ctx as any).enableDrag?.(block, dragRect);
     (ctx as any).enableSelection?.(block, dragRect);

@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-import { state } from './state.js';
+import { state, deepClone } from './state.js';
 import {
   rewriteConnectionsToPhysicalWires,
   blockPinInfoFromManifest,
@@ -74,6 +74,9 @@ export function serializeConnection(conn: Record<string, unknown>): Record<strin
     toIndex: conn.toIndex ?? 0,
   };
   if (typeof conn.label === 'string' && conn.label.trim() !== '') base.label = conn.label;
+  const offset = conn.labelOffset as { x?: unknown; y?: unknown } | undefined;
+  if (offset && Number.isFinite(offset.x) && Number.isFinite(offset.y))
+    base.labelOffset = { x: offset.x, y: offset.y };
   if (!Array.isArray(conn.points) || conn.points.length < 2) return base;
   const points = (conn.points as Array<Record<string, unknown>>)
     .map((point) => {
@@ -126,6 +129,8 @@ export function serializeDiagram(
     autoRoute: s.autoRoute,
     locked: Boolean(s.locked),
   };
+  if (s.busTypes?.length) out.busTypes = deepClone(s.busTypes);
+
   // Only a non-default solver is written, so existing diagrams do not change.
   if (s.solver && s.solver !== 'discrete') {
     out.solver = s.solver;
@@ -244,6 +249,7 @@ export function serializeNBlock(
     out.maskParameters = maskParameters;
   }
 
+  if (Array.isArray(d.busTypes) && d.busTypes.length) out.busTypes = deepClone(d.busTypes);
   if (d.variables !== undefined && d.variables !== '') out.variables = d.variables;
   if (d.sampleTime !== undefined) out.sampleTime = d.sampleTime;
   if (d.canvasBackground && String(d.canvasBackground).trim()) {

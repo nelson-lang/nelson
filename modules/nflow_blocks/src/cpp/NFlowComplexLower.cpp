@@ -74,7 +74,7 @@ namespace {
         {
             auto it = inputSrc.find(id);
             if (it == inputSrc.end() || port < 0 || port >= (int)it->second.size()) {
-                return {};
+                return { };
             }
             return it->second[port];
         }
@@ -83,7 +83,7 @@ namespace {
         typeOf(const std::string& id) const
         {
             auto it = byId.find(id);
-            return (it != byId.end()) ? jstr(it->second, nflow::kType) : std::string {};
+            return (it != byId.end()) ? jstr(it->second, nflow::kType) : std::string { };
         }
 
         // Resolve the real wire feeding lane (0 = re, 1 = im) of complex
@@ -98,7 +98,7 @@ namespace {
             if (type == "complexToRealImag") {
                 WireRef s = srcOf(id, 0);
                 if (s.id.empty()) {
-                    return zeroRef();
+                    return zeroRefFor(id, port);
                 }
                 return laneOf(s.id, s.port, (port == 1) ? 1 : 0);
             }
@@ -116,7 +116,7 @@ namespace {
                         return { id, (lane == 1) ? sp.imPort : sp.rePort };
                     }
                     if (lane == 1) {
-                        return zeroRef();
+                        return zeroRefFor(id, port);
                     }
                     return { id, sp.rePort };
                 }
@@ -127,21 +127,21 @@ namespace {
                 // Real signal consumed by a complex-aware block: the im lane
                 // is the shared zero constant.
                 if (lane == 1) {
-                    return zeroRef();
+                    return zeroRefFor(id, port);
                 }
                 return { id, port };
             }
             if (type == "realImagToComplex") {
                 WireRef s = srcOf(id, lane); // lane 0 <- input 0, lane 1 <- input 1
                 if (s.id.empty()) {
-                    return zeroRef();
+                    return zeroRefFor(id, port);
                 }
                 return s;
             }
             if (type == "conjugate") {
                 WireRef s = srcOf(id, 0);
                 if (s.id.empty()) {
-                    return zeroRef();
+                    return zeroRefFor(id, port);
                 }
                 if (lane == 0) {
                     return laneOf(s.id, s.port, 0);
@@ -155,14 +155,29 @@ namespace {
             return { id + (lane == 0 ? "__re" : "__im"), 0 };
         }
 
-        bool needZero = false;
+        std::set<std::string> zeroTypes;
+        std::string
+        outputType(const std::string& id, int port = 0) const
+        {
+            const auto it = widths.outTypes.find(id);
+            if (it == widths.outTypes.end() || port < 0 || port >= (int)it->second.size()) {
+                return "double";
+            }
+            return it->second[port];
+        }
+        WireRef
+        zeroRefFor(const std::string& id, int port = 0)
+        {
+            const std::string type = outputType(id, port);
+            zeroTypes.insert(type);
+            return { type == "double" ? "nflow_czero__c" : "nflow_czero_" + type + "__c", 0 };
+        }
         WireRef
         zeroRef()
         {
-            needZero = true;
+            zeroTypes.insert("double");
             return { "nflow_czero__c", 0 };
         }
-
         // Lowered busSelector port mapping: origPort -> {rePort, imPort}
         // (imPort = -1 for a real member). Precomputed before emission so
         // consumers resolve regardless of block order.
@@ -261,6 +276,93 @@ namespace {
             addBlock(id, "sum", 2, 1, std::move(p));
             addConn(a, id, 0);
             addConn(b, id, 1);
+        }
+
+        void
+        emitComplexBinary(const std::string& id, const WireRef& ar, const WireRef& ai,
+            const WireRef& br, const WireRef& bi, bool divides, bool matrixPivot = false)
+        {
+            emitMult(id + "__rr", ar, br);
+            emitMult(id + "__ii", ai, bi);
+            emitMult(id + "__ir", ai, br);
+            emitMult(id + "__ri", ar, bi);
+            if (!divides) {
+                emitSum(id + "__re", { id + "__rr", 0 }, { id + "__ii", 0 }, "+-");
+                emitSum(id + "__im", { id + "__ir", 0 }, { id + "__ri", 0 }, "++");
+                return;
+            }
+            emitMult(id + "__brr", br, br);
+            emitMult(id + "__bii", bi, bi);
+            emitSum(id + "__den", { id + "__brr", 0 }, { id + "__bii", 0 }, "++");
+            emitSum(id + "__ren", { id + "__rr", 0 }, { id + "__ii", 0 }, "++");
+            emitSum(id + "__imn", { id + "__ir", 0 }, { id + "__ri", 0 }, "+-");
+            json divideParams = json::object();
+            if (matrixPivot) {
+                divideParams["MatrixInversePivot"] = true;
+            }
+            addBlock(id + "__re", "divide", 2, 1, divideParams);
+            addConn({ id + "__ren", 0 }, id + "__re", 0);
+            addConn({ id + "__den", 0 }, id + "__re", 1);
+            addBlock(id + "__im", "divide", 2, 1, divideParams);
+            addConn({ id + "__imn", 0 }, id + "__im", 0);
+            addConn({ id + "__den", 0 }, id + "__im", 1);
+        }
+
+        void
+        emitComplexProduct(const json& block, const std::string& id)
+        {
+            const json& params = jval(block, nflow::kParams);
+            const std::string operations
+                = params.is_object() ? jstr(params, nflow::kSumInputs) : "";
+            const int count = jint(block, nflow::kInputs, 1);
+            WireRef real;
+            WireRef imag;
+            bool initialized = false;
+            for (int index = 0; index < count; ++index) {
+                const WireRef source = srcOf(id, index);
+                if (source.id.empty()) {
+                    continue;
+                }
+                const WireRef br = laneOf(source.id, source.port, 0);
+                const WireRef bi = laneOf(source.id, source.port, 1);
+                const bool divides
+                    = index < static_cast<int>(operations.size()) && operations[index] == '/';
+                if (!initialized && !divides) {
+                    real = br;
+                    imag = bi;
+                    initialized = true;
+                    continue;
+                }
+                if (!initialized) {
+                    json one;
+                    one[nflow::kValue] = 1.0;
+                    one[nflow::kOutDataType] = outputType(id);
+                    addBlock(id + "__one", "constant", 0, 1, std::move(one));
+                    real = { id + "__one", 0 };
+                    imag = zeroRefFor(id);
+                    initialized = true;
+                }
+                const std::string stage = id + "__product" + std::to_string(index);
+                const std::string mode = params.is_object()
+                    ? params.value("Multiplication", std::string())
+                    : std::string();
+                emitComplexBinary(stage, real, imag, br, bi, divides,
+                    params.is_object()
+                        && (params.value("MatrixInversePivot", false) || mode == "Matrix(*)"
+                            || mode == "matrix"));
+                real = { stage + "__re", 0 };
+                imag = { stage + "__im", 0 };
+            }
+            if (!initialized) {
+                json one;
+                one[nflow::kValue] = 1.0;
+                one[nflow::kOutDataType] = outputType(id);
+                addBlock(id + "__one", "constant", 0, 1, std::move(one));
+                real = { id + "__one", 0 };
+                imag = zeroRefFor(id);
+            }
+            emitSum(id + "__re", real, zeroRefFor(id), "++");
+            emitSum(id + "__im", imag, zeroRefFor(id), "++");
         }
 
         // Copy the original block under a new id, remapping its inputs to
@@ -365,7 +467,7 @@ namespace {
                         for (int p = 0; p < nIn; ++p) {
                             WireRef s = (iit != inputSrc.end() && p < (int)iit->second.size())
                                 ? iit->second[(size_t)p]
-                                : WireRef {};
+                                : WireRef { };
                             const std::string base
                                 = (p < (int)names.size() && !names[(size_t)p].empty())
                                 ? names[(size_t)p]
@@ -517,44 +619,35 @@ namespace {
                     continue;
                 }
                 if (type == "mult") {
-                    // (ar + i*ai) * (br + i*bi); more than two inputs are already
-                    // chained into pairwise products at diagram level.
-                    WireRef a = srcOf(id, 0);
-                    WireRef bsrc = srcOf(id, 1);
-                    const WireRef ar = a.id.empty() ? zeroRef() : laneOf(a.id, a.port, 0);
-                    const WireRef ai = a.id.empty() ? zeroRef() : laneOf(a.id, a.port, 1);
-                    const WireRef br = bsrc.id.empty() ? zeroRef() : laneOf(bsrc.id, bsrc.port, 0);
-                    const WireRef bi = bsrc.id.empty() ? zeroRef() : laneOf(bsrc.id, bsrc.port, 1);
-                    emitMult(id + "__rr", ar, br);
-                    emitMult(id + "__ii", ai, bi);
-                    emitMult(id + "__ir", ai, br);
-                    emitMult(id + "__ri", ar, bi);
-                    emitSum(id + "__re", { id + "__rr", 0 }, { id + "__ii", 0 }, "+-");
-                    emitSum(id + "__im", { id + "__ir", 0 }, { id + "__ri", 0 }, "++");
+                    const json& params = jval(b, nflow::kParams);
+                    const std::string operations
+                        = params.is_object() ? jstr(params, nflow::kSumInputs) : "";
+                    if (jint(b, nflow::kInputs, 1) == 2 && operations.find('/') == std::string::npos
+                        && !srcOf(id, 0).id.empty() && !srcOf(id, 1).id.empty()) {
+                        const WireRef a = srcOf(id, 0);
+                        const WireRef bsrc = srcOf(id, 1);
+                        const WireRef ar = a.id.empty() ? zeroRef() : laneOf(a.id, a.port, 0);
+                        const WireRef ai = a.id.empty() ? zeroRef() : laneOf(a.id, a.port, 1);
+                        const WireRef br
+                            = bsrc.id.empty() ? zeroRef() : laneOf(bsrc.id, bsrc.port, 0);
+                        const WireRef bi
+                            = bsrc.id.empty() ? zeroRef() : laneOf(bsrc.id, bsrc.port, 1);
+                        emitComplexBinary(id, ar, ai, br, bi, false);
+                    } else {
+                        emitComplexProduct(b, id);
+                    }
                     continue;
                 }
                 if (type == "divide") {
-                    WireRef a = srcOf(id, 0);
-                    WireRef bsrc = srcOf(id, 1);
+                    const WireRef a = srcOf(id, 0);
+                    const WireRef divisor = srcOf(id, 1);
                     const WireRef ar = a.id.empty() ? zeroRef() : laneOf(a.id, a.port, 0);
                     const WireRef ai = a.id.empty() ? zeroRef() : laneOf(a.id, a.port, 1);
-                    const WireRef br = bsrc.id.empty() ? zeroRef() : laneOf(bsrc.id, bsrc.port, 0);
-                    const WireRef bi = bsrc.id.empty() ? zeroRef() : laneOf(bsrc.id, bsrc.port, 1);
-                    emitMult(id + "__brr", br, br);
-                    emitMult(id + "__bii", bi, bi);
-                    emitSum(id + "__den", { id + "__brr", 0 }, { id + "__bii", 0 }, "++");
-                    emitMult(id + "__rr", ar, br);
-                    emitMult(id + "__ii", ai, bi);
-                    emitSum(id + "__ren", { id + "__rr", 0 }, { id + "__ii", 0 }, "++");
-                    emitMult(id + "__ir", ai, br);
-                    emitMult(id + "__ri", ar, bi);
-                    emitSum(id + "__imn", { id + "__ir", 0 }, { id + "__ri", 0 }, "+-");
-                    addBlock(id + "__re", "divide", 2, 1, json::object());
-                    addConn({ id + "__ren", 0 }, id + "__re", 0);
-                    addConn({ id + "__den", 0 }, id + "__re", 1);
-                    addBlock(id + "__im", "divide", 2, 1, json::object());
-                    addConn({ id + "__imn", 0 }, id + "__im", 0);
-                    addConn({ id + "__den", 0 }, id + "__im", 1);
+                    const WireRef br
+                        = divisor.id.empty() ? zeroRef() : laneOf(divisor.id, divisor.port, 0);
+                    const WireRef bi
+                        = divisor.id.empty() ? zeroRef() : laneOf(divisor.id, divisor.port, 1);
+                    emitComplexBinary(id, ar, ai, br, bi, true);
                     continue;
                 }
                 if (type == nflow::kLabelSink) {
@@ -584,10 +677,15 @@ namespace {
                 emitLaneCopy(b, id + "__im", 1);
             }
 
-            if (needZero) {
+            for (const auto& type : zeroTypes) {
                 json p;
                 p[nflow::kValue] = 0.0;
-                addBlock("nflow_czero__c", "constant", 0, 1, std::move(p));
+                if (type != "double") {
+                    p[nflow::kOutDataType] = type;
+                }
+                const std::string id
+                    = type == "double" ? "nflow_czero__c" : "nflow_czero_" + type + "__c";
+                addBlock(id, "constant", 0, 1, std::move(p));
             }
 
             json lowered = diagram;

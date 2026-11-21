@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { state, signalDiagramChanged, getFitToDiagram } from './state.js';
+import { state, deepClone, signalDiagramChanged, getFitToDiagram } from './state.js';
 import { writeStatus } from './status-service.js';
 import { buildTitleName } from './title-manager.js';
 import { parseVariables } from '../utils/expr.js';
@@ -270,6 +270,7 @@ export async function loadDiagram(
   try {
     document.body.classList.toggle('diagram-locked', Boolean(state.locked));
   } catch (_e) {}
+  state.busTypes = Array.isArray(D.busTypes) ? deepClone(D.busTypes) : [];
   state.variablesText = typeof D.variables === 'string' ? (D.variables as string) : '';
   const variablesInputEl =
     variablesInput ||
@@ -558,6 +559,10 @@ export async function loadDiagram(
     }
     if (typeof connData.label === 'string' && connData.label.trim() !== '') {
       created.label = connData.label;
+    }
+    const offset = connData.labelOffset as { x?: unknown; y?: unknown } | undefined;
+    if (offset && Number.isFinite(offset.x) && Number.isFinite(offset.y)) {
+      created.labelOffset = { x: offset.x, y: offset.y };
     }
   });
 

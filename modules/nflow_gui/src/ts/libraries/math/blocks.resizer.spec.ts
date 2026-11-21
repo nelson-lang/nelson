@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-import { trigFunctionResizer, mathFunctionResizer, blockDefinitions } from './blocks';
+import { trigFunctionResizer, mathFunctionResizer, sumResizer, blockDefinitions } from './blocks';
 //=============================================================================
 describe('trigFunctionResizer', () => {
   test('unary function: 1 input, 1 output', () => {
@@ -75,3 +75,37 @@ describe('math blockDefinitions', () => {
   });
 });
 //=============================================================================
+
+describe('sumResizer', () => {
+  test('positions each signed input on a vertical block', () => {
+    const block: any = { params: { Inputs: '+-++-' } };
+    sumResizer(block);
+    expect(block.dynamicInputs).toHaveLength(5);
+    expect(block.dynamicInputs.map((port: any) => port.y)).toEqual([10, 30, 50, 70, 90]);
+    expect(block.dynamicOutputs[0].y).toBe(50);
+  });
+});
+
+test('sum accepts a numeric input count', () => {
+  const block: any = { params: { Inputs: '4' } };
+  sumResizer(block);
+  expect(block.dynamicInputs).toHaveLength(4);
+});
+
+test('sum restores user-selected dimensions while keeping port spacing', () => {
+  const block: any = { params: { Inputs: '+++', width: 80, height: 120 } };
+  sumResizer(block);
+  expect([block.width, block.height]).toEqual([80, 120]);
+  expect(block.dynamicInputs.map((p: any) => p.y)).toEqual([20, 60, 100]);
+  expect(block.dynamicOutputs[0].x).toBe(80);
+});
+
+test('function resizer restores width and height', () => {
+  const block: any = { params: { Function: 'sincos', width: 120, height: 100 } };
+  trigFunctionResizer(block);
+  expect([block.width, block.height]).toEqual([120, 100]);
+  expect(block.dynamicOutputs.map((p: any) => [p.x, p.y])).toEqual([
+    [120, 40],
+    [120, 60],
+  ]);
+});

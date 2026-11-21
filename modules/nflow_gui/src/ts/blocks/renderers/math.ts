@@ -1,4 +1,4 @@
-﻿//=============================================================================
+//=============================================================================
 // Copyright (c) 2024-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 import type { Block } from '../inspector.js';
 import type { BlockPanelDeps } from '../inspector-block.js';
 import * as FieldNames from '../../FieldNames.js';
+import { parseProductInputs } from '../product-inputs.js';
 import type { FieldDef } from '../inspector-utils.js';
 import { registerRenderer } from '../inspector-registry.js';
 import {
@@ -18,7 +19,6 @@ import {
 } from '../components/inspector-fields.js';
 //=============================================================================
 const STATIC_PANELS: Record<string, string> = {
-  mult: 'Multiply inputs',
   divide: 'Divide input 1 by input 2',
   negate: 'Negate input',
 };
@@ -133,6 +133,57 @@ const SQRT_FIELDS: FieldDef[] = [
 ];
 //=============================================================================
 export function renderMath(block: Block, deps: BlockPanelDeps): boolean {
+  if (block.type === 'mult') {
+    renderGenericFieldsPanel(
+      deps.inspectorBody,
+      block,
+      deps,
+      [
+        {
+          key: 'Multiplication',
+          label: 'Multiplication',
+          inputType: 'select',
+          event: 'change',
+          callUpdate: true,
+          options: [
+            { value: 'Element-wise(.*)', label: 'Element-wise (.*)' },
+            { value: 'Matrix(*)', label: 'Matrix (*)' },
+          ],
+          coerce: (el) => {
+            if (el.value !== 'Matrix(*)' && !parseProductInputs(block.params?.Inputs ?? 3)) {
+              el.value = String(block.params?.Multiplication ?? 'Element-wise(.*)');
+              el.setCustomValidity('Use at least two inputs in element-wise mode.');
+              el.reportValidity();
+              throw new Error('Invalid product inputs for element-wise mode');
+            }
+            el.setCustomValidity('');
+            return el.value;
+          },
+        },
+        {
+          key: FieldNames.kSumInputs,
+          label: 'Inputs (* and /, or count)',
+          inputType: 'text',
+          event: 'change',
+          callUpdate: true,
+          coerce: (el) => {
+            const raw = el.value.trim();
+            const parsed = parseProductInputs(raw, block.params?.Multiplication === 'Matrix(*)');
+            el.setCustomValidity(
+              parsed ? '' : 'Enter a valid number of inputs or a sequence of * and /.'
+            );
+            if (!parsed) {
+              el.reportValidity();
+              throw new Error('Invalid product inputs');
+            }
+            return /^\d+$/.test(raw) ? parsed.count : raw;
+          },
+        },
+      ],
+      { [FieldNames.kSumInputs]: 3, Multiplication: 'Element-wise(.*)' }
+    );
+    return true;
+  }
   const text = STATIC_PANELS[String(block.type)];
   if (text) {
     renderStaticInspectorPanel(deps.inspectorBody, text);

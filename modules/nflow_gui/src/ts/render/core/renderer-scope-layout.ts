@@ -103,6 +103,10 @@ export function makeScopeCommentLayout(ctx: unknown) {
     if (shape.tagName.toLowerCase() === 'rect') {
       shape.setAttribute('x', String((port.x ?? 0) - 6));
       shape.setAttribute('y', String((port.y ?? 0) - 6));
+    } else if (shape.tagName.toLowerCase() === 'polygon') {
+      const x = port.x ?? 0;
+      const y = port.y ?? 0;
+      shape.setAttribute('points', `${x - 6},${y - 6} ${x - 6},${y + 6} ${x + 6},${y}`);
     } else {
       shape.setAttribute('cx', String(port.x ?? 0));
       shape.setAttribute('cy', String(port.y ?? 0));

@@ -350,9 +350,9 @@ export const fieldToHTML = (f: FieldDef, value: unknown) => {
         f.label
       )}</span><textarea data-edit="${esc(f.key)}" ${attrs}>${esc(value)}</textarea></label>`;
     case 'checkbox':
-      return `<div class="param param-inline"><span class="param-name">${esc(
+      return `<label class="param param-inline"><span class="param-name">${esc(
         f.label
-      )}</span><input type="checkbox" data-edit="${esc(f.key)}" ${value ? 'checked' : ''}></div>`;
+      )}</span><input type="checkbox" data-edit="${esc(f.key)}" ${value ? 'checked' : ''}></label>`;
     case 'select':
       return `<label class="param">${esc(f.label)}<select data-edit="${esc(f.key)}">${(
         f.options || []

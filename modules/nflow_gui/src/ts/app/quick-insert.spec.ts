@@ -90,5 +90,21 @@ describe('openQuickInsert popup', () => {
     expect(document.getElementById('quickInsertPopup')).toBeNull();
     expect(createBlock).not.toHaveBeenCalled();
   });
+
+  test('a delayed blur from an older popup does not close a new popup', () => {
+    vi.useFakeTimers();
+    try {
+      openQuickInsert(50, 50, 10, 10);
+      const first = document.getElementById('quickInsertInput') as HTMLInputElement;
+      first.dispatchEvent(new FocusEvent('blur'));
+      openQuickInsert(80, 80, 20, 20);
+      const second = document.getElementById('quickInsertInput');
+      expect(second).not.toBe(first);
+      vi.advanceTimersByTime(150);
+      expect(document.getElementById('quickInsertInput')).toBe(second);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
 });
 //=============================================================================

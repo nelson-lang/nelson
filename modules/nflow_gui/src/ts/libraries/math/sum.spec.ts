@@ -30,15 +30,15 @@ function makeHelpersForSum() {
 }
 //=============================================================================
 describe('sum block renderer', () => {
-  test('renders central plus sign', () => {
+  test('renders a sign for each input', () => {
     const helpers = makeHelpersForSum();
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
     svg.appendChild(g);
-    const block: any = { group: g, width: 20, height: 20, params: { signs: [1, 1, 1] } };
+    const block: any = { group: g, width: 20, height: 20, params: { Inputs: '+-+' } };
     sumRender(block, helpers);
-    const plusLines = g.querySelectorAll('line.sum-line');
-    expect(plusLines.length).toBeGreaterThanOrEqual(2);
+    const signs = Array.from(g.querySelectorAll('.sum-sign')).map((el) => el.textContent);
+    expect(signs).toEqual(['+', '-', '+']);
   });
 });
 //=============================================================================

@@ -35,7 +35,10 @@ function dimInputsResizer(blockDef: any): void {
 //=============================================================================
 export const lookupNDResizer = dimInputsResizer;
 export const directLookupResizer = dimInputsResizer;
-const manifestDefs = buildRegistryFromManifest(lookupManifest as any).getDefinitions();
+const manifestDefs = buildRegistryFromManifest({
+  ...lookupManifest,
+  _dir: 'lookup',
+} as any).getDefinitions();
 export const blockDefinitions = {
   lookupND: {
     render: manifestDefs['lookupND']?.render,

@@ -39,6 +39,7 @@ export interface AppEventMap {
   'nf-current-file-change': { path: string | null };
   'nf-model-metadata-change': undefined;
   'nf-viewbox-changed': undefined;
+  'nf-wire-paths-rendered': undefined;
   'nf-dashboard-update': DashboardUpdate;
   'nf-dashboard-control-change': { id: string; binding: unknown; value: number };
   'nf-ui-prefs-error': { error: unknown };

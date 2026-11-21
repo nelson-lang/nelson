@@ -153,3 +153,16 @@ describe('applyBlockTypeLabels', () => {
   });
 });
 //=============================================================================
+
+test('gain formula is refreshed and fitted when its parameter changes', () => {
+  const group = makeGroup();
+  const formula = makeGroup();
+  formula.classList.add('nf-gain-formula');
+  group.appendChild(formula);
+  const block: any = makeBlock('gain', { Gain: '123456789' });
+  block.group = group;
+  const ctx = makeCtx({ scaleMathToFit: vi.fn(), positionGainMath: vi.fn() });
+  applyBlockTypeLabels(block, ctx);
+  expect(ctx.scaleMathToFit).toHaveBeenCalledWith(formula, 48, 40);
+  expect(ctx.positionGainMath).toHaveBeenCalledWith(formula, block, 8);
+});

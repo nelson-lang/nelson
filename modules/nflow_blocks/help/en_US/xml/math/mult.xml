@@ -11,7 +11,7 @@
   <param_input>
     <param_input_item>
       <param_name>input ports</param_name>
-      <param_description>3 input port(s) declared.</param_description>
+      <param_description>The number of input ports is configurable.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -52,68 +52,21 @@
     <p>
       <b>Description</b>
     </p>
-    <p>Multiplies up to three inputs together.</p>
+    <p>Multiplies or divides connected inputs in element-wise or matrix mode. The Inputs parameter specifies the operation for each port.</p>
+    <p>In matrix mode, a nonscalar divisor must be square and use single or double precision. Convert integer inputs before matrix division.</p>
+    <p>A singular matrix divisor stops simulation with a diagnostic. Generated C and Rust models signal a singular divisor with NaN output values; their step function has no error return.</p>
     <p>
       <b>Ports</b>
     </p>
-    <p>
-      <b>Input(s)</b>
-    </p>
-    <table border="1">
-      <thead>
-        <tr>
-          <th>Port</th>
-          <th>Role</th>
-          <th>Side</th>
-          <th>Position</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Port_1</td>
-          <td>Numeric signal read by the block.</td>
-          <td>left</td>
-          <td>x=-30, y=10</td>
-        </tr>
-        <tr>
-          <td>Port_2</td>
-          <td>Numeric signal read by the block.</td>
-          <td>top</td>
-          <td>x=10, y=-30</td>
-        </tr>
-        <tr>
-          <td>Port_3</td>
-          <td>Numeric signal read by the block.</td>
-          <td>bottom</td>
-          <td>x=10, y=50</td>
-        </tr>
-      </tbody>
-    </table>
+    <p>Input ports are arranged according to the configured operations.</p>
     <p>
       <b>Output(s)</b>
     </p>
-    <table border="1">
-      <thead>
-        <tr>
-          <th>Port</th>
-          <th>Role</th>
-          <th>Side</th>
-          <th>Position</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Port_1</td>
-          <td>Numeric signal produced by the block.</td>
-          <td>right</td>
-          <td>x=50, y=10</td>
-        </tr>
-      </tbody>
-    </table>
+    <p>One output carries the result.</p>
     <p>
       <b>Parameters</b>
     </p>
-    <p>No block parameters are declared in the manifest.</p>
+    <p>Inputs selects multiplication or division for each port. Multiplication selects element-wise or matrix operations.</p>
     <p>
       <b>Block Characteristics</b>
     </p>
@@ -129,7 +82,7 @@
         </tr>
         <tr>
           <td>Rendered size</td>
-          <td>20 x 20</td>
+          <td>Depends on the configuration and can be resized.</td>
         </tr>
         <tr>
           <td>Phases</td>
@@ -145,7 +98,7 @@
         </tr>
         <tr>
           <td>Signal data type</td>
-          <td>double numeric values</td>
+          <td>Numeric signals; supported types depend on the operation.</td>
         </tr>
       </tbody>
     </table>
@@ -154,12 +107,12 @@
     </p>
     <ul>
       <li>Algebraic block.</li>
-      <li>Starts at 1 and multiplies each connected input; unconnected ports are skipped.</li>
+      <li>Applies the configured multiplication or division to each connected input in order; unconnected ports are skipped.</li>
     </ul>
     <p>
       <b>Equation or Rule</b>
     </p>
-    <latex>y = \prod_i u_i</latex>
+    <p>Each input is multiplied or divided into the result in port order.</p>
     <p>
       <b>Extended Capabilities</b>
     </p>

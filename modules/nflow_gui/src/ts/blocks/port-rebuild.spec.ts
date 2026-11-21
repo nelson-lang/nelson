@@ -14,6 +14,7 @@ import {
   actualPortCounts,
   portCountsChanged,
   survivingConnections,
+  remapSelectorConnections,
 } from './port-rebuild';
 //=============================================================================
 const ports = (inputs: number, outputs: number) => [
@@ -106,3 +107,23 @@ describe('survivingConnections', () => {
   });
 });
 //=============================================================================
+
+test('selector outputs retain their selected member after reorder', () => {
+  const wires = [
+    { from: 'sel', to: 'sinkA', fromIndex: 0, toIndex: 0 },
+    { from: 'sel', to: 'sinkB', fromIndex: 1, toIndex: 0 },
+  ];
+  const reordered = remapSelectorConnections(wires, 'sel', ['a', 'b'], ['b', 'a'], false, false);
+  expect(reordered.map((wire) => wire.fromIndex)).toEqual([1, 0]);
+  const removed = remapSelectorConnections(wires, 'sel', ['a', 'b'], ['b'], false, false);
+  expect(survivingConnections(removed, 'sel', { inputs: 1, outputs: 1 })).toEqual([
+    { ...wires[1], fromIndex: 0 },
+  ]);
+  expect(
+    survivingConnections(
+      remapSelectorConnections(wires, 'sel', ['a', 'b'], ['a', 'b'], false, true),
+      'sel',
+      { inputs: 1, outputs: 1 }
+    )
+  ).toEqual([]);
+});

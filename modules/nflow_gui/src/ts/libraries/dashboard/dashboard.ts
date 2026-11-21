@@ -521,6 +521,7 @@ function attachKnob(block: Block): (value: number) => void {
   };
   const sender = createDashboardThrottle((value) => sendValue(block, value));
   const down = (event: PointerEvent) => {
+    if ((event.target as Element | null)?.closest?.('.resize-handle')) return;
     if (event.button !== 0) return;
     const pointerId = event.pointerId;
     const matchesPointer = (candidate: PointerEvent) =>
@@ -789,6 +790,7 @@ function attachPushButton(block: Block, callback: boolean): (value: number) => v
     block.group.classList.toggle('dashboard-pressed', latched);
   };
   const press = (event: PointerEvent) => {
+    if ((event.target as Element | null)?.closest?.('.resize-handle')) return;
     if (event.button !== 0 || event.shiftKey) return;
     event.stopPropagation();
     begin();

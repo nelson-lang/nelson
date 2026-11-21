@@ -74,6 +74,66 @@ export function buildBusMemberTree(
   return [];
 }
 //=============================================================================
+function declaredBusInfo(name: string, seen = new Set<string>()): BusInfo | null {
+  if (!name || seen.has(name)) return null;
+  const definition = (state.busTypes as Array<Record<string, unknown>>).find(
+    (item) => item.name === name
+  );
+  if (!definition || !Array.isArray(definition.members)) return null;
+  const visited = new Set(seen);
+  visited.add(name);
+  const members: BusMemberInfo[] = definition.members
+    .filter((member) => member && typeof member === 'object')
+    .map((raw) => {
+      const member = raw as Record<string, unknown>;
+      const dims = Array.isArray(member.dims) ? member.dims.map(Number) : undefined;
+      const nested = typeof member.bus === 'string' ? declaredBusInfo(member.bus, visited) : null;
+      return {
+        name: String(member.name ?? ''),
+        offset: 0,
+        width: dims?.reduce((a, b) => a * b, 1) ?? 1,
+        ...(typeof member.type === 'string' ? { type: member.type } : {}),
+        ...(dims ? { dims } : {}),
+        ...(nested ? { bus: nested } : {}),
+      };
+    });
+  return { name, nonvirtual: definition.nonvirtual === true, members };
+}
+//=============================================================================
+/** Infer top-level member names from the incoming named signals. */
+function namesFromInputs(upstream: Block, conns: Array<Record<string, unknown>>): string[] | null {
+  const incoming = conns.filter((c) => String(c.to) === String(upstream.id));
+  if (!incoming.length) return null;
+  const portCount = Math.max(
+    Number((upstream as { inputs?: number }).inputs ?? 0),
+    ...incoming.map((c) => Number(c.toIndex ?? 0) + 1)
+  );
+  let anyNamed = false;
+  const names = Array.from({ length: portCount }, (_, index) => {
+    const input = incoming.find((c) => Number(c.toIndex ?? 0) === index);
+    const sibling =
+      input &&
+      conns.find(
+        (c) =>
+          c.from === input.from &&
+          Number(c.fromIndex ?? 0) === Number(input.fromIndex ?? 0) &&
+          typeof c.label === 'string' &&
+          c.label.trim()
+      );
+    const name =
+      typeof input?.label === 'string' && input.label.trim()
+        ? input.label.trim()
+        : typeof sibling?.label === 'string'
+        ? sibling.label.trim()
+        : '';
+    if (name) anyNamed = true;
+    return name || 'signal' + (index + 1);
+  });
+  if (!anyNamed) return null;
+  if (new Set(names).size !== names.length) return names.map((name, index) => name + (index + 1));
+  return names;
+}
+//=============================================================================
 /** Bus descriptor + static fallback for the wire feeding (block, input 0). */
 export function upstreamBusSources(block: Block): {
   busInfo: BusInfo | null;
@@ -83,12 +143,15 @@ export function upstreamBusSources(block: Block): {
   const conns = (state.connections as Array<Record<string, unknown>>) || [];
   const conn = conns.find((c) => String(c.to) === String(block.id) && Number(c.toIndex ?? 0) === 0);
   if (!conn) return { busInfo: null, fallbackMemberNames: null, connected: false };
-  const busInfo = getSignalBusInfo(conn.from, conn.fromIndex ?? 0) as BusInfo | null;
+  let busInfo = getSignalBusInfo(conn.from, conn.fromIndex ?? 0) as BusInfo | null;
   let fallback: string[] | null = null;
   const upstream = (state.blocks as Map<unknown, Block>).get(conn.from as never);
   if (upstream && String(upstream.type) === 'busCreator') {
+    const declared = upstream.params?.[FieldNames.kBusType];
+    if (typeof declared === 'string' && declared) busInfo = declaredBusInfo(declared) ?? busInfo;
     const names = upstream.params?.[FieldNames.kMemberNames];
-    if (Array.isArray(names)) fallback = names.map((n) => String(n));
+    if (Array.isArray(names) && names.length) fallback = names.map((n) => String(n));
+    else fallback = namesFromInputs(upstream, conns);
   }
   return { busInfo, fallbackMemberNames: fallback, connected: true };
 }

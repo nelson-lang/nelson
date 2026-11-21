@@ -200,3 +200,18 @@ describe('flattenMuxDemux', () => {
   });
 });
 //=============================================================================
+
+test('simulation payload retains signal labels for bus member inference', () => {
+  const blocks = new Map([
+    ['source', { id: 'source', type: 'constant', inputs: 0, outputs: 1, params: { Value: 4 } }],
+    ['bus', { id: 'bus', type: 'busCreator', inputs: 1, outputs: 1, params: {} }],
+  ]);
+  const state: any = {
+    blocks,
+    connections: [{ from: 'source', to: 'bus', fromIndex: 0, toIndex: 0, label: 'altitude' }],
+    variables: {},
+    sampleTime: 0.01,
+  };
+  const { diagram }: any = buildDiagramAndScopeMap(state, { value: '1' } as any);
+  expect(diagram.connections[0].label).toBe('altitude');
+});

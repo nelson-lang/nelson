@@ -159,7 +159,10 @@ function QuickInsertPopup(): JSX.Element {
     };
     const onBlur = () => {
       // Delay so a pointerdown on a list item wins over the blur.
-      setTimeout(closePopup, 150);
+      const blurredPopup = popup;
+      setTimeout(() => {
+        if (popup === blurredPopup) closePopup();
+      }, 150);
     };
 
     input.addEventListener('input', onInput);

@@ -20,9 +20,9 @@ export function labeledInput(
 }
 //=============================================================================
 export function inlineCheckbox(edit: string, label: string, checked = false): string {
-  return `<div class="param param-inline"><span class="param-name">${label}</span><input type="checkbox" data-edit="${edit}" ${
+  return `<label class="param param-inline"><span class="param-name">${label}</span><input type="checkbox" data-edit="${edit}" ${
     checked ? 'checked' : ''
-  }></div>`;
+  }></label>`;
 }
 //=============================================================================
 export function selectInput(

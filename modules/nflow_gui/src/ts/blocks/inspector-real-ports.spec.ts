@@ -178,3 +178,18 @@ test('a rejected port removal restores focus and the caret selection', () => {
   expect(restored.selectionDirection).toBe('backward');
   expect(create).not.toHaveBeenCalled();
 });
+
+test('matrix product exposes its mode and keeps a single inverse input', () => {
+  const { body, block } = setup('mult', 3);
+  const mode = body.querySelector<HTMLSelectElement>('select[data-edit="Multiplication"]')!;
+  expect(mode).not.toBeNull();
+  mode.value = 'Matrix(*)';
+  mode.dispatchEvent(new Event('change', { bubbles: true }));
+  expect(block.params.Multiplication).toBe('Matrix(*)');
+  const input = body.querySelector<HTMLInputElement>('input[data-edit="Inputs"]')!;
+  input.value = '/';
+  input.dispatchEvent(new Event('change', { bubbles: true }));
+  const current: any = state.blocks.get('block');
+  expect(current.params.Inputs).toBe('/');
+  expect(current.ports.filter((p: any) => p.type === 'in')).toHaveLength(1);
+});

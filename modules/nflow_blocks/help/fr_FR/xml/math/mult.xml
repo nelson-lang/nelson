@@ -11,7 +11,7 @@
   <param_input>
     <param_input_item>
       <param_name>input ports</param_name>
-      <param_description>3 port(s) d entrée déclare(s).</param_description>
+      <param_description>Le nombre de ports d'entrée est configurable.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -22,6 +22,9 @@
   </param_output>
   <description>
     <p>Multiplie les entrées connectées.</p>
+    <p>Le paramètre Inputs choisit la multiplication ou la division pour chaque entrée, en mode élément par élément ou matriciel.</p>
+    <p>En mode matriciel, un diviseur non scalaire doit être carré et de type single ou double. Convertissez les entrées entières avant la division matricielle.</p>
+    <p>Un diviseur matriciel singulier arrête la simulation avec un diagnostic. Les modèles générés en C et Rust signalent ce cas par des sorties NaN ; leur fonction de calcul ne renvoie pas de code d'erreur.</p>
     <table border="1">
       <tbody>
         <tr>
@@ -56,64 +59,15 @@
     <p>
       <b>Ports</b>
     </p>
-    <p>
-      <b>Entrée(s)</b>
-    </p>
-    <table border="1">
-      <thead>
-        <tr>
-          <th>Port</th>
-          <th>Rôle</th>
-          <th>Cote</th>
-          <th>Position</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Port_1</td>
-          <td>Signal numérique lu par le bloc.</td>
-          <td>left</td>
-          <td>x=-30, y=10</td>
-        </tr>
-        <tr>
-          <td>Port_2</td>
-          <td>Signal numérique lu par le bloc.</td>
-          <td>top</td>
-          <td>x=10, y=-30</td>
-        </tr>
-        <tr>
-          <td>Port_3</td>
-          <td>Signal numérique lu par le bloc.</td>
-          <td>bottom</td>
-          <td>x=10, y=50</td>
-        </tr>
-      </tbody>
-    </table>
+    <p>Les ports d'entrée sont disposés selon les opérations configurées.</p>
     <p>
       <b>Sortie(s)</b>
     </p>
-    <table border="1">
-      <thead>
-        <tr>
-          <th>Port</th>
-          <th>Rôle</th>
-          <th>Cote</th>
-          <th>Position</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Port_1</td>
-          <td>Signal numérique produit par le bloc.</td>
-          <td>right</td>
-          <td>x=50, y=10</td>
-        </tr>
-      </tbody>
-    </table>
+    <p>Une sortie transmet le résultat.</p>
     <p>
       <b>Paramètres</b>
     </p>
-    <p>Aucun paramètre de bloc n est déclaré dans le manifest.</p>
+    <p>Inputs choisit les opérations et Multiplication sélectionne le mode élément par élément ou matriciel.</p>
     <p>
       <b>Caractéristiques du bloc</b>
     </p>
@@ -129,7 +83,7 @@
         </tr>
         <tr>
           <td>Taille graphique</td>
-          <td>20 x 20</td>
+          <td>Dépend de la configuration et peut être redimensionnée.</td>
         </tr>
         <tr>
           <td>Phases</td>
@@ -145,7 +99,7 @@
         </tr>
         <tr>
           <td>Type de données signaux</td>
-          <td>valeurs numériques double</td>
+          <td>Signaux numériques ; les types pris en charge dépendent de l'opération.</td>
         </tr>
       </tbody>
     </table>
@@ -154,12 +108,12 @@
     </p>
     <ul>
       <li>Bloc algébrique.</li>
-      <li>Commence a 1 et multiplie chaque entrée connectée; les ports déconnectés sont ignorés.</li>
+      <li>Applique dans l'ordre la multiplication ou la division configurée à chaque entrée connectée ; les ports déconnectés sont ignorés.</li>
     </ul>
     <p>
       <b>Équation ou règle</b>
     </p>
-    <latex>y = \prod_i u_i</latex>
+    <p>Chaque entrée est multipliée ou divisée dans l'ordre des ports.</p>
     <p>
       <b>Capacités et limites</b>
     </p>

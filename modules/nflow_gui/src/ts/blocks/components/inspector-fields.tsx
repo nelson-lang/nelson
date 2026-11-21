@@ -36,10 +36,10 @@ function InspectorField({ field, value }: { field: FieldDef; value: unknown }): 
 
   if (field.inputType === 'checkbox') {
     return (
-      <div className="param param-inline">
+      <label className="param param-inline">
         <span className="param-name">{field.label}</span>
         <input type="checkbox" data-edit={field.key} defaultChecked={Boolean(value)} {...attrs} />
-      </div>
+      </label>
     );
   }
 

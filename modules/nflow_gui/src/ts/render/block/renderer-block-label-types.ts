@@ -13,8 +13,13 @@ import { exprToLatex } from '../../utils/expr.js';
 import { buildTransferTeX } from '../transfer-fn.js';
 import { applySubsystemBlockLabel } from './renderer-block-label-subsystem.js';
 import * as FieldNames from '../../FieldNames.js';
+import { functionLabel } from '../../libraries/math/function-label.js';
 //=============================================================================
 export function applyBlockTypeLabels(block: any, ctx: any) {
+  if (block.type === 'trigFunction' || block.type === 'mathFunction') {
+    const symbol = block.group.querySelector('.nf-function-symbol');
+    if (symbol) symbol.textContent = functionLabel(block.type, block.params?.Function);
+  }
   if (block.type === 'constant') {
     const mathGroup = block.group.querySelector('.nf-constant-formula');
     if (mathGroup) {
@@ -153,7 +158,7 @@ export function applyBlockTypeLabels(block: any, ctx: any) {
     const texts = block.group.querySelectorAll('text');
     if (texts[1]) texts[1].textContent = `${block.params[FieldNames.kPath]}`;
   }
-  if (block.type === FieldNames.kGain) {
+  if (block.type === 'gain') {
     const mathGroup = block.group.querySelector('.nf-gain-formula');
     if (mathGroup) {
       const { tex } = ctx.toLeadingMinusTex(block.params[FieldNames.kGain], '1');
@@ -175,7 +180,7 @@ export function applyBlockTypeLabels(block: any, ctx: any) {
     const signs = String(block.params[FieldNames.kSumInputs] ?? '');
     block.group.querySelectorAll('.sum-sign').forEach((textEl: any) => {
       const idx = Number(textEl.getAttribute('data-sign-index')) || 0;
-      textEl.textContent = signs[idx] === '-' ? '-' : '';
+      textEl.textContent = signs[idx] === '-' ? '-' : '+';
     });
   }
   if (block.type === 'derivative') {

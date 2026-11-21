@@ -298,3 +298,14 @@ test('createConnection with existing dirtyConnections does not recreate set', ()
   expect(state.dirtyConnections.has(conn)).toBe(true);
 });
 //=============================================================================
+
+test('new branches inherit the name of their source signal', () => {
+  const st: any = {
+    connections: [{ from: 'a', to: 'b', fromIndex: 0, toIndex: 0, label: 'speed' }],
+    blocks: new Map(),
+    autoRoute: false,
+  };
+  const ctx: any = { state: st, wireLayer: document.createElement('div') };
+  const conn: any = makeConnectionHandlers(ctx).createConnection('a', 'c', 0, 0);
+  expect(conn.label).toBe('speed');
+});

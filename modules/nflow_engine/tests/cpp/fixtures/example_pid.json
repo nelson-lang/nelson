@@ -70,31 +70,25 @@
       "id": "e1",
       "x": 220,
       "y": 120,
-      "width": 20,
-      "height": 20,
+      "width": 30,
+      "height": 40,
       "rotation": 0,
       "ports": [
         {
-          "x": -30,
+          "x": 0,
           "y": 10,
           "type": "in",
           "index": 0
         },
         {
-          "x": 10,
-          "y": -30,
+          "x": 0,
+          "y": 30,
           "type": "in",
           "index": 1
         },
         {
-          "x": 10,
-          "y": 50,
-          "type": "in",
-          "index": 2
-        },
-        {
-          "x": 50,
-          "y": 10,
+          "x": 30,
+          "y": 20,
           "type": "out",
           "index": 0
         }
@@ -104,31 +98,25 @@
       "id": "e2",
       "x": 220,
       "y": 340,
-      "width": 20,
-      "height": 20,
+      "width": 30,
+      "height": 40,
       "rotation": 0,
       "ports": [
         {
-          "x": -30,
+          "x": 0,
           "y": 10,
           "type": "in",
           "index": 0
         },
         {
-          "x": 10,
-          "y": -30,
+          "x": 0,
+          "y": 30,
           "type": "in",
           "index": 1
         },
         {
-          "x": 10,
-          "y": 50,
-          "type": "in",
-          "index": 2
-        },
-        {
-          "x": 50,
-          "y": 10,
+          "x": 30,
+          "y": 20,
           "type": "out",
           "index": 0
         }
@@ -138,31 +126,25 @@
       "id": "e3",
       "x": 220,
       "y": 560,
-      "width": 20,
-      "height": 20,
+      "width": 30,
+      "height": 40,
       "rotation": 0,
       "ports": [
         {
-          "x": -30,
+          "x": 0,
           "y": 10,
           "type": "in",
           "index": 0
         },
         {
-          "x": 10,
-          "y": -30,
+          "x": 0,
+          "y": 30,
           "type": "in",
           "index": 1
         },
         {
-          "x": 10,
-          "y": 50,
-          "type": "in",
-          "index": 2
-        },
-        {
-          "x": 50,
-          "y": 10,
+          "x": 30,
+          "y": 20,
           "type": "out",
           "index": 0
         }

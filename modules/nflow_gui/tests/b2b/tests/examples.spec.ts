@@ -36,7 +36,9 @@ const blocksExamples = path.join(modulesDir, 'nflow_blocks', 'examples');
 const fmiExamples = path.join(modulesDir, 'nflow_fmi', 'examples');
 // One proof PNG per model, `<category>__<name>.png`, under the Playwright output
 // dir so it is cleaned with the other run artifacts.
-const screenshotDir = path.resolve(currentDirectory, '..', 'test-results', 'screenshots');
+const screenshotDir =
+  process.env['NFLOW_B2B_SCREENSHOT_DIR'] ??
+  path.resolve(currentDirectory, '..', 'test-results', 'screenshots');
 function screenshotPathFor(model: ExampleModel): string {
   const slug = `${model.category}__${model.name.replace(/\.nflow$/i, '')}`.replace(
     /[^A-Za-z0-9_.-]+/g,
@@ -67,9 +69,7 @@ const NO_COMPLETION = new Set<string>([
 // Demos whose shipped runtime is too long for the window (e.g. a real-time demo
 // paced to wall-clock over a 240s runtime). The walk-through bounds the runtime
 // and forces fast execution so they still reach "Done" and get full coverage.
-const RUNTIME_OVERRIDE_S = new Map<string, number>([
-  ['Mechanical_Ventilation_Demo.nflow', 5],
-]);
+const RUNTIME_OVERRIDE_S = new Map<string, number>([['Mechanical_Ventilation_Demo.nflow', 5]]);
 //=============================================================================
 // Demos that need external setup this walk-through cannot provide; they are
 // verified elsewhere (a companion .m script).

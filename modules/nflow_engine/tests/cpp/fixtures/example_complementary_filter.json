@@ -98,31 +98,31 @@
       "id": "b3",
       "x": 940,
       "y": 240,
-      "width": 20,
-      "height": 20,
+      "width": 30,
+      "height": 60,
       "rotation": 0,
       "ports": [
         {
-          "x": -30,
+          "x": 0,
           "y": 10,
           "type": "in",
           "index": 0
         },
         {
-          "x": 10,
-          "y": -30,
+          "x": 0,
+          "y": 30,
           "type": "in",
           "index": 1
         },
         {
-          "x": 10,
+          "x": 0,
           "y": 50,
           "type": "in",
           "index": 2
         },
         {
-          "x": 50,
-          "y": 10,
+          "x": 30,
+          "y": 30,
           "type": "out",
           "index": 0
         }
@@ -202,31 +202,31 @@
       "id": "b8",
       "x": 240,
       "y": 200,
-      "width": 20,
-      "height": 20,
+      "width": 30,
+      "height": 60,
       "rotation": 0,
       "ports": [
         {
-          "x": -30,
+          "x": 0,
           "y": 10,
           "type": "in",
           "index": 0
         },
         {
-          "x": 10,
-          "y": -30,
+          "x": 0,
+          "y": 30,
           "type": "in",
           "index": 1
         },
         {
-          "x": 10,
+          "x": 0,
           "y": 50,
           "type": "in",
           "index": 2
         },
         {
-          "x": 50,
-          "y": 10,
+          "x": 30,
+          "y": 30,
           "type": "out",
           "index": 0
         }
@@ -236,31 +236,31 @@
       "id": "b9",
       "x": 440,
       "y": 360,
-      "width": 20,
-      "height": 20,
+      "width": 30,
+      "height": 60,
       "rotation": 0,
       "ports": [
         {
-          "x": -30,
+          "x": 0,
           "y": 10,
           "type": "in",
           "index": 0
         },
         {
-          "x": 10,
-          "y": -30,
+          "x": 0,
+          "y": 30,
           "type": "in",
           "index": 1
         },
         {
-          "x": 10,
+          "x": 0,
           "y": 50,
           "type": "in",
           "index": 2
         },
         {
-          "x": 50,
-          "y": 10,
+          "x": 30,
+          "y": 30,
           "type": "out",
           "index": 0
         }

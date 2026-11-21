@@ -103,6 +103,16 @@ export function makeConnectionHandlers(ctx: RendererCtx) {
     };
     path.addEventListener('click', onSelect);
     hitPath.addEventListener('click', onSelect);
+    if (!S.loadingDiagram && !physical) {
+      const sibling = S.connections.find(
+        (other) =>
+          other.from === fromId &&
+          Number(other.fromIndex ?? 0) === Number(fromIndex ?? 0) &&
+          typeof other.label === 'string' &&
+          other.label.trim()
+      );
+      if (sibling) conn.label = sibling.label;
+    }
     S.connections.push(conn);
     if (S.loadingDiagram) {
       conn.path.setAttribute('d', '');

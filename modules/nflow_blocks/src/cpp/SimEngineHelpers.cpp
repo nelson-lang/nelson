@@ -9,6 +9,7 @@
 //=============================================================================
 #include "SimEngineTypes.hpp"
 #include "SimEngineBusTypes.hpp"
+#include "NFlowMatrixProduct.hpp"
 #include "NFlowCodegenHelpers.hpp"
 #include "BlockRegistry.hpp"
 #include "FieldNames.hpp"
@@ -504,7 +505,7 @@ namespace NFlow {
     defaultDimsRule(const std::vector<PortSig>& inSigs, const std::vector<int>& connected,
         PortSig& shape, int& conflictA, int& conflictB)
     {
-        shape = PortSig {};
+        shape = PortSig { };
         int shapePort = -1;
         for (size_t p = 0; p < inSigs.size(); ++p) {
             if (p < connected.size() && connected[p] < 0) {
@@ -544,7 +545,7 @@ namespace NFlow {
             out.portBase[i] = totalPorts;
             totalPorts += std::max(0, blocks[i].outputs);
         }
-        out.sigs.assign(totalPorts, PortSig {});
+        out.sigs.assign(totalPorts, PortSig { });
         std::vector<BlockId> portOwner(totalPorts, INVALID_ID);
         for (int i = 0; i < nBlocks; ++i) {
             for (int p = 0; p < std::max(0, blocks[i].outputs); ++p) {
@@ -580,7 +581,7 @@ namespace NFlow {
 
         auto gatherIn = [&](int i, std::vector<PortSig>& in) {
             const auto& row = out.inputSigs[i];
-            in.assign(row.size(), PortSig {});
+            in.assign(row.size(), PortSig { });
             for (size_t p = 0; p < row.size(); ++p) {
                 if (row[p] >= 0) {
                     in[p] = out.sigs[row[p]];
@@ -691,6 +692,14 @@ namespace NFlow {
                 } else if (meta[i].resolveBusDims && busRegistry) {
                     std::string err;
                     if (!meta[i].resolveBusDims(b, variables, inSigs, outSigs, *busRegistry, err)) {
+                        out.ok = false;
+                        out.error = "block '" + b.id + "': " + err;
+                        out.errorBlocks = { b.id };
+                        return out;
+                    }
+                } else if (b.type == "mult" && isMatrixProduct(b)) {
+                    std::string err;
+                    if (!resolveMatrixProduct(b, inSigs, out.inputSigs[i], outSigs[0], err)) {
                         out.ok = false;
                         out.error = "block '" + b.id + "': " + err;
                         out.errorBlocks = { b.id };
@@ -1051,7 +1060,7 @@ namespace NFlow {
                 out += ",\"connected\":[";
                 const auto& ins = (b.nid >= 0 && b.nid < (int)inputIds.size())
                     ? inputIds[b.nid]
-                    : std::vector<int> {};
+                    : std::vector<int> { };
                 // One flag per series; a vector port of width w contributes w
                 // series sharing the port's connected flag.
                 int n = (int)st.scopeSeries.size();
@@ -1194,7 +1203,7 @@ namespace NFlow {
                 out += ",\"connected\":[";
                 const auto& insXY = (b.nid >= 0 && b.nid < (int)inputIds.size())
                     ? inputIds[b.nid]
-                    : std::vector<int> {};
+                    : std::vector<int> { };
                 for (int i = 0; i < 2; ++i) {
                     if (i > 0) {
                         out += ",";
@@ -1238,7 +1247,7 @@ namespace NFlow {
                 out += ",\"connected\":[";
                 const auto& insXYZ = (b.nid >= 0 && b.nid < (int)inputIds.size())
                     ? inputIds[b.nid]
-                    : std::vector<int> {};
+                    : std::vector<int> { };
                 for (int i = 0; i < 3; ++i) {
                     if (i > 0) {
                         out += ",";
@@ -1455,7 +1464,7 @@ namespace NFlow {
                 out += ",\"connected\":[";
                 const auto& ins = (b.nid >= 0 && b.nid < (int)inputIds.size())
                     ? inputIds[b.nid]
-                    : std::vector<int> {};
+                    : std::vector<int> { };
                 int n = (int)st.scopeSeries.size();
                 int s = 0;
                 for (int i = 0; s < n; ++i) {
@@ -1490,7 +1499,7 @@ namespace NFlow {
                 out += ",\"connected\":[";
                 const auto& ins = (b.nid >= 0 && b.nid < (int)inputIds.size())
                     ? inputIds[b.nid]
-                    : std::vector<int> {};
+                    : std::vector<int> { };
                 const int nPorts = xyz ? 3 : 2;
                 for (int i = 0; i < nPorts; ++i) {
                     if (i > 0) {

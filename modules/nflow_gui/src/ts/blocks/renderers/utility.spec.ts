@@ -129,6 +129,64 @@ describe('busSelector inspector member tree', () => {
     expect(Array.from(boxes).map((b) => b.getAttribute('data-bus-path'))).toEqual(['u', 'v']);
   });
 
+  it('shows names inherited from connected signals before simulation', () => {
+    const deps = makeDeps();
+    const block = { id: 'sel1', type: 'busSelector', params: {} };
+    wire('sel1', 'bc1');
+    (state.blocks as Map<unknown, unknown>).set('bc1', {
+      id: 'bc1',
+      type: 'busCreator',
+      inputs: 2,
+      params: { MemberNames: [] },
+    });
+    (state.connections as unknown[]).push(
+      { from: 'a', to: 'bc1', toIndex: 0, label: 'altitude' },
+      { from: 'b', to: 'bc1', toIndex: 1, label: 'speed' }
+    );
+    renderUtility(block as never, deps);
+    const body = (deps as never as { inspectorBody: HTMLElement }).inspectorBody;
+    const boxes = body.querySelectorAll<HTMLInputElement>('input[data-bus-path]');
+    expect(Array.from(boxes).map((box) => box.getAttribute('data-bus-path'))).toEqual([
+      'altitude',
+      'speed',
+    ]);
+  });
+
+  it('shows nested declared bus members before simulation', () => {
+    const oldTypes = state.busTypes;
+    try {
+      state.busTypes = [
+        { name: 'Inner', members: [{ name: 'gravity', type: 'double' }] },
+        {
+          name: 'Outer',
+          members: [
+            { name: 'environment', bus: 'Inner' },
+            { name: 'count', type: 'int64' },
+          ],
+        },
+      ];
+      const deps = makeDeps();
+      const block = { id: 'sel1', type: 'busSelector', params: {} };
+      wire('sel1', 'bc1');
+      (state.blocks as Map<unknown, unknown>).set('bc1', {
+        id: 'bc1',
+        type: 'busCreator',
+        inputs: 2,
+        params: { BusType: 'Outer' },
+      });
+      renderUtility(block as never, deps);
+      const body = (deps as never as { inspectorBody: HTMLElement }).inspectorBody;
+      const boxes = body.querySelectorAll<HTMLInputElement>('input[data-bus-path]');
+      expect(Array.from(boxes).map((box) => box.getAttribute('data-bus-path'))).toEqual([
+        'environment',
+        'environment.gravity',
+        'count',
+      ]);
+    } finally {
+      state.busTypes = oldTypes;
+    }
+  });
+
   it('shows a hint when the input is not connected', () => {
     const deps = makeDeps();
     const block = { id: 'sel1', type: 'busSelector', params: {} };
@@ -163,7 +221,7 @@ describe('multi-line textarea params (regression: coerce received the element)',
     );
     expect(ta).toBeTruthy();
     ta!.value = ' pos \nsub.a\n\n';
-    ta!.dispatchEvent(new Event('input', { bubbles: true }));
+    ta!.dispatchEvent(new Event('change', { bubbles: true }));
     expect(block.params.SelectedSignals).toEqual(['pos', 'sub.a']);
   });
 

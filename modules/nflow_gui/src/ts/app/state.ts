@@ -36,6 +36,7 @@ export interface AppState {
   dirtyConnections: Set<number>;
   variables: Record<string, unknown>;
   variablesText: string;
+  busTypes: unknown[];
   variablesDisplay: string[];
   diagramName: string;
   modelVersion: string;
@@ -93,6 +94,7 @@ export const state: AppState = {
   dirtyConnections: new Set(),
   variables: {},
   variablesText: '',
+  busTypes: [],
   variablesDisplay: [],
   diagramName: 'nflow',
   modelVersion: '1.0.0',

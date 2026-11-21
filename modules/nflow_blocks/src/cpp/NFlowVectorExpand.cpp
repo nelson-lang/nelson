@@ -74,6 +74,7 @@ namespace {
             inputSrc;
         std::map<std::tuple<std::string, int, int>, ScalarRef> resolveMemo;
         bool needZero = false;
+        int matrixSerial = 0;
 
         // Named bus types declared by the model. Ids match the layout registry:
         // parsed named types first, inferred anonymous ones after.
@@ -159,7 +160,7 @@ namespace {
         typeOf(const std::string& id) const
         {
             auto it = byId.find(id);
-            return (it != byId.end()) ? jstr(it->second, kType) : std::string {};
+            return (it != byId.end()) ? jstr(it->second, kType) : std::string { };
         }
 
         // The zero scalar constant, created lazily for unconnected routing inputs.
@@ -196,7 +197,7 @@ namespace {
                     return pit->second;
                 }
             }
-            return { std::string {}, 0 };
+            return { std::string { }, 0 };
         }
 
         ScalarRef
@@ -375,6 +376,11 @@ namespace {
                     return zeroRef();
                 }
             }
+            if (type == "mult"
+                && (jstr(jval(byId.at(id), kParams), "Multiplication") == "Matrix(*)"
+                    || jstr(jval(byId.at(id), kParams), "Multiplication") == "matrix")) {
+                return { id + "__pm" + std::to_string(elem), 0 };
+            }
             if (type == "matmul") {
                 // Each output element is produced by an emitted scalar sum
                 // block (matrix rule) or mult block (element-wise / scalar).
@@ -476,6 +482,175 @@ namespace {
             outConns.push_back(std::move(c));
         }
 
+        struct ScalarMatrix
+        {
+            int rows = 1, cols = 1;
+            std::vector<ScalarRef> values;
+        };
+        ScalarRef
+        matrixConstant(const std::string& id, double value)
+        {
+            const std::string node = id + "__pm_const" + std::to_string(matrixSerial++);
+            json p;
+            p[kValue] = value;
+            const auto typeIt = widths.outTypes.find(id);
+            if (typeIt != widths.outTypes.end() && !typeIt->second.empty()) {
+                const auto& type = typeIt->second[0];
+                if (type != "double") {
+                    p[kOutDataType] = type;
+                }
+            }
+            addBlock(node, "constant", 0, 1, p);
+            return { node, 0 };
+        }
+        ScalarRef
+        matrixOp(const std::string& id, const char* type, const char* operations,
+            const std::vector<ScalarRef>& inputs, bool matrixPivot = false)
+        {
+            const std::string node = id + "__pm_calc" + std::to_string(matrixSerial++);
+            json p;
+            p[kSumInputs] = operations;
+            if (matrixPivot) {
+                p["MatrixInversePivot"] = true;
+            }
+            const json& original = jval(byId.at(id), kParams);
+            for (const char* key : { kSaturateOnOverflow, kRounding }) {
+                if (original.is_object() && original.contains(key)) {
+                    p[key] = original[key];
+                }
+            }
+            addBlock(node, type, static_cast<int>(inputs.size()), 1, p);
+            for (size_t i = 0; i < inputs.size(); ++i) {
+                addConn(inputs[i], node, static_cast<int>(i));
+            }
+            return { node, 0 };
+        }
+        ScalarMatrix
+        matrixProduct(const std::string& id, const ScalarMatrix& a, const ScalarMatrix& b)
+        {
+            ScalarMatrix out;
+            if (a.values.size() == 1 || b.values.size() == 1) {
+                out = a.values.size() == 1 ? b : a;
+                const auto scalar = a.values.size() == 1 ? a.values[0] : b.values[0];
+                for (auto& v : out.values) {
+                    v = matrixOp(id, "mult", "**", { v, scalar });
+                }
+                return out;
+            }
+            out.rows = a.rows;
+            out.cols = b.cols;
+            for (int c = 0; c < b.cols; ++c) {
+                for (int r = 0; r < a.rows; ++r) {
+                    std::vector<ScalarRef> terms;
+                    for (int k = 0; k < a.cols; ++k) {
+                        terms.push_back(matrixOp(id, "mult", "**",
+                            { a.values[k * a.rows + r], b.values[c * b.rows + k] }));
+                    }
+                    ScalarRef total = terms.front();
+                    for (size_t k = 1; k < terms.size(); ++k) {
+                        total = matrixOp(id, "sum", "++", { total, terms[k] });
+                    }
+                    out.values.push_back(total);
+                }
+            }
+            return out;
+        }
+        ScalarMatrix
+        matrixInverse(const std::string& id, const ScalarMatrix& input)
+        {
+            const int n = input.rows;
+            const ScalarRef zero = matrixConstant(id, 0), one = matrixConstant(id, 1);
+            ScalarMatrix a = input;
+            ScalarMatrix inverse;
+            inverse.rows = n;
+            inverse.cols = n;
+            for (int c = 0; c < n; ++c) {
+                for (int r = 0; r < n; ++r) {
+                    inverse.values.push_back(r == c ? one : zero);
+                }
+            }
+            for (int pivot = 0; pivot < n; ++pivot) {
+                for (int candidate = pivot + 1; candidate < n; ++candidate) {
+                    const auto oldMagnitude
+                        = matrixOp(id, "abs", "", { a.values[pivot * n + pivot] });
+                    const auto newMagnitude
+                        = matrixOp(id, "abs", "", { a.values[pivot * n + candidate] });
+                    const auto condition
+                        = matrixOp(id, "sum", "+-", { newMagnitude, oldMagnitude });
+                    for (int col = 0; col < n; ++col) {
+                        for (auto* matrix : { &a, &inverse }) {
+                            auto oldValue = matrix->values[col * n + pivot];
+                            auto newValue = matrix->values[col * n + candidate];
+                            matrix->values[col * n + pivot]
+                                = matrixOp(id, "switch", "", { newValue, condition, oldValue });
+                            matrix->values[col * n + candidate]
+                                = matrixOp(id, "switch", "", { oldValue, condition, newValue });
+                        }
+                    }
+                }
+                const auto divisor = a.values[pivot * n + pivot];
+                for (int col = 0; col < n; ++col) {
+                    a.values[col * n + pivot]
+                        = matrixOp(id, "mult", "*/", { a.values[col * n + pivot], divisor }, true);
+                    inverse.values[col * n + pivot] = matrixOp(
+                        id, "mult", "*/", { inverse.values[col * n + pivot], divisor }, true);
+                }
+                for (int row = 0; row < n; ++row) {
+                    if (row == pivot) {
+                        continue;
+                    }
+                    const auto factor = a.values[pivot * n + row];
+                    for (int col = 0; col < n; ++col) {
+                        for (auto* matrix : { &a, &inverse }) {
+                            const auto term = matrixOp(
+                                id, "mult", "**", { factor, matrix->values[col * n + pivot] });
+                            matrix->values[col * n + row] = matrixOp(
+                                id, "sum", "+-", { matrix->values[col * n + row], term });
+                        }
+                    }
+                }
+            }
+            return inverse;
+        }
+        void
+        emitMatrixProduct(const std::string& id, const json& params)
+        {
+            const std::string operations = jstr(params, kSumInputs);
+            ScalarMatrix result;
+            result.values = { matrixConstant(id, 1) };
+            for (int p = 0; p < numInputs(id); ++p) {
+                const auto source = srcOf(id, p);
+                if (source.first.empty()) {
+                    continue;
+                }
+                const auto shape = inDim(id, p);
+                ScalarMatrix next;
+                next.rows = shape.first;
+                next.cols = shape.second;
+                for (int e = 0; e < inW(id, p); ++e) {
+                    next.values.push_back(resolve(source.first, source.second, e));
+                }
+                if (p < static_cast<int>(operations.size()) && operations[p] == '/') {
+                    if (next.values.size() == 1) {
+                        const auto typeIt = widths.outTypes.find(id);
+                        const bool floating = typeIt == widths.outTypes.end()
+                            || typeIt->second.empty() || typeIt->second[0] == "double"
+                            || typeIt->second[0] == "single";
+                        for (auto& value : result.values) {
+                            value = matrixOp(id, "mult", "*/", { value, next.values[0] }, floating);
+                        }
+                        continue;
+                    }
+                    next = matrixInverse(id, next);
+                }
+                result = matrixProduct(id, result, next);
+            }
+            for (size_t i = 0; i < result.values.size(); ++i) {
+                const std::string node = id + "__pm" + std::to_string(i);
+                addBlock(node, "sum", 1, 1, json::object());
+                addConn(result.values[i], node, 0);
+            }
+        }
         // Expand a matmul block into scalar mult/sum blocks. resolve(matmul,
         // 0, elem) points at the emitted per-element block (see resolveImpl).
         void
@@ -712,6 +887,27 @@ namespace {
                     json p = json::object();
                     p["Value"] = inW(id, 0);
                     addBlock(id, "constant", 0, 1, p);
+                    continue;
+                }
+                if (type == "mult"
+                    && (jstr(jval(b, kParams), "Multiplication") == "Matrix(*)"
+                        || jstr(jval(b, kParams), "Multiplication") == "matrix")) {
+                    const auto typeIt = widths.outTypes.find(id);
+                    if (typeIt != widths.outTypes.end() && !typeIt->second.empty()
+                        && (typeIt->second[0] == "int64" || typeIt->second[0] == "uint64")) {
+                        const auto operations = jstr(jval(b, kParams), kSumInputs);
+                        for (int p = 0; p < numInputs(id); ++p) {
+                            if (p < static_cast<int>(operations.size()) && operations[p] == '/'
+                                && inW(id, p) > 1) {
+                                result.ok = false;
+                                result.error = "integer matrix division is not supported; convert "
+                                               "inputs to single or double";
+                                result.errorBlockId = id;
+                                return result;
+                            }
+                        }
+                    }
+                    emitMatrixProduct(id, jval(b, kParams));
                     continue;
                 }
                 if (type == "matmul") {

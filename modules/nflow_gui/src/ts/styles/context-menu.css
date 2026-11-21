@@ -10,6 +10,7 @@
   z-index: 4000;
   padding: 4px 0;
   border-radius: 4px;
+  user-select: none;
 }
 
 .context-menu.show {

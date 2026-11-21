@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+import { emitAppEvent } from '../../app/app-events.js';
 import { alignToGrid, GRID_SIZE } from '../geometry.js';
 import { hasInvalidPoint } from '../create-renderer.partial.js';
 import { rotatePoint, getPortSide } from '../geometry.js';
@@ -371,6 +372,7 @@ export function makeWireApplyHandlers(ctx: RenderCtx) {
     });
     ctx.state.debugOverlapCount = overlapCount;
     ctx.renderSharedSourceJunctionDots();
+    emitAppEvent('nf-wire-paths-rendered');
   }
 
   function segmentsCross(a: Segment, b: Segment): boolean {
@@ -465,6 +467,7 @@ export function makeWireApplyHandlers(ctx: RenderCtx) {
       if (conn.hitPath) conn.hitPath.setAttribute('d', d);
     });
     ctx.renderSharedSourceJunctionDots();
+    emitAppEvent('nf-wire-paths-rendered');
   }
 
   return { applyWirePaths, applyWirePathsFast, isValidPathString };

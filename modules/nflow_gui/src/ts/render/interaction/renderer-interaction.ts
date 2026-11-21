@@ -13,6 +13,7 @@ import { state } from '../../app/state.js';
 import { renderScope } from '../../sim/render-scope.js';
 import { renderXYScope } from '../../sim/render-xy-scope.js';
 import * as FieldNames from '../../FieldNames.js';
+import { captureGenericResize, resizeGenericBlock, usesGenericResize } from './generic-resize.js';
 //=============================================================================
 interface InteractionExtCtx extends RendererCtx {
   clientToSvg: (x: number, y: number) => { x: number; y: number };
@@ -32,6 +33,7 @@ export function makeInteractionHandlers(ctx: RendererCtx) {
   const C = ctx as unknown as InteractionExtCtx;
   function enableResize(block: Block, handle: Element) {
     let resizing = false;
+    let genericStart: any = null;
     let startPoint: { x: number; y: number } | null = null;
     let startSize: { width: number; height: number } | null = null;
     const beginResize = (event: any) => {
@@ -43,15 +45,131 @@ export function makeInteractionHandlers(ctx: RendererCtx) {
       const point = C.clientToSvg(event.clientX, event.clientY);
       startPoint = { x: point.x, y: point.y };
       startSize = { width: (block as any).width, height: (block as any).height };
+      genericStart = usesGenericResize(block.type) ? captureGenericResize(block) : null;
       (handle as HTMLElement).setPointerCapture?.(event.pointerId);
     };
     handle.addEventListener('pointerdown', beginResize);
-    handle.addEventListener('pointermove', (event: any) => {
-      if (!resizing || !startPoint || !startSize) return;
-      const point = C.clientToSvg(event.clientX, event.clientY);
-      (block as any).width = startSize.width + (point.x - startPoint.x);
-      (block as any).height = startSize.height + (point.y - startPoint.y);
-      if ((block as any).type === 'comment') C.updateCommentLayout?.(block as any);
+    const resizeTo = (width: number, height: number, generic: any) => {
+      (block as any).width = width;
+      (block as any).height = height;
+      if (generic) {
+        resizeGenericBlock(block, generic, C);
+      } else if (
+        [
+          'constant',
+          'gain',
+          'sum',
+          'mult',
+          'trigFunction',
+          'mathFunction',
+          'busCreator',
+          'busSelector',
+        ].includes(String((block as any).type))
+      ) {
+        const b = block as any;
+        const isOperator = b.type === 'sum' || b.type === 'mult';
+        const isFunction = b.type === 'trigFunction' || b.type === 'mathFunction';
+        const isBus = b.type === 'busCreator' || b.type === 'busSelector';
+        const inputs = (b.ports || [])
+          .filter((p: any) => p.type === 'in')
+          .sort((a: any, c: any) => a.index - c.index);
+        b.width = Math.max(isOperator ? 20 : 40, b.width);
+        const outputs = (b.ports || [])
+          .filter((p: any) => p.type === 'out')
+          .sort((a: any, c: any) => a.index - c.index);
+        b.height = Math.max(
+          isOperator || isFunction || isBus
+            ? Math.max(40, inputs.length * 16, outputs.length * 16)
+            : 24,
+          b.height
+        );
+        b.params.width = b.width;
+        b.params.height = b.height;
+        const body = b.group.querySelector('rect.nf-block');
+        body?.setAttribute('width', String(b.width));
+        body?.setAttribute('height', String(b.height));
+        b.resizeHandle?.setAttribute('x', String(b.width - 16));
+        b.resizeHandle?.setAttribute('y', String(b.height - 16));
+        if (b.dragRect) {
+          const minSize = isOperator ? 0 : 80;
+          const w = Math.max(minSize, b.width);
+          const h = Math.max(minSize, b.height);
+          b.dragRect.setAttribute('x', String((b.width - w) / 2));
+          b.dragRect.setAttribute('y', String((b.height - h) / 2));
+          b.dragRect.setAttribute('width', String(w));
+          b.dragRect.setAttribute('height', String(h));
+        }
+        if (isOperator || isBus) {
+          b.dynamicInputs = inputs.map((p: any, index: number) => {
+            p.x = 0;
+            p.y = ((index + 0.5) * b.height) / inputs.length;
+            p.wireX = p.x;
+            p.wireY = p.y;
+            (C as any).updatePortElement?.(p);
+            return { x: p.x, y: p.y, side: 'left' };
+          });
+          b.group
+            .querySelectorAll('.sum-sign, .nf-product-sign')
+            .forEach((el: Element, index: number) => {
+              el.setAttribute('y', String(((index + 0.5) * b.height) / inputs.length));
+            });
+        }
+        if (isFunction || b.type === 'gain') {
+          b.dynamicInputs = inputs.map((p: any, index: number) => {
+            p.x = 0;
+            p.y = b.height / 2 + (index - (inputs.length - 1) / 2) * 20;
+            p.wireX = p.x;
+            p.wireY = p.y;
+            (C as any).updatePortElement?.(p);
+            return { x: p.x, y: p.y, side: 'left' };
+          });
+          if (b.type === 'gain') {
+            const points = [
+              [6, 66],
+              [6, 6],
+              [66, 36],
+            ]
+              .map(
+                ([x, y]) =>
+                  `${Math.max(1, Math.round((x * b.width) / 72))},${Math.max(
+                    1,
+                    Math.round((y * b.height) / 72)
+                  )}`
+              )
+              .join(' ');
+            b.group.querySelector('.gain-triangle')?.setAttribute('points', points);
+          }
+          const symbol = b.group.querySelector('.nf-function-symbol');
+          symbol?.setAttribute('x', String(b.width / 2));
+          symbol?.setAttribute('y', String(b.height / 2));
+        }
+        if (isBus) {
+          const label = b.group.querySelector('.nf-block-formula text');
+          if (label) {
+            const lines = Array.from(label.querySelectorAll('tspan')) as SVGElement[];
+            const lineHeight = Number(lines[1]?.getAttribute('dy')) || 0;
+            label.setAttribute('x', String(b.width / 2));
+            label.setAttribute('y', String(b.height / 2 - ((lines.length - 1) * lineHeight) / 2));
+            lines.forEach((line) => line.setAttribute('x', String(b.width / 2)));
+          }
+        }
+        b.dynamicOutputs = outputs.map((_p: any, index: number) => ({
+          x: b.width,
+          y: isBus
+            ? ((index + 0.5) * b.height) / outputs.length
+            : b.height / 2 + (index - (outputs.length - 1) / 2) * 20,
+          side: 'right',
+        }));
+        for (const [index, p] of outputs.entries()) {
+          p.x = b.width;
+          p.y = b.dynamicOutputs[index].y;
+          p.wireX = p.x;
+          p.wireY = p.y;
+          (C as any).updatePortElement?.(p);
+        }
+        (C as any).updateBlockLabel?.(b);
+        (C as any).updateBlockTransform?.(b);
+      } else if ((block as any).type === 'comment') C.updateCommentLayout?.(block as any);
       else if ((block as any).type === 'display') C.updateDisplayLayout?.(block as any);
       else if ((block as any).type === FieldNames.kToggleSwitch)
         C.updateToggleLayout?.(block as any);
@@ -60,15 +178,39 @@ export function makeInteractionHandlers(ctx: RendererCtx) {
       (C.state as any).routingDirty = true;
       if ((C.state as any).dirtyBlocks) (C.state as any).dirtyBlocks.add((block as any).id);
       C.updateConnections?.();
+    };
+    handle.addEventListener('pointermove', (event: any) => {
+      if (!resizing || !startPoint || !startSize) return;
+      const point = C.clientToSvg(event.clientX, event.clientY);
+      resizeTo(
+        startSize.width + (point.x - startPoint.x),
+        startSize.height + (point.y - startPoint.y),
+        genericStart
+      );
+    });
+    handle.addEventListener('nflow:resize-to', (event: Event) => {
+      if (
+        state.locked ||
+        (state.simulationActive && String(block.type ?? '').startsWith('dashboard'))
+      )
+        return;
+      const { width, height } = (event as CustomEvent<{ width: number; height: number }>).detail;
+      if (!Number.isFinite(width) || !Number.isFinite(height)) return;
+      resizeTo(width, height, usesGenericResize(block.type) ? captureGenericResize(block) : null);
+      (C.state as any).fastRouting = false;
+      C.updateConnections?.(true);
+      window.dispatchEvent(new CustomEvent('diagramChanged'));
     });
     const finishResize = () => {
       if (!resizing) return;
       resizing = false;
       startPoint = null;
       startSize = null;
+      genericStart = null;
       (C.state as any).fastRouting = false;
       (C.state as any).routingDirty = true;
       C.updateConnections?.(true);
+      if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent('diagramChanged'));
     };
     handle.addEventListener('pointerup', finishResize);
     handle.addEventListener('pointercancel', finishResize);

@@ -12,6 +12,7 @@
 // when a param edit must rebuild the block (so its ports follow) and which of
 // its connections can survive the new port layout.
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { parseProductInputs } from './product-inputs.js';
 //=============================================================================
 export interface PortCounts {
   inputs: number;
@@ -22,6 +23,9 @@ export interface SimpleConnection {
   to: string;
   fromIndex: number;
   toIndex: number;
+  label?: string;
+  labelOffset?: { x: number; y: number };
+  points?: Array<{ x: number; y: number; pin?: boolean }>;
 }
 //=============================================================================
 const toInt = (value: unknown, min = 1): number => Math.max(min, Math.trunc(Number(value) || 0));
@@ -33,9 +37,36 @@ export function desiredPortCounts(block: any): PortCounts | null {
   const params = (block?.params ?? {}) as Record<string, unknown>;
   switch (type) {
     case 'sum': {
-      const signs = String(params.Inputs ?? '').match(/[+-]/g);
-      return { inputs: Math.max(1, signs ? signs.length : 0), outputs: 1 };
+      const raw = String(params.Inputs ?? '');
+      const signs = raw.match(/[+-]/g);
+      const count = /^\d+$/.test(raw.trim()) ? Number(raw) : signs?.length ?? 0;
+      return { inputs: Math.max(1, count), outputs: 1 };
     }
+    case 'busCreator': {
+      const names = Array.isArray(params.MemberNames) ? params.MemberNames.length : 0;
+      return {
+        inputs: Math.max(2, Number.parseInt(String(params.Inputs ?? names), 10) || 2),
+        outputs: 1,
+      };
+    }
+    case 'busSelector': {
+      const paths = Array.isArray(params.SelectedSignals) ? params.SelectedSignals : [];
+      return { inputs: 1, outputs: params.OutputAsBus ? 1 : Math.max(1, paths.length) };
+    }
+    case 'trigFunction': {
+      const fn = String(params.Function ?? 'sin');
+      return { inputs: fn === 'atan2' ? 2 : 1, outputs: fn === 'sincos' ? 2 : 1 };
+    }
+    case 'mathFunction': {
+      const fn = String(params.Function ?? 'exp');
+      return { inputs: ['pow', 'hypot', 'rem', 'mod'].includes(fn) ? 2 : 1, outputs: 1 };
+    }
+    case 'mult':
+      return {
+        inputs:
+          parseProductInputs(params.Inputs ?? 3, params.Multiplication === 'Matrix(*)')?.count ?? 3,
+        outputs: 1,
+      };
     case 'mux':
       return { inputs: toInt(params.Inputs), outputs: 1 };
     case 'demux':
@@ -68,6 +99,30 @@ export function portCountsChanged(block: any): boolean {
   return want.inputs !== have.inputs || want.outputs !== have.outputs;
 }
 //=============================================================================
+/** Preserve connections to the same selected bus element when outputs are reordered. */
+export function remapSelectorConnections(
+  connections: SimpleConnection[],
+  id: string,
+  before: string[],
+  after: string[],
+  wasBus: boolean,
+  isBus: boolean
+): SimpleConnection[] {
+  return connections.map((connection) => {
+    if (connection.from !== id) return connection;
+    if (wasBus !== isBus) return { ...connection, fromIndex: -1 };
+    if (wasBus) return connection;
+    const oldIndex = connection.fromIndex;
+    const name = before[oldIndex];
+    if (name === undefined) return { ...connection, fromIndex: -1 };
+    const occurrence = before.slice(0, oldIndex).filter((value) => value === name).length;
+    const candidates = after
+      .map((value, index) => (value === name ? index : -1))
+      .filter((index) => index >= 0);
+    return { ...connection, fromIndex: candidates[occurrence] ?? -1 };
+  });
+}
+//=============================================================================
 /** The connections that still address a valid port after the block is rebuilt
  *  with `counts`. The far endpoint of each connection is left to the caller to
  *  validate (it is unchanged by this block's rebuild). */
@@ -77,8 +132,11 @@ export function survivingConnections(
   counts: PortCounts
 ): SimpleConnection[] {
   return connections.filter((conn) => {
-    const fromOk = conn.from !== blockId || Number(conn.fromIndex) < counts.outputs;
-    const toOk = conn.to !== blockId || Number(conn.toIndex) < counts.inputs;
+    const fromOk =
+      conn.from !== blockId ||
+      (Number(conn.fromIndex) >= 0 && Number(conn.fromIndex) < counts.outputs);
+    const toOk =
+      conn.to !== blockId || (Number(conn.toIndex) >= 0 && Number(conn.toIndex) < counts.inputs);
     return fromOk && toOk;
   });
 }

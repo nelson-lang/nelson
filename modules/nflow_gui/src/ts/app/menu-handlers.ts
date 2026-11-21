@@ -677,6 +677,7 @@ export function newDiagram(): void {
   if (stopFcnInput) stopFcnInput.value = '';
   state.autoRoute = defaults.autoRoute;
   if (autoRouteInput) autoRouteInput.checked = state.autoRoute as unknown as boolean;
+  state.busTypes = [];
   state.variablesText = '';
   if (variablesInput) variablesInput.value = state.variablesText;
   state.variables = {};

@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NFlowCodegenPipeline.hpp"
+#include "NFlowBusSignalNames.hpp"
 #include "BlockRegistry.hpp"
 #include "NFlowCodegenFlatten.hpp"
 #include "NFlowCodegenHelpers.hpp"
@@ -121,6 +122,8 @@ runCodegenPipeline(const CodegenPipelineRequest& request, const CodegenPipelineH
         d.message = "invalid .nflow model JSON";
         return fail(std::move(d));
     }
+
+    Nelson::NFlow::inferBusSignalNames(diagram);
 
     if (request.useModelSampleTime && diagram.contains("sampleTime")
         && diagram["sampleTime"].is_number()) {
@@ -273,6 +276,38 @@ runCodegenPipeline(const CodegenPipelineRequest& request, const CodegenPipelineH
         }
     }
 
+    // Matrix products must be lowered to scalar operations before splitting
+    // complex lanes, so their dimensions remain available during expansion.
+    {
+        std::vector<std::string> matrixProducts;
+        for (const auto& block : diagram.value("blocks", json::array())) {
+            if (block.value("type", std::string()) == "mult") {
+                const auto params = block.value("params", json::object());
+                if (params.value("Multiplication", std::string()) == "Matrix(*)"
+                    || params.value("Multiplication", std::string()) == "matrix") {
+                    matrixProducts.push_back(block.value("id", std::string()));
+                }
+            }
+        }
+        if (!matrixProducts.empty()) {
+            const CodegenWidths widths = computeCodegenWidths(diagram);
+            const bool complexProduct = std::any_of(
+                matrixProducts.begin(), matrixProducts.end(), [&](const std::string& id) {
+                    const auto it = widths.outComplex.find(id);
+                    return it != widths.outComplex.end() && !it->second.empty() && it->second[0];
+                });
+            if (complexProduct) {
+                VectorExpandResult xr = expandVectorDiagram(diagram);
+                if (!xr.ok) {
+                    CodegenDiagnostic d = makeError("vectorExpand");
+                    d.message = xr.error;
+                    d.blockId = xr.errorBlockId;
+                    return fail(std::move(d));
+                }
+                diagram = std::move(xr.diagram);
+            }
+        }
+    }
     {
         json lowered = lowerComplexDiagram(diagram);
         if (lowered.is_object() && lowered.contains("error")) {

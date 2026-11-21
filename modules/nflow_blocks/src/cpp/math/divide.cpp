@@ -70,6 +70,16 @@ Nelson::NFlow::getCodeGenCDivide()
     t.step = "{ double denom = {in1};\n"
              "  if (fabs(denom) < 1e-300) denom = denom < 0.0 ? -1e-300 : 1e-300;\n"
              "  out_{id} = {in0} / denom; }";
+    t.emitStep = [](const BlockCodegenArgs& a) {
+        const std::string out = "out_" + a.id;
+        if (asJson(a.params)->value("MatrixInversePivot", false)) {
+            a.line(out + " = (" + a.in[1] + " == 0.0 ? NAN : " + a.in[0] + " / " + a.in[1] + ");");
+        } else {
+            a.line("{ double denom = " + a.in[1]
+                + "; if (fabs(denom) < 1e-300) denom = denom < 0.0 ? -1e-300 : 1e-300; " + out
+                + " = " + a.in[0] + " / denom; }");
+        }
+    };
     t.emitStepTyped = [](const BlockCodegenArgs& a) {
         // Integer division rounds per the block's Rounding parameter
         // (floor by default, matching the runtime).
@@ -100,6 +110,18 @@ Nelson::NFlow::getCodeGenRustDivide()
              "  let denom = if libm::fabs(denom) < 1e-300_f64 { if denom < 0.0_f64 { -1e-300_f64 } "
              "else { 1e-300_f64 } } else { denom };\n"
              "  out_{id} = {in0} / denom; }";
+    t.emitStep = [](const BlockCodegenArgs& a) {
+        const std::string out = "out_" + a.id;
+        if (asJson(a.params)->value("MatrixInversePivot", false)) {
+            a.line(out + " = if " + a.in[1] + " == 0.0_f64 { f64::NAN } else { " + a.in[0] + " / "
+                + a.in[1] + " };");
+        } else {
+            a.line("{ let denom = " + a.in[1]
+                + "; let denom = if libm::fabs(denom) < 1e-300_f64 { if denom < 0.0_f64 { "
+                  "-1e-300_f64 } else { 1e-300_f64 } } else { denom }; "
+                + out + " = " + a.in[0] + " / denom; }");
+        }
+    };
     t.emitStepTyped = [](const BlockCodegenArgs& a) {
         // Integer division rounds per the block's Rounding parameter
         // (floor by default, matching the runtime).

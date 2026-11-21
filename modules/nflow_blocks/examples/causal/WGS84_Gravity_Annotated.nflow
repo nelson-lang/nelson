@@ -1,0 +1,503 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "",
+    "created": "2026-11-20",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "WGS-84 normal gravity on the reference ellipsoid.",
+  "name": "WGS84 Gravity Annotated",
+  "blocks": [
+    {
+      "id": "note",
+      "type": "comment",
+      "x": 60,
+      "y": 20,
+      "rotation": 0,
+      "params": {
+        "CommentText": "WGS-84: normal gravity on and above the reference ellipsoid\ng = ge * (1 + k * sin(latitude)^2) / sqrt(1 - e2 * sin(latitude)^2)\ng_h = g * (1 - 2*(1 + f + m - 2*f*sin(latitude)^2)*(h/a) + 3*(h/a)^2)\nLatitude in radians; gravity in m/s^2.",
+        "width": 1500,
+        "height": 110
+      },
+      "inputs": 0,
+      "outputs": 0
+    },
+    {
+      "id": "latitude",
+      "type": "constant",
+      "x": 60,
+      "y": 200,
+      "rotation": 0,
+      "params": {
+        "Value": 0.6
+      },
+      "inputs": 0,
+      "outputs": 1
+    },
+    {
+      "id": "sine",
+      "type": "trigFunction",
+      "x": 230,
+      "y": 200,
+      "rotation": 0,
+      "params": {
+        "Function": "sin"
+      },
+      "inputs": 1,
+      "outputs": 1
+    },
+    {
+      "id": "square",
+      "type": "mathFunction",
+      "x": 390,
+      "y": 200,
+      "rotation": 0,
+      "params": {
+        "Function": "square"
+      },
+      "inputs": 1,
+      "outputs": 1
+    },
+    {
+      "id": "k",
+      "type": "gain",
+      "x": 550,
+      "y": 125,
+      "rotation": 0,
+      "params": {
+        "Gain": 0.00193185265241
+      },
+      "inputs": 1,
+      "outputs": 1
+    },
+    {
+      "id": "num",
+      "type": "bias",
+      "x": 710,
+      "y": 125,
+      "rotation": 0,
+      "params": {
+        "Bias": 1
+      },
+      "inputs": 1,
+      "outputs": 1
+    },
+    {
+      "id": "ge",
+      "type": "gain",
+      "x": 870,
+      "y": 125,
+      "rotation": 0,
+      "params": {
+        "Gain": 9.7803253359
+      },
+      "inputs": 1,
+      "outputs": 1
+    },
+    {
+      "id": "e2",
+      "type": "gain",
+      "x": 550,
+      "y": 300,
+      "rotation": 0,
+      "params": {
+        "Gain": -0.00669437999013
+      },
+      "inputs": 1,
+      "outputs": 1
+    },
+    {
+      "id": "den",
+      "type": "bias",
+      "x": 710,
+      "y": 300,
+      "rotation": 0,
+      "params": {
+        "Bias": 1
+      },
+      "inputs": 1,
+      "outputs": 1
+    },
+    {
+      "id": "root",
+      "type": "sqrt",
+      "x": 870,
+      "y": 300,
+      "rotation": 0,
+      "params": {},
+      "inputs": 1,
+      "outputs": 1
+    },
+    {
+      "id": "gravity",
+      "type": "divide",
+      "x": 1050,
+      "y": 210,
+      "rotation": 0,
+      "params": {},
+      "inputs": 2,
+      "outputs": 1
+    },
+    {
+      "id": "view",
+      "type": "scope",
+      "x": 1220,
+      "y": 150,
+      "rotation": 0,
+      "params": {
+        "Title": "Normal gravity [m/s^2]",
+        "width": 260,
+        "height": 160
+      },
+      "inputs": 1,
+      "outputs": 0
+    },
+    {
+      "id": "h",
+      "type": "constant",
+      "x": 50,
+      "y": 700,
+      "rotation": 0,
+      "params": {
+        "Value": 1000
+      },
+      "inputs": 0,
+      "outputs": 1
+    },
+    {
+      "id": "axis",
+      "type": "constant",
+      "x": 50,
+      "y": 870,
+      "rotation": 0,
+      "params": {
+        "Value": 6378137
+      },
+      "inputs": 0,
+      "outputs": 1
+    },
+    {
+      "id": "ratio",
+      "type": "divide",
+      "x": 230,
+      "y": 750,
+      "rotation": 0,
+      "params": {},
+      "inputs": 2,
+      "outputs": 1
+    },
+    {
+      "id": "factor",
+      "type": "gain",
+      "x": 550,
+      "y": 500,
+      "rotation": 0,
+      "params": {
+        "Gain": -0.006705621329494961
+      },
+      "inputs": 1,
+      "outputs": 1
+    },
+    {
+      "id": "correction",
+      "type": "bias",
+      "x": 710,
+      "y": 500,
+      "rotation": 0,
+      "params": {
+        "Bias": 1.0068025971715875
+      },
+      "inputs": 1,
+      "outputs": 1
+    },
+    {
+      "id": "mixed",
+      "type": "mult",
+      "x": 870,
+      "y": 560,
+      "rotation": 0,
+      "params": {
+        "Inputs": 2
+      },
+      "inputs": 2,
+      "outputs": 1
+    },
+    {
+      "id": "twoneg",
+      "type": "gain",
+      "x": 1040,
+      "y": 560,
+      "rotation": 0,
+      "params": {
+        "Gain": -2
+      },
+      "inputs": 1,
+      "outputs": 1
+    },
+    {
+      "id": "ratiosq",
+      "type": "mathFunction",
+      "x": 550,
+      "y": 800,
+      "rotation": 0,
+      "params": {
+        "Function": "square"
+      },
+      "inputs": 1,
+      "outputs": 1
+    },
+    {
+      "id": "triple",
+      "type": "gain",
+      "x": 710,
+      "y": 800,
+      "rotation": 0,
+      "params": {
+        "Gain": 3
+      },
+      "inputs": 1,
+      "outputs": 1
+    },
+    {
+      "id": "one",
+      "type": "constant",
+      "x": 1040,
+      "y": 760,
+      "rotation": 0,
+      "params": {
+        "Value": 1
+      },
+      "inputs": 0,
+      "outputs": 1
+    },
+    {
+      "id": "height_factor",
+      "type": "sum",
+      "x": 1220,
+      "y": 650,
+      "rotation": 0,
+      "params": {
+        "Inputs": "+++"
+      },
+      "inputs": 3,
+      "outputs": 1
+    },
+    {
+      "id": "gravity_height",
+      "type": "mult",
+      "x": 1400,
+      "y": 380,
+      "rotation": 0,
+      "params": {
+        "Inputs": 2
+      },
+      "inputs": 2,
+      "outputs": 1
+    },
+    {
+      "id": "view_height",
+      "type": "scope",
+      "x": 1580,
+      "y": 340,
+      "rotation": 0,
+      "params": {
+        "Title": "Gravity above ellipsoid [m/s^2]",
+        "width": 260,
+        "height": 160
+      },
+      "inputs": 1,
+      "outputs": 0
+    }
+  ],
+  "connections": [
+    {
+      "from": "latitude",
+      "to": "sine",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "label": "latitude [rad]"
+    },
+    {
+      "from": "sine",
+      "to": "square",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "label": "sin(latitude)"
+    },
+    {
+      "from": "square",
+      "to": "k",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "label": "sin²(latitude)"
+    },
+    {
+      "from": "k",
+      "to": "num",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "label": "k sin²(latitude)"
+    },
+    {
+      "from": "num",
+      "to": "ge",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "label": "1 + k sin²(latitude)"
+    },
+    {
+      "from": "ge",
+      "to": "gravity",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "label": "numerator"
+    },
+    {
+      "from": "square",
+      "to": "e2",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "label": "sin²(latitude)"
+    },
+    {
+      "from": "e2",
+      "to": "den",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "label": "-e² sin²(latitude)"
+    },
+    {
+      "from": "den",
+      "to": "root",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "label": "1 - e² sin²(latitude)"
+    },
+    {
+      "from": "root",
+      "to": "gravity",
+      "fromIndex": 0,
+      "toIndex": 1,
+      "label": "denominator"
+    },
+    {
+      "from": "gravity",
+      "to": "view",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "label": "gravity [m/s²]"
+    },
+    {
+      "from": "h",
+      "to": "ratio",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "label": "altitude [m]"
+    },
+    {
+      "from": "axis",
+      "to": "ratio",
+      "fromIndex": 0,
+      "toIndex": 1,
+      "label": "equatorial radius [m]"
+    },
+    {
+      "from": "square",
+      "to": "factor",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "label": "sin²(latitude)"
+    },
+    {
+      "from": "factor",
+      "to": "correction",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "label": "-2f sin²(latitude)"
+    },
+    {
+      "from": "correction",
+      "to": "mixed",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "label": "1 + f + m - 2f sin²(latitude)"
+    },
+    {
+      "from": "ratio",
+      "to": "mixed",
+      "fromIndex": 0,
+      "toIndex": 1,
+      "label": "h / a"
+    },
+    {
+      "from": "mixed",
+      "to": "twoneg",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "label": "coefficient * h / a"
+    },
+    {
+      "from": "ratio",
+      "to": "ratiosq",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "label": "h / a"
+    },
+    {
+      "from": "ratiosq",
+      "to": "triple",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "label": "(h / a)²"
+    },
+    {
+      "from": "one",
+      "to": "height_factor",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "label": "one"
+    },
+    {
+      "from": "twoneg",
+      "to": "height_factor",
+      "fromIndex": 0,
+      "toIndex": 1,
+      "label": "-2 * coefficient * h / a"
+    },
+    {
+      "from": "triple",
+      "to": "height_factor",
+      "fromIndex": 0,
+      "toIndex": 2,
+      "label": "3 * (h / a)²"
+    },
+    {
+      "from": "gravity",
+      "to": "gravity_height",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "label": "gravity on ellipsoid"
+    },
+    {
+      "from": "height_factor",
+      "to": "gravity_height",
+      "fromIndex": 0,
+      "toIndex": 1,
+      "label": "height correction"
+    },
+    {
+      "from": "gravity_height",
+      "to": "view_height",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "label": "gravity at altitude [m/s²]"
+    }
+  ],
+  "variables": "",
+  "runtime": 1,
+  "sampleTime": 0.01,
+  "autoRoute": true,
+  "locked": false
+}

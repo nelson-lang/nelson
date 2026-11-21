@@ -173,10 +173,19 @@ else()
   )
 endif()
 
+add_executable(nflow_bus_signal_names_tests bus_signal_names_tests.cpp)
+target_include_directories(nflow_bus_signal_names_tests
+  PRIVATE
+    "${NFLOW_BLOCKS_DIR}/tests/cpp/third_party/doctest"
+    "${NFLOW_ENGINE_DIR}/src/include"
+    "${REPO_MODULES_DIR}/commons/src/include"
+)
+
 enable_testing()
 add_test(NAME nflow_model_document_tests COMMAND nflow_model_document_tests)
 add_test(NAME nflow_fmu_export_tests COMMAND nflow_fmu_export_tests)
 add_test(NAME nflow_router_tests COMMAND nflow_router_tests)
+add_test(NAME nflow_bus_signal_names_tests COMMAND nflow_bus_signal_names_tests)
 add_test(NAME nflow_cmake_command_tests COMMAND nflow_cmake_command_tests)
 add_test(
   NAME nflow_dashboard_binding_tests

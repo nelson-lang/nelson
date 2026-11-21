@@ -97,6 +97,9 @@ makeSwitchCodegen(Nelson::NFlow::CodegenLang L)
             cond = "(" + cond + " as f64)";
         }
         if (L.rust) {
+            if (threshold.find_first_of(".eE") == std::string::npos) {
+                threshold += ".0";
+            }
             a.line("out_" + a.id + " = if " + cond + op + threshold + " { " + a.in[0] + " } else { "
                 + a.in[2] + " };");
         } else {

@@ -107,6 +107,15 @@ const BLOCK_DEFS: Record<string, BlockDef> = {
   busCreator: {
     fields: [
       {
+        key: FieldNames.kSumInputs,
+        label: 'Number of inputs',
+        inputType: 'number',
+        event: 'change',
+        attrs: { min: '2', step: '1' },
+        callUpdate: true,
+        coerce: minCount,
+      },
+      {
         key: FieldNames.kMemberNames,
         label: 'Member names (one per line)',
         inputType: 'textarea',
@@ -131,6 +140,14 @@ const BLOCK_DEFS: Record<string, BlockDef> = {
       },
     ],
     values: (block) => ({
+      [FieldNames.kSumInputs]:
+        block.params?.[FieldNames.kSumInputs] ??
+        Math.max(
+          2,
+          Array.isArray(block.params?.[FieldNames.kMemberNames])
+            ? (block.params[FieldNames.kMemberNames] as unknown[]).length
+            : 0
+        ),
       [FieldNames.kMemberNames]: Array.isArray(block.params?.[FieldNames.kMemberNames])
         ? (block.params[FieldNames.kMemberNames] as string[]).join('\n')
         : '',
@@ -141,10 +158,17 @@ const BLOCK_DEFS: Record<string, BlockDef> = {
   busSelector: {
     fields: [
       {
+        key: 'OutputAsBus',
+        label: 'Output as bus',
+        inputType: 'checkbox',
+        event: 'change',
+        callUpdate: true,
+      },
+      {
         key: FieldNames.kSelectedSignals,
         label: 'Selected members (one path per line, e.g. sub.a)',
         inputType: 'textarea',
-        event: 'input',
+        event: 'change',
         attrs: { rows: '4' },
         callUpdate: true,
         coerce: linesOf,

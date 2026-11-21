@@ -9,6 +9,7 @@
 //=============================================================================
 #define _USE_MATH_DEFINES
 #include "SimEngineTopology.hpp"
+#include "NFlowBusSignalNames.hpp"
 #include "SimEngineResult.hpp"
 #include "DashboardBindingManager.hpp"
 #include "SimEngineBusTypes.hpp"
@@ -20,8 +21,10 @@
 namespace Nelson::NFlow {
 //=============================================================================
 std::optional<std::string>
-buildModelTopology(const nlohmann::json& diagram, ModelTopology& out)
+buildModelTopology(const nlohmann::json& originalDiagram, ModelTopology& out)
 {
+    nlohmann::json diagram = originalDiagram;
+    inferBusSignalNames(diagram);
     std::vector<Block> blocks;
     std::unordered_map<std::string, BlockId> nameToId;
     if (diagram.contains(nflow::kBlocks) && diagram[nflow::kBlocks].is_array()) {

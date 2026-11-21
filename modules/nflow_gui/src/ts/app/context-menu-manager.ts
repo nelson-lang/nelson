@@ -13,6 +13,7 @@ import { applyAlignment } from '../utils/block-alignment.js';
 import { autoArrangeDiagram } from './auto-arrange.js';
 import { schematicArrangeDiagram, diagramHasPhysicalPins } from './schematic-arrange.js';
 import { openBlockHelp } from './block-help.js';
+import { canFitBlockContent, fitBlockToContent } from '../render/interaction/fit-block-content.js';
 //=============================================================================
 let blockContextMenu: HTMLElement | null = null;
 let canvasContextMenu: HTMLElement | null = null;
@@ -117,6 +118,14 @@ function handleBlockContextMenu(event: MouseEvent, blockId: string | null) {
   event.stopPropagation();
   if (!stateRef) return;
   stateRef.selectedId = blockId as any;
+
+  const fitItem = blockContextMenu?.querySelector<HTMLElement>('[data-action="fitBlockContent"]');
+  if (fitItem) {
+    const block = Array.from(stateRef.blocks || []).find(
+      ([id]) => String(id) === String(blockId)
+    )?.[1];
+    fitItem.classList.toggle('context-menu-item--hidden', !canFitBlockContent(block));
+  }
 
   if (blockContextMenu) {
     const item = blockContextMenu.querySelector<HTMLElement>('[data-action="createSubsystem"]');
@@ -279,6 +288,9 @@ function handleBlockAction(action: string | null) {
   if (!block) return;
 
   switch (action) {
+    case 'fitBlockContent':
+      if (!stateRef.locked) fitBlockToContent(block);
+      break;
     case 'mirrorHorizontal': {
       if (!(block as any).mirrorHorizontal) (block as any).mirrorHorizontal = false;
       (block as any).mirrorHorizontal = !(block as any).mirrorHorizontal;

@@ -309,6 +309,7 @@ body {
 .inspector-pane {
   width: 306px;
   min-width: 240px;
+  container-type: inline-size;
   flex: 0 0 auto;
   position: relative;
   overflow: hidden;
@@ -2292,7 +2293,7 @@ g.masked-indicator text.mask-lock-char {
   min-width: 0;
   min-height: 24px;
   display: grid;
-  grid-template-columns: minmax(110px, 1fr) minmax(94px, auto);
+  grid-template-columns: minmax(0, 1fr) minmax(0, auto);
   align-items: center;
   gap: 8px;
   font-size: 10px;
@@ -2312,13 +2313,15 @@ g.masked-indicator text.mask-lock-char {
   justify-content: flex-start;
   gap: 6px;
   min-height: 24px;
+  min-width: 0;
   padding: 0 4px;
   border: 0;
   background: transparent;
   color: inherit;
   font: inherit;
   cursor: pointer;
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .inspector-capability-value:hover {
@@ -2408,6 +2411,24 @@ g.masked-indicator text.mask-lock-char {
 
 .properties-content .param-stack {
   grid-template-columns: 1fr;
+}
+
+@container (max-width: 230px) {
+  .inspector-capability-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .inspector-capability-name {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .inspector-name-wrap,
+  .properties-content .param:not(.param-inline) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 3px;
+  }
 }
 
 .properties-content .param-group {
@@ -2626,7 +2647,23 @@ g.masked-indicator text.mask-lock-char {
   display: flex;
   align-items: center;
   gap: 8px;
-  white-space: nowrap;
+  white-space: normal;
+}
+
+.properties-content .param-inline {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.param-inline > .param-name {
+  flex: 1 1 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.param-inline > input[type='checkbox'] {
+  flex: 0 0 auto;
+  width: auto;
+  margin: 0;
 }
 
 .margin-output {

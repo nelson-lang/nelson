@@ -166,7 +166,7 @@ describe('.nflow → router fixture converter', () => {
       const snapshot = await convertExample(file);
       const fixturePath = path.join(fixturesDir, fixture);
       if (REGEN) {
-        fs.writeFileSync(fixturePath, `${JSON.stringify(snapshot, null, 1)}\n`, 'utf-8');
+        fs.writeFileSync(fixturePath, `${JSON.stringify(snapshot, null, 2)}\n`, 'utf-8');
         return;
       }
       expect(

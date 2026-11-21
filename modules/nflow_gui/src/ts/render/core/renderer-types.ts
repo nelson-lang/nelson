@@ -20,6 +20,7 @@ export type Block = GeoBlock & {
 export type Conn = {
   from: string;
   to: string;
+  label?: string;
   fromIndex?: number;
   toIndex?: number;
   points?: Point[];

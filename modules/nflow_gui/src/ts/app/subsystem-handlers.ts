@@ -159,6 +159,8 @@ export async function openSubsystemFromBlock(block: unknown): Promise<void> {
       blocks: deepClone((spec as Record<string, unknown>).blocks),
       connections: deepClone((spec as Record<string, unknown>).connections),
       physicalWires: innerPhysicalWires,
+      // Bus types are declared at model level and remain available in the inner view.
+      busTypes: snapshot.busTypes || [],
       variables: snapshot.variables || '',
       sampleTime: Number(snapshot.sampleTime) || state.sampleTime || 0.01,
       runtime: Number(snapshot.runtime) || Number(runtimeInput?.value) || 1,
