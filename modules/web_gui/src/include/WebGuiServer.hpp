@@ -82,6 +82,20 @@ public:
     {
         return m_launchOptions.notebookHost;
     }
+    // Headless figure RPC: no window; figure dispatch and pushes are carried by an
+    // external transport (the notebook kernel's stdio channel).
+    bool
+    headlessRpc() const
+    {
+        return m_launchOptions.headlessRpc;
+    }
+    // In headless RPC mode, every push is handed to this sink as (channel,
+    // payloadJson) instead of being sent to a WebUI page. Set before start().
+    void
+    setPushSink(std::function<void(const std::string& channel, const std::string& payloadJson)> sink)
+    {
+        m_pushSink = std::move(sink);
+    }
     // Open a Notebook document in the frontend; an empty path is a new one. False without a window.
     bool
     openNotebookDocument(const std::wstring& path);
@@ -260,6 +274,10 @@ private:
     stopWatchdog();
     void
     clearBridgeHooks();
+    // Installs the figure frame/lifecycle/title hooks for headless RPC: they route
+    // to the push sink and never open a window.
+    void
+    installFigureRpcHooks();
     void
     startPushWorker();
     void
@@ -295,6 +313,9 @@ private:
     // from the desktop for their whole life, until notebook.closeFigures.
     mutable std::mutex m_notebookFiguresMutex;
     std::set<long long> m_notebookFigures;
+    // Headless RPC push sink; null in every other mode. Receives (channel,
+    // payloadJson) for figure.frame and the figure lifecycle channels.
+    std::function<void(const std::string&, const std::string&)> m_pushSink;
     WebUiLaunchOptions m_launchOptions;
     WebUiLaunchResult m_launchResult;
     std::string m_launchError;

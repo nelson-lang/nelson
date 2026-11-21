@@ -185,6 +185,8 @@
     <ClInclude Include="..\include\WebGuiServer.hpp" />
     <ClInclude Include="..\include\WebGuiEngine.hpp" />
     <ClInclude Include="..\include\WebGuiTerminal.hpp" />
+    <ClInclude Include="..\include\NotebookKernel.hpp" />
+    <ClInclude Include="..\include\NotebookKernelTerminal.hpp" />
     <ClInclude Include="..\include\WebGuiRpc.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -242,6 +244,8 @@
     <ClCompile Include="..\cpp\WebGuiServer.cpp" />
     <ClCompile Include="..\cpp\WebGuiEngine.cpp" />
     <ClCompile Include="..\cpp\WebGuiTerminal.cpp" />
+    <ClCompile Include="..\cpp\NotebookKernel.cpp" />
+    <ClCompile Include="..\cpp\NotebookKernelTerminal.cpp" />
     <ClCompile Include="..\cpp\WebGuiRpc.cpp" />
     <ClCompile Include="..\cpp\WebGuiRpcFigures.cpp" />
     <ClCompile Include="..\cpp\WebGuiRpcFigureActions.cpp" />

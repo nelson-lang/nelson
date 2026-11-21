@@ -87,10 +87,19 @@ if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/frontend/package.json)
     web_gui
     BUILD_SCRIPT
     build
+    EXTRA_BUILD_SCRIPTS
+    build:replayer
   )
 endif()
 # ==============================================================================
 install(
   DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/frontend/dist/
   DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}/frontend/dist
+)
+# The client-only figure replayer bundle, inlined by saveas(fig,'f.html') into a
+# self-contained interactive page. Built by the build:replayer script above.
+install(
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/frontend/dist-replayer/
+  DESTINATION
+    ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}/frontend/dist-replayer
 )

@@ -209,6 +209,7 @@
     <ClCompile Include="..\cpp\__violinplot__Builtin.cpp" />
     <ClCompile Include="..\cpp\__wordcloudchart__Builtin.cpp" />
     <ClCompile Include="..\cpp\__web_display_list__Builtin.cpp" />
+    <ClCompile Include="..\cpp\__web_figure_scene__Builtin.cpp" />
     <ClCompile Include="..\cpp\__web_graphics_handle__Builtin.cpp" />
     <ClCompile Include="..\cpp\__web_uicontrol_action__Builtin.cpp" />
     <ClCompile Include="..\cpp\__web_figure_close__Builtin.cpp" />

@@ -366,6 +366,10 @@ export interface FigureWebGlMesh {
   lineColor: [number, number, number, number];
   lineWidth: number;
   drawFaces: boolean;
+  // When true, the line pass colours each segment from the mesh's per-vertex
+  // vertexColors (interpolated start->end) instead of the uniform lineColor, so a
+  // colormap-coloured wireframe keeps its edge colours. Ignored without vertexColors.
+  lineVertexColors?: boolean;
 }
 //=============================================================================
 // A uicontrol described by the engine. The desktop builds a real HTML control from

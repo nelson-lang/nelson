@@ -462,6 +462,122 @@ RenderWeb::getModelviewMatrix(std::vector<double>& amodel)
 }
 //=============================================================================
 void
+RenderWeb::axes3dBeginAxes(long long handle, const double boxCentre[3])
+{
+    WebAxes3d entry;
+    entry.handle = handle;
+    // The axes base modelview, before any per-mesh origin fold, so box/grid/labels
+    // in absolute mapped coordinates project the same way the surface mesh does.
+    for (int i = 0; i < 16; ++i) {
+        entry.model[i] = model[i];
+    }
+    // The same projection the surface meshes carry (depth row shrunk), so the box
+    // and the surface stay locked together.
+    copyWebGlProjection(entry.projection);
+    for (int i = 0; i < 4; ++i) {
+        entry.viewport[i] = viewp[i];
+    }
+    for (int i = 0; i < 3; ++i) {
+        entry.boxCentre[i] = boxCentre[i];
+    }
+    m_axes3d.push_back(std::move(entry));
+}
+//=============================================================================
+void
+RenderWeb::axes3dAddLabel(const std::wstring& text, double x, double y, double z,
+    const std::vector<double>& color, double fontSize, double rotation, const std::string& align,
+    const std::string& baseline)
+{
+    if (!m_axes3dCapture || m_axes3d.empty()) {
+        return;
+    }
+    WebAxes3dLabel label;
+    label.text = wstring_to_utf8(text);
+    label.pos = { x, y, z };
+    label.color = colorString(color);
+    label.size = fontSize;
+    label.rotation = rotation;
+    label.align = align;
+    label.baseline = baseline;
+    m_axes3d.back().labels.push_back(std::move(label));
+}
+//=============================================================================
+bool
+RenderWeb::axes3dAddMarkers(const std::vector<double>& xyz, const std::vector<double>& radii,
+    const std::vector<double>& rgba)
+{
+    if (!m_axes3dCapture || m_axes3dCategory != 3) {
+        return false;
+    }
+    const size_t count = radii.size();
+    if (count == 0 || xyz.size() < count * 3) {
+        return false;
+    }
+    // Data units per pixel along each axis from the current projection, so each
+    // baked marker keeps a round on-screen size whatever the data aspect.
+    double p0x, p0y, pxx, pxy, pyx, pyy, pzx, pzy;
+    mapXYZ(0, 0, 0, p0x, p0y);
+    mapXYZ(1, 0, 0, pxx, pxy);
+    mapXYZ(0, 1, 0, pyx, pyy);
+    mapXYZ(0, 0, 1, pzx, pzy);
+    auto dataPerPixel = [](double dx, double dy) {
+        const double d = std::hypot(dx, dy);
+        return d > 1e-9 ? 1.0 / d : 0.0;
+    };
+    const double dppx = dataPerPixel(pxx - p0x, pxy - p0y);
+    const double dppy = dataPerPixel(pyx - p0x, pyy - p0y);
+    const double dppz = dataPerPixel(pzx - p0x, pzy - p0y);
+    WebGlMesh mesh;
+    mesh.drawFaces = true;
+    for (int i = 0; i < 16; ++i) {
+        mesh.model[i] = model[i];
+    }
+    copyWebGlProjection(mesh.projection);
+    for (int i = 0; i < 4; ++i) {
+        mesh.viewport[i] = viewp[i];
+    }
+    // Each marker is a small octahedron: visible from every angle and cheap.
+    static const int dirs[6][3]
+        = { { 1, 0, 0 }, { -1, 0, 0 }, { 0, 1, 0 }, { 0, -1, 0 }, { 0, 0, 1 }, { 0, 0, -1 } };
+    static const int tris[8][3] = { { 0, 2, 4 }, { 2, 1, 4 }, { 1, 3, 4 }, { 3, 0, 4 }, { 2, 0, 5 },
+        { 1, 2, 5 }, { 3, 1, 5 }, { 0, 3, 5 } };
+    mesh.positions.reserve(count * 18);
+    mesh.vertexColors.reserve(count * 24);
+    mesh.triangleIndices.reserve(count * 24);
+    for (size_t m = 0; m < count; ++m) {
+        const double cx = xyz[m * 3], cy = xyz[m * 3 + 1], cz = xyz[m * 3 + 2];
+        const double hx = radii[m] * dppx, hy = radii[m] * dppy, hz = radii[m] * dppz;
+        auto comp = [&](size_t idx, float fallback) {
+            return m * 4 + idx < rgba.size() ? static_cast<float>(rgba[m * 4 + idx]) : fallback;
+        };
+        const float cr = comp(0, 0.0f), cg = comp(1, 0.0f), cb = comp(2, 0.0f), ca = comp(3, 1.0f);
+        const uint32_t base = static_cast<uint32_t>(mesh.positions.size() / 3);
+        for (int v = 0; v < 6; ++v) {
+            mesh.positions.push_back(static_cast<float>(cx + dirs[v][0] * hx));
+            mesh.positions.push_back(static_cast<float>(cy + dirs[v][1] * hy));
+            mesh.positions.push_back(static_cast<float>(cz + dirs[v][2] * hz));
+            mesh.vertexColors.push_back(cr);
+            mesh.vertexColors.push_back(cg);
+            mesh.vertexColors.push_back(cb);
+            mesh.vertexColors.push_back(ca);
+        }
+        for (int f = 0; f < 8; ++f) {
+            mesh.triangleIndices.push_back(base + tris[f][0]);
+            mesh.triangleIndices.push_back(base + tris[f][1]);
+            mesh.triangleIndices.push_back(base + tris[f][2]);
+        }
+    }
+    mesh.positionsLength = mesh.positions.size();
+    mesh.vertexColorsLength = mesh.vertexColors.size();
+    mesh.triangleIndicesLength = mesh.triangleIndices.size();
+    if (!mesh.triangleIndices.empty()) {
+        m_webglMeshes.push_back(std::move(mesh));
+        m_has3d = true;
+    }
+    return true;
+}
+//=============================================================================
+void
 RenderWeb::setLightingScene(const RenderLightingScene& scene)
 {
     m_lightingScene = scene;
@@ -489,6 +605,7 @@ void
 RenderWeb::color(std::vector<double> col)
 {
     m_color = colorString(col);
+    m_colorVec = col;
 }
 //=============================================================================
 void
@@ -595,6 +712,23 @@ RenderWeb::lineSegments3D(const std::vector<double>& xyz)
     if (lineHidden()) {
         return;
     }
+    // Scene v2: a 3D axes box/grid is recorded in mapped data coordinates for the
+    // offline camera instead of being flattened to a 2D "segments" primitive.
+    if (m_axes3dCapture && m_axes3dCategory != 0 && !m_axes3d.empty()) {
+        WebAxes3d& entry = m_axes3d.back();
+        if (m_axes3dCategory == 1) {
+            entry.boxSegments.insert(entry.boxSegments.end(), xyz.begin(), xyz.end());
+            if (entry.boxColor.empty()) {
+                entry.boxColor = m_color;
+            }
+        } else if (m_axes3dCategory == 2) {
+            entry.gridSegments.insert(entry.gridSegments.end(), xyz.begin(), xyz.end());
+            if (entry.gridColor.empty()) {
+                entry.gridColor = m_color;
+            }
+        }
+        return;
+    }
     if (!m_inDirect) {
         // The only callers are GOAxis (grid, minor grid, box and ruler lines), which
         // lie on the data-volume boundary. Emit the batch as one depth-sorted
@@ -672,6 +806,49 @@ void
 RenderWeb::lineSeries(std::vector<double> xs, std::vector<double> ys, std::vector<double> zs)
 {
     if (lineHidden()) {
+        return;
+    }
+    // Scene v2: a 3D line (plot3, contour3, line3) inside a captured axes is emitted
+    // as a line-only WebGlMesh in mapped coordinates, so the offline camera rotates
+    // it together with the box instead of flattening it to a 2D polyline.
+    if (m_axes3dCapture && m_axes3dCategory == 3) {
+        const size_t count = std::min(xs.size(), ys.size());
+        WebGlMesh mesh;
+        mesh.drawFaces = false;
+        for (int i = 0; i < 16; ++i) {
+            mesh.model[i] = model[i];
+        }
+        copyWebGlProjection(mesh.projection);
+        for (int i = 0; i < 4; ++i) {
+            mesh.viewport[i] = viewp[i];
+        }
+        auto comp = [&](size_t idx, float fallback) {
+            return idx < m_colorVec.size() ? static_cast<float>(m_colorVec[idx]) : fallback;
+        };
+        mesh.lineColor = { comp(0, 0.0f), comp(1, 0.0f), comp(2, 0.0f), comp(3, 1.0f) };
+        mesh.lineWidth = m_lineWidth;
+        mesh.positions.reserve(count * 3);
+        std::vector<int> vertexIndex(count, -1);
+        for (size_t i = 0; i < count; ++i) {
+            const double z = i < zs.size() ? zs[i] : 0.0;
+            if (std::isfinite(xs[i]) && std::isfinite(ys[i]) && std::isfinite(z)) {
+                vertexIndex[i] = static_cast<int>(mesh.positions.size() / 3);
+                mesh.positions.push_back(static_cast<float>(xs[i]));
+                mesh.positions.push_back(static_cast<float>(ys[i]));
+                mesh.positions.push_back(static_cast<float>(z));
+            }
+        }
+        for (size_t i = 1; i < count; ++i) {
+            if (vertexIndex[i - 1] >= 0 && vertexIndex[i] >= 0) {
+                mesh.lineIndices.push_back(static_cast<uint32_t>(vertexIndex[i - 1]));
+                mesh.lineIndices.push_back(static_cast<uint32_t>(vertexIndex[i]));
+            }
+        }
+        mesh.positionsLength = mesh.positions.size();
+        mesh.lineIndicesLength = mesh.lineIndices.size();
+        if (!mesh.lineIndices.empty()) {
+            m_webglMeshes.push_back(std::move(mesh));
+        }
         return;
     }
     const size_t n = std::min(xs.size(), ys.size());

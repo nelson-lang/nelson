@@ -1,0 +1,64 @@
+/* Copyright (c) 2026-present Allan CORNET (Nelson)
+ * SPDX-License-Identifier: LGPL-3.0-or-later */
+
+/* Sizing and theme tokens for the live figure panel in a notebook output. The
+ * standalone renderer bundle does not load the desktop shell stylesheet, so a
+ * mounted figure panel had no container size and overflowed its output. These
+ * rules, scoped to the mount's .nelson-shell wrapper, give the panel a sized
+ * flex container so it scales to the output instead. They mirror the desktop
+ * shell theme and the web notebook figure wrapper. */
+
+.nelson-shell {
+  --bg: #1e1e1e;
+  --bg-alt: #252526;
+  --bg-tab: #2d2d2d;
+  --bg-elev: #2a2d2e;
+  --fg: #d4d4d4;
+  --fg-dim: #858585;
+  --border: #333333;
+  --accent: #0e639c;
+  --accent-hover: #1177bb;
+  --accent-fg: #ffffff;
+  --focus: #007acc;
+  --selection: #264f78;
+  --menubar-h: 32px;
+  --radius: 4px;
+}
+.nelson-shell.nelson-shell--light {
+  --bg: #ffffff;
+  --bg-alt: #f3f3f3;
+  --bg-tab: #ececec;
+  --bg-elev: #ffffff;
+  --fg: #1f1f1f;
+  --fg-dim: #6a6a6a;
+  --border: #d4d4d4;
+  --accent: #0072bd;
+  --accent-hover: #0086de;
+  --accent-fg: #ffffff;
+  --focus: #0072bd;
+  --selection: #add6ff;
+}
+
+/* The live figure wrapper: a sized flex column the panel fills. A definite
+ * height (not just a minimum) keeps the output height stable when the Properties
+ * sidebar opens: the sidebar scrolls within this box instead of growing it,
+ * which would otherwise feed back into the panel's resize observer. The user can
+ * still drag the bottom edge to resize. */
+.nls-figure-wrap.nls-figure-live {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  background: var(--bg);
+  height: 460px;
+  min-height: 340px;
+  resize: vertical;
+  overflow: hidden;
+}
+.nls-figure-wrap.nls-figure-live .figure-panel {
+  flex: 1 1 auto;
+  height: auto;
+  min-height: 0;
+}
+.nls-figure-wrap.nls-figure-live .figure-workspace-content {
+  min-height: 240px;
+}

@@ -462,8 +462,6 @@ GOScatterSeries::paintMe(RenderInterface& gc)
                 sourceIndices.push_back(i);
             }
         }
-        gc.setupDirectDraw();
-
         std::vector<double> colorMapData;
         GOColorVectorProperty* colorMap = static_cast<GOColorVectorProperty*>(
             parent->findProperty(GO_COLOR_MAP_PROPERTY_NAME_STR));
@@ -500,6 +498,34 @@ GOScatterSeries::paintMe(RenderInterface& gc)
             edgeColors.push_back(edgeColor);
             faceColors.push_back(faceColor);
         }
+
+        // Scene v2: a 3D scatter inside a captured axes bakes its markers into
+        // rotatable geometry, so they orbit with the box instead of staying flat.
+        if (gc.axes3dCaptureActive()) {
+            std::vector<double> markerPos;
+            std::vector<double> markerRadii;
+            std::vector<double> markerRgba;
+            markerPos.reserve(uc.size() * 3);
+            markerRadii.reserve(uc.size());
+            markerRgba.reserve(uc.size() * 4);
+            for (size_t k = 0; k < uc.size(); k++) {
+                size_t pointIndex = sourceIndices[k];
+                markerPos.push_back(mxs[pointIndex]);
+                markerPos.push_back(mys[pointIndex]);
+                markerPos.push_back(mzs[pointIndex]);
+                markerRadii.push_back(markerSizes[k]);
+                const std::vector<double>& c
+                    = (!faceColors[k].empty() && faceColors[k][0] != -1) ? faceColors[k]
+                                                                         : edgeColors[k];
+                for (int j = 0; j < 4; j++) {
+                    markerRgba.push_back(j < static_cast<int>(c.size()) ? c[j] : 1.0);
+                }
+            }
+            if (gc.axes3dAddMarkers(markerPos, markerRadii, markerRgba)) {
+                return;
+            }
+        }
+        gc.setupDirectDraw();
 
         // Batched fast path: the marker set becomes one "points" primitive (RenderWeb), so a
         // large scatter animates from a compact display list. A backend that cannot batch

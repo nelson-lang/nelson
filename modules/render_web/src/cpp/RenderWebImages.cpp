@@ -996,15 +996,44 @@ RenderWeb::tryPushWebGlPatch(const FaceList& faces, const PatchRenderOptions& op
         return false;
     }
     // The WebGL line program strokes every edge with one uniform color. Edge colors
-    // that vary per vertex (EdgeColor 'flat'/'interp') go to the software path.
-    if (drawEdges
-        && (first.EdgeColorMode == ColorMode::Flat || first.EdgeColorMode == ColorMode::Interp)
-        && first.edgecolors.size() >= 2) {
-        const RGBAColorData& c0 = first.edgecolors.front();
-        for (size_t i = 1; i < first.edgecolors.size(); ++i) {
-            const RGBAColorData& ci = first.edgecolors[i];
-            if (std::abs(ci.r - c0.r) > 1e-9 || std::abs(ci.g - c0.g) > 1e-9
-                || std::abs(ci.b - c0.b) > 1e-9 || std::abs(ci.a - c0.a) > 1e-9) {
+    // that vary normally go to the software path; while capturing a 3D axes a
+    // wireframe is instead emitted as a de-indexed line mesh with per-vertex colors,
+    // which the replayer shades per segment. The vertex map keys on position AND
+    // color, so a corner shared by faces of different colors stays as separate
+    // vertices (no merge), which is exactly the per-face de-indexing wanted.
+    bool lineVertexColors = false;
+    if (drawEdges) {
+        bool varies = false;
+        // Per-vertex variation inside a face (EdgeColor 'interp').
+        if ((first.EdgeColorMode == ColorMode::Flat || first.EdgeColorMode == ColorMode::Interp)
+            && first.edgecolors.size() >= 2) {
+            const RGBAColorData& c0 = first.edgecolors.front();
+            for (size_t i = 1; i < first.edgecolors.size(); ++i) {
+                const RGBAColorData& ci = first.edgecolors[i];
+                if (std::abs(ci.r - c0.r) > 1e-9 || std::abs(ci.g - c0.g) > 1e-9
+                    || std::abs(ci.b - c0.b) > 1e-9 || std::abs(ci.a - c0.a) > 1e-9) {
+                    varies = true;
+                    break;
+                }
+            }
+        }
+        // Per-face variation (each quad carries its own flat edge color). Only a
+        // wireframe needs this scan; a filled surface keeps its existing path.
+        if (!varies && !drawFaces) {
+            const RGBAColorData& e0 = first.EdgeColor;
+            for (const Face& f : faces) {
+                if (std::abs(f.EdgeColor.r - e0.r) > 1e-9 || std::abs(f.EdgeColor.g - e0.g) > 1e-9
+                    || std::abs(f.EdgeColor.b - e0.b) > 1e-9
+                    || std::abs(f.EdgeColor.a - e0.a) > 1e-9) {
+                    varies = true;
+                    break;
+                }
+            }
+        }
+        if (varies) {
+            if (!drawFaces && m_axes3dCapture && m_axes3dCategory == 3) {
+                lineVertexColors = true;
+            } else {
                 return false;
             }
         }
@@ -1012,6 +1041,7 @@ RenderWeb::tryPushWebGlPatch(const FaceList& faces, const PatchRenderOptions& op
     const RGBAColorData edge = first.EdgeColor;
     WebGlMesh mesh;
     mesh.drawFaces = drawFaces;
+    mesh.lineVertexColors = lineVertexColors;
     mesh.lineColor = { static_cast<float>(edge.r), static_cast<float>(edge.g),
         static_cast<float>(edge.b), static_cast<float>(edge.a) };
     mesh.lineWidth = options.lineWidth;
@@ -1034,7 +1064,7 @@ RenderWeb::tryPushWebGlPatch(const FaceList& faces, const PatchRenderOptions& op
     const bool hasLights = m_lightingScene.enabled && !m_lightingScene.lights.empty();
     const bool lightFaces = hasLights && options.faceLighting != LightingMode::None;
     const bool lightEdges = hasLights && options.edgeLighting != LightingMode::None;
-    const bool useGeometryCache = !lightFaces;
+    const bool useGeometryCache = !lightFaces && !lineVertexColors;
 
     // The line program takes one uniform lineColor, so light it once from a
     // representative face normal. Set before the cache lookup and never cached, so
@@ -1098,7 +1128,7 @@ RenderWeb::tryPushWebGlPatch(const FaceList& faces, const PatchRenderOptions& op
 
     for (const Face& face : faces) {
         if ((face.FaceColorMode != ColorMode::None) != drawFaces
-            || (drawEdges
+            || (drawEdges && !lineVertexColors
                 && (face.EdgeColorMode != first.EdgeColorMode
                     || std::abs(face.EdgeColor.r - edge.r) > 1e-9
                     || std::abs(face.EdgeColor.g - edge.g) > 1e-9
@@ -1136,8 +1166,22 @@ RenderWeb::tryPushWebGlPatch(const FaceList& faces, const PatchRenderOptions& op
                 g = static_cast<float>(color.g);
                 b = static_cast<float>(color.b);
                 a = static_cast<float>(color.a);
+            } else if (lineVertexColors) {
+                RGBAColorData color = face.EdgeColor;
+                if ((face.EdgeColorMode == ColorMode::Flat
+                        || face.EdgeColorMode == ColorMode::Interp)
+                    && !face.edgecolors.empty()) {
+                    const size_t colorIndex = face.EdgeColorMode == ColorMode::Flat
+                        ? 0
+                        : std::min(vertexIndex, face.edgecolors.size() - 1);
+                    color = face.edgecolors[colorIndex];
+                }
+                r = static_cast<float>(color.r);
+                g = static_cast<float>(color.g);
+                b = static_cast<float>(color.b);
+                a = static_cast<float>(color.a);
             }
-            const uint32_t index = appendWebGlVertex(mesh, vertexMap, drawFaces,
+            const uint32_t index = appendWebGlVertex(mesh, vertexMap, drawFaces || lineVertexColors,
                 static_cast<float>(vertex.x - ox), static_cast<float>(vertex.y - oy),
                 static_cast<float>(vertex.z - oz), r, g, b, a);
             run.push_back(index);
@@ -1171,6 +1215,50 @@ RenderWeb::tryPushWebGlPatch(const FaceList& faces, const PatchRenderOptions& op
 }
 //=============================================================================
 bool
+RenderWeb::pushColoredWireframeMesh(
+    const std::vector<std::vector<coloredPoint>>& edges, double lineWidth)
+{
+    WebGlMesh mesh;
+    mesh.drawFaces = false;
+    mesh.lineVertexColors = true;
+    mesh.lineWidth = lineWidth;
+    // Base axes transform and absolute positions (no origin fold), so the mesh
+    // projects the same way the box/grid do under the shared offline camera.
+    std::copy(model, model + 16, mesh.model.begin());
+    copyWebGlProjection(mesh.projection);
+    std::copy(viewp, viewp + 4, mesh.viewport.begin());
+    // Vertices key on position AND color, so a shared corner with different edge
+    // colors stays split (de-indexed); same-color corners merge, which is fine.
+    WebGlVertexMap vertexMap;
+    for (const auto& strip : edges) {
+        int64_t previous = -1;
+        for (const coloredPoint& point : strip) {
+            if (!std::isfinite(point.x) || !std::isfinite(point.y) || !std::isfinite(point.z)) {
+                previous = -1;
+                continue;
+            }
+            const uint32_t index = appendWebGlVertex(mesh, vertexMap, true,
+                static_cast<float>(point.x), static_cast<float>(point.y),
+                static_cast<float>(point.z), static_cast<float>(point.r),
+                static_cast<float>(point.g), static_cast<float>(point.b),
+                static_cast<float>(point.a));
+            if (previous >= 0) {
+                mesh.lineIndices.push_back(static_cast<uint32_t>(previous));
+                mesh.lineIndices.push_back(index);
+            }
+            previous = static_cast<int64_t>(index);
+        }
+    }
+    if (mesh.lineIndices.empty()) {
+        return false;
+    }
+    updateMeshBufferLengths(mesh);
+    m_webglMeshes.push_back(std::move(mesh));
+    m_has3d = true;
+    return true;
+}
+//=============================================================================
+bool
 RenderWeb::tryPushWebGlSurface(const std::vector<std::vector<coloredPoint>>& faces, bool flatfaces,
     const std::vector<std::vector<coloredPoint>>& edges, meshStyle meshstyle, double lineWidth,
     const std::wstring& lineStyle, uint64_t geometryToken)
@@ -1182,6 +1270,7 @@ RenderWeb::tryPushWebGlSurface(const std::vector<std::vector<coloredPoint>>& fac
     const bool clipActive = m_dataClip.enabled && renderClipNeededStrips(m_dataClip, faces);
     const bool drawEdges = !edges.empty() && lineStyle == L"-" && lineWidth > 0.0;
     RGBAColorData edgeColor;
+    bool edgeColorsVary = false;
     if (drawEdges) {
         bool found = false;
         for (const auto& strip : edges) {
@@ -1197,11 +1286,24 @@ RenderWeb::tryPushWebGlSurface(const std::vector<std::vector<coloredPoint>>& fac
                     || std::abs(current.g - edgeColor.g) > 1e-9
                     || std::abs(current.b - edgeColor.b) > 1e-9
                     || std::abs(current.a - edgeColor.a) > 1e-9) {
-                    return false;
+                    edgeColorsVary = true;
+                    break;
                 }
+            }
+            if (edgeColorsVary) {
+                break;
             }
         }
         if (!found) {
+            return false;
+        }
+        // A colormap wireframe: the uniform line program cannot shade it, so while
+        // capturing a 3D axes emit a de-indexed line mesh carrying the edges' own
+        // per-vertex colors; otherwise keep the software path.
+        if (edgeColorsVary) {
+            if (m_axes3dCapture && m_axes3dCategory == 3) {
+                return pushColoredWireframeMesh(edges, lineWidth);
+            }
             return false;
         }
     }

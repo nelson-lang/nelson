@@ -22,7 +22,8 @@ const std::wstring gatewayName = L"graphics_io";
 static const nlsGateway gateway[] = {
     { "__web_export_graphics__", (ptrBuiltin)Nelson::GraphicsIoGateway::webExportGraphicsBuiltin, 0,
         3, CPP_BUILTIN },
-    { "saveas", (ptrBuiltin)Nelson::GraphicsIoGateway::saveasBuiltin, 0, 2, CPP_BUILTIN },
+    { "saveas", (ptrBuiltin)Nelson::GraphicsIoGateway::saveasBuiltin, 0, 2,
+        CPP_BUILTIN_WITH_EVALUATOR },
     { "copygraphics", (ptrBuiltin)Nelson::GraphicsIoGateway::copygraphicsBuiltin, 0, 1,
         CPP_BUILTIN },
     { "imread", (ptrBuiltin)Nelson::GraphicsIoGateway::imreadBuiltin, -1, 1, CPP_BUILTIN },

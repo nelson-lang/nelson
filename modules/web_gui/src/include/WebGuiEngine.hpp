@@ -20,6 +20,12 @@ extern "C" NLSWEB_GUI_IMPEXP void*
 NelsonWebGuiCreateEvaluator(void* context, size_t id, const WebUiLaunchOptions& options);
 extern "C" NLSWEB_GUI_IMPEXP void
 NelsonWebGuiStartFigures(void* evaluator);
+// Notebook kernel: creates an evaluator whose Interface is the stdio frame
+// terminal, starts a headless figure RPC server routed to the kernel's channel,
+// and starts the kernel reader thread. The caller runs the standard REPL, which
+// pulls cell code from the terminal. Takes ownership of context on success.
+extern "C" NLSWEB_GUI_IMPEXP void*
+NelsonWebGuiCreateNotebookKernelEvaluator(void* context, size_t id);
 extern "C" NLSWEB_GUI_IMPEXP bool
 NelsonWebGuiWaitUntilLaunched(std::string& error);
 extern "C" NLSWEB_GUI_IMPEXP void

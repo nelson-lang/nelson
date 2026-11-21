@@ -54,6 +54,17 @@
       <tr><td>pbm, pgm, ppm, pnm</td><td>-</td><td>.pbm, .pgm, .ppm, .pnm</td></tr>
       <tr><td>pcx</td><td>-</td><td>.pcx</td></tr>
     </table>
+    <p>Le format <b>HTML interactif</b> écrit une page autonome qui s'ouvre dans un
+    navigateur sans moteur ni serveur :</p>
+    <table style="width:100%">
+      <tr><th>Option</th><th>Format</th><th>Extension</th></tr>
+      <tr><td>html</td><td>Page interactive autonome</td><td>.html, .htm</td></tr>
+    </table>
+    <p>La page inclut la scène de la figure et un moteur de rendu côté client. Une
+    figure 3D peut être tournée et zoomée, une figure 2D déplacée et zoomée, et un
+    double-clic réinitialise la vue. La page est un instantané : elle montre le
+    contenu tracé seulement, sans les uicontrols ni les callbacks, qui exigent un
+    moteur en fonctionnement.</p>
   </description>
   <used_function />
   <bibliography />

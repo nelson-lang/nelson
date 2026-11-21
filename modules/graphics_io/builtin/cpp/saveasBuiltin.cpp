@@ -7,6 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <algorithm>
+#include <cwctype>
 #include "saveasBuiltin.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
@@ -19,8 +21,26 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
+// Write a figure to a self-contained interactive HTML file through the figure
+// plumbing macro. The page inlines the client-only replayer and the figure
+// scene, so it opens offline with no engine and no server.
+static ArrayOfVector
+saveAsHtml(Evaluator* eval, const ArrayOf& figure, const std::wstring& filename)
+{
+    FunctionDefPtr fn = nullptr;
+    if (!eval->lookupFunction("nelson.graphics.internal.saveFigureHtml", fn) || !fn) {
+        Error(L"Nelson:saveas:htmlUnavailable",
+            L"HTML figure export is unavailable (replayer plumbing not found).");
+    }
+    ArrayOfVector inputs;
+    inputs << figure;
+    inputs << ArrayOf::characterArray(filename);
+    fn->evaluateFunction(eval, inputs, 0);
+    return {};
+}
+//=============================================================================
 ArrayOfVector
-GraphicsIoGateway::saveasBuiltin(int nLhs, const ArrayOfVector& argIn)
+GraphicsIoGateway::saveasBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargincheck(argIn, 2, 3);
@@ -46,6 +66,31 @@ GraphicsIoGateway::saveasBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (!p.parent_path().is_directory()) {
         Error(L"Nelson:saveas:cannotWriteFile", L"Parent directory does not exist: %s",
             p.parent_path().generic_wstring());
+    }
+    // The effective format is the third argument when given, else the extension.
+    // An html/htm target is written as a self-contained interactive page rather
+    // than a raster or vector image.
+    std::wstring formatToken;
+    if (argIn.size() == 3) {
+        formatToken = argIn[2].asWideString();
+    } else if (p.has_extension()) {
+        formatToken = p.extension().wstring();
+        formatToken.erase(0, 1);
+    }
+    std::transform(formatToken.begin(), formatToken.end(), formatToken.begin(),
+        [](wchar_t c) { return static_cast<wchar_t>(std::towlower(c)); });
+    if (formatToken == L"html" || formatToken == L"htm") {
+        std::wstring currentExt;
+        if (p.has_extension()) {
+            currentExt = p.extension().wstring();
+            currentExt.erase(0, 1);
+            std::transform(currentExt.begin(), currentExt.end(), currentExt.begin(),
+                [](wchar_t c) { return static_cast<wchar_t>(std::towlower(c)); });
+        }
+        if (currentExt != L"html" && currentExt != L"htm") {
+            filename = filename + L".html";
+        }
+        return saveAsHtml(eval, argIn[0], filename);
     }
     IMAGE_FORMAT formatForced;
     if (p.has_extension()) {
