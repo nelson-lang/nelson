@@ -417,6 +417,13 @@ GOFigure::repaintInternal(bool immediate)
     }
     if (stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR)) {
         setRenderingStateInvalid(true);
+        // A hidden figure has nothing to repaint, so updateState (which notifies
+        // the web client that Visible changed) is skipped. Notify the hide here so
+        // a headless/web figure panel is still told to hide. The notify clears the
+        // changed flag in web mode, so a later repaint does not re-fire it.
+        if (hasChanged(GO_VISIBLE_PROPERTY_NAME_STR)) {
+            notifyWebFigureVisibleChanged(this);
+        }
         return;
     }
     if (immediate) {
