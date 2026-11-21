@@ -365,6 +365,7 @@ meshGeometryHash(const Nelson::WebGlMesh& mesh)
         mesh.triangleIndices.data(), mesh.triangleIndices.size() * sizeof(uint32_t), hash);
     hash = fnv1aBytes(mesh.lineIndices.data(), mesh.lineIndices.size() * sizeof(uint32_t), hash);
     hash ^= mesh.drawFaces ? 0x9E3779B97F4A7C15ull : 0ull;
+    hash ^= mesh.lineVertexColors ? 0xC2B2AE3D27D4EB4Full : 0ull;
     return hash;
 }
 //=============================================================================
@@ -393,7 +394,7 @@ encodeMeshCached(const Nelson::WebGlMesh& mesh)
     CachedEncodedMesh encoded;
     encoded.positionsF16 = encodeMeshPositionsHalf(mesh.positions, encoded.positionBox);
     encoded.drawFaces = mesh.drawFaces;
-    if (mesh.drawFaces) {
+    if (mesh.drawFaces || mesh.lineVertexColors) {
         encoded.vertexColorsU8 = encodeMeshColorsUint8(mesh.vertexColors);
     }
     encodeIndexPayload(
@@ -538,7 +539,7 @@ extern "C"
     renderFigureDisplayList(int64_t handle, void (*sink)(void*, const char*, int), void* ctx,
         bool softwareFallbackEnabled, bool compactAnimationEnabled, bool interactiveViewOnly,
         void (*attachmentSink)(void*, const char*, const unsigned char*, int) = nullptr,
-        void* attachmentCtx = nullptr)
+        void* attachmentCtx = nullptr, bool standaloneScene = false)
     {
         const std::lock_guard<std::recursive_mutex> lock(Nelson::webFigureRenderMutex());
         Nelson::GOFigureHost* win = Nelson::getFigure(static_cast<Nelson::int64>(handle));
@@ -591,6 +592,10 @@ extern "C"
         renderer.setAlwaysIncludeRawImagePayload(!compactAnimationEnabled);
         // The page draws the controls itself, tab bars included.
         renderer.setLiveControls(true);
+        // A standalone export captures each 3D axes as rotatable axes3d geometry.
+        if (standaloneScene) {
+            renderer.beginAxes3dCapture();
+        }
         fig->paintMe(renderer);
         renderer.flush3d(); // emit any 3D primitives still buffered after the paint
         const auto profilePaintDone = WebProfileClock::now();
@@ -824,7 +829,9 @@ extern "C"
                     { "revision", std::to_string(mesh.revision) }, { "model", mesh.model },
                     { "projection", mesh.projection }, { "viewport", mesh.viewport },
                     { "lineColor", mesh.lineColor }, { "lineWidth", mesh.lineWidth },
-                    { "drawFaces", mesh.drawFaces }, { "positionsLength", mesh.positionsLength },
+                    { "drawFaces", mesh.drawFaces },
+                    { "lineVertexColors", mesh.lineVertexColors },
+                    { "positionsLength", mesh.positionsLength },
                     { "vertexColorsLength", mesh.vertexColorsLength },
                     { "triangleIndicesLength", mesh.triangleIndicesLength },
                     { "lineIndicesLength", mesh.lineIndicesLength } };
@@ -843,7 +850,7 @@ extern "C"
                     const CachedEncodedMesh& encoded = encodeMeshCached(mesh);
                     webglMesh["positionsF16"] = encoded.positionsF16;
                     webglMesh["positionBBox"] = encoded.positionBox;
-                    if (encoded.drawFaces) {
+                    if (encoded.drawFaces || mesh.lineVertexColors) {
                         webglMesh["vertexColorsU8"] = encoded.vertexColorsU8;
                     }
                     webglMesh["triangleIndicesBase64"] = encoded.triangleIndicesBase64;
@@ -922,6 +929,59 @@ extern "C"
 
         // Include every subplot so 2D pan and 3D rotation share hit testing.
         Nelson::appendWebFigureAxesMetadata(fig, rw, rh, result);
+        // A standalone scene export wraps the same display list in a versioned
+        // envelope and carries the figure background, so a replayer with no engine
+        // can render the file on its own.
+        if (standaloneScene) {
+            result["format"] = "nelson-figure";
+            result["version"] = 1;
+            result["devicePixelRatio"] = 1.0;
+            const std::vector<double> bg
+                = fig->findVectorDoubleProperty(GO_COLOR_PROPERTY_NAME_STR);
+            if (bg.size() >= 3) {
+                auto to255 = [](double c) {
+                    const int v = static_cast<int>(c * 255.0 + 0.5);
+                    return v < 0 ? 0 : (v > 255 ? 255 : v);
+                };
+                result["background"] = "rgb(" + std::to_string(to255(bg[0])) + ","
+                    + std::to_string(to255(bg[1])) + "," + std::to_string(to255(bg[2])) + ")";
+            } else {
+                result["background"] = "rgb(255,255,255)";
+            }
+            // Scene v2: when a 3D axes captured its base transform and decoration
+            // geometry, emit the axes3d block and bump the version so the replayer
+            // rotates the whole box with the surface. A scene with no axes3d stays
+            // version 1 and renders exactly as before.
+            const std::vector<Nelson::WebAxes3d>& axes3dEntries = renderer.axes3dEntries();
+            if (!axes3dEntries.empty()) {
+                nlohmann::json axes3dJson = nlohmann::json::array();
+                for (const Nelson::WebAxes3d& a : axes3dEntries) {
+                    nlohmann::json entry = { { "handle", a.handle }, { "model", a.model },
+                        { "projection", a.projection }, { "viewport", a.viewport },
+                        { "boxCentre", a.boxCentre } };
+                    if (!a.boxSegments.empty()) {
+                        entry["box"] = { { "segments", a.boxSegments }, { "color", a.boxColor },
+                            { "width", 1 } };
+                    }
+                    if (!a.gridSegments.empty()) {
+                        entry["grid"] = { { "segments", a.gridSegments }, { "color", a.gridColor },
+                            { "width", 1 } };
+                    }
+                    if (!a.labels.empty()) {
+                        nlohmann::json labelsJson = nlohmann::json::array();
+                        for (const Nelson::WebAxes3dLabel& l : a.labels) {
+                            labelsJson.push_back({ { "text", l.text }, { "pos", l.pos },
+                                { "color", l.color }, { "size", l.size }, { "align", l.align },
+                                { "baseline", l.baseline }, { "rotation", l.rotation } });
+                        }
+                        entry["labels"] = std::move(labelsJson);
+                    }
+                    axes3dJson.push_back(std::move(entry));
+                }
+                result["axes3d"] = std::move(axes3dJson);
+                result["version"] = 2;
+            }
+        }
         const auto profileJsonBuilt = WebProfileClock::now();
 
         const std::string dump = result.dump();
@@ -990,6 +1050,15 @@ extern "C"
         int64_t handle, void (*sink)(void*, const char*, int), void* ctx)
     {
         return renderFigureDisplayList(handle, sink, ctx, false, false, false);
+    }
+    //=============================================================================
+    NLSGRAPHICS_IMPEXP bool
+    nlsWebGuiRenderFigureScene(int64_t handle, void (*sink)(void*, const char*, int), void* ctx)
+    {
+        // Self-contained one-shot: full raster fallback, no animation dedup, and
+        // the standalone envelope. No session or handshake is needed afterward.
+        return renderFigureDisplayList(
+            handle, sink, ctx, true, false, false, nullptr, nullptr, true);
     }
     //=============================================================================
     NLSGRAPHICS_IMPEXP bool

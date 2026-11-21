@@ -42,6 +42,7 @@ enum class ProgramOptionId
     WebPort,
     WebServer,
     WebGraphics,
+    NotebookKernel,
     WithoutFileWatcher
 };
 //=============================================================================
@@ -99,6 +100,7 @@ struct ParsedProgramOptions
     int withoutFileWatcherCount = 0;
     int webServerCount = 0;
     int webGraphicsCount = 0;
+    int notebookKernelCount = 0;
     int quietCount = 0;
     int minimizeCount = 0;
     std::string command;
@@ -156,6 +158,8 @@ programOptionDefinitions()
             ProgramOptionDefinition {
                 ProgramOptionId::WebServer, L"web", L"", ProgramOptionMode::Web, false, false },
             ProgramOptionDefinition { ProgramOptionId::WebGraphics, L"webview", L"",
+                ProgramOptionMode::AdvTerminal, false, false },
+            ProgramOptionDefinition { ProgramOptionId::NotebookKernel, L"notebook-kernel", L"",
                 ProgramOptionMode::AdvTerminal, false, false },
             ProgramOptionDefinition { ProgramOptionId::WithoutFileWatcher, L"without-file-watcher",
                 L"", ProgramOptionMode::All, false, false });
@@ -327,6 +331,7 @@ ProgramOptions::resetParsedState()
     _minimize = false;
     _webServerMode = false;
     _webGraphics = false;
+    _notebookKernel = false;
     _error.clear();
     _file.clear();
     _fileIPC.clear();
@@ -413,6 +418,7 @@ ProgramOptions::parse()
     _withoutFileWatcher = parsed.withoutFileWatcherCount > 0;
     _webServerMode = parsed.webServerCount > 0;
     _webGraphics = parsed.webGraphicsCount > 0;
+    _notebookKernel = parsed.notebookKernelCount > 0;
     _quietmode = parsed.quietCount > 0;
     _minimize = parsed.minimizeCount > 0;
     _command = utf8_to_wstring(parsed.command);
@@ -657,6 +663,12 @@ ProgramOptions::haveWebGraphics()
     return _isvalid && _webGraphics;
 }
 //=============================================================================
+bool
+ProgramOptions::haveNotebookKernel()
+{
+    return _isvalid && _notebookKernel;
+}
+//=============================================================================
 uint64
 ProgramOptions::getTimeout()
 {
@@ -795,6 +807,9 @@ addOptionToParser(
         break;
     case ProgramOptionId::WebGraphics:
         app.add_flag(optionNames, parsed.webGraphicsCount, description);
+        break;
+    case ProgramOptionId::NotebookKernel:
+        app.add_flag(optionNames, parsed.notebookKernelCount, description);
         break;
     case ProgramOptionId::WithoutFileWatcher:
         app.add_flag(optionNames, parsed.withoutFileWatcherCount, description);

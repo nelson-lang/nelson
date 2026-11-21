@@ -93,6 +93,10 @@ struct WebGlMesh
     std::array<float, 4> lineColor { 0, 0, 0, 1 };
     double lineWidth = 1.0;
     bool drawFaces = false;
+    // A line-only mesh whose edges carry per-vertex colors (colormap wireframe):
+    // vertexColors are filled and the replayer strokes a per-segment gradient
+    // instead of the uniform lineColor.
+    bool lineVertexColors = false;
     uint64_t revision = 0;
     // positions are relative to this data point, kept in double for float32 precision
     std::array<double, 3> origin {};
@@ -106,6 +110,37 @@ translateWebGlModel(std::array<double, 16>& model, const std::array<double, 3>& 
         model[12 + r] += model[r] * origin[0] + model[4 + r] * origin[1] + model[8 + r] * origin[2];
     }
 }
+//=============================================================================
+// A tick/axis label anchored in 3D data (mapped) space, captured so the offline
+// replayer can reproject it under the shared camera instead of pinning it in 2D.
+struct WebAxes3dLabel
+{
+    std::string text;
+    std::array<double, 3> pos {};
+    std::string color;
+    double size = 11.0;
+    std::string align = "center";
+    std::string baseline = "middle";
+    double rotation = 0.0;
+};
+//=============================================================================
+// The 3D decorations of a rotatable axes, captured in mapped data coordinates
+// plus the axes base transform, so a self-contained scene can rotate the whole
+// box/grid/labels together with the surface (scene v2). Mirrors the replayer's
+// axes3d entry.
+struct WebAxes3d
+{
+    long long handle = 0;
+    std::array<double, 16> model {};
+    std::array<double, 16> projection {};
+    std::array<int, 4> viewport {};
+    std::array<double, 3> boxCentre {};
+    std::vector<double> boxSegments; // flat xyz pairs (6 per segment)
+    std::string boxColor;
+    std::vector<double> gridSegments;
+    std::string gridColor;
+    std::vector<WebAxes3dLabel> labels;
+};
 //=============================================================================
 // A uicontrol as the web frontend builds it: a real HTML control, not a snapshot
 // of the Qt widget.
@@ -215,6 +250,38 @@ public:
     {
         return m_webglMeshes;
     }
+    // Scene v2 axes3d capture: turned on for a standalone export so each 3D axes
+    // records its base transform and decoration geometry (box/grid/labels) in
+    // mapped data coordinates, and those 2D decoration primitives are suppressed.
+    void
+    beginAxes3dCapture()
+    {
+        m_axes3dCapture = true;
+    }
+    bool
+    axes3dCaptureActive() const override
+    {
+        return m_axes3dCapture;
+    }
+    const std::vector<WebAxes3d>&
+    axes3dEntries() const
+    {
+        return m_axes3d;
+    }
+    void
+    axes3dBeginAxes(long long handle, const double boxCentre[3]) override;
+    void
+    axes3dSetCategory(int category) override
+    {
+        m_axes3dCategory = category;
+    }
+    void
+    axes3dAddLabel(const std::wstring& text, double x, double y, double z,
+        const std::vector<double>& color, double fontSize, double rotation,
+        const std::string& align, const std::string& baseline) override;
+    bool
+    axes3dAddMarkers(const std::vector<double>& xyz, const std::vector<double>& radii,
+        const std::vector<double>& rgba) override;
     // Force every raw image primitive to carry its pixel payload, bypassing the
     // cross-render dedup cache. The dedup assumes a client that kept the pixels of
     // an earlier frame, which only holds for the streaming animation path. A
@@ -486,6 +553,9 @@ private:
     int m_clipBoxDepth = 0;
     bool m_smoothing = true;
     std::string m_color = "rgba(0,0,0,1)";
+    // Last color as raw components (0..1), kept so a captured 3D line mesh can set
+    // its lineColor without re-parsing the CSS string.
+    std::vector<double> m_colorVec { 0, 0, 0, 1 };
     std::wstring m_lineStyle = L"-";
     double m_lineWidth = 1.0;
     // Qt's dash patterns for the current style, in pixels; empty when solid.
@@ -500,6 +570,12 @@ private:
     std::vector<WebDrawPrimitive> m_prims;
     std::vector<WebUIControl> m_controls;
     std::vector<WebGlMesh> m_webglMeshes;
+    // Scene v2 axes3d capture. While active, lineSegments3D for the current axes
+    // category (1=box, 2=grid) is recorded into the current entry instead of being
+    // projected to a 2D primitive. 0 = no capture (normal drawing).
+    bool m_axes3dCapture = false;
+    int m_axes3dCategory = 0;
+    std::vector<WebAxes3d> m_axes3d;
     // 3D primitives are buffered with their mean depth and flushed far-to-near, as
     // RenderQt's BSP collection does: the 2D canvas has no depth buffer.
     std::vector<WebDrawPrimitive> m_pending3d;
@@ -571,6 +647,11 @@ private:
     tryPushWebGlSurface(const std::vector<std::vector<coloredPoint>>& faces, bool flatfaces,
         const std::vector<std::vector<coloredPoint>>& edges, meshStyle meshstyle, double lineWidth,
         const std::wstring& lineStyle, uint64_t geometryToken);
+    // Emit a colormap wireframe (varying edge colors) as a de-indexed line mesh
+    // carrying the edges' per-vertex colors, for the offline rotatable scene.
+    bool
+    pushColoredWireframeMesh(
+        const std::vector<std::vector<coloredPoint>>& edges, double lineWidth);
     bool m_liveControls = false;
 };
 //=============================================================================

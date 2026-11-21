@@ -42,6 +42,29 @@ export function expandLineSegmentEndpoints(
   return out;
 }
 //=============================================================================
+// Per-segment start/end colours for the line pass, picked from per-vertex colours
+// by the same index pairs the endpoints use: [sR,sG,sB,sA, eR,eG,eB,eA] per segment.
+export function expandLineSegmentColors(
+  colors: ArrayLike<number>,
+  indices: ArrayLike<number>
+): Float32Array<ArrayBuffer> {
+  const out = new Float32Array((indices.length / 2) * 8);
+  let target = 0;
+  for (let index = 0; index + 1 < indices.length; index += 2) {
+    const start = indices[index] * 4;
+    const end = indices[index + 1] * 4;
+    out[target++] = colors[start];
+    out[target++] = colors[start + 1];
+    out[target++] = colors[start + 2];
+    out[target++] = colors[start + 3];
+    out[target++] = colors[end];
+    out[target++] = colors[end + 1];
+    out[target++] = colors[end + 2];
+    out[target++] = colors[end + 3];
+  }
+  return out;
+}
+//=============================================================================
 export function needsDepthPrepass(meshes: Pick<FigureWebGlMesh, 'drawFaces'>[]): boolean {
   return meshes.some((mesh) => !mesh.drawFaces);
 }
@@ -52,14 +75,20 @@ type CachedWebGlMesh = {
   depthVao: WebGLVertexArrayObject;
   fillVao?: WebGLVertexArrayObject;
   lineVao: WebGLVertexArrayObject;
+  // A second line VAO that also feeds per-vertex start/end colours, built only for
+  // meshes that ask for coloured lines (colormap wireframe). The uniform line path
+  // above is untouched.
+  lineVcVao?: WebGLVertexArrayObject;
   vertices: WebGLBuffer;
   colors?: WebGLBuffer;
+  lineColors?: WebGLBuffer;
   triangles: WebGLBuffer;
   lineEndpoints: WebGLBuffer;
   lineCorners: WebGLBuffer;
   triangleIndexType: number;
   triangleCount: number;
   lineSegmentCount: number;
+  lineVertexColors: boolean;
 };
 //=============================================================================
 const compileShader = (gl: WebGL2RenderingContext, type: number, source: string): WebGLShader => {
@@ -120,6 +149,13 @@ class WebGl2Renderer implements FigureWebGlRenderer {
   private readonly lineColorLocation: WebGLUniformLocation;
   private readonly lineViewportLocation: WebGLUniformLocation;
   private readonly lineWidthLocation: WebGLUniformLocation;
+  // A sibling of lineProgram that reads per-vertex start/end colours instead of a
+  // uniform lineColor (colormap wireframe). Same geometry/attributes otherwise.
+  private readonly lineVcProgram: WebGLProgram;
+  private readonly lineVcModelLocation: WebGLUniformLocation;
+  private readonly lineVcProjectionLocation: WebGLUniformLocation;
+  private readonly lineVcViewportLocation: WebGLUniformLocation;
+  private readonly lineVcWidthLocation: WebGLUniformLocation;
   private readonly meshes = new Map<number, CachedWebGlMesh>();
   private readonly activeMeshIds = new Set<number>();
   private readonly renderResources: CachedWebGlMesh[] = [];
@@ -203,6 +239,52 @@ class WebGl2Renderer implements FigureWebGlRenderer {
          color = vec4(lineColor.rgb, lineColor.a * coverage);
        }`
     );
+    // Same line geometry, but the colour is interpolated from per-vertex start/end
+    // colours (picked by corner.x), for a colormap-coloured wireframe.
+    this.lineVcProgram = linkProgram(
+      gl,
+      `#version 300 es
+       layout(location=0) in vec3 startPosition;
+       layout(location=1) in vec3 endPosition;
+       layout(location=2) in vec2 corner;
+       layout(location=3) in vec4 startColor;
+       layout(location=4) in vec4 endColor;
+       uniform mat4 model;
+       uniform mat4 projection;
+       uniform vec2 viewportSize;
+       uniform float lineWidth;
+       out float edge;
+       out vec4 segColor;
+       void main() {
+         vec4 startClip = projection * model * vec4(startPosition, 1.0);
+         vec4 endClip = projection * model * vec4(endPosition, 1.0);
+         bool atEnd = corner.x > 0.5;
+         vec4 clip = atEnd ? endClip : startClip;
+         vec2 deltaPixels = (endClip.xy / endClip.w - startClip.xy / startClip.w)
+           * viewportSize * 0.5;
+         float lengthPixels = max(length(deltaPixels), 0.0001);
+         vec2 normalPixels = vec2(-deltaPixels.y, deltaPixels.x) / lengthPixels;
+         float halfWidth = max(0.25, lineWidth * 0.5);
+         float extent = halfWidth + 0.75;
+         clip.xy += normalPixels * corner.y * extent * 2.0 / viewportSize * clip.w;
+         clip.z -= 0.00002 * clip.w;
+         gl_Position = clip;
+         edge = corner.y;
+         segColor = atEnd ? endColor : startColor;
+       }`,
+      `#version 300 es
+       precision highp float;
+       uniform float lineWidth;
+       in float edge;
+       in vec4 segColor;
+       out vec4 color;
+       void main() {
+         float halfWidth = max(0.25, lineWidth * 0.5);
+         float core = halfWidth / (halfWidth + 0.75);
+         float coverage = 1.0 - smoothstep(core, 1.0, abs(edge));
+         color = vec4(segColor.rgb, segColor.a * coverage);
+       }`
+    );
     this.depthModelLocation = uniformLocation(gl, this.depthProgram, 'model');
     this.depthProjectionLocation = uniformLocation(gl, this.depthProgram, 'projection');
     this.fillModelLocation = uniformLocation(gl, this.fillProgram, 'model');
@@ -212,6 +294,10 @@ class WebGl2Renderer implements FigureWebGlRenderer {
     this.lineColorLocation = uniformLocation(gl, this.lineProgram, 'lineColor');
     this.lineViewportLocation = uniformLocation(gl, this.lineProgram, 'viewportSize');
     this.lineWidthLocation = uniformLocation(gl, this.lineProgram, 'lineWidth');
+    this.lineVcModelLocation = uniformLocation(gl, this.lineVcProgram, 'model');
+    this.lineVcProjectionLocation = uniformLocation(gl, this.lineVcProgram, 'projection');
+    this.lineVcViewportLocation = uniformLocation(gl, this.lineVcProgram, 'viewportSize');
+    this.lineVcWidthLocation = uniformLocation(gl, this.lineVcProgram, 'lineWidth');
   }
   //=============================================================================
   private allocateMeshResource(mesh: FigureWebGlMesh): CachedWebGlMesh {
@@ -256,6 +342,7 @@ class WebGl2Renderer implements FigureWebGlRenderer {
       triangleIndexType: gl.UNSIGNED_INT,
       triangleCount: 0,
       lineSegmentCount: 0,
+      lineVertexColors: false,
     };
     this.meshes.set(mesh.id, resource);
     return resource;
@@ -278,6 +365,38 @@ class WebGl2Renderer implements FigureWebGlRenderer {
     gl.bindVertexArray(null);
     mesh.fillVao = fillVao;
     mesh.colors = colors;
+  }
+  //=============================================================================
+  // A second line VAO that binds per-vertex start/end colours (locations 3,4)
+  // alongside the shared endpoints (0,1) and corners (2). Built lazily for the
+  // coloured-line path; the colour buffer is filled in resource().
+  private ensureLineVcResource(mesh: CachedWebGlMesh): void {
+    if (mesh.lineVcVao && mesh.lineColors) return;
+    const gl = this.gl;
+    const lineVcVao = gl.createVertexArray();
+    const lineColors = gl.createBuffer();
+    if (!lineVcVao || !lineColors) throw new Error('Cannot allocate WebGL coloured line mesh');
+    gl.bindVertexArray(lineVcVao);
+    gl.bindBuffer(gl.ARRAY_BUFFER, mesh.lineEndpoints);
+    gl.enableVertexAttribArray(0);
+    gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 24, 0);
+    gl.vertexAttribDivisor(0, 1);
+    gl.enableVertexAttribArray(1);
+    gl.vertexAttribPointer(1, 3, gl.FLOAT, false, 24, 12);
+    gl.vertexAttribDivisor(1, 1);
+    gl.bindBuffer(gl.ARRAY_BUFFER, mesh.lineCorners);
+    gl.enableVertexAttribArray(2);
+    gl.vertexAttribPointer(2, 2, gl.FLOAT, false, 8, 0);
+    gl.bindBuffer(gl.ARRAY_BUFFER, lineColors);
+    gl.enableVertexAttribArray(3);
+    gl.vertexAttribPointer(3, 4, gl.FLOAT, false, 32, 0);
+    gl.vertexAttribDivisor(3, 1);
+    gl.enableVertexAttribArray(4);
+    gl.vertexAttribPointer(4, 4, gl.FLOAT, false, 32, 16);
+    gl.vertexAttribDivisor(4, 1);
+    gl.bindVertexArray(null);
+    mesh.lineVcVao = lineVcVao;
+    mesh.lineColors = lineColors;
   }
   //=============================================================================
   private resource(mesh: FigureWebGlMesh): CachedWebGlMesh {
@@ -317,6 +436,18 @@ class WebGl2Renderer implements FigureWebGlRenderer {
     const lineData = expandLineSegmentEndpoints(positionsData, mesh.lineIndices);
     gl.bindBuffer(gl.ARRAY_BUFFER, resource.lineEndpoints);
     gl.bufferData(gl.ARRAY_BUFFER, lineData, gl.STATIC_DRAW);
+    resource.lineVertexColors = false;
+    if (mesh.lineVertexColors && mesh.vertexColors) {
+      this.ensureLineVcResource(resource);
+      const vcData =
+        mesh.vertexColors instanceof Float32Array
+          ? mesh.vertexColors
+          : new Float32Array(mesh.vertexColors);
+      const lineColorData = expandLineSegmentColors(vcData, mesh.lineIndices);
+      gl.bindBuffer(gl.ARRAY_BUFFER, resource.lineColors ?? null);
+      gl.bufferData(gl.ARRAY_BUFFER, lineColorData, gl.STATIC_DRAW);
+      resource.lineVertexColors = true;
+    }
     resource.revision = mesh.revision;
     resource.triangleIndexType =
       triangleData instanceof Uint16Array ? gl.UNSIGNED_SHORT : gl.UNSIGNED_INT;
@@ -329,8 +460,10 @@ class WebGl2Renderer implements FigureWebGlRenderer {
     this.gl.deleteVertexArray(mesh.depthVao);
     if (mesh.fillVao) this.gl.deleteVertexArray(mesh.fillVao);
     this.gl.deleteVertexArray(mesh.lineVao);
+    if (mesh.lineVcVao) this.gl.deleteVertexArray(mesh.lineVcVao);
     this.gl.deleteBuffer(mesh.vertices);
     if (mesh.colors) this.gl.deleteBuffer(mesh.colors);
+    if (mesh.lineColors) this.gl.deleteBuffer(mesh.lineColors);
     this.gl.deleteBuffer(mesh.triangles);
     this.gl.deleteBuffer(mesh.lineEndpoints);
     this.gl.deleteBuffer(mesh.lineCorners);
@@ -419,7 +552,10 @@ class WebGl2Renderer implements FigureWebGlRenderer {
     }
     gl.disable(gl.POLYGON_OFFSET_FILL);
     gl.depthMask(false);
+    // Lines pass: most meshes use the uniform-colour program; a colormap wireframe
+    // uses the per-vertex-colour sibling. Switch program only when the kind changes.
     gl.useProgram(this.lineProgram);
+    let lineProgramKind: 'uniform' | 'vc' = 'uniform';
     for (let i = 0; i < meshes.length; i++) {
       const mesh = meshes[i];
       const resource = this.renderResources[i];
@@ -431,12 +567,28 @@ class WebGl2Renderer implements FigureWebGlRenderer {
         Math.round(w * dpr),
         Math.round(h * dpr)
       );
-      gl.uniformMatrix4fv(this.lineModelLocation, false, mesh.model);
-      gl.uniformMatrix4fv(this.lineProjectionLocation, false, mesh.projection);
-      gl.uniform4fv(this.lineColorLocation, mesh.lineColor);
-      gl.uniform2f(this.lineViewportLocation, w * dpr, h * dpr);
-      gl.uniform1f(this.lineWidthLocation, mesh.lineWidth * dpr);
-      gl.bindVertexArray(resource.lineVao);
+      if (resource.lineVertexColors && resource.lineVcVao) {
+        if (lineProgramKind !== 'vc') {
+          gl.useProgram(this.lineVcProgram);
+          lineProgramKind = 'vc';
+        }
+        gl.uniformMatrix4fv(this.lineVcModelLocation, false, mesh.model);
+        gl.uniformMatrix4fv(this.lineVcProjectionLocation, false, mesh.projection);
+        gl.uniform2f(this.lineVcViewportLocation, w * dpr, h * dpr);
+        gl.uniform1f(this.lineVcWidthLocation, mesh.lineWidth * dpr);
+        gl.bindVertexArray(resource.lineVcVao);
+      } else {
+        if (lineProgramKind !== 'uniform') {
+          gl.useProgram(this.lineProgram);
+          lineProgramKind = 'uniform';
+        }
+        gl.uniformMatrix4fv(this.lineModelLocation, false, mesh.model);
+        gl.uniformMatrix4fv(this.lineProjectionLocation, false, mesh.projection);
+        gl.uniform4fv(this.lineColorLocation, mesh.lineColor);
+        gl.uniform2f(this.lineViewportLocation, w * dpr, h * dpr);
+        gl.uniform1f(this.lineWidthLocation, mesh.lineWidth * dpr);
+        gl.bindVertexArray(resource.lineVao);
+      }
       gl.drawArraysInstanced(gl.TRIANGLES, 0, 6, resource.lineSegmentCount);
     }
     gl.depthMask(true);
@@ -454,6 +606,7 @@ class WebGl2Renderer implements FigureWebGlRenderer {
     this.renderResources.length = 0;
     this.gl.deleteProgram(this.depthProgram);
     this.gl.deleteProgram(this.fillProgram);
+    this.gl.deleteProgram(this.lineVcProgram);
     this.gl.deleteProgram(this.lineProgram);
   }
 }

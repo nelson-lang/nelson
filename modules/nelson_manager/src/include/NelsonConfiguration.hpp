@@ -193,6 +193,19 @@ public:
         return m_webGraphicsMode.load(std::memory_order_relaxed);
     }
     //=============================================================================
+    // Notebook kernel (nelson-adv-cli --notebook-kernel): headless web graphics
+    // with the interpreter driven over a stdio JSON-RPC frame channel.
+    inline void
+    setNotebookKernelMode(bool on)
+    {
+        m_notebookKernelMode.store(on, std::memory_order_relaxed);
+    }
+    inline bool
+    isNotebookKernelMode() const
+    {
+        return m_notebookKernelMode.load(std::memory_order_relaxed);
+    }
+    //=============================================================================
     bool
     haveEventsLoop();
     //=============================================================================
@@ -431,6 +444,7 @@ private:
     // Kept last on purpose: the offsets of the existing members must not change,
     // because inline accessors are compiled into other DLLs.
     std::atomic_bool m_webGraphicsMode { false };
+    std::atomic_bool m_notebookKernelMode { false };
     //=============================================================================
     mutable std::recursive_mutex stringMutex;
     //=============================================================================

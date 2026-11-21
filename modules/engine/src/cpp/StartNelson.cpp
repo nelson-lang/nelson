@@ -622,6 +622,13 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
     if (po.haveWebGraphics()) {
         NelsonConfiguration::getInstance()->setWebGraphicsMode(true);
     }
+    // `--notebook-kernel`: drive the interpreter over a stdio JSON-RPC frame
+    // channel with headless web figures. Web graphics so figures render without a
+    // window; quiet so the startup banner never reaches the frame-only stdout.
+    if (po.haveNotebookKernel()) {
+        NelsonConfiguration::getInstance()->setWebGraphicsMode(true);
+        NelsonConfiguration::getInstance()->setNotebookKernelMode(true);
+    }
     if (_mode == NELSON_ENGINE_MODE::GUI && !po.haveNoIpc()) {
         bool wasSent = false;
         if (po.haveFileToExecuteIPC()) {
@@ -723,7 +730,9 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
     if (po.haveFileToExecuteIPC()) {
         fileToExecute = po.getFileToExecuteIPC();
     }
-    bQuietMode = po.haveQuietMode();
+    // The notebook kernel's stdout carries only JSON-RPC frames, so the banner and
+    // other startup prints must stay silent.
+    bQuietMode = po.haveQuietMode() || po.haveNotebookKernel();
     if (!fileToExecute.empty()) {
         // expand filename required for shebang
         FileSystemWrapper::Path p(fileToExecute);

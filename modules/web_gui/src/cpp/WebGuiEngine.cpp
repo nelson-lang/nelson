@@ -12,9 +12,12 @@
 #include "WebGuiServer.hpp"
 #include "WebGuiTerminal.hpp"
 #include "WebDesktopBridge.hpp"
+#include "NotebookKernel.hpp"
+#include "NotebookKernelTerminal.hpp"
 #include "Evaluator.hpp"
 #include <cstdio>
 #include <memory>
+#include <string>
 //=============================================================================
 namespace Nelson {
 void*
@@ -56,6 +59,41 @@ NelsonWebGuiStartFigures(void* evaluator)
     server->setEngineReady();
     server.release();
     rpc.release();
+}
+//=============================================================================
+void*
+NelsonWebGuiCreateNotebookKernelEvaluator(void* context, size_t id)
+{
+    auto kernel = std::make_unique<NotebookKernel>();
+    auto terminal = std::make_unique<NotebookKernelTerminal>(kernel.get());
+    auto evaluator = std::make_unique<Evaluator>(
+        static_cast<Context*>(context), terminal.get(), true, id);
+    // Headless figure RPC server: no window, pushes routed to the kernel channel.
+    auto server = std::make_unique<WebGuiServer>();
+    auto rpc = std::make_unique<WebGuiRpc>(server.get(), nullptr);
+    server->setDispatcher(rpc.get());
+    NotebookKernel* kernelPtr = kernel.get();
+    server->setPushSink([kernelPtr](const std::string& channel, const std::string& payloadJson) {
+        kernelPtr->writePush(channel, payloadJson);
+    });
+    WebUiLaunchOptions options;
+    options.headlessRpc = true;
+    if (!server->start(L"web_gui/frontend/dist", options)) {
+        std::fprintf(stderr, "Nelson notebook kernel figure server failed: %s\n",
+            server->launchError().c_str());
+        return nullptr;
+    }
+    rpc->setEvaluator(evaluator.get());
+    server->setEngineReady();
+    kernel->setServer(server.get());
+    kernel->start();
+    // The kernel, terminal, server and dispatcher live for the whole process, like
+    // the figures-only desktop.
+    server.release();
+    rpc.release();
+    terminal.release();
+    kernel.release();
+    return evaluator.release();
 }
 //=============================================================================
 bool

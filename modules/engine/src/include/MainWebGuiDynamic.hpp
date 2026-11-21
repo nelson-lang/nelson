@@ -18,6 +18,8 @@ void*
 CreateWebGuiEvaluatorDynamic(void* context, size_t id, const WebUiLaunchOptions& options);
 void
 StartWebGuiFiguresDynamic(void* evaluator);
+void*
+CreateNotebookKernelEvaluatorDynamic(void* context, size_t id);
 bool
 WaitWebGuiLaunchedDynamic(std::string& error);
 void

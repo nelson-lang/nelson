@@ -37,6 +37,10 @@ extern "C"
     NLSGRAPHICS_IMPEXP bool
     nlsWebGuiRenderFigureDisplayListNoFallback(
         int64_t handle, void (*sink)(void*, const char*, int), void* ctx);
+    // Writes the full figure scene as a self-contained JSON document (a format
+    // envelope plus the display list) so it can be replayed with no live engine.
+    NLSGRAPHICS_IMPEXP bool
+    nlsWebGuiRenderFigureScene(int64_t handle, void (*sink)(void*, const char*, int), void* ctx);
     //=============================================================================
     NLSGRAPHICS_IMPEXP bool
     nlsWebGuiRenderFigureAnimationFrame(

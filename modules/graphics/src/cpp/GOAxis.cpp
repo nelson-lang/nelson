@@ -6227,6 +6227,10 @@ GOAxis::drawTickLabels(RenderInterface& gc, const std::vector<double>& color, do
 {
     AxisPaintProfiler profiler;
     gc.color(color);
+    // Scene v2: while capturing, each tick label is recorded at its 3D (mapped)
+    // anchor on the box edge and the 2D tick/label drawing is skipped, so the
+    // numbers rotate with the box instead of staying pinned in screen space.
+    const bool capturingAxes3d = gc.axes3dCaptureActive() && !is2D();
     double tickRotation = 0.0;
     if (labelname == GO_X_LABEL_PROPERTY_NAME_STR) {
         tickRotation = findScalarDoubleProperty(GO_X_TICK_LABEL_ROTATION_PROPERTY_NAME_STR);
@@ -6348,6 +6352,11 @@ GOAxis::drawTickLabels(RenderInterface& gc, const std::vector<double>& color, do
                 }
                 if (!labels.empty()) {
                     tickLabelTasks.push_back({ x3, y3, labels[i % labels.size()] });
+                    if (capturingAxes3d) {
+                        gc.axes3dAddLabel(labels[i % labels.size()], t * unitx + px1,
+                            t * unity + py1, t * unitz + pz1, color, fontSpecPixelSize(m_font),
+                            tickRotation, "center", "middle");
+                    }
                 }
                 if (is2D()) {
                     gc.toPixels(t * unitx + px2, t * unity + py2, t * unitz + pz2, x1, y1);
@@ -6360,7 +6369,9 @@ GOAxis::drawTickLabels(RenderInterface& gc, const std::vector<double>& color, do
                 }
             }
             profiler.section("tl_tickloop");
-            if (!ticksHandledIn2D) {
+            if (capturingAxes3d) {
+                // Tick labels captured as axes3d above; nothing drawn in 2D.
+            } else if (!ticksHandledIn2D) {
                 gc.setupDirectDraw();
                 gc.lineSegments2D(tickSegments);
                 for (const TickLabelTask& task : tickLabelTasks) {
@@ -7495,6 +7506,16 @@ GOAxis::paintMe(RenderInterface& gc)
     setupProjection(gc);
     gc.clearDepthBuffer();
     profiler.section("projection");
+    // Scene v2: a standalone export records this 3D axes' base transform and
+    // decoration geometry so the offline replayer rotates the whole box with the
+    // surface. The 2D box/grid/tick primitives are then suppressed for this axes.
+    const bool captureAxes3d = gc.axes3dCaptureActive() && !is2D();
+    if (captureAxes3d) {
+        std::vector<double> axLimits(getAxisLimits());
+        const double boxCentre[3] = { (axLimits[0] + axLimits[1]) * 0.5,
+            (axLimits[2] + axLimits[3]) * 0.5, (axLimits[4] + axLimits[5]) * 0.5 };
+        gc.axes3dBeginAxes(findGraphicsObjectHandle(this), boxCentre);
+    }
     bool isPolarAxes = stringCheck(GO_POLAR_AXES_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     bool isVisible = stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     if (isPolarAxes || isVisible) {
@@ -7519,10 +7540,20 @@ GOAxis::paintMe(RenderInterface& gc)
     bool gridOnTop
         = renderedAs2D() && stringCheck(GO_LAYER_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_TOP_STR);
     if (isVisible) {
-        drawBox(gc);
+        // The 2D box silhouette does not rotate, so it is dropped while capturing;
+        // the box edges are emitted as axes3d by drawAxisLines below.
+        if (!captureAxes3d) {
+            drawBox(gc);
+        }
         if (!gridOnTop) {
+            if (captureAxes3d) {
+                gc.axes3dSetCategory(2);
+            }
             drawGridLines(gc);
             drawMinorGridLines(gc);
+            if (captureAxes3d) {
+                gc.axes3dSetCategory(0);
+            }
         }
     }
     profiler.section("box_grid");
@@ -7531,7 +7562,15 @@ GOAxis::paintMe(RenderInterface& gc)
     if (depthSortedAxisLines) {
         gc.beginSurfaceGroup();
     }
+    // Category 3 while painting children: a 3D line child is captured as a line-only
+    // WebGlMesh so it rotates with the box. Surfaces already emit their own mesh.
+    if (captureAxes3d) {
+        gc.axes3dSetCategory(3);
+    }
     drawChildren(gc);
+    if (captureAxes3d) {
+        gc.axes3dSetCategory(0);
+    }
     profiler.section("children");
 
     if (isVisible && gridOnTop) {
@@ -7550,7 +7589,13 @@ GOAxis::paintMe(RenderInterface& gc)
         return;
     }
 
+    if (captureAxes3d) {
+        gc.axes3dSetCategory(1);
+    }
     drawAxisLines(gc);
+    if (captureAxes3d) {
+        gc.axes3dSetCategory(0);
+    }
     if (depthSortedAxisLines) {
         gc.endSurfaceGroup();
     }
@@ -7567,6 +7612,8 @@ GOAxis::paintMe(RenderInterface& gc)
             captureAxisLabelState(this, GO_Y_LABEL_PROPERTY_NAME_STR),
             captureAxisLabelState(this, GO_Z_LABEL_PROPERTY_NAME_STR) };
     }
+    // While capturing, drawTickLabels records the tick numbers at their 3D anchors
+    // and skips the 2D tick/label drawing, so the numbers rotate with the box.
     drawTickMarks(gc);
     profiler.section("tick_marks");
     drawAxisLabels(gc);

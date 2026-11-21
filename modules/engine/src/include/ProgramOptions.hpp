@@ -122,6 +122,11 @@ public:
     bool
     haveWebGraphics();
 
+    // `--notebook-kernel` on the advanced terminal: drive the interpreter over a
+    // stdio JSON-RPC frame channel, figures served headless on the same channel.
+    bool
+    haveNotebookKernel();
+
 private:
     bool
     parse();
@@ -139,6 +144,7 @@ private:
     bool _withoutFileWatcher;
     bool _webServerMode;
     bool _webGraphics;
+    bool _notebookKernel;
     std::wstring _error;
     std::wstring _file;
     std::wstring _fileIPC;

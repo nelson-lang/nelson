@@ -68,6 +68,7 @@
 #include "__rotate3d__Builtin.hpp"
 #include "__getframe__Builtin.hpp"
 #include "__web_display_list__Builtin.hpp"
+#include "__web_figure_scene__Builtin.hpp"
 #include "__web_graphics_handle__Builtin.hpp"
 #include "__web_figure_snapshot__Builtin.hpp"
 #include "__web_figure_pick__Builtin.hpp"
@@ -293,6 +294,8 @@ static const nlsGateway gateway[] = {
         NLS_OVERLOAD_AUTO_OFF },
     { "__web_display_list__", (ptrBuiltin)Nelson::GraphicsGateway::__web_display_list__Builtin, -1,
         6, CPP_BUILTIN, NLS_OVERLOAD_AUTO_OFF },
+    { "__web_figure_scene__", (ptrBuiltin)Nelson::GraphicsGateway::__web_figure_scene__Builtin, 0,
+        2, CPP_BUILTIN, NLS_OVERLOAD_AUTO_OFF },
     { "__web_figure_state__", (ptrBuiltin)Nelson::GraphicsGateway::__web_figure_state__Builtin, 1,
         1, CPP_BUILTIN, NLS_OVERLOAD_AUTO_OFF },
     { "__web_figure_snapshot__",

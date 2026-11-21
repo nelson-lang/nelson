@@ -97,6 +97,16 @@ createMainEvaluator(NELSON_ENGINE_MODE _mode, const std::wstring& lang, bool min
                 break;
             }
             case ADVANCED_TERMINAL: {
+#ifdef NELSON_WEB_GUI_ENABLED
+                // Notebook kernel: the interpreter is driven over a stdio JSON-RPC
+                // frame channel, figures served headless on the same channel. No GUI
+                // objects, so figure RPC dispatches in place while the kernel is idle.
+                if (config.isNotebookKernelMode()) {
+                    mainEvaluator.reset(static_cast<Evaluator*>(
+                        CreateNotebookKernelEvaluatorDynamic(context.release(), mainEvaluatorID)));
+                    break;
+                }
+#endif
                 if (isDisplayAvailable()) {
                     InitGuiObjectsDynamic();
                 }

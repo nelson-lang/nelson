@@ -170,6 +170,13 @@ WebGuiServer::start(const std::wstring& rootFolder, const WebUiLaunchOptions& op
     if (!validateWebUiLaunchOptions(options, m_launchOptions, m_launchError)) {
         return false;
     }
+    // Headless figure RPC (notebook kernel): no WebUI window and no page. The
+    // figure bridge hooks route to the push sink; dispatch is driven by the caller.
+    if (m_launchOptions.headlessRpc) {
+        installFigureRpcHooks();
+        m_listening.store(true);
+        return true;
+    }
     m_window = webui_new_window();
     if (m_window == 0) {
         return false;
@@ -496,6 +503,11 @@ WebGuiServer::wait()
 bool
 WebGuiServer::processMainThreadEvents()
 {
+    // Headless RPC has no WebUI window to pump; the kernel drives its own I/O and
+    // the dispatch drains through the interpreter task queue.
+    if (m_launchOptions.headlessRpc) {
+        return true;
+    }
     if (m_engineReady.load() && !m_launchAttempted.load()) {
         startListening();
     }
@@ -637,6 +649,14 @@ void
 WebGuiServer::pushJsonToWindow(
     size_t window, const std::string& channel, const nlohmann::json& payload)
 {
+    // Headless RPC: hand the push to the sink (the kernel writes it as a JSON-RPC
+    // notification) instead of a WebUI page.
+    if (m_launchOptions.headlessRpc) {
+        if (m_pushSink) {
+            m_pushSink(channel, serializeWebGuiJson(payload));
+        }
+        return;
+    }
     // Never push before the port is open and the engine is ready: startup
     // output must not be sent over a WebSocket to a client racing the init.
     if (m_window == 0 || !m_listening.load()) {
@@ -650,7 +670,22 @@ WebGuiServer::pushJsonToWindow(
 void
 WebGuiServer::pushFigureFrameJson(long long handle, const char* displayListJson, int len)
 {
-    if (m_window == 0 || !m_listening.load() || displayListJson == nullptr || len <= 0) {
+    if (displayListJson == nullptr || len <= 0) {
+        return;
+    }
+    // Headless RPC: the frame payload is {handle,displayList}; the sink writes it
+    // as a figure.frame notification. Reuse the display list string as is.
+    if (m_launchOptions.headlessRpc) {
+        if (m_pushSink) {
+            std::string payload
+                = "{\"handle\":" + std::to_string(handle) + ",\"displayList\":";
+            payload.append(displayListJson, static_cast<size_t>(len));
+            payload += "}";
+            m_pushSink("figure.frame", payload);
+        }
+        return;
+    }
+    if (m_window == 0 || !m_listening.load()) {
         return;
     }
     std::string payload = "{\"handle\":" + std::to_string(handle) + ",\"displayList\":";
@@ -661,6 +696,56 @@ WebGuiServer::pushFigureFrameJson(long long handle, const char* displayListJson,
     // Frames go to the window that actually hosts the figure: the separate
     // native window when undocked, the desktop (docked panel) otherwise.
     enqueueScript(std::string(js), windowForFigure(handle));
+}
+//=============================================================================
+void
+WebGuiServer::installFigureRpcHooks()
+{
+    // The desktop figure frame/lifecycle/title hooks, but every push is routed to
+    // the sink (pushJson / pushFigureFrameJson) and no window ever opens.
+    WebDesktopBridge::getInstance()->setWebFigureFrameHook(
+        [](void* ctx, long long handle, const char* json, int len) {
+            auto* server = static_cast<WebGuiServer*>(ctx);
+            if (server->inlineFigureCaptureActive() || server->isNotebookFigure(handle)) {
+                return;
+            }
+            server->pushFigureFrameJson(handle, json, len);
+        },
+        this);
+    WebDesktopBridge::getInstance()->setWebFigureLifecycleHook(
+        [](void* ctx, long long handle, bool created, FigureWindowStyle windowStyle) {
+            auto* server = static_cast<WebGuiServer*>(ctx);
+            if (!created) {
+                std::lock_guard<std::mutex> lock(server->m_figureWindowsMutex);
+                server->m_figureTitles.erase(handle);
+            }
+            if (server->isNotebookFigure(handle)) {
+                return;
+            }
+            if (created && server->inlineFigureCaptureActive()) {
+                return;
+            }
+            server->pushJson(created ? "figure.created" : "figure.closed",
+                nlohmann::json { { "handle", handle },
+                    { "title", "Figure " + std::to_string(handle + 1) },
+                    { "windowStyle", webFigureWindowStyleName(windowStyle) } });
+        },
+        this);
+    WebDesktopBridge::getInstance()->setWebFigureTitleHook(
+        [](void* ctx, long long handle, const char* title) {
+            auto* server = static_cast<WebGuiServer*>(ctx);
+            {
+                std::lock_guard<std::mutex> lock(server->m_figureWindowsMutex);
+                server->m_figureTitles[handle] = title != nullptr ? title : "";
+            }
+            if (server->inlineFigureCaptureActive() || server->isNotebookFigure(handle)) {
+                return;
+            }
+            server->pushJson("figure.title",
+                nlohmann::json {
+                    { "handle", handle }, { "title", title != nullptr ? title : "" } });
+        },
+        this);
 }
 //=============================================================================
 void

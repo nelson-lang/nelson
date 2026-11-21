@@ -36,6 +36,10 @@ struct WebUiLaunchOptions
     bool figuresOnly { false };
     // Notebook host of the Qt desktop: one native WebView window on the Notebook editor.
     bool notebookHost { false };
+    // Headless figure RPC: no window of any kind. The figure RPC dispatch and the
+    // pushes are routed to a caller-supplied sink instead of a WebUI page. Used by
+    // the notebook kernel (figures carried over its stdio JSON-RPC channel).
+    bool headlessRpc { false };
 };
 //=============================================================================
 struct WebUiLaunchResult

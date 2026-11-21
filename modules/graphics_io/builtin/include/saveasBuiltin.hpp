@@ -10,11 +10,12 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::GraphicsIoGateway {
 //=============================================================================
 ArrayOfVector
-saveasBuiltin(int nLhs, const ArrayOfVector& argIn);
+saveasBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 ArrayOfVector
 webExportGraphicsBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================

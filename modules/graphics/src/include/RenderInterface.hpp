@@ -434,6 +434,40 @@ public:
     virtual void
     getModelviewMatrix(std::vector<double>& model)
         = 0;
+    //=============================================================================
+    // Scene v2 axes3d capture. A renderer that exports a self-contained scene turns
+    // this on so a 3D axes records its base transform and decoration geometry rather
+    // than flattening it to 2D. Default: inactive, so every other renderer ignores it.
+    virtual bool
+    axes3dCaptureActive() const
+    {
+        return false;
+    }
+    virtual void
+    axes3dBeginAxes(long long handle, const double boxCentre[3])
+    {
+    }
+    virtual void
+    axes3dSetCategory(int category)
+    {
+    }
+    virtual void
+    axes3dAddLabel(const std::wstring& text, double x, double y, double z,
+        const std::vector<double>& color, double fontSize, double rotation,
+        const std::string& align, const std::string& baseline)
+    {
+    }
+    // Bake 3D scatter markers into rotatable geometry. xyz holds 3 coordinates per
+    // marker (mapped space), radii one pixel radius per marker, rgba four
+    // components per marker. Returns true when the markers were captured (the
+    // caller then skips its 2D marker drawing); default: not captured.
+    virtual bool
+    axes3dAddMarkers(const std::vector<double>& xyz, const std::vector<double>& radii,
+        const std::vector<double>& rgba)
+    {
+        return false;
+    }
+    //=============================================================================
     virtual void
     putText(double x, double y, std::wstring txt, std::vector<double> color, AlignmentFlag xflag,
         AlignmentFlag yflag, const FontSpec& fnt, double rotation)
