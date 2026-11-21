@@ -745,6 +745,18 @@ WebGuiServer::installFigureRpcHooks()
                     { "handle", handle }, { "title", title != nullptr ? title : "" } });
         },
         this);
+    // Headless: no native window to hide, so report a figure's Visible change to
+    // the RPC client, which shows or hides its figure panel accordingly.
+    WebDesktopBridge::getInstance()->setWebFigureVisibleHook(
+        [](void* ctx, long long handle, bool visible) {
+            auto* server = static_cast<WebGuiServer*>(ctx);
+            if (server->inlineFigureCaptureActive() || server->isNotebookFigure(handle)) {
+                return;
+            }
+            server->pushJson("figure.visible",
+                nlohmann::json { { "handle", handle }, { "visible", visible } });
+        },
+        this);
 }
 //=============================================================================
 void
