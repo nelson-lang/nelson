@@ -25,6 +25,7 @@ namespace {
         decltype(&NelsonWebGuiCreateEvaluator) create = nullptr;
         decltype(&NelsonWebGuiStartFigures) figures = nullptr;
         decltype(&NelsonWebGuiCreateNotebookKernelEvaluator) notebookKernel = nullptr;
+        decltype(&NelsonWebGuiCreateDapEvaluator) dap = nullptr;
         decltype(&NelsonWebGuiWaitUntilLaunched) wait = nullptr;
         decltype(&NelsonWebGuiPumpEvents) pump = nullptr;
         decltype(&NelsonWebGuiShutdown) shutdown = nullptr;
@@ -58,6 +59,8 @@ namespace {
                 = resolve<decltype(backend.figures)>(backend.handle, "NelsonWebGuiStartFigures");
             backend.notebookKernel = resolve<decltype(backend.notebookKernel)>(
                 backend.handle, "NelsonWebGuiCreateNotebookKernelEvaluator");
+            backend.dap
+                = resolve<decltype(backend.dap)>(backend.handle, "NelsonWebGuiCreateDapEvaluator");
             backend.wait
                 = resolve<decltype(backend.wait)>(backend.handle, "NelsonWebGuiWaitUntilLaunched");
             backend.pump
@@ -104,6 +107,12 @@ void*
 CreateNotebookKernelEvaluatorDynamic(void* context, size_t id)
 {
     return webGuiBackend().notebookKernel(context, id);
+}
+//=============================================================================
+void*
+CreateDapEvaluatorDynamic(void* context, size_t id)
+{
+    return webGuiBackend().dap(context, id);
 }
 //=============================================================================
 bool

@@ -9,6 +9,7 @@
 //=============================================================================
 #define _CRT_SECURE_NO_WARNINGS
 #include "webui_bindings.hpp"
+#include "NFlowHeadlessDispatch.hpp"
 #include "characters_encoding.hpp"
 #include "BlockRegistry.hpp"
 #include "RouterEngine.hpp"
@@ -387,11 +388,15 @@ namespace {
         return Nelson::NFlow::NFlowModelRegistry::instance().resolveByName(name);
     }
     //=============================================================================
+    // Core nflow.* dispatch, driven by an explicit context instead of a webui
+    // window event, so the embedded webview and a headless kernel share it.
     static nlohmann::json
-    dispatchRpc(webui::window::event* e, const std::string& modelFilename,
-        const std::string& modelName, const NFlowRpcCallbacks& callbacks, const std::string& method,
+    dispatchRpcCore(const NFlowDispatchContext& context, const std::string& method,
         const nlohmann::json& params)
     {
+        const std::string& modelFilename = context.modelFilename;
+        const std::string& modelName = context.modelName;
+        const NFlowRpcCallbacks& callbacks = context.callbacks;
         if (method == "nflow.ping") {
             return nlohmann::json { { "pong", true }, { "backend", "nflow_gui" } };
         }
@@ -464,14 +469,7 @@ namespace {
                     : std::string("qt_bridge_unavailable: ") + s_guiDialogBridgeError;
                 return stringResult(res.dump(), "application/json");
             }
-            void* parent = nullptr;
-#ifdef _MSC_VER
-            try {
-                parent = e->get_window().win32_get_hwnd();
-            } catch (...) {
-                parent = nullptr;
-            }
-#endif
+            void* parent = context.nativeWindowHandle ? context.nativeWindowHandle() : nullptr;
             GuiDialogRequest request;
             request.kind = L"file";
             request.fileMode = utf8_to_wstring(params.value("mode", "open"));
@@ -806,13 +804,8 @@ namespace {
                     manifests.push_back(manifest);
                 }
             }
-            std::string js
-                = "if(typeof "
-                  "window.__nelsonPush==='function')window.__nelsonPush('nflow.library.loaded','"
-                + escapeWebUiJsonString(manifests.dump()) + "');";
-            try {
-                e->get_window().run(js);
-            } catch (...) {
+            if (context.push) {
+                context.push("nflow.library.loaded", manifests.dump());
             }
             return nlohmann::json { { "success", ok }, { "path", dirPath },
                 { "manifests", manifests },
@@ -1012,6 +1005,16 @@ namespace {
     //=============================================================================
 } // namespace
 //=============================================================================
+// Headless entry point: dispatch one nflow.* method from an explicit context,
+// with no webui window. A future stdio kernel builds the context (a push that
+// relays a JSON-RPC notification, no native window handle) and calls this.
+nlohmann::json
+dispatchNFlowRpc(
+    const NFlowDispatchContext& context, const std::string& method, const nlohmann::json& params)
+{
+    return dispatchRpcCore(context, method, params);
+}
+//=============================================================================
 void
 bindRpc(webui::window* win, const std::string& modelFilename, const std::string& modelName,
     NFlowRpcCallbacks callbacks)
@@ -1024,9 +1027,35 @@ bindRpc(webui::window* win, const std::string& modelFilename, const std::string&
             id = request.value("id", 0);
             const std::string method = request.value("method", "");
             const nlohmann::json params = request.value("params", nlohmann::json::object());
-            e->return_string(
-                okEnvelope(id, dispatchRpc(e, modelFilename, modelName, callbacks, method, params))
-                    .dump());
+
+            // Adapt the window event to the headless dispatch context: the push
+            // runs window.__nelsonPush and the native handle comes from the window,
+            // so the webview path keeps its exact behaviour.
+            NFlowDispatchContext context;
+            context.modelFilename = modelFilename;
+            context.modelName = modelName;
+            context.callbacks = callbacks;
+            context.push = [e](const std::string& channel, const std::string& payloadJson) {
+                const std::string js = std::string("if(typeof window.__nelsonPush==='function')")
+                    + "window.__nelsonPush('" + channel + "','" + escapeWebUiJsonString(payloadJson)
+                    + "');";
+                try {
+                    e->get_window().run(js);
+                } catch (...) {
+                }
+            };
+            context.nativeWindowHandle = [e]() -> void* {
+#ifdef _MSC_VER
+                try {
+                    return e->get_window().win32_get_hwnd();
+                } catch (...) {
+                    return nullptr;
+                }
+#else
+                return nullptr;
+#endif
+            };
+            e->return_string(okEnvelope(id, dispatchNFlowRpc(context, method, params)).dump());
         } catch (const std::exception& ex) {
             e->return_string(errorEnvelope(id, ex.what()).dump());
         } catch (...) {

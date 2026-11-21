@@ -43,6 +43,8 @@ enum class ProgramOptionId
     WebServer,
     WebGraphics,
     NotebookKernel,
+    Dap,
+    DapPort,
     WithoutFileWatcher
 };
 //=============================================================================
@@ -101,6 +103,8 @@ struct ParsedProgramOptions
     int webServerCount = 0;
     int webGraphicsCount = 0;
     int notebookKernelCount = 0;
+    int dapCount = 0;
+    std::string dapPortValue;
     int quietCount = 0;
     int minimizeCount = 0;
     std::string command;
@@ -161,6 +165,10 @@ programOptionDefinitions()
                 ProgramOptionMode::AdvTerminal, false, false },
             ProgramOptionDefinition { ProgramOptionId::NotebookKernel, L"notebook-kernel", L"",
                 ProgramOptionMode::AdvTerminal, false, false },
+            ProgramOptionDefinition {
+                ProgramOptionId::Dap, L"dap", L"", ProgramOptionMode::AdvTerminal, false, false },
+            ProgramOptionDefinition { ProgramOptionId::DapPort, L"dap-port", L"",
+                ProgramOptionMode::AdvTerminal, true, false },
             ProgramOptionDefinition { ProgramOptionId::WithoutFileWatcher, L"without-file-watcher",
                 L"", ProgramOptionMode::All, false, false });
     return definitions;
@@ -332,6 +340,8 @@ ProgramOptions::resetParsedState()
     _webServerMode = false;
     _webGraphics = false;
     _notebookKernel = false;
+    _dap = false;
+    _dapPort = 0;
     _error.clear();
     _file.clear();
     _fileIPC.clear();
@@ -419,6 +429,7 @@ ProgramOptions::parse()
     _webServerMode = parsed.webServerCount > 0;
     _webGraphics = parsed.webGraphicsCount > 0;
     _notebookKernel = parsed.notebookKernelCount > 0;
+    _dap = parsed.dapCount > 0;
     _quietmode = parsed.quietCount > 0;
     _minimize = parsed.minimizeCount > 0;
     _command = utf8_to_wstring(parsed.command);
@@ -479,6 +490,17 @@ ProgramOptions::parse()
             return false;
         }
         _webPort = static_cast<uint64>(port);
+    }
+    if (!parsed.dapPortValue.empty()) {
+        long long port = 0;
+        if (!StringHelpers::str2longlong(utf8_to_wstring(parsed.dapPortValue), port) || port < 1
+            || port > 65535) {
+            _error = commandLineError(ProgramOptionErrorId::InvalidValue,
+                resolveMessageTemplate(L"Nelson:engine:dapPortBetween",
+                    L"debug adapter port must be between 1 and 65535."));
+            return false;
+        }
+        _dapPort = static_cast<int>(port);
     }
     return true;
 }
@@ -669,6 +691,18 @@ ProgramOptions::haveNotebookKernel()
     return _isvalid && _notebookKernel;
 }
 //=============================================================================
+bool
+ProgramOptions::haveDap()
+{
+    return _isvalid && _dap;
+}
+//=============================================================================
+int
+ProgramOptions::getDapPort()
+{
+    return _isvalid ? _dapPort : 0;
+}
+//=============================================================================
 uint64
 ProgramOptions::getTimeout()
 {
@@ -810,6 +844,12 @@ addOptionToParser(
         break;
     case ProgramOptionId::NotebookKernel:
         app.add_flag(optionNames, parsed.notebookKernelCount, description);
+        break;
+    case ProgramOptionId::Dap:
+        app.add_flag(optionNames, parsed.dapCount, description);
+        break;
+    case ProgramOptionId::DapPort:
+        app.add_option(optionNames, parsed.dapPortValue, description);
         break;
     case ProgramOptionId::WithoutFileWatcher:
         app.add_flag(optionNames, parsed.withoutFileWatcherCount, description);
@@ -964,6 +1004,8 @@ optionDescription(ProgramOptionId id)
         return _W("start in web server mode");
     case ProgramOptionId::WebGraphics:
         return _W("render figures with the web backend (no Qt figure windows)");
+    case ProgramOptionId::DapPort:
+        return _W("debug adapter TCP port for the notebook kernel (1..65535)");
     case ProgramOptionId::WithoutFileWatcher:
         return _W("without file watcher");
     }

@@ -9,6 +9,8 @@
 //=============================================================================
 #define _CRT_SECURE_NO_WARNINGS
 #include "nflow_guiBuiltin.hpp"
+#include "NFlowSimulationRun.hpp"
+#include "NFlowSimSession.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
 #include "i18n.hpp"
@@ -68,33 +70,24 @@ namespace {
 // wall-clock cadence (~100 ms), not per step count.
 constexpr int WEB_SIM_PROGRESS_CHUNK_SIZE = 250;
 //=============================================================================
-struct HTMLEvent
-{
-    std::string name;
-    std::string data;
-};
-//=============================================================================
 struct WindowEntry
 {
     std::unique_ptr<webui::window> win;
+    // Host evaluator whose base workspace the simulation reads and writes. The
+    // simulation core installs the workspace bridge on it (a no-op once it is
+    // already installed for this evaluator at window creation).
+    Evaluator* hostEval = nullptr;
     // The WebView serves "/" from its own thread AFTER websim() returns, so the
     // bootstrap HTML must live here for the window's lifetime, not on the stack.
     std::string bootstrapHtml;
     // Creation order (0 = first nflow() of the process); tags the window in the
     // diagnostic log.
     size_t creationIndex = 0;
-    std::queue<HTMLEvent> events;
-    std::mutex eventsMutex;
-    std::function<void(const HTMLEvent&)> eventCallback;
-    std::atomic<bool> simCancel { false };
-    std::atomic<bool> simRunning { false };
-    std::atomic<bool> simPaused { false };
     std::atomic<bool> embeddedWebView { false };
-    std::mutex simResultMutex;
-    std::string simResultRunId;
-    std::string simResultJson;
-    std::deque<std::string> simPartialResults;
-    bool simResultReady = false;
+    // Simulation run-state and orchestration, shared with the headless kernel host.
+    // The window binds its push sink to window.__nelsonPush and its delivery to the
+    // live window mode; see NFlowSimSession.
+    std::shared_ptr<Nelson::NFlowGateway::NFlowSimSession> session;
 };
 //=============================================================================
 std::vector<std::shared_ptr<WindowEntry>> openWindows;
@@ -143,13 +136,6 @@ registerNFlowAssistantSinkOnce()
     std::call_once(
         flag, []() { Nelson::RegisterAssistantSink("nflow", pushAssistantEventToWindows); });
 }
-std::string
-runSimulationForEntry(std::weak_ptr<WindowEntry> entryWeak, const std::string& diagramJson,
-    bool pushProgress, bool prepareState = true);
-std::string
-startSimulationForEntry(std::weak_ptr<WindowEntry> entryWeak, const std::string& diagramJson);
-std::string
-pollSimulationForEntry(std::weak_ptr<WindowEntry> entryWeak, const std::string& runId);
 //=============================================================================
 // Diagnostic log for the intermittent "already_running" rejection. It is appended
 // next to the nflow preferences so a recurrence can be attributed to cross-window
@@ -358,6 +344,7 @@ Nelson::NFlowGateway::nflow_guiBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     }
 
     auto entry = std::make_shared<WindowEntry>();
+    entry->hostEval = eval;
     entry->win = std::make_unique<webui::window>();
     // Window icon before show: Linux/GTK uses it as the native icon, elsewhere it
     // is the served favicon (the Windows title-bar icon is set with WM_SETICON
@@ -384,21 +371,70 @@ Nelson::NFlowGateway::nflow_guiBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     }
     entry->win->set_close_handler_wv(nflowWindowCloseCallback);
     auto entryWeak = std::weak_ptr<WindowEntry>(entry);
-    auto sendHtmlEvent = [entryWeak](const std::string& name, const std::string& data) {
-        auto entry = entryWeak.lock();
-        if (!entry) {
-            return;
-        }
-        HTMLEvent ev;
-        ev.name = name;
-        ev.data = data;
-        std::lock_guard<std::mutex> lock(entry->eventsMutex);
-        if (entry->eventCallback) {
-            entry->eventCallback(ev);
-        } else {
-            entry->events.push(ev);
-        }
-    };
+
+    // Simulation orchestration: the window streams scopes over window.__nelsonPush
+    // when the client reliably receives server pushes, and accumulates them for
+    // sim.poll in the embedded WebView. The same NFlowSimSession serves the headless
+    // kernel host with a different push sink; the core numeric run is shared.
+    {
+        auto windowPush = [entryWeak](const std::string& channel, const std::string& payloadJson) {
+            auto liveEntry = entryWeak.lock();
+            if (!liveEntry || !liveEntry->win) {
+                return;
+            }
+            const std::string js = std::string("if(typeof window.__nelsonPush==='function')")
+                + "window.__nelsonPush('" + channel + "'," + nlohmann::json(payloadJson).dump()
+                + ");";
+            try {
+                liveEntry->win->run(js);
+            } catch (...) {
+            }
+        };
+        auto windowDelivery = [entryWeak]() -> NFlowGateway::NFlowSimDelivery {
+            auto liveEntry = entryWeak.lock();
+            const bool pollDelivery = liveEntry
+                && (WebDesktopBridge::getInstance()->getWebLaunchMode() == "webview"
+                    || liveEntry->embeddedWebView.load()
+                    || liveEntry->win->get_current_browser() == Webview);
+            return pollDelivery ? NFlowGateway::NFlowSimDelivery::Poll
+                                : NFlowGateway::NFlowSimDelivery::Push;
+        };
+        entry->session = std::make_shared<NFlowGateway::NFlowSimSession>(
+            eval, windowPush, &simulationWorkers, windowDelivery);
+        entry->session->setOwnerAliveCheck([entryWeak]() -> bool {
+            auto liveEntry = entryWeak.lock();
+            return liveEntry && liveEntry->win;
+        });
+        entry->session->setDiagnosticHooks(
+            [entryWeak](const std::string& runId) {
+                auto liveEntry = entryWeak.lock();
+                std::string snapshot;
+                {
+                    std::lock_guard<std::mutex> lock(windowsMutex);
+                    for (const auto& other : openWindows) {
+                        if (!other) {
+                            continue;
+                        }
+                        snapshot += " {" + simDiagWindowTag(other)
+                            + " running=" + (other->session && other->session->isRunning() ? "1" : "0")
+                            + "}";
+                    }
+                }
+                simDiagLog("REJECT already_running firing=" + simDiagWindowTag(liveEntry) + " winId="
+                    + std::to_string(liveEntry && liveEntry->win ? liveEntry->win->get_window_id() : 0)
+                    + " runId=" + runId + " open:" + snapshot);
+            },
+            [entryWeak](const std::string& runId) {
+                if (simDiagVerbose()) {
+                    simDiagLog("SET running " + simDiagWindowTag(entryWeak.lock()) + " runId=" + runId);
+                }
+            },
+            [entryWeak]() {
+                if (simDiagVerbose()) {
+                    simDiagLog("CLEAR running " + simDiagWindowTag(entryWeak.lock()));
+                }
+            });
+    }
 
     if (!entry->win->set_root_folder(bootstrapVars.uiPath)) {
         Error("Nelson:nflow_gui:invalidPath", "websim: cannot set root folder: %s",
@@ -414,7 +450,8 @@ Nelson::NFlowGateway::nflow_guiBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         openWindows.erase(std::remove_if(openWindows.begin(), openWindows.end(),
                               [](const std::shared_ptr<WindowEntry>& e) {
                                   return !e || !e->win
-                                      || (!e->simRunning.load() && !e->win->is_shown());
+                                      || ((!e->session || !e->session->isRunning())
+                                          && !e->win->is_shown());
                               }),
             openWindows.end());
         openWindows.push_back(entry);
@@ -428,31 +465,49 @@ Nelson::NFlowGateway::nflow_guiBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     entry->bootstrapHtml = Nelson::NFlow::buildNFlowBootstrapHtml(bootstrapVars);
 
     NFlowUiBindings::NFlowRpcCallbacks rpcCallbacks;
-    rpcCallbacks.runSimulation = [entryWeak](const std::string& diagramJson) {
-        return runSimulationForEntry(entryWeak, diagramJson, true);
+    rpcCallbacks.runSimulation = [entryWeak](const std::string& diagramJson) -> std::string {
+        auto entry = entryWeak.lock();
+        if (!entry || !entry->session) {
+            return std::string("{\"status\":\"error\",\"reason\":\"no_window\",\"scopes\":[]}");
+        }
+        return entry->session->runSync(diagramJson);
     };
-    rpcCallbacks.startSimulation
-        = std::bind(&startSimulationForEntry, entryWeak, std::placeholders::_1);
-    rpcCallbacks.pollSimulation
-        = std::bind(&pollSimulationForEntry, entryWeak, std::placeholders::_1);
+    rpcCallbacks.startSimulation = [entryWeak](const std::string& diagramJson) -> std::string {
+        auto entry = entryWeak.lock();
+        if (!entry || !entry->session) {
+            return nlohmann::json { { "status", "error" }, { "reason", "no_window" } }.dump();
+        }
+        return entry->session->startAsync(diagramJson);
+    };
+    rpcCallbacks.pollSimulation = [entryWeak](const std::string& runId) -> std::string {
+        auto entry = entryWeak.lock();
+        if (!entry || !entry->session) {
+            return nlohmann::json { { "status", "error" }, { "reason", "no_window" } }.dump();
+        }
+        return entry->session->poll(runId);
+    };
     rpcCallbacks.pauseSimulation = [entryWeak](bool wantPause) {
         auto entry = entryWeak.lock();
-        if (!entry) {
-            return;
+        if (entry && entry->session) {
+            entry->session->pause(wantPause);
         }
-        entry->simPaused.store(wantPause);
     };
     rpcCallbacks.stopSimulation = [entryWeak]() {
         auto entry = entryWeak.lock();
-        if (entry) {
-            entry->simCancel.store(true);
+        if (entry && entry->session) {
+            entry->session->stop();
         }
     };
     rpcCallbacks.isSimulationRunning = [entryWeak]() -> bool {
         auto entry = entryWeak.lock();
-        return entry ? entry->simRunning.load() : false;
+        return entry && entry->session && entry->session->isRunning();
     };
-    rpcCallbacks.sendEvent = sendHtmlEvent;
+    rpcCallbacks.sendEvent = [entryWeak](const std::string& name, const std::string& data) {
+        auto entry = entryWeak.lock();
+        if (entry && entry->session) {
+            entry->session->sendEvent(name, data);
+        }
+    };
     rpcCallbacks.importSsp = [](const std::string& sspPath) -> std::string {
         std::string errorMessage;
         const std::string nflowPath
@@ -693,7 +748,9 @@ Nelson::NFlowGateway::closeAllNFlowWindows(Evaluator* eval)
     // start closing at once instead of serialising each destroy()'s wait.
     for (const auto& e : entries) {
         if (e && e->win) {
-            e->simCancel.store(true);
+            if (e->session) {
+                e->session->stop();
+            }
             e->win->close();
         }
     }
@@ -742,109 +799,32 @@ Nelson::NFlowGateway::broadcastNFlowPush(const std::string& channel, const std::
     }
 }
 //=============================================================================
-namespace {
-//=============================================================================
 std::string
-runSimulationForEntry(std::weak_ptr<WindowEntry> entryWeak, const std::string& diagramJson,
-    bool pushProgress, bool prepareState)
+Nelson::NFlowGateway::runNFlowSimulationCore(
+    Evaluator* eval, const std::string& diagramJson, const NFlowSimRunHooks& hooks)
 {
-    auto entry = entryWeak.lock();
-    if (!entry) {
-        return std::string("{\"status\":\"error\",\"reason\":\"no_window\",\"scopes\":[]}");
-    }
-
-    // Always detach callbacks and clear the running state, including on failure.
-    struct RunTeardown
-    {
-        std::shared_ptr<WindowEntry> entry;
-        ~RunTeardown()
-        {
-            {
-                std::lock_guard<std::mutex> lock(entry->eventsMutex);
-                entry->eventCallback = nullptr;
-            }
-            Nelson::NFlow::setSimEventFetcher(
-                std::function<std::vector<Nelson::NFlow::SimEvent>()>());
-            entry->simRunning.store(false);
-            entry->simCancel.store(false);
-            if (simDiagVerbose()) {
-                simDiagLog("CLEAR running " + simDiagWindowTag(entry));
-            }
-        }
-    } runTeardown { entry };
-
-    if (prepareState) {
-        entry->simCancel.store(false);
-        entry->simPaused.store(false);
-        entry->simRunning.store(true);
-    }
-
-    // Shared queue keeps callbacks independent from this function's stack.
-    struct SimEventQueue
-    {
-        std::deque<HTMLEvent> q;
-        std::mutex m;
-    };
-    auto simEv = std::make_shared<SimEventQueue>();
-
-    {
-        std::lock_guard<std::mutex> lock(entry->eventsMutex);
-        entry->eventCallback = [simEv](const HTMLEvent& ev) {
-            std::lock_guard<std::mutex> lock(simEv->m);
-            simEv->q.push_back(ev);
-        };
-    }
-
-    Nelson::NFlow::setSimEventFetcher([simEv]() -> std::vector<Nelson::NFlow::SimEvent> {
-        std::vector<Nelson::NFlow::SimEvent> out;
-        std::lock_guard<std::mutex> lock(simEv->m);
-        while (!simEv->q.empty()) {
-            const HTMLEvent e = simEv->q.front();
-            out.emplace_back(e.name, e.data);
-            simEv->q.pop_front();
-        }
-        return out;
-    });
+    // From/To Workspace blocks read and write the base scope of this evaluator;
+    // the bridge marshals those accesses to the interpreter thread. Idempotent,
+    // so this is a no-op when the bridge already targets this evaluator.
+    ensureNelsonWorkspaceBridge(eval);
 
     std::string result;
     try {
-        auto progressCb = [entry, pushProgress](const std::string& partialJson) {
-            if (!pushProgress) {
-                // Poll deltas must accumulate; bound the queue while the UI stalls.
-                constexpr std::size_t MAX_PENDING_PARTIALS = 64;
-                std::lock_guard<std::mutex> lock(entry->simResultMutex);
-                if (entry->simPartialResults.size() >= MAX_PENDING_PARTIALS) {
-                    entry->simPartialResults.pop_front();
-                }
-                entry->simPartialResults.push_back(partialJson);
-                return;
-            }
-            std::string js = std::string("if(typeof window.__nelsonPush==='function')")
-                + std::string("window.__nelsonPush('nflow.sim.partial',")
-                + nlohmann::json(partialJson).dump() + std::string(");");
-            entry->win->run(js);
-        };
-        auto isCancelled = [entry]() -> bool { return entry->simCancel.load(); };
-        auto isPaused = [entry]() -> bool { return entry->simPaused.load(); };
-
         // modelica blocks: compile each to an FMU (OpenModelica) and rewrite the block,
         // since the engine knows nothing about Modelica. sim() does this in .m but the
-        // GUI Run button drives the engine directly. No thread hop without a modelica
-        // block; a build failure blocks the run with the typed reason.
+        // Run path drives the engine directly. No thread hop without a modelica block;
+        // a build failure blocks the run with the typed reason.
         std::string resolvedJson = diagramJson;
         std::string errorJson;
         std::string modelicaError;
-        resolvedJson
-            = Nelson::NFlowGateway::nflowExpandModelicaViaInterpreter(resolvedJson, modelicaError);
+        resolvedJson = nflowExpandModelicaViaInterpreter(resolvedJson, modelicaError);
         // acausal / planar blocks: lower each physical-pin (physicalWires) net into the
         // engine's native island blocks, since the engine knows nothing about catalog
-        // block types (Resistor, ConstantVoltage, ...). sim() does this in .m but the
-        // GUI Run button drives the engine directly. No thread hop without physical
+        // block types (Resistor, ConstantVoltage, ...). No thread hop without physical
         // wires; a lowering failure blocks the run with the typed reason.
         std::string acausalError;
         if (modelicaError.empty()) {
-            resolvedJson = Nelson::NFlowGateway::nflowExpandAcausalViaInterpreter(
-                resolvedJson, acausalError);
+            resolvedJson = nflowExpandAcausalViaInterpreter(resolvedJson, acausalError);
         }
         if (!modelicaError.empty() || !acausalError.empty()) {
             nlohmann::json res;
@@ -855,8 +835,8 @@ runSimulationForEntry(std::weak_ptr<WindowEntry> entryWeak, const std::string& d
         } else if (!Nelson::NFlow::resolveWorkspaceInputs(resolvedJson, errorJson)) {
             result = errorJson;
         } else {
-            result = Nelson::NFlow::runSimulation(
-                resolvedJson, WEB_SIM_PROGRESS_CHUNK_SIZE, progressCb, isCancelled, isPaused);
+            result = Nelson::NFlow::runSimulation(resolvedJson, WEB_SIM_PROGRESS_CHUNK_SIZE,
+                hooks.onProgress, hooks.isCancelled, hooks.isPaused);
             std::vector<std::string> writeErrors = Nelson::NFlow::flushWorkspaceOutputs(result);
             if (!writeErrors.empty()) {
                 try {
@@ -866,11 +846,11 @@ runSimulationForEntry(std::weak_ptr<WindowEntry> entryWeak, const std::string& d
                 } catch (...) {
                 }
             }
-            // Async delivery runs StopFcn only after publishing the final result.
-            if (prepareState) {
+            // Synchronous runs fire StopFcn here, after the final result. Async callers
+            // deliver the result first and run StopFcn themselves.
+            if (hooks.runStopFcnInline) {
                 std::string stopFcnError;
-                Nelson::NFlowGateway::nflowRunStopFcnViaInterpreter(
-                    resolvedJson, result, stopFcnError);
+                nflowRunStopFcnViaInterpreter(resolvedJson, result, stopFcnError);
                 if (!stopFcnError.empty()) {
                     try {
                         nlohmann::json res = nlohmann::json::parse(result);
@@ -891,158 +871,6 @@ runSimulationForEntry(std::weak_ptr<WindowEntry> entryWeak, const std::string& d
         result = std::string(
             "{\"status\":\"error\",\"reason\":\"Unknown C++ exception\",\"scopes\":[]}");
     }
-
     return result;
 }
-//=============================================================================
-std::string
-startSimulationForEntry(std::weak_ptr<WindowEntry> entryWeak, const std::string& diagramJson)
-{
-    static std::atomic<unsigned long long> nextRunId { 1 };
-    const std::string runId = "sim-" + std::to_string(nextRunId.fetch_add(1));
-    auto entry = entryWeak.lock();
-    if (!entry) {
-        return nlohmann::json { { "status", "error" }, { "reason", "no_window" } }.dump();
-    }
-    bool expected = false;
-    if (!entry->simRunning.compare_exchange_strong(expected, true)) {
-        // Record which window's binding fired and the running state of every open
-        // window, to tell cross-window RPC routing from a stranded running flag.
-        std::string snapshot;
-        {
-            std::lock_guard<std::mutex> lock(windowsMutex);
-            for (const auto& other : openWindows) {
-                if (!other) {
-                    continue;
-                }
-                snapshot += " {" + simDiagWindowTag(other)
-                    + " running=" + (other->simRunning.load() ? "1" : "0") + "}";
-            }
-        }
-        simDiagLog("REJECT already_running firing=" + simDiagWindowTag(entry)
-            + " winId=" + std::to_string(entry->win ? entry->win->get_window_id() : 0)
-            + " runId=" + runId + " open:" + snapshot);
-        return nlohmann::json { { "status", "error" }, { "reason", "already_running" } }.dump();
-    }
-    if (simDiagVerbose()) {
-        simDiagLog("SET running " + simDiagWindowTag(entry) + " runId=" + runId);
-    }
-    entry->simCancel.store(false);
-    entry->simPaused.store(false);
-    const bool pollDelivery = entry
-        && (WebDesktopBridge::getInstance()->getWebLaunchMode() == "webview"
-            || entry->embeddedWebView.load() || entry->win->get_current_browser() == Webview);
-
-    if (pollDelivery) {
-        std::lock_guard<std::mutex> lock(entry->simResultMutex);
-        entry->simResultRunId = runId;
-        entry->simResultJson.clear();
-        entry->simPartialResults.clear();
-        entry->simResultReady = false;
-    }
-
-    try {
-        if (!simulationWorkers.start([entryWeak, diagramJson, runId, pollDelivery]() {
-                const std::string result
-                    = runSimulationForEntry(entryWeak, diagramJson, !pollDelivery, false);
-                auto entry = entryWeak.lock();
-                if (!entry || !entry->win) {
-                    return;
-                }
-
-                if (pollDelivery) {
-                    std::lock_guard<std::mutex> lock(entry->simResultMutex);
-                    if (entry->simResultRunId == runId) {
-                        entry->simResultJson = result;
-                        entry->simResultReady = true;
-                    }
-                } else {
-                    nlohmann::json payload;
-                    payload["runId"] = runId;
-                    try {
-                        payload["result"] = nlohmann::json::parse(result);
-                    } catch (...) {
-                        payload["resultJson"] = result;
-                    }
-
-                    const std::string js = std::string("if(typeof window.__nelsonPush==='function')"
-                                                       "window.__nelsonPush('nflow.sim.final',")
-                        + nlohmann::json(payload.dump()).dump() + std::string(");");
-                    try {
-                        entry->win->run(js);
-                    } catch (...) {
-                    }
-                }
-
-                // The integrated scopes now own the final result. Run the model
-                // callback afterwards so a figure cannot delay their final frame.
-                std::string stopFcnError;
-                Nelson::NFlowGateway::nflowRunStopFcnViaInterpreter(
-                    diagramJson, result, stopFcnError);
-                if (!stopFcnError.empty() && simDiagVerbose()) {
-                    simDiagLog("StopFcn failed: " + stopFcnError);
-                }
-            })) {
-            entry->simRunning.store(false);
-            return nlohmann::json { { "status", "error" }, { "reason", "shutting_down" } }.dump();
-        }
-    } catch (...) {
-        entry->simRunning.store(false);
-        throw;
-    }
-
-    nlohmann::json started;
-    started["status"] = "started";
-    started["runId"] = runId;
-    started["delivery"] = pollDelivery ? "poll" : "push";
-    return started.dump();
-}
-//=============================================================================
-std::string
-pollSimulationForEntry(std::weak_ptr<WindowEntry> entryWeak, const std::string& runId)
-{
-    auto entry = entryWeak.lock();
-    if (!entry) {
-        return nlohmann::json { { "status", "error" }, { "reason", "no_window" } }.dump();
-    }
-
-    std::lock_guard<std::mutex> lock(entry->simResultMutex);
-    const bool matchesRun = entry->simResultRunId == runId;
-    const bool complete = matchesRun && entry->simResultReady;
-    // Hand-assembled response: the queued partials and the final result are
-    // engine-produced JSON already, so splice them in verbatim instead of
-    // parsing and re-serializing every payload on each poll.
-    std::string response = "{\"status\":\"";
-    response += complete ? "complete" : "pending";
-    response += "\",\"runId\":";
-    response += nlohmann::json(runId).dump();
-    response += ",\"partials\":[";
-    bool firstPartial = true;
-    while (matchesRun && !entry->simPartialResults.empty()) {
-        const std::string partialJson = std::move(entry->simPartialResults.front());
-        entry->simPartialResults.pop_front();
-        if (!partialJson.empty() && (partialJson[0] == '{' || partialJson[0] == '[')) {
-            if (!firstPartial) {
-                response += ",";
-            }
-            firstPartial = false;
-            response += partialJson;
-        }
-    }
-    response += "]";
-    if (complete) {
-        if (!entry->simResultJson.empty()
-            && (entry->simResultJson[0] == '{' || entry->simResultJson[0] == '[')) {
-            response += ",\"result\":";
-            response += entry->simResultJson;
-        } else {
-            response += ",\"resultJson\":";
-            response += nlohmann::json(entry->simResultJson).dump();
-        }
-    }
-    response += "}";
-    return response;
-}
-//=============================================================================
-} // anonymous namespace
 //=============================================================================

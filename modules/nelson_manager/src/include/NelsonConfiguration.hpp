@@ -206,6 +206,32 @@ public:
         return m_notebookKernelMode.load(std::memory_order_relaxed);
     }
     //=============================================================================
+    // Debug Adapter server (nelson-adv-cli --dap): headless web graphics with the
+    // interpreter driven over a stdio DAP frame channel.
+    inline void
+    setDapMode(bool on)
+    {
+        m_dapMode.store(on, std::memory_order_relaxed);
+    }
+    inline bool
+    isDapMode() const
+    {
+        return m_dapMode.load(std::memory_order_relaxed);
+    }
+    //=============================================================================
+    // TCP port of the notebook kernel's Debug Adapter channel (nelson-adv-cli
+    // --notebook-kernel --dap-port N). 0 means no debug channel is opened.
+    inline void
+    setDapPort(int port)
+    {
+        m_dapPort.store(port, std::memory_order_relaxed);
+    }
+    inline int
+    getDapPort() const
+    {
+        return m_dapPort.load(std::memory_order_relaxed);
+    }
+    //=============================================================================
     bool
     haveEventsLoop();
     //=============================================================================
@@ -445,11 +471,13 @@ private:
     // because inline accessors are compiled into other DLLs.
     std::atomic_bool m_webGraphicsMode { false };
     std::atomic_bool m_notebookKernelMode { false };
+    std::atomic_bool m_dapMode { false };
     //=============================================================================
     mutable std::recursive_mutex stringMutex;
     //=============================================================================
     // Appended last so that the offsets of the members above do not change.
     std::atomic_bool m_nativeIntegerLanes { false };
+    std::atomic_int m_dapPort { 0 };
     //=============================================================================
 };
 //=============================================================================

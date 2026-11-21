@@ -106,6 +106,13 @@ createMainEvaluator(NELSON_ENGINE_MODE _mode, const std::wstring& lang, bool min
                         CreateNotebookKernelEvaluatorDynamic(context.release(), mainEvaluatorID)));
                     break;
                 }
+                // Debug Adapter server: the interpreter is driven over a stdio DAP
+                // frame channel, figures served headless on the same RPC dispatch.
+                if (config.isDapMode()) {
+                    mainEvaluator.reset(static_cast<Evaluator*>(
+                        CreateDapEvaluatorDynamic(context.release(), mainEvaluatorID)));
+                    break;
+                }
 #endif
                 if (isDisplayAvailable()) {
                     InitGuiObjectsDynamic();

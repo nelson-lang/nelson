@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>debug adapter</keyword>
+  <short_description
+  >Deboguer des fichiers Nelson depuis un editeur via le Debug Adapter Protocol.</short_description>
+  <syntax>
+    <syntax_item>nelson-adv-cli --dap</syntax_item>
+    <syntax_item>nelson-adv-cli --notebook-kernel --dap-port port</syntax_item>
+  </syntax>
+  <description>
+    <p>La ligne de commande avancee lancee avec <b>--dap</b> pilote l'interpreteur sur son entree
+      et sa sortie standard comme un canal Debug Adapter Protocol. Un editeur qui parle ce
+      protocole lance le processus, pose des points d'arret, execute un fichier et avance pas a
+      pas, en utilisant le meme debogueur moteur que <b>dbstop</b>, <b>dbstep</b> et
+      <b>dbcont</b>.</p>
+    <p>Le canal est sans fenetre: les figures sont rendues sans fenetre et aucune invite ni
+      banniere n'est affichee, la sortie ne transporte donc que des trames du protocole.</p>
+    <p>Les fonctions prises en charge sont les points d'arret, les points d'arret conditionnels,
+      le pas entrant, le pas principal, le pas sortant, la reprise, la pause, la pile d'appels,
+      les variables locales de la portee courante, l'evaluation d'expressions pour la liste de
+      surveillance et pour les bulles d'aide, et les arrets sur erreurs interceptees ou non.</p>
+    <p>L'option <b>--dap-port</b> ajoute un canal Debug Adapter a un noyau notebook lance avec
+      <b>--notebook-kernel</b>. Le noyau ecoute sur le port indique sur l'interface locale
+      (127.0.0.1) et sert le protocole via une socket TCP, tandis que les cellules du notebook
+      continuent sur le canal d'entree et de sortie standard. Un editeur se connecte au port pour
+      deboguer une cellule sur le meme interpreteur vivant que le noyau pilote deja, de sorte que
+      les points d'arret, la pile d'appels et les variables refletent la session en cours.</p>
+    <p>Le canal de debogage se reconnecte: quand l'editeur se detache, le noyau efface les points
+      d'arret de debogage, reprend toute cellule en pause et continue a servir, et une connexion
+      ulterieure reutilise le meme port. La valeur du port est un nombre entre 1 et 65535.</p>
+    <p>Ce mode est utilise par l'extension Nelson pour Visual Studio Code pour fournir son
+      interface de debogage; le mode lui-meme est independant de l'editeur.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Poser un point d'arret, puis lancer le fichier depuis le debogueur de l'editeur.</example_item_description>
+      <example_item_data
+      ><![CDATA[
+function z = buggy(x)
+  n = length(x);
+  z = (1:n) / x';
+end
+
+dbstop in buggy at 2
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${debugger}dbstop">dbstop</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstep">dbstep</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbcont">dbcont</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstack">dbstack</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -299,10 +299,11 @@ makeMultCodegen(bool cLang)
     t.inputDefault = one;
     t.emitStep = [one, cLang](const BlockCodegenArgs& a) {
         const std::string operations = nflow::jstr(*asJson(a.params), nflow::kSumInputs, "");
-        const auto& params = *asJson(a.params);
-        const std::string mode = params.value("Multiplication", std::string());
-        const bool matrixPivot
-            = params.value("MatrixInversePivot", false) || mode == "Matrix(*)" || mode == "matrix";
+        const json& params = *asJson(a.params);
+        const std::string mode
+            = params.is_object() ? params.value("Multiplication", std::string()) : std::string();
+        const bool matrixPivot = (params.is_object() && params.value("MatrixInversePivot", false))
+            || mode == "Matrix(*)" || mode == "matrix";
         const std::string output = "out_" + a.id;
         if (operations.find('/') == std::string::npos) {
             std::string joined;

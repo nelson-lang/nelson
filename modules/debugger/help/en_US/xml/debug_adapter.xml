@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>debug adapter</keyword>
+  <short_description
+  >Debug Nelson files from an editor over the Debug Adapter Protocol.</short_description>
+  <syntax>
+    <syntax_item>nelson-adv-cli --dap</syntax_item>
+    <syntax_item>nelson-adv-cli --notebook-kernel --dap-port port</syntax_item>
+  </syntax>
+  <description>
+    <p>The advanced command line started with <b>--dap</b> drives the interpreter over its
+      standard input and output as a Debug Adapter Protocol channel. An editor that speaks this
+      protocol launches the process, sets breakpoints, runs a file and steps through it, using the
+      same engine debugger as <b>dbstop</b>, <b>dbstep</b> and <b>dbcont</b>.</p>
+    <p>The channel is headless: figures render without a window and no prompt or banner is printed,
+      so the output carries protocol frames only.</p>
+    <p>Supported features are breakpoints, conditional breakpoints, step in, step over, step out,
+      continue, pause, the call stack, the local variables of the current scope, expression
+      evaluation for the watch list and for data tips, and stops on caught or uncaught errors.</p>
+    <p>The option <b>--dap-port</b> adds a Debug Adapter channel to a notebook kernel started with
+      <b>--notebook-kernel</b>. The kernel listens on the given port on the loopback interface
+      (127.0.0.1) and serves the protocol over a TCP socket, while the notebook cells keep running
+      on the standard input and output channel. An editor attaches to the port to debug a cell
+      against the same live interpreter the kernel already drives, so the breakpoints, the call
+      stack and the variables reflect the running session.</p>
+    <p>The debug channel reconnects: when the editor detaches, the kernel clears the debug
+      breakpoints, resumes any paused cell and keeps serving, and a later attach reuses the same
+      port. The port value is a number between 1 and 65535.</p>
+    <p>This mode is used by the Nelson extension for Visual Studio Code to provide its debugging
+      user interface; the mode itself is editor independent.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Set a breakpoint, then start the file from the editor debugger.</example_item_description>
+      <example_item_data
+      ><![CDATA[
+function z = buggy(x)
+  n = length(x);
+  z = (1:n) / x';
+end
+
+dbstop in buggy at 2
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${debugger}dbstop">dbstop</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstep">dbstep</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbcont">dbcont</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${debugger}dbstack">dbstack</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

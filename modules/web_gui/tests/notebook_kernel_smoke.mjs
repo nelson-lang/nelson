@@ -128,6 +128,21 @@ async function run() {
   if (err.status !== 'error') fail('error cell not reported as error');
   if (err.evalue !== 'boom from cell') fail('evalue not clean: ' + JSON.stringify(err.evalue));
 
+  // uicontrol.action fires the control Callback on the interpreter thread.
+  await send('notebook.execute', { code: "clf; f = uicontrol('Style','slider','Min',1,'Max',10,'Value',5,'Callback','assignin(''base'',''cbhit'',get(gcbo,''Value''));');" });
+  const dl2 = await send('figure.getDisplayList', { handle: 0, softwareFallback: true });
+  const slider = (dl2.controls || []).find((c) => c.style === 'slider');
+  if (!slider) { fail('no slider control emitted'); }
+  else {
+    await send('uicontrol.action', { handle: slider.handle, value: 8, text: '' });
+    await sleep(300);
+    notifications.length = 0;
+    await send('notebook.execute', { code: "disp(cbhit)" });
+    const cb = notifications.filter((n) => n.method === 'notebook.output').map((n) => n.params.text).join('');
+    log('slider callback captured value:', JSON.stringify(cb.trim()));
+    if (!cb.includes('8')) fail('uicontrol Callback did not run (expected cbhit=8)');
+  }
+
   log(failed ? 'RESULT: FAIL' : 'RESULT: PASS');
   await send('kernel.shutdown', {}).catch(() => {});
 }

@@ -26,6 +26,13 @@ NelsonWebGuiStartFigures(void* evaluator);
 // pulls cell code from the terminal. Takes ownership of context on success.
 extern "C" NLSWEB_GUI_IMPEXP void*
 NelsonWebGuiCreateNotebookKernelEvaluator(void* context, size_t id);
+// Debug Adapter server (nelson-adv-cli --dap): creates an evaluator whose
+// Interface is the DAP terminal, starts a headless figure RPC server for the
+// debugger.* dispatch, and starts the DAP reader thread over stdio. The caller
+// runs the standard REPL, which pulls the launched program and debugger commands
+// from the terminal. Takes ownership of context on success.
+extern "C" NLSWEB_GUI_IMPEXP void*
+NelsonWebGuiCreateDapEvaluator(void* context, size_t id);
 extern "C" NLSWEB_GUI_IMPEXP bool
 NelsonWebGuiWaitUntilLaunched(std::string& error);
 extern "C" NLSWEB_GUI_IMPEXP void

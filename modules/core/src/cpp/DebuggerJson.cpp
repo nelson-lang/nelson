@@ -12,6 +12,9 @@
 #include "DebugStack.hpp"
 #include "DebugValuePreview.hpp"
 #include "EditorBreakpoints.hpp"
+#include "ClassName.hpp"
+#include "Context.hpp"
+#include "Scope.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
@@ -190,6 +193,42 @@ rpcCommand(Evaluator* eval, const nlohmann::json& params)
     return { { "ok", true } };
 }
 //=============================================================================
+// Variables of the current debugger scope, as a flat list. Struct/cell drill-in
+// is left to the editor's data tips (dotted names resolve through
+// debugVariablePreview); the expandable flag marks what a tree view could open.
+static nlohmann::json
+localsToJson(Evaluator* eval)
+{
+    nlohmann::json variables = nlohmann::json::array();
+    nlohmann::json result = { { "scope", "" }, { "variables", variables } };
+    if (eval == nullptr) {
+        return result;
+    }
+    Context* context = eval->getContext();
+    if (context == nullptr) {
+        return result;
+    }
+    Scope* scope = context->getCurrentScope();
+    if (scope == nullptr) {
+        return result;
+    }
+    result["scope"] = scope->getName();
+    stringVector names;
+    scope->getVariablesList(false, names);
+    for (const std::string& name : names) {
+        ArrayOf value;
+        if (!scope->lookupVariable(name, value)) {
+            continue;
+        }
+        const bool expandable = value.isStruct() || value.isCell() || value.isClassType();
+        variables.push_back(
+            { { "name", name }, { "value", wstring_to_utf8(variableValueSummary(value)) },
+                { "type", ClassName(value) }, { "expandable", expandable } });
+    }
+    result["variables"] = variables;
+    return result;
+}
+//=============================================================================
 std::string
 debuggerRpc(Evaluator* eval, const std::string& method, const std::string& paramsJson)
 {
@@ -202,6 +241,9 @@ debuggerRpc(Evaluator* eval, const std::string& method, const std::string& param
     }
     if (method == "state") {
         return stateToJson(eval).dump();
+    }
+    if (method == "locals") {
+        return localsToJson(eval).dump();
     }
     const std::string fileUtf8 = params.value("file", std::string());
     const std::wstring file = utf8_to_wstring(fileUtf8);

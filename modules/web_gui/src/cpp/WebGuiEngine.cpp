@@ -14,7 +14,13 @@
 #include "WebDesktopBridge.hpp"
 #include "NotebookKernel.hpp"
 #include "NotebookKernelTerminal.hpp"
+#include "DapServer.hpp"
+#include "DapTerminal.hpp"
+#include "DapTransport.hpp"
 #include "Evaluator.hpp"
+#include "NelsonConfiguration.hpp"
+#include "MainThreadTaskQueue.hpp"
+#include "RuntimeDispatch.hpp"
 #include <cstdio>
 #include <memory>
 #include <string>
@@ -86,6 +92,29 @@ NelsonWebGuiCreateNotebookKernelEvaluator(void* context, size_t id)
     rpc->setEvaluator(evaluator.get());
     server->setEngineReady();
     kernel->setServer(server.get());
+    // `--dap-port N`: open a second channel, a TCP Debug Adapter server that shares
+    // this kernel's interpreter and figure server. A cell that pauses at a
+    // breakpoint routes its prompt to the DAP server (NotebookKernel::nextCellCode),
+    // so an editor can step through the cell while the kernel keeps running.
+    const int dapPort = NelsonConfiguration::getInstance()->getDapPort();
+    if (dapPort > 0) {
+        auto transport = std::make_unique<TcpFrameTransport>(dapPort);
+        auto dap = std::make_unique<DapServer>(std::move(transport), DapMode::Attach);
+        dap->setServer(server.get());
+        DapServer* dapRaw = dap.get();
+        kernelPtr->setDapServer(dapRaw);
+        // The breakpoint prompt loop waits on the DAP server's condition variable:
+        // a queued debugger command (CommandQueue::add) or a posted interpreter task
+        // must wake it. The task-queue hook also wakes the kernel's cell loop, so
+        // both prompts are served whichever is active.
+        setInterpreterWakeupHook([dapRaw]() { dapRaw->wake(); });
+        MainThreadTaskQueue::getInstance()->setWakeupHook([kernelPtr, dapRaw]() {
+            kernelPtr->wake();
+            dapRaw->wake();
+        });
+        dap->start();
+        dap.release();
+    }
     kernel->start();
     // The kernel, terminal, server and dispatcher live for the whole process, like
     // the figures-only desktop.
@@ -93,6 +122,39 @@ NelsonWebGuiCreateNotebookKernelEvaluator(void* context, size_t id)
     rpc.release();
     terminal.release();
     kernel.release();
+    return evaluator.release();
+}
+//=============================================================================
+void*
+NelsonWebGuiCreateDapEvaluator(void* context, size_t id)
+{
+    auto transport = std::make_unique<StdioFrameTransport>();
+    auto dap = std::make_unique<DapServer>(std::move(transport));
+    auto terminal = std::make_unique<DapTerminal>(dap.get());
+    auto evaluator
+        = std::make_unique<Evaluator>(static_cast<Context*>(context), terminal.get(), true, id);
+    // Headless figure RPC server: no window, debugger.* dispatched on the
+    // interpreter thread, pushes unused by the DAP channel.
+    auto server = std::make_unique<WebGuiServer>();
+    auto rpc = std::make_unique<WebGuiRpc>(server.get(), nullptr);
+    server->setDispatcher(rpc.get());
+    WebUiLaunchOptions options;
+    options.headlessRpc = true;
+    if (!server->start(L"web_gui/frontend/dist", options)) {
+        std::fprintf(stderr, "Nelson debug adapter figure server failed: %s\n",
+            server->launchError().c_str());
+        return nullptr;
+    }
+    rpc->setEvaluator(evaluator.get());
+    server->setEngineReady();
+    dap->setServer(server.get());
+    dap->start();
+    // The DAP server, terminal, figure server and dispatcher live for the whole
+    // process, like the notebook kernel.
+    server.release();
+    rpc.release();
+    terminal.release();
+    dap.release();
     return evaluator.release();
 }
 //=============================================================================

@@ -127,6 +127,16 @@ public:
     bool
     haveNotebookKernel();
 
+    // `--dap` on the advanced terminal: drive the interpreter over a stdio Debug
+    // Adapter Protocol frame channel for editor debugging.
+    bool
+    haveDap();
+
+    // `--dap-port N` on the advanced terminal: TCP port on which the notebook
+    // kernel also serves a Debug Adapter channel. 0 when the option is absent.
+    int
+    getDapPort();
+
 private:
     bool
     parse();
@@ -145,6 +155,8 @@ private:
     bool _webServerMode;
     bool _webGraphics;
     bool _notebookKernel;
+    bool _dap;
+    int _dapPort;
     std::wstring _error;
     std::wstring _file;
     std::wstring _fileIPC;

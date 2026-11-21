@@ -207,6 +207,8 @@
     <ClCompile Include="..\..\src\cpp\nflow_rpc_bindings.cpp" />
     <ClCompile Include="..\..\src\cpp\nflow_rpc_codegen.cpp" />
     <ClCompile Include="..\cpp\nflow_guiBuiltin.cpp" />
+    <ClCompile Include="..\cpp\NFlowSimSession.cpp" />
+    <ClCompile Include="..\cpp\NFlowKernelHost.cpp" />
     <ClCompile Include="..\cpp\NFlowExamplesProvider.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -217,6 +219,10 @@
     <ClInclude Include="..\include\open_systemBuiltin.hpp" />
     <ClInclude Include="..\include\nflow_highlightBuiltin.hpp" />
     <ClInclude Include="..\include\nflow_guiBuiltin.hpp" />
+    <ClInclude Include="..\include\NFlowSimSession.hpp" />
+    <ClInclude Include="..\include\NFlowKernelHost.hpp" />
+    <ClInclude Include="..\include\NFlowHeadlessDispatch.hpp" />
+    <ClInclude Include="..\include\NFlowSimulationRun.hpp" />
     <ClInclude Include="..\include\NFlowExamplesProvider.hpp" />
     <ClInclude Include="..\..\src\include\nflow_rpc_codegen.hpp" />
     <ClInclude Include="..\..\src\include\webui_bindings.hpp" />

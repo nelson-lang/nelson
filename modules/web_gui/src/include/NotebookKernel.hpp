@@ -16,6 +16,7 @@
 #include <atomic>
 #include <condition_variable>
 #include <deque>
+#include <memory>
 #include <mutex>
 #include <string>
 #include <thread>
@@ -25,6 +26,8 @@
 namespace Nelson {
 //=============================================================================
 class WebGuiServer;
+class DapServer;
+class NotebookKernelNFlow;
 //=============================================================================
 // Coordinates the notebook kernel's stdio JSON-RPC channel: a reader thread
 // parses Content-Length frames from stdin, cell code is handed to the
@@ -45,6 +48,12 @@ public:
     // forwards as notifications. Set before start().
     void
     setServer(WebGuiServer* server);
+
+    // Optional Debug Adapter server sharing this kernel's interpreter. When set,
+    // a cell that pauses at a breakpoint routes its K>> prompt here so an editor
+    // can step through it. Null when no --dap-port was given.
+    void
+    setDapServer(DapServer* dap);
 
     // Sets stdin/stdout to binary and starts the reader thread.
     void
@@ -95,6 +104,7 @@ private:
     requestShutdown();
 
     WebGuiServer* m_server { nullptr };
+    DapServer* m_dap { nullptr };
     std::thread m_readerThread;
     std::atomic<bool> m_stop { false };
 
@@ -116,6 +126,9 @@ private:
     nlohmann::json m_runningCellId;
     bool m_runningCellError { false };
     std::wstring m_runningCellErrorText;
+
+    // Optional nflow.* routing; null until start(), inert if the build has no nflow.
+    std::unique_ptr<NotebookKernelNFlow> m_nflow;
 };
 //=============================================================================
 } // namespace Nelson

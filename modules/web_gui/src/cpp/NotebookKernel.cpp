@@ -8,8 +8,14 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NotebookKernel.hpp"
+#include "NotebookKernelNFlow.hpp"
 #include "WebGuiServer.hpp"
+#include "DapServer.hpp"
 #include "MainThreadTaskQueue.hpp"
+#include "CallbackQueue.hpp"
+#include "EventQueue.hpp"
+#include "Evaluator.hpp"
+#include "NelsonConfiguration.hpp"
 #include "characters_encoding.hpp"
 #include "Nelson_VERSION.h"
 #include <cstdio>
@@ -55,6 +61,12 @@ NotebookKernel::setServer(WebGuiServer* server)
 }
 //=============================================================================
 void
+NotebookKernel::setDapServer(DapServer* dap)
+{
+    m_dap = dap;
+}
+//=============================================================================
+void
 NotebookKernel::start()
 {
 #ifdef _WIN32
@@ -63,6 +75,20 @@ NotebookKernel::start()
     _setmode(_fileno(stdin), _O_BINARY);
     _setmode(_fileno(stdout), _O_BINARY);
 #endif
+    // NFlow hook: construct the optional nflow.* router. It resolves the nflow
+    // host entry points at runtime, so a build without nflow leaves it inert and
+    // web_gui keeps no link on the nflow stack. Push and the JSON-RPC re-wrap are
+    // handed to it, so none of that logic lives here.
+    m_nflow = std::make_unique<NotebookKernelNFlow>(
+        [this](const std::string& channel, const std::string& payloadJson) {
+            writePush(channel, payloadJson);
+        },
+        [this](const nlohmann::json& id, const nlohmann::json& result) {
+            writeResult(id, result);
+        },
+        [this](const nlohmann::json& id, int code, const std::string& message) {
+            writeError(id, code, message);
+        });
     m_stop.store(false);
     m_readerThread = std::thread([this]() { readerLoop(); });
 }
@@ -92,6 +118,16 @@ NotebookKernel::requestShutdown()
 std::wstring
 NotebookKernel::nextCellCode()
 {
+    // A cell paused at a breakpoint re-enters the terminal at the K>> prompt: hand
+    // the prompt to the Debug Adapter server so an editor can step through the
+    // cell. The cell is still running, so no execute response is owed yet.
+    if (m_dap != nullptr) {
+        auto* eval
+            = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
+        if (eval != nullptr && eval->isBreakpointActive()) {
+            return m_dap->runBreakpointPrompt(eval);
+        }
+    }
     // The interpreter has finished the previous cell: send its execute response.
     if (m_hasRunningCell) {
         nlohmann::json result;
@@ -105,25 +141,53 @@ NotebookKernel::nextCellCode()
         m_hasRunningCell = false;
     }
     auto* taskQueue = MainThreadTaskQueue::getInstance();
-    Cell cell;
-    {
-        std::unique_lock<std::mutex> lock(m_cellMutex);
-        // Idle while waiting: figure RPC from the reader thread runs in place.
-        taskQueue->setInterpreterIdle(true);
-        m_cellCv.wait(lock, [this]() { return m_shutdown || !m_cells.empty(); });
-        if (m_cells.empty()) {
-            taskQueue->setInterpreterIdle(false);
-            return L"exit";
+    auto* eval = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
+    for (;;) {
+        Cell cell;
+        bool haveCell = false;
+        {
+            std::unique_lock<std::mutex> lock(m_cellMutex);
+            // Idle while waiting: figure RPC from the reader thread runs in place.
+            // Wake also on queued interpreter tasks and graphics callbacks (a
+            // uicontrol action enqueues its Callback) so they are serviced here.
+            taskQueue->setInterpreterIdle(true);
+            m_cellCv.wait(lock, [this, taskQueue]() {
+                return m_shutdown || !m_cells.empty() || !taskQueue->isEmpty()
+                    || !CallbackQueue::getInstance()->isEmpty()
+                    || !EventQueue::getInstance()->isEmpty();
+            });
+            if (m_shutdown && m_cells.empty()) {
+                taskQueue->setInterpreterIdle(false);
+                return L"exit";
+            }
+            if (!m_cells.empty()) {
+                cell = std::move(m_cells.front());
+                m_cells.pop_front();
+                haveCell = true;
+            }
         }
-        cell = std::move(m_cells.front());
-        m_cells.pop_front();
+        taskQueue->setInterpreterIdle(false);
+        if (haveCell) {
+            m_hasRunningCell = true;
+            m_runningCellId = cell.id;
+            m_runningCellError = false;
+            m_runningCellErrorText.clear();
+            return cell.code;
+        }
+        // No cell: service interpreter-thread work at the idle prompt.
+        if (!taskQueue->isEmpty() && eval != nullptr) {
+            taskQueue->processTasksAtPrompt(eval);
+            continue;
+        }
+        // Graphics callbacks (a uicontrol action) were enqueued: return a blank
+        // line so the REPL loops back to Evaluator::processCliCallbacks and drains
+        // the CallbackQueue, exactly as the web desktop terminal does. The blank
+        // line is not a cell, so no execute response is owed for it.
+        if (!CallbackQueue::getInstance()->isEmpty() || !EventQueue::getInstance()->isEmpty()) {
+            return std::wstring(1, L'\n');
+        }
+        // Spurious wake: wait again.
     }
-    taskQueue->setInterpreterIdle(false);
-    m_hasRunningCell = true;
-    m_runningCellId = cell.id;
-    m_runningCellError = false;
-    m_runningCellErrorText.clear();
-    return cell.code;
 }
 //=============================================================================
 void
@@ -284,11 +348,15 @@ NotebookKernel::readerLoop()
         const std::string method = msg.value("method", std::string());
         const nlohmann::json params = msg.value("params", nlohmann::json::object());
         if (method == "kernel.initialize") {
-            writeResult(id,
-                nlohmann::json { { "protocolVersion", 1 },
-                    { "engineVersion", NELSON_SEMANTIC_VERSION_STRING },
-                    { "capabilities",
-                        { { "subscribe", false }, { "output", true }, { "figures", true } } } });
+            nlohmann::json result = { { "protocolVersion", 1 },
+                { "engineVersion", NELSON_SEMANTIC_VERSION_STRING },
+                { "capabilities",
+                    { { "subscribe", false }, { "output", true }, { "figures", true } } } };
+            // NFlow hook: let the nflow router add its capability and dist dir.
+            if (m_nflow) {
+                m_nflow->augmentInitialize(result);
+            }
+            writeResult(id, result);
         } else if (method == "kernel.shutdown") {
             writeResult(id, nlohmann::json { { "ok", true } });
             requestShutdown();
@@ -302,8 +370,19 @@ NotebookKernel::readerLoop()
             m_cellCv.notify_all();
         } else if (method.rfind("figure.", 0) == 0 || method.rfind("uicontrol.", 0) == 0) {
             handleFigureMethod(id, method, params);
+            // The dispatch may have enqueued a graphics callback (uicontrol
+            // action): wake the interpreter loop so it drains it at the prompt.
+            wake();
+        } else if (m_nflow && m_nflow->handles(method)) {
+            // NFlow hook: route nflow.* to the dedicated router.
+            m_nflow->handle(id, method, params);
         } else {
-            writeError(id, -32601, "method not found: " + method);
+            // Relay every other RPC to the full WebGui dispatcher: console
+            // (term.*, completion.request), workspace.list, history.*, fs.*, ...
+            // run on the same interpreter as the cells. A dispatch may enqueue an
+            // interpreter-thread task, so wake the loop to drain it at the prompt.
+            handleFigureMethod(id, method, params);
+            wake();
         }
     }
 }

@@ -628,6 +628,15 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
     if (po.haveNotebookKernel()) {
         NelsonConfiguration::getInstance()->setWebGraphicsMode(true);
         NelsonConfiguration::getInstance()->setNotebookKernelMode(true);
+        // `--dap-port N` opens a second channel: a TCP Debug Adapter server that
+        // shares this kernel's interpreter, so a cell can be debugged from an editor.
+        NelsonConfiguration::getInstance()->setDapPort(po.getDapPort());
+    }
+    // `--dap`: drive the interpreter over a stdio Debug Adapter Protocol channel
+    // with headless web figures, quiet so no banner reaches the frame-only stdout.
+    if (po.haveDap()) {
+        NelsonConfiguration::getInstance()->setWebGraphicsMode(true);
+        NelsonConfiguration::getInstance()->setDapMode(true);
     }
     if (_mode == NELSON_ENGINE_MODE::GUI && !po.haveNoIpc()) {
         bool wasSent = false;
@@ -730,9 +739,9 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
     if (po.haveFileToExecuteIPC()) {
         fileToExecute = po.getFileToExecuteIPC();
     }
-    // The notebook kernel's stdout carries only JSON-RPC frames, so the banner and
-    // other startup prints must stay silent.
-    bQuietMode = po.haveQuietMode() || po.haveNotebookKernel();
+    // The notebook kernel and the DAP server carry only protocol frames on stdout,
+    // so the banner and other startup prints must stay silent.
+    bQuietMode = po.haveQuietMode() || po.haveNotebookKernel() || po.haveDap();
     if (!fileToExecute.empty()) {
         // expand filename required for shebang
         FileSystemWrapper::Path p(fileToExecute);
