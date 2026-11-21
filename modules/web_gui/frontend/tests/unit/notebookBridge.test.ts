@@ -166,7 +166,12 @@ describe('NotebookFigureBridge', () => {
     bridge = new NotebookFigureBridge(host.messaging);
     const call = rpc('figure.getDisplayList', { handle: 2 });
     const body = host.posted.at(-1)!.body as { rpc: { id: number } };
-    host.receive({ channel: 'other', outputId: 'out-1', handle: 2, body: { rpc: { id: body.rpc.id, result: 1 } } });
+    host.receive({
+      channel: 'other',
+      outputId: 'out-1',
+      handle: 2,
+      body: { rpc: { id: body.rpc.id, result: 1 } },
+    });
     const settled = await Promise.race([call.then(() => 'done'), Promise.resolve('pending')]);
     expect(settled).toBe('pending');
   });

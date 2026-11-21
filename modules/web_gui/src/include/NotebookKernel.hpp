@@ -89,8 +89,8 @@ private:
     void
     writeNotification(const std::string& method, const nlohmann::json& params);
     void
-    handleFigureMethod(const nlohmann::json& id, const std::string& method,
-        const nlohmann::json& params);
+    handleFigureMethod(
+        const nlohmann::json& id, const std::string& method, const nlohmann::json& params);
     void
     requestShutdown();
 

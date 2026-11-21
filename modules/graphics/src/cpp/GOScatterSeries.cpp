@@ -514,9 +514,9 @@ GOScatterSeries::paintMe(RenderInterface& gc)
                 markerPos.push_back(mys[pointIndex]);
                 markerPos.push_back(mzs[pointIndex]);
                 markerRadii.push_back(markerSizes[k]);
-                const std::vector<double>& c
-                    = (!faceColors[k].empty() && faceColors[k][0] != -1) ? faceColors[k]
-                                                                         : edgeColors[k];
+                const std::vector<double>& c = (!faceColors[k].empty() && faceColors[k][0] != -1)
+                    ? faceColors[k]
+                    : edgeColors[k];
                 for (int j = 0; j < 4; j++) {
                     markerRgba.push_back(j < static_cast<int>(c.size()) ? c[j] : 1.0);
                 }

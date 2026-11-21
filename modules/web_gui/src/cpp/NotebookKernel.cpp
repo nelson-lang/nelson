@@ -227,7 +227,7 @@ NotebookKernel::writeError(const nlohmann::json& id, int code, const std::string
 {
     writeFrame(nlohmann::json { { "jsonrpc", "2.0" }, { "id", id },
         { "error", { { "code", code }, { "message", message } } } }
-                   .dump());
+            .dump());
 }
 //=============================================================================
 void
@@ -247,8 +247,7 @@ NotebookKernel::handleFigureMethod(
     }
     // Reuse WebGuiRpc::dispatch via the server: build its {id,method,params}
     // envelope, then re-wrap the {id,result|error:{message}} reply as JSON-RPC 2.0.
-    const nlohmann::json envelope
-        = { { "id", id }, { "method", method }, { "params", params } };
+    const nlohmann::json envelope = { { "id", id }, { "method", method }, { "params", params } };
     const std::string reply = m_server->handleRpc(envelope.dump(), 0);
     const nlohmann::json parsed = nlohmann::json::parse(reply, nullptr, false);
     if (parsed.is_discarded()) {

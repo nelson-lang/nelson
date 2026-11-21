@@ -74,7 +74,7 @@ namespace {
         {
             auto it = inputSrc.find(id);
             if (it == inputSrc.end() || port < 0 || port >= (int)it->second.size()) {
-                return { };
+                return {};
             }
             return it->second[port];
         }
@@ -83,7 +83,7 @@ namespace {
         typeOf(const std::string& id) const
         {
             auto it = byId.find(id);
-            return (it != byId.end()) ? jstr(it->second, nflow::kType) : std::string { };
+            return (it != byId.end()) ? jstr(it->second, nflow::kType) : std::string {};
         }
 
         // Resolve the real wire feeding lane (0 = re, 1 = im) of complex
@@ -467,7 +467,7 @@ namespace {
                         for (int p = 0; p < nIn; ++p) {
                             WireRef s = (iit != inputSrc.end() && p < (int)iit->second.size())
                                 ? iit->second[(size_t)p]
-                                : WireRef { };
+                                : WireRef {};
                             const std::string base
                                 = (p < (int)names.size() && !names[(size_t)p].empty())
                                 ? names[(size_t)p]

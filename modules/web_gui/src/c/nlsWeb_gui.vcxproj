@@ -270,6 +270,7 @@
     <WebGuiFrontendSources Include="$(MSBuildThisFileDirectory)..\..\frontend\index.html" />
     <WebGuiFrontendSources Include="$(MSBuildThisFileDirectory)..\..\frontend\package.json" />
     <WebGuiFrontendSources Include="$(MSBuildThisFileDirectory)..\..\frontend\vite.config.ts" />
+    <WebGuiFrontendSources Include="$(MSBuildThisFileDirectory)..\..\frontend\vite.replayer.config.ts" />
     <WebGuiFrontendSources Include="$(MSBuildThisFileDirectory)..\..\frontend\tsconfig.json" />
     <WebGuiFrontendSources Include="$(MSBuildThisFileDirectory)..\..\..\webview\frontend\examples\*" />
   </ItemGroup>
@@ -277,8 +278,9 @@
     <Message Importance="high" Text="Installing npm deps for web_gui frontend..." />
     <Exec Command="npm install --no-audit --no-fund" WorkingDirectory="$(MSBuildThisFileDirectory)..\..\frontend" />
   </Target>
-  <Target Name="WebGuiDistBuild" AfterTargets="Build" DependsOnTargets="WebGuiNpmInstall" Condition="Exists('$(MSBuildThisFileDirectory)..\..\frontend\package.json')" Inputs="@(WebGuiFrontendSources)" Outputs="$(MSBuildThisFileDirectory)..\..\frontend\dist\index.html">
+  <Target Name="WebGuiDistBuild" AfterTargets="Build" DependsOnTargets="WebGuiNpmInstall" Condition="Exists('$(MSBuildThisFileDirectory)..\..\frontend\package.json')" Inputs="@(WebGuiFrontendSources)" Outputs="$(MSBuildThisFileDirectory)..\..\frontend\dist\index.html;$(MSBuildThisFileDirectory)..\..\frontend\dist-replayer\nelson-figure-replayer.js">
     <Message Importance="high" Text="Building web_gui frontend (npm run build)..." />
     <Exec Command="npm run build" WorkingDirectory="$(MSBuildThisFileDirectory)..\..\frontend" />
+    <Exec Command="npm run build:replayer" WorkingDirectory="$(MSBuildThisFileDirectory)..\..\frontend" />
   </Target>
 </Project>

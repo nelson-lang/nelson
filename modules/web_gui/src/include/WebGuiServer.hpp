@@ -92,7 +92,8 @@ public:
     // In headless RPC mode, every push is handed to this sink as (channel,
     // payloadJson) instead of being sent to a WebUI page. Set before start().
     void
-    setPushSink(std::function<void(const std::string& channel, const std::string& payloadJson)> sink)
+    setPushSink(
+        std::function<void(const std::string& channel, const std::string& payloadJson)> sink)
     {
         m_pushSink = std::move(sink);
     }

@@ -161,7 +161,7 @@ multiplyProductMatrices(const ProductMatrix& a, const ProductMatrix& b, SigType 
     ProductMatrix out;
     out.rows = a.rows;
     out.cols = b.cols;
-    out.values.assign(out.rows * out.cols, { });
+    out.values.assign(out.rows * out.cols, {});
     for (int c = 0; c < b.cols; ++c) {
         for (int r = 0; r < a.rows; ++r) {
             for (int k = 0; k < a.cols; ++k) {

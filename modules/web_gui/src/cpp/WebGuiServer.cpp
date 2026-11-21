@@ -677,8 +677,7 @@ WebGuiServer::pushFigureFrameJson(long long handle, const char* displayListJson,
     // as a figure.frame notification. Reuse the display list string as is.
     if (m_launchOptions.headlessRpc) {
         if (m_pushSink) {
-            std::string payload
-                = "{\"handle\":" + std::to_string(handle) + ",\"displayList\":";
+            std::string payload = "{\"handle\":" + std::to_string(handle) + ",\"displayList\":";
             payload.append(displayListJson, static_cast<size_t>(len));
             payload += "}";
             m_pushSink("figure.frame", payload);

@@ -160,7 +160,7 @@ namespace {
         typeOf(const std::string& id) const
         {
             auto it = byId.find(id);
-            return (it != byId.end()) ? jstr(it->second, kType) : std::string { };
+            return (it != byId.end()) ? jstr(it->second, kType) : std::string {};
         }
 
         // The zero scalar constant, created lazily for unconnected routing inputs.
@@ -197,7 +197,7 @@ namespace {
                     return pit->second;
                 }
             }
-            return { std::string { }, 0 };
+            return { std::string {}, 0 };
         }
 
         ScalarRef

@@ -54,7 +54,10 @@ interface Envelope {
 const PUSH_CHANNELS = new Set(['figure.frame', 'figure.updated', 'figure.title', 'figure.closed']);
 //=============================================================================
 export class NotebookFigureBridge {
-  private readonly pending = new Map<number, { resolve(v: unknown): void; reject(e: Error): void }>();
+  private readonly pending = new Map<
+    number,
+    { resolve(v: unknown): void; reject(e: Error): void }
+  >();
   private readonly sessions = new Map<string, OutputSession>();
   private nextRpcId = 1;
   private uninstallBackend: (() => void) | null = null;

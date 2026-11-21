@@ -650,8 +650,7 @@ private:
     // Emit a colormap wireframe (varying edge colors) as a de-indexed line mesh
     // carrying the edges' per-vertex colors, for the offline rotatable scene.
     bool
-    pushColoredWireframeMesh(
-        const std::vector<std::vector<coloredPoint>>& edges, double lineWidth);
+    pushColoredWireframeMesh(const std::vector<std::vector<coloredPoint>>& edges, double lineWidth);
     bool m_liveControls = false;
 };
 //=============================================================================

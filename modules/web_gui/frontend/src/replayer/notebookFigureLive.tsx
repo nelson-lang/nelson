@@ -32,9 +32,7 @@ export interface LiveFigureHandle {
 // dark notebook. The figure itself carries its own engine colors.
 function shellSchemeClass(): string {
   try {
-    return window.matchMedia('(prefers-color-scheme: light)').matches
-      ? 'nelson-shell--light'
-      : '';
+    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'nelson-shell--light' : '';
   } catch {
     return '';
   }

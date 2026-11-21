@@ -76,7 +76,9 @@ mkdir(destination_bad);
 [status, msg] = xmldocbuild([modulepath('help_tools', 'root'), '/tests/xml_nested_no_chapter'], ...
   destination_bad, 'nested_help', 'html', true);
 asserts.isfalse(status);
-asserts.istrue(contains(msg, sprintf(_('No chapter.xml file in directory containing XML files: %s'), '')));
+% Check the missing file and directory without depending on the UI language.
+asserts.istrue(contains(msg, 'chapter.xml'));
+asserts.istrue(contains(msg, 'broken'));
 %=============================================================================
 destination_collision = tempname();
 mkdir(destination_collision);

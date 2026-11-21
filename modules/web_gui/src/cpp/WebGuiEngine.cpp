@@ -66,8 +66,8 @@ NelsonWebGuiCreateNotebookKernelEvaluator(void* context, size_t id)
 {
     auto kernel = std::make_unique<NotebookKernel>();
     auto terminal = std::make_unique<NotebookKernelTerminal>(kernel.get());
-    auto evaluator = std::make_unique<Evaluator>(
-        static_cast<Context*>(context), terminal.get(), true, id);
+    auto evaluator
+        = std::make_unique<Evaluator>(static_cast<Context*>(context), terminal.get(), true, id);
     // Headless figure RPC server: no window, pushes routed to the kernel channel.
     auto server = std::make_unique<WebGuiServer>();
     auto rpc = std::make_unique<WebGuiRpc>(server.get(), nullptr);

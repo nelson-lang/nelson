@@ -239,7 +239,9 @@ function(nelson_add_frontend_build _target _build_target)
   # A module uses this for a secondary bundle built from its own vite config.
   foreach(_extra_script IN LISTS ARG_EXTRA_BUILD_SCRIPTS)
     if(WIN32)
-      add_custom_command(TARGET ${_build_target} POST_BUILD
+      add_custom_command(
+        TARGET ${_build_target}
+        POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E echo
           "Building ${_extra_script} for ${ARG_DISPLAY_NAME}..."
         COMMAND ${_npm_command} --prefix ${ARG_PACKAGE_DIR} run ${_extra_script}
@@ -247,7 +249,9 @@ function(nelson_add_frontend_build _target _build_target)
         VERBATIM
       )
     else()
-      add_custom_command(TARGET ${_build_target} POST_BUILD
+      add_custom_command(
+        TARGET ${_build_target}
+        POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E echo
           "Building ${_extra_script} for ${ARG_DISPLAY_NAME}..."
         COMMAND ${CMAKE_COMMAND} -E env "PATH=${_node_bin_dir}:$ENV{PATH}"

@@ -29,7 +29,10 @@ function singleFileRenderer(): Plugin {
       let css = '';
       for (const [fileName, asset] of Object.entries(bundle)) {
         if (asset.type === 'asset' && fileName.endsWith('.css')) {
-          css += typeof asset.source === 'string' ? asset.source : Buffer.from(asset.source).toString('utf8');
+          css +=
+            typeof asset.source === 'string'
+              ? asset.source
+              : Buffer.from(asset.source).toString('utf8');
           delete bundle[fileName];
         }
       }

@@ -100,6 +100,5 @@ install(
 # self-contained interactive page. Built by the build:replayer script above.
 install(
   DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/frontend/dist-replayer/
-  DESTINATION
-    ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}/frontend/dist-replayer
+  DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}/frontend/dist-replayer
 )

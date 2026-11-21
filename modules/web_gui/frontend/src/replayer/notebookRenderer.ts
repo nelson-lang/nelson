@@ -59,9 +59,8 @@ export function activate(context?: RendererMessaging): NotebookRendererApi {
     // A sandboxed host without storage still paints, it only cannot pin the mode.
   }
   const records = new Map<string, OutputRecord>();
-  const bridge = context?.postMessage || context?.onDidReceiveMessage
-    ? new NotebookFigureBridge(context)
-    : null;
+  const bridge =
+    context?.postMessage || context?.onDidReceiveMessage ? new NotebookFigureBridge(context) : null;
 
   const drawStatic = async (record: OutputRecord): Promise<void> => {
     record.element.replaceChildren();
@@ -141,9 +140,7 @@ export function activate(context?: RendererMessaging): NotebookRendererApi {
       // host opened a channel. Everything else is left as the static drawing.
       if (!bridge || !bridge.canGoLive() || record.handle < 0) return;
       try {
-        const init = await bridge.requestLive(outputItem.id, record.handle, () =>
-          goStatic(record)
-        );
+        const init = await bridge.requestLive(outputItem.id, record.handle, () => goStatic(record));
         if (record.disposed) {
           bridge.bye(outputItem.id);
           return;

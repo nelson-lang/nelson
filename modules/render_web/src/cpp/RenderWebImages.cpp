@@ -1237,11 +1237,11 @@ RenderWeb::pushColoredWireframeMesh(
                 previous = -1;
                 continue;
             }
-            const uint32_t index = appendWebGlVertex(mesh, vertexMap, true,
-                static_cast<float>(point.x), static_cast<float>(point.y),
-                static_cast<float>(point.z), static_cast<float>(point.r),
-                static_cast<float>(point.g), static_cast<float>(point.b),
-                static_cast<float>(point.a));
+            const uint32_t index
+                = appendWebGlVertex(mesh, vertexMap, true, static_cast<float>(point.x),
+                    static_cast<float>(point.y), static_cast<float>(point.z),
+                    static_cast<float>(point.r), static_cast<float>(point.g),
+                    static_cast<float>(point.b), static_cast<float>(point.a));
             if (previous >= 0) {
                 mesh.lineIndices.push_back(static_cast<uint32_t>(previous));
                 mesh.lineIndices.push_back(index);
