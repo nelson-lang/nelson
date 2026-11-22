@@ -133,9 +133,9 @@ export function makeWireSegmentHandlers(ctx: RendererCtx) {
     wireSegmentDrag.startPoint = point;
     wireSegmentDrag.prePoints = clonePoints((hit.conn as any).points);
     wireSegmentDrag.workPoints = null;
-    try {
-      C.svg?.setPointerCapture?.(event.pointerId as unknown as number);
-    } catch (_err) {}
+    // Capture only once the drag actually begins (see beginDragging): capturing
+    // here would redirect the pending click to the SVG and swallow the plain
+    // click that must still select the wire.
     // Do NOT stop propagation: a plain click must still select the wire.
     return true;
   }
@@ -158,6 +158,13 @@ export function makeWireSegmentHandlers(ctx: RendererCtx) {
     wireSegmentDrag.workPoints = pts;
     wireSegmentDrag.segIndex = segIndex;
     wireSegmentDrag.phase = 'dragging';
+    // Now that this is a real drag (not a click), capture the pointer so moves
+    // off the wire still reach the SVG listeners.
+    if (wireSegmentDrag.pointerId != null) {
+      try {
+        C.svg?.setPointerCapture?.(wireSegmentDrag.pointerId as unknown as number);
+      } catch (_err) {}
+    }
     if (C.svg) C.svg.style.cursor = wireSegmentDrag.orient === 'H' ? 'ns-resize' : 'ew-resize';
   }
 

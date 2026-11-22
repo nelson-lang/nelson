@@ -46,6 +46,8 @@ export function makeWireCornerHandlers(ctx: RendererCtx) {
   function clearWireEndpointHandles() {
     while (ctx.wireEndpointLayer && ctx.wireEndpointLayer.firstChild)
       ctx.wireEndpointLayer.removeChild(ctx.wireEndpointLayer.firstChild);
+    if (ctx.wireEndpointLayer)
+      (ctx.wireEndpointLayer as unknown as { __endpointConn?: Conn | null }).__endpointConn = null;
   }
   // A point `d` away from `a` toward `b` (clamped when the ends are closer).
   function insetAlong(
@@ -85,10 +87,12 @@ export function makeWireCornerHandlers(ctx: RendererCtx) {
   // re-targets that end (same flow for the source and destination, Simulink
   // style). Handles sit inset on the wire, so the ports stay free for fan-out.
   function updateWireEndpointHandles() {
-    clearWireEndpointHandles();
     const state = ctx.state as unknown as { selectedConnection?: Conn | null; locked?: boolean };
     const conn = state.selectedConnection;
-    if (!conn || state.locked) return;
+    if (!conn || state.locked) {
+      clearWireEndpointHandles();
+      return;
+    }
     const Cx = ctx as unknown as {
       getPortPosition?: (
         id: string,
@@ -109,6 +113,39 @@ export function makeWireCornerHandlers(ctx: RendererCtx) {
         ? Cx.getPortPosition?.(conn.from, 'out', Number(conn.fromIndex ?? 0)) ?? null
         : Cx.getPortPosition?.(conn.to, 'in', Number(conn.toIndex ?? 0)) ?? null;
     };
+    const mid = midpointAlong(pts);
+    const layer = ctx.wireEndpointLayer as
+      | (SVGGElement & { __endpointConn?: Conn | null })
+      | null
+      | undefined;
+    // Reuse the handles when the same wire stays selected: a reroute re-runs this
+    // and tearing the handles down first would briefly detach them, leaving them
+    // momentarily unhittable (and flickering). Move them in place instead.
+    const reuse =
+      !!layer &&
+      layer.__endpointConn === conn &&
+      !!layer.querySelector('.wire-endpoint-handle[data-end="from"]') &&
+      !!layer.querySelector('.wire-endpoint-handle[data-end="to"]');
+
+    if (reuse && layer) {
+      (['from', 'to'] as const).forEach((end) => {
+        const pos = endPoint(end);
+        const handle = layer.querySelector(`.wire-endpoint-handle[data-end="${end}"]`);
+        if (!pos || !handle) return;
+        handle.setAttribute('cx', String(pos.x));
+        handle.setAttribute('cy', String(pos.y));
+      });
+      const dot = layer.querySelector('.wire-branch-dot');
+      const plus = layer.querySelector('.wire-branch-plus');
+      if (mid && dot && plus) {
+        dot.setAttribute('cx', String(mid.x));
+        dot.setAttribute('cy', String(mid.y));
+        plus.setAttribute('d', `M ${mid.x - 3} ${mid.y} h 6 M ${mid.x} ${mid.y - 3} v 6`);
+      }
+      return;
+    }
+
+    clearWireEndpointHandles();
     (['from', 'to'] as const).forEach((end) => {
       const pos = endPoint(end);
       if (!pos) return;
@@ -129,7 +166,6 @@ export function makeWireCornerHandlers(ctx: RendererCtx) {
 
     // Branch handle at the wire's middle: drag it to a free input to fan the
     // source out to a second wire, without the Ctrl/Cmd modifier.
-    const mid = midpointAlong(pts);
     if (mid) {
       const group = createSvgElement('g', { class: 'wire-branch-handle', 'data-role': 'branch' });
       group.appendChild(
@@ -148,6 +184,7 @@ export function makeWireCornerHandlers(ctx: RendererCtx) {
       });
       if (ctx.wireEndpointLayer) ctx.wireEndpointLayer.appendChild(group);
     }
+    if (layer) layer.__endpointConn = conn;
   }
   function renderSharedSourceJunctionDots() {
     clearWireJunctionDots();
