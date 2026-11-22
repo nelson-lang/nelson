@@ -78,6 +78,13 @@ public:
     void
     wake();
 
+    // Interactive input() from a running cell: sends a term.inputRequest to the
+    // client and blocks the interpreter thread until it answers with a
+    // term.inputResponse (or the cell is interrupted / the kernel shuts down).
+    // Returns the line the user typed, or empty on interrupt / shutdown.
+    std::wstring
+    requestInput(const std::wstring& prompt);
+
     // Push sink target: writes a figure push as a JSON-RPC notification.
     void
     writePush(const std::string& channel, const std::string& payloadJson);
@@ -126,6 +133,16 @@ private:
     nlohmann::json m_runningCellId;
     bool m_runningCellError { false };
     std::wstring m_runningCellErrorText;
+
+    // Interactive input() round-trip: an interpreter-thread call blocks on
+    // m_inputCv until the reader thread delivers a term.inputResponse (or an
+    // interrupt / shutdown releases it).
+    std::mutex m_inputMutex;
+    std::condition_variable m_inputCv;
+    bool m_inputReady { false };
+    bool m_inputAbort { false };
+    std::wstring m_inputText;
+    long long m_inputSeq { 0 };
 
     // Optional nflow.* routing; null until start(), inert if the build has no nflow.
     std::unique_ptr<NotebookKernelNFlow> m_nflow;

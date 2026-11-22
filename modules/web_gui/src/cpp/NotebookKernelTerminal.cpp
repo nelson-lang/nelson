@@ -32,10 +32,11 @@ NotebookKernelTerminal::getLine(const std::string& /*prompt*/)
 }
 //=============================================================================
 std::wstring
-NotebookKernelTerminal::getInput(const std::wstring& /*prompt*/)
+NotebookKernelTerminal::getInput(const std::wstring& prompt)
 {
-    // Interactive keyboard input() is not available over the frame channel.
-    return L"";
+    // Interactive input(): ask the client for a line over the frame channel and
+    // block until it answers (or the cell is interrupted).
+    return m_kernel->requestInput(prompt);
 }
 //=============================================================================
 size_t

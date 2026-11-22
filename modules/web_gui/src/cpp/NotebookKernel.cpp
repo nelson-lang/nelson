@@ -113,6 +113,12 @@ NotebookKernel::requestShutdown()
         m_shutdown = true;
     }
     m_cellCv.notify_all();
+    // Release a cell that is blocked waiting for interactive input().
+    {
+        std::lock_guard<std::mutex> lock(m_inputMutex);
+        m_inputAbort = true;
+    }
+    m_inputCv.notify_all();
 }
 //=============================================================================
 std::wstring
@@ -224,6 +230,28 @@ void
 NotebookKernel::wake()
 {
     m_cellCv.notify_all();
+}
+//=============================================================================
+std::wstring
+NotebookKernel::requestInput(const std::wstring& prompt)
+{
+    long long reqId;
+    {
+        std::lock_guard<std::mutex> lock(m_inputMutex);
+        m_inputReady = false;
+        m_inputAbort = false;
+        reqId = ++m_inputSeq;
+    }
+    // Ask the client for a line; it echoes the prompt and reads the user's input.
+    writeNotification("term.inputRequest",
+        nlohmann::json { { "prompt", wstring_to_utf8(prompt) }, { "id", reqId } });
+    std::unique_lock<std::mutex> lock(m_inputMutex);
+    m_inputCv.wait(lock, [&] { return m_inputReady || m_inputAbort || m_stop.load(); });
+    if (!m_inputReady) {
+        return L""; // interrupted (Ctrl+C) or shutting down
+    }
+    m_inputReady = false;
+    return m_inputText;
 }
 //=============================================================================
 void
@@ -368,6 +396,36 @@ NotebookKernel::readerLoop()
                 m_cells.push_back(Cell { id, code });
             }
             m_cellCv.notify_all();
+        } else if (method == "notebook.interrupt") {
+            // Ctrl+C from the console: raise the interrupt flag for the cell
+            // evaluator so a running cell aborts back to the prompt, exactly as the
+            // desktop terminal does. Handled on the reader thread (not queued as a
+            // cell) so it takes effect while a cell is still running.
+            auto* eval = static_cast<Evaluator*>(
+                NelsonConfiguration::getInstance()->getMainEvaluator());
+            if (eval != nullptr) {
+                NelsonConfiguration::getInstance()->setInterruptPending(
+                    true, eval->getID());
+            }
+            // Also release a cell blocked in input(), so Ctrl+C escapes the prompt.
+            {
+                std::lock_guard<std::mutex> lock(m_inputMutex);
+                m_inputAbort = true;
+            }
+            m_inputCv.notify_all();
+            writeResult(id, nlohmann::json { { "ok", true } });
+        } else if (method == "term.inputResponse") {
+            // The client answered a term.inputRequest: hand the line to the
+            // interpreter thread blocked in requestInput().
+            {
+                std::lock_guard<std::mutex> lock(m_inputMutex);
+                m_inputText = utf8_to_wstring(params.value("text", std::string()));
+                m_inputReady = true;
+            }
+            m_inputCv.notify_all();
+            if (!id.is_null()) {
+                writeResult(id, nlohmann::json { { "ok", true } });
+            }
         } else if (method.rfind("figure.", 0) == 0 || method.rfind("uicontrol.", 0) == 0) {
             handleFigureMethod(id, method, params);
             // The dispatch may have enqueued a graphics callback (uicontrol
