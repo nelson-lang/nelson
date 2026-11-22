@@ -662,7 +662,7 @@ namespace {
             const auto srcA = srcOf(id, 0);
             const auto srcB = srcOf(id, 1);
             auto emitProduct = [&](const std::string& cid, const ScalarRef& x, const ScalarRef& y) {
-                json p;
+                json p = json::object();
                 addBlock(cid, "mult", 2, 1, p);
                 addConn(x, cid, 0);
                 addConn(y, cid, 1);
@@ -702,7 +702,7 @@ namespace {
                         emitProduct(mid, x, y);
                         terms.push_back(mid);
                     }
-                    json sp;
+                    json sp = json::object();
                     addBlock(base, "sum", (int)terms.size(), 1, sp);
                     for (int t = 0; t < (int)terms.size(); ++t) {
                         addConn({ terms[t], 0 }, base, t);
@@ -758,7 +758,7 @@ namespace {
                     addConn(srcB.first.empty() ? zeroRef() : resolve(srcB.first, srcB.second, e),
                         pid, 1);
                 }
-                json sp;
+                json sp = json::object();
                 addBlock(id + "__red", "sum", W, 1, sp);
                 for (int e = 0; e < W; ++e) {
                     addConn({ id + "__dp" + std::to_string(e), 0 }, id + "__red", e);

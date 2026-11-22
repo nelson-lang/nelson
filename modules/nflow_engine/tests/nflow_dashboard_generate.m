@@ -72,9 +72,10 @@ function nflow_dashboard_verify_generated_setter(folder, target)
   fwrite(fid, [newline(), 'add_executable(dashboard_setter dashboard_setter.c)', newline()]);
   fclose(fid);
   buildFolder = [folder, filesep, 'setter-build'];
-  [status, output] = system(['cmake -S "', folder, '" -B "', buildFolder, '"'], 120);
+  cmake = nflow_dashboard_cmake_command();
+  [status, output] = system([cmake, ' -S "', folder, '" -B "', buildFolder, '"'], 120);
   assert_isequal(status, 0, output);
-  [status, output] = system(['cmake --build "', buildFolder, ...
+  [status, output] = system([cmake, ' --build "', buildFolder, ...
     '" --config Release --target dashboard_setter'], 120);
   assert_isequal(status, 0, output);
   executable = [buildFolder, filesep, 'dashboard_setter'];
@@ -89,4 +90,14 @@ function nflow_dashboard_write_text(filename, content)
   fid = fopen(filename, 'wt');
   fwrite(fid, content);
   fclose(fid);
+end
+
+function cmake = nflow_dashboard_cmake_command()
+  cmake = 'cmake';
+  if ispc()
+    bundled = [nelsonroot(), '/tools/cmake/bin/cmake.exe'];
+    if isfile(bundled)
+      cmake = ['"', nelsonroot(), '/tools/cmake/bin/cmake"'];
+    end
+  end
 end
