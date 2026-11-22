@@ -23,6 +23,7 @@
 #include "LinearEquationSolver.hpp"
 #include "LeastSquareSolver.hpp"
 #include "Warning.hpp"
+#include "characters_encoding.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
 #include "i18n.hpp"
@@ -1139,7 +1140,7 @@ leftDivide(const ArrayOf& A, const ArrayOf& B, bool& needToOverload, bool transp
     } break;
     }
     if (!warningMessage.empty()) {
-        RaiseWarning(std::string(warningId.begin(), warningId.end()), warningMessage);
+        RaiseWarning(wstring_to_utf8(warningId), warningMessage);
     }
     return res;
 }

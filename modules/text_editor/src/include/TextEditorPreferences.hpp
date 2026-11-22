@@ -9,6 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "nlsQtWarnings.h"
 #include "Types.hpp"
 #include <QtCore/QPoint>
 #include <QtCore/QSize>

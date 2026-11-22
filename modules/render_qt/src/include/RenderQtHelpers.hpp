@@ -14,6 +14,7 @@
 // the boundary with these helpers. Header-only on purpose: usable from any
 // Qt-linked TU without build wiring.
 //=============================================================================
+#include "nlsQtWarnings.h"
 #include <QtGui/QFont>
 #include <QtGui/QImage>
 #include "RenderInterface.hpp"

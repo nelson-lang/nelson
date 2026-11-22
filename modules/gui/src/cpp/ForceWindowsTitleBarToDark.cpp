@@ -7,6 +7,7 @@
 //=============================================================================
 #ifdef _MSC_VER
 //=============================================================================
+#include "nlsQtWarnings.h"
 #include "ForceWindowsTitleBarToDark.hpp"
 #include "NelsonPalette.hpp"
 #include <QtWidgets/QApplication>

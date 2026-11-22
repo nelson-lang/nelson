@@ -9,6 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "nlsQtWarnings.h"
 #include <QtCore/QString>
 #include <QtWidgets/QMessageBox>
 #include <string>

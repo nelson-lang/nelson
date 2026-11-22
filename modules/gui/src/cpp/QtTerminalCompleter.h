@@ -9,6 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "nlsQtWarnings.h"
 #include <QtWidgets/QCompleter>
 #include <QtCore/QStringListModel>
 #include <QtCore/QAbstractItemModel>

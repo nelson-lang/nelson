@@ -9,6 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "nlsQtWarnings.h"
 #include "CodeAnalyzer.hpp"
 #include "QtTextEdit.h"
 #include <QtWidgets/QWidget>

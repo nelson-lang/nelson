@@ -9,6 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "nlsQtWarnings.h"
 #include <string>
 #include <QtCore/QEvent>
 #include <QtGui/QKeyEvent>

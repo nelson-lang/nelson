@@ -9,6 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "nlsQtWarnings.h"
 #include <QtCore/QObject>
 #include <QtGui/QAction>
 #include <QtGui/QIcon>

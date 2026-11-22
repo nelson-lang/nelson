@@ -9,6 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "nlsQtWarnings.h"
 #include <functional>
 #include <QtWidgets/QDockWidget>
 #include <QtWidgets/QLabel>

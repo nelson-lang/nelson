@@ -42,6 +42,7 @@ target_include_directories(${module_library_name}
 
 target_link_libraries(${module_library_name}
   PRIVATE
+    nlsCharacters_encoding
     nlsElementary_mathematics
     nlsError_manager
     nlsNelson_manager

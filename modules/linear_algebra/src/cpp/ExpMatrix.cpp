@@ -12,7 +12,14 @@
 #include "lapack_eigen_config.hpp"
 #include "ExpMatrix.hpp"
 #include "ClassName.hpp"
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4834)
+#endif
 #include <unsupported/Eigen/MatrixFunctions>
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 #include "Error.hpp"
 #include "ErrorID.hpp"
 #include "i18n.hpp"

@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #define _USE_MATH_DEFINES
+#include "nlsQtWarnings.h"
 #include <algorithm>
 #include <cmath>
 #include <map>

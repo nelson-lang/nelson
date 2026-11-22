@@ -21,6 +21,7 @@
 #include "Decomplexify.hpp"
 #include "LinearEquationSolver.hpp"
 #include "Warning.hpp"
+#include "characters_encoding.hpp"
 #include "DiagonalDivide.hpp"
 //=============================================================================
 namespace Nelson {
@@ -66,7 +67,7 @@ rightDivideDense(const ArrayOf& A, const ArrayOf& B, ArrayOf& R)
         return false;
     }
     if (!warningMessage.empty()) {
-        RaiseWarning(std::string(warningId.begin(), warningId.end()), warningMessage);
+        RaiseWarning(wstring_to_utf8(warningId), warningMessage);
     }
     R = decomplexify(R);
     return true;

@@ -9,6 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "nlsQtWarnings.h"
 #include "Context.hpp"
 #include "Evaluator.hpp"
 #include "ArrayOf.hpp"

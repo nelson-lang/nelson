@@ -14,6 +14,7 @@
 #if defined(_WIN32) && !defined(NOMINMAX)
 #define NOMINMAX
 #endif
+#include "nlsQtWarnings.h"
 #include <algorithm>
 #include <cmath>
 #include <limits>

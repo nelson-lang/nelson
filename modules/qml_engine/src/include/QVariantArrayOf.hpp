@@ -9,6 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "nlsQtWarnings.h"
 #include "ArrayOf.hpp"
 #include "nlsQml_engine_exports.h"
 #include <QtCore/QVariant>

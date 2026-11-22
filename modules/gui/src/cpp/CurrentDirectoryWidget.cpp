@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include "nlsQtWarnings.h"
 #include "CurrentDirectoryWidget.h"
 #include "QtTranslation.hpp"
 #include <QtCore/QDir>

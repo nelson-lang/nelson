@@ -9,6 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "nlsQtWarnings.h"
 #include "QtTerminal.h"
 #include "QtHistoryBrowser.h"
 #include "Context.hpp"

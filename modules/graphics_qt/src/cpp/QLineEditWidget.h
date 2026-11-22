@@ -9,6 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "nlsQtWarnings.h"
 #include <QtWidgets/QLineEdit>
 #include <QtGui/QKeyEvent>
 #include "GOUIControl.h"

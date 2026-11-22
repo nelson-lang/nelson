@@ -9,6 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "nlsQtWarnings.h"
 #include <QtCore/QTimer>
 #include <QtGui/QMouseEvent>
 #include <QtWidgets/QApplication>

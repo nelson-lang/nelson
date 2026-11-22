@@ -9,6 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "nlsQtWarnings.h"
 #include "VariableDefaultModel.h"
 #include <QtWidgets/QTextEdit>
 #include <QtCore/QPointer>

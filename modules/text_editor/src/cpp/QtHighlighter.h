@@ -9,6 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "nlsQtWarnings.h"
 #include <QtCore/QRegularExpression>
 #include <QtCore/QSet>
 #include <QtCore/QString>

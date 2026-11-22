@@ -9,6 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "nlsQtWarnings.h"
 #include <QtWidgets/QCompleter>
 #include <QtWidgets/QWidget>
 #include "QtHighlighter.h"

@@ -9,6 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "nlsQtWarnings.h"
 #include <QtCore/QObject>
 #include "nlsQml_engine_exports.h"
 #include "QObjectHandleObject.hpp"

@@ -9,6 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "nlsQtWarnings.h"
 #include <QtCore/QPointF>
 #include <QtCore/QVector>
 #include <QtGui/QPainter>
