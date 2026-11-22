@@ -87,18 +87,23 @@ use_gesdd_for_size(int m, int n)
 #endif
 }
 //=============================================================================
+// SVD bidiagonalization (xGEBRD) dominates every driver and is memory-bandwidth
+// bound, so it stops scaling after a few threads; spreading it over every core
+// (16 physical on a hybrid i7, E-cores included) only adds synchronization cost.
+static constexpr int SVD_BANDWIDTH_THREAD_CAP = 4;
+//=============================================================================
 static int
 doubleSvdThreadLimit(char jobz, lapack_int m, lapack_int n)
 {
     if (jobz != 'N') {
-        return useSingleThreadBlasForSmallMatrix(m, n) ? 1 : 0;
+        return useSingleThreadBlasForSmallMatrix(m, n) ? 1 : SVD_BANDWIDTH_THREAD_CAP;
     }
 
     uint64_t elements = static_cast<uint64_t>(m) * static_cast<uint64_t>(n);
     if (elements <= 589824ULL) {
         return 1;
     }
-    return 0;
+    return SVD_BANDWIDTH_THREAD_CAP;
 }
 //=============================================================================
 static lapack_int
