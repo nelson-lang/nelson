@@ -26,6 +26,10 @@ test('nflow_gui depends on modules/webview for WebUI', () => {
     path.join(moduleDir, 'builtin/cpp/nflow_guiBuiltin.cpp'),
     'utf8'
   );
+  const simSession = readFileSync(
+    path.join(moduleDir, 'builtin/cpp/NFlowSimSession.cpp'),
+    'utf8'
+  );
   const simEngineRuntime = readFileSync(
     path.join(repoDir, 'modules/nflow_engine/src/cpp/SimEngineRuntime.cpp'),
     'utf8'
@@ -60,11 +64,13 @@ test('nflow_gui depends on modules/webview for WebUI', () => {
   expect(bootstrapHtml).toContain('webUiSetLocalStorageItemScript');
   expect(nflowGuiBuiltin).toContain('WEB_SIM_PROGRESS_CHUNK_SIZE = 250');
   expect(nflowGuiBuiltin).toContain('resolvedJson, WEB_SIM_PROGRESS_CHUNK_SIZE');
-  // Poll delivery accumulates delta frames in a BOUNDED queue: replacing a
-  // pending frame (the old clear()+push_back pattern) would lose samples. The
-  // remaining clear() is the run-start reset in startSimulationForEntry.
-  expect(nflowGuiBuiltin).toContain('MAX_PENDING_PARTIALS = 64');
-  expect(nflowGuiBuiltin).toContain('simPartialResults.clear()');
+  // Poll delivery accumulates delta frames in a BOUNDED queue: dropping the
+  // oldest frame (pop_front) keeps newer samples instead of replacing the whole
+  // buffer. The clear() is the run-start reset in NFlowSimSession::startAsync.
+  expect(simSession).toContain('MAX_PENDING_PARTIALS = 64');
+  expect(simSession).toContain('m_partials.pop_front()');
+  expect(simSession).toContain('m_partials.push_back(');
+  expect(simSession).toContain('m_partials.clear()');
   expect(nflowGuiBuiltin).toContain('findNelsonApplicationIconPath');
   expect(nflowGuiBuiltin).toContain('set_icon_file(windowIconFile)');
   expect(nflowGuiBuiltin).toContain('nflow.png');
@@ -87,6 +93,10 @@ test('nflow_gui depends on modules/webview for WebUI', () => {
   expect(nflowGuiBuiltinProject).toContain('nlsWebview.vcxproj');
   expect(nflowGuiBuiltinProject).toContain('..\\..\\src\\cpp\\nflow_rpc_bindings.cpp');
   expect(nflowGuiBuiltinProject).toContain('..\\..\\src\\cpp\\nflow_rpc_codegen.cpp');
+  // The async-sim invariants above are grepped from NFlowSimSession.cpp, so the
+  // guard is only meaningful if that TU is actually compiled into the builtin.
+  // CMake globs builtin/cpp; the vcxproj is the explicit Windows list.
+  expect(nflowGuiBuiltinProject).toContain('..\\cpp\\NFlowSimSession.cpp');
   expect(webviewProject).toContain('..\\cpp\\WebUiHelpers.cpp');
   expect(webviewProject).toContain('..\\include\\WebUiHelpers.hpp');
   expect(nflowGuiSolutionBlock).toContain(webviewProjectGuid);
@@ -96,10 +106,10 @@ test('nflow_gui depends on modules/webview for WebUI', () => {
 });
 //=============================================================================
 test('async simulation publishes its final result before running StopFcn', () => {
-  const source = readFileSync(path.join(moduleDir, 'builtin/cpp/nflow_guiBuiltin.cpp'), 'utf8');
-  const asyncStart = source.indexOf('simulationWorkers.start');
-  const pollFinal = source.indexOf('entry->simResultReady = true;', asyncStart);
-  const pushFinal = source.indexOf("window.__nelsonPush('nflow.sim.final'", asyncStart);
+  const source = readFileSync(path.join(moduleDir, 'builtin/cpp/NFlowSimSession.cpp'), 'utf8');
+  const asyncStart = source.indexOf('m_workers->start(');
+  const pollFinal = source.indexOf('m_resultReady = true;', asyncStart);
+  const pushFinal = source.indexOf('m_push("nflow.sim.final"', asyncStart);
   const stopFcn = source.indexOf('diagramJson, result, stopFcnError);', asyncStart);
 
   expect(asyncStart).toBeGreaterThanOrEqual(0);
