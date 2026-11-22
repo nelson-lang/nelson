@@ -7523,12 +7523,13 @@ namespace bcvm_detail {
                             }
                             break;
                         }
-                        Error("Nelson:UndefinedFunction",
+                        RaiseError(
                             formatI18nMessage(
                                 Nelson::resolveMessageTemplate(
                                     "Nelson:UndefinedFunction:undefinedVariableFunctionValue",
                                     "Undefined variable or function: %s"),
-                                name));
+                                name),
+                            "Nelson:UndefinedFunction");
                     }
                     // Inside a classdef method, an unqualified call dispatches on its arguments.
                     // If it resolved to the method being executed (a method whose name shadows a
@@ -8029,12 +8030,13 @@ namespace bcvm_detail {
                     }
                     FunctionDef* fdef = nullptr;
                     if (!lookupCachedFunction(ins.A, name, fdef)) {
-                        Error("Nelson:UndefinedFunction",
+                        RaiseError(
                             formatI18nMessage(
                                 Nelson::resolveMessageTemplate(
                                     "Nelson:UndefinedFunction:undefinedVariableFunctionValue",
                                     "Undefined variable or function: %s"),
-                                name));
+                                name),
+                            "Nelson:UndefinedFunction");
                     }
                     bool syncCallerContext = needsCallerContextSync(fdef);
                     bool refreshCallerContext = needsCallerContextRefresh(fdef);

@@ -160,7 +160,7 @@ h5ReadDataset(const std::wstring& filename, const std::wstring& dataSetName)
     } break;
     }
     if (!errorMessage.empty()) {
-        Error(L"Nelson:hdf5:readDatasetFailed", errorMessage);
+        RaiseError(errorMessage, L"Nelson:hdf5:readDatasetFailed");
     }
     H5Tclose(type_id);
     H5Dclose(dset_id);

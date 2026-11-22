@@ -88,7 +88,7 @@ relationalOperator(Evaluator* eval, const std::string& operatorName, const std::
             Nelson::resolveMessageTemplate("Nelson:interpreter:operatorSupportedOperandsType",
                 "Operator '%s' is not supported for operands of type '%s'."),
             symbolName, ClassToString(commonType));
-        Error("Nelson:UndefinedFunction", msg);
+        RaiseError(msg, "Nelson:UndefinedFunction");
     } break;
     default:
         break;

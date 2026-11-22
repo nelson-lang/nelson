@@ -164,7 +164,7 @@ Evaluator::vertcatOperator(const ArrayOfVector& v)
                 Nelson::resolveMessageTemplate("Nelson:interpreter:operatorSupportedOperandsType",
                     "Operator '%s' is not supported for operands of type '%s'."),
                 VERTCAT_OPERATOR_STR, ClassToString(commonType));
-            Error("Nelson:UndefinedFunction", msg);
+            RaiseError(msg, "Nelson:UndefinedFunction");
         } break;
         }
     } break;

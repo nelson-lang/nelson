@@ -65,7 +65,7 @@ static ArrayOf
 asDoubleMatrix(const ArrayOf& value, const std::wstring& message)
 {
     if (!isRealNumericMatrix(value)) {
-        Error(L"Nelson:statistics:invalidValue", message);
+        RaiseError(message, L"Nelson:statistics:invalidValue");
     }
     ArrayOf copy = value;
     copy.promoteType(NLS_DOUBLE);
@@ -76,7 +76,7 @@ static std::wstring
 matchText(const ArrayOf& value, const std::vector<std::wstring>& names, const std::wstring& message)
 {
     if (!isTextScalar(value)) {
-        Error(L"Nelson:statistics:invalidValue", message);
+        RaiseError(message, L"Nelson:statistics:invalidValue");
     }
     std::wstring text = lowerText(value);
     std::vector<std::wstring> matches;
@@ -86,7 +86,7 @@ matchText(const ArrayOf& value, const std::vector<std::wstring>& names, const st
         }
     }
     if (matches.empty() || matches.size() > 1) {
-        Error(L"Nelson:statistics:invalidValue", message);
+        RaiseError(message, L"Nelson:statistics:invalidValue");
     }
     return matches[0];
 }

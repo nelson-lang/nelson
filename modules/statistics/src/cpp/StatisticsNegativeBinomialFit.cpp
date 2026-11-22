@@ -37,7 +37,7 @@ static ArrayOf
 asDoubleArray(const ArrayOf& value, const std::wstring& message)
 {
     if (!value.isNumeric() || value.isSparse() || value.isComplex()) {
-        Error(L"Nelson:statistics:invalidValue", message);
+        RaiseError(message, L"Nelson:statistics:invalidValue");
     }
     ArrayOf copy = value;
     copy.promoteType(NLS_DOUBLE);

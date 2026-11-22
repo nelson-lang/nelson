@@ -70,7 +70,7 @@ namespace {
     asDoubleMatrix(const ArrayOf& value, const std::wstring& message)
     {
         if (!value.isNumeric() || value.isSparse() || !value.isReal() || !value.is2D()) {
-            Error(L"Nelson:statistics:invalidValue", message);
+            RaiseError(message, L"Nelson:statistics:invalidValue");
         }
         ArrayOf copy = value;
         copy.promoteType(NLS_DOUBLE);
@@ -101,7 +101,7 @@ namespace {
                 return scalar != 0;
             }
         }
-        Error(L"Nelson:statistics:invalidValue", message);
+        RaiseError(message, L"Nelson:statistics:invalidValue");
         return false;
     }
     //=============================================================================
@@ -109,7 +109,7 @@ namespace {
     scalarDouble(const ArrayOf& value, const std::wstring& message)
     {
         if (!value.isNumeric() || value.isSparse() || !value.isReal() || !value.isScalar()) {
-            Error(L"Nelson:statistics:invalidValue", message);
+            RaiseError(message, L"Nelson:statistics:invalidValue");
         }
         return value.asDoubleScalar();
     }
@@ -119,7 +119,7 @@ namespace {
     {
         double scalar = scalarDouble(value, message);
         if (!std::isfinite(scalar) || scalar < 1 || std::floor(scalar) != scalar) {
-            Error(L"Nelson:statistics:invalidValue", message);
+            RaiseError(message, L"Nelson:statistics:invalidValue");
         }
         return static_cast<indexType>(scalar);
     }
@@ -162,7 +162,7 @@ namespace {
     {
         ArrayOf copy = asDoubleMatrix(value, message);
         if (!copy.isVector() || copy.elementCount() != columns) {
-            Error(L"Nelson:statistics:invalidValue", message);
+            RaiseError(message, L"Nelson:statistics:invalidValue");
         }
         const double* ptr = static_cast<const double*>(copy.dataPointer());
         return std::vector<double>(ptr, ptr + columns);

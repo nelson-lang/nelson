@@ -94,17 +94,17 @@ matrixValues(const ArrayOf& value, indexType n, const std::wstring& typeMessage,
     const std::wstring& sizeMessage)
 {
     if (value.rows() != n || value.columns() != n) {
-        Error(L"Nelson:ode_solvers:sizeMismatch", sizeMessage);
+        RaiseError(sizeMessage, L"Nelson:ode_solvers:sizeMismatch");
     }
     if (value.isSparse()) {
         if (value.dataClass() != NLS_DOUBLE || !value.isReal()) {
-            Error(L"Nelson:ode_solvers:invalidType", typeMessage);
+            RaiseError(typeMessage, L"Nelson:ode_solvers:invalidType");
         }
         return sparseMatrixValues<double>(value, n);
     }
     std::vector<double> values = realDoubleVector(value, typeMessage);
     if (values.size() != static_cast<size_t>(n * n)) {
-        Error(L"Nelson:ode_solvers:sizeMismatch", sizeMessage);
+        RaiseError(sizeMessage, L"Nelson:ode_solvers:sizeMismatch");
     }
     return values;
 }
@@ -114,17 +114,17 @@ matrixDiagonalValues(const ArrayOf& value, indexType n, const std::wstring& type
     const std::wstring& sizeMessage)
 {
     if (value.rows() != n || value.columns() != n) {
-        Error(L"Nelson:ode_solvers:sizeMismatch", sizeMessage);
+        RaiseError(sizeMessage, L"Nelson:ode_solvers:sizeMismatch");
     }
     if (value.isSparse()) {
         if (value.dataClass() != NLS_DOUBLE || !value.isReal()) {
-            Error(L"Nelson:ode_solvers:invalidType", typeMessage);
+            RaiseError(typeMessage, L"Nelson:ode_solvers:invalidType");
         }
         return sparseDiagonalValues<double>(value, n);
     }
     std::vector<double> values = realDoubleVector(value, typeMessage);
     if (values.size() != static_cast<size_t>(n * n)) {
-        Error(L"Nelson:ode_solvers:sizeMismatch", sizeMessage);
+        RaiseError(sizeMessage, L"Nelson:ode_solvers:sizeMismatch");
     }
     std::vector<double> diagonal(static_cast<size_t>(n));
     for (indexType k = 0; k < n; ++k) {

@@ -104,7 +104,7 @@ DeleteHandleObjects(
         return false;
     }
     if (A.isEmpty()) {
-        Error(L"Nelson:types:handleExpected", validHandleExpectedMsg);
+        RaiseError(validHandleExpectedMsg, L"Nelson:types:handleExpected");
         return false;
     }
 
@@ -120,7 +120,7 @@ DeleteHandleObjects(
             continue;
         }
         if (hlObj->category() != expectedCategory) {
-            Error(L"Nelson:types:handleExpected", handleExpectedMsg);
+            RaiseError(handleExpectedMsg, L"Nelson:types:handleExpected");
             continue;
         }
         auto* obj = dynamic_cast<T*>(hlObj);

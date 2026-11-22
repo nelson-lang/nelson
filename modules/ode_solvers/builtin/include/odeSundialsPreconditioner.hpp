@@ -386,10 +386,10 @@ sparsePatternFromMatrix(const ArrayOf& value, indexType n, const std::wstring& t
     const std::wstring& sizeMessage)
 {
     if (value.rows() != n || value.columns() != n) {
-        Error(L"Nelson:ode_solvers:sizeMismatch", sizeMessage);
+        RaiseError(sizeMessage, L"Nelson:ode_solvers:sizeMismatch");
     }
     if (value.dataClass() != NLS_DOUBLE || !value.isReal() || !value.isSparse()) {
-        Error(L"Nelson:ode_solvers:invalidType", typeMessage);
+        RaiseError(typeMessage, L"Nelson:ode_solvers:invalidType");
     }
     std::vector<std::vector<indexType>> rowColumns(static_cast<size_t>(n));
     std::vector<std::vector<indexType>> columnRows(static_cast<size_t>(n));

@@ -183,7 +183,7 @@ Evaluator::minusOperator(const ArrayOfVector& args)
             Nelson::resolveMessageTemplate("Nelson:interpreter:operatorSupportedOperandsType",
                 "Operator '%s' is not supported for operands of type '%s'."),
             "-", ClassToString(commonType));
-        Error("Nelson:UndefinedFunction", msg);
+        RaiseError(msg, "Nelson:UndefinedFunction");
     } break;
     }
     return res;

@@ -10,6 +10,9 @@ find_package(Qt6 6.2 REQUIRED COMPONENTS Widgets OpenGLWidgets)
 
 set(GRAPHICS_QT_DIR "${CMAKE_CURRENT_LIST_DIR}/../..")
 
+# nlsQtWarnings.h (shared C5240 silencer) lives in the commons module.
+include_directories("${GRAPHICS_QT_DIR}/../commons/src/include")
+
 add_executable(graphics_qt_key_event_tests
   key_event_tests.cpp
 )

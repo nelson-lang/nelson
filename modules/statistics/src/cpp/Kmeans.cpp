@@ -74,7 +74,7 @@ std::wstring
 textScalar(const ArrayOf& value, const std::wstring& message)
 {
     if (!isTextScalar(value)) {
-        Error(L"Nelson:statistics:invalidValue", message);
+        RaiseError(message, L"Nelson:statistics:invalidValue");
     }
     std::wstring text = value.asWideString();
     std::transform(text.begin(), text.end(), text.begin(), std::towlower);
@@ -205,14 +205,14 @@ double
 positiveScalar(const ArrayOf& value, const std::wstring& message, bool integerOnly)
 {
     if (!value.isNumeric() || value.isSparse() || !value.isReal() || !value.isScalar()) {
-        Error(L"Nelson:statistics:invalidValue", message);
+        RaiseError(message, L"Nelson:statistics:invalidValue");
     }
     double scalar = value.asDoubleScalar();
     if (!std::isfinite(scalar) || scalar <= 0.0) {
-        Error(L"Nelson:statistics:invalidValue", message);
+        RaiseError(message, L"Nelson:statistics:invalidValue");
     }
     if (integerOnly && std::floor(scalar) != scalar) {
-        Error(L"Nelson:statistics:invalidValue", message);
+        RaiseError(message, L"Nelson:statistics:invalidValue");
     }
     return scalar;
 }
@@ -221,7 +221,7 @@ ArrayOf
 realDoubleMatrix(ArrayOf value, const std::wstring& message)
 {
     if (!value.isNumeric() || value.isSparse() || !value.isReal() || !value.is2D()) {
-        Error(L"Nelson:statistics:invalidValue", message);
+        RaiseError(message, L"Nelson:statistics:invalidValue");
     }
     value.promoteType(NLS_DOUBLE);
     return value;
@@ -440,7 +440,7 @@ parseOnOff(const ArrayOf& value, const std::wstring& message)
     if (matches(text, L"off")) {
         return false;
     }
-    Error(L"Nelson:statistics:invalidValue", message);
+    RaiseError(message, L"Nelson:statistics:invalidValue");
     return false;
 }
 //=============================================================================

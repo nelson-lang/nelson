@@ -94,7 +94,7 @@ Evaluator::colonUnitOperator(const ArrayOf& A, const ArrayOf& B)
             Nelson::resolveMessageTemplate("Nelson:interpreter:operatorSupportedOperandsType",
                 "Operator '%s' is not supported for operands of type '%s'."),
             ":", ClassToString(commonType));
-        Error("Nelson:UndefinedFunction", msg);
+        RaiseError(msg, "Nelson:UndefinedFunction");
     }
     ArrayOf _A(A);
     ArrayOf _B(B);
@@ -139,7 +139,7 @@ Evaluator::colonOperator(const ArrayOf& A, const ArrayOf& B, const ArrayOf& C)
             Nelson::resolveMessageTemplate("Nelson:interpreter:operatorSupportedOperandsType",
                 "Operator '%s' is not supported for operands of type '%s'."),
             ":", ClassToString(commonType));
-        Error("Nelson:UndefinedFunction", msg);
+        RaiseError(msg, "Nelson:UndefinedFunction");
     }
     bool needToOverload;
 
