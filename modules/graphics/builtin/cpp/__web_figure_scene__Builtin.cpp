@@ -57,7 +57,7 @@ __web_figure_scene__Builtin(int nLhs, const ArrayOfVector& argIn)
     const std::wstring filename = argIn[1].asWideString();
     const FileSystemWrapper::Path path(filename);
     if (!path.parent_path().empty() && !path.parent_path().is_directory()) {
-        Error(L"Nelson:graphics:cannotWriteFile", L"Parent directory does not exist: %s",
+        Error(L"Nelson:graphics:parentDirectoryDoesNotExist", L"Parent directory does not exist: %s",
             path.parent_path().generic_wstring());
     }
 
