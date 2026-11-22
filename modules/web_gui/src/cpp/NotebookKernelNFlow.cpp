@@ -16,7 +16,8 @@ namespace Nelson {
 //=============================================================================
 NotebookKernelNFlow::NotebookKernelNFlow(
     PushFn push, ResultWriter writeResult, ErrorWriter writeError)
-    : m_push(std::move(push)), m_writeResult(std::move(writeResult))
+    : m_push(std::move(push))
+    , m_writeResult(std::move(writeResult))
     , m_writeError(std::move(writeError))
 {
     const std::wstring libName = L"libnlsNflow_gui_builtin" + get_dynamic_library_extensionW();

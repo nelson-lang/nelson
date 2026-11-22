@@ -753,8 +753,8 @@ WebGuiServer::installFigureRpcHooks()
             if (server->inlineFigureCaptureActive() || server->isNotebookFigure(handle)) {
                 return;
             }
-            server->pushJson("figure.visible",
-                nlohmann::json { { "handle", handle }, { "visible", visible } });
+            server->pushJson(
+                "figure.visible", nlohmann::json { { "handle", handle }, { "visible", visible } });
         },
         this);
 }

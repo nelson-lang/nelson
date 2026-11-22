@@ -27,8 +27,7 @@ getNFlowDistributionDirectory()
         return ModulePath(L"nflow_gui", GET_ROOT_PATH) + L"/dist";
     } catch (...) {
     }
-    const std::wstring modulesDir
-        = NelsonConfiguration::getInstance()->getNelsonModulesDirectory();
+    const std::wstring modulesDir = NelsonConfiguration::getInstance()->getNelsonModulesDirectory();
     if (!modulesDir.empty()) {
         const std::wstring candidate = modulesDir + L"/nflow_gui/dist";
         // Only hand back a path that exists on disk; otherwise empty, so the caller

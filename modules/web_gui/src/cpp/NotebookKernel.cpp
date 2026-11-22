@@ -78,9 +78,7 @@ NotebookKernel::start()
         [this](const std::string& channel, const std::string& payloadJson) {
             writePush(channel, payloadJson);
         },
-        [this](const nlohmann::json& id, const nlohmann::json& result) {
-            writeResult(id, result);
-        },
+        [this](const nlohmann::json& id, const nlohmann::json& result) { writeResult(id, result); },
         [this](const nlohmann::json& id, int code, const std::string& message) {
             writeError(id, code, message);
         });
@@ -326,10 +324,10 @@ NotebookKernel::readerLoop()
         const std::string method = msg.value("method", std::string());
         const nlohmann::json params = msg.value("params", nlohmann::json::object());
         if (method == "kernel.initialize") {
-            nlohmann::json result = { { "protocolVersion", 1 },
-                { "engineVersion", NELSON_SEMANTIC_VERSION_STRING },
-                { "capabilities",
-                    { { "subscribe", false }, { "output", true }, { "figures", true } } } };
+            nlohmann::json result
+                = { { "protocolVersion", 1 }, { "engineVersion", NELSON_SEMANTIC_VERSION_STRING },
+                      { "capabilities",
+                          { { "subscribe", false }, { "output", true }, { "figures", true } } } };
             // NFlow hook: let the nflow router add its capability and dist dir.
             if (m_nflow) {
                 m_nflow->augmentInitialize(result);
@@ -351,11 +349,10 @@ NotebookKernel::readerLoop()
             // evaluator so a running cell aborts back to the prompt, exactly as the
             // desktop terminal does. Handled on the reader thread (not queued as a
             // cell) so it takes effect while a cell is still running.
-            auto* eval = static_cast<Evaluator*>(
-                NelsonConfiguration::getInstance()->getMainEvaluator());
+            auto* eval
+                = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
             if (eval != nullptr) {
-                NelsonConfiguration::getInstance()->setInterruptPending(
-                    true, eval->getID());
+                NelsonConfiguration::getInstance()->setInterruptPending(true, eval->getID());
             }
             // Also release a cell blocked in input(), so Ctrl+C escapes the prompt.
             {

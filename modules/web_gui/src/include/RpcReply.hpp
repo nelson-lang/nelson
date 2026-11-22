@@ -19,7 +19,12 @@ namespace Nelson {
 // unwrap it the same way instead of each hand-rolling the parse / error-extract.
 struct RpcReply
 {
-    enum class Kind { Ok, Error, Malformed };
+    enum class Kind
+    {
+        Ok,
+        Error,
+        Malformed
+    };
     Kind kind { Kind::Ok };
     nlohmann::json result;
     std::string message;

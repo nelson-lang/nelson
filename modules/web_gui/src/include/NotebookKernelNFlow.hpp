@@ -54,22 +54,27 @@ public:
     }
     //=============================================================================
     // True for an nflow.* method this helper should take.
-    bool handles(const std::string& method) const;
+    bool
+    handles(const std::string& method) const;
     //=============================================================================
     // Dispatch one nflow.* method and write its JSON-RPC result or error.
-    void handle(
-        const nlohmann::json& id, const std::string& method, const nlohmann::json& params);
+    void
+    handle(const nlohmann::json& id, const std::string& method, const nlohmann::json& params);
     //=============================================================================
     // Adds capabilities.nflow and, when available, nflowDistDir to a
     // kernel.initialize result.
-    void augmentInitialize(nlohmann::json& result);
+    void
+    augmentInitialize(nlohmann::json& result);
     //=============================================================================
 private:
     // Push thunk the host calls; user is this.
-    static void pushThunk(void* user, const char* channel, const char* payloadJson);
+    static void
+    pushThunk(void* user, const char* channel, const char* payloadJson);
     // Creates the host on first use (any thread; it does not touch the interpreter).
-    void ensureHost();
-    std::string distDir();
+    void
+    ensureHost();
+    std::string
+    distDir();
     //=============================================================================
     // Resolved flat C entry points (frozen contract).
     using PushFnC = void (*)(void*, const char*, const char*);

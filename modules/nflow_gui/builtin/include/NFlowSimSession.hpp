@@ -27,7 +27,8 @@ namespace Nelson::NFlowGateway {
 class BackgroundWorkerPool;
 //=============================================================================
 // How a run's partial deltas and final result reach the client.
-enum class NFlowSimDelivery {
+enum class NFlowSimDelivery
+{
     // Stream nflow.sim.partial / nflow.sim.final through the push sink.
     Push,
     // Accumulate partials and the final result for nflow.sim.poll.

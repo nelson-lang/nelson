@@ -415,18 +415,20 @@ Nelson::NFlowGateway::nflow_guiBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
                         if (!other) {
                             continue;
                         }
-                        snapshot += " {" + simDiagWindowTag(other)
-                            + " running=" + (other->session && other->session->isRunning() ? "1" : "0")
-                            + "}";
+                        snapshot += " {" + simDiagWindowTag(other) + " running="
+                            + (other->session && other->session->isRunning() ? "1" : "0") + "}";
                     }
                 }
-                simDiagLog("REJECT already_running firing=" + simDiagWindowTag(liveEntry) + " winId="
-                    + std::to_string(liveEntry && liveEntry->win ? liveEntry->win->get_window_id() : 0)
+                simDiagLog("REJECT already_running firing=" + simDiagWindowTag(liveEntry)
+                    + " winId="
+                    + std::to_string(
+                        liveEntry && liveEntry->win ? liveEntry->win->get_window_id() : 0)
                     + " runId=" + runId + " open:" + snapshot);
             },
             [entryWeak](const std::string& runId) {
                 if (simDiagVerbose()) {
-                    simDiagLog("SET running " + simDiagWindowTag(entryWeak.lock()) + " runId=" + runId);
+                    simDiagLog(
+                        "SET running " + simDiagWindowTag(entryWeak.lock()) + " runId=" + runId);
                 }
             },
             [entryWeak]() {
@@ -447,12 +449,12 @@ Nelson::NFlowGateway::nflow_guiBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         entry->creationIndex = creationCounter.fetch_add(1);
         std::lock_guard<std::mutex> lock(windowsMutex);
         // Drop entries of closed windows so the list stays bounded.
-        openWindows.erase(std::remove_if(openWindows.begin(), openWindows.end(),
-                              [](const std::shared_ptr<WindowEntry>& e) {
-                                  return !e || !e->win
-                                      || ((!e->session || !e->session->isRunning())
-                                          && !e->win->is_shown());
-                              }),
+        openWindows.erase(
+            std::remove_if(openWindows.begin(), openWindows.end(),
+                [](const std::shared_ptr<WindowEntry>& e) {
+                    return !e || !e->win
+                        || ((!e->session || !e->session->isRunning()) && !e->win->is_shown());
+                }),
             openWindows.end());
         openWindows.push_back(entry);
         winIdx = openWindows.size() - 1;
