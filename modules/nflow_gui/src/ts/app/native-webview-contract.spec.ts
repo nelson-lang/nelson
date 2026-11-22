@@ -26,10 +26,7 @@ test('nflow_gui depends on modules/webview for WebUI', () => {
     path.join(moduleDir, 'builtin/cpp/nflow_guiBuiltin.cpp'),
     'utf8'
   );
-  const simSession = readFileSync(
-    path.join(moduleDir, 'builtin/cpp/NFlowSimSession.cpp'),
-    'utf8'
-  );
+  const simSession = readFileSync(path.join(moduleDir, 'builtin/cpp/NFlowSimSession.cpp'), 'utf8');
   const simEngineRuntime = readFileSync(
     path.join(repoDir, 'modules/nflow_engine/src/cpp/SimEngineRuntime.cpp'),
     'utf8'
