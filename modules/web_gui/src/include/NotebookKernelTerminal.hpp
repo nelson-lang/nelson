@@ -9,7 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "Interface.hpp"
+#include "FrameTerminalBase.hpp"
 #include "nlsWeb_gui_exports.h"
 //=============================================================================
 namespace Nelson {
@@ -17,46 +17,28 @@ namespace Nelson {
 class NotebookKernel;
 //=============================================================================
 // Nelson::Interface for the notebook kernel. getLine() blocks until the kernel's
-// stdin reader hands it the next cell's code; the output methods are captured and
-// forwarded to the kernel as notebook.output notifications, never written to the
-// raw stdout that carries the JSON-RPC frames.
-class NLSWEB_GUI_IMPEXP NotebookKernelTerminal : public Interface
+// stdin reader hands it the next cell's code; output is forwarded to the kernel as
+// notebook.output notifications, and an error line also marks the running cell
+// failed. The shared frame-terminal boilerplate lives in FrameTerminalBase.
+class NLSWEB_GUI_IMPEXP NotebookKernelTerminal : public FrameTerminalBase
 {
 public:
     explicit NotebookKernelTerminal(NotebookKernel* kernel);
     ~NotebookKernelTerminal() override;
 
-    std::string
-    getLine(const std::string& prompt) override;
+protected:
     std::wstring
-    getLine(const std::wstring& prompt) override;
+    readLine() override;
+    void
+    emitText(const std::string& stream, const std::wstring& msg) override;
     std::wstring
-    getInput(const std::wstring& prompt) override;
-
-    size_t
-    getTerminalWidth() override;
-    size_t
-    getTerminalHeight() override;
-
+    readInput(const std::wstring& prompt) override;
     void
-    outputMessage(const std::string& msg) override;
-    void
-    outputMessage(const std::wstring& msg) override;
-    void
-    errorMessage(const std::string& msg) override;
-    void
-    errorMessage(const std::wstring& msg) override;
-    void
-    warningMessage(const std::string& msg) override;
-    void
-    warningMessage(const std::wstring& msg) override;
-
-    void
-    clearTerminal() override;
+    onErrorLine(const std::wstring& msg) override;
     bool
-    isAtPrompt() override;
+    interpreterIdle() override;
     void
-    interruptGetLineByEvent() override;
+    wakeInterpreter() override;
 
 private:
     NotebookKernel* m_kernel;

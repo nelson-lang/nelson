@@ -9,7 +9,6 @@
 //=============================================================================
 #include "NotebookKernelTerminal.hpp"
 #include "NotebookKernel.hpp"
-#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -18,89 +17,41 @@ NotebookKernelTerminal::NotebookKernelTerminal(NotebookKernel* kernel) : m_kerne
 NotebookKernelTerminal::~NotebookKernelTerminal() = default;
 //=============================================================================
 std::wstring
-NotebookKernelTerminal::getLine(const std::wstring& /*prompt*/)
+NotebookKernelTerminal::readLine()
 {
-    // The prompt is never shown: a frame channel has no echo. Each call returns
-    // the next cell's code (or a quit request on shutdown).
+    // The prompt is never shown: a frame channel has no echo. Returns the next
+    // cell's code (or a quit request on shutdown).
     return m_kernel->nextCellCode();
 }
 //=============================================================================
-std::string
-NotebookKernelTerminal::getLine(const std::string& /*prompt*/)
+void
+NotebookKernelTerminal::emitText(const std::string& stream, const std::wstring& msg)
 {
-    return wstring_to_utf8(m_kernel->nextCellCode());
+    m_kernel->emitOutput(stream, msg);
 }
 //=============================================================================
 std::wstring
-NotebookKernelTerminal::getInput(const std::wstring& prompt)
+NotebookKernelTerminal::readInput(const std::wstring& prompt)
 {
     // Interactive input(): ask the client for a line over the frame channel and
     // block until it answers (or the cell is interrupted).
     return m_kernel->requestInput(prompt);
 }
 //=============================================================================
-size_t
-NotebookKernelTerminal::getTerminalWidth()
-{
-    return DEFAULT_CONSOLE_WIDTH;
-}
-//=============================================================================
-size_t
-NotebookKernelTerminal::getTerminalHeight()
-{
-    return DEFAULT_CONSOLE_HEIGHT;
-}
-//=============================================================================
 void
-NotebookKernelTerminal::outputMessage(const std::string& msg)
-{
-    m_kernel->emitOutput("stdout", utf8_to_wstring(msg));
-}
-//=============================================================================
-void
-NotebookKernelTerminal::outputMessage(const std::wstring& msg)
-{
-    m_kernel->emitOutput("stdout", msg);
-}
-//=============================================================================
-void
-NotebookKernelTerminal::errorMessage(const std::string& msg)
-{
-    errorMessage(utf8_to_wstring(msg));
-}
-//=============================================================================
-void
-NotebookKernelTerminal::errorMessage(const std::wstring& msg)
+NotebookKernelTerminal::onErrorLine(const std::wstring& msg)
 {
     m_kernel->markCellError(msg);
-    m_kernel->emitOutput("stderr", msg);
-}
-//=============================================================================
-void
-NotebookKernelTerminal::warningMessage(const std::string& msg)
-{
-    m_kernel->emitOutput("stderr", utf8_to_wstring(msg));
-}
-//=============================================================================
-void
-NotebookKernelTerminal::warningMessage(const std::wstring& msg)
-{
-    m_kernel->emitOutput("stderr", msg);
-}
-//=============================================================================
-void
-NotebookKernelTerminal::clearTerminal()
-{
 }
 //=============================================================================
 bool
-NotebookKernelTerminal::isAtPrompt()
+NotebookKernelTerminal::interpreterIdle()
 {
     return m_kernel->isInterpreterIdle();
 }
 //=============================================================================
 void
-NotebookKernelTerminal::interruptGetLineByEvent()
+NotebookKernelTerminal::wakeInterpreter()
 {
     m_kernel->wake();
 }

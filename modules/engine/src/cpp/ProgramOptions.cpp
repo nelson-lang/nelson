@@ -500,6 +500,14 @@ ProgramOptions::parse()
                     L"debug adapter port must be between 1 and 65535."));
             return false;
         }
+        if (parsed.notebookKernelCount == 0) {
+            // --dap-port only opens the notebook kernel's TCP Debug Adapter channel,
+            // so it is meaningless (and was silently ignored) without --notebook-kernel.
+            _error = commandLineError(ProgramOptionErrorId::InvalidValue,
+                resolveMessageTemplate(L"Nelson:engine:dapPortRequiresNotebookKernel",
+                    L"--dap-port requires --notebook-kernel."));
+            return false;
+        }
         _dapPort = static_cast<int>(port);
     }
     return true;

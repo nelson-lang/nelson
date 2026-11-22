@@ -11,6 +11,7 @@
 #include "NotebookKernelNFlow.hpp"
 #include "WebGuiServer.hpp"
 #include "DapServer.hpp"
+#include "RpcReply.hpp"
 #include "MainThreadTaskQueue.hpp"
 #include "CallbackQueue.hpp"
 #include "EventQueue.hpp"
@@ -69,12 +70,6 @@ NotebookKernel::setDapServer(DapServer* dap)
 void
 NotebookKernel::start()
 {
-#ifdef _WIN32
-    // Binary stdio so Content-Length byte counts match and \r\n is never doubled
-    // (same requirement as the LSP server).
-    _setmode(_fileno(stdin), _O_BINARY);
-    _setmode(_fileno(stdout), _O_BINARY);
-#endif
     // NFlow hook: construct the optional nflow.* router. It resolves the nflow
     // host entry points at runtime, so a build without nflow leaves it inert and
     // web_gui keeps no link on the nflow stack. Push and the JSON-RPC re-wrap are
@@ -266,58 +261,17 @@ NotebookKernel::writePush(const std::string& channel, const std::string& payload
     writeNotification(channel, params);
 }
 //=============================================================================
-std::string
-NotebookKernel::readFrame()
-{
-    std::string line;
-    size_t contentLength = 0;
-    while (std::getline(std::cin, line)) {
-        if (!line.empty() && line.back() == '\r') {
-            line.pop_back();
-        }
-        if (line.empty()) {
-            break;
-        }
-        const std::string prefix = "Content-Length:";
-        if (line.rfind(prefix, 0) == 0) {
-            try {
-                contentLength = static_cast<size_t>(std::stoul(line.substr(prefix.size())));
-            } catch (...) {
-                contentLength = 0;
-            }
-        }
-    }
-    if (contentLength == 0) {
-        return {};
-    }
-    std::string body(contentLength, '\0');
-    std::cin.read(&body[0], static_cast<std::streamsize>(contentLength));
-    if (!std::cin) {
-        return {};
-    }
-    return body;
-}
-//=============================================================================
-void
-NotebookKernel::writeFrame(const std::string& body)
-{
-    std::lock_guard<std::mutex> lock(m_writeMutex);
-    const std::string header = "Content-Length: " + std::to_string(body.size()) + "\r\n\r\n";
-    std::fwrite(header.data(), 1, header.size(), stdout);
-    std::fwrite(body.data(), 1, body.size(), stdout);
-    std::fflush(stdout);
-}
-//=============================================================================
 void
 NotebookKernel::writeResult(const nlohmann::json& id, const nlohmann::json& result)
 {
-    writeFrame(nlohmann::json { { "jsonrpc", "2.0" }, { "id", id }, { "result", result } }.dump());
+    m_transport.writeFrame(
+        nlohmann::json { { "jsonrpc", "2.0" }, { "id", id }, { "result", result } }.dump());
 }
 //=============================================================================
 void
 NotebookKernel::writeError(const nlohmann::json& id, int code, const std::string& message)
 {
-    writeFrame(nlohmann::json { { "jsonrpc", "2.0" }, { "id", id },
+    m_transport.writeFrame(nlohmann::json { { "jsonrpc", "2.0" }, { "id", id },
         { "error", { { "code", code }, { "message", message } } } }
             .dump());
 }
@@ -325,7 +279,7 @@ NotebookKernel::writeError(const nlohmann::json& id, int code, const std::string
 void
 NotebookKernel::writeNotification(const std::string& method, const nlohmann::json& params)
 {
-    writeFrame(
+    m_transport.writeFrame(
         nlohmann::json { { "jsonrpc", "2.0" }, { "method", method }, { "params", params } }.dump());
 }
 //=============================================================================
@@ -341,27 +295,23 @@ NotebookKernel::handleFigureMethod(
     // envelope, then re-wrap the {id,result|error:{message}} reply as JSON-RPC 2.0.
     const nlohmann::json envelope = { { "id", id }, { "method", method }, { "params", params } };
     const std::string reply = m_server->handleRpc(envelope.dump(), 0);
-    const nlohmann::json parsed = nlohmann::json::parse(reply, nullptr, false);
-    if (parsed.is_discarded()) {
+    const RpcReply parsed = parseRpcReply(reply);
+    if (parsed.kind == RpcReply::Kind::Malformed) {
         writeError(id, -32603, "malformed figure dispatch reply");
         return;
     }
-    if (parsed.contains("error")) {
-        std::string message = "figure RPC error";
-        if (parsed["error"].is_object() && parsed["error"].contains("message")) {
-            message = parsed["error"].value("message", message);
-        }
-        writeError(id, -32000, message);
+    if (parsed.kind == RpcReply::Kind::Error) {
+        writeError(id, -32000, parsed.message.empty() ? "figure RPC error" : parsed.message);
         return;
     }
-    writeResult(id, parsed.value("result", nlohmann::json(nullptr)));
+    writeResult(id, parsed.result);
 }
 //=============================================================================
 void
 NotebookKernel::readerLoop()
 {
     while (!m_stop.load()) {
-        const std::string frame = readFrame();
+        const std::string frame = m_transport.readFrame();
         if (frame.empty()) {
             // stdin closed: ask the interpreter loop to quit.
             requestShutdown();
@@ -426,19 +376,16 @@ NotebookKernel::readerLoop()
             if (!id.is_null()) {
                 writeResult(id, nlohmann::json { { "ok", true } });
             }
-        } else if (method.rfind("figure.", 0) == 0 || method.rfind("uicontrol.", 0) == 0) {
-            handleFigureMethod(id, method, params);
-            // The dispatch may have enqueued a graphics callback (uicontrol
-            // action): wake the interpreter loop so it drains it at the prompt.
-            wake();
         } else if (m_nflow && m_nflow->handles(method)) {
             // NFlow hook: route nflow.* to the dedicated router.
             m_nflow->handle(id, method, params);
         } else {
-            // Relay every other RPC to the full WebGui dispatcher: console
-            // (term.*, completion.request), workspace.list, history.*, fs.*, ...
-            // run on the same interpreter as the cells. A dispatch may enqueue an
-            // interpreter-thread task, so wake the loop to drain it at the prompt.
+            // Relay every other RPC to the full WebGui dispatcher on the same
+            // interpreter as the cells: figure.* / uicontrol.* drive the live
+            // figures, term.* / completion.request / workspace.list / history.* /
+            // fs.* drive the console and trees. A dispatch may enqueue an
+            // interpreter-thread task or a graphics callback, so wake the loop to
+            // drain it at the prompt.
             handleFigureMethod(id, method, params);
             wake();
         }

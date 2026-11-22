@@ -9,6 +9,7 @@
 //=============================================================================
 #include "DapServer.hpp"
 #include "WebGuiServer.hpp"
+#include "RpcReply.hpp"
 #include "MainThreadTaskQueue.hpp"
 #include "CallbackQueue.hpp"
 #include "EventQueue.hpp"
@@ -189,20 +190,14 @@ DapServer::debuggerCall(const std::string& method, const nlohmann::json& params)
     const nlohmann::json envelope = { { "id", m_seq.fetch_add(1) },
         { "method", "debugger." + method }, { "params", params } };
     const std::string reply = m_server->handleRpc(envelope.dump(), 0);
-    const nlohmann::json parsed = nlohmann::json::parse(reply, nullptr, false);
-    if (parsed.is_discarded()) {
+    const RpcReply parsed = parseRpcReply(reply);
+    if (parsed.kind == RpcReply::Kind::Malformed) {
         return { { "error", "invalid debugger reply" } };
     }
-    if (parsed.contains("error")) {
-        std::string message = "debugger error";
-        if (parsed["error"].is_object() && parsed["error"].contains("message")) {
-            message = parsed["error"].value("message", message);
-        } else if (parsed["error"].is_string()) {
-            message = parsed["error"].get<std::string>();
-        }
-        return { { "error", message } };
+    if (parsed.kind == RpcReply::Kind::Error) {
+        return { { "error", parsed.message.empty() ? "debugger error" : parsed.message } };
     }
-    return parsed.value("result", nlohmann::json::object());
+    return parsed.result.is_null() ? nlohmann::json::object() : parsed.result;
 }
 //=============================================================================
 void

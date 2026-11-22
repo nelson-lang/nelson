@@ -11,7 +11,6 @@
 #include "DapServer.hpp"
 #include "Evaluator.hpp"
 #include "NelsonConfiguration.hpp"
-#include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -20,86 +19,26 @@ DapTerminal::DapTerminal(DapServer* server) : m_server(server) { }
 DapTerminal::~DapTerminal() = default;
 //=============================================================================
 std::wstring
-DapTerminal::getLine(const std::wstring& /*prompt*/)
+DapTerminal::readLine()
 {
     auto* eval = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
     return m_server->nextLine(eval);
 }
 //=============================================================================
-std::string
-DapTerminal::getLine(const std::string& prompt)
-{
-    return wstring_to_utf8(getLine(utf8_to_wstring(prompt)));
-}
-//=============================================================================
-std::wstring
-DapTerminal::getInput(const std::wstring& /*prompt*/)
-{
-    // Interactive keyboard input() is not available over the frame channel.
-    return L"";
-}
-//=============================================================================
-size_t
-DapTerminal::getTerminalWidth()
-{
-    return DEFAULT_CONSOLE_WIDTH;
-}
-//=============================================================================
-size_t
-DapTerminal::getTerminalHeight()
-{
-    return DEFAULT_CONSOLE_HEIGHT;
-}
-//=============================================================================
 void
-DapTerminal::outputMessage(const std::string& msg)
+DapTerminal::emitText(const std::string& stream, const std::wstring& msg)
 {
-    m_server->emitOutput("stdout", utf8_to_wstring(msg));
-}
-//=============================================================================
-void
-DapTerminal::outputMessage(const std::wstring& msg)
-{
-    m_server->emitOutput("stdout", msg);
-}
-//=============================================================================
-void
-DapTerminal::errorMessage(const std::string& msg)
-{
-    m_server->emitOutput("stderr", utf8_to_wstring(msg));
-}
-//=============================================================================
-void
-DapTerminal::errorMessage(const std::wstring& msg)
-{
-    m_server->emitOutput("stderr", msg);
-}
-//=============================================================================
-void
-DapTerminal::warningMessage(const std::string& msg)
-{
-    m_server->emitOutput("stderr", utf8_to_wstring(msg));
-}
-//=============================================================================
-void
-DapTerminal::warningMessage(const std::wstring& msg)
-{
-    m_server->emitOutput("stderr", msg);
-}
-//=============================================================================
-void
-DapTerminal::clearTerminal()
-{
+    m_server->emitOutput(stream, msg);
 }
 //=============================================================================
 bool
-DapTerminal::isAtPrompt()
+DapTerminal::interpreterIdle()
 {
     return m_server->isInterpreterIdle();
 }
 //=============================================================================
 void
-DapTerminal::interruptGetLineByEvent()
+DapTerminal::wakeInterpreter()
 {
     m_server->wake();
 }

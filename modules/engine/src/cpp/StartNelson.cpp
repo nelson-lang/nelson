@@ -617,25 +617,22 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
     } else {
         NelsonConfiguration::getInstance()->enableFileWatcher();
     }
-    // `nelson-adv-cli --webview`: keep the terminal REPL but render figures
-    // through the headless RenderWeb host (Qt-free) instead of Qt windows.
-    if (po.haveWebGraphics()) {
+    // The three headless figure modes (--webview, --notebook-kernel, --dap) render
+    // figures through the Qt-free RenderWeb host instead of Qt windows, so
+    // web-graphics mode underlies all of them.
+    if (po.haveWebGraphics() || po.haveNotebookKernel() || po.haveDap()) {
         NelsonConfiguration::getInstance()->setWebGraphicsMode(true);
     }
-    // `--notebook-kernel`: drive the interpreter over a stdio JSON-RPC frame
-    // channel with headless web figures. Web graphics so figures render without a
-    // window; quiet so the startup banner never reaches the frame-only stdout.
+    // `--notebook-kernel`: drive the interpreter over a stdio JSON-RPC frame channel
+    // with headless web figures (quiet, so no banner reaches the frame-only stdout).
+    // `--dap-port N` opens its TCP Debug Adapter channel so a cell can be debugged
+    // from an editor (required to accompany --notebook-kernel, checked at parse time).
     if (po.haveNotebookKernel()) {
-        NelsonConfiguration::getInstance()->setWebGraphicsMode(true);
         NelsonConfiguration::getInstance()->setNotebookKernelMode(true);
-        // `--dap-port N` opens a second channel: a TCP Debug Adapter server that
-        // shares this kernel's interpreter, so a cell can be debugged from an editor.
         NelsonConfiguration::getInstance()->setDapPort(po.getDapPort());
     }
-    // `--dap`: drive the interpreter over a stdio Debug Adapter Protocol channel
-    // with headless web figures, quiet so no banner reaches the frame-only stdout.
+    // `--dap`: drive the interpreter over a stdio Debug Adapter Protocol channel.
     if (po.haveDap()) {
-        NelsonConfiguration::getInstance()->setWebGraphicsMode(true);
         NelsonConfiguration::getInstance()->setDapMode(true);
     }
     if (_mode == NELSON_ENGINE_MODE::GUI && !po.haveNoIpc()) {

@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NotebookKernelNFlow.hpp"
+#include "RpcReply.hpp"
 #include "DynamicLibrary.hpp"
 #include "NelsonConfiguration.hpp"
 //=============================================================================
@@ -91,22 +92,16 @@ NotebookKernelNFlow::handle(
     }
     // The host answers {"result":<any>} on success or {"error":{"message":...}}
     // on failure; re-wrap it as a JSON-RPC 2.0 result or error.
-    nlohmann::json env = nlohmann::json::parse(replyStr, nullptr, false);
-    if (env.is_discarded()) {
+    const RpcReply env = parseRpcReply(replyStr);
+    if (env.kind == RpcReply::Kind::Malformed) {
         m_writeError(id, -32603, "malformed nflow dispatch reply");
         return;
     }
-    if (env.is_object() && env.contains("error")) {
-        std::string message = "nflow error";
-        if (env["error"].is_object() && env["error"].contains("message")) {
-            message = env["error"].value("message", message);
-        } else if (env["error"].is_string()) {
-            message = env["error"].get<std::string>();
-        }
-        m_writeError(id, -32000, message);
+    if (env.kind == RpcReply::Kind::Error) {
+        m_writeError(id, -32000, env.message.empty() ? "nflow error" : env.message);
         return;
     }
-    m_writeResult(id, env.value("result", nlohmann::json(nullptr)));
+    m_writeResult(id, env.result);
 }
 //=============================================================================
 void

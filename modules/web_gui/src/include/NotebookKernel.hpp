@@ -22,6 +22,7 @@
 #include <thread>
 #include <nlohmann/json.hpp>
 #include "nlsWeb_gui_exports.h"
+#include "DapTransport.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -92,12 +93,6 @@ public:
 private:
     void
     readerLoop();
-    // Reads one Content-Length framed message from stdin; empty on EOF.
-    std::string
-    readFrame();
-    // Writes one Content-Length framed message to stdout (serialized).
-    void
-    writeFrame(const std::string& body);
     void
     writeResult(const nlohmann::json& id, const nlohmann::json& result);
     void
@@ -115,8 +110,9 @@ private:
     std::thread m_readerThread;
     std::atomic<bool> m_stop { false };
 
-    // Serializes every write to stdout so frames never interleave.
-    std::mutex m_writeMutex;
+    // The stdio Content-Length frame codec (shared with the DAP transport): its
+    // constructor switches stdin/stdout to binary, and it serializes every write.
+    StdioFrameTransport m_transport;
 
     // Cell queue fed by the reader, drained by nextCellCode.
     struct Cell

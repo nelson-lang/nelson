@@ -9,7 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "Interface.hpp"
+#include "FrameTerminalBase.hpp"
 #include "nlsWeb_gui_exports.h"
 //=============================================================================
 namespace Nelson {
@@ -18,45 +18,24 @@ class DapServer;
 //=============================================================================
 // Nelson::Interface for the Debug Adapter server. getLine() asks the server for
 // the next line to run (the launched program, or a debugger command while paused
-// at a breakpoint); the output methods are forwarded as DAP `output` events,
-// never written to the raw stdout that carries the DAP frames.
-class NLSWEB_GUI_IMPEXP DapTerminal : public Interface
+// at a breakpoint); output is forwarded as DAP `output` events. There is no
+// interactive input() over the frame channel, so the base default is used. The
+// shared frame-terminal boilerplate lives in FrameTerminalBase.
+class NLSWEB_GUI_IMPEXP DapTerminal : public FrameTerminalBase
 {
 public:
     explicit DapTerminal(DapServer* server);
     ~DapTerminal() override;
 
-    std::string
-    getLine(const std::string& prompt) override;
+protected:
     std::wstring
-    getLine(const std::wstring& prompt) override;
-    std::wstring
-    getInput(const std::wstring& prompt) override;
-
-    size_t
-    getTerminalWidth() override;
-    size_t
-    getTerminalHeight() override;
-
+    readLine() override;
     void
-    outputMessage(const std::string& msg) override;
-    void
-    outputMessage(const std::wstring& msg) override;
-    void
-    errorMessage(const std::string& msg) override;
-    void
-    errorMessage(const std::wstring& msg) override;
-    void
-    warningMessage(const std::string& msg) override;
-    void
-    warningMessage(const std::wstring& msg) override;
-
-    void
-    clearTerminal() override;
+    emitText(const std::string& stream, const std::wstring& msg) override;
     bool
-    isAtPrompt() override;
+    interpreterIdle() override;
     void
-    interruptGetLineByEvent() override;
+    wakeInterpreter() override;
 
 private:
     DapServer* m_server;

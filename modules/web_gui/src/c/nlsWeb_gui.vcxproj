@@ -187,6 +187,7 @@
     <ClInclude Include="..\include\WebGuiTerminal.hpp" />
     <ClInclude Include="..\include\NotebookKernel.hpp" />
     <ClInclude Include="..\include\NotebookKernelNFlow.hpp" />
+    <ClInclude Include="..\include\FrameTerminalBase.hpp" />
     <ClInclude Include="..\include\NotebookKernelTerminal.hpp" />
     <ClInclude Include="..\include\DapServer.hpp" />
     <ClInclude Include="..\include\DapTerminal.hpp" />
@@ -250,6 +251,7 @@
     <ClCompile Include="..\cpp\WebGuiTerminal.cpp" />
     <ClCompile Include="..\cpp\NotebookKernel.cpp" />
     <ClCompile Include="..\cpp\NotebookKernelNFlow.cpp" />
+    <ClCompile Include="..\cpp\FrameTerminalBase.cpp" />
     <ClCompile Include="..\cpp\NotebookKernelTerminal.cpp" />
     <ClCompile Include="..\cpp\DapServer.cpp" />
     <ClCompile Include="..\cpp\DapTerminal.cpp" />
