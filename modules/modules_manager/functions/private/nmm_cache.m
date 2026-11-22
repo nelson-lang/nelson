@@ -135,15 +135,7 @@ function report = cacheInfo(moduleName, moduleVersion)
   end
   report.checksum = sha256(packageFile, '-file');
   if report.has_sha256
-    report.checksum_ok = strcmpi(readChecksum(checksumFile), report.checksum);
-  end
-end
-%=============================================================================
-function checksum = readChecksum(checksumFile)
-  checksum = strtrim(fileread(checksumFile));
-  separator = strfind(checksum, ' ');
-  if ~isempty(separator)
-    checksum = checksum(1:separator(1) - 1);
+    report.checksum_ok = strcmpi(nmm_sidecar_sha256(checksumFile), report.checksum);
   end
 end
 %=============================================================================

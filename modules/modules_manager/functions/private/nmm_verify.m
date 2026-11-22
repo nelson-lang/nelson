@@ -79,11 +79,7 @@ function verifyPackageChecksum(filename)
   if ~isfile(checksumFile)
     return
   end
-  expected = strtrim(fileread(checksumFile));
-  separator = strfind(expected, ' ');
-  if ~isempty(separator)
-    expected = expected(1:separator(1) - 1);
-  end
+  expected = nmm_sidecar_sha256(checksumFile);
   actual = sha256(filename, '-file');
   if ~strcmpi(expected, actual)
     nmm_error('PackageChecksumMismatch', 'Package checksum does not match.');

@@ -151,7 +151,7 @@ function verifyPackageChecksum(package_file)
   if ~isfile(checksum_file)
     return
   end
-  expected = strtrim(fileread(checksum_file));
+  expected = nmm_sidecar_sha256(checksum_file);
   actual = sha256(package_file, '-file');
   if ~strcmpi(expected, actual)
     nmm_error('PackageChecksumMismatch', 'Package checksum does not match.');
@@ -216,11 +216,7 @@ function verifyRegistryChecksum(registryFile)
   if ~isfile(checksumFile)
     nmm_error('RegistryChecksumMissing', 'Registry checksum file is missing.');
   end
-  expected = strtrim(fileread(checksumFile));
-  separator = strfind(expected, ' ');
-  if ~isempty(separator)
-    expected = expected(1:separator(1) - 1);
-  end
+  expected = nmm_sidecar_sha256(checksumFile);
   actual = sha256(registryFile, '-file');
   if ~strcmpi(expected, actual)
     nmm_error('RegistryChecksumMismatch', 'Registry checksum does not match.');

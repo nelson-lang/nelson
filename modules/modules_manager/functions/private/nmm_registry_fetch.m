@@ -216,11 +216,7 @@ function verifyChecksum(registryFile)
   if ~isfile(checksumFile)
     nmm_error('RegistryChecksumMissing', 'Registry checksum file is missing.');
   end
-  expected = strtrim(fileread(checksumFile));
-  separator = strfind(expected, ' ');
-  if ~isempty(separator)
-    expected = expected(1:separator(1) - 1);
-  end
+  expected = nmm_sidecar_sha256(checksumFile);
   if ~strcmpi(expected, sha256(registryFile, '-file'))
     nmm_error('RegistryChecksumMismatch', 'Registry checksum does not match.');
   end

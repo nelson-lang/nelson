@@ -77,6 +77,15 @@ function package_file = nmm_pack(varargin)
     lock = nmm_lock(stagingPath, '-target', target);
     validateBuiltPackageStructure(stagingPath);
     selection = computePackSelection(stagingPath, skipTests);
+    % A 'files' allowlist is a deliberate, restricted archive; only guard the
+    % accidental case (no allowlist) where help/ is dropped although required.
+    if ~hasFilesAllowlist(info) && ~selectionIncludesDirectory(selection, 'help')
+      if dryRun
+        warning('Nelson:nmm:PackHelpDirectoryMissing', '%s', packagedHelpMissingMessage());
+      else
+        nmm_error('PackHelpDirectoryMissing', packagedHelpMissingMessage());
+      end
+    end
     if dryRun
       package_file = dryRunReport(info, lock, destination_dir, ~testsRun, selection, target);
       cleanupDirectory(stagingPath);
@@ -281,6 +290,28 @@ function validateBuiltPackageStructure(module_path)
   if ~isfile([module_path, 'module-lock.json'])
     nmm_error('ModuleLockMissing', 'module-lock.json is missing.');
   end
+end
+%=============================================================================
+% The module format requires a help/ directory (nmm_validate). A binary package
+% ships only the compiled help/*.nhz, so when the build produced none the
+% selection drops help/ and the archive would fail to install; refuse it here.
+function tf = selectionIncludesDirectory(selection, dirName)
+  prefix = [dirName, '/'];
+  tf = false;
+  for k = 1:numel(selection)
+    if startsWith(selection{k}, prefix)
+      tf = true;
+      return
+    end
+  end
+end
+%=============================================================================
+function tf = hasFilesAllowlist(info)
+  tf = isstruct(info) && isfield(info, 'files') && ~isempty(info.files);
+end
+%=============================================================================
+function msg = packagedHelpMissingMessage()
+  msg = _('The archive would ship no help/ directory: the compiled help (help/*.nhz) is missing. Build the help before packaging.');
 end
 %=============================================================================
 function package_file = buildDestinationFilename(destination_dir, module_name, info, target)
