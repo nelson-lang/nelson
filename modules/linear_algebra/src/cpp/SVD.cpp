@@ -134,7 +134,8 @@ static lapack_int
 lapackSgesdd(char jobz, lapack_int m, lapack_int n, single* a, lapack_int lda, single* s, single* u,
     lapack_int ldu, single* vt, lapack_int ldvt)
 {
-    BlasThreadScope blasThreadScope(useSingleThreadBlasForSmallMatrix(m, n));
+    int threadLimit = useSingleThreadBlasForSmallMatrix(m, n) ? 1 : SVD_BANDWIDTH_THREAD_CAP;
+    BlasThreadScope blasThreadScope(threadLimit > 0, threadLimit);
     lapack_int info = 0;
     lapack_int lwork = -1;
     lapack_int minMN = std::min(m, n);
@@ -179,7 +180,8 @@ static lapack_int
 lapackZgesdd(char jobz, lapack_int m, lapack_int n, doublecomplex* a, lapack_int lda, double* s,
     doublecomplex* u, lapack_int ldu, doublecomplex* vt, lapack_int ldvt)
 {
-    BlasThreadScope blasThreadScope(useSingleThreadBlasForSmallMatrix(m, n));
+    int threadLimit = useSingleThreadBlasForSmallMatrix(m, n) ? 1 : SVD_BANDWIDTH_THREAD_CAP;
+    BlasThreadScope blasThreadScope(threadLimit > 0, threadLimit);
     lapack_int info = 0;
     lapack_int lwork = complexGesddWorkSize(jobz, m, n);
     lapack_int minMN = std::min(m, n);
@@ -204,7 +206,8 @@ static lapack_int
 lapackCgesdd(char jobz, lapack_int m, lapack_int n, singlecomplex* a, lapack_int lda, single* s,
     singlecomplex* u, lapack_int ldu, singlecomplex* vt, lapack_int ldvt)
 {
-    BlasThreadScope blasThreadScope(useSingleThreadBlasForSmallMatrix(m, n));
+    int threadLimit = useSingleThreadBlasForSmallMatrix(m, n) ? 1 : SVD_BANDWIDTH_THREAD_CAP;
+    BlasThreadScope blasThreadScope(threadLimit > 0, threadLimit);
     lapack_int info = 0;
     lapack_int lwork = complexGesddWorkSize(jobz, m, n);
     lapack_int minMN = std::min(m, n);
