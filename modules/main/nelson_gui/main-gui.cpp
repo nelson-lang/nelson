@@ -7,25 +7,29 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#ifdef _MSC_VER
-#define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
-#endif
-#include <stdlib.h>
 #include "NelsonRunner.h"
 //=============================================================================
-#ifdef _MSC_VER
+#if defined(_WIN32)
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
+#include "WebDesktopBridge.hpp"
+//=============================================================================
 int WINAPI
-WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
+wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
+{
+    const int exitCode = runNelson(__argc, __argv, NELSON_ENGINE_MODE::GUI);
+    if (Nelson::WebDesktopBridge::getInstance()->wasWebViewUnavailableAtLaunch()) {
+        MessageBoxW(nullptr, L"No WebView is available.", L"Nelson", MB_ICONERROR | MB_OK);
+    }
+    return exitCode;
+}
+//=============================================================================
 #else
 int
 main(int argc, char* argv[])
-#endif
 {
-#ifdef _MSC_VER
-    return runNelson(__argc, __argv, NELSON_ENGINE_MODE::GUI);
-#else
     return runNelson(argc, argv, NELSON_ENGINE_MODE::GUI);
-#endif
 }
+//=============================================================================
+#endif
 //=============================================================================

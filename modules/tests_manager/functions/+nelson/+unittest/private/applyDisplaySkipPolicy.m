@@ -14,13 +14,8 @@ function test_case = applyDisplaySkipPolicy(test_case)
   end
   if ~haveDisplay()
     test_case = markSkipped(test_case, 'No display');
-  elseif isRemoteDisplaySession() && ~canUseOffscreenQmlDisplay(test_case)
+  elseif isRemoteDisplaySession()
     test_case = markSkipped(test_case, 'Remote display session');
   end
-end
-%=============================================================================
-function tf = canUseOffscreenQmlDisplay(test_case)
-  tf = ismac() && endsWith(test_case.classname, '.qml_engine') ...
-    && any(strcmp(getenv('QT_QPA_PLATFORM'), {'offscreen', 'minimal'}));
 end
 %=============================================================================

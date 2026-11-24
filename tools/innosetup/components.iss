@@ -76,19 +76,17 @@ Name: {#COMPONENT_PARALLEL}; Description:{cm:PARALLEL_MODULE}; Types: full custo
 ; GUI, graphics, and editor modules
 ;==============================================================================
 #define COMPONENT_GUI 'grp_ui\GUI'
-#define COMPONENT_WEBVIEW 'grp_ui\WEBVIEW'
+#define COMPONENT_WEB_ENGINE 'grp_ui\WEB_ENGINE'
 #define COMPONENT_WEB_GUI 'grp_ui\WEB_GUI'
 #define COMPONENT_NFLOW 'grp_ui\NFLOW'
-#define COMPONENT_QML_ENGINE 'grp_ui\QML_ENGINE'
 #define COMPONENT_GRAPHICS 'grp_ui\GRAPHICS'
 #define COMPONENT_IMAGE_PROCESSING 'grp_ui\IMAGE_PROCESSING'
 #define COMPONENT_TEXT_EDITOR 'grp_ui\TEXT_EDITOR'
 Name: grp_ui; Description:{cm:CATEGORY_GUI}; Types: full custom;
 Name: {#COMPONENT_GUI}; Description:{cm:GUI_MODULE}; Types: full custom;
-Name: {#COMPONENT_WEBVIEW}; Description:{cm:WEBVIEW_MODULE}; Types: full custom;
+Name: {#COMPONENT_WEB_ENGINE}; Description:{cm:WEB_ENGINE_MODULE}; Types: full custom;
 Name: {#COMPONENT_WEB_GUI}; Description:{cm:WEB_GUI_MODULE}; Types: full custom;
 Name: {#COMPONENT_NFLOW}; Description:{cm:NFLOW_MODULE}; Types: full custom;
-Name: {#COMPONENT_QML_ENGINE}; Description:{cm:QML_ENGINE_MODULE}; Types: full custom;
 Name: {#COMPONENT_GRAPHICS}; Description:{cm:GRAPHICS_MODULE}; Types: full custom;
 Name: {#COMPONENT_IMAGE_PROCESSING}; Description:{cm:IMAGE_PROCESSING_MODULE}; Types: full custom;
 Name: {#COMPONENT_TEXT_EDITOR}; Description:{cm:TEXT_EDITOR_MODULE}; Types: full custom;

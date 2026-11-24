@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-if ismodule('webview')
+if ismodule('gui')
   __webview__('unregisterWebTool', 'nmm');
 end
 removegateway(modulepath('nmm_gui', 'builtin'));

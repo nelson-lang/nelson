@@ -77,6 +77,7 @@ target_include_directories(${module_library_builtin_name}
     ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include # GuiDialogProvider.hpp
 )
 
 target_link_libraries(${module_library_builtin_name}
@@ -87,19 +88,10 @@ target_link_libraries(${module_library_builtin_name}
     nlsError_manager
     nlsI18n
     nlsInterpreter
+    nlsNelson_manager
     nlsStream_manager
     nlsTypes
 )
-
-if(TARGET nlsGui)
-  target_compile_definitions(${module_library_builtin_name}
-    PRIVATE WITH_NELSON_GUI_PREFS
-  )
-  target_include_directories(${module_library_builtin_name}
-    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../gui/src/include
-  )
-  target_link_libraries(${module_library_builtin_name} PRIVATE nlsGui)
-endif()
 # ==============================================================================
 nelson_install_library(${module_library_name})
 nelson_install_library(${module_library_builtin_name})

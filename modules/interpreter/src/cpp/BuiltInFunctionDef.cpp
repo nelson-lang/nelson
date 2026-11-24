@@ -121,7 +121,7 @@ mustDispatchBuiltinToGuiThread(const std::wstring& moduleName)
 {
     // module name first: the service queries lock and call through the backend
     return (moduleName == L"gui" || moduleName == L"graphics" || moduleName == L"graphics_io"
-               || moduleName == L"qml_engine" || moduleName == L"text_editor")
+               || moduleName == L"text_editor")
         && hasGuiServices() && !isGuiThread();
 }
 //=============================================================================

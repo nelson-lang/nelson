@@ -41,7 +41,7 @@ enum class ProgramOptionId
     WebUrl,
     WebPort,
     WebServer,
-    WebGraphics,
+    Headless,
     NotebookKernel,
     Dap,
     DapPort,
@@ -101,7 +101,7 @@ struct ParsedProgramOptions
     int noipcCount = 0;
     int withoutFileWatcherCount = 0;
     int webServerCount = 0;
-    int webGraphicsCount = 0;
+    int headlessCount = 0;
     int notebookKernelCount = 0;
     int dapCount = 0;
     std::string dapPortValue;
@@ -161,7 +161,7 @@ programOptionDefinitions()
                 ProgramOptionId::WebPort, L"port", L"", ProgramOptionMode::Web, true, false },
             ProgramOptionDefinition {
                 ProgramOptionId::WebServer, L"web", L"", ProgramOptionMode::Web, false, false },
-            ProgramOptionDefinition { ProgramOptionId::WebGraphics, L"webview", L"",
+            ProgramOptionDefinition { ProgramOptionId::Headless, L"headless", L"",
                 ProgramOptionMode::AdvTerminal, false, false },
             ProgramOptionDefinition { ProgramOptionId::NotebookKernel, L"notebook-kernel", L"",
                 ProgramOptionMode::AdvTerminal, false, false },
@@ -338,7 +338,7 @@ ProgramOptions::resetParsedState()
     _withoutFileWatcher = false;
     _minimize = false;
     _webServerMode = false;
-    _webGraphics = false;
+    _headless = false;
     _notebookKernel = false;
     _dap = false;
     _dapPort = 0;
@@ -385,7 +385,7 @@ ProgramOptions::parse()
             return false;
         }
         const std::wstring optionName = optionNameWithoutInlineValue(_args[k]);
-        if (_mode != NELSON_ENGINE_MODE::WEB_GUI
+        if (_mode != NELSON_ENGINE_MODE::GUI
             && (optionName == L"--url" || optionName == L"--port")) {
             _error = commandLineError(ProgramOptionErrorId::WebModeRequired,
                 Nelson::resolveMessageTemplate(L"Nelson:engine:urlPortOptionsRequire",
@@ -427,7 +427,7 @@ ProgramOptions::parse()
     _ipc = parsed.noipcCount > 0;
     _withoutFileWatcher = parsed.withoutFileWatcherCount > 0;
     _webServerMode = parsed.webServerCount > 0;
-    _webGraphics = parsed.webGraphicsCount > 0;
+    _headless = parsed.headlessCount > 0;
     _notebookKernel = parsed.notebookKernelCount > 0;
     _dap = parsed.dapCount > 0;
     _quietmode = parsed.quietCount > 0;
@@ -688,9 +688,9 @@ ProgramOptions::haveWebServerMode()
 }
 //=============================================================================
 bool
-ProgramOptions::haveWebGraphics()
+ProgramOptions::haveHeadless()
 {
-    return _isvalid && _webGraphics;
+    return _isvalid && _headless;
 }
 //=============================================================================
 bool
@@ -847,8 +847,8 @@ addOptionToParser(
     case ProgramOptionId::WebServer:
         app.add_flag(optionNames, parsed.webServerCount, description);
         break;
-    case ProgramOptionId::WebGraphics:
-        app.add_flag(optionNames, parsed.webGraphicsCount, description);
+    case ProgramOptionId::Headless:
+        app.add_flag(optionNames, parsed.headlessCount, description);
         break;
     case ProgramOptionId::NotebookKernel:
         app.add_flag(optionNames, parsed.notebookKernelCount, description);
@@ -868,13 +868,8 @@ addOptionToParser(
 static bool
 isModeSelector(const std::wstring& arg, NELSON_ENGINE_MODE mode)
 {
-    if (arg == L"--webview") {
-        // On the advanced terminal `--webview` is the web graphics option, not a
-        // launcher mode selector.
-        return mode != NELSON_ENGINE_MODE::ADVANCED_TERMINAL;
-    }
     if (arg == L"--web") {
-        return mode != NELSON_ENGINE_MODE::WEB_GUI;
+        return mode != NELSON_ENGINE_MODE::GUI;
     }
     return arg == L"--cli" || arg == L"--adv-cli" || arg == L"--gui";
 }
@@ -961,7 +956,7 @@ isOptionAvailable(const ProgramOptionDefinition& definition, NELSON_ENGINE_MODE 
     case ProgramOptionMode::Gui:
         return mode == NELSON_ENGINE_MODE::GUI;
     case ProgramOptionMode::Web:
-        return mode == NELSON_ENGINE_MODE::WEB_GUI;
+        return mode == NELSON_ENGINE_MODE::GUI;
     case ProgramOptionMode::AdvTerminal:
         return mode == NELSON_ENGINE_MODE::ADVANCED_TERMINAL;
     }
@@ -1010,8 +1005,8 @@ optionDescription(ProgramOptionId id)
         return _W("web server port (1..65535)");
     case ProgramOptionId::WebServer:
         return _W("start in web server mode");
-    case ProgramOptionId::WebGraphics:
-        return _W("render figures with the web backend (no Qt figure windows)");
+    case ProgramOptionId::Headless:
+        return _W("render figures offscreen only, without opening a window");
     case ProgramOptionId::DapPort:
         return _W("debug adapter TCP port for the notebook kernel (1..65535)");
     case ProgramOptionId::WithoutFileWatcher:

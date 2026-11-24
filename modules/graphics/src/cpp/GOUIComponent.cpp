@@ -82,7 +82,7 @@ GOUIComponent::~GOUIComponent()
 void
 GOUIComponent::updateState()
 {
-    // Headless host (WEB_GUI): no widget backend is registered. The web path only
+    // Headless host (desktop): no widget backend is registered. The web path only
     // reads and writes properties.
     if (!binding && parentGoWindow && !parentGoWindow->isHeadlessHost()
         && uiComponentBindingFactory) {
@@ -592,6 +592,55 @@ uiNamedIconEmoji(GraphicsObject* object)
     return std::string();
 }
 //=============================================================================
+// A true-color Icon given as an H x W x 3 (or x 4) matrix becomes packed RGBA8, row-major.
+// A floating matrix is read in [0, 1], an integer or logical one in [0, 255]. Returns false
+// for a named icon, a file-path icon or an empty one.
+static bool
+uiTrueColorIcon(GraphicsObject* object, std::vector<unsigned char>& rgba, int& width, int& height)
+{
+    GOGenericProperty* iconProperty = object->findProperty(GO_ICON_PROPERTY_NAME_STR, false);
+    if (iconProperty == nullptr) {
+        return false;
+    }
+    ArrayOf icon = iconProperty->get();
+    if (icon.isEmpty() || !(icon.isNumeric() || icon.isLogical())
+        || icon.dimensions().length() != 3) {
+        return false;
+    }
+    const indexType channels = icon.dimensionLength(2);
+    if (channels != 3 && channels != 4) {
+        return false;
+    }
+    const indexType rows = icon.rows();
+    const indexType cols = icon.columns();
+    if (rows == 0 || cols == 0) {
+        return false;
+    }
+    const bool integerValues = icon.isIntegerType() || icon.isLogical();
+    icon.promoteType(NLS_DOUBLE);
+    const double* data = static_cast<const double*>(icon.dataPointer());
+    const size_t plane = static_cast<size_t>(rows) * cols;
+    rgba.assign(plane * 4, 255);
+    for (indexType r = 0; r < rows; ++r) {
+        for (indexType c = 0; c < cols; ++c) {
+            const size_t dst = (static_cast<size_t>(r) * cols + c) * 4;
+            for (indexType ch = 0; ch < channels; ++ch) {
+                // Column-major source: element (r, c, ch) at r + c*rows + ch*rows*cols.
+                double v
+                    = data[r + static_cast<size_t>(c) * rows + static_cast<size_t>(ch) * plane];
+                if (!integerValues) {
+                    v *= 255.0;
+                }
+                long iv = std::lround(v);
+                rgba[dst + ch] = static_cast<unsigned char>(iv < 0 ? 0 : (iv > 255 ? 255 : iv));
+            }
+        }
+    }
+    width = static_cast<int>(cols);
+    height = static_cast<int>(rows);
+    return true;
+}
+//=============================================================================
 void
 GOUIComponent::describeForWeb(RenderWeb& renderer, const std::vector<double>& position)
 {
@@ -652,6 +701,7 @@ GOUIComponent::describeForWeb(RenderWeb& renderer, const std::vector<double>& po
         if (!icon.empty()) {
             control.text = control.text.empty() ? icon : icon + " " + control.text;
         }
+        uiTrueColorIcon(this, control.iconRgba, control.iconWidth, control.iconHeight);
         control.horizontalAlignment
             = wstring_to_utf8(findStringProperty(GO_HORIZONTAL_ALIGNMENT_PROPERTY_NAME_STR));
         control.verticalAlignment

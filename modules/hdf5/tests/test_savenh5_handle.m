@@ -16,7 +16,9 @@ end
 %=============================================================================
 % handle
 %=============================================================================
-h = errordlg();
+% A graphics handle cannot be serialized. Use a figure handle directly: dialog
+% helpers return an empty handle when a desktop renders them in the browser.
+h = figure('Visible', 'off');
 asserts.checkerror('savenh5(test_h5save_file, ''h'');', sprintf(_('Cannot save variable: %s'), 'h'));
 delete(h);
 %=============================================================================

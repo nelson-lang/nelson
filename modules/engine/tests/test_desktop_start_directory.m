@@ -9,7 +9,7 @@
 %=============================================================================
 % <--WEIGHT 4-->
 binpath = modulepath('nelson', 'bin');
-nelson_web = [binpath, '/nelson-webview'];
+nelson_web = [binpath, '/nelson-gui'];
 if ispc()
   nelson_web = [nelson_web, '.exe'];
 end

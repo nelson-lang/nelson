@@ -17,7 +17,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::GuiGateway::inserthtmlBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+Nelson::WebviewGateway::inserthtmlBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 0);
@@ -30,7 +30,7 @@ Nelson::GuiGateway::inserthtmlBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         Interface* io = eval->getInterface();
         if (io) {
             // Through the Interface: casting to the Qt terminal was undefined
-            // behaviour under any other front end (web desktop, adv-cli).
+            // behaviour under any other front end (desktop, adv-cli).
             if (!io->insertHtml(param1.asWideString())) {
                 Error(L"Nelson:inserthtml:notSupportedTerminal",
                     L"HTML display is not supported by this terminal.");

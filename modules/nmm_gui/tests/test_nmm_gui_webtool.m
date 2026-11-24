@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % The package manager registers itself as the 'nmm' web tool at startup: the
-% web desktop panel sends the same requests as the package manager window.
+% desktop panel sends the same requests as the package manager window.
 %=============================================================================
 % <--GUI MODE-->
 %=============================================================================

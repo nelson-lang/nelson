@@ -84,6 +84,7 @@
 #include "__figure_mouse_event__Builtin.hpp"
 #include "__uicomponent_event__Builtin.hpp"
 #include "__figure_native_geometry__Builtin.hpp"
+#include "__native_screen_info__Builtin.hpp"
 #include "__uicontrol_key_event__Builtin.hpp"
 #include "collapseBuiltin.hpp"
 #include "expandBuiltin.hpp"
@@ -96,6 +97,7 @@
 #include "uitreenodeBuiltin.hpp"
 #include "uicontextmenuBuiltin.hpp"
 #include "uicontrolBuiltin.hpp"
+#include "uiprogressdlgBuiltin.hpp"
 #include "uidatepickerBuiltin.hpp"
 #include "uidropdownBuiltin.hpp"
 #include "uieditfieldBuiltin.hpp"
@@ -338,6 +340,8 @@ static const nlsGateway gateway[] = {
     { "__figure_native_geometry__",
         (ptrBuiltin)Nelson::GraphicsGateway::__figure_native_geometry__Builtin, 1, 1, CPP_BUILTIN,
         NLS_OVERLOAD_AUTO_OFF },
+    { "__native_screen_info__", (ptrBuiltin)Nelson::GraphicsGateway::__native_screen_info__Builtin,
+        1, 0, CPP_BUILTIN, NLS_OVERLOAD_AUTO_OFF },
     { "__uicontrol_key_event__",
         (ptrBuiltin)Nelson::GraphicsGateway::__uicontrol_key_event__Builtin, 1, 2, CPP_BUILTIN,
         NLS_OVERLOAD_AUTO_OFF },
@@ -442,6 +446,8 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN },
     { "uicheckbox", (ptrBuiltin)Nelson::GraphicsGateway::uicheckboxBuiltin, -1, -1, CPP_BUILTIN },
     { "uicontrol", (ptrBuiltin)Nelson::GraphicsGateway::uicontrolBuiltin, -1, -1, CPP_BUILTIN },
+    { "uiprogressdlg", (ptrBuiltin)Nelson::GraphicsGateway::uiprogressdlgBuiltin, 1, -2,
+        CPP_BUILTIN },
     { "uidatepicker", (ptrBuiltin)Nelson::GraphicsGateway::uidatepickerBuiltin, -1, -1,
         CPP_BUILTIN },
     { "uidropdown", (ptrBuiltin)Nelson::GraphicsGateway::uidropdownBuiltin, -1, -1, CPP_BUILTIN },

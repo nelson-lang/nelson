@@ -11,13 +11,12 @@
 #include "Error.hpp"
 #include "ErrorID.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#ifndef __EMSCRIPTEN__
-#include "TextEditor.hpp"
-#endif
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-// __editor__(action, ...) drives the text editor headlessly for the tests
+// __editor__(action, ...) drove the embedded editor headlessly for the tests.
+// The embedded editor is served by the desktop (Monaco), which has no such
+// hook, so the headless hook is unavailable here.
 ArrayOfVector
 Nelson::TextEditorGateway::editorHookBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
@@ -27,17 +26,7 @@ Nelson::TextEditorGateway::editorHookBuiltin(Evaluator* eval, int nLhs, const Ar
         Error(L"Nelson:editor:invalidArgument:wrongTypeInputArgument",
             L"Wrong type for input argument #%d.", 1);
     }
-#ifdef __EMSCRIPTEN__
     Error(L"Nelson:editor:hookUnavailable", L"The text editor hook is unavailable.");
     return {};
-#else
-    std::wstring action = argIn[0].asWideString();
-    // the action's own arguments (ListVector has no range constructor)
-    ArrayOfVector arguments;
-    for (size_t k = 1; k < argIn.size(); ++k) {
-        arguments.push_back(argIn[k]);
-    }
-    return textEditorHook(eval, action, arguments);
-#endif
 }
 //=============================================================================

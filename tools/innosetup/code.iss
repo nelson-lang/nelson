@@ -146,8 +146,7 @@ begin
     ModulesList.Add(ExpandConstant('{#COMPONENT_CONTROL_SYSTEM}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_FFTW}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_GUI}'));
-    ModulesList.Add(ExpandConstant('{#COMPONENT_WEBVIEW}'));
-    ModulesList.Add(ExpandConstant('{#COMPONENT_QML_ENGINE}'));
+    ModulesList.Add(ExpandConstant('{#COMPONENT_WEB_ENGINE}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_GRAPHICS}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_TEXT_EDITOR}'));
     ModulesList.Add(ExpandConstant('{#COMPONENT_TESTS_MANAGER}'));
@@ -214,9 +213,9 @@ begin
 
   // These modules ship under a component whose leaf name differs from the module
   // name, so the loop above does not configure them: graphics_io follows the
-  // GRAPHICS component, nmm_gui follows WEBVIEW.
+  // GRAPHICS component, nmm_gui follows WEB_ENGINE.
   configureModuleFlag('graphics_io', WizardIsComponentSelected(ExpandConstant('{#COMPONENT_GRAPHICS}')));
-  configureModuleFlag('nmm_gui', WizardIsComponentSelected(ExpandConstant('{#COMPONENT_WEBVIEW}')));
+  configureModuleFlag('nmm_gui', WizardIsComponentSelected(ExpandConstant('{#COMPONENT_WEB_ENGINE}')));
   configureModule(ExpandConstant('{#COMPONENT_COMPILER}'), 'compiler');
 
   // history_manager's core library is linked by the terminal, but its builtin
@@ -397,13 +396,12 @@ begin
   if (CurPageID = wpSelectComponents) then
   begin
     // Missing dependencies are auto-selected instead of blocking with an error.
-    // GUI is required by QML_ENGINE, TEXT_EDITOR and GRAPHICS.
-    EnsureDependency('{#COMPONENT_GUI}', '{#COMPONENT_QML_ENGINE}');
+    // GUI is required by TEXT_EDITOR and GRAPHICS.
     EnsureDependency('{#COMPONENT_GUI}', '{#COMPONENT_TEXT_EDITOR}');
     EnsureDependency('{#COMPONENT_GUI}', '{#COMPONENT_GRAPHICS}');
-    // WEBVIEW is required by WEB_GUI and NFLOW.
-    EnsureDependency('{#COMPONENT_WEBVIEW}', '{#COMPONENT_WEB_GUI}');
-    EnsureDependency('{#COMPONENT_WEBVIEW}', '{#COMPONENT_NFLOW}');
+    // WEB_ENGINE is required by WEB_GUI and NFLOW.
+    EnsureDependency('{#COMPONENT_WEB_ENGINE}', '{#COMPONENT_WEB_GUI}');
+    EnsureDependency('{#COMPONENT_WEB_ENGINE}', '{#COMPONENT_NFLOW}');
     // NFLOW (nflow_fmi) statically links the file archiver to unpack FMUs, so it
     // cannot run against the stub shipped when FILE_ARCHIVER is deselected.
     EnsureDependency('{#COMPONENT_FILE_ARCHIVER}', '{#COMPONENT_NFLOW}');

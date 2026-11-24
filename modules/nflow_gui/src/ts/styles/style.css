@@ -1,5 +1,5 @@
-@import url('../../../../webview/frontend/examples/gallery-shared.css');
-@import url('../../../../webview/frontend/assistant/assistant-pane.css');
+@import url('../../../../web_engine/frontend/examples/gallery-shared.css');
+@import url('../../../../web_engine/frontend/assistant/assistant-pane.css');
 
 * {
   box-sizing: border-box;
@@ -4053,7 +4053,7 @@ select option {
 }
 
 /* ==========================================================================
-   Example Browser: the shared examples gallery (webview/frontend/examples)
+   Example Browser: the shared examples gallery (web_engine/frontend/examples)
    hosted in a light-dismiss sheet over the editor.
    ========================================================================== */
 .nf-ex-overlay {

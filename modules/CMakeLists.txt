@@ -54,6 +54,7 @@ set(_core_modules
   ipc
   file_archiver
   notebook
+  text_editor
   font_metrics
   render_web
 )
@@ -62,12 +63,8 @@ set(_core_modules
 # ==============================================================================
 set(_optional_modules_upper
   F2C
-  GUI
   TEXT_COMPLETION
-  QML_ENGINE
   GRAPHICS
-  RENDER_QT
-  GRAPHICS_QT
   GRAPHICS_IO
   TEXT_EDITOR
   FFTW
@@ -75,7 +72,7 @@ set(_optional_modules_upper
   MPI
   AUDIO
   WEBTOOLS
-  WEBVIEW
+  WEB_ENGINE
   PARALLEL
   DATA_ANALYSIS
   CATEGORICAL
@@ -114,10 +111,6 @@ set(_optional_modules_upper
 )
 
 if(NELSON_PORTABLE_BUILD)
-  if(NELSON_WASM_BUILD)
-    # The browser uses the portable editor gateway without the desktop GUI.
-    set(WITHOUT_TEXT_EDITOR_MODULE OFF)
-  endif()
   # Positive module selection for the portable runtime. This first closure
   # preserves the current engine dependencies; later portability work can move
   # native services behind adapters and remove them from this list.
@@ -161,8 +154,8 @@ if(NELSON_PORTABLE_BUILD)
     history_manager
     terminal
     text_completion
-    text_editor
     notebook
+    text_editor
     handle
     engine
     profiler
@@ -349,10 +342,10 @@ else()
     endif()
   endforeach()
 
-  # web_gui is opt-in (OFF by default) — see modules/web_gui/INTEGRATION.md
-  if(WITH_WEB_GUI_MODULE)
+  # gui (desktop) is built by default — see modules/gui/INTEGRATION.md
+  if(WITH_GUI_MODULE)
     list(APPEND _all_modules
-      web_gui
+      gui
     )
   endif()
 

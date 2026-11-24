@@ -337,7 +337,7 @@ function [textures, spriteColor, spriteAlpha, weaponColor, weaponAlpha] = ...
   [weaponColor, ~, weaponAlpha] = imread(...
     fullfile(assetRoot, 'weapon_render.png'));
   % The 768x512 renders far exceed the 400x225 frame: keep every 4th pixel so each
-  % frame stays light enough for the web desktop to stream at the target rate.
+  % frame stays light enough for the desktop to stream at the target rate.
   step = 4;
   spriteColor = double(spriteColor(1:step:end, 1:step:end, :)) / 255;
   spriteAlpha = double(spriteAlpha(1:step:end, 1:step:end)) / 255;

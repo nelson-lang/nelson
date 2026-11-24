@@ -21,6 +21,10 @@
   <description>
     <p>
       <b>htmltopdf</b> convertit une page HTML en PDF.</p>
+    <p>La conversion utilise le moteur web du bureau : un navigateur Chromium sans
+    interface (Edge, Chrome ou Chromium) sous Windows et Linux, et le WebKit du
+    système sous macOS. Elle est disponible dans l'environnement de bureau ; un
+    moteur compatible doit être présent, sinon la conversion n'est pas disponible.</p>
   </description>
   <used_function />
   <bibliography />

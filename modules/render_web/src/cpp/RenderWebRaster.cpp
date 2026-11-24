@@ -40,7 +40,7 @@ genericFontFamily(const std::string& cssFamily);
 // Qt-free software rasterizer for the web display list. It replays the primitives
 // FigureCanvas draws (scanline polygons, lines as quads, stb_image rasters,
 // stb_truetype text) at 2x and box-filters down for anti-aliasing. getframe and
-// the web PNG export use it in WEB_GUI mode.
+// the web PNG export use it in the desktop (GUI) mode.
 namespace {
     //=============================================================================
     struct RasterColor
@@ -467,6 +467,39 @@ controlColor(const std::string& css, const char* fallback)
     return parseCssColor(fallback);
 }
 //=============================================================================
+// A true-color button icon, scaled into the control rect (already supersampled) with its
+// aspect ratio preserved and centered, blended on top of the button box.
+static void
+rasterizeControlIcon(
+    RasterCanvas& canvas, const WebUIControl& control, double x, double y, double w, double h)
+{
+    const int iw = control.iconWidth;
+    const int ih = control.iconHeight;
+    if (iw <= 0 || ih <= 0 || control.iconRgba.size() < static_cast<size_t>(iw) * ih * 4) {
+        return;
+    }
+    const double scale = std::min(w / iw, h / ih);
+    if (!(scale > 0.0)) {
+        return;
+    }
+    const double dw = iw * scale;
+    const double dh = ih * scale;
+    const double dx = x + (w - dw) / 2.0;
+    const double dy = y + (h - dh) / 2.0;
+    const int x0 = std::max(0, static_cast<int>(std::floor(dx)));
+    const int y0 = std::max(0, static_cast<int>(std::floor(dy)));
+    const int x1 = std::min(canvas.width, static_cast<int>(std::ceil(dx + dw)));
+    const int y1 = std::min(canvas.height, static_cast<int>(std::ceil(dy + dh)));
+    for (int yy = y0; yy < y1; ++yy) {
+        const int sy = std::clamp(static_cast<int>((yy - dy) / dh * ih), 0, ih - 1);
+        for (int xx = x0; xx < x1; ++xx) {
+            const int sx = std::clamp(static_cast<int>((xx - dx) / dw * iw), 0, iw - 1);
+            const unsigned char* sp = &control.iconRgba[(static_cast<size_t>(sy) * iw + sx) * 4];
+            canvas.blend(xx, yy, RasterColor { sp[0], sp[1], sp[2], sp[3] / 255.0 });
+        }
+    }
+}
+//=============================================================================
 static void
 rasterizeControlLabel(RasterCanvas& canvas, const WebUIControl& control, double x, double y,
     const std::string& align, const std::string& text, const RasterColor& color)
@@ -623,6 +656,7 @@ rasterizeControl(RasterCanvas& canvas, const WebUIControl& control, int supersam
         const double labelY = vAlign == "top" ? control.y + 4.0 + fontSize * 0.9
             : vAlign == "bottom"              ? control.y + control.h - 4.0 - fontSize * 0.25
                                               : baseline;
+        rasterizeControlIcon(canvas, control, x, y, w, h);
         rasterizeControlLabel(canvas, control, labelX, labelY, hAlign, labelText, fg);
     } else if (control.style == "edit") {
         const RasterColor softBorder = parseCssColor("rgb(170,170,170)");

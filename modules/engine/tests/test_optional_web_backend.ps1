@@ -67,7 +67,7 @@ function Assert-Exit($Result, [int]$Expected) {
 }
 
 function Assert-Backend($Result, [bool]$Expected) {
-    $backend = @($Result.Modules | Where-Object { [IO.Path]::GetFileName($_) -ieq 'libnlsWeb_gui.dll' })
+    $backend = @($Result.Modules | Where-Object { [IO.Path]::GetFileName($_) -ieq 'libnlsGui.dll' })
     if ([bool]$backend.Count -ne $Expected) {
         throw "$($Result.Name): unexpected Web GUI backend load state."
     }
@@ -97,7 +97,7 @@ foreach ($name in @('etc', 'modules', 'resources', 'locale')) {
         New-Item -ItemType Junction -Path (Join-Path $minimal $name) -Target $source | Out-Null
     }
 }
-$missing = Join-Path $minimalBin 'libnlsWeb_gui.dll'
+$missing = Join-Path $minimalBin 'libnlsGui.dll'
 if (Test-Path -LiteralPath $missing) { throw 'Minimal fixture unexpectedly contains the backend.' }
 $stripped = Invoke-Engine $minimalBin 'NelSon-cli.exe' @('-e', 'assert(2 + 3 == 5); pause(0.5); exit(42)') 'console-without-backend'
 Assert-Exit $stripped 42

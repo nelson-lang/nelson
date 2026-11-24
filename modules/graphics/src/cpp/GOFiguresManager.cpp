@@ -130,18 +130,18 @@ findAvailableFigureId()
     return NO_FIGURE;
 }
 //=============================================================================
-// No Qt window in the web desktop: the figure is rendered offscreen and streamed to the
+// No Qt window in the desktop: the figure is rendered offscreen and streamed to the
 // browser, so show() is never called.
 static inline bool
 isWebGuiMode()
 {
     const auto mode = NelsonConfiguration::getInstance()->getNelsonEngineMode();
-    return mode == WEB_GUI || mode == WASM_TERMINAL;
+    return mode == GUI || mode == WASM_TERMINAL;
 }
 //=============================================================================
-// True when figures use the headless RenderWeb host instead of Qt: web desktop, WebAssembly
-// terminal, or advanced terminal started with `--webview`. Server-side figure window
-// notifications stay gated on WEB_GUI alone.
+// True when figures use the headless RenderWeb host instead of Qt: desktop, WebAssembly
+// terminal, or the advanced terminal. Server-side figure window
+// notifications stay gated on GUI alone.
 static inline bool
 useWebGraphics()
 {
@@ -149,9 +149,9 @@ useWebGraphics()
 }
 //=============================================================================
 // For the interpreter's statement-boundary pump an interactive web figure counts as an open
-// Qt window: the event loop and key/mouse queue must be serviced at every statement
-// boundary, or input lags behind a running script. graphics_qt bumps the count for Qt
-// windows, this does it for web figures.
+// window: the event loop and key/mouse queue must be serviced at every statement
+// boundary, or input lags behind a running script. The native desktop backend bumps the
+// count for its windows; this does it for web figures.
 static inline void
 noteWebFigureOpened()
 {
@@ -168,37 +168,6 @@ noteWebFigureClosed()
     }
 }
 //=============================================================================
-// Hosts are built through a registered factory so the model never names a windowing type.
-// Desktop modes load the Qt adapter on first use. The web desktop loads it too: it installs
-// no factory there, only the screen metrics hooks (DevicePixelRatio, DPI, screen size).
-static FigureHostFactory hostFactory = nullptr;
-static library_handle graphicsQtLibrary = nullptr;
-static bool graphicsQtLibraryRequested = false;
-//=============================================================================
-void
-setFigureHostFactory(FigureHostFactory factory)
-{
-    hostFactory = factory;
-}
-//=============================================================================
-static void
-loadQtFigureHostFactory()
-{
-    if (hostFactory != nullptr || graphicsQtLibraryRequested) {
-        return;
-    }
-    const int mode = NelsonConfiguration::getInstance()->getNelsonEngineMode();
-    if (mode != NELSON_ENGINE_MODE::GUI && mode != NELSON_ENGINE_MODE::ADVANCED_TERMINAL
-        && mode != NELSON_ENGINE_MODE::WEB_GUI) {
-        return;
-    }
-    graphicsQtLibraryRequested = true;
-    const std::wstring libraryPath = NelsonConfiguration::getInstance()->getNelsonLibraryDirectory()
-        + L"/libnlsGraphics_qt" + get_dynamic_library_extensionW();
-    // Loading the adapter installs the host factory and the GUI environment hooks. Keep the
-    // handle alive: figure hosts contain vtables and Qt objects from this DLL.
-    graphicsQtLibrary = load_dynamic_libraryW(libraryPath);
-}
 //=============================================================================
 // Nesting depth of the headless figure scope.
 static std::atomic<int> headlessFigureScopeDepth { 0 };
@@ -226,26 +195,13 @@ isHeadlessFigureScopeActive()
 static GOFigureHost*
 createFigureHost(int64 figNum)
 {
-    if (NelsonConfiguration::getInstance()->getNelsonEngineMode() == NELSON_ENGINE_MODE::WEB_GUI) {
-        // the first web figure must already see the screen metrics, not only the ones
-        // created after graphics_io happened to load the adapter
-        loadQtFigureHostFactory();
-    }
-    if (useWebGraphics() || isHeadlessFigureScopeActive()) {
-        return createHeadlessFigureHost(figNum);
-    }
-    if (!hasGuiServices()) {
-        return createHeadlessFigureHost(figNum);
-    }
-    loadQtFigureHostFactory();
-    if (hostFactory == nullptr) {
-        return createHeadlessFigureHost(figNum);
-    }
-    return hostFactory(figNum, isWebGuiMode());
+    // Qt was removed: every figure uses the RenderWeb host. Whether its scene is streamed to
+    // the browser is decided per-mode by useWebGraphics(), not by the host type.
+    return createHeadlessFigureHost(figNum);
 }
 //=============================================================================
 int64
-createNewFigure(bool show)
+createNewFigure(bool show, bool deferLifecycleNotify)
 {
     auto& manager = GOFiguresManagerSingleton::getInstance();
     auto& hFigures = manager.getFigures();
@@ -253,20 +209,33 @@ createNewFigure(bool show)
     int64 figNum = findAvailableFigureId();
     checkIdValidity(figNum);
     hFigures[figNum] = createFigureHost(figNum);
+    // The constructor sized the figure from the screen-scaled default; adopt the
+    // Position that groot defaults just applied so a headless layout uses it.
+    if (GOFigure* fig = hFigures[figNum]->hostFigure(); fig != nullptr) {
+        fig->adoptPositionAsRenderingSize();
+    }
     if (show && !useWebGraphics() && !hFigures[figNum]->isHeadlessHost()) {
         saveFocus();
         hFigures[figNum]->presentHost();
         restoreFocus();
     }
     manager.setCurrentFig(figNum);
-    WebDesktopBridge::getInstance()->pushWebFigureLifecycle(
-        figNum, true, figureWindowStyle(figNum));
-    noteWebFigureOpened();
+    if (!deferLifecycleNotify) {
+        pushNewFigureLifecycle(figNum);
+    }
     return manager.getCurrentFig();
 }
 //=============================================================================
+void
+pushNewFigureLifecycle(int64 figNum)
+{
+    WebDesktopBridge::getInstance()->pushWebFigureLifecycle(
+        figNum, true, figureWindowStyle(figNum));
+    noteWebFigureOpened();
+}
+//=============================================================================
 int64
-selectFigure(int64 fignum, bool show)
+selectFigure(int64 fignum, bool show, bool deferLifecycleNotify, bool* outCreated)
 {
     auto& manager = GOFiguresManagerSingleton::getInstance();
     auto& hFigures = manager.getFigures();
@@ -277,12 +246,17 @@ selectFigure(int64 fignum, bool show)
         || ((hFigures.count(fignum) == 1) && getFigure(fignum) == nullptr)) {
         hFigures[fignum] = createFigureHost(fignum);
         created = true;
+        // Adopt the Position applied by groot defaults as the headless rendering size.
+        if (GOFigure* fig = hFigures[fignum]->hostFigure(); fig != nullptr) {
+            fig->adoptPositionAsRenderingSize();
+        }
     }
     manager.setCurrentFig(fignum);
-    if (created) {
-        WebDesktopBridge::getInstance()->pushWebFigureLifecycle(
-            fignum, true, figureWindowStyle(fignum));
-        noteWebFigureOpened();
+    if (outCreated != nullptr) {
+        *outCreated = created;
+    }
+    if (created && !deferLifecycleNotify) {
+        pushNewFigureLifecycle(fignum);
     }
     if (show && !useWebGraphics() && !hFigures[fignum]->isHeadlessHost()) {
         saveFocus();
@@ -616,6 +590,27 @@ notifyWebFigureTitleChanged(GOFigure* fig)
             WebDesktopBridge::getInstance()->pushWebFigureTitle(it.first, title.c_str());
             fig->clearChanged(GO_NAME_PROPERTY_NAME_STR);
             fig->clearChanged(GO_NUMBER_TITLE_PROPERTY_NAME_STR);
+            return;
+        }
+    }
+}
+//=============================================================================
+void
+notifyWebFigurePositionChanged(GOFigure* fig)
+{
+    if (fig == nullptr || !useWebGraphics()) {
+        return;
+    }
+    const auto& hFigures = GOFiguresManagerSingleton::getInstance().getFigures();
+    for (const auto& it : hFigures) {
+        if (it.second != nullptr && it.second->hostFigure() == fig) {
+            std::vector<double> position
+                = fig->findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR);
+            if (position.size() >= 4) {
+                WebDesktopBridge::getInstance()->pushWebFigurePosition(it.first,
+                    static_cast<int>(position[0]), static_cast<int>(position[1]),
+                    static_cast<int>(position[2]), static_cast<int>(position[3]));
+            }
             return;
         }
     }

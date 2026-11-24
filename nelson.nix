@@ -21,7 +21,6 @@
   alsa-lib, # ALSA support
   matio, # MATIO support
   libcxx, # C++ standard library
-  qt6, # Qt for GUI support
   giflib, # GIF support
   libtiff, # TIFF support
   libxslt, # XSLT support
@@ -46,8 +45,6 @@ stdenv.mkDerivation {
     alsa-lib # ALSA support
     matio # MATIO support
     libcxx # C++ standard library
-    qt6.full # Qt for GUI support
-    qt6.qtbase # Qt base required
     giflib # GIF support
     libtiff # TIFF support
     libxslt # XSLT support
@@ -56,7 +53,6 @@ stdenv.mkDerivation {
   nativeBuildInputs = [
     cmake # Build system
     pkg-config # pkg-config for detecting dependencies
-    qt6.wrapQtAppsHook # Wrapper for Qt applications
   ];
 
   name = "nelson";
@@ -73,11 +69,6 @@ stdenv.mkDerivation {
   cmakeFlags = [
     "-DLGPL_ONLY=ON"
   ];
-
-  # Wrap the application with Qt environment variables
-  postInstall = ''
-    wrapQtApp $out/bin/nelson
-  '';
 
   doCheck = false;
 

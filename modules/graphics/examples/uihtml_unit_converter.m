@@ -13,9 +13,9 @@
 % sends an event to Nelson, Nelson converts and writes Data back, and the page
 % redraws from what it receives. Neither side polls the other.
 %=============================================================================
-if ~strcmp(getnelsonmode(), 'WEB_GUI')
+if ~strcmp(getnelsonmode(), 'GUI')
   error('Nelson:uihtml:webviewDesktopRequired', ...
-    _('uihtml is supported only in the WebView desktop. See help uihtml.'));
+    _('uihtml is supported only in the desktop. See help uihtml.'));
 end
 %=============================================================================
 page = strjoin({...

@@ -47,7 +47,7 @@ jobs:
           sudo apt-get update
           # xvfb gives the headless runner a display: without it every ADV-CLI,
           # GUI and WITH DISPLAY test is skipped.
-          sudo apt-get install -y xvfb "./$DEB_FILE"
+          sudo apt-get install -y xvfb dbus xdg-utils "./$DEB_FILE"
 
       - name: Create artifacts directory
         run: mkdir -p "$GITHUB_WORKSPACE/artifacts"
@@ -62,12 +62,13 @@ jobs:
         env:
           NELSON_TERM_IS_UNICODE_SUPPORTED: "TRUE"
           TESTS_RESULT_DIR: ${{ github.workspace }}/artifacts
-          # The headless runner has no accessibility bus: the GTK AT-SPI bridge
-          # blocks trying to reach org.a11y.Bus, which stalls WebView windows.
-          NO_AT_BRIDGE: "1"
-          GTK_A11Y: "none"
+          # WebKitGTK figures render on the CPU under xvfb: the runner has no
+          # GPU/DRI3, so disable accelerated compositing and the DMABUF/EGL path.
+          WEBKIT_DISABLE_COMPOSITING_MODE: "1"
+          WEBKIT_DISABLE_DMABUF_RENDERER: "1"
+          LIBGL_ALWAYS_SOFTWARE: "1"
         run: |
-          xvfb-run -a nelson-adv-cli --noipc --quiet -f /usr/share/Nelson/tools/benchmark_all/runbenchmark_all.m
+          xvfb-run -a dbus-run-session -- nelson-adv-cli --noipc --quiet -f /usr/share/Nelson/tools/benchmark_all/runbenchmark_all.m
 
       - uses: actions/upload-artifact@v7
         with:
@@ -106,7 +107,7 @@ jobs:
           sudo apt-get update
           # xvfb gives the headless runner a display: without it every ADV-CLI,
           # GUI and WITH DISPLAY test is skipped.
-          sudo apt-get install -y xvfb "./$DEB_FILE"
+          sudo apt-get install -y xvfb dbus xdg-utils "./$DEB_FILE"
 
       - name: Create artifacts directory
         run: mkdir -p "$GITHUB_WORKSPACE/artifacts"
@@ -117,49 +118,19 @@ jobs:
       - name: Set Julia Environment for Nelson
         run: nelson-adv-cli --noipc --quiet -f /usr/share/Nelson/tools/julia_environment_CI/configureJuliaEnvironment.m
 
-      # A crashed test process leaves a core file, read by the step after the tests.
-      # Name: core.<pid>.<signal>.<executable path, with '!' for '/'>
-      - name: Enable core dumps
-        run: |
-          mkdir -p /tmp/nelson-cores
-          sudo sysctl -w kernel.core_pattern='/tmp/nelson-cores/core.%p.%s.%E'
-
       - name: Tests
         env:
           NELSON_TEST_SHARD_INDEX: ${{ matrix.shard }}
           NELSON_TEST_SHARD_COUNT: 3
           NELSON_TERM_IS_UNICODE_SUPPORTED: "TRUE"
           TESTS_RESULT_DIR: ${{ github.workspace }}/artifacts
-          # The headless runner has no accessibility bus: the GTK AT-SPI bridge
-          # blocks trying to reach org.a11y.Bus, which stalls WebView windows.
-          NO_AT_BRIDGE: "1"
-          GTK_A11Y: "none"
+          # WebKitGTK figures render on the CPU under xvfb: the runner has no
+          # GPU/DRI3, so disable accelerated compositing and the DMABUF/EGL path.
+          WEBKIT_DISABLE_COMPOSITING_MODE: "1"
+          WEBKIT_DISABLE_DMABUF_RENDERER: "1"
+          LIBGL_ALWAYS_SOFTWARE: "1"
         run: |
-          ulimit -c unlimited
-          xvfb-run -a nelson-adv-cli --noipc --quiet -f /usr/share/Nelson/tools/tests_all/runtests_all.m
-
-      - name: Crash backtraces
-        if: always()
-        continue-on-error: true
-        run: |
-          shopt -s nullglob
-          cores=(/tmp/nelson-cores/core.*)
-          if [ ${#cores[@]} -eq 0 ]; then
-            echo "No core file: no test process crashed."
-            exit 0
-          fi
-          echo "::warning::${#cores[@]} test process(es) crashed (${{ inputs.arch }}, shard ${{ matrix.shard }}): see the Crash backtraces step."
-          sudo apt-get install -y gdb > /dev/null
-          # At most 5 cores: the backtrace of every thread is already long.
-          for core in "${cores[@]:0:5}"; do
-            name=$(basename "$core")
-            exe=$(echo "$name" | cut -d. -f4- | tr '!' '/')
-            echo "::group::$name"
-            gdb -batch -iex "set debuginfod enabled off" \
-              -ex 'print $_siginfo' -ex "bt 40" -ex "thread apply all bt 30" \
-              "$exe" "$core" 2>&1
-            echo "::endgroup::"
-          done
+          xvfb-run -a dbus-run-session -- nelson-adv-cli --noipc --quiet -f /usr/share/Nelson/tools/tests_all/runtests_all.m
 
       - name: Rename test results with shard index
         if: always()
@@ -264,11 +235,11 @@ jobs:
             frontend:
               - ".github/workflows/ccpp_ubuntu_tests.yml"
               - ".nvmrc"
-              - "modules/web_gui/**"
+              - "modules/gui/**"
               - "modules/nflow_gui/**"
               - "modules/nflow_engine/**"
               - "modules/nflow_blocks/**"
-              - "modules/webview/**"
+              - "modules/web_engine/**"
 
   b2b:
     name: Frontend b2b ${{ inputs.ubuntu }} ${{ inputs.arch }}
@@ -287,7 +258,7 @@ jobs:
           node-version-file: ".nvmrc"
           cache: npm
           cache-dependency-path: |
-            modules/web_gui/frontend/package-lock.json
+            modules/gui/src/ts/frontend/package-lock.json
             modules/nflow_gui/package-lock.json
 
       - name: Download artifacts
@@ -299,23 +270,23 @@ jobs:
         run: |
           DEB_FILE=$(ls nelson-*.deb)
           sudo apt-get update
-          sudo apt-get install -y xvfb "./$DEB_FILE"
+          sudo apt-get install -y xvfb dbus xdg-utils "./$DEB_FILE"
 
       - name: Install frontend dependencies
         run: |
-          npm ci --no-audit --no-fund --prefix modules/web_gui/frontend
+          npm ci --no-audit --no-fund --prefix modules/gui/src/ts/frontend
           npm ci --no-audit --no-fund --prefix modules/nflow_gui
 
       # both frontends pin the same Playwright version, one browser install serves both
       - name: Install Playwright Chromium
-        working-directory: modules/web_gui/frontend
+        working-directory: modules/gui/src/ts/frontend
         run: npx playwright install --with-deps chromium
 
       - name: Web GUI b2b tests
-        working-directory: modules/web_gui/frontend
+        working-directory: modules/gui/src/ts/frontend
         env:
           CI: "true"
-          NELSON_WEBVIEW_PATH: /usr/bin/nelson-webview
+          NELSON_WEBVIEW_PATH: /usr/bin/nelson-gui
         run: xvfb-run -a npm run test:b2b
 
       - name: NFlow b2b tests
@@ -332,7 +303,7 @@ jobs:
         with:
           name: playwright-b2b-ubuntu-${{ inputs.ubuntu }}-${{ github.run_number }}
           path: |
-            modules/web_gui/frontend/test-results/
+            modules/gui/src/ts/frontend/test-results/
             modules/nflow_gui/test-results/
             modules/nflow_gui/tests/b2b/test-results/
           if-no-files-found: ignore

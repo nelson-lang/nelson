@@ -95,6 +95,7 @@
       <AdditionalManifestFiles>$(MSBuildThisFileDirectory)Packager.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
     <ClCompile>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
@@ -116,6 +117,7 @@
       <AdditionalManifestFiles>$(MSBuildThisFileDirectory)Packager.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
     <ClCompile>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>

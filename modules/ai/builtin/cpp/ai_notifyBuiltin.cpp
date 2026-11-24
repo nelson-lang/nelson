@@ -42,7 +42,7 @@ pushWasmAssistantEvent(const std::string& channel, const std::string& payload)
 #endif
 //=============================================================================
 // __ai_notify__(channel, payloadJson[, surfaceId]): forward a live assistant
-// event to ONE surface (surfaceId "web"/"notebook" -> the web desktop;
+// event to ONE surface (surfaceId "web"/"notebook" -> the desktop;
 // "qt"/"nflow"/... -> that registered desktop sink). With no surfaceId it
 // broadcasts to every surface (backward compatible). Silent no-op when no host
 // is attached, so the agent can call it in any run mode.

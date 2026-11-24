@@ -29,6 +29,11 @@ public:
     std::string
     getClassName() override;
     //=============================================================================
+    // Keeps SelectedTab consistent with the current tabs (a tab added, deleted or reparented):
+    // the selection clears when its tab leaves the group and defaults to the first tab.
+    void
+    updateState() override;
+    //=============================================================================
     void
     paintChrome(RenderInterface& gc) override;
     //=============================================================================

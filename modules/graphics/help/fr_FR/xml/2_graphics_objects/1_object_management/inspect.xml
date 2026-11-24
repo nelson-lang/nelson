@@ -18,7 +18,7 @@
   </param_input>
   <param_output />
   <description>
-    <p><b>inspect</b> ouvre l'inspecteur de propriétés, un panneau intégré à la fenêtre de figure qui liste les propriétés de l'objet sélectionné et permet de les modifier. Le même inspecteur est disponible sur le bureau Qt, la vue web et les versions WebAssembly.</p>
+    <p><b>inspect</b> ouvre l'inspecteur de propriétés, un panneau intégré à la fenêtre de figure qui liste les propriétés de l'objet sélectionné et permet de les modifier. Le même inspecteur est disponible sur le bureau graphique et les versions WebAssembly.</p>
     <p><b>inspect</b> sans argument ouvre l'inspecteur pour la figure courante.</p>
     <p><b>inspect(obj)</b> ouvre l'inspecteur et sélectionne <b>obj</b>. Un explorateur d'objets montre la figure, ses axes et leurs enfants (courbes, surfaces, patchs, titres, étiquettes, ...) ; sélectionner une entrée affiche sa liste complète de propriétés.</p>
     <p>Les propriétés modifiables sont présentées avec l'éditeur approprié : une liste déroulante pour les valeurs énumérées, un sélecteur de couleur pour les couleurs, une case à cocher pour les valeurs on/off et un champ de texte pour les nombres, vecteurs et chaînes. Les propriétés en lecture seule sont affichées mais non modifiables. Les valeurs volumineuses ou structurées (par exemple les tableaux de données) sont résumées, par exemple <b>1x100 double</b>.</p>

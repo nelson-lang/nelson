@@ -1,0 +1,1598 @@
+<?xml version="1.0"?>
+<testsuites tests="331" failures="4" errors="0" skipped="18" time="3027.756">
+  <testsuite name="gui" tests="38" failures="2" errors="0" skipped="16" time="11.929">
+    <testcase name="test_dialog_api" time="0.056" classname="gui">
+    </testcase>
+    <testcase name="test_gallery_examples" time="0.069" classname="gui">
+    </testcase>
+    <testcase name="test_uihtml_spike_fixture" time="0.012" classname="gui">
+      <failure message="test failed"><![CDATA[Assertion failed: found false entry in condition = false.]]></failure>
+    </testcase>
+    <testcase name="test_web_animation" time="0" classname="gui">
+      <skipped/>
+    </testcase>
+    <testcase name="test_web_axes_background_fill" time="0" classname="gui">
+      <skipped/>
+    </testcase>
+    <testcase name="test_web_dashboard" time="0" classname="gui">
+      <skipped/>
+    </testcase>
+    <testcase name="test_web_first_surface_frame" time="0" classname="gui">
+      <skipped/>
+    </testcase>
+    <testcase name="test_web_getframe" time="0" classname="gui">
+      <skipped/>
+    </testcase>
+    <testcase name="test_web_gridlayout" time="0" classname="gui">
+      <skipped/>
+    </testcase>
+    <testcase name="test_web_image" time="0" classname="gui">
+      <skipped/>
+    </testcase>
+    <testcase name="test_web_mode" time="0" classname="gui">
+      <skipped/>
+    </testcase>
+    <testcase name="test_web_position_properties" time="0" classname="gui">
+      <skipped/>
+    </testcase>
+    <testcase name="test_web_retained_webgl_meshes" time="0" classname="gui">
+      <skipped/>
+    </testcase>
+    <testcase name="test_web_saveas_fonts" time="0" classname="gui">
+      <skipped/>
+    </testcase>
+    <testcase name="test_web_saveas_formats" time="0" classname="gui">
+      <skipped/>
+    </testcase>
+    <testcase name="test_web_uifigure_display_list_dpi_controls" time="0" classname="gui">
+      <skipped/>
+    </testcase>
+    <testcase name="test_webview2_loader" time="0.0082" classname="gui">
+    </testcase>
+    <testcase name="test_webview_teardown_many_figures" time="5" classname="gui">
+    </testcase>
+    <testcase name="test_demo" time="0.035" classname="gui">
+      <failure message="test failed"><![CDATA[Assertion failed: found false entry in condition = false.]]></failure>
+    </testcase>
+    <testcase name="test_examples_catalog" time="1.2" classname="gui">
+    </testcase>
+    <testcase name="test_inputdlg" time="0.032" classname="gui">
+    </testcase>
+    <testcase name="test_listdlg" time="0.024" classname="gui">
+    </testcase>
+    <testcase name="test_newsfeed" time="0.12" classname="gui">
+    </testcase>
+    <testcase name="test_questdlg" time="0" classname="gui">
+      <skipped/>
+    </testcase>
+    <testcase name="test_terminal" time="0" classname="gui">
+      <skipped/>
+    </testcase>
+    <testcase name="test_uialert" time="0.019" classname="gui">
+    </testcase>
+    <testcase name="test_uiconfirm" time="0.021" classname="gui">
+    </testcase>
+    <testcase name="test_uigetdir" time="0.019" classname="gui">
+    </testcase>
+    <testcase name="test_uigetfile" time="0.015" classname="gui">
+    </testcase>
+    <testcase name="test_uihtml_spike" time="4.3" classname="gui">
+    </testcase>
+    <testcase name="test_uiopen" time="0.051" classname="gui">
+    </testcase>
+    <testcase name="test_uiputfile" time="0.016" classname="gui">
+    </testcase>
+    <testcase name="test_uisave" time="0.018" classname="gui">
+    </testcase>
+    <testcase name="test_uisetcolor" time="0.018" classname="gui">
+    </testcase>
+    <testcase name="test_uisetfont" time="0.016" classname="gui">
+    </testcase>
+    <testcase name="test_web" time="0.26" classname="gui">
+      <skipped/>
+    </testcase>
+    <testcase name="test_webtools_registry" time="0.022" classname="gui">
+    </testcase>
+    <testcase name="test_webview_render_html" time="0.69" classname="gui">
+    </testcase>
+  </testsuite>
+  <testsuite name="modules_manager" tests="45" failures="0" errors="0" skipped="0" time="35.125">
+    <testcase name="test_addgateway" time="0.029" classname="modules_manager">
+    </testcase>
+    <testcase name="test_addmodule" time="0.015" classname="modules_manager">
+      <system-out><![CDATA[Please check: C:/Users/allan/AppData/Local/Temp/tp7b12d45d_a193_4903_88ab_f499991d54d8/module.json]]></system-out>
+    </testcase>
+    <testcase name="test_deploytool_entrypoints" time="0.012" classname="modules_manager">
+    </testcase>
+    <testcase name="test_gallery_examples" time="0.54" classname="modules_manager">
+      <system-out><![CDATA[  01/01 - test_example_square                                       🟢[   0.028s]
+
+  ===============================================================================
+  Summary:
+  Tests:   1
+  Passed:  🟢 1
+  Failed:  🔴 0
+  Skipped: 🟡 0
+  Benchs:  0
+  Tests time: 0.3 s
+  Total time: 0.4 s
+  ================================================================================
+
+Temporary module test status: 1
+]]></system-out>
+    </testcase>
+    <testcase name="test_gatewayinfo" time="0.021" classname="modules_manager">
+    </testcase>
+    <testcase name="test_getmodules" time="0.014" classname="modules_manager">
+    </testcase>
+    <testcase name="test_ismodule" time="0.012" classname="modules_manager">
+    </testcase>
+    <testcase name="test_modulepath" time="0.014" classname="modules_manager">
+    </testcase>
+    <testcase name="test_modules_protected" time="0.012" classname="modules_manager">
+    </testcase>
+    <testcase name="test_ncc" time="0.14" classname="modules_manager">
+    </testcase>
+    <testcase name="test_nmm_build_help" time="0.012" classname="modules_manager">
+      <system-out><![CDATA[[nelson_help_645324f7_5289_43ae_9e2d_b4ca58076461] module not loaded on this host, help not generated: File does not exist.
+C:/Users/allan/AppData/Local/Temp/tp0285e5cd_874d_4446_bf4b_27fbddac5d3f/loader.m
+]]></system-out>
+    </testcase>
+    <testcase name="test_nmm_build_help_unloadable" time="0.034" classname="modules_manager">
+    </testcase>
+    <testcase name="test_nmm_build_loader" time="0.016" classname="modules_manager">
+    </testcase>
+    <testcase name="test_nmm_init" time="0.36" classname="modules_manager">
+      <system-out><![CDATA[module.json best-practice suggestions:
+  - module.json field is missing: description
+  - module.json field is missing: repository
+  - module.json field is missing: authors
+  - module.json field is missing: keywords
+module.json best-practice suggestions:
+  - module.json field is missing: description
+  - module.json field is missing: repository
+  - module.json field is missing: authors
+  - module.json field is missing: keywords
+module.json best-practice suggestions:
+  - module.json field is missing: description
+  - module.json field is missing: repository
+  - module.json field is missing: authors
+  - module.json field is missing: keywords
+module.json best-practice suggestions:
+  - module.json field is missing: description
+  - module.json field is missing: repository
+  - module.json field is missing: authors
+  - module.json field is missing: keywords
+module.json best-practice suggestions:
+  - module.json field is missing: description
+  - module.json field is missing: repository
+  - module.json field is missing: authors
+module.json best-practice suggestions:
+  - module.json field is missing: description
+  - module.json field is missing: authors
+]]></system-out>
+    </testcase>
+    <testcase name="test_nmm_install_missing_archive" time="0.015" classname="modules_manager">
+    </testcase>
+    <testcase name="test_nmm_pack_include_exclude" time="4.6" classname="modules_manager">
+      <system-out><![CDATA[  01/01 - test_case_a                                               🟢[   0.031s]
+
+  ===============================================================================
+  Summary:
+  Tests:   1
+  Passed:  🟢 1
+  Failed:  🔴 0
+  Skipped: 🟡 0
+  Benchs:  0
+  Tests time: 0.3 s
+  Total time: 0.4 s
+  ================================================================================
+
+  01/01 - test_case_b                                               🟢[   0.038s]
+
+  ===============================================================================
+  Summary:
+  Tests:   1
+  Passed:  🟢 1
+  Failed:  🔴 0
+  Skipped: 🟡 0
+  Benchs:  0
+  Tests time: 0.4 s
+  Total time: 0.6 s
+  ================================================================================
+
+  01/01 - test_case_c                                               🟢[   0.038s]
+
+  ===============================================================================
+  Summary:
+  Tests:   1
+  Passed:  🟢 1
+  Failed:  🔴 0
+  Skipped: 🟡 0
+  Benchs:  0
+  Tests time: 0.4 s
+  Total time: 0.6 s
+  ================================================================================
+
+  01/01 - test_case_d                                               🟢[   0.035s]
+
+  ===============================================================================
+  Summary:
+  Tests:   1
+  Passed:  🟢 1
+  Failed:  🔴 0
+  Skipped: 🟡 0
+  Benchs:  0
+  Tests time: 0.4 s
+  Total time: 0.6 s
+  ================================================================================
+
+]]></system-out>
+    </testcase>
+    <testcase name="test_nmm_pack_requires_help" time="0.4" classname="modules_manager">
+      <system-out><![CDATA[The archive would ship no help/ directory: the compiled help (help/*.nhz) is missing. Build the help before packaging.Files to be packaged for module 'nohelp' (6):
+  etc/finish.m
+  etc/startup.m
+  functions/foo.m
+  loader.m
+  module-lock.json
+  module.json
+]]></system-out>
+    </testcase>
+    <testcase name="test_nmm_phase0_validation" time="0.13" classname="modules_manager">
+    </testcase>
+    <testcase name="test_nmm_registry_reuse" time="0.18" classname="modules_manager">
+    </testcase>
+    <testcase name="test_nmm_valid_platforms" time="0.029" classname="modules_manager">
+    </testcase>
+    <testcase name="test_removegateway" time="0.011" classname="modules_manager">
+    </testcase>
+    <testcase name="test_removemodule" time="0.014" classname="modules_manager">
+      <system-out><![CDATA[Please check: C:/Users/allan/AppData/Local/Temp/tp6e719d98_2fe4_4ced_8898_e64f09611f53/module.json]]></system-out>
+    </testcase>
+    <testcase name="test_requiremodule" time="0.01" classname="modules_manager">
+    </testcase>
+    <testcase name="test_semver" time="0.019" classname="modules_manager">
+    </testcase>
+    <testcase name="test_toolboxdir" time="0.0098" classname="modules_manager">
+    </testcase>
+    <testcase name="test_usermodulesdir" time="0.014" classname="modules_manager">
+    </testcase>
+    <testcase name="test_gui_banner_priority" time="0.0096" classname="modules_manager">
+    </testcase>
+    <testcase name="test_modules_loaded" time="0.037" classname="modules_manager">
+    </testcase>
+    <testcase name="test_nmm" time="0.85" classname="modules_manager">
+      <system-out><![CDATA[module_skeleton_basic already loaded.]]></system-out>
+    </testcase>
+    <testcase name="test_nmm_default_registry" time="0.061" classname="modules_manager">
+    </testcase>
+    <testcase name="test_nmm_list_local" time="0.051" classname="modules_manager">
+    </testcase>
+    <testcase name="test_nmm_pack_target" time="0.38" classname="modules_manager">
+      <system-out><![CDATA[Files to be packaged for module 'nmm_target_fixture' (8):
+  builtin/libnlsNmm_target_fixture_builtin.so
+  etc/finish.m
+  etc/startup.m
+  help/en_US/xml/chapter.xml
+  loader.m
+  module-lock.json
+  module.json
+  tests/test_nmm_target_fixture.m
+]]></system-out>
+    </testcase>
+    <testcase name="test_nmm_phase0_install" time="9.2" classname="modules_manager">
+      <system-out><![CDATA[  01/01 - test_placeholder                                          🔴[   0.034s]
+    run('C:/Users/allan/AppData/Local/Temp/nmm_phase0_install/external_modules/.nmm-tmp/fd2ba7a6-4338-4acb-b525-3f2151bf1ce0/tests/test_placeholder.m')
+    Error:
+      Assertion failed: found false entry in condition = false.
+ 
+
+  ===============================================================================
+  Summary:
+  Tests:   1
+  Passed:  🟢 0
+  Failed:  🔴 1
+  Skipped: 🟡 0
+  Benchs:  0
+  Tests time: 0.3 s
+  Total time: 0.4 s
+  ================================================================================
+
+  01/01 - test_placeholder                                          🔴[   0.036s]
+    run('C:/Users/allan/AppData/Local/Temp/nmm_phase0_install/external_modules/.nmm-tmp/97a2475c-c142-418d-bef2-b589ca1126f2/tests/test_placeholder.m')
+    Error:
+      Assertion failed: found false entry in condition = false.
+ 
+
+  ===============================================================================
+  Summary:
+  Tests:   1
+  Passed:  🟢 0
+  Failed:  🔴 1
+  Skipped: 🟡 0
+  Benchs:  0
+  Tests time: 0.4 s
+  Total time: 0.5 s
+  ================================================================================
+
+nmm_phase0_main already installed.  01/01 - test_placeholder                                          🟢[   0.032s]
+
+  ===============================================================================
+  Summary:
+  Tests:   1
+  Passed:  🟢 1
+  Failed:  🔴 0
+  Skipped: 🟡 0
+  Benchs:  0
+  Tests time: 0.3 s
+  Total time: 0.4 s
+  ================================================================================
+
+  01/01 - test_placeholder                                          🔴[   0.046s]
+    run('C:/Users/allan/AppData/Local/Temp/nmm_phase0_install/external_modules/.nmm-tmp/1adda96e-63ca-448a-ab38-b294d186a19e/tests/test_placeholder.m')
+    Error:
+      Assertion failed: found false entry in condition = false.
+ 
+
+  ===============================================================================
+  Summary:
+  Tests:   1
+  Passed:  🟢 0
+  Failed:  🔴 1
+  Skipped: 🟡 0
+  Benchs:  0
+  Tests time: 0.5 s
+  Total time: 0.7 s
+  ================================================================================
+
+  01/01 - test_placeholder                                          🟢[   0.038s]
+
+  ===============================================================================
+  Summary:
+  Tests:   1
+  Passed:  🟢 1
+  Failed:  🔴 0
+  Skipped: 🟡 0
+  Benchs:  0
+  Tests time: 0.5 s
+  Total time: 0.6 s
+  ================================================================================
+
+Files to be packaged for module 'nmm_phase0_main' (8):
+  etc/finish.m
+  etc/startup.m
+  functions/nmm_phase0_main_value.m
+  help/en_US/xml/chapter.xml
+  loader.m
+  module-lock.json
+  module.json
+  tests/test_placeholder.m
+  01/01 - test_placeholder                                          🟢[   0.036s]
+
+  ===============================================================================
+  Summary:
+  Tests:   1
+  Passed:  🟢 1
+  Failed:  🔴 0
+  Skipped: 🟡 0
+  Benchs:  0
+  Tests time: 0.5 s
+  Total time: 0.6 s
+  ================================================================================
+
+Files to be packaged for module 'nmm_phase0_main' (8):
+  etc/finish.m
+  etc/startup.m
+  functions/nmm_phase0_main_value.m
+  help/en_US/xml/chapter.xml
+  loader.m
+  module-lock.json
+  module.json
+  tests/test_placeholder.m
+]]></system-out>
+    </testcase>
+    <testcase name="test_nmm_portable_local" time="2.7" classname="modules_manager">
+    </testcase>
+    <testcase name="test_nmm_publish_single_package" time="0.19" classname="modules_manager">
+      <system-out><![CDATA[Registry updated without a signing key (NELSON_NMM_REGISTRY_SIGNING_KEY): the previous signature was stale and has been removed. Re-sign the registry before publishing it.]]></system-out>
+    </testcase>
+    <testcase name="test_nmm_publish_two_column_sidecar" time="0.11" classname="modules_manager">
+    </testcase>
+    <testcase name="test_nmm_registry" time="9" classname="modules_manager">
+      <system-out><![CDATA[  01/01 - test_placeholder                                          🔴[   0.033s]
+    run('C:/Users/allan/AppData/Local/Temp/nmm_registry/external_modules/.nmm-tmp/a30cc1a2-3896-4dd9-bf85-ce8e35e8327d/tests/test_placeholder.m')
+    Error:
+      fixture failure
+ 
+
+  ===============================================================================
+  Summary:
+  Tests:   1
+  Passed:  🟢 0
+  Failed:  🔴 1
+  Skipped: 🟡 0
+  Benchs:  0
+  Tests time: 0.3 s
+  Total time: 0.4 s
+  ================================================================================
+
+  01/01 - test_placeholder                                          🔴[   0.044s]
+    run('C:/Users/allan/AppData/Local/Temp/nmm_registry/external_modules/.nmm-tmp/b38bcd37-0f76-4280-8383-74bb8c391cb5/tests/test_placeholder.m')
+    Error:
+      fixture failure
+ 
+
+  ===============================================================================
+  Summary:
+  Tests:   1
+  Passed:  🟢 0
+  Failed:  🔴 1
+  Skipped: 🟡 0
+  Benchs:  0
+  Tests time: 0.4 s
+  Total time: 0.6 s
+  ================================================================================
+
+  01/01 - test_placeholder                                          🟢[   0.031s]
+
+  ===============================================================================
+  Summary:
+  Tests:   1
+  Passed:  🟢 1
+  Failed:  🔴 0
+  Skipped: 🟡 0
+  Benchs:  0
+  Tests time: 0.4 s
+  Total time: 0.6 s
+  ================================================================================
+
+Files to be packaged for module 'nmm_registry_module' (8):
+  etc/finish.m
+  etc/startup.m
+  functions/nmm_registry_module_value.m
+  help/en_US/xml/chapter.xml
+  loader.m
+  module-lock.json
+  module.json
+  tests/test_placeholder.m
+  01/01 - test_placeholder                                          🟢[   0.037s]
+
+  ===============================================================================
+  Summary:
+  Tests:   1
+  Passed:  🟢 1
+  Failed:  🔴 0
+  Skipped: 🟡 0
+  Benchs:  0
+  Tests time: 0.4 s
+  Total time: 0.6 s
+  ================================================================================
+
+]]></system-out>
+    </testcase>
+    <testcase name="test_nmm_registry_cache_ttl" time="2.2" classname="modules_manager">
+      <system-out><![CDATA[Registry cannot be fetched (Could not connect to server): using the last verified copy.]]></system-out>
+    </testcase>
+    <testcase name="test_nmm_registry_multiarch" time="0.48" classname="modules_manager">
+    </testcase>
+    <testcase name="test_nmm_registry_signature" time="0.49" classname="modules_manager">
+      <system-out><![CDATA[Registry is not signed (NELSON_NMM_REGISTRY_ALLOW_UNSIGNED=1): file:///C:/Users/allan/AppData/Local/Temp/nmm_registry_signature/registry.jsonRegistry cannot be fetched (Could not read a file:// file): using the last verified copy.Registry cannot be fetched (Could not read a file:// file): using the last verified copy.]]></system-out>
+    </testcase>
+    <testcase name="test_nmm_test_module_identity" time="1.7" classname="modules_manager">
+      <system-out><![CDATA[  01/01 - test_identity                                             🟢[   0.021s]
+
+  ===============================================================================
+  Summary:
+  Tests:   1
+  Passed:  🟢 1
+  Failed:  🔴 0
+  Skipped: 🟡 0
+  Benchs:  0
+  Tests time: 0.7 s
+  Total time: 0.7 s
+  ================================================================================
+
+  01/01 - test_identity                                             🟢[   0.012s]
+
+  ===============================================================================
+  Summary:
+  Tests:   1
+  Passed:  🟢 1
+  Failed:  🔴 0
+  Skipped: 🟡 0
+  Benchs:  0
+  Tests time: 0.6 s
+  Total time: 0.6 s
+  ================================================================================
+
+]]></system-out>
+    </testcase>
+    <testcase name="test_nmm_versions" time="1.1" classname="modules_manager">
+    </testcase>
+    <testcase name="bug_github_issue_10" time="0.0036" classname="modules_manager">
+    </testcase>
+    <testcase name="bug_github_issue_300" time="0.014" classname="modules_manager">
+    </testcase>
+    <testcase name="bug_github_issue_34" time="0.0056" classname="modules_manager">
+    </testcase>
+  </testsuite>
+  <testsuite name="compiler" tests="110" failures="2" errors="0" skipped="0" time="2694.521">
+    <testcase name="test_application_auto_data" time="0.21" classname="compiler">
+    </testcase>
+    <testcase name="test_application_build_options" time="1.1" classname="compiler">
+    </testcase>
+    <testcase name="test_application_callbacks" time="0.78" classname="compiler">
+    </testcase>
+    <testcase name="test_application_classdef_access" time="15" classname="compiler">
+      <system-out><![CDATA[Created C:\Users\allan\AppData\Local\Temp\tpb2993872_583b_4361_88e2_a4a31e0729e3\bundled.exe
+Created C:\Users\allan\AppData\Local\Temp\tpb2993872_583b_4361_88e2_a4a31e0729e3\installed.exe
+]]></system-out>
+    </testcase>
+    <testcase name="test_application_classes" time="0.18" classname="compiler">
+      <system-out><![CDATA[CLASS_VALUE=20
+LEGACY_VALUE=21
+]]></system-out>
+    </testcase>
+    <testcase name="test_application_custom_help" time="15" classname="compiler">
+      <system-out><![CDATA[Created C:\Users\allan\AppData\Local\Temp\tp8aa07ffb_0938_4911_8488_6db310a88e82\bundled.exe
+Created C:\Users\allan\AppData\Local\Temp\tp8aa07ffb_0938_4911_8488_6db310a88e82\installed.exe
+Created C:\Users\allan\AppData\Local\Temp\tp8aa07ffb_0938_4911_8488_6db310a88e82\plain.exe
+Created C:\Users\allan\AppData\Local\Temp\tp8aa07ffb_0938_4911_8488_6db310a88e82\empty.exe
+]]></system-out>
+    </testcase>
+    <testcase name="test_application_data_extensions" time="0.41" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_application_directive_paths" time="0.12" classname="compiler">
+    </testcase>
+    <testcase name="test_application_directives" time="0.27" classname="compiler">
+    </testcase>
+    <testcase name="test_application_embedded_data" time="13" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_application_empty_source" time="0.064" classname="compiler">
+    </testcase>
+    <testcase name="test_application_graphics" time="0.14" classname="compiler">
+      <failure message="test failed"><![CDATA[Missing runtime module directory.]]></failure>
+    </testcase>
+    <testcase name="test_application_help" time="0.31" classname="compiler">
+      <system-out><![CDATA[Unresolved help link in C:/Users/allan/AppData/Local/Temp/tp22dc5941_e89d_4bb0_aadd_5dd53201dd66/en_US/xml/ncc.xml: ${compiler}compiler.runtime.customInstallerUnresolved help link in C:/Users/allan/AppData/Local/Temp/tp22dc5941_e89d_4bb0_aadd_5dd53201dd66/en_US/xml/ncc.xml: ${compiler}compiler.build.StandaloneApplicationOptionsUnresolved help link in C:/Users/allan/AppData/Local/Temp/tp22dc5941_e89d_4bb0_aadd_5dd53201dd66/en_US/xml/ncc.xml: ${compiler}nelson.compiler.BuildOptionsUnresolved help link in C:/Users/allan/AppData/Local/Temp/tp22dc5941_e89d_4bb0_aadd_5dd53201dd66/en_US/xml/ncc.xml: ${compiler}nelson.compiler.BuildResultUnresolved help link in C:/Users/allan/AppData/Local/Temp/tp22dc5941_e89d_4bb0_aadd_5dd53201dd66/en_US/xml/ncc.xml: ${compiler}nelson.compiler.buildUnresolved help link in C:/Users/allan/AppData/Local/Temp/tp22dc5941_e89d_4bb0_aadd_5dd53201dd66/en_US/xml/ncc.xml: ${compiler}nelson.compiler.analyzeUnresolved help link in C:/Users/allan/AppData/Local/Temp/tp22dc5941_e89d_4bb0_aadd_5dd53201dd66/en_US/xml/ncc.xml: ${compiler}compiler_standalone_tutorialUnresolved help link in C:/Users/allan/AppData/Local/Temp/tp22dc5941_e89d_4bb0_aadd_5dd53201dd66/en_US/xml/ncc.xml: ${compiler}compiler_embedded_data_tutorialUnresolved help link in C:/Users/allan/AppData/Local/Temp/tp22dc5941_e89d_4bb0_aadd_5dd53201dd66/fr_FR/xml/ncc.xml: ${compiler}compiler.runtime.customInstallerUnresolved help link in C:/Users/allan/AppData/Local/Temp/tp22dc5941_e89d_4bb0_aadd_5dd53201dd66/fr_FR/xml/ncc.xml: ${compiler}compiler.build.StandaloneApplicationOptionsUnresolved help link in C:/Users/allan/AppData/Local/Temp/tp22dc5941_e89d_4bb0_aadd_5dd53201dd66/fr_FR/xml/ncc.xml: ${compiler}nelson.compiler.BuildOptionsUnresolved help link in C:/Users/allan/AppData/Local/Temp/tp22dc5941_e89d_4bb0_aadd_5dd53201dd66/fr_FR/xml/ncc.xml: ${compiler}nelson.compiler.BuildResultUnresolved help link in C:/Users/allan/AppData/Local/Temp/tp22dc5941_e89d_4bb0_aadd_5dd53201dd66/fr_FR/xml/ncc.xml: ${compiler}nelson.compiler.buildUnresolved help link in C:/Users/allan/AppData/Local/Temp/tp22dc5941_e89d_4bb0_aadd_5dd53201dd66/fr_FR/xml/ncc.xml: ${compiler}nelson.compiler.analyzeUnresolved help link in C:/Users/allan/AppData/Local/Temp/tp22dc5941_e89d_4bb0_aadd_5dd53201dd66/fr_FR/xml/ncc.xml: ${compiler}compiler_standalone_tutorialUnresolved help link in C:/Users/allan/AppData/Local/Temp/tp22dc5941_e89d_4bb0_aadd_5dd53201dd66/fr_FR/xml/ncc.xml: ${compiler}compiler_embedded_data_tutorial]]></system-out>
+    </testcase>
+    <testcase name="test_application_icon" time="18" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_application_icon_commands" time="3.7" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_application_icon_validation" time="0.15" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_application_input_paths" time="0.029" classname="compiler">
+    </testcase>
+    <testcase name="test_application_inputs" time="0.39" classname="compiler">
+    </testcase>
+    <testcase name="test_application_launcher_contract" time="2.7" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_application_launcher_validation" time="2.2" classname="compiler">
+      <system-out><![CDATA[Created C:\Users\allan\AppData\Local\Temp\tpe222b7bf_60fd_4ac1_8fb5_4a01e4a78b31\reader.exe
+]]></system-out>
+    </testcase>
+    <testcase name="test_application_link_plan" time="0.37" classname="compiler">
+    </testcase>
+    <testcase name="test_application_loader_diagnostics" time="10" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+Created C:\Users\allan\AppData\Local\Temp\tp19a4ffad_3df7_4f0a_a22c_2c8ef5debfb0 loader 漢字\loader.exe
+]]></system-out>
+    </testcase>
+    <testcase name="test_application_long_paths" time="9.2" classname="compiler">
+      <system-out><![CDATA[Created C:\Users\allan\AppData\Local\Temp\tpf6da2d79_b353_4ae8_a94e_fb43fd698989\nested_output\nested_output\nested_output\nested_output\nested_output\nested_output\nested_output\nested_output\nested_output\nested_output\nested_output\long_path_app.exe
+]]></system-out>
+    </testcase>
+    <testcase name="test_application_minimal_build" time="34" classname="compiler">
+    </testcase>
+    <testcase name="test_application_module_isolation" time="0.11" classname="compiler">
+      <failure message="test failed"><![CDATA[Missing runtime module directory.]]></failure>
+    </testcase>
+    <testcase name="test_application_native" time="1.1" classname="compiler">
+      <system-out><![CDATA[machine format option ignored.]]></system-out>
+    </testcase>
+    <testcase name="test_application_performance_workloads" time="0.22" classname="compiler">
+    </testcase>
+    <testcase name="test_application_publication_recovery" time="12" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_application_publish" time="0.06" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_application_reproducible" time="24" classname="compiler">
+      <system-out><![CDATA[Created C:\Users\allan\AppData\Local\Temp\tp5825e6d9_c4df_4575_a1b5_0fc4d1ac7317\installed1\application.exe
+Created C:\Users\allan\AppData\Local\Temp\tp5825e6d9_c4df_4575_a1b5_0fc4d1ac7317\installed2\application.exe
+Created C:\Users\allan\AppData\Local\Temp\tp5825e6d9_c4df_4575_a1b5_0fc4d1ac7317\bundled1\application.exe
+Created C:\Users\allan\AppData\Local\Temp\tp5825e6d9_c4df_4575_a1b5_0fc4d1ac7317\bundled2\application.exe
+]]></system-out>
+    </testcase>
+    <testcase name="test_application_republish" time="1.1" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_application_runtime_backends" time="0.024" classname="compiler">
+    </testcase>
+    <testcase name="test_application_runtime_log_configuration" time="0.52" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_application_runtime_log_failures" time="18" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_application_runtime_plan" time="1.7" classname="compiler">
+    </testcase>
+    <testcase name="test_application_runtime_plan_shapes" time="0.21" classname="compiler">
+    </testcase>
+    <testcase name="test_application_runtime_snapshot" time="6.6" classname="compiler">
+    </testcase>
+    <testcase name="test_application_staging" time="0.2" classname="compiler">
+    </testcase>
+    <testcase name="test_application_version" time="0.93" classname="compiler">
+    </testcase>
+    <testcase name="test_application_windowed" time="0.84" classname="compiler">
+    </testcase>
+    <testcase name="test_compiler_archive_boundary" time="16" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_archive_builder" time="0.38" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_archive_builder_external" time="0.41" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_archive_reproducible" time="2.2" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_build_options" time="0.15" classname="compiler">
+    </testcase>
+    <testcase name="test_compiler_build_report" time="13" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_build_result" time="1" classname="compiler">
+    </testcase>
+    <testcase name="test_compiler_distribution_plan_scale" time="0.4" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+DISTRIBUTION_MERGE files=5002 elapsed=0.146939
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_external_archive" time="11" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_external_archive_commands" time="9.5" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_external_archive_installer" time="18" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_included_packages" time="2.6" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_installer" time="14" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_installer_images" time="25" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_installer_inputs" time="0.059" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_installer_options" time="0.11" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_installer_windows_shortcuts" time="13" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_module" time="0.014" classname="compiler">
+    </testcase>
+    <testcase name="test_compiler_numeric_inputs" time="28" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+Created C:\Users\allan\AppData\Local\Temp\tp09015dc9_8ef3_4019_99ee_db4c5a72832a numeric 漢字\script_app.exe
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_numeric_project" time="0.2" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_project" time="8.4" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_project_paths" time="0.38" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_project_relocation" time="22" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_project_results" time="47" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_project_sources" time="7.2" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_project_validation" time="0.8" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_public_help" time="0.66" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+Unresolved help link in D:/Developpements/official/nelson/modules/compiler/help/en_US/xml/compiler_embedded_data_tutorial.xml: ${modules_manager}nccUnresolved help link in D:/Developpements/official/nelson/modules/compiler/help/en_US/xml/compiler_embedded_data_tutorial.xml: ${hdf5}loadnh5Unresolved help link in D:/Developpements/official/nelson/modules/compiler/help/en_US/xml/compiler_embedded_data_tutorial.xml: ${matio}loadmatUnresolved help link in D:/Developpements/official/nelson/modules/compiler/help/en_US/xml/compiler_embedded_data_tutorial.xml: ${interpreter}ctfrootUnresolved help link in D:/Developpements/official/nelson/modules/compiler/help/en_US/xml/compiler_project_tutorial.xml: ${modules_manager}deploytoolUnresolved help link in D:/Developpements/official/nelson/modules/compiler/help/en_US/xml/compiler_project_tutorial.xml: ${modules_manager}standaloneApplicationCompilerUnresolved help link in D:/Developpements/official/nelson/modules/compiler/help/en_US/xml/compiler_standalone_tutorial.xml: ${modules_manager}nccUnresolved help link in D:/Developpements/official/nelson/modules/compiler/help/en_US/xml/compiler_standalone_tutorial.xml: ${interpreter}isdeployedUnresolved help link in D:/Developpements/official/nelson/modules/compiler/help/en_US/xml/compiler_standalone_tutorial.xml: ${interpreter}ctfrootUnresolved help link in D:/Developpements/official/nelson/modules/compiler/help/en_US/xml/nelson.compiler.BuildOptions.xml: ${modules_manager}nccUnresolved help link in D:/Developpements/official/nelson/modules/compiler/help/en_US/xml/nelson.compiler.analyze.xml: ${modules_manager}nccUnresolved help link in D:/Developpements/official/nelson/modules/compiler/help/en_US/xml/nelson.compiler.build.xml: ${modules_manager}nccUnresolved help link in D:/Developpements/official/nelson/modules/compiler/help/fr_FR/xml/compiler_embedded_data_tutorial.xml: ${modules_manager}nccUnresolved help link in D:/Developpements/official/nelson/modules/compiler/help/fr_FR/xml/compiler_embedded_data_tutorial.xml: ${hdf5}loadnh5Unresolved help link in D:/Developpements/official/nelson/modules/compiler/help/fr_FR/xml/compiler_embedded_data_tutorial.xml: ${matio}loadmatUnresolved help link in D:/Developpements/official/nelson/modules/compiler/help/fr_FR/xml/compiler_embedded_data_tutorial.xml: ${interpreter}ctfrootUnresolved help link in D:/Developpements/official/nelson/modules/compiler/help/fr_FR/xml/compiler_project_tutorial.xml: ${modules_manager}deploytoolUnresolved help link in D:/Developpements/official/nelson/modules/compiler/help/fr_FR/xml/compiler_project_tutorial.xml: ${modules_manager}standaloneApplicationCompilerUnresolved help link in D:/Developpements/official/nelson/modules/compiler/help/fr_FR/xml/compiler_standalone_tutorial.xml: ${modules_manager}nccUnresolved help link in D:/Developpements/official/nelson/modules/compiler/help/fr_FR/xml/compiler_standalone_tutorial.xml: ${interpreter}isdeployedUnresolved help link in D:/Developpements/official/nelson/modules/compiler/help/fr_FR/xml/compiler_standalone_tutorial.xml: ${interpreter}ctfrootUnresolved help link in D:/Developpements/official/nelson/modules/compiler/help/fr_FR/xml/nelson.compiler.BuildOptions.xml: ${modules_manager}nccUnresolved help link in D:/Developpements/official/nelson/modules/compiler/help/fr_FR/xml/nelson.compiler.analyze.xml: ${modules_manager}nccUnresolved help link in D:/Developpements/official/nelson/modules/compiler/help/fr_FR/xml/nelson.compiler.build.xml: ${modules_manager}ncc]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_publication_recovery" time="4.4" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_rebuild" time="35" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_runtime_distribution" time="16" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_runtime_installer_options" time="0.1" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_source_fingerprint" time="0.042" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_standalone_api" time="14" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_standalone_data" time="8.1" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_standalone_options" time="0.13" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_standalone_tutorial" time="26" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+    {'console'                }
+    {'core'                   }
+    {'data_structures'        }
+    {'display_format'         }
+    {'elementary_functions'   }
+    {'engine'                 }
+    {'error_manager'          }
+    {'file_archiver'          }
+    {'files_folders_functions'}
+    {'functions_manager'      }
+    {'interpreter'            }
+    {'json'                   }
+    {'logical'                }
+    {'memory_manager'         }
+    {'modules_manager'        }
+    {'operators'              }
+    {'os_functions'           }
+    {'overload'               }
+    {'stream_manager'         }
+    {'string'                 }
+    {'types'                  }
+    {'validators'             }
+
+    {'C:\Users\allan\AppData\Local\Temp\tp5c9cadbb_a588_496c_b29b_78f0bd91de3…'}
+
+TUTORIAL_RESULT=30
+
+    {'C:\Users\allan\…'}    {'C:\Users\allan\…'}
+
+TUTORIAL_RESULT=30
+
+usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+    {'C:\Users\allan\AppData\Local\Temp\tpb4ab6e32_482d_4fff_baf5_5f05b7bfb43…'}
+
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_support_packages" time="31" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_windows_runtime_script" time="0.21" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+Error on line 2 in C:\Users\allan\AppData\Local\Temp\tp41feaa8f_2e5b_4cf0_b4a4_3c723d7e1db7\invalid-script\installer.iss: Unrecognized [Setup] section directive "UnknownSetting"
+Compile aborted.
+
+]]></system-out>
+    </testcase>
+    <testcase name="test_deploytool" time="19" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_deploytool_restore" time="9.1" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_deploytool_sources" time="19" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_native_elf_resolution" time="0.13" classname="compiler">
+    </testcase>
+    <testcase name="test_native_elf_search_paths" time="0.041" classname="compiler">
+    </testcase>
+    <testcase name="test_performance_interleaved_control" time="0.88" classname="compiler">
+    </testcase>
+    <testcase name="test_performance_runtime_provenance" time="0.64" classname="compiler">
+    </testcase>
+    <testcase name="test_runtime_license_present" time="0.021" classname="compiler">
+    </testcase>
+    <testcase name="test_application_runtime_log" time="14" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+Created C:\Users\allan\AppData\Local\Temp\tp1a3bbe4a_3eb5_4d85_a25c_8ed06b85ca94 log 漢字\absolute.exe
+Created C:\Users\allan\AppData\Local\Temp\tp1a3bbe4a_3eb5_4d85_a25c_8ed06b85ca94 log 漢字\plain.exe
+Created C:\Users\allan\AppData\Local\Temp\tp1a3bbe4a_3eb5_4d85_a25c_8ed06b85ca94 log 漢字\self.exe
+Created C:\Users\allan\AppData\Local\Temp\tp1a3bbe4a_3eb5_4d85_a25c_8ed06b85ca94 log 漢字\self.exe
+Created C:\Users\allan\AppData\Local\Temp\tp1a3bbe4a_3eb5_4d85_a25c_8ed06b85ca94 log 漢字\self.exe
+]]></system-out>
+    </testcase>
+    <testcase name="test_application_runtime_registry_linux" time="0.008" classname="compiler">
+    </testcase>
+    <testcase name="test_compiler_build_tutorial" time="9.7" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+    {'C:\Users\allan\AppData\Local\Temp\tp02907e71_7ae9_43ae_b75e_65fece30f97…'}
+    {'C:\Users\allan\AppData\Local\Temp\tp02907e71_7ae9_43ae_b75e_65fece30f97…'}
+
+   636
+
+app_entry
+    {'C:\Users\allan\AppData\Local\Temp\tp02907e71_7ae9_43ae_b75e_65fece30f97…'}
+    {'C:\Users\allan\AppData\Local\Temp\tp02907e71_7ae9_43ae_b75e_65fece30f97…'}
+    {'C:\Users\allan\AppData\Local\Temp\tp02907e71_7ae9_43ae_b75e_65fece30f97…'}
+
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_help_deployment" time="0.47" classname="compiler">
+    </testcase>
+    <testcase name="test_compiler_installer_linux" time="0.015" classname="compiler">
+    </testcase>
+    <testcase name="test_compiler_installer_macos" time="0.0073" classname="compiler">
+    </testcase>
+    <testcase name="test_compiler_installer_offline" time="1.2e+02" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_installer_reproducible" time="3.1e+02" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_installer_runtime_folder_linux" time="0.016" classname="compiler">
+    </testcase>
+    <testcase name="test_compiler_installer_runtime_folder_windows" time="4.7e+02" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+WINDOWS_RUNTIME_FOLDER_OK
+
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_installer_tutorial" time="1.7e+02" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_installer_windows_cli" time="51" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_linux_installer_tutorial" time="0.052" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_linux_runtime_tutorial" time="0.05" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_runtime_installer" time="2.1e+02" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_runtime_installer_inventory" time="54" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_runtime_installer_linux" time="0.0093" classname="compiler">
+    </testcase>
+    <testcase name="test_compiler_runtime_installer_windows_cli" time="2e+02" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_runtime_recovery" time="1e+02" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+RECOVERY_LOCK_RETRY_OK
+RECOVERY_LOCK_FAILURE_OK
+RECOVERY_FINALIZATION_FAILURE_OK
+UPDATE_RECOVERY_OK=payload
+UPDATE_RECOVERY_OK=ledger
+UPDATE_RECOVERY_OK=manifest
+UPDATE_RECOVERY_OK=startup
+UPDATE_RECOVERY_OK=uninstall
+UPDATE_RECOVERY_OK=completion
+UPDATE_RECOVERY_OK=commit
+UPDATE_RECOVERY_OK=retired
+UPDATE_RECOVERY_OK=cleanup
+INITIAL_RECOVERY_OK=payload
+INITIAL_RECOVERY_OK=ledger
+INITIAL_RECOVERY_OK=uninstall
+INITIAL_RECOVERY_OK=completion
+RUNTIME_PROCESS_RECOVERY_OK
+
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_runtime_recovery_application" time="2.4e+02" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+RUNTIME_APPLICATION_RECOVERY_OK
+
+]]></system-out>
+    </testcase>
+    <testcase name="test_compiler_runtime_tutorial" time="90" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+]]></system-out>
+    </testcase>
+    <testcase name="bench_compiler_numeric_inputs" time="17" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+NUMERIC_INPUT_BENCH={"ExecutableBytes":[259452,259470],"FirstProcessSeconds":[0.7661300000000001,0.7173366],"MedianLaterProcessSeconds":[0.6398685500000001,0.6393038],"MedianWarmedSeconds":[0.0063399,0.0063313],"ProcessSeconds":[[0.7661300000000001,0.6539056000000001,0.6401869,0.6395502000000001,0.6386155,0.6392542,0.6413366],[0.7173366,0.6404718,0.6378128000000001,0.6385785,0.6400291,0.6377071000000001,0.6408780000000001]],"WarmedSeconds":[[0.009407499999999999,0.0063399,0.0063986,0.0062792,0.0062427,0.0063187,0.0064838],[0.0061787,0.0063515,0.006192,0.0063313,0.0061692,0.006345,0.0065617]]}
+]]></system-out>
+    </testcase>
+    <testcase name="bench_compiler_runtime_log" time="20" classname="compiler">
+      <system-out><![CDATA[usage: nelsonc entry.m -o application [--gui|--cli] [--no-console] [-a file] [-n|--numeric-inputs] [-X|--no-auto-data] [-C|--external-archive] [--support-package autodetect|none|name] [--runtime bundled|installed] [--executable-version version] [--executable-icon image] [--runtime-log-file file] [--help-file file] [--explain-link]
+Nelson: output = ncc('entry.m', '-o', 'application', ...)
+RUNTIME_LOG_BENCH={"ExecutableBytes":[257818,257837],"FirstProcessSeconds":[0.7327408000000001,0.7613471000000001],"MedianLaterProcessSeconds":[0.6715106500000001,0.6846598500000001],"MedianWarmedSeconds":[0.0306876,0.0309176],"ProcessSeconds":[[0.7327408000000001,0.6701567,0.672355,0.6722972,0.6874486000000001,0.6850719000000001,0.6702743,0.6707241,0.668856],[0.7613471000000001,0.6870122000000001,0.6857112000000001,0.6828585,0.6835899000000001,0.6846064000000001,0.6869316000000001,0.6832144,0.6847133000000001]],"WarmedSeconds":[[0.0298315,0.0300255,0.0308208,0.0304509,0.0308819,0.0308168,0.0306876,0.0309611,0.0305958],[0.0312825,0.0309689,0.0309466,0.0300523,0.0307004,0.0303539,0.0302969,0.0309176,0.031224]]}
+]]></system-out>
+    </testcase>
+    <testcase name="bench_compiler_runtime_registry_linux" time="0.0059" classname="compiler">
+    </testcase>
+  </testsuite>
+  <testsuite name="help_tools" tests="36" failures="0" errors="0" skipped="2" time="139.700">
+    <testcase name="test_buildhelp" time="0.0091" classname="help_tools">
+    </testcase>
+    <testcase name="test_buildhelpjson" time="0.0096" classname="help_tools">
+    </testcase>
+    <testcase name="test_buildhelpmd" time="1.4" classname="help_tools">
+      <system-out><![CDATA[
+have_xmldoc =
+
+  logical
+
+     true
+
+Unresolved help link in D:/Developpements/official/nelson/modules/help_tools/help/en_US/xml/headcomments.xml: ${gui}inserthtmlhelp 'help_tools' (en_US) generated.
+Unresolved help link in D:/Developpements/official/nelson/modules/help_tools/help/fr_FR/xml/headcomments.xml: ${gui}inserthtmlhelp 'help_tools' (fr_FR) generated.
+]]></system-out>
+    </testcase>
+    <testcase name="test_buildhelptypst" time="1.4" classname="help_tools">
+      <system-out><![CDATA[Unresolved help link in D:/Developpements/official/nelson/modules/help_tools/help/en_US/xml/headcomments.xml: ${gui}inserthtmlhelp 'help_tools' (en_US) generated.
+Unresolved help link in D:/Developpements/official/nelson/modules/help_tools/help/fr_FR/xml/headcomments.xml: ${gui}inserthtmlhelp 'help_tools' (fr_FR) generated.
+]]></system-out>
+    </testcase>
+    <testcase name="test_buildhelptypst_manual" time="1.3e+02" classname="help_tools">
+      <system-out><![CDATA[help 'functions_manager' (en_US) generated.
+help 'functions_manager' (fr_FR) generated.
+help 'modules_manager' (en_US) generated.
+help 'modules_manager' (fr_FR) generated.
+help 'core' (en_US) generated.
+help 'core' (fr_FR) generated.
+help 'engine' (en_US) generated.
+help 'engine' (fr_FR) generated.
+help 'interpreter' (en_US) generated.
+help 'interpreter' (fr_FR) generated.
+help 'error_manager' (en_US) generated.
+help 'error_manager' (fr_FR) generated.
+help 'console' (en_US) generated.
+help 'console' (fr_FR) generated.
+help 'text_completion' (en_US) generated.
+help 'text_completion' (fr_FR) generated.
+help 'display_format' (en_US) generated.
+help 'display_format' (fr_FR) generated.
+help 'characters_encoding' (en_US) generated.
+help 'characters_encoding' (fr_FR) generated.
+help 'localization' (en_US) generated.
+help 'localization' (fr_FR) generated.
+help 'i18n' (en_US) generated.
+help 'i18n' (fr_FR) generated.
+help 'types' (en_US) generated.
+help 'types' (fr_FR) generated.
+help 'logical' (en_US) generated.
+help 'logical' (fr_FR) generated.
+help 'single' (en_US) generated.
+help 'single' (fr_FR) generated.
+help 'double' (en_US) generated.
+help 'double' (fr_FR) generated.
+help 'integer' (en_US) generated.
+help 'integer' (fr_FR) generated.
+help 'sparse' (en_US) generated.
+help 'sparse' (fr_FR) generated.
+help 'string' (en_US) generated.
+help 'string' (fr_FR) generated.
+help 'function_handle' (en_US) generated.
+help 'function_handle' (fr_FR) generated.
+Unresolved help link in D:/Developpements/official/nelson/modules/handle/help/en_US/xml/get.xml: ${qml_engine}QObject_getUnresolved help link in D:/Developpements/official/nelson/modules/handle/help/en_US/xml/set.xml: ${qml_engine}QObject_sethelp 'handle' (en_US) generated.
+Unresolved help link in D:/Developpements/official/nelson/modules/handle/help/fr_FR/xml/get.xml: ${qml_engine}QObject_getUnresolved help link in D:/Developpements/official/nelson/modules/handle/help/fr_FR/xml/set.xml: ${qml_engine}QObject_sethelp 'handle' (fr_FR) generated.
+help 'data_structures' (en_US) generated.
+help 'data_structures' (fr_FR) generated.
+help 'dictionary' (en_US) generated.
+help 'dictionary' (fr_FR) generated.
+help 'table' (en_US) generated.
+help 'table' (fr_FR) generated.
+help 'categorical' (en_US) generated.
+help 'categorical' (fr_FR) generated.
+help 'overload' (en_US) generated.
+help 'overload' (fr_FR) generated.
+help 'operators' (en_US) generated.
+help 'operators' (fr_FR) generated.
+help 'constructors_functions' (en_US) generated.
+help 'constructors_functions' (fr_FR) generated.
+help 'elementary_functions' (en_US) generated.
+help 'elementary_functions' (fr_FR) generated.
+help 'trigonometric_functions' (en_US) generated.
+help 'trigonometric_functions' (fr_FR) generated.
+help 'special_functions' (en_US) generated.
+help 'special_functions' (fr_FR) generated.
+help 'linear_algebra' (en_US) generated.
+help 'linear_algebra' (fr_FR) generated.
+help 'statistics' (en_US) generated.
+help 'statistics' (fr_FR) generated.
+help 'data_analysis' (en_US) generated.
+help 'data_analysis' (fr_FR) generated.
+help 'ode_solvers' (en_US) generated.
+help 'ode_solvers' (fr_FR) generated.
+help 'polynomial_functions' (en_US) generated.
+help 'polynomial_functions' (fr_FR) generated.
+help 'geometry' (en_US) generated.
+help 'geometry' (fr_FR) generated.
+help 'control_system' (en_US) generated.
+help 'control_system' (fr_FR) generated.
+help 'slicot' (en_US) generated.
+help 'slicot' (fr_FR) generated.
+help 'signal_processing' (en_US) generated.
+help 'signal_processing' (fr_FR) generated.
+help 'fftw' (en_US) generated.
+help 'fftw' (fr_FR) generated.
+help 'random' (en_US) generated.
+help 'random' (fr_FR) generated.
+help 'os_functions' (en_US) generated.
+help 'os_functions' (fr_FR) generated.
+help 'files_folders_functions' (en_US) generated.
+help 'files_folders_functions' (fr_FR) generated.
+help 'file_archiver' (en_US) generated.
+help 'file_archiver' (fr_FR) generated.
+help 'memory_manager' (en_US) generated.
+help 'memory_manager' (fr_FR) generated.
+help 'time' (en_US) generated.
+help 'time' (fr_FR) generated.
+help 'stream_manager' (en_US) generated.
+help 'stream_manager' (fr_FR) generated.
+help 'hdf5' (en_US) generated.
+help 'hdf5' (fr_FR) generated.
+Unresolved help link in D:/Developpements/official/nelson/modules/preferences/help/en_US/xml/preferences.xml: ${gui}lookandfeelHelp link module mismatch in D:/Developpements/official/nelson/modules/preferences/help/en_US/xml/uigetpref.xml: ${gui}questdlg resolved in module 'webview'help 'preferences' (en_US) generated.
+Unresolved help link in D:/Developpements/official/nelson/modules/preferences/help/fr_FR/xml/preferences.xml: ${gui}lookandfeelHelp link module mismatch in D:/Developpements/official/nelson/modules/preferences/help/fr_FR/xml/uigetpref.xml: ${gui}questdlg resolved in module 'webview'help 'preferences' (fr_FR) generated.
+help 'netcdf' (en_US) generated.
+help 'netcdf' (fr_FR) generated.
+help 'matio' (en_US) generated.
+help 'matio' (fr_FR) generated.
+help 'xml' (en_US) generated.
+help 'xml' (fr_FR) generated.
+help 'json' (en_US) generated.
+help 'json' (fr_FR) generated.
+help 'ai' (en_US) generated.
+help 'ai' (fr_FR) generated.
+help 'parquet' (en_US) generated.
+help 'parquet' (fr_FR) generated.
+help 'spreadsheet' (en_US) generated.
+help 'spreadsheet' (fr_FR) generated.
+help 'mpi' (en_US) generated.
+help 'mpi' (fr_FR) generated.
+help 'parallel' (en_US) generated.
+help 'parallel' (fr_FR) generated.
+help 'ipc' (en_US) generated.
+help 'ipc' (fr_FR) generated.
+help 'audio' (en_US) generated.
+help 'audio' (fr_FR) generated.
+help 'history_manager' (en_US) generated.
+help 'history_manager' (fr_FR) generated.
+help 'text_editor' (en_US) generated.
+help 'text_editor' (fr_FR) generated.
+help 'notebook' (en_US) generated.
+help 'notebook' (fr_FR) generated.
+Unresolved help link in D:/Developpements/official/nelson/modules/graphics/help/en_US/xml/2_graphics_objects/3_ui_controls/sendEventToHTMLSource.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/en_US/xml/2_graphics_objects/3_ui_controls/uiaxes.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/en_US/xml/2_graphics_objects/3_ui_controls/uibutton.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/en_US/xml/2_graphics_objects/3_ui_controls/uibuttongroup.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/en_US/xml/2_graphics_objects/3_ui_controls/uicheckbox.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/en_US/xml/2_graphics_objects/3_ui_controls/uidatepicker.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/en_US/xml/2_graphics_objects/3_ui_controls/uidropdown.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/en_US/xml/2_graphics_objects/3_ui_controls/uieditfield.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/en_US/xml/2_graphics_objects/3_ui_controls/uigauge.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/en_US/xml/2_graphics_objects/3_ui_controls/uigridlayout.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/en_US/xml/2_graphics_objects/3_ui_controls/uihtml.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/en_US/xml/2_graphics_objects/3_ui_controls/uiknob.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/en_US/xml/2_graphics_objects/3_ui_controls/uilabel.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/en_US/xml/2_graphics_objects/3_ui_controls/uilamp.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/en_US/xml/2_graphics_objects/3_ui_controls/uilistbox.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/en_US/xml/2_graphics_objects/3_ui_controls/uipanel.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/en_US/xml/2_graphics_objects/3_ui_controls/uiradiobutton.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/en_US/xml/2_graphics_objects/3_ui_controls/uislider.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/en_US/xml/2_graphics_objects/3_ui_controls/uispinner.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/en_US/xml/2_graphics_objects/3_ui_controls/uiswitch.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/en_US/xml/2_graphics_objects/3_ui_controls/uitab.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/en_US/xml/2_graphics_objects/3_ui_controls/uitabgroup.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/en_US/xml/2_graphics_objects/3_ui_controls/uitable.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/en_US/xml/2_graphics_objects/3_ui_controls/uitextarea.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/en_US/xml/2_graphics_objects/3_ui_controls/uitogglebutton.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/en_US/xml/2_graphics_objects/3_ui_controls/uitree.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/en_US/xml/2_graphics_objects/3_ui_controls/uitreenode.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/en_US/xml/5_printing_saving/exportapp.xml: ${gui}uifigurehelp 'graphics' (en_US) generated.
+Unresolved help link in D:/Developpements/official/nelson/modules/graphics/help/fr_FR/xml/2_graphics_objects/3_ui_controls/sendEventToHTMLSource.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/fr_FR/xml/2_graphics_objects/3_ui_controls/uiaxes.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/fr_FR/xml/2_graphics_objects/3_ui_controls/uibutton.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/fr_FR/xml/2_graphics_objects/3_ui_controls/uibuttongroup.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/fr_FR/xml/2_graphics_objects/3_ui_controls/uicheckbox.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/fr_FR/xml/2_graphics_objects/3_ui_controls/uidatepicker.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/fr_FR/xml/2_graphics_objects/3_ui_controls/uidropdown.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/fr_FR/xml/2_graphics_objects/3_ui_controls/uieditfield.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/fr_FR/xml/2_graphics_objects/3_ui_controls/uigauge.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/fr_FR/xml/2_graphics_objects/3_ui_controls/uigridlayout.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/fr_FR/xml/2_graphics_objects/3_ui_controls/uihtml.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/fr_FR/xml/2_graphics_objects/3_ui_controls/uiknob.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/fr_FR/xml/2_graphics_objects/3_ui_controls/uilabel.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/fr_FR/xml/2_graphics_objects/3_ui_controls/uilamp.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/fr_FR/xml/2_graphics_objects/3_ui_controls/uilistbox.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/fr_FR/xml/2_graphics_objects/3_ui_controls/uipanel.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/fr_FR/xml/2_graphics_objects/3_ui_controls/uiradiobutton.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/fr_FR/xml/2_graphics_objects/3_ui_controls/uislider.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/fr_FR/xml/2_graphics_objects/3_ui_controls/uispinner.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/fr_FR/xml/2_graphics_objects/3_ui_controls/uiswitch.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/fr_FR/xml/2_graphics_objects/3_ui_controls/uitab.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/fr_FR/xml/2_graphics_objects/3_ui_controls/uitabgroup.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/fr_FR/xml/2_graphics_objects/3_ui_controls/uitable.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/fr_FR/xml/2_graphics_objects/3_ui_controls/uitextarea.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/fr_FR/xml/2_graphics_objects/3_ui_controls/uitogglebutton.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/fr_FR/xml/2_graphics_objects/3_ui_controls/uitree.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/fr_FR/xml/2_graphics_objects/3_ui_controls/uitreenode.xml: ${gui}uifigureUnresolved help link in D:/Developpements/official/nelson/modules/graphics/help/fr_FR/xml/5_printing_saving/exportapp.xml: ${gui}uifigurehelp 'graphics' (fr_FR) generated.
+help 'graphics_io' (en_US) generated.
+help 'graphics_io' (fr_FR) generated.
+help 'image_processing' (en_US) generated.
+help 'image_processing' (fr_FR) generated.
+help 'webtools' (en_US) generated.
+help 'webtools' (fr_FR) generated.
+help 'gui' (en_US) generated.
+help 'gui' (fr_FR) generated.
+help 'dynamic_link' (en_US) generated.
+help 'dynamic_link' (fr_FR) generated.
+help 'mex' (en_US) generated.
+help 'mex' (fr_FR) generated.
+help 'f2c' (en_US) generated.
+help 'f2c' (fr_FR) generated.
+help 'validators' (en_US) generated.
+help 'validators' (fr_FR) generated.
+help 'python_engine' (en_US) generated.
+help 'python_engine' (fr_FR) generated.
+help 'julia_engine' (en_US) generated.
+help 'julia_engine' (fr_FR) generated.
+help 'gpu_engine' (en_US) generated.
+help 'gpu_engine' (fr_FR) generated.
+help 'debugger' (en_US) generated.
+help 'debugger' (fr_FR) generated.
+help 'profiler' (en_US) generated.
+help 'profiler' (fr_FR) generated.
+help 'tests_manager' (en_US) generated.
+help 'tests_manager' (fr_FR) generated.
+help 'assert_functions' (en_US) generated.
+help 'assert_functions' (fr_FR) generated.
+Unresolved help link in D:/Developpements/official/nelson/modules/help_tools/help/en_US/xml/headcomments.xml: ${gui}inserthtmlhelp 'help_tools' (en_US) generated.
+Unresolved help link in D:/Developpements/official/nelson/modules/help_tools/help/fr_FR/xml/headcomments.xml: ${gui}inserthtmlhelp 'help_tools' (fr_FR) generated.
+help 'optimization' (en_US) generated.
+help 'optimization' (fr_FR) generated.
+help 'nflow_blocks' (en_US) generated.
+help 'nflow_blocks' (fr_FR) generated.
+help 'nflow_engine' (en_US) generated.
+help 'nflow_engine' (fr_FR) generated.
+help 'nflow_fmi' (en_US) generated.
+help 'nflow_fmi' (fr_FR) generated.
+help 'nflow_gui' (en_US) generated.
+help 'nflow_gui' (fr_FR) generated.
+help 'nmm_gui' (en_US) generated.
+help 'nmm_gui' (fr_FR) generated.
+help 'compiler' (en_US) generated.
+help 'compiler' (fr_FR) generated.
+]]></system-out>
+    </testcase>
+    <testcase name="test_buildhelpweb" time="0.18" classname="help_tools">
+      <system-out><![CDATA[
+have_xmldoc =
+
+  logical
+
+     true
+
+]]></system-out>
+    </testcase>
+    <testcase name="test_docroot" time="0.012" classname="help_tools">
+    </testcase>
+    <testcase name="test_headcomments" time="0.012" classname="help_tools">
+    </testcase>
+    <testcase name="test_help" time="0.15" classname="help_tools">
+      <system-out><![CDATA[Type help 'help' for more information.
+ help - Help for functions in Command Window.
+
+   help('function_name') displays the help text for the functionality
+   specified. The shipped JSON help index is searched first. …
+
+   Syntax: 
+      help function_name
+      help('function_name')
+      txt = help('function_name')
+
+   Input Arguments:
+      function_name: a string: function name, documentation keyword, alias or external XML page name
+
+   Output Arguments:
+      txt: a string: help text
+
+   See also: doc
+
+   Documentation: help
+
+ help - Help for functions in Command Window.
+
+   help('function_name') displays the help text for the functionality
+   specified. The shipped JSON help index is searched first. …
+
+   Syntax: 
+      help function_name
+      help('function_name')
+      txt = help('function_name')
+
+   Input Arguments:
+      function_name: a string: function name, documentation keyword, alias or external XML page name
+
+   Output Arguments:
+      txt: a string: help text
+
+   See also: doc
+
+   Documentation: help
+
+]]></system-out>
+    </testcase>
+    <testcase name="test_help_external_xml" time="0.76" classname="help_tools">
+      <system-out><![CDATA[Please check: C:/Users/allan/AppData/Local/Temp/tpa52e1230_4a23_48bb_9860_06ad310373d5/module.jsonPlease check: C:/Users/allan/AppData/Local/Temp/tpa52e1230_4a23_48bb_9860_06ad310373d5/module.json]]></system-out>
+    </testcase>
+    <testcase name="test_help_index_cache" time="0.16" classname="help_tools">
+    </testcase>
+    <testcase name="test_htmltopdf" time="0.019" classname="help_tools">
+      <skipped/>
+    </testcase>
+    <testcase name="test_markdown" time="0.027" classname="help_tools">
+    </testcase>
+    <testcase name="test_markdown_to_typst" time="0.039" classname="help_tools">
+    </testcase>
+    <testcase name="test_markdowndisp" time="0.018" classname="help_tools">
+    </testcase>
+    <testcase name="test_xmldoc_chapter_links" time="0.1" classname="help_tools">
+    </testcase>
+    <testcase name="test_xmldoc_chapter_table" time="0.088" classname="help_tools">
+    </testcase>
+    <testcase name="test_xmldoc_link_resolution" time="0.14" classname="help_tools">
+      <system-out><![CDATA[Help link module mismatch in C:/Users/allan/AppData/Local/Temp/tpa2d8e656_396c_46c3_b3aa_c21e16c15f91/alpha/root_page.xml: ${alpha}beta_page resolved in module 'beta'Unresolved help link in C:/Users/allan/AppData/Local/Temp/tpa2d8e656_396c_46c3_b3aa_c21e16c15f91/alpha/root_page.xml: ${alpha}does_not_exist]]></system-out>
+    </testcase>
+    <testcase name="test_xmldoc_nested" time="0.22" classname="help_tools">
+    </testcase>
+    <testcase name="test_xmldoc_source_code" time="0.071" classname="help_tools">
+    </testcase>
+    <testcase name="test_xmldocbuild" time="0.024" classname="help_tools">
+    </testcase>
+    <testcase name="test_xmldocchecker" time="0.061" classname="help_tools">
+    </testcase>
+    <testcase name="test_xmldoclinkchecker" time="0.048" classname="help_tools">
+    </testcase>
+    <testcase name="test_xmldocmergesummary_links" time="0.099" classname="help_tools">
+    </testcase>
+    <testcase name="test_xmldocrenderimages_all_languages" time="2.4" classname="help_tools">
+      <system-out><![CDATA[Please check: C:/Users/allan/AppData/Local/Temp/tp781849e2_fad5_4aae_93b7_6e3b7a42357c/module.jsonRendering images for module nelson_test_xmldocrenderimages_all_1a2e48bc_81e3_4d22_bc65_a4ff3fc01f34 language en_US
+Rendering 1 images on 1 workers.
+Rendering images for module nelson_test_xmldocrenderimages_all_1a2e48bc_81e3_4d22_bc65_a4ff3fc01f34 language fr_FR
+]]></system-out>
+    </testcase>
+    <testcase name="test_xmldocrenderimages_errors" time="0.024" classname="help_tools">
+    </testcase>
+    <testcase name="test_xmldocrenderimages_force" time="2.3" classname="help_tools">
+      <system-out><![CDATA[Please check: C:/Users/allan/AppData/Local/Temp/tp757a11c1_8115_4a24_a49a_fe7c33b394a6/module.jsonRendering images for module nelson_test_xmldocrenderimages_force_f9fea94a_05f7_4946_b5ed_62c7967828e1 language en_US
+Rendering 1 images on 1 workers.
+]]></system-out>
+    </testcase>
+    <testcase name="test_xmldocrenderimages_generate_scripts" time="0.044" classname="help_tools">
+    </testcase>
+    <testcase name="test_xmldocrenderimages_nested" time="2.4" classname="help_tools">
+      <system-out><![CDATA[Please check: C:/Users/allan/AppData/Local/Temp/tpe7fc984e_1b4d_4ecd_a1ab_c07ce4b320f9/module.jsonRendering images for module nelson_test_xmldocrenderimages_nested_e84bafb2_3ab8_406c_bceb_5a3fc93d38d1 language en_US
+Rendering 1 images on 1 workers.
+]]></system-out>
+    </testcase>
+    <testcase name="test_xmldoctohtml" time="0.03" classname="help_tools">
+    </testcase>
+    <testcase name="test_xmldoctomd" time="0.026" classname="help_tools">
+    </testcase>
+    <testcase name="test_xmldoctotypst" time="0.06" classname="help_tools">
+    </testcase>
+    <testcase name="test_xmldoctotypst_compile" time="0.091" classname="help_tools">
+      <skipped/>
+    </testcase>
+    <testcase name="test_xmldoctotypst_escape" time="0.065" classname="help_tools">
+      <system-out><![CDATA[Unresolved help link in C:/Users/allan/AppData/Local/Temp/tp225328e8_6e79_45d9_8868_dc01b524edd0/my_func.xml: ${other_mod}other_fn]]></system-out>
+    </testcase>
+    <testcase name="test_deployhelp" time="0.48" classname="help_tools">
+    </testcase>
+    <testcase name="test_doc" time="0.3" classname="help_tools">
+    </testcase>
+  </testsuite>
+  <testsuite name="i18n" tests="3" failures="0" errors="0" skipped="0" time="0.137">
+    <testcase name="test_gettext" time="0.01" classname="i18n">
+    </testcase>
+    <testcase name="test_i18nHelpers" time="0.11" classname="i18n">
+    </testcase>
+    <testcase name="test_poheader" time="0.013" classname="i18n">
+    </testcase>
+  </testsuite>
+  <testsuite name="engine" tests="41" failures="0" errors="0" skipped="0" time="82.780">
+    <testcase name="test_adv_cli_repeated_startup" time="27" classname="engine">
+    </testcase>
+    <testcase name="test_adv_cli_warning_newline" time="1.1" classname="engine">
+    </testcase>
+    <testcase name="test_application_startup_failure" time="15" classname="engine">
+    </testcase>
+    <testcase name="test_application_startup_interface" time="0.019" classname="engine">
+    </testcase>
+    <testcase name="test_argv" time="0.014" classname="engine">
+    </testcase>
+    <testcase name="test_command_line_options" time="0.57" classname="engine">
+    </testcase>
+    <testcase name="test_command_line_options_adv_cli_mode_selector" time="0.12" classname="engine">
+    </testcase>
+    <testcase name="test_command_line_options_adv_headless" time="0.58" classname="engine">
+    </testcase>
+    <testcase name="test_command_line_options_adv_mode_selector" time="0.1" classname="engine">
+    </testcase>
+    <testcase name="test_command_line_options_argv" time="0.57" classname="engine">
+    </testcase>
+    <testcase name="test_command_line_options_argv_dash_option" time="0.59" classname="engine">
+    </testcase>
+    <testcase name="test_command_line_options_argv_edges" time="0.57" classname="engine">
+    </testcase>
+    <testcase name="test_command_line_options_argv_empty" time="0.58" classname="engine">
+    </testcase>
+    <testcase name="test_command_line_options_cli_gui_selector" time="0.12" classname="engine">
+    </testcase>
+    <testcase name="test_command_line_options_errors" time="0.44" classname="engine">
+    </testcase>
+    <testcase name="test_command_line_options_execute_short_equals" time="1.1" classname="engine">
+    </testcase>
+    <testcase name="test_command_line_options_gui_errors" time="0.46" classname="engine">
+    </testcase>
+    <testcase name="test_command_line_options_language" time="0.55" classname="engine">
+    </testcase>
+    <testcase name="test_command_line_options_missing_value_errors" time="0.67" classname="engine">
+    </testcase>
+    <testcase name="test_command_line_options_modes" time="0.12" classname="engine">
+    </testcase>
+    <testcase name="test_command_line_options_timeout_errors" time="0.32" classname="engine">
+    </testcase>
+    <testcase name="test_command_line_options_web" time="4.8" classname="engine">
+    </testcase>
+    <testcase name="test_command_line_options_windowed_errors" time="0.11" classname="engine">
+    </testcase>
+    <testcase name="test_command_line_options_windows_aliases" time="0.56" classname="engine">
+    </testcase>
+    <testcase name="test_command_line_options_windows_execute_equals_alias" time="0.55" classname="engine">
+    </testcase>
+    <testcase name="test_command_line_options_windows_file_aliases" time="0.56" classname="engine">
+    </testcase>
+    <testcase name="test_command_line_options_windows_file_equals_alias" time="0.56" classname="engine">
+    </testcase>
+    <testcase name="test_command_line_options_windows_gui_required" time="0.11" classname="engine">
+    </testcase>
+    <testcase name="test_command_line_options_windows_language_alias" time="0.55" classname="engine">
+    </testcase>
+    <testcase name="test_desktop_start_directory" time="3.1" classname="engine">
+    </testcase>
+    <testcase name="test_engine_optional_web_backend" time="0.011" classname="engine">
+    </testcase>
+    <testcase name="test_execute_option_uncaught_error_exit_code" time="4.5" classname="engine">
+    </testcase>
+    <testcase name="test_execute_option_windowed_modes" time="5" classname="engine">
+    </testcase>
+    <testcase name="test_file_option_uncaught_error_exit_code" time="4.5" classname="engine">
+    </testcase>
+    <testcase name="test_getnelsonmode" time="0.011" classname="engine">
+    </testcase>
+    <testcase name="test_getwebmode" time="0.0089" classname="engine">
+    </testcase>
+    <testcase name="test_gui_exit_with_figure" time="3.8" classname="engine">
+    </testcase>
+    <testcase name="test_isquietmode" time="0.0097" classname="engine">
+    </testcase>
+    <testcase name="test_timeout_option" time="2.1" classname="engine">
+    </testcase>
+    <testcase name="test_timeout_qt_figures" time="2.1" classname="engine">
+    </testcase>
+    <testcase name="test_windowed_evaluator_stack" time="0.0034" classname="engine">
+    </testcase>
+  </testsuite>
+  <testsuite name="ai" tests="52" failures="0" errors="0" skipped="0" time="54.155">
+    <testcase name="test_ai_curve_designer" time="0.1" classname="ai">
+    </testcase>
+    <testcase name="test_ai_packaging_integration" time="0.063" classname="ai">
+    </testcase>
+    <testcase name="test_aiagent" time="0.048" classname="ai">
+    </testcase>
+    <testcase name="test_aiask" time="0.031" classname="ai">
+    </testcase>
+    <testcase name="test_aihistory" time="28" classname="ai">
+    </testcase>
+    <testcase name="test_aimodels" time="0.077" classname="ai">
+    </testcase>
+    <testcase name="test_ainflow" time="0.56" classname="ai">
+    </testcase>
+    <testcase name="test_ainotebook" time="0.03" classname="ai">
+    </testcase>
+    <testcase name="test_aioptions" time="0.055" classname="ai">
+    </testcase>
+    <testcase name="test_aiskills" time="0.15" classname="ai">
+    </testcase>
+    <testcase name="test_aivision" time="0.028" classname="ai">
+    </testcase>
+    <testcase name="test_assistant_domain_context" time="0.9" classname="ai">
+    </testcase>
+    <testcase name="test_assistant_enabled_flag" time="0.014" classname="ai">
+    </testcase>
+    <testcase name="test_assistant_example_grounding" time="0.18" classname="ai">
+    </testcase>
+    <testcase name="test_assistant_grounding_coverage" time="3.7" classname="ai">
+    </testcase>
+    <testcase name="test_assistant_skill_catalog_parity" time="0.046" classname="ai">
+    </testcase>
+    <testcase name="test_assistant_skill_functions_exist" time="0.2" classname="ai">
+    </testcase>
+    <testcase name="test_assistant_skillrouting" time="0.25" classname="ai">
+    </testcase>
+    <testcase name="test_gallery_examples" time="0.056" classname="ai">
+    </testcase>
+    <testcase name="test_hostactions" time="0.29" classname="ai">
+    </testcase>
+    <testcase name="test_marketplace" time="0.12" classname="ai">
+    </testcase>
+    <testcase name="test_mcpcall" time="0.034" classname="ai">
+    </testcase>
+    <testcase name="test_mcpinfo" time="0.029" classname="ai">
+    </testcase>
+    <testcase name="test_parsetoolcall" time="0.03" classname="ai">
+    </testcase>
+    <testcase name="test_acp_activity" time="0.017" classname="ai">
+    </testcase>
+    <testcase name="test_acp_permission" time="0.52" classname="ai">
+    </testcase>
+    <testcase name="test_acp_permission_mode" time="0.52" classname="ai">
+    </testcase>
+    <testcase name="test_acp_permission_mode_persist" time="0.032" classname="ai">
+    </testcase>
+    <testcase name="test_acp_permission_path" time="0.032" classname="ai">
+    </testcase>
+    <testcase name="test_acp_permission_ui" time="0.56" classname="ai">
+    </testcase>
+    <testcase name="test_acpclient" time="0.48" classname="ai">
+    </testcase>
+    <testcase name="test_acpclient_async" time="0.47" classname="ai">
+    </testcase>
+    <testcase name="test_mcpserver" time="0.59" classname="ai">
+    </testcase>
+    <testcase name="test_mcpserver_evaluate" time="0.6" classname="ai">
+    </testcase>
+    <testcase name="test_mcpserver_handshake" time="0.62" classname="ai">
+    </testcase>
+    <testcase name="test_mcpserver_lint_format_info" time="1.3" classname="ai">
+    </testcase>
+    <testcase name="test_mcpserver_metadata" time="0.61" classname="ai">
+    </testcase>
+    <testcase name="test_mcpserver_options" time="1.8" classname="ai">
+    </testcase>
+    <testcase name="test_mcpserver_plot" time="1.2" classname="ai">
+    </testcase>
+    <testcase name="test_mcpserver_run_check_format" time="1" classname="ai">
+    </testcase>
+    <testcase name="test_mcpserver_security" time="0.67" classname="ai">
+    </testcase>
+    <testcase name="test_mcpserver_v2" time="0.69" classname="ai">
+    </testcase>
+    <testcase name="test_mcpserver_v3_policy" time="0.62" classname="ai">
+    </testcase>
+    <testcase name="test_mcpserver_v3_protocol" time="0.63" classname="ai">
+    </testcase>
+    <testcase name="test_mcpserver_v4_batch" time="0.62" classname="ai">
+    </testcase>
+    <testcase name="test_mcpserver_v4_env_policy" time="0.62" classname="ai">
+    </testcase>
+    <testcase name="test_mcpserver_v4_errors" time="0.63" classname="ai">
+    </testcase>
+    <testcase name="test_mcpserver_v4_plot_data" time="1.2" classname="ai">
+    </testcase>
+    <testcase name="test_mcpserver_v4_stdio_compat" time="0.66" classname="ai">
+    </testcase>
+    <testcase name="test_mcpserver_v4_structured_data" time="1.2" classname="ai">
+    </testcase>
+    <testcase name="test_mcpserver_v5_workspace" time="0.7" classname="ai">
+    </testcase>
+    <testcase name="test_mcpserver_v6_output_limit" time="0.63" classname="ai">
+    </testcase>
+  </testsuite>
+  <testsuite name="nflow_gui" tests="4" failures="0" errors="0" skipped="0" time="7.273">
+    <testcase name="test_nflow_cumprod_build" time="5.8" classname="nflow_gui">
+    </testcase>
+    <testcase name="test_nflow_modelica_info" time="1.4" classname="nflow_gui">
+    </testcase>
+    <testcase name="test_open_system_ssp" time="0.044" classname="nflow_gui">
+    </testcase>
+    <testcase name="test_nflow_examples_catalog" time="0.085" classname="nflow_gui">
+    </testcase>
+  </testsuite>
+  <testsuite name="nmm_gui" tests="2" failures="0" errors="0" skipped="0" time="2.135">
+    <testcase name="test_nmm_gui" time="2.1" classname="nmm_gui">
+    </testcase>
+    <testcase name="test_nmm_gui_webtool" time="0.024" classname="nmm_gui">
+    </testcase>
+  </testsuite>
+</testsuites>

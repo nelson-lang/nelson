@@ -122,9 +122,9 @@ public:
     //=============================================================================
     /**
      * Fire-and-forget variant of runOnInterpreterThread: enqueue fn and return
-     * without waiting. Used by GUI-thread callers (e.g. QML signal handlers): in
-     * desktop GUI mode the interpreter thread is parked inside a GUI-thread
-     * blocking call (GuiTerminal getLine), so a blocking hand-off would deadlock.
+     * without waiting. Used by GUI-thread callers: in desktop GUI mode the
+     * interpreter thread may be parked inside a blocking terminal getLine call,
+     * so a blocking hand-off would deadlock.
      * processTasks() runs it at the next statement boundary or prompt.
      */
     void
@@ -140,7 +140,7 @@ public:
     }
     //=============================================================================
     /**
-     * Frontends whose prompt blocks on a condition variable (web_gui) register
+     * Frontends whose prompt blocks on a condition variable (gui) register
      * a hook so a freshly posted task wakes the prompt without going through
      * Interface::interruptGetLineByEvent. Polling frontends need no hook.
      */
@@ -154,7 +154,7 @@ public:
     /**
      * The interpreter thread marks itself idle while it blocks at the prompt.
      * The advanced terminal sets this around its blocking line read so that
-     * background posters (nelson-adv-cli --webview figure RPCs) can run their
+     * background posters (nelson-adv-cli web figure RPCs) can run their
      * task in place instead of waking the prompt.
      */
     void
@@ -165,7 +165,7 @@ public:
     }
     //=============================================================================
     // Lock-free: also read from inside a task that runNowIfIdleOrQueue runs in place
-    // while it holds m_idleMutex (nelson-adv-cli --webview figure interactions).
+    // while it holds m_idleMutex (nelson-adv-cli web figure interactions).
     bool
     isInterpreterIdle()
     {

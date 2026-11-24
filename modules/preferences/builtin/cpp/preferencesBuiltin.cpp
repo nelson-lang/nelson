@@ -8,13 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "preferencesBuiltin.hpp"
-#include "Error.hpp"
-#include "ErrorID.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "i18n.hpp"
-#ifdef WITH_NELSON_GUI_PREFS
-#include "GuiDialogs.hpp"
-#endif
+#include "GuiDialogProvider.hpp"
 //=============================================================================
 namespace Nelson::PreferencesGateway {
 //=============================================================================
@@ -27,12 +22,15 @@ preferencesBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (!argIn.empty()) {
         page = argIn[0].asWideString();
     }
-#ifdef WITH_NELSON_GUI_PREFS
-    ShowPreferencesDialog(page);
-#else
-    Error(L"Nelson:preferences:dialogNotAvailable",
-        L"Preferences dialog is not available in this build.");
-#endif
+    // Ask the desktop front end to open its preferences panel (non-blocking).
+    // Without a front end (headless), there is nothing to open.
+    if (hasGuiDialogProvider()) {
+        GuiDialogRequest request;
+        request.kind = L"showpreferences";
+        request.defaultPath = page;
+        GuiDialogResponse response;
+        runGuiDialog(request, response);
+    }
     return {};
 }
 //=============================================================================

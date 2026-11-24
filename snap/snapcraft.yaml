@@ -67,7 +67,7 @@ parts:
     override-build: |
       craftctl default
 
-      cmake -DCMAKE_INSTALL_PREFIX=/usr  -DCMAKE_BUILD_TYPE=Release -DQTDIR=/usr/lib/qt6 -DWITHOUT_IPC_MODULE=TRUE -DWITHOUT_MPI_MODULE=TRUE . 
+      cmake -DCMAKE_INSTALL_PREFIX=/usr  -DCMAKE_BUILD_TYPE=Release -DWITHOUT_IPC_MODULE=TRUE -DWITHOUT_MPI_MODULE=TRUE . 
       cmake --build . -- -j $(nproc)
       export XDG_RUNTIME_DIR=/tmp
       cmake --build . -- -j $(nproc) buildhelp
@@ -149,19 +149,6 @@ parts:
       - libtiff-dev
       - libwebp-dev
       # Qt 6
-      - qt6-base-dev
-      - qt6-svg-dev
-      - libqt6sql6-sqlite
-      - libqt6sql6-mysql
-      - qt6-declarative-dev
-      - qml6-module-qtquick
-      - qml6-module-qtquick-templates
-      - qml6-module-qtquick-controls
-      - qml6-module-qtquick-window
-      - qml6-module-qtquick-dialogs
-      - qml6-module-qtqml-workerscript
-      - qml6-module-qtquick-layouts
-      - qmlscene
       # Python engine
       - python3-dev
       - python3-numpy
@@ -233,39 +220,6 @@ parts:
       - libtiff6
       - libwebp7
       # Qt 6
-      - libqt6core6t64
-      - libqt6gui6
-      - libqt6widgets6
-      - libqt6network6
-      - libqt6dbus6
-      - libqt6opengl6
-      - libqt6openglwidgets6
-      - libqt6printsupport6
-      - libqt6xml6
-      - libqt6concurrent6
-      - libqt6test6
-      - libqt6sql6
-      - libqt6sql6-sqlite
-      - libqt6sql6-mysql
-      - libqt6svg6
-      - libqt6help6
-      - libqt6qml6
-      - libqt6qmlmeta6
-      - libqt6qmlmodels6
-      - libqt6qmlworkerscript6
-      - libqt6quick6
-      - libqt6quickcontrols2-6
-      - libqt6quicktemplates2-6
-      - libqt6quickshapes6
-      - qt6-qpa-plugins
-      - qml6-module-qtquick
-      - qml6-module-qtquick-templates
-      - qml6-module-qtquick-controls
-      - qml6-module-qtquick-window
-      - qml6-module-qtquick-dialogs
-      - qml6-module-qtqml-workerscript
-      - qml6-module-qtquick-layouts
-      - qmlscene
       # WebView window (WebUI loads libwebkit2gtk-4.1 at run time, GTK 3 comes from the gnome extension)
       - libwebkit2gtk-4.1-0
       # Python engine
@@ -290,9 +244,7 @@ apps:
       LD_LIBRARY_PATH: "/usr/lib/Nelson:/usr/lib:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/oss4-libsalsa/:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/openblas-openmp:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/blas:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/lapack:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/pulseaudio:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libproxy:$SNAP/usr/lib"
 
       LOCPATH: "$SNAP/usr/lib/locale"
-      PATH: "$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:$SNAP/usr/lib:$SNAP/usr/bin:$SNAP/bin:/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt6/bin:$PATH"
-      QTDIR: "/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt6/"
-      QTDIR_BINARIES: "$SNAP/usr/lib/qt6/bin/"
+      PATH: "$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:$SNAP/usr/lib:$SNAP/usr/bin:$SNAP/bin:$PATH"
       __NELSON_PYTHON_VERSION__: "3.14"
       __NELSON_PYTHON_EXECUTABLE__: "/usr/bin/python3"
       __NELSON_PYTHON_LIBRARY__: "libpython3.14.so.1.0"
@@ -329,16 +281,12 @@ layout:
     symlink: $SNAP/usr/bin/nelson-adv-cli
   /usr/bin/nelson-gui:
     symlink: $SNAP/usr/bin/nelson-gui
-  /usr/bin/nelson-webview:
-    symlink: $SNAP/usr/bin/nelson-webview
   /usr/bin/nelson-cli-exec:
     bind-file: $SNAP/usr/bin/nelson-cli-exec
   /usr/bin/nelson-adv-cli-exec:
     bind-file: $SNAP/usr/bin/nelson-adv-cli-exec
   /usr/bin/nelson-gui-exec:
     bind-file: $SNAP/usr/bin/nelson-gui-exec
-  /usr/bin/nelson-webview-exec:
-    bind-file: $SNAP/usr/bin/nelson-webview-exec
 
   /usr/lib/Nelson:
     bind: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/Nelson
@@ -348,10 +296,6 @@ layout:
 
   /usr/local/lib:
     symlink: $SNAP/usr/local/lib
-
-  # Make staged qt plugins available in expected locations
-  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt6:
-    symlink: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt6
 
   # Make staged dri and pulseaudio modules available in expected locations
   /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/dri:

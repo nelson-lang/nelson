@@ -40,9 +40,6 @@ Nelson::EngineGateway::getnelsonmodeBuiltin(int nLhs, const ArrayOfVector& argIn
     case GUI: {
         retval << ArrayOf::characterArray("GUI");
     } break;
-    case WEB_GUI: {
-        retval << ArrayOf::characterArray("WEB_GUI");
-    } break;
     case WASM_TERMINAL: {
         retval << ArrayOf::characterArray("WASM_TERMINAL");
     } break;

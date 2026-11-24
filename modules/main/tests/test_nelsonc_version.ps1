@@ -95,7 +95,7 @@ Remove-Item -LiteralPath $versionSource -Recurse -Force
 Move-Item -LiteralPath $versionDistribution -Destination $versionRelocated
 foreach ($deployment in @('bundled', 'installed')) {
     foreach ($kind in @('console', 'windowed')) {
-        $environment = @{ PATH = ''; QT_PLUGIN_PATH = 'invalid' }
+        $environment = @{ PATH = '' }
         if ($deployment -eq 'installed') { $environment.NELSONC_RUNTIME_ROOT = Join-Path $versionRelocated 'bundled-console-versioned.runtime' }
         $application = Join-Path $versionRelocated "$deployment-$kind-versioned.exe"
         Assert-ExecutableVersion $application '4.0.0.0'

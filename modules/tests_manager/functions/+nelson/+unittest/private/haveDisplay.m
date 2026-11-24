@@ -12,10 +12,6 @@ function res = haveDisplay()
     res = true;
     return
   end
-  if any(strcmp(getenv('QT_QPA_PLATFORM'), {'offscreen', 'minimal'}))
-    res = true;
-    return
-  end
   persistent withDisplay %#ok<NLS0005>
   if isempty(withDisplay)
     withDisplay = true;

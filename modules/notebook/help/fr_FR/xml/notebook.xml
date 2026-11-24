@@ -34,9 +34,9 @@
     <p
     >Le conteneur natif <b>.nlx</b> (un zip contenant le document) et le format texte <b>.m</b> sont pris en charge ; un script <b>.m</b> ordinaire est exécuté comme une seule cellule.</p>
     <p
-    ><b>notebook(filename, 'edit')</b> ouvre au contraire le document dans l'éditeur Notebook : un onglet du bureau web ou, dans le bureau Qt, la fenêtre Notebook (une seule fenêtre, un onglet par document). <b>edit(filename)</b> fait de même pour un fichier <b>.nlx</b>. Les figures créées par une cellule sont rendues dans le document, pas dans une fenêtre figure.</p>
+    ><b>notebook(filename, 'edit')</b> ouvre au contraire le document dans l'éditeur Notebook : un onglet du bureau graphique. <b>edit(filename)</b> fait de même pour un fichier <b>.nlx</b>. Les figures créées par une cellule sont rendues dans le document, pas dans une fenêtre figure.</p>
     <p
-    ><b>notebook()</b> sans argument ouvre un nouveau document sans titre dans l'éditeur Notebook ; le bureau Qt le propose aussi par le bouton <b>Notebook</b> de sa barre d'outils et une entrée de son menu Fenêtre. Sans bureau (nelson-cli, nelson-adv-cli), l'ouverture de l'éditeur lève une erreur.</p>
+    ><b>notebook()</b> sans argument ouvre un nouveau document sans titre dans l'éditeur Notebook ; le bureau graphique le propose aussi par le bouton <b>Notebook</b> de sa barre d'outils et une entrée de son menu Fenêtre. Sans bureau (nelson-cli, nelson-adv-cli), l'ouverture de l'éditeur lève une erreur.</p>
   </description>
   <used_function />
   <bibliography />

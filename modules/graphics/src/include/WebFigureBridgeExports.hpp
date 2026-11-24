@@ -14,7 +14,7 @@
 //=============================================================================
 // C entry points implemented in WebFigure*.cpp and consumed from several
 // translation units (DrawNow, HeadlessFigureHost, __view__Builtin, and the
-// web_gui bridge via GetProcAddress). Keep the declarations here so a signature
+// gui bridge via GetProcAddress). Keep the declarations here so a signature
 // change is caught at compile time instead of at link (or run) time.
 extern "C"
 {

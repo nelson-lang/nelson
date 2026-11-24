@@ -509,7 +509,7 @@ nmm_guiBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             }
         }
     }
-    // A web desktop hosts the package manager as a panel: the deep link goes
+    // A desktop hosts the package manager as a panel: the deep link goes
     // with the request and no WebUI window is opened.
     if (ShowWebToolInHost("nmm",
             json { { "action", action }, { "name", name }, { "version", version } }.dump())) {
@@ -561,7 +561,7 @@ nmm_gui_notifyBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (argIn.size() == 2) {
         payload = argIn[1].asUtf8String();
     }
-    // The web desktop panel and the window both follow the operations run
+    // The desktop panel and the window both follow the operations run
     // from the console.
     PushWebToolEvent("nmm", channel, json(payload).dump());
     std::lock_guard<std::recursive_mutex> lock(stateMutex());

@@ -90,7 +90,7 @@ void
 GOUIGridLayout::updateState()
 {
     if (parentGoWindow && parentGoWindow->isHeadlessHost()) {
-        performLayout(); // no widget in WEB_GUI, but children need Positions
+        performLayout(); // no widget in the desktop, but children need Positions
         clearAllChanged();
         return;
     }
@@ -249,7 +249,7 @@ writeSpan(GOLayoutOptions* options, const std::wstring& propertyName, int value)
 void
 GOUIGridLayout::performLayout()
 {
-    // Headless figure host (WEB_GUI): there are no widgets, so lay out against
+    // Headless figure host (desktop): there are no widgets, so lay out against
     // the parent's Qt-free size (nested container Position, else the figure
     // render size). With a widget backend, the binding sizes the grid widget
     // to fill its parent and calls performLayout(gridW, gridH) itself.

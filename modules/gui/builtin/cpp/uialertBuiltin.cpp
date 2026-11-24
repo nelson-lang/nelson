@@ -14,7 +14,7 @@
 #include "InputOutputArgumentsCheckers.hpp"
 #include "i18n.hpp"
 //=============================================================================
-namespace Nelson::GuiGateway {
+namespace Nelson::WebviewGateway {
 //=============================================================================
 ArrayOfVector
 uialertBuiltin(int nLhs, const ArrayOfVector& argIn)
@@ -29,5 +29,5 @@ uialertBuiltin(int nLhs, const ArrayOfVector& argIn)
     return {};
 }
 //=============================================================================
-} // namespace Nelson::GuiGateway
+} // namespace Nelson::WebviewGateway
 //=============================================================================

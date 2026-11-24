@@ -28,7 +28,7 @@ jobs:
             frontend:
               - ".github/workflows/frontend.yml"
               - ".nvmrc"
-              - "modules/web_gui/frontend/**"
+              - "modules/gui/src/ts/frontend/**"
               - "modules/nflow_gui/**"
               - "modules/nflow_engine/src/cpp/**"
 
@@ -41,7 +41,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        frontend: [modules/web_gui/frontend, modules/nflow_gui]
+        frontend: [modules/gui/src/ts/frontend, modules/nflow_gui]
 
     steps:
       - name: Checkout
@@ -81,7 +81,7 @@ jobs:
       matrix:
         include:
           # the vite dev server is the Playwright webServer
-          - frontend: modules/web_gui/frontend
+          - frontend: modules/gui/src/ts/frontend
             prebuild: ""
           # the hostless static server serves dist/, so the bundle is built first
           - frontend: modules/nflow_gui

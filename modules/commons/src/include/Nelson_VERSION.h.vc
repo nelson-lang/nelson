@@ -25,3 +25,6 @@
 #define NELSON_SEMANTIC_VERSION_STRING __stringify(NELSON_VERSION_MAJOR) "." __stringify(NELSON_VERSION_MINOR) "." __stringify(NELSON_VERSION_MAINTENANCE)
 #define NELSON_VERSION_STRING __stringify(NELSON_VERSION_MAJOR) "." __stringify(NELSON_VERSION_MINOR) "." __stringify(NELSON_VERSION_MAINTENANCE) "." __stringify(NELSON_VERSION_BUILD)
 #define NELSON_VERSION_NMMM_STRING  NELSON_PRODUCT_NAME "-" __stringify(NELSON_VERSION_MAJOR) "." __stringify(NELSON_VERSION_MINOR) "." __stringify(NELSON_VERSION_MAINTENANCE)
+
+// Build date and time, taken from the compiler of the file that reads this.
+#define NELSON_VERSION_BUILD_DATE __DATE__ " " __TIME__

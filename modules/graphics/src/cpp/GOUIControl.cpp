@@ -116,7 +116,7 @@ GOUIControl::updateState()
     if (positionChanged) {
         findProperty(GO_POSITION_PROPERTY_NAME_STR)->setModified(true);
     }
-    // Headless figure host (WEB_GUI): no widget backend is registered; the
+    // Headless figure host (desktop): no widget backend is registered; the
     // web path reads/writes properties only (describeForWeb / applyWebAction).
     if (!binding && parentGoWindow && !parentGoWindow->isHeadlessHost()
         && uiControlBindingFactory) {

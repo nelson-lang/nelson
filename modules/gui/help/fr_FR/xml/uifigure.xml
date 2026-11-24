@@ -1,69 +1,56 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>uifigure</keyword>
-  <short_description>Crée une figure pour des interfaces utilisateur.</short_description>
+  <short_description>Crée une figure configurée pour construire une interface utilisateur.</short_description>
   <syntax>
-    <syntax_item>f = uifigure()</syntax_item>
-    <syntax_item>f = uifigure(Name, Value)</syntax_item>
+    <syntax_item>uifigure()</syntax_item>
+    <syntax_item>uifigure(propertyName, propertyValue)</syntax_item>
+    <syntax_item>f = uifigure(...)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
-      <param_name>Name, Value</param_name>
-      <param_description>Paires nom-valeur de propriétés de figure. uifigure applique MenuBar = 'none', ToolBar = 'none', NumberTitle = 'off', Resize = 'on', WindowStyle = 'normal' et une taille par défaut de 560 par 420 pixels avant les propriétés fournies.</param_description>
+      <param_name>propertyName, propertyValue</param_name>
+      <param_description>paires nom-valeur appliquées à la figure.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>f</param_name>
-      <param_description>Handle graphique de figure.</param_description>
+      <param_description>objet figure, destiné à être le parent des composants UI.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>uifigure crée une figure graphique configurée pour les boîtes de dialogue et contrôles d'interface. Le handle retourne peut être utilisé avec get, set, close, delete et comme parent des fonctions de dialogue UI.</p>
-    <p>Les propriétés prises en charge sont les propriétés de figure disponibles dans Nelson, dont 'Name', 'Position', 'Visible', 'WindowStyle', 'Resize', 'Color', 'Tag' et les propriétés de callback.</p>
+    <p><b>uifigure</b> crée une figure prête à accueillir une interface utilisateur plutôt qu'un tracé. C'est une <b>figure</b> avec ces valeurs par défaut : pas de barre de menus ni de barre d'outils (<b>MenuBar</b> et <b>ToolBar</b> valent 'none'), pas de numéro dans le titre (<b>NumberTitle</b> vaut 'off'), un handle masqué et non entier (<b>HandleVisibility</b> et <b>IntegerHandle</b> valent 'off'), des enfants qui se redimensionnent avec la fenêtre (<b>AutoResizeChildren</b> vaut 'on'), un fond gris clair et une <b>Position</b> par défaut de [488 242 560 420].</p>
+    <p>Ajoutez-y des composants avec <b>uicontrol</b>, <b>uipanel</b>, <b>uibutton</b> et les autres fonctions ui, et ouvrez des boîtes de dialogue comme <b>uialert</b> ou <b>uiconfirm</b> dessus. Une propriété de figure passée en paire nom-valeur remplace la valeur par défaut correspondante ; passer <b>Position</b>, <b>InnerPosition</b> ou <b>OuterPosition</b> conserve la position indiquée.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Capture de figure UI pour l'image d'aide.</example_item_description>
-      <example_item_data runnable="adv-cli"><![CDATA[f = uifigure('Visible', 'off', 'Name', 'Results', 'Position', [100 100 420 260]);
-uilabel(f, 'Text', 'Result:', 'Position', [80 150 90 24]);
-uibutton(f, 'Text', 'Run', 'Position', [80 95 100 30]);
-uislider(f, 'Position', [210 110 150 3], 'Value', 55);
+      <example_item_description>Une figure UI contenant un bouton.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = uifigure('Name', 'My App');
+b = uicontrol(f, 'Style', 'pushbutton', 'String', 'OK', 'Position', [230 190 100 30]);
 drawnow();]]></example_item_data>
-      <example_item_img
-        src="../images/uifigure_example.svg"
-        align="middle"
-        generate="true"
-      />
-    </example_item>
-    <example_item>
-      <example_item_type>nelson</example_item_type>
-      <example_item_description>Créer une figure UI modale nommée.</example_item_description>
-      <example_item_data><![CDATA[f = uifigure('Name', 'Results', 'WindowStyle', 'modal');
-f.Name
-close(f)]]></example_item_data>
     </example_item>
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${gui}dialog">dialog</link>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/figure">figure</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${gui}uialert">uialert</link>
+      <link linkend="${graphics}2_graphics_objects/3_ui_controls/uipanel">uipanel</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${gui}uiconfirm">uiconfirm</link>
+      <link linkend="${graphics}2_graphics_objects/3_ui_controls/uicontrol">uicontrol</link>
     </see_also_item>
   </see_also>
   <history>
     <history_item>
       <history_version>2.0.0</history_version>
-      <history_description>Introduction de la figure UI.</history_description>
+      <history_description>version initiale</history_description>
     </history_item>
   </history>
   <authors>

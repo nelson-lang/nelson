@@ -19,6 +19,6 @@ function tf = progress_indicator_enabled(count)
     return
   end
   mode = getnelsonmode();
-  tf = strcmp(mode, 'GUI') || strcmp(mode, 'WEB_GUI') || strcmp(mode, 'WASM_TERMINAL');
+  tf = strcmp(mode, 'GUI') || strcmp(mode, 'WASM_TERMINAL');
 end
 %=============================================================================

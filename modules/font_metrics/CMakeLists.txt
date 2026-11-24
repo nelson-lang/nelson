@@ -10,11 +10,10 @@
 set(module_name font_metrics)
 set(module_library_name nlsFontMetrics)
 # ==============================================================================
-# Qt-free font engine (stb_truetype over platform TTFs, AFM tables fallback),
-# tuned to track QFontMetrics. Shared ground below graphics and render_web:
-# the drawing model measures text (Extent, tick labels) without Qt or a render
-# context, and RenderWeb rasterizes glyphs from it. render_qt stays Qt-only,
-# render_web stays web-only. Zero dependencies.
+# Self-contained font engine (stb_truetype over platform TTFs, AFM tables
+# fallback). Shared ground below graphics and render_web: the drawing model
+# measures text (Extent, tick labels) without a render context, and RenderWeb
+# rasterizes glyphs from it. Zero dependencies.
 # ==============================================================================
 nelson_module_sources_from_glob(
   FONT_METRICS_SRC

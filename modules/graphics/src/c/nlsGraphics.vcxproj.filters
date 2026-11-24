@@ -422,6 +422,9 @@
     <ClInclude Include="..\include\GOSubplotText.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\GOProgressDialog.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\include\GOText.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1056,6 +1059,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\GOSubplotText.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\GOProgressDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\GOText.cpp">

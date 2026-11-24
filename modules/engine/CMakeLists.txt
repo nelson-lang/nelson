@@ -73,17 +73,17 @@ target_link_libraries(${module_library_name}
     nlsTypes
 )
 
-# WEB_GUI support loads its backend only when a Web mode is requested.
-if(WITH_WEB_GUI_MODULE)
+# Desktop support: the engine loads the gui (desktop) backend dynamically at runtime.
+if(WITH_GUI_MODULE)
   target_compile_definitions(${module_library_name}
-    PRIVATE NELSON_WEB_GUI_ENABLED
+    PRIVATE NELSON_GUI_ENABLED
   )
   target_include_directories(${module_library_name}
     PRIVATE
-      ${CMAKE_CURRENT_SOURCE_DIR}/../web_gui/src/include
-      ${CMAKE_CURRENT_SOURCE_DIR}/../webview/src/include
+      ${CMAKE_CURRENT_SOURCE_DIR}/../gui/src/include
+      ${CMAKE_CURRENT_SOURCE_DIR}/../web_engine/src/include
   )
-  add_dependencies(${module_library_name} nlsWeb_gui)
+  add_dependencies(${module_library_name} nlsGui)
 endif()
 
 file(GLOB ENGINE_HEADER

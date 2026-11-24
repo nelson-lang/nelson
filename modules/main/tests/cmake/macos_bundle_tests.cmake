@@ -68,22 +68,10 @@ function(_check_bundle _name _display_name _executable _identifier_output)
 endfunction()
 
 _check_bundle("Nelson" "Nelson" "nelson-gui-exec" NELSON_IDENTIFIER)
-_check_bundle(
-  "Nelson WebView"
-  "Nelson WebView"
-  "nelson-webview-exec"
-  NELSON_WEB_IDENTIFIER
-)
-if(NOT NELSON_WEB_IDENTIFIER STREQUAL "${NELSON_IDENTIFIER}.webview")
-  message(FATAL_ERROR
-    "Nelson WebView must use the Nelson bundle identifier with a .webview suffix"
-  )
-endif()
 
 file(READ "${NELSON_BIN_DIRECTORY}/nelson" _launcher)
 foreach(_bundle_executable
   "Nelson.app/Contents/MacOS/nelson-gui-exec"
-  "Nelson WebView.app/Contents/MacOS/nelson-webview-exec"
 )
   string(FIND "${_launcher}" "${_bundle_executable}" _position)
   if(_position EQUAL -1)

@@ -27,7 +27,7 @@
   </param_output>
   <description>
     <p><b>h = uihtml()</b> creates a component that displays an HTML page inside a UI figure and exchanges data with it.</p>
-    <p><b>uihtml requires the WebView desktop.</b> Anywhere else it raises <b>Nelson:uihtml:webviewDesktopRequired</b>, because no page can be displayed there. Start the WebView desktop to use it.</p>
+    <p><b>uihtml requires the graphical desktop.</b> Anywhere else it raises <b>Nelson:uihtml:webviewDesktopRequired</b>, because no page can be displayed there. Start the graphical desktop to use it.</p>
     <p><b>HTMLSource</b> accepts two forms: HTML markup, or the name of an HTML file (relative or absolute). It is stored exactly as given. A URL is not accepted.</p>
     <p>The page must define a global <b>setup</b> function taking one argument. It runs once the content has loaded, and again whenever <b>HTMLSource</b> changes to a different value. Setting the same value again changes nothing.</p>
     <p>The object passed to <b>setup</b> carries the property <b>Data</b>, the methods <b>addEventListener</b> and <b>removeEventListener</b>, and the method <b>sendEventToNelson(name, data)</b>. Note that pages written for other environments name that last method differently and must be edited.</p>

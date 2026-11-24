@@ -9,7 +9,7 @@
 %=============================================================================
 % Returns the 'Contents' directory of the installed macOS application bundle
 % that hosts the given location, or '' when the location is not inside one.
-% A bundle is recognized only when both 'PlugIns' and 'Resources' live under
+% A bundle is recognized only when both 'MacOS' and 'Resources' live under
 % that 'Contents' directory.
 function contents = __nelsonc_bundle_contents__(location)
   contents = '';
@@ -26,7 +26,7 @@ function contents = __nelsonc_bundle_contents__(location)
   else
     return;
   end
-  if isfolder(fullfile(candidate, 'PlugIns')) && isfolder(fullfile(candidate, 'Resources'))
+  if isfolder(fullfile(candidate, 'MacOS')) && isfolder(fullfile(candidate, 'Resources'))
     contents = candidate;
   end
 end

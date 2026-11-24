@@ -28,8 +28,8 @@ function saveFigureHtml(fig, filename)
 end
 %=============================================================================
 function bundle = readReplayerBundle()
-  % web_gui and graphics are sibling modules, so resolve the bundle relative to
-  % this file: up to the modules directory, then into the web_gui frontend. This
+  % gui and graphics are sibling modules, so resolve the bundle relative to
+  % this file: up to the modules directory, then into the gui frontend. This
   % holds in a source tree and in an install, where the layout is preserved.
   here = fileparts(mfilename('fullpath'));
   modulesDir = here;
@@ -37,7 +37,7 @@ function bundle = readReplayerBundle()
     modulesDir = fileparts(modulesDir);
   end
   bundlePath = [modulesDir, ...
-    '/web_gui/frontend/dist-replayer/nelson-figure-replayer.js'];
+    '/gui/dist-replayer/nelson-figure-replayer.js'];
   if ~isfile(bundlePath)
     error('Nelson:graphics:replayerBundleMissing', ...
       'Replayer bundle not found: %s. Build it with: npm run build:replayer.', ...

@@ -95,7 +95,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSNMM_GUI_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(IntDir)generated;$(SolutionDir)modules/nmm_gui/builtin/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/webview/src/include;$(SolutionDir)modules/webview/src/webui/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(IntDir)generated;$(SolutionDir)modules/nmm_gui/builtin/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/web_engine/src/include;$(SolutionDir)modules/web_engine/src/webui/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -115,7 +115,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSNMM_GUI_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(IntDir)generated;$(SolutionDir)modules/nmm_gui/builtin/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/webview/src/include;$(SolutionDir)modules/webview/src/webui/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(IntDir)generated;$(SolutionDir)modules/nmm_gui/builtin/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/web_engine/src/include;$(SolutionDir)modules/web_engine/src/webui/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -138,7 +138,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSNMM_GUI_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(IntDir)generated;$(SolutionDir)modules/nmm_gui/builtin/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/webview/src/include;$(SolutionDir)modules/webview/src/webui/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(IntDir)generated;$(SolutionDir)modules/nmm_gui/builtin/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/web_engine/src/include;$(SolutionDir)modules/web_engine/src/webui/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -163,7 +163,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSNMM_GUI_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(IntDir)generated;$(SolutionDir)modules/nmm_gui/builtin/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/webview/src/include;$(SolutionDir)modules/webview/src/webui/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(IntDir)generated;$(SolutionDir)modules/nmm_gui/builtin/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/web_engine/src/include;$(SolutionDir)modules/web_engine/src/webui/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -200,7 +200,7 @@
       <Project>{F666AC18-EEDA-4A00-ACD2-4CAFE3865C15}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\engine\src\c\nlsEngine.vcxproj" />
-    <ProjectReference Include="..\..\..\webview\src\c\nlsWebview.vcxproj">
+    <ProjectReference Include="..\..\..\web_engine\src\c\nlsWeb_engine.vcxproj">
       <Project>{585FA4C3-C0BE-4FE9-B4D3-476FE810CEB8}</Project>
     </ProjectReference>
   </ItemGroup>
@@ -231,7 +231,7 @@
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
   <!-- Build the nmm_gui frontend (React + TypeScript, Vite) into frontend/dist,
-       the folder the package manager window serves (same as web_gui). -->
+       the folder the package manager window serves (same as gui). -->
   <ItemGroup>
     <NmmGuiFrontendSources Include="$(MSBuildThisFileDirectory)..\..\frontend\src\**\*" />
     <NmmGuiFrontendSources Include="$(MSBuildThisFileDirectory)..\..\frontend\index.html" />

@@ -151,6 +151,94 @@ setFigureSelectionType(GOFigure* fig, const std::wstring& selectionType)
     }
 }
 //=============================================================================
+// Default axes interactivity in a toolkit-free host: a left drag on a 3D axes rotates it, as
+// the native window did. The state of the current drag (one at a time) lives here.
+namespace {
+    struct AxesDragRotation
+    {
+        bool active = false;
+        GOFigure* figure = nullptr;
+        int64 axes = -1;
+        double pressX = 0.0;
+        double pressY = 0.0;
+        double startAzimuth = 0.0;
+        double startElevation = 0.0;
+    };
+    static AxesDragRotation s_axesDrag;
+} // namespace
+//=============================================================================
+// The 3D axes under the pointer that still has its default interactions, or null.
+static GOAxis*
+rotatableAxesAtPixel(GOFigure* fig, double x, double y)
+{
+    const int64 picked = pickObjectAtPixel(fig, x, y);
+    if (picked < 0) {
+        return nullptr;
+    }
+    GraphicsObject* object = findGraphicsObject(picked, false);
+    if (object == nullptr) {
+        return nullptr;
+    }
+    GOAxis* axis = dynamic_cast<GOAxis*>(object);
+    if (axis == nullptr) {
+        axis = object->getParentAxis();
+    }
+    if (axis == nullptr || axis->is2D() || axisDefaultInteractivityOff(axis)) {
+        return nullptr;
+    }
+    return axis;
+}
+//=============================================================================
+static void
+beginAxesDragRotation(GOFigure* fig, double x, double y, const std::wstring& selectionType)
+{
+    s_axesDrag = AxesDragRotation();
+    // Only a plain left drag rotates (the pan/zoom gestures are not synthesized here).
+    if (selectionType != GO_PROPERTY_VALUE_NORMAL_STR) {
+        return;
+    }
+    GOAxis* axis = rotatableAxesAtPixel(fig, x, y);
+    if (axis == nullptr) {
+        return;
+    }
+    s_axesDrag.active = true;
+    s_axesDrag.figure = fig;
+    s_axesDrag.axes = findGraphicsObjectHandle(axis);
+    s_axesDrag.pressX = x;
+    s_axesDrag.pressY = y;
+    axis->getView(s_axesDrag.startAzimuth, s_axesDrag.startElevation);
+}
+//=============================================================================
+// Rotates the dragged axes from the pixel offset since the press. Returns true when the
+// motion drove a rotation (so it counts as delivered even without a motion callback).
+static bool
+applyAxesDragRotation(GOFigure* fig, double x, double y)
+{
+    if (!s_axesDrag.active || s_axesDrag.figure != fig) {
+        return false;
+    }
+    auto* axis = dynamic_cast<GOAxis*>(findGraphicsObject(s_axesDrag.axes, false));
+    if (axis == nullptr) {
+        s_axesDrag.active = false;
+        return false;
+    }
+    // Screen y grows upward here; dragging up lifts the elevation. Half a degree per pixel
+    // matches the native window closely enough for the interaction to read naturally.
+    const double degreesPerPixel = 0.5;
+    double azimuth = s_axesDrag.startAzimuth + (x - s_axesDrag.pressX) * degreesPerPixel;
+    double elevation = s_axesDrag.startElevation + (y - s_axesDrag.pressY) * degreesPerPixel;
+    elevation = std::clamp(elevation, -90.0, 90.0);
+    axis->setView(azimuth, elevation);
+    axis->updateViewState();
+    return true;
+}
+//=============================================================================
+static void
+endAxesDragRotation()
+{
+    s_axesDrag = AxesDragRotation();
+}
+//=============================================================================
 bool
 dispatchFigureMouseEvent(GOFigure* fig, const std::wstring& action, double x, double y,
     const std::wstring& selectionType)
@@ -159,8 +247,12 @@ dispatchFigureMouseEvent(GOFigure* fig, const std::wstring& action, double x, do
         return false;
     }
     const bool listensToMotion = figureListensToMotion(fig);
-    if (action == L"motion" && !listensToMotion) {
-        return false;
+    bool rotating = false;
+    if (action == L"motion") {
+        rotating = applyAxesDragRotation(fig, x, y);
+        if (!rotating && !listensToMotion) {
+            return false;
+        }
     }
     updateFigureCurrentPoint(fig, x, y);
     if (action == L"press") {
@@ -179,13 +271,15 @@ dispatchFigureMouseEvent(GOFigure* fig, const std::wstring& action, double x, do
         // A click on a legend entry also fires that legend's ItemHitFcn, with the
         // entry's plotted object as Peer (same behaviour as the native window).
         fireLegendItemHit(fig, x, y, selectionType);
+        beginAxesDragRotation(fig, x, y, selectionType);
     } else if (action == L"motion") {
         pushFigureCallback(
             fig, GO_WINDOW_BUTTON_MOTION_FCN_PROPERTY_NAME_STR, L"WindowMouseMotion");
     } else if (action == L"release") {
         pushFigureCallback(fig, GO_WINDOW_BUTTON_UP_FCN_PROPERTY_NAME_STR, L"WindowMouseRelease");
+        endAxesDragRotation();
     }
-    return listensToMotion;
+    return listensToMotion || rotating;
 }
 //=============================================================================
 static bool

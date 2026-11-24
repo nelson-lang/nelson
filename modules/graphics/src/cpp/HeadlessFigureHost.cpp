@@ -211,9 +211,13 @@ namespace {
         }
 
         bool
-        hostDrawingAreaScreenRect(double&, double&, double&, double&) override
+        hostDrawingAreaScreenRect(double& x, double& y, double& width, double& height) override
         {
-            return false;
+            // The engine host is headless in web mode: the real native window
+            // lives in the desktop, which reports its measured on-screen
+            // drawing area (logical pixels, bottom-up from the primary screen).
+            return WebDesktopBridge::getInstance()->queryWebFigureNativeGeometry(
+                id, &x, &y, &width, &height);
         }
 
     private:

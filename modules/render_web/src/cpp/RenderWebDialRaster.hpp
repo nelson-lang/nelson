@@ -327,8 +327,16 @@ rasterizeContinuousKnob(RasterCanvas& canvas, const WebUIControl& control, int s
 {
     const double cx = control.x + control.w / 2.0;
     const double cy = control.y + control.h / 2.0;
-    const double outerRadius = std::min(control.w, control.h) / 2.0 - 24.0;
-    const double faceRadius = outerRadius - 20.0;
+    const double radius = std::min(control.w, control.h) / 2.0;
+    double outerRadius = radius - 24.0;
+    double faceRadius = outerRadius - 20.0;
+    if (faceRadius <= 0.0) {
+        // A small knob cannot spare the fixed label ring and face gap; scale the
+        // tick ring and face to the radius so the dial, ticks and numeric labels
+        // still render. Larger knobs keep the fixed margins and look unchanged.
+        outerRadius = radius * 0.74;
+        faceRadius = radius * 0.46;
+    }
     if (faceRadius <= 0.0) {
         return;
     }
@@ -394,8 +402,16 @@ rasterizeDiscreteKnob(RasterCanvas& canvas, const WebUIControl& control, int sup
 {
     const double cx = control.x + control.w / 2.0;
     const double cy = control.y + control.h / 2.0;
-    const double outerRadius = std::min(control.w, control.h) / 2.0 - 62.0;
-    const double labelRadius = outerRadius + 35.0;
+    const double radius = std::min(control.w, control.h) / 2.0;
+    double outerRadius = radius - 62.0;
+    double labelRadius = outerRadius + 35.0;
+    if (outerRadius <= 0.0) {
+        // Small discrete knob: scale the band down and keep the item labels just
+        // outside it, within the control bounds. Larger knobs keep the fixed
+        // geometry and look unchanged.
+        outerRadius = radius * 0.42;
+        labelRadius = radius * 0.72;
+    }
     if (outerRadius <= 0.0) {
         return;
     }

@@ -77,7 +77,7 @@ function essentialPlotsLayout(figureHandle, axesHandles, event)
   if ~all(isgraphics(axesHandles))
     return
   end
-  % The web desktop reports its panel size in the event; Position keeps the script value.
+  % The desktop reports its panel size in the event; Position keeps the script value.
   try
     sizePixels = [event.Width, event.Height];
   catch

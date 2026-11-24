@@ -15,9 +15,6 @@ jobs:
     runs-on: ubuntu-26.04
     container: archlinux:latest
     timeout-minutes: 120
-    env:
-      QTDIR_BINARIES: /usr/lib/qt6/bin
-
     steps:
       # the checkout action needs git in the container
       - name: Prepare container

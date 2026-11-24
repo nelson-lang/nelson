@@ -1,4 +1,4 @@
-﻿//=============================================================================
+//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -7,345 +7,322 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "nlsQtWarnings.h"
-#include <QtWidgets/QApplication>
-#include <QtCore/QTimer>
-#include <mutex>
 #include "GuiTerminal.hpp"
-#include "NelsonHistory.hpp"
-#include "QtMainWindow.h"
-#include "QtTerminal.h"
-#include "characters_encoding.hpp"
-#include "StringHelpers.hpp"
-#include "HistoryBrowser.hpp"
-#include "MainGuiObject.hpp"
-#include "RuntimeDispatch.hpp"
 #include "AnsiSgr.hpp"
+#include "GuiServer.hpp"
+#include "characters_encoding.hpp"
+#include "CallbackQueue.hpp"
+#include "EventQueue.hpp"
+#include "MainThreadTaskQueue.hpp"
+#include "NelsonConfiguration.hpp"
+#include "RuntimeDispatch.hpp"
+#include "Evaluator.hpp"
+#include "DebuggerJson.hpp"
+#include "NelsonHistory.hpp"
+#include <nlohmann/json.hpp>
+#include <chrono>
 //=============================================================================
-QtTerminal*
-getQtTerminalInstance();
+namespace Nelson {
 //=============================================================================
-namespace {
+GuiTerminal::GuiTerminal(GuiServer* server) : m_server(server)
+{
+    if (m_server != nullptr) {
+        m_server->setTerminal(this);
+    }
+    // Wake waitForLine when a cross-thread task is posted, without raising
+    // m_interrupt. An interrupt is handled as a synthetic newline so it can
+    // never be mistaken for end-of-input by the REPL.
+    // notified under the prompt mutex: a wake-up cannot slip between the predicate and the wait
+    MainThreadTaskQueue::getInstance()->setWakeupHook([this]() { notifyPrompt(); });
+    // Timer ticks, graphics callbacks and posted commands wake the prompt too.
+    setInterpreterWakeupHook([this]() { notifyPrompt(); });
+}
 //=============================================================================
-std::mutex guiOutputMutex;
-std::wstring guiOutputBuffer;
-bool guiOutputFlushScheduled = false;
+GuiTerminal::~GuiTerminal()
+{
+    setInterpreterWakeupHook(nullptr);
+    MainThreadTaskQueue::getInstance()->setWakeupHook(nullptr);
+}
 //=============================================================================
 void
-flushGuiOutputBuffer()
+GuiTerminal::pushDebuggerState()
 {
-    std::wstring msg;
-    {
-        std::lock_guard<std::mutex> lock(guiOutputMutex);
-        msg.swap(guiOutputBuffer);
-        guiOutputFlushScheduled = false;
-    }
-    if (msg.empty()) {
+    // every prompt refreshes the editors: paused line, and breakpoints when they changed
+    auto* eval = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
+    if (eval == nullptr || m_server == nullptr) {
         return;
     }
-    QtTerminal* qtterm = getQtTerminalInstance();
-    if (qtterm) {
-        qtterm->outputMessage(msg);
+    nlohmann::json state = nlohmann::json::parse(debuggerStateJson(eval), nullptr, false);
+    if (!state.is_discarded()) {
+        m_server->pushJson("debugger.state", state);
     }
-}
-//=============================================================================
-template <typename Func>
-void
-runOnGuiThread(Func func)
-{
-    if (Nelson::hasGuiServices() && !Nelson::isGuiThread()) {
-        Nelson::callGuiSync(func);
-        return;
+    uint64_t revision = eval->getBreakpointsRevision();
+    if (revision != m_lastBreakpointsRevision) {
+        m_lastBreakpointsRevision = revision;
+        m_server->pushJson("debugger.breakpoints",
+            nlohmann::json { { "revision", static_cast<long long>(revision) } });
     }
-    func();
-}
-//=============================================================================
-template <typename Result, typename Func>
-Result
-runOnGuiThread(Func func, Result defaultValue)
-{
-    Result result = defaultValue;
-    runOnGuiThread([&]() { result = func(); });
-    return result;
-}
-//=============================================================================
-template <typename Func>
-void
-postOnGuiThread(Func func)
-{
-    if (Nelson::hasGuiServices() && !Nelson::isGuiThread()) {
-        Nelson::postToGui(func);
-        return;
-    }
-    func();
-}
-//=============================================================================
-void
-enqueueGuiOutput(const std::wstring& msg)
-{
-    bool scheduleFlush = false;
-    {
-        std::lock_guard<std::mutex> lock(guiOutputMutex);
-        guiOutputBuffer.append(msg);
-        if (!guiOutputFlushScheduled) {
-            guiOutputFlushScheduled = true;
-            scheduleFlush = true;
-        }
-    }
-    if (scheduleFlush) {
-        postOnGuiThread([]() { QTimer::singleShot(100, []() { flushGuiOutputBuffer(); }); });
-    }
-}
-//=============================================================================
-} // namespace
-//=============================================================================
-QtTerminal*
-getQtTerminalInstance()
-{
-    QtMainWindow* mainWindow = static_cast<QtMainWindow*>(GetMainGuiObject());
-    return mainWindow ? mainWindow->getQtTerminal() : nullptr;
-}
-//=============================================================================
-QtMainWindow*
-getQtMainWindowInstance()
-{
-    return static_cast<QtMainWindow*>(GetMainGuiObject());
-}
-//=============================================================================
-GuiTerminal::GuiTerminal(void* qtMainW)
-{
-    QtMainWindow* qtMainWindow = reinterpret_cast<QtMainWindow*>(qtMainW);
-    QtTerminal* qtterm = qtMainWindow ? qtMainWindow->getQtTerminal() : nullptr;
-    if (qtterm) {
-        qtterm->setMaxBlockCount(DEFAULT_CONSOLE_MAX_LINE_VISIBLE);
-    }
-}
-//=============================================================================
-GuiTerminal::~GuiTerminal() { }
-//=============================================================================
-void*
-GuiTerminal::getQtPointer()
-{
-    return runOnGuiThread<void*>([]() { return (void*)getQtTerminalInstance(); }, nullptr);
 }
 //=============================================================================
 std::wstring
-GuiTerminal::getTextLine(const std::wstring& prompt, bool bIsInput)
+GuiTerminal::waitForLine(const std::wstring& prompt, bool replPrompt)
 {
-    if (Nelson::hasGuiServices() && !Nelson::isGuiThread()) {
-        return runOnGuiThread<std::wstring>(
-            [&]() { return getTextLine(prompt, bIsInput); }, std::wstring());
-    }
-
-    std::wstring line;
-    flushGuiOutputBuffer();
-    QtTerminal* qtterm = getQtTerminalInstance();
-    if (qtterm) {
-        // A prompt kept on screen through a silent callback is not printed again.
-        if (!qtterm->canReusePrompt(prompt)) {
-            this->diary.writeMessage(L"\n");
-            this->diary.writeMessage(prompt);
+    bool pushPrompt = true;
+    {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        m_currentPrompt = prompt;
+        if (replPrompt) {
+            // The blank line handed out to drain graphics callbacks is not a command
+            // the user typed. When a typed line already waits behind those callbacks
+            // it is consumed right below: re-pushing the prompt here would draw one
+            // between the echo of that line and its output, and report the engine
+            // Ready while the line is about to run.
+            pushPrompt = !(m_drainedCallbacks && !m_pending.empty());
         }
-        line = qtterm->getLine(prompt);
-        if (!line.empty() && line != L"\n") {
-            this->diary.writeMessage(line);
-            if (bIsInput) {
-                if (StringHelpers::ends_with(line, L"\n")) {
-                    line.pop_back();
+        m_drainedCallbacks = false;
+    }
+    // Reaching a prompt means the engine finished initialising: open the RPC
+    // gate so the frontend's queries can be served.
+    m_server->setEngineReady();
+    if (pushPrompt) {
+        m_server->pushJson("term.prompt", nlohmann::json { { "prompt", wstring_to_utf8(prompt) } });
+        pushDebuggerState();
+    }
+    std::unique_lock<std::mutex> lock(m_mutex);
+    m_atPrompt = true;
+    auto* eval = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
+    for (;;) {
+        m_cv.wait(lock, [this, eval] {
+            return !m_pending.empty() || m_interrupt.load()
+                || !MainThreadTaskQueue::getInstance()->isEmpty()
+                || !CallbackQueue::getInstance()->isEmpty() || !EventQueue::getInstance()->isEmpty()
+                || (eval != nullptr && !eval->commandQueue.isEmpty());
+        });
+
+        // Serve cross-thread interpreter tasks (RPC handlers marshalled via
+        // runOnInterpreterThread) here, at the idle prompt. Returning a synthetic newline
+        // instead would churn the REPL on every periodic RPC (the figure.list reconcile),
+        // and its term.prompt would trigger another figure.list: a self-sustaining storm.
+        if (!MainThreadTaskQueue::getInstance()->isEmpty()) {
+            if (eval != nullptr) {
+                lock.unlock();
+                const bool sessionEnded
+                    = MainThreadTaskQueue::getInstance()->processTasksAtPrompt(eval);
+                lock.lock();
+                // an empty line tells the REPL that a task ended the session
+                if (sessionEnded) {
+                    m_atPrompt = false;
+                    return std::wstring();
                 }
             }
+            continue;
+        }
+
+        if (m_interrupt.exchange(false)) {
+            m_atPrompt = false;
+            return std::wstring(1, L'\n');
+        }
+        // a command posted by the editor (dbstep, dbcont, run to here) is the next line
+        std::wstring queued;
+        if (eval != nullptr && eval->commandQueue.get(queued)) {
+            m_atPrompt = false;
+            return queued;
+        }
+        // Graphics callbacks (a uicontrol click) were enqueued: return a blank command so
+        // the CLI REPL loops back to Evaluator::processCliCallbacks and drains the
+        // CallbackQueue, as adv-cli does.
+        if (!CallbackQueue::getInstance()->isEmpty() || !EventQueue::getInstance()->isEmpty()) {
+            m_atPrompt = false;
+            m_drainedCallbacks = true;
+            return std::wstring(1, L'\n');
+        }
+        if (!m_pending.empty()) {
+            std::wstring line = m_pending.front();
+            m_pending.pop_front();
+            m_atPrompt = false;
+            return line;
         }
     }
-    if (bIsInput) {
-        Nelson::History::setToken(L"");
-    } else {
-        if (!line.empty() && line != L"\n") {
-            Nelson::History::addLine(line);
-            Nelson::HistoryBrowser::addLine(line);
-        }
-    }
-    return line;
-}
-//=============================================================================
-std::wstring
-GuiTerminal::getInput(const std::wstring& prompt)
-{
-    return getTextLine(prompt, true);
-}
-//=============================================================================
-std::string
-GuiTerminal::getLine(const std::string& prompt)
-{
-    std::wstring wline = getLine(utf8_to_wstring(prompt));
-    std::string line = wstring_to_utf8(wline);
-    return line;
 }
 //=============================================================================
 std::wstring
 GuiTerminal::getLine(const std::wstring& prompt)
 {
-    return getTextLine(prompt, false);
+    std::wstring line = waitForLine(prompt, true);
+    // Record the command in the history manager, as the CLI and Qt terminals do,
+    // skipping interrupts (empty) and the synthetic "\n". history.changed is pushed now
+    // so the History panel shows the command while it runs.
+    if (!line.empty() && line != L"\n") {
+        Nelson::History::addLine(line);
+        m_server->pushJson("history.changed", nlohmann::json::object());
+    }
+    return line;
+}
+//=============================================================================
+std::string
+GuiTerminal::getLine(const std::string& prompt)
+{
+    return wstring_to_utf8(waitForLine(utf8_to_wstring(prompt), true));
+}
+//=============================================================================
+std::wstring
+GuiTerminal::getInput(const std::wstring& prompt)
+{
+    return waitForLine(prompt, false);
+}
+//=============================================================================
+void
+GuiTerminal::notifyPrompt()
+{
+    std::lock_guard<std::mutex> lock(m_mutex);
+    m_cv.notify_one();
+}
+//=============================================================================
+void
+GuiTerminal::pushInputLine(const std::wstring& line)
+{
+    {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        m_pending.push_back(line);
+    }
+    m_cv.notify_one();
+}
+//=============================================================================
+bool
+GuiTerminal::runOnInterpreterThread(const std::function<void()>& fn, int timeoutMs)
+{
+    // Use the shared interpreter-thread task queue. It is drained between the
+    // statements of a running script and inside pause()/drawnow()/timer waits, not
+    // only at the prompt. RPC handlers then reach the interpreter during a command,
+    // so a non-interactive launch such as `-e "run(demo)"`, which never reaches the CLI
+    // prompt, still serves figure.list, figure.undock and workspace.list. The wakeup
+    // hook set in the constructor wakes waitForLine at the prompt.
+    return MainThreadTaskQueue::getInstance()->runOnInterpreterThread(
+        [fn](Evaluator*) { fn(); }, timeoutMs);
+}
+//=============================================================================
+void
+GuiTerminal::resendPrompt()
+{
+    std::wstring prompt;
+    {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        if (!m_atPrompt.load()) {
+            return;
+        }
+        prompt = m_currentPrompt;
+    }
+    m_server->pushJson("term.prompt", nlohmann::json { { "prompt", wstring_to_utf8(prompt) } });
+}
+//=============================================================================
+std::wstring
+GuiTerminal::currentPrompt()
+{
+    std::lock_guard<std::mutex> lock(m_mutex);
+    return m_atPrompt.load() ? m_currentPrompt : std::wstring();
 }
 //=============================================================================
 size_t
 GuiTerminal::getTerminalWidth()
 {
-    return runOnGuiThread<size_t>(
-        []() -> size_t {
-            size_t width = DEFAULT_CONSOLE_WIDTH;
-            QtTerminal* qtterm = getQtTerminalInstance();
-            if (qtterm) {
-                width = qtterm->getTerminalWidth();
-            }
-            return width;
-        },
-        DEFAULT_CONSOLE_WIDTH);
+    return m_cols;
 }
 //=============================================================================
 size_t
 GuiTerminal::getTerminalHeight()
 {
-    return runOnGuiThread<size_t>(
-        []() -> size_t {
-            size_t height = DEFAULT_CONSOLE_HEIGHT;
-            QtTerminal* qtterm = getQtTerminalInstance();
-            if (qtterm) {
-                height = qtterm->getTerminalHeight();
-            }
-            return height;
-        },
-        DEFAULT_CONSOLE_HEIGHT);
+    return m_rows;
 }
 //=============================================================================
 void
-GuiTerminal::outputMessage(const std::string& msg)
+GuiTerminal::setTerminalSize(size_t cols, size_t rows)
 {
-    this->outputMessage(utf8_to_wstring(msg));
+    if (cols > 0) {
+        m_cols = cols;
+    }
+    if (rows > 0) {
+        m_rows = rows;
+    }
 }
 //=============================================================================
 void
 GuiTerminal::outputMessage(const std::wstring& msg)
 {
-    this->diary.writeMessage(msg);
-    if (msg.find(L'\b') != std::wstring::npos) {
-        runOnGuiThread([&]() {
-            flushGuiOutputBuffer();
-            QtTerminal* qtterm = getQtTerminalInstance();
-            if (qtterm) {
-                qtterm->outputMessage(msg);
-            }
-        });
-        return;
-    }
-    enqueueGuiOutput(msg);
+    m_server->pushJson("term.output", nlohmann::json { { "text", wstring_to_utf8(msg) } });
 }
 //=============================================================================
+void
+GuiTerminal::outputMessage(const std::string& msg)
+{
+    m_server->pushJson("term.output", nlohmann::json { { "text", msg } });
+}
+//=============================================================================
+void
+GuiTerminal::errorMessage(const std::wstring& msg)
+{
+    m_server->pushJson("term.output",
+        nlohmann::json { { "text", "\x1b[31m" + wstring_to_utf8(msg) + "\x1b[0m\r\n" } });
+}
+//=============================================================================
+void
+GuiTerminal::errorMessage(const std::string& msg)
+{
+    errorMessage(utf8_to_wstring(msg));
+}
+//=============================================================================
+void
+GuiTerminal::warningMessage(const std::wstring& msg)
+{
+    m_server->pushJson("term.output",
+        nlohmann::json { { "text", "\x1b[33m" + wstring_to_utf8(msg) + "\x1b[0m\r\n" } });
+}
+//=============================================================================
+void
+GuiTerminal::warningMessage(const std::string& msg)
+{
+    warningMessage(utf8_to_wstring(msg));
+}
+//=============================================================================
+// Map a TextStyle (RGB, bold/italic/underline, e.g. from cprintf) to ANSI SGR escapes.
+// xterm supports 24-bit truecolor (38;2;r;g;b foreground, 48;2;r;g;b background).
 bool
-GuiTerminal::outputStyledText(const std::wstring& msg, const TextStyle& style)
+GuiTerminal::outputStyledText(const std::wstring& msg, const Nelson::TextStyle& style)
 {
     if (style.isPlain()) {
         outputMessage(msg);
-        return false;
+        return true;
     }
-    this->diary.writeMessage(msg);
-    bool displayed = runOnGuiThread<bool>(
-        [&]() {
-            flushGuiOutputBuffer();
-            QtTerminal* qtterm = getQtTerminalInstance();
-            if (!qtterm) {
-                return false;
-            }
-            qtterm->outputStyledText(msg, style);
-            return true;
-        },
-        false);
-    if (!displayed) {
-        enqueueGuiOutput(msg);
-    }
-    return displayed;
+    m_server->pushJson("term.output",
+        nlohmann::json { { "text", buildAnsiStyledMessage(wstring_to_utf8(msg), style) } });
+    return true;
 }
 //=============================================================================
-bool
-GuiTerminal::outputAnsiText(const std::wstring& msg, bool asError)
-{
-    if (!containsAnsiEscape(msg)) {
-        if (asError) {
-            errorMessage(msg);
-        } else {
-            outputMessage(msg);
-        }
-        return false;
-    }
-
-    if (!asError) {
-        std::wstring plain = stripAnsiSgr(msg);
-        this->diary.writeMessage(plain);
-        bool displayed = runOnGuiThread<bool>(
-            [&]() {
-                flushGuiOutputBuffer();
-                QtTerminal* qtterm = getQtTerminalInstance();
-                if (!qtterm) {
-                    return false;
-                }
-                qtterm->outputAnsiText(msg, false);
-                return true;
-            },
-            false);
-        if (!displayed) {
-            enqueueGuiOutput(plain);
-        }
-        return displayed;
-    }
-
-    std::wstring fallbackPlain = stripAnsiSgr(msg + L"\n");
-    bool displayed = runOnGuiThread<bool>(
-        [&]() {
-            flushGuiOutputBuffer();
-            QtTerminal* qtterm = getQtTerminalInstance();
-            if (!qtterm) {
-                return false;
-            }
-            std::wstring styledMsg = msg + L"\n";
-            std::wstring plain = stripAnsiSgr(styledMsg);
-            if (qtterm->isAtPrompt()) {
-                styledMsg = L"\n" + styledMsg;
-                plain = L"\n" + plain;
-                qtterm->sendReturnKey();
-            }
-            qtterm->outputAnsiText(styledMsg, true);
-            this->diary.writeMessage(plain);
-            return true;
-        },
-        false);
-    if (!displayed) {
-        this->diary.writeMessage(fallbackPlain);
-        enqueueGuiOutput(fallbackPlain);
-    }
-    return displayed;
-}
-//=============================================================================
+// Emit the label as an OSC 8 hyperlink so xterm renders it clickable; the frontend
+// reveals the expanded text on click. A static counter keys each expandable: a data
+// member would change the object size (ABI).
 bool
 GuiTerminal::outputExpandableText(const std::wstring& label, const std::wstring& expandedText,
     const std::wstring& plainFallback, const std::wstring& contextName, long long contextValue)
 {
-    if (!plainFallback.empty()) {
-        this->diary.writeMessage(plainFallback);
-    }
-    bool displayed = runOnGuiThread<bool>(
-        [&]() {
-            flushGuiOutputBuffer();
-            QtTerminal* qtterm = getQtTerminalInstance();
-            if (!qtterm) {
-                return false;
-            }
-            qtterm->insertExpandableText(label, expandedText, contextName, contextValue);
-            return true;
-        },
-        false);
-    if (!displayed && !plainFallback.empty()) {
-        enqueueGuiOutput(plainFallback);
-    }
-    return displayed;
+    (void)plainFallback;
+    (void)contextName;
+    (void)contextValue;
+    static long long s_expandId = 0;
+    const long long id = ++s_expandId;
+    m_server->pushJson("term.expandable",
+        nlohmann::json { { "id", id }, { "text", wstring_to_utf8(expandedText) } });
+    // Inline OSC 8 hyperlink: OSC 8 ; ; <uri> ST <label> OSC 8 ; ; ST, where the
+    // string terminator ST is ESC followed by backslash.
+    const std::string osc = buildExpandableTextLink(id, wstring_to_utf8(label)) + "\r\n";
+    m_server->pushJson("term.output", nlohmann::json { { "text", osc } });
+    return true;
+}
+//=============================================================================
+bool
+GuiTerminal::insertHtml(const std::wstring& html)
+{
+    m_server->pushJson("html.show", nlohmann::json { { "html", wstring_to_utf8(html) } });
+    return true;
 }
 //=============================================================================
 bool
@@ -360,166 +337,34 @@ GuiTerminal::supportsHyperlinks()
     return true;
 }
 //=============================================================================
+// Preview of a large matrix, then the "Display all N rows and M columns" label as a
+// link revealing the full text, handled like the expandable texts above.
 bool
 GuiTerminal::outputTruncatedMatrix(const std::wstring& truncatedText, const std::wstring& label,
     const std::wstring& expandedText, const std::wstring& variableName)
 {
-    this->diary.writeMessage(expandedText);
-    bool displayed = runOnGuiThread<bool>(
-        [&]() {
-            flushGuiOutputBuffer();
-            QtTerminal* qtterm = getQtTerminalInstance();
-            if (!qtterm) {
-                return false;
-            }
-            qtterm->insertTruncatedMatrix(truncatedText, label, expandedText, variableName);
-            return true;
-        },
-        false);
-    if (!displayed) {
-        enqueueGuiOutput(expandedText);
-    }
-    return displayed;
-}
-//=============================================================================
-void
-GuiTerminal::errorMessage(const std::string& msg)
-{
-    this->errorMessage(utf8_to_wstring(msg));
-}
-//=============================================================================
-void
-GuiTerminal::errorMessage(const std::wstring& msg)
-{
-    runOnGuiThread([&]() {
-        QtTerminal* qtterm = getQtTerminalInstance();
-        if (qtterm) {
-            std::wstring _msg = msg + L"\n";
-            if (qtterm->isAtPrompt()) {
-                _msg = L"\n" + _msg;
-                qtterm->sendReturnKey();
-            }
-            qtterm->errorMessage(_msg);
-            this->diary.writeMessage(_msg);
-        }
-    });
-}
-//=============================================================================
-void
-GuiTerminal::warningMessage(const std::string& msg)
-{
-    this->warningMessage(utf8_to_wstring(msg));
-}
-//=============================================================================
-void
-GuiTerminal::warningMessage(const std::wstring& msg)
-{
-    runOnGuiThread([&]() {
-        QtTerminal* qtterm = getQtTerminalInstance();
-        if (qtterm) {
-            std::wstring _msg = msg + L"\n";
-            if (qtterm->isAtPrompt()) {
-                _msg = L"\n" + _msg;
-                qtterm->sendReturnKey();
-            }
-            qtterm->warningMessage(_msg);
-            this->diary.writeMessage(_msg);
-        }
-    });
+    outputMessage(truncatedText);
+    return outputExpandableText(label, expandedText, expandedText, variableName, 0);
 }
 //=============================================================================
 void
 GuiTerminal::clearTerminal()
 {
-    runOnGuiThread([]() {
-        flushGuiOutputBuffer();
-        QtTerminal* qtterm = getQtTerminalInstance();
-        if (qtterm) {
-            qtterm->clearTerminal();
-        }
-    });
-}
-//=============================================================================
-void
-GuiTerminal::banner()
-{
-    runOnGuiThread([]() {
-        QtTerminal* qtterm = getQtTerminalInstance();
-        if (qtterm) {
-            qtterm->banner();
-        }
-    });
-}
-//=============================================================================
-bool
-GuiTerminal::insertHtml(const std::wstring& msg)
-{
-    this->diary.writeMessage(msg);
-    postOnGuiThread([msg]() {
-        flushGuiOutputBuffer();
-        QtTerminal* qtterm = getQtTerminalInstance();
-        if (qtterm) {
-            qtterm->insertHtml(msg);
-        }
-    });
-    return true;
-}
-//=============================================================================
-int
-GuiTerminal::getBufferScreenLine()
-{
-    return runOnGuiThread<int>(
-        []() {
-            QtTerminal* qtterm = getQtTerminalInstance();
-            if (qtterm) {
-                return qtterm->maxBlockCount();
-            }
-            return -1;
-        },
-        -1);
-}
-//=============================================================================
-void
-GuiTerminal::setBufferScreenLine(int newMax)
-{
-    if (newMax < 0) {
-        return;
-    }
-    runOnGuiThread([newMax]() {
-        QtTerminal* qtterm = getQtTerminalInstance();
-        if (qtterm) {
-            // 0 means unlimited scrollback (QTextDocument convention).
-            qtterm->setMaxBlockCount(newMax);
-        }
-    });
+    m_server->pushJson("term.clear", nlohmann::json::object());
 }
 //=============================================================================
 bool
 GuiTerminal::isAtPrompt()
 {
-    return runOnGuiThread<bool>(
-        []() -> bool {
-            QtTerminal* qtterm = getQtTerminalInstance();
-            if (qtterm) {
-                return qtterm->isAtPrompt() != 0;
-            }
-            return false;
-        },
-        false);
+    return m_atPrompt.load();
 }
 //=============================================================================
 void
 GuiTerminal::interruptGetLineByEvent()
 {
-    runOnGuiThread([]() {
-        QtMainWindow* qtMainWindow = getQtMainWindowInstance();
-        QEvent* qEvent = nullptr;
-        try {
-            qEvent = new QEvent(QEvent::None);
-            qApp->postEvent(qtMainWindow, qEvent, Qt::HighEventPriority);
-        } catch (const std::bad_alloc&) {
-            qEvent = nullptr;
-        }
-    });
+    m_interrupt = true;
+    notifyPrompt();
 }
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

@@ -4228,8 +4228,8 @@ namespace bcvm_detail {
                     Nelson::processGuiEvents(false);
                 }
             }
-            // nelson-adv-cli --webview: service the native figure windows on this
-            // (interpreter/main) thread. No-op unless the figures-only web desktop
+            // nelson-adv-cli web figures: service the native figure windows on this
+            // (interpreter/main) thread. No-op unless the figures-only desktop
             // registered the pump hook.
             if (webEventPumpBridge->hasWebEventPumpHook()
                 && (hasOpenFigureWindows || coarseBoundary)) {

@@ -315,7 +315,7 @@ registerBaseGateways(Evaluator* evaluator)
 static nlohmann::json
 debuggerStateToJson(Evaluator* evaluator)
 {
-    // same JSON as the webview desktop (DebuggerJson)
+    // same JSON as the desktop (DebuggerJson)
     nlohmann::json result = nlohmann::json::parse(debuggerStateJson(evaluator), nullptr, false);
     if (result.is_discarded()) {
         result = { { "running", false }, { "paused", false }, { "currentLine", nullptr },

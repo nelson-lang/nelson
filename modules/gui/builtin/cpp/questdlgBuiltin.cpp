@@ -1,4 +1,4 @@
-﻿//=============================================================================
+//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -12,13 +12,12 @@
 #include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "QuestionBox.hpp"
-#include "Warning.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::GuiGateway::questdlgBuiltin(int nLhs, const ArrayOfVector& argIn)
+Nelson::WebviewGateway::questdlgBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     // s = questdlg(quest)
     // s = questdlg(quest, dlgtitle)

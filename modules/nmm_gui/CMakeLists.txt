@@ -11,8 +11,8 @@ set(module_name nmm_gui)
 set(module_library_builtin_name nlsNmm_gui_builtin)
 # ==============================================================================
 # Package manager window (WebUI). Native WebUI/CivetWeb/WebView code is owned by
-# modules/webview: this module only carries the singleton window, the RPC
-# dispatcher and the static frontend, and depends on nlsWebview for WebUI.
+# modules/web_engine: this module only carries the singleton window, the RPC
+# dispatcher and the static frontend, and depends on nlsWeb_engine for WebUI.
 # ==============================================================================
 # Window strings: locale/nmm-ui-<locale>.json (Crowdin catalogs) are embedded in
 # the binary through a generated header, one raw literal per catalog line (the
@@ -80,8 +80,8 @@ target_include_directories(${module_library_builtin_name}
     ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../modules_manager/src/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../webview/src/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../webview/src/webui/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../web_engine/src/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../web_engine/src/webui/include
 )
 # the embedded catalogs are UTF-8
 target_compile_options(${module_library_builtin_name}
@@ -97,7 +97,7 @@ target_link_libraries(${module_library_builtin_name}
     nlsModules_manager
     nlsNelson_manager
     nlsTypes
-    nlsWebview
+    nlsWeb_engine
 )
 # ==============================================================================
 nelson_install_library(${module_library_builtin_name})

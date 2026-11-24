@@ -11,7 +11,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { inlineStylesheetImport } from './shared-styles.mjs';
 
-const importRule = "@import url('../../../../webview/frontend/examples/gallery-shared.css');";
+const importRule = "@import url('../../../../web_engine/frontend/examples/gallery-shared.css');";
 
 test('inlines the shared gallery stylesheet for distribution', () => {
   const result = inlineStylesheetImport(

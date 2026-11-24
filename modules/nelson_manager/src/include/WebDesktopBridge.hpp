@@ -39,10 +39,10 @@ struct WebFigureFrameAttachment
     int length { 0 };
 };
 //=============================================================================
-// Bridge between the engine/graphics low-level modules and the web desktop
-// (web_gui / webview). It is a registration point kept in nelson_manager so
+// Bridge between the engine/graphics low-level modules and the desktop
+// (gui / webview). It is a registration point kept in nelson_manager so
 // bottom-level modules (core, graphics, gui, text_editor) can push events to
-// the browser desktop WITHOUT linking the high-level web modules. web_gui
+// the browser desktop WITHOUT linking the high-level web modules. gui
 // registers the hooks at startup; the other modules only call the push*/open*
 // helpers, which are no-ops until a handler is registered.
 class NLSNELSON_MANAGER_IMPEXP WebDesktopBridge
@@ -56,20 +56,20 @@ public:
     void
     destroy();
     //=============================================================================
-    // WEB_GUI: the `terminal` builtin opens a browser shell panel, not a Qt window.
+    // Desktop: the `terminal` builtin opens a browser shell panel, not a Qt window.
     void
     setWebTerminalOpener(void (*fn)(void*), void* ctx);
     bool
     openWebTerminal();
     //=============================================================================
-    // WEB_GUI: the `editor` builtin opens the Monaco panel, not the Qt text editor.
+    // Desktop: the `editor` builtin opens the Monaco panel, not the Qt text editor.
     // An empty path means "new file".
     void
     setWebEditorOpener(void (*fn)(void*, const wchar_t*, int, int), void* ctx);
     bool
     openWebEditor(const std::wstring& path, int line = 0, int column = 0);
     //=============================================================================
-    // WEB_GUI: the `edit` builtin opens a Notebook document (.nlx) in the Live
+    // Desktop: the `edit` builtin opens a Notebook document (.nlx) in the Live
     // Script panel, not the Monaco text editor.
     void
     setWebNotebookOpener(void (*fn)(void*, const wchar_t*), void* ctx);
@@ -109,7 +109,7 @@ public:
     pushWebFigureFrame(long long handle, const char* json, int len,
         const WebFigureFrameAttachment* attachments, int attachmentCount);
     //=============================================================================
-    // nelson-adv-cli --webview: the native figure windows of the WebGuiServer must
+    // nelson-adv-cli web figures: the native figure windows of the GuiServer must
     // be serviced on the interpreter thread and there is no event loop, so the
     // engine calls pumpWebEvents() at statement boundaries, drawnow and pause.
     // No-op until the server registers the hook.
@@ -144,6 +144,13 @@ public:
     void
     pushWebFigureTitle(long long handle, const char* title);
     //=============================================================================
+    // Position changed programmatically (f.Position = ...): the desktop slides the
+    // separate native window so its drawing area follows [x y] (pixels, bottom-up).
+    void
+    setWebFigurePositionHook(void (*fn)(void*, long long, int, int, int, int), void* ctx);
+    void
+    pushWebFigurePosition(long long handle, int x, int y, int width, int height);
+    //=============================================================================
     void
     setWebClipboardImageHook(void (*fn)(void*, const char*, int), void* ctx);
     bool
@@ -154,6 +161,33 @@ public:
     setWebPackageUpdatesHook(void (*fn)(void*, int), void* ctx);
     void
     pushWebPackageUpdates(int count);
+    //=============================================================================
+    // The desktop minimizes/restores its own main window and reports its state so
+    // ipc(pid, 'minimize', ...) controls the desktop like the Qt main window.
+    // requestWebMinimize returns false when no handler is registered.
+    void
+    setWebMinimizeHook(void (*fn)(void*, bool), void* ctx);
+    void
+    setWebIsMinimizedHook(bool (*fn)(void*), void* ctx);
+    bool
+    hasWebMinimizeHook() const;
+    bool
+    requestWebMinimize(bool minimize);
+    bool
+    queryWebMinimized();
+    //=============================================================================
+    // The desktop reports, on demand, where a figure's drawing area really is
+    // on screen (the native window the engine host no longer owns): [left bottom
+    // width height] in logical pixels, bottom-up from the primary screen. Lets
+    // __figure_native_geometry__ read the real window in web mode. The handler
+    // fills the outputs and returns true, or returns false when the figure has no
+    // measured native window (headless, hidden, not yet reported).
+    void
+    setWebFigureNativeGeometryHook(
+        bool (*fn)(void*, long long, double*, double*, double*, double*), void* ctx);
+    bool
+    queryWebFigureNativeGeometry(
+        long long handle, double* x, double* y, double* width, double* height);
     //=============================================================================
     void
     setWebLaunchMode(const std::string& mode);
@@ -199,12 +233,21 @@ private:
     void* m_webFigureVisibleCtx = nullptr;
     void (*m_webFigureTitleFn)(void*, long long, const char*) = nullptr;
     void* m_webFigureTitleCtx = nullptr;
+    void (*m_webFigurePositionFn)(void*, long long, int, int, int, int) = nullptr;
+    void* m_webFigurePositionCtx = nullptr;
     void (*m_webMessageBoxFn)(void*, const wchar_t*, const wchar_t*, const wchar_t*) = nullptr;
     void* m_webMessageBoxCtx = nullptr;
     void (*m_webClipboardImageFn)(void*, const char*, int) = nullptr;
     void* m_webClipboardImageCtx = nullptr;
     void (*m_webPackageUpdatesFn)(void*, int) = nullptr;
     void* m_webPackageUpdatesCtx = nullptr;
+    void (*m_webMinimizeFn)(void*, bool) = nullptr;
+    void* m_webMinimizeCtx = nullptr;
+    bool (*m_webIsMinimizedFn)(void*) = nullptr;
+    void* m_webIsMinimizedCtx = nullptr;
+    bool (*m_webFigureNativeGeometryFn)(void*, long long, double*, double*, double*, double*)
+        = nullptr;
+    void* m_webFigureNativeGeometryCtx = nullptr;
     std::mutex m_webLaunchModeMutex;
     std::string m_webLaunchMode { "none" };
     std::string m_webLaunchUrl;

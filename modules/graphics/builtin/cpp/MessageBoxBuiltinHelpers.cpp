@@ -8,7 +8,6 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "MessageBoxBuiltinHelpers.hpp"
-#include "WebDesktopBridge.hpp"
 #include "__image__Builtin.hpp"
 #include "__text__Builtin.hpp"
 #include "axesBuiltin.hpp"
@@ -69,9 +68,6 @@ static void
 drawIconImage(const ArrayOf& axes, const ArrayOf& cdata);
 static ArrayOf
 createIconCData(const std::wstring& icon);
-static void
-setIconPixel(double* data, indexType rows, indexType cols, indexType row, indexType col,
-    const std::vector<double>& color);
 static std::vector<double>
 backgroundColor();
 //=============================================================================
@@ -79,11 +75,9 @@ ArrayOf
 MessageBox(const std::wstring& message, const std::wstring& title, const std::wstring& icon,
     const std::wstring& mode)
 {
-    // Web GUI: show a message modal in the browser instead of a docked figure.
-    // Returns an empty handle.
-    if (WebDesktopBridge::getInstance()->showWebMessageBox(title, message, icon)) {
-        return ArrayOf::empty();
-    }
+    // A dialog is a floating figure that is itself the message box, so it always
+    // returns a real figure handle, like the reference. The desktop renders
+    // this figure as its dialog window; no separate browser overlay is used.
     std::wstring modeValue = normalizedMode(mode);
     if (modeValue == L"replace" && !title.empty()) {
         closeExistingMessage(title);
@@ -425,62 +419,68 @@ drawIconImage(const ArrayOf& axes, const ArrayOf& cdata)
 static ArrayOf
 createIconCData(const std::wstring& icon)
 {
-    const indexType rows = 32;
-    const indexType cols = 32;
+    // Rendered at a high resolution and supersampled so the octagon, triangle
+    // and info disc keep smooth, antialiased edges when displayed small.
+    const indexType rows = 128;
+    const indexType cols = 128;
+    const int samplesPerAxis = 4;
     Dimensions dims({ rows, cols, 3 });
     double* data = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, dims.elementCount()));
-    std::vector<double> bg = backgroundColor();
-    std::fill(data, data + dims.elementCount(), bg[0]);
+    static const std::vector<double> whiteColor = { 1.0, 1.0, 1.0 };
+    const std::vector<double> bg = backgroundColor();
+    const std::vector<double> mainColor = messageIconColor(icon);
+    const bool warning = StringHelpers::iequals(icon, L"warning");
+    const bool error = StringHelpers::iequals(icon, L"error");
+    const double half = (double)rows / 2.0;
+    const double invHalf = 1.0 / half;
+    const indexType plane = rows * cols;
+    const double sampleCount = (double)(samplesPerAxis * samplesPerAxis);
     for (indexType row = 0; row < rows; ++row) {
         for (indexType col = 0; col < cols; ++col) {
-            setIconPixel(data, rows, cols, row, col, bg);
-        }
-    }
-    std::vector<double> mainColor = messageIconColor(icon);
-    bool warning = StringHelpers::iequals(icon, L"warning");
-    for (indexType row = 0; row < rows; ++row) {
-        double rawY = ((double)row + 0.5 - 16.0) / 16.0;
-        double y = warning ? -rawY : rawY;
-        for (indexType col = 0; col < cols; ++col) {
-            double x = ((double)col + 0.5 - 16.0) / 16.0;
-            bool fill = false;
-            if (warning) {
-                fill = y > -0.70 && y < 0.78 && std::abs(x) < (0.88 - y) * 0.58;
-            } else {
-                fill = std::abs(x) <= 0.72 && std::abs(y) <= 0.72
-                    && std::abs(x) + std::abs(y) <= 1.05;
+            double accR = 0.0;
+            double accG = 0.0;
+            double accB = 0.0;
+            for (int sy = 0; sy < samplesPerAxis; ++sy) {
+                const double rawY
+                    = ((double)row + ((double)sy + 0.5) / samplesPerAxis - half) * invHalf;
+                const double y = warning ? -rawY : rawY;
+                for (int sx = 0; sx < samplesPerAxis; ++sx) {
+                    const double x
+                        = ((double)col + ((double)sx + 0.5) / samplesPerAxis - half) * invHalf;
+                    bool fill = false;
+                    if (warning) {
+                        fill = y > -0.70 && y < 0.78 && std::abs(x) < (0.88 - y) * 0.58;
+                    } else {
+                        fill = std::abs(x) <= 0.72 && std::abs(y) <= 0.72
+                            && std::abs(x) + std::abs(y) <= 1.05;
+                    }
+                    const std::vector<double>* sample = &bg;
+                    if (fill) {
+                        bool whiteMark = false;
+                        if (warning) {
+                            whiteMark = (std::abs(x) < 0.12 && y > -0.20 && y < 0.42)
+                                || (x * x + (y + 0.46) * (y + 0.46) < 0.015);
+                        } else if (error) {
+                            whiteMark = (std::abs(x) < 0.12 && y > -0.42 && y < 0.20)
+                                || (x * x + (y - 0.46) * (y - 0.46) < 0.015);
+                        } else {
+                            whiteMark = (std::abs(x) < 0.09 && y > -0.10 && y < 0.46)
+                                || (x * x + (y + 0.42) * (y + 0.42) < 0.014);
+                        }
+                        sample = whiteMark ? &whiteColor : &mainColor;
+                    }
+                    accR += (*sample)[0];
+                    accG += (*sample)[1];
+                    accB += (*sample)[2];
+                }
             }
-            if (fill) {
-                setIconPixel(data, rows, cols, row, col, mainColor);
-            }
-            bool whiteMark = false;
-            if (warning) {
-                whiteMark = (std::abs(x) < 0.12 && y > -0.20 && y < 0.42)
-                    || (x * x + (y + 0.46) * (y + 0.46) < 0.015);
-            } else if (StringHelpers::iequals(icon, L"error")) {
-                whiteMark = (std::abs(x) < 0.12 && y > -0.42 && y < 0.20)
-                    || (x * x + (y - 0.46) * (y - 0.46) < 0.015);
-            } else {
-                whiteMark = (std::abs(x) < 0.09 && y > -0.10 && y < 0.46)
-                    || (x * x + (y + 0.42) * (y + 0.42) < 0.014);
-            }
-            if (whiteMark && fill) {
-                setIconPixel(data, rows, cols, row, col, { 1, 1, 1 });
-            }
+            const indexType offset = row + rows * col;
+            data[offset] = accR / sampleCount;
+            data[offset + plane] = accG / sampleCount;
+            data[offset + 2 * plane] = accB / sampleCount;
         }
     }
     return ArrayOf(NLS_DOUBLE, dims, data);
-}
-//=============================================================================
-static void
-setIconPixel(double* data, indexType rows, indexType cols, indexType row, indexType col,
-    const std::vector<double>& color)
-{
-    indexType plane = rows * cols;
-    indexType offset = row + rows * col;
-    data[offset] = color[0];
-    data[offset + plane] = color[1];
-    data[offset + 2 * plane] = color[2];
 }
 //=============================================================================
 static std::vector<double>

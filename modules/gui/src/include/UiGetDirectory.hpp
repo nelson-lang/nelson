@@ -9,11 +9,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-#include "nlsGui_exports.h"
 #include <string>
+#include "nlsGui_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+// Returns true when the selection was cancelled (pathSelected is then unchanged),
+// false when a directory was chosen. Served through the dialog provider.
 NLSGUI_IMPEXP bool
 UiGetDirectory(
     const std::wstring& pathOrigin, const std::wstring& title, std::wstring& pathSelected);

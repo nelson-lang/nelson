@@ -17,7 +17,7 @@
         "visualization"
       ],
       "requirements": [
-        "web_gui"
+        "gui"
       ]
     },
     {
@@ -36,7 +36,7 @@
         "signal"
       ],
       "requirements": [
-        "web_gui"
+        "gui"
       ]
     }
   ]

@@ -101,20 +101,20 @@ target_link_libraries(${module_library_builtin_name}
 # The live-progress push (__ai_notify__ -> PushWebToolEvent) needs the WebView
 # host; when that module is disabled (minimal/wasm builds) that one call compiles
 # as a no-op, but the AssistantSink routing (nelson_manager, linked above) stays.
-if(WITHOUT_WEBVIEW_MODULE)
+if(WITHOUT_WEB_ENGINE_MODULE)
   target_compile_definitions(${module_library_builtin_name}
-    PRIVATE NLSAI_WITHOUT_WEBVIEW
+    PRIVATE NLSAI_WITHOUT_WEB_ENGINE
   )
 else()
   target_include_directories(${module_library_builtin_name}
     PRIVATE
-      ${CMAKE_CURRENT_SOURCE_DIR}/../webview/src/include
-      ${CMAKE_CURRENT_SOURCE_DIR}/../webview/src/webui/include
+      ${CMAKE_CURRENT_SOURCE_DIR}/../web_engine/src/include
+      ${CMAKE_CURRENT_SOURCE_DIR}/../web_engine/src/webui/include
       ${CMAKE_CURRENT_SOURCE_DIR}/../modules_manager/src/include
   )
   target_link_libraries(${module_library_builtin_name}
     PRIVATE
-      nlsWebview
+      nlsWeb_engine
       nlsModules_manager
   )
 endif()

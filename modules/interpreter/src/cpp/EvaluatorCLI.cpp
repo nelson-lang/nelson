@@ -88,9 +88,9 @@ Evaluator::processCliCallbacks()
 {
     // Cross-thread tasks first: a background poster is blocked on its future.
     MainThreadTaskQueue::getInstance()->processTasks(this);
-    // nelson-adv-cli --webview: service native figure windows between prompts so a
+    // nelson-adv-cli web figures: service native figure windows between prompts so a
     // freshly created figure paints and stays responsive. No-op unless the
-    // figures-only web desktop registered the pump hook.
+    // figures-only desktop registered the pump hook.
     WebDesktopBridge* pumpBridge = WebDesktopBridge::getInstance();
     if (pumpBridge->hasWebEventPumpHook()) {
         pumpBridge->pumpWebEvents();

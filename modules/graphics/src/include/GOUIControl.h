@@ -21,9 +21,9 @@ class RenderWeb;
 //=============================================================================
 // Classic uicontrol model (pushbutton, slider, listbox, ...). The native
 // widget hosted in the figure window is owned by a UIComponentBinding created
-// through the registered uicontrol factory (graphics_qt). The model itself is
-// widget-toolkit free; headless hosts (nelson-webview) never create a binding and
-// use describeForWeb / applyWebAction only.
+// through the registered uicontrol factory (the native widget backend). The model
+// itself is widget-toolkit free; headless hosts (nelson-webview) never create a
+// binding and use describeForWeb / applyWebAction only.
 class NLSGRAPHICS_IMPEXP GOUIControl : public GraphicsObject
 {
     UIComponentBinding* binding = nullptr;
@@ -124,6 +124,15 @@ private:
     deleteWidget();
     //=============================================================================
 };
+//=============================================================================
+// Model-level delivery of a keyboard event to a uicontrol, used when no native widget
+// backend is registered (headless and web hosts). Mirrors what a real key press does:
+// 'space' toggles/presses the control and runs its Callback, the arrow/home/end keys move
+// a listbox or popupmenu selection, and 'tab'/'shift+tab' move the focus to the next or
+// previous control in creation order. *focused receives the control holding the focus
+// afterwards. Returns true when the key was handled.
+NLSGRAPHICS_IMPEXP bool
+deliverUIControlKeyModel(GOUIControl* control, const std::wstring& key, GOUIControl** focused);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

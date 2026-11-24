@@ -1,7 +1,7 @@
 {
   "clangFormatMajorVersion": 20,
   "npmFormatDirs": [
-    "modules/web_gui/frontend",
+    "modules/gui/src/ts/frontend",
     "modules/nflow_gui"
   ],
   "excludePathContains": [
@@ -12,7 +12,7 @@
     "target/",
     "bin/",
     "x64/",
-    "modules/web_gui/frontend/",
+    "modules/gui/src/ts/frontend/",
     "modules/nflow_gui/src/ts/",
     "cmake/",
     "chocolatey/",
@@ -36,8 +36,8 @@
     "modules/core/src/include/picoSHA2/picosha2.h",
     "modules/core/src/c/monocypher/",
     "modules/parallel/src/include/BS_thread_pool.hpp",
-    "modules/webview/src/webui/src/webview/macos_render_html.m",
-    "modules/webview/src/webui/src/webview/wkwebview.m",
+    "modules/web_engine/src/webui/src/webview/macos_render_html.m",
+    "modules/web_engine/src/webui/src/webview/wkwebview.m",
     "modules/interpreter/src/grammar/NelSonParserCpp.cpp",
     "modules/interpreter/src/grammar/NelSonParserCpp.hpp",
     "modules/interpreter/src/cpp/NelsonLexer.cpp",

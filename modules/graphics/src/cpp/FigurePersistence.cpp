@@ -327,7 +327,9 @@ static int64
 createObject(const std::wstring& type, int64 parentHandle, bool appendToParent)
 {
     if (type == GO_PROPERTY_VALUE_FIGURE_STR) {
-        return createNewFigure(false);
+        // Defer the window-open notification until the saved Position is restored,
+        // so the native window opens at the figure's own size (pushed by restoreObject).
+        return createNewFigure(false, true);
     }
     if (type == GO_PROPERTY_VALUE_UICONTROL_STR) {
         ArrayOfVector args;
@@ -483,12 +485,18 @@ restoreObject(const ArrayOf& record, int64 parentHandle, bool appendToParent,
         Error(L"Nelson:openfig:invalidFile", L"Invalid Nelson figure file.");
     }
     std::wstring type = record.field("Type").asWideString();
+    const bool isFigure = (type == GO_PROPERTY_VALUE_FIGURE_STR);
     int64 handle = createObject(type, parentHandle, appendToParent);
     GraphicsObject* target = graphicsObjectFromHandle(handle, true);
     if (record.isField("Properties")) {
         applyProperties(target, record.field("Properties"));
     }
     applyFigureVisibleAction(target, figureVisibleAction);
+    if (isFigure) {
+        // Saved Position is restored: open the native window now at that size,
+        // before updateState so a restored 'Visible','off' hides an existing window.
+        pushNewFigureLifecycle(handle);
+    }
     if (record.isField("References")) {
         applyReferences(target, record.field("References"), handle);
     }

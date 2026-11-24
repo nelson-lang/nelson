@@ -19,8 +19,7 @@
 #   2. Identifies third-party dependencies (outside /usr/lib, /System)
 #   3. Copies them into Contents/Frameworks/
 #   4. Rewrites load commands using install_name_tool
-#   5. Runs macdeployqt for Qt frameworks/plugins (if available)
-#   6. Optionally codesigns with ad-hoc signature
+#   5. Optionally codesigns with ad-hoc signature
 #
 # Required variable:
 #   APP_BUNDLE_DIR – absolute path to the .app bundle
@@ -46,89 +45,6 @@ file(MAKE_DIRECTORY "${FRAMEWORKS_DIR}")
 
 message(STATUS "=== Nelson macOS bundle fixup ===")
 message(STATUS "Bundle: ${APP_BUNDLE_DIR}")
-
-# ==============================================================================
-# Step 1: Run macdeployqt if Qt is present
-# ==============================================================================
-# macdeployqt handles Qt frameworks, plugins, and QML imports.
-# It must run BEFORE our general fixup because it creates the Frameworks/
-# structure for Qt and we need to fix up the remaining non-Qt libraries.
-find_program(MACDEPLOYQT
-  macdeployqt
-  HINTS
-  "$ENV{QTDIR}/bin"
-  "$ENV{HOMEBREW_PREFIX}/opt/qt/bin"
-  "/opt/homebrew/opt/qt/bin"
-  "/usr/local/opt/qt/bin"
-)
-
-if(MACDEPLOYQT)
-  message(STATUS "Running macdeployqt: ${MACDEPLOYQT}")
-  set(_bundle_launcher "${CONTENTS_DIR}/MacOS/nelson-gui")
-  set(_real_gui_exec "${RESOURCES_DIR}/bin/nelson-gui-exec")
-  set(_launcher_backup "")
-  if(EXISTS "${_bundle_launcher}" AND EXISTS "${_real_gui_exec}")
-    file(READ "${_bundle_launcher}" _launcher_magic HEX LIMIT 4)
-    if(_launcher_magic MATCHES "^2321")
-      set(_launcher_backup "${_bundle_launcher}.launcher")
-      file(RENAME "${_bundle_launcher}" "${_launcher_backup}")
-      file(COPY "${_real_gui_exec}" DESTINATION "${CONTENTS_DIR}/MacOS")
-      file(RENAME "${CONTENTS_DIR}/MacOS/nelson-gui-exec" "${_bundle_launcher}")
-    endif()
-  endif()
-
-  # Tell macdeployqt where to find QML source files so it discovers which
-  # QML modules (QtQuick.Controls, QtQuick.Window, QtQuick.Layouts, …) need
-  # to be bundled.  Without -qmldir, macdeployqt does NOT copy QML plugins.
-  set(_qmldir_args "")
-  set(_qml_scan_dir "${RESOURCES_DIR}/share/Nelson/modules/qml_engine")
-  if(IS_DIRECTORY "${_qml_scan_dir}")
-    list(APPEND _qmldir_args "-qmldir=${_qml_scan_dir}")
-    message(STATUS "  macdeployqt -qmldir: ${_qml_scan_dir}")
-  endif()
-
-  execute_process(
-    COMMAND "${MACDEPLOYQT}" "${APP_BUNDLE_DIR}" -verbose=1
-      "-executable=${_real_gui_exec}" ${_qmldir_args}
-    RESULT_VARIABLE _mqt_rc
-    OUTPUT_VARIABLE _mqt_out
-    ERROR_VARIABLE _mqt_err
-    TIMEOUT 180
-  )
-  if(_launcher_backup)
-    file(REMOVE "${_bundle_launcher}")
-    file(RENAME "${_launcher_backup}" "${_bundle_launcher}")
-  endif()
-  if(NOT _mqt_rc STREQUAL "0")
-    message(WARNING "macdeployqt returned ${_mqt_rc}: ${_mqt_err}")
-  else()
-    message(STATUS "macdeployqt completed successfully")
-  endif()
-else()
-  message(STATUS
-    "macdeployqt not found – skipping Qt framework bundling. "
-    "Qt frameworks must be available on the target system or bundled manually."
-  )
-endif()
-
-# ==============================================================================
-# Step 1a: Write qt.conf next to the real executable
-# ==============================================================================
-# macdeployqt places qt.conf in Contents/Resources/, but Qt looks for it
-# relative to applicationDirPath().  Since nelson-gui-exec lives in
-# Contents/Resources/bin/ (not Contents/MacOS/), Qt does NOT detect the
-# bundle layout and never reads Contents/Resources/qt.conf.
-#
-# We write a qt.conf next to the binary that sets Prefix = ../..  so that
-# Qt's prefix resolves to Contents/ and all standard sub-directories
-# (PlugIns, Frameworks, …) are found correctly.
-set(_exe_bin_dir "${RESOURCES_DIR}/bin")
-if(IS_DIRECTORY "${_exe_bin_dir}")
-  file(WRITE "${_exe_bin_dir}/qt.conf"
-    "[Paths]\nPrefix = ../..\nPlugins = PlugIns\nQml2Imports = Resources/qml\n"
-  )
-  message(STATUS "Wrote qt.conf in ${_exe_bin_dir}")
-endif()
 
 # ==============================================================================
 # Step 1b: Bundle dlopen-loaded libraries (not found by otool -L)
@@ -206,219 +122,10 @@ foreach(_dlib IN LISTS _dlopen_lib_names)
 endforeach()
 
 # ==============================================================================
-# Step 1c: Bundle Qt QML modules (fallback if macdeployqt missed them)
+# Step 1c: Resolve system library shadowing conflicts
 # ==============================================================================
-# macdeployqt should have handled QML modules when given -qmldir, but some
-# versions or configurations may miss modules.  Ensure the essential QML
-# modules used by Nelson's qml_engine are present in the bundle.
-
-set(_qml_dest_dir "${RESOURCES_DIR}/qml")
-
-# Locate the Qt QML root directory
-set(_qt_qml_root "")
-foreach(_qml_search
-  "$ENV{HOMEBREW_PREFIX}/share/qt/qml"
-  "/opt/homebrew/share/qt/qml"
-  "/usr/local/share/qt/qml"
-  "$ENV{QTDIR}/qml"
-  "$ENV{CONDA_PREFIX}/share/qt6/qml"
-)
-  if(_qml_search AND IS_DIRECTORY "${_qml_search}")
-    set(_qt_qml_root "${_qml_search}")
-    break()
-  endif()
-endforeach()
-
-if(NOT _qt_qml_root)
-  # Try to infer from macdeployqt location
-  if(MACDEPLOYQT)
-    get_filename_component(_mqt_bindir "${MACDEPLOYQT}" DIRECTORY)
-    get_filename_component(_mqt_prefix "${_mqt_bindir}" DIRECTORY)
-    if(IS_DIRECTORY "${_mqt_prefix}/share/qt/qml")
-      set(_qt_qml_root "${_mqt_prefix}/share/qt/qml")
-    elseif(IS_DIRECTORY "${_mqt_prefix}/qml")
-      set(_qt_qml_root "${_mqt_prefix}/qml")
-    endif()
-  endif()
-endif()
-
-if(_qt_qml_root)
-  message(STATUS "Qt QML root: ${_qt_qml_root}")
-  if(DEFINED _mqt_rc
-    AND NOT _mqt_rc STREQUAL "0"
-    AND IS_DIRECTORY "${_qml_dest_dir}"
-  )
-    file(REMOVE_RECURSE "${_qml_dest_dir}")
-  endif()
-  find_program(RSYNC_EXECUTABLE rsync)
-
-  # Modules required by Nelson's qml_engine
-  set(_required_qml_modules
-    "QtQuick"
-    "QtQuick/Controls"
-    "QtQuick/Controls/Basic"
-    "QtQuick/Controls/macOS"
-    "QtQuick/Controls/impl"
-    "QtQuick/Layouts"
-    "QtQuick/Templates"
-    "QtQuick/Window"
-    "QtQuick/Dialogs"
-    "QtQuick/Particles"
-    "QtQuick/Effects"
-    "QtQuick/NativeStyle"
-    "QtQml"
-    "QtQml/WorkerScript"
-  )
-
-  foreach(_qmod IN LISTS _required_qml_modules)
-    set(_src_mod "${_qt_qml_root}/${_qmod}")
-    set(_dst_mod "${_qml_dest_dir}/${_qmod}")
-    if(IS_DIRECTORY "${_src_mod}" AND NOT IS_DIRECTORY "${_dst_mod}")
-      file(REAL_PATH "${_src_mod}" _src_mod_real)
-      message(STATUS "  Bundling QML module: ${_qmod}")
-      get_filename_component(_dst_parent "${_dst_mod}" DIRECTORY)
-      if(EXISTS "${_dst_parent}" AND NOT IS_DIRECTORY "${_dst_parent}")
-        message(WARNING
-          "Skipping QML module ${_qmod}: parent is not a directory: ${_dst_parent}"
-        )
-      else()
-        if(RSYNC_EXECUTABLE)
-          file(MAKE_DIRECTORY "${_dst_mod}")
-          execute_process(
-            COMMAND "${RSYNC_EXECUTABLE}" -aL "${_src_mod_real}/" "${_dst_mod}/"
-            RESULT_VARIABLE _rsync_rc
-            ERROR_VARIABLE _rsync_err
-          )
-          if(NOT _rsync_rc EQUAL 0)
-            message(FATAL_ERROR
-              "Failed to bundle QML module ${_qmod}: ${_rsync_err}"
-            )
-          endif()
-        else()
-          file(MAKE_DIRECTORY "${_dst_parent}")
-          file(
-            COPY "${_src_mod_real}/"
-            DESTINATION "${_dst_mod}"
-            FOLLOW_SYMLINK_CHAIN
-          )
-        endif()
-      endif()
-    endif()
-  endforeach()
-else()
-  message(WARNING
-    "Qt QML root not found – QML modules not bundled. "
-    "QtQuick.Controls, QtQuick.Window, etc. may be unavailable at runtime."
-  )
-endif()
-
-# Also write a qt.conf in Contents/Resources/ (macdeployqt creates one here;
-# this ensures it always has the correct QmlImports line).
-file(WRITE "${RESOURCES_DIR}/qt.conf"
-  "[Paths]\nPrefix = ..\nPlugins = PlugIns\nQml2Imports = Resources/qml\n"
-)
-
-# ==============================================================================
-# Step 1d: Bundle Qt plugins (fallback if macdeployqt missed them)
-# ==============================================================================
-# Without the cocoa platform plugin, Qt aborts during QGuiApplication startup.
-set(_qt_plugins_root "")
-foreach(_plugin_search
-  "$ENV{HOMEBREW_PREFIX}/share/qt/plugins"
-  "$ENV{HOMEBREW_PREFIX}/opt/qt/share/qt/plugins"
-  "$ENV{HOMEBREW_PREFIX}/opt/qtbase/share/qt/plugins"
-  "/opt/homebrew/share/qt/plugins"
-  "/opt/homebrew/opt/qt/share/qt/plugins"
-  "/opt/homebrew/opt/qtbase/share/qt/plugins"
-  "/opt/homebrew/Cellar/qtbase/6.11.1/share/qt/plugins"
-  "/usr/local/share/qt/plugins"
-  "/usr/local/opt/qt/share/qt/plugins"
-  "/usr/local/opt/qtbase/share/qt/plugins"
-  "$ENV{QTDIR}/plugins"
-)
-  if(_plugin_search AND IS_DIRECTORY "${_plugin_search}/platforms")
-    set(_qt_plugins_root "${_plugin_search}")
-    break()
-  endif()
-endforeach()
-
-if(NOT _qt_plugins_root AND MACDEPLOYQT)
-  get_filename_component(_mqt_bindir "${MACDEPLOYQT}" DIRECTORY)
-  get_filename_component(_mqt_prefix "${_mqt_bindir}" DIRECTORY)
-  if(IS_DIRECTORY "${_mqt_prefix}/share/qt/plugins/platforms")
-    set(_qt_plugins_root "${_mqt_prefix}/share/qt/plugins")
-  elseif(IS_DIRECTORY "${_mqt_prefix}/plugins/platforms")
-    set(_qt_plugins_root "${_mqt_prefix}/plugins")
-  endif()
-endif()
-
-if(_qt_plugins_root)
-  message(STATUS "Qt plugins root: ${_qt_plugins_root}")
-  set(_required_qt_plugins
-    "platforms/libqcocoa.dylib"
-    # The offscreen and minimal QPA plugins are not used by the normal GUI app,
-    # but the test harness forces QT_QPA_PLATFORM=offscreen for every module run
-    # (run_impl_module.m). Without these plugins bundled, every GUI/QML worker
-    # aborts in QGuiApplicationPrivate::createPlatformIntegration() (exit 134),
-    # which failed the whole qml_engine suite on installed builds while the
-    # local build passed (it falls back to the Homebrew Qt plugins).
-    "platforms/libqoffscreen.dylib"
-    "platforms/libqminimal.dylib"
-    "styles/libqmacstyle.dylib"
-    "imageformats/libqgif.dylib"
-    "imageformats/libqico.dylib"
-    "imageformats/libqjpeg.dylib"
-    "imageformats/libqsvg.dylib"
-    "tls/libqcertonlybackend.dylib"
-    "tls/libqsecuretransportbackend.dylib"
-    "networkinformation/libqapplenetworkinformation.dylib"
-    "generic/libqtuiotouchplugin.dylib"
-  )
-
-  foreach(_plugin_rel IN LISTS _required_qt_plugins)
-    set(_plugin_src "${_qt_plugins_root}/${_plugin_rel}")
-    set(_plugin_dst "${CONTENTS_DIR}/PlugIns/${_plugin_rel}")
-    if(EXISTS "${_plugin_src}")
-      get_filename_component(_plugin_parent "${_plugin_dst}" DIRECTORY)
-      get_filename_component(_plugin_expected_name "${_plugin_dst}" NAME)
-      get_filename_component(_plugin_real "${_plugin_src}" REALPATH)
-      get_filename_component(_plugin_real_name "${_plugin_real}" NAME)
-      file(MAKE_DIRECTORY "${_plugin_parent}")
-      file(
-        COPY "${_plugin_real}"
-        DESTINATION "${_plugin_parent}"
-        FILE_PERMISSIONS
-          OWNER_READ
-          OWNER_WRITE
-          OWNER_EXECUTE
-          GROUP_READ
-          GROUP_EXECUTE
-          WORLD_READ
-          WORLD_EXECUTE
-      )
-      if(NOT "${_plugin_real_name}" STREQUAL "${_plugin_expected_name}")
-        if(EXISTS "${_plugin_parent}/${_plugin_real_name}")
-          file(RENAME
-            "${_plugin_parent}/${_plugin_real_name}"
-            "${_plugin_dst}"
-          )
-        endif()
-      endif()
-    else()
-      message(STATUS "  Qt plugin not found, skipping: ${_plugin_rel}")
-    endif()
-  endforeach()
-else()
-  message(WARNING
-    "Qt plugins root not found – Qt platform plugin may be unavailable at runtime."
-  )
-endif()
-
-# ==============================================================================
-# Step 1e: Resolve system library shadowing conflicts
-# ==============================================================================
-# macdeployqt may bundle Homebrew libraries whose filename matches a system
-# library but whose ABI is INCOMPATIBLE.  The main case is GNU libiconv
+# The dependency scan may bundle Homebrew libraries whose filename matches a
+# system library but whose ABI is INCOMPATIBLE.  The main case is GNU libiconv
 # (Homebrew) vs Apple libiconv (/usr/lib/libiconv.2.dylib):
 #
 #   GNU libiconv exports  : _libiconv, _libiconv_open, _libiconv_close
@@ -468,7 +175,7 @@ foreach(_shadow IN LISTS _system_shadow_libs)
 
   # Update every Mach-O in Frameworks/ that references the old name
   file(GLOB _fw_all_shadow "${FRAMEWORKS_DIR}/*.dylib")
-  # Also include Qt frameworks
+  # Also include any bundled frameworks
   file(GLOB_RECURSE _fw_frameworks_shadow
     "${FRAMEWORKS_DIR}/*.framework/Versions/*/*"
   )
@@ -489,37 +196,6 @@ foreach(_shadow IN LISTS _system_shadow_libs)
 endforeach()
 
 # ==============================================================================
-# Step 1f: Collect every QML plugin bundled under Resources/qml
-# ==============================================================================
-# macdeployqt copies the QML plugins Nelson imports into Resources/qml but does
-# NOT bundle their Qt framework dependencies (QtQuickControls2, …Impl,
-# QtQuickTemplates2, the per-style impls, QtQuickEffects, QtQuickParticles, …)
-# nor point their @rpath at Frameworks/.  Loading such a module then fails at
-# runtime, e.g. "Library not loaded: @rpath/QtQuickEffects.framework/..."
-# (which broke test_qml_demo_basic_layouts via QtQuick.Controls' text context
-# menu) or the equivalent QtQuickParticles failure that broke
-# test_qml_demo_dynamicscene.
-#
-# Collect EVERY plugin dylib physically present under Resources/qml and feed it
-# through the dependency scan below.  This is self-bounding: the set of modules
-# in Resources/qml is already fixed by the explicit module list bundled in
-# Step 1c plus whatever macdeployqt resolved from the demos' imports, so a
-# recursive glob never drags in modules Nelson does not ship — it only closes
-# the framework dependencies of the plugins that are actually there.  A
-# hardcoded sub-list, by contrast, silently skipped Effects and Particles and
-# left their frameworks out of the bundle.
-set(_qml_scoped_plugins "")
-file(GLOB_RECURSE _all_qml_plugin_dylibs "${RESOURCES_DIR}/qml/*.dylib")
-foreach(_qpf IN LISTS _all_qml_plugin_dylibs)
-  if(NOT IS_SYMLINK "${_qpf}")
-    list(APPEND _qml_scoped_plugins "${_qpf}")
-  endif()
-endforeach()
-list(REMOVE_DUPLICATES _qml_scoped_plugins)
-list(LENGTH _qml_scoped_plugins _n_qml_scoped)
-message(STATUS "QML plugins to fix up (framework closure): ${_n_qml_scoped}")
-
-# ==============================================================================
 # Step 2: Collect all Mach-O binaries in the bundle
 # ==============================================================================
 file(GLOB_RECURSE _all_files
@@ -531,9 +207,6 @@ file(GLOB_RECURSE _all_files
   "${RESOURCES_DIR}/lib/*.dylib"
   "${RESOURCES_DIR}/lib/Nelson/*.dylib"
 )
-# Feed the scoped QML plugins through the same dependency scan so their Qt
-# framework dependencies get bundled.
-list(APPEND _all_files ${_qml_scoped_plugins})
 
 set(_macho_files "")
 foreach(_f IN LISTS _all_files)
@@ -698,9 +371,9 @@ foreach(_bin IN LISTS _macho_files)
   endforeach()
 endforeach()
 
-# Also scan already-bundled Frameworks/ and Qt plugin dylibs for deps that the
-# initial scan above may have missed. In particular, ICU libraries reference
-# libicudata via @loader_path and Qt plugins reference frameworks via @rpath.
+# Also scan already-bundled Frameworks/ dylibs for deps that the initial scan
+# above may have missed. In particular, ICU libraries reference libicudata via
+# @loader_path.
 #
 # Build a set of known source directories from deps found so far,
 # plus common Homebrew / system library paths, so we can resolve
@@ -719,27 +392,18 @@ foreach(_sp
   "$ENV{HOMEBREW_PREFIX}/opt/icu4c@77/lib"
   "$ENV{HOMEBREW_PREFIX}/opt/icu4c@76/lib"
   "$ENV{HOMEBREW_PREFIX}/opt/pcre2/lib"
-  "$ENV{HOMEBREW_PREFIX}/opt/qt/lib"
-  "$ENV{HOMEBREW_PREFIX}/opt/qtbase/lib"
-  "$ENV{HOMEBREW_PREFIX}/opt/qtdeclarative/lib"
   "/opt/homebrew/lib"
   "/opt/homebrew/opt/icu4c/lib"
   "/opt/homebrew/opt/icu4c@78/lib"
   "/opt/homebrew/opt/icu4c@77/lib"
   "/opt/homebrew/opt/icu4c@76/lib"
   "/opt/homebrew/opt/pcre2/lib"
-  "/opt/homebrew/opt/qt/lib"
-  "/opt/homebrew/opt/qtbase/lib"
-  "/opt/homebrew/opt/qtdeclarative/lib"
   "/usr/local/lib"
   "/usr/local/opt/icu4c/lib"
   "/usr/local/opt/icu4c@78/lib"
   "/usr/local/opt/icu4c@77/lib"
   "/usr/local/opt/icu4c@76/lib"
   "/usr/local/opt/pcre2/lib"
-  "/usr/local/opt/qt/lib"
-  "/usr/local/opt/qtbase/lib"
-  "/usr/local/opt/qtdeclarative/lib"
   "$ENV{CONDA_PREFIX}/lib"
 )
   if(_sp AND IS_DIRECTORY "${_sp}")
@@ -756,9 +420,7 @@ foreach(_icu_lib_dir IN LISTS _homebrew_icu_lib_dirs)
   endif()
 endforeach()
 file(GLOB _extra_homebrew_lib_dirs
-  "/opt/homebrew/Cellar/qt*/[0-9]*/lib"
   "/opt/homebrew/pkgs/*/lib"
-  "/usr/local/Cellar/qt*/[0-9]*/lib"
   "/usr/local/pkgs/*/lib"
 )
 foreach(_extra_lib_dir IN LISTS _extra_homebrew_lib_dirs)
@@ -769,12 +431,8 @@ endforeach()
 list(REMOVE_DUPLICATES _known_lib_dirs)
 
 file(GLOB _fw_dylibs "${FRAMEWORKS_DIR}/*.dylib")
-file(GLOB_RECURSE _qt_plugin_dylibs "${CONTENTS_DIR}/PlugIns/*.dylib")
-list(APPEND _fw_dylibs ${_qt_plugin_dylibs})
-# Scoped QML plugins: this loop (unlike the absolute-path-only main scan above)
-# resolves their @rpath/*.framework references against the known Qt library
-# dirs, so the Qt Quick Controls frameworks they need get bundled.
-list(APPEND _fw_dylibs ${_qml_scoped_plugins})
+file(GLOB_RECURSE _plugin_dylibs "${CONTENTS_DIR}/PlugIns/*.dylib")
+list(APPEND _fw_dylibs ${_plugin_dylibs})
 foreach(_fwlib IN LISTS _fw_dylibs)
   if(IS_SYMLINK "${_fwlib}")
     continue()
@@ -1124,8 +782,8 @@ while(_deps_to_bundle AND _iteration LESS _max_iterations)
     endif()
 
     # Discover transitive deps – runs even if the library was already present
-    # (e.g. copied by macdeployqt) so we catch @loader_path siblings like
-    # libicudata that macdeployqt may have missed.
+    # so we catch @loader_path siblings like libicudata that an earlier pass
+    # may have missed.
     list(FIND _scanned_deps "${_depname}" _scan_idx)
     if(EXISTS "${_dest}" AND _scan_idx EQUAL -1)
       list(APPEND _scanned_deps "${_depname}")
@@ -1221,9 +879,6 @@ file(GLOB_RECURSE _all_macho_final
   "${RESOURCES_DIR}/lib/*.dylib"
   "${RESOURCES_DIR}/lib/Nelson/*.dylib"
 )
-# Also rewrite the scoped QML plugins so their @rpath framework references
-# resolve against Frameworks/ (an @loader_path rpath to Frameworks/ is added).
-list(APPEND _all_macho_final ${_qml_scoped_plugins})
 
 # Build a map of original paths → @rpath/name for all bundled libs
 set(_rewrite_args "")
@@ -1259,8 +914,8 @@ foreach(_bin IN LISTS _all_macho_final)
   )
 
   # ---- Fix install name if it uses @executable_path ----
-  # macdeployqt sets install names to @executable_path/../Frameworks/xxx
-  # which only works for executables in Contents/MacOS/.
+  # An install name of @executable_path/../Frameworks/xxx only works for
+  # executables in Contents/MacOS/.
   # Replace with @rpath/xxx which is resolved via LC_RPATH entries.
   execute_process(
     COMMAND otool -D "${_bin}"
@@ -1417,9 +1072,9 @@ foreach(_bin IN LISTS _all_macho_final)
       endif()
       # @executable_path/../Frameworks/name.dylib → @rpath/name.dylib
       # @executable_path/../Frameworks/Foo.framework/... → @rpath/Foo.framework/...
-      # macdeployqt writes these, but they only work when the exe is in
-      # Contents/MacOS/.  Nelson executables live in Contents/Resources/bin/
-      # so we must use @rpath instead (rpaths are already set above).
+      # Such references only work when the exe is in Contents/MacOS/.  Nelson
+      # executables live in Contents/Resources/bin/ so we must use @rpath
+      # instead (rpaths are already set above).
     elseif(_ref_line MATCHES
       "^\t?(@loader_path/([^ ]+\\.framework/(Versions/[^ ]+)))"
     )
@@ -1437,7 +1092,7 @@ foreach(_bin IN LISTS _all_macho_final)
       set(_old_path "${CMAKE_MATCH_1}")
       set(_rel_path
         "${CMAKE_MATCH_2}"
-      ) # e.g. libfoo.dylib or QtCore.framework/Versions/A/QtCore
+      ) # e.g. libfoo.dylib or Foo.framework/Versions/A/Foo
       if(EXISTS "${FRAMEWORKS_DIR}/${_rel_path}")
         execute_process(
           COMMAND install_name_tool -change "${_old_path}" "@rpath/${_rel_path}"
@@ -1577,49 +1232,6 @@ if(CODESIGN)
   endforeach()
   list(REMOVE_DUPLICATES _nested_apps)
 
-  # ---- Make nested GUI .app bundles self-sufficient for the Qt platform plugin ----
-  # A nested app (e.g. "Nelson WebView.app") can be launched directly by launchd
-  # (double-click / Finder), which bypasses the CLI launcher that would set
-  # QT_QPA_PLATFORM_PLUGIN_PATH. Qt then searches only the nested bundle's own
-  # Contents/PlugIns (empty) and aborts in createPlatformIntegration() with
-  # "Could not find the Qt platform plugin 'cocoa'". Copy the platform plugins
-  # into each nested app's PlugIns/platforms and add an rpath so they resolve the
-  # Qt frameworks from the outer bundle's Frameworks. This runs before the nested
-  # apps are signed below, so the seeded plugins get sealed with the bundle.
-  set(_main_platforms "${CONTENTS_DIR}/PlugIns/platforms")
-  if(IS_DIRECTORY "${_main_platforms}")
-    file(GLOB _seed_platform_plugins "${_main_platforms}/*.dylib")
-    foreach(_napp IN LISTS _nested_apps)
-      set(_napp_platforms "${_napp}/Contents/PlugIns/platforms")
-      file(MAKE_DIRECTORY "${_napp_platforms}")
-      # Relative depth from the nested platforms dir back to the outer Contents,
-      # so the added rpath (@loader_path/../...) reaches Contents/Frameworks.
-      file(RELATIVE_PATH _rel "${CONTENTS_DIR}" "${_napp_platforms}")
-      string(REGEX REPLACE "/+" ";" _rel_parts "${_rel}")
-      list(LENGTH _rel_parts _depth)
-      set(_up "")
-      foreach(_i RANGE 1 ${_depth})
-        set(_up "${_up}../")
-      endforeach()
-      set(_fw_rpath "@loader_path/${_up}Frameworks")
-      foreach(_pp IN LISTS _seed_platform_plugins)
-        get_filename_component(_pp_name "${_pp}" NAME)
-        file(COPY "${_pp}" DESTINATION "${_napp_platforms}")
-        execute_process(
-          COMMAND install_name_tool -add_rpath "${_fw_rpath}"
-            "${_napp_platforms}/${_pp_name}"
-          RESULT_VARIABLE _seed_rp_rc
-          ERROR_VARIABLE _seed_rp_err
-          OUTPUT_QUIET
-        )
-        # A duplicate-rpath error is harmless (idempotent re-runs); ignore it.
-      endforeach()
-      message(STATUS
-        "Seeded platform plugins into nested app: ${_napp} (rpath ${_fw_rpath})"
-      )
-    endforeach()
-  endif()
-
   foreach(_napp IN LISTS _nested_apps)
     message(STATUS "Ad-hoc codesigning nested app: ${_napp}")
     execute_process(
@@ -1629,24 +1241,6 @@ if(CODESIGN)
     )
     if(NOT _ncs_rc EQUAL 0)
       message(WARNING "codesign failed for nested app ${_napp}: ${_ncs_err}")
-    endif()
-  endforeach()
-
-  # ---- Re-sign the scoped QML plugins ----
-  # Their load commands were rewritten above (install_name_tool), which
-  # invalidates the ad-hoc signature macdeployqt gave them.  They live under
-  # Resources/qml, which `codesign --deep` on the outer bundle does NOT reach
-  # (same reason as the nested app), so re-sign each one explicitly.
-  foreach(_qp IN LISTS _qml_scoped_plugins)
-    if(EXISTS "${_qp}")
-      execute_process(
-        COMMAND "${CODESIGN}" --force --sign - "${_qp}"
-        RESULT_VARIABLE _qcs_rc
-        ERROR_VARIABLE _qcs_err
-      )
-      if(NOT _qcs_rc EQUAL 0)
-        message(WARNING "codesign failed for QML plugin ${_qp}: ${_qcs_err}")
-      endif()
     endif()
   endforeach()
 

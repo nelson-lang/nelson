@@ -259,7 +259,7 @@ namespace {
                 document["modules"].push_back(
                     { { "name", item.first }, { "complete", item.second } });
                 for (const char* graphical :
-                    { "gui", "graphics", "graphics_io", "qml_engine", "text_editor" }) {
+                    { "gui", "web_engine", "graphics", "graphics_io", "text_editor" }) {
                     if (item.first == graphical) {
                         graphicsModules.insert(item.first);
                     }
@@ -657,7 +657,7 @@ namespace {
                 if (resolved.empty() && found != builtins.end()) {
                     const auto module = wstring_to_utf8(found->second->moduleName);
                     if (module == "graphics" || module == "time" || module == "audio"
-                        || module == "handle" || module == "gui" || module == "qml_engine") {
+                        || module == "handle" || module == "gui") {
                         fallback(caller, reference);
                     }
                 }

@@ -9,10 +9,8 @@
 ;==============================================================================
 #define MODULE_NAME "text_editor"
 ;==============================================================================
-; The reduced no- stub only satisfies the static import from graphics_qt (GUI);
-; a CLI-only install has no importer, so it ships only when the GUI is present.
-Source: {#RootPath}bin\{#BinPath}\libno-nlsText_editor.dll; DestDir: {app}\bin\{#BinPath}\;DestName: libnlsText_editor.dll;Components: {#COMPONENT_GUI} and not {#COMPONENT_TEXT_EDITOR};
-Source: {#RootPath}bin\{#BinPath}\libnlsText_editor.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_TEXT_EDITOR} and {#COMPONENT_GUI};
+; The editor builtin drives the graphical desktop editor, so text_editor ships
+; only when the GUI is present; a CLI-only install does not need it.
 Source: {#RootPath}bin\{#BinPath}\libnlsText_editor_builtin.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_TEXT_EDITOR} and {#COMPONENT_GUI};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\loader.m; DestDir: {app}\modules\{#MODULE_NAME}\;Components: {#COMPONENT_TEXT_EDITOR} and {#COMPONENT_GUI};

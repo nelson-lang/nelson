@@ -8,30 +8,23 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % A rejected command line must reach the caller on the error stream and end the
-% process: nelson-gui and nelson-webview have no console, and reporting through
-% a modal dialog left them alive forever with no output at all.
+% process: nelson-gui has no console, and reporting through a modal dialog left
+% it alive forever with no output at all.
 %=============================================================================
 if ~ispc()
   return
 end
 %=============================================================================
 binpath = modulepath('nelson', 'bin');
-%=============================================================================
 nelson_gui = [binpath, '/nelson-gui'];
 if isfile([nelson_gui, '.exe'])
   quoted_exe = ['"', replace(nelson_gui, '"', '\"'), '"'];
-  arguments = ' --quiet --no-ipc --url=127.0.0.1 -e "quit"';
+  % A mode-selector option is only valid for the generic 'nelson' launcher; passed
+  % straight to the windowed nelson-gui binary it must be reported on the error
+  % stream and end the process, not swallowed by a modal dialog.
+  arguments = ' --quiet --no-ipc --cli';
   [status, output] = system([quoted_exe, arguments], 120);
   asserts.notEqual(status, 0);
-  asserts.istrue(contains(output, 'Nelson:ProgramOptions:WebModeRequired'), output);
-end
-%=============================================================================
-nelson_webview = [binpath, '/nelson-webview'];
-if isfile([nelson_webview, '.exe'])
-  quoted_exe = ['"', replace(nelson_webview, '"', '\"'), '"'];
-  arguments = ' --quiet --no-ipc --file-ipc dummy.m';
-  [status, output] = system([quoted_exe, arguments], 120);
-  asserts.notEqual(status, 0);
-  asserts.istrue(contains(output, 'Nelson:ProgramOptions:GuiModeRequired'), output);
+  asserts.istrue(contains(output, 'Nelson:ProgramOptions:ModeSelector'), output);
 end
 %=============================================================================

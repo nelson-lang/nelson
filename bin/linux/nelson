@@ -39,7 +39,6 @@ has_mode_argument()
 LAUNCHER_IS_GENERIC=true
 case "$(basename "$progname")" in
     (nelson-adv-cli) NELSON_MODE="-adv-cli"; LAUNCHER_IS_GENERIC=false ;;
-    (nelson-webview) NELSON_MODE="-webview"; LAUNCHER_IS_GENERIC=false ;;
     (nelson-cli)     NELSON_MODE="-cli";     LAUNCHER_IS_GENERIC=false ;;
     (nelson-gui)     NELSON_MODE="-gui";     LAUNCHER_IS_GENERIC=false ;;
 esac
@@ -47,8 +46,8 @@ esac
 if $LAUNCHER_IS_GENERIC; then
     if has_mode_argument "--adv-cli" "$@"; then
         NELSON_MODE="-adv-cli"
-    elif has_mode_argument "--webview" "$@" || has_mode_argument "--web" "$@"; then
-        NELSON_MODE="-webview"
+    elif has_mode_argument "--web" "$@"; then
+        NELSON_MODE="-gui"
     elif has_mode_argument "--cli" "$@"; then
         NELSON_MODE="-cli"
     elif has_mode_argument "--gui" "$@"; then
@@ -63,7 +62,7 @@ if $LAUNCHER_IS_GENERIC; then
         fi
         case $arg in
             (--) after_terminator=true; set -- "$@" "$arg" ;;
-            (--cli|--adv-cli|--gui|--webview) : ;;
+            (--cli|--adv-cli|--gui) : ;;
                 (*) set -- "$@" "$arg" ;;
         esac
     done

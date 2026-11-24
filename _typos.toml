@@ -20,7 +20,7 @@ extend-exclude = [
     "modules/characters_encoding/tests/",
     "modules/spreadsheet/src/xlnt/",
     "modules/slicot/src/fortran/",
-    "modules/webview/src/webui/",
+    "modules/web_engine/src/webui/",
     "modules/engine/src/include/CLI11.hpp",
     "modules/commons/src/fmt/",
     "modules/commons/src/include/nlohmann/",

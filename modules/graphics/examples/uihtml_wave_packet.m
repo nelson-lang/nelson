@@ -19,9 +19,9 @@ function uihtml_wave_packet()
   % It also runs straight into the one rule that bites everybody: complex
   % values cannot cross to the page. The expansion coefficients are split into
   % their real and imaginary parts and the phase is rebuilt in JavaScript.
-  if ~strcmp(getnelsonmode(), 'WEB_GUI')
+  if ~strcmp(getnelsonmode(), 'GUI')
     error('Nelson:uihtml:webviewDesktopRequired', ...
-      _('uihtml is supported only in the WebView desktop. See help uihtml.'));
+      _('uihtml is supported only in the desktop. See help uihtml.'));
   end
   f = uifigure('Name', 'uihtml: wave packet', 'Position', [120 120 940 560]);
   h = uihtml(f, 'Units', 'normalized', 'Position', [0 0 1 1], 'HTMLSource', wavePacketPage());

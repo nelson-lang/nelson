@@ -188,7 +188,7 @@ collectTextKeyedLiterals(const std::wstring& sourceRoot)
                 scanSourceForTextKeyed(text, texts);
             }
         } else if (isWebDesktopSource(it->path().wstring(), ext)) {
-            // the web desktop looks its t('...') strings up in the UI catalog only
+            // the desktop looks its t('...') strings up in the UI catalog only
             std::string text;
             if (readFileContent(it->path(), text)) {
                 scanTsFileForUiStrings(text, texts);
@@ -247,7 +247,7 @@ isInTestsDirectory(const std::wstring& path)
         || path.find(L"/tests/") != std::wstring::npos;
 }
 //=============================================================================
-// the web desktop sources and their shared dialogs translate with the t('...') helper
+// the desktop sources and their shared dialogs translate with the t('...') helper
 static bool
 isWebDesktopSource(const std::wstring& path, const std::wstring& ext)
 {
@@ -256,8 +256,8 @@ isWebDesktopSource(const std::wstring& path, const std::wstring& ext)
     }
     std::wstring normalized = path;
     std::replace(normalized.begin(), normalized.end(), L'\\', L'/');
-    return normalized.find(L"/web_gui/frontend/src/") != std::wstring::npos
-        || normalized.find(L"/webview/frontend/dialogs/") != std::wstring::npos;
+    return normalized.find(L"/gui/src/ts/frontend/src/") != std::wstring::npos
+        || normalized.find(L"/web_engine/frontend/dialogs/") != std::wstring::npos;
 }
 //=============================================================================
 // Collects the literal first argument of t('...') and tf('...') calls.

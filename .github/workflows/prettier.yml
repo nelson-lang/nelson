@@ -61,12 +61,12 @@ jobs:
           node-version-file: ".nvmrc"
           cache: npm
           cache-dependency-path: |
-            modules/web_gui/frontend/package-lock.json
+            modules/gui/src/ts/frontend/package-lock.json
             modules/nflow_gui/package-lock.json
 
       - name: Install frontend dependencies
         run: |
-          npm ci --no-audit --no-fund --prefix modules/web_gui/frontend
+          npm ci --no-audit --no-fund --prefix modules/gui/src/ts/frontend
           npm ci --no-audit --no-fund --prefix modules/nflow_gui
 
       - name: Check formatting

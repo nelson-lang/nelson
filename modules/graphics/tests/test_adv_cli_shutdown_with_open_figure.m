@@ -10,10 +10,15 @@
 % <--CLI MODE-->
 %=============================================================================
 skip_if_portable_graphics_backend('advanced CLI launcher is not available.');
-skip_testsuite(~ismac(), _('This test requires the macOS GUI runtime.'));
 %=============================================================================
 binpath = modulepath('nelson', 'bin');
-nelson_adv_cli = [binpath, '/nelson-adv-cli-exec'];
+% Windows ships the launcher as an .exe; macOS and Linux use the exec wrapper.
+if ispc()
+  nelson_adv_cli = [binpath, '/nelson-adv-cli.exe'];
+else
+  nelson_adv_cli = [binpath, '/nelson-adv-cli-exec'];
+end
+skip_testsuite(~isfile(nelson_adv_cli), _('Advanced CLI launcher not found.'));
 quoted_command = ['"', replace(nelson_adv_cli, '"', '\"'), '"'];
 command_line = ' --quiet --no-user-startup --no-ipc -e "figure(); quit"';
 [status, output] = system([quoted_command, command_line], 30);

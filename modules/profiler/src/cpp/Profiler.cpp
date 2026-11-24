@@ -53,7 +53,7 @@ Profiler::off()
 {
     profileOn.store(false);
     // Published through NelsonConfiguration for modules that do not link the profiler
-    // (e.g. the web desktop).
+    // (e.g. the desktop).
     NelsonConfiguration::getInstance()->setProfilerActive(false);
 }
 //=============================================================================

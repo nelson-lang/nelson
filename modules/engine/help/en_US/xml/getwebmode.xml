@@ -9,7 +9,7 @@
     <param_output_item><param_name>mode</param_name><param_description><b>'webview'</b>, <b>'server'</b>, or <b>'none'</b>.</param_description></param_output_item>
   </param_output>
   <description>
-    <p><b>getwebmode()</b> reports how the current Nelson WebView desktop was effectively launched. It returns <b>'none'</b> outside an active web launch.</p>
+    <p><b>getwebmode()</b> reports how the current Nelson graphical desktop was effectively launched. It returns <b>'none'</b> outside an active web launch.</p>
   </description>
   <used_function />
   <bibliography />

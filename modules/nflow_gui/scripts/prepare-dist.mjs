@@ -175,13 +175,13 @@ async function main() {
 }
 
 async function inlineSharedExampleGalleryStyles() {
-  const importRule = "@import url('../../../../webview/frontend/examples/gallery-shared.css');";
+  const importRule = "@import url('../../../../web_engine/frontend/examples/gallery-shared.css');";
   const stylesheetPath = path.join(distRoot, 'styles', 'style.css');
   const sharedStylesheetPath = path.resolve(
     repoRoot,
     '..',
     '..',
-    'webview',
+    'web_engine',
     'frontend',
     'examples',
     'gallery-shared.css'
@@ -199,13 +199,13 @@ async function inlineSharedExampleGalleryStyles() {
 }
 
 async function inlineSharedAssistantStyles() {
-  const importRule = "@import url('../../../../webview/frontend/assistant/assistant-pane.css');";
+  const importRule = "@import url('../../../../web_engine/frontend/assistant/assistant-pane.css');";
   const stylesheetPath = path.join(distRoot, 'styles', 'style.css');
   const sharedStylesheetPath = path.resolve(
     repoRoot,
     '..',
     '..',
-    'webview',
+    'web_engine',
     'frontend',
     'assistant',
     'assistant-pane.css'

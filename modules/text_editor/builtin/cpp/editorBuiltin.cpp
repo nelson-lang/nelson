@@ -14,7 +14,6 @@
 #ifdef __EMSCRIPTEN__
 #include "WebDesktopBridge.hpp"
 #else
-#include "TextEditor.hpp"
 #include "NelsonConfiguration.hpp"
 #include "WebDesktopBridge.hpp"
 #include "NelSon_engine_mode.h"
@@ -22,6 +21,32 @@
 #endif
 //=============================================================================
 using namespace Nelson;
+//=============================================================================
+#ifndef __EMSCRIPTEN__
+namespace {
+// Opens the user's configured external editor. There is no embedded editor
+// outside the desktop (handled through WebDesktopBridge above).
+static void
+launchExternalEditor(Evaluator* eval, const std::wstring& filename)
+{
+    const std::wstring editor = NelsonConfiguration::getInstance()->getCurrentEditor();
+    std::wstring command;
+#ifdef _MSC_VER
+    command = L"start /b " + editor;
+    if (!filename.empty()) {
+        command += L" " + filename;
+    }
+#else
+    command = editor;
+    if (!filename.empty()) {
+        command += L" " + filename;
+    }
+    command += L" &";
+#endif
+    SystemCommand(command, 15, false, eval->getID());
+}
+} // namespace
+#endif
 //=============================================================================
 ArrayOfVector
 Nelson::TextEditorGateway::editorBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
@@ -65,11 +90,11 @@ Nelson::TextEditorGateway::editorBuiltin(Evaluator* eval, int nLhs, const ArrayO
 #else
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 0);
-    // In the web desktop, route to the Monaco editor panel instead of the Qt
+    // In the desktop, route to the Monaco editor panel instead of the Qt
     // text editor (an empty path opens a new file). Configuration sub-commands
     // (editor_command / vscode_command) fall through to the normal handling.
     const auto mode = NelsonConfiguration::getInstance()->getNelsonEngineMode();
-    if (mode == WEB_GUI || mode == WASM_TERMINAL) {
+    if (mode == GUI || mode == WASM_TERMINAL) {
         if (argIn.size() == 0) {
             WebDesktopBridge::getInstance()->openWebEditor(L"");
             return retval;
@@ -103,65 +128,24 @@ Nelson::TextEditorGateway::editorBuiltin(Evaluator* eval, int nLhs, const ArrayO
     }
     switch (argIn.size()) {
     case 0: {
-        if (NelsonConfiguration::getInstance()->useEmbeddedEditor()) {
-            textEditor(eval);
-        } else {
-            std::wstring command;
-#ifdef _MSC_VER
-            command = L"start /b " + NelsonConfiguration::getInstance()->getCurrentEditor();
-#else
-            command = NelsonConfiguration::getInstance()->getCurrentEditor() + L" &";
-#endif
-            SystemCommand(command, 15, false, eval->getID());
-        }
+        launchExternalEditor(eval, std::wstring());
     } break;
     case 1: {
-        std::wstring filename = argIn[0].asWideString();
-        if (NelsonConfiguration::getInstance()->useEmbeddedEditor()) {
-            textEditor(eval, filename);
-        } else {
-            std::wstring command;
-#if _MSC_VER
-            command = L"start /b " + NelsonConfiguration::getInstance()->getCurrentEditor()
-                + std::wstring(L" ") + filename;
-#else
-            command
-                = NelsonConfiguration::getInstance()->getCurrentEditor() + L" " + filename + L" &";
-#endif
-            SystemCommand(command, 15, false, eval->getID());
-        }
+        launchExternalEditor(eval, argIn[0].asWideString());
     } break;
     case 2:
     case 3: {
         std::wstring option = argIn[0].asWideString();
         if (argIn[1].isNumeric() && argIn[1].isScalar()) {
-            int lineNumber = static_cast<int>(argIn[1].asDoubleScalar());
-            // the optional column only has a meaning for the embedded editor
-            int column = argIn.size() == 3 && argIn[2].isNumeric() && argIn[2].isScalar()
-                ? static_cast<int>(argIn[2].asDoubleScalar())
-                : 0;
-            if (NelsonConfiguration::getInstance()->useEmbeddedEditor()) {
-                textEditor(eval, option, lineNumber, column);
-            } else {
-                std::wstring command;
-#if _MSC_VER
-                command = L"start /b " + NelsonConfiguration::getInstance()->getCurrentEditor()
-                    + std::wstring(L" ") + option;
-#else
-                command = NelsonConfiguration::getInstance()->getCurrentEditor() + L" " + option
-                    + L" &";
-#endif
-                SystemCommand(command, 15, false, eval->getID());
-            }
+            // The optional line/column only have a meaning for the web editor
+            // (handled above); the external editor is opened on the file.
+            launchExternalEditor(eval, option);
         } else if (option == L"new_file") {
-            if (argIn[1].isEmpty() && argIn[1].isDoubleClass()) {
-                if (NelsonConfiguration::getInstance()->useEmbeddedEditor()) {
-                    textEditor(eval, true);
-                }
-            } else {
+            if (!(argIn[1].isEmpty() && argIn[1].isDoubleClass())) {
                 Error(L"Nelson:editor:invalidArgument:wrongValueArgument",
                     L"Wrong value for #%d argument.", 2);
             }
+            // A terminal front end has no embedded editor to open a new file in.
         } else if (option == L"editor_command") {
             std::wstring commandLine = argIn[1].asWideString();
             NelsonConfiguration::getInstance()->setCurrentEditor(commandLine, true);

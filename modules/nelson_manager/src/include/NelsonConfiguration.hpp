@@ -65,7 +65,7 @@ public:
     setInterruptPending(bool bInterruptPending, size_t evaluatorID = 0);
     //=============================================================================
     // Profiler on/off state, published by the profiler module so other modules
-    // (e.g. the web desktop) can read it without linking nlsProfiler.
+    // (e.g. the desktop) can read it without linking nlsProfiler.
     bool
     isProfilerActive();
     void
@@ -180,7 +180,7 @@ public:
     //=============================================================================
     // Figures render through the headless RenderWeb host instead of Qt. Inlined so
     // the hot path (createFigureHost) is a relaxed atomic load, not a cross-DLL
-    // call. Covers only the opt-in `--webview` case; WEB_GUI and WASM_TERMINAL
+    // call. Covers only the advanced terminal web figures case; the desktop (GUI) and WASM_TERMINAL
     // come from the engine mode, and the graphics helper ORs the two.
     inline void
     setWebGraphicsMode(bool on)
@@ -235,8 +235,8 @@ public:
     bool
     haveEventsLoop();
     //=============================================================================
-    // graphics_qt updates the count as Qt figure windows come and go. The
-    // interpreter reads hasOpenFigureWindows() at every statement boundary to
+    // The native desktop backend updates the count as figure windows come and
+    // go. The interpreter reads hasOpenFigureWindows() at every statement boundary to
     // pump the GUI event loop while a script runs. Inlined to avoid a cross-DLL
     // call on the hot path; 0 in headless runs.
     inline void

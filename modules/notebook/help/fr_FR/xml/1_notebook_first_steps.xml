@@ -14,7 +14,7 @@
       <li><b>notebook()</b> sans argument ouvre un nouveau document vide.</li>
       <li><b>notebook(filename, 'edit')</b> ouvre un document existant, et <b>edit(filename)</b> fait de même pour un fichier <b>.nlx</b>.</li>
     </ul>
-    <p>Sur le bureau Nelson, vous pouvez aussi utiliser le bouton <b>Nouveau Notebook</b> de la barre d'outils, ou le menu <b>Fenêtre</b>. L'éditeur s'ouvre comme un onglet du bureau web ou, sur le bureau Qt, comme la fenêtre Notebook (une seule fenêtre, un onglet par document). Sans bureau (nelson-cli, nelson-adv-cli), l'éditeur ne peut pas s'ouvrir et l'appel signale une erreur.</p>
+    <p>Sur le bureau Nelson, vous pouvez aussi utiliser le bouton <b>Nouveau Notebook</b> de la barre d'outils, ou le menu <b>Fenêtre</b>. L'éditeur s'ouvre comme un onglet du bureau graphique. Sans bureau (nelson-cli, nelson-adv-cli), l'éditeur ne peut pas s'ouvrir et l'appel signale une erreur.</p>
     <p>L'éditeur affiche une barre d'outils en haut et le document en dessous. Un nouveau document contient déjà un court exemple que vous pouvez exécuter et modifier.</p>
     <p>
       <img src="../images/notebook_editor.png" align="middle" />

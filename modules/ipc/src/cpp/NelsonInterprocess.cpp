@@ -188,13 +188,16 @@ processMessageData(const dataInterProcessToExchange& messageData)
         res = true;
     } break;
     case SET_MINIMIZE: {
-        if (NELSON_ENGINE_MODE::GUI == NelsonConfiguration::getInstance()->getNelsonEngineMode()) {
+        const int mode = NelsonConfiguration::getInstance()->getNelsonEngineMode();
+        if (mode == NELSON_ENGINE_MODE::GUI) {
             setNelsonMinimizedDynamicFunction(messageData.valueAnswer);
         }
     } break;
     case IS_MINIMIZED: {
-        bool minimized = true;
-        if (NELSON_ENGINE_MODE::GUI == NelsonConfiguration::getInstance()->getNelsonEngineMode()) {
+        // A process with no minimizable native window is never minimized.
+        bool minimized = false;
+        const int mode = NelsonConfiguration::getInstance()->getNelsonEngineMode();
+        if (mode == NELSON_ENGINE_MODE::GUI) {
             minimized = getNelsonMinimizedDynamicFunction();
         }
         res = sendIsMinimizedAnswerToNelsonInterprocessReceiver(messageData.pid, minimized);

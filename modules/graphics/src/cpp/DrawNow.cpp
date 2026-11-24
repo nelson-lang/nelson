@@ -85,10 +85,10 @@ drawNow(DrawNowMode mode)
     }
 
     std::vector<int64> figures = getFigureGraphicsObjects();
-    // With the web frame hook (adv-cli --webview) the hook below renders each figure, so a
-    // HeadlessFigureHost repaint here would render the state twice. Without the hook that
-    // repaint is the only path that refreshes object state (auto limits, modes) at drawnow.
-    const bool webFrameHookActive = WebDesktopBridge::getInstance()->hasWebFigureFrameHook();
+    // Figures whose rendering state was invalid this drawnow. The web frame hook below
+    // streams a frame only for these: a settled figure has nothing new to show, so an
+    // idle drawnow neither refreshes object state nor re-renders it.
+    std::vector<int64> dirtyFigures;
     for (auto f : figures) {
         GOFigureHost* window = getFigure(f);
         if (!window) {
@@ -108,8 +108,17 @@ drawNow(DrawNowMode mode)
             goFigure->setRenderingStateInvalid(true);
             restoreOffAfter = true;
         }
-        if (goFigure->isRenderingStateInvalid()
-            && !(window->isHeadlessHost() && webFrameHookActive)) {
+        // A figure is processed only when its rendering state is invalid (something
+        // changed since the last drawnow). An idle drawnow on a settled figure does
+        // nothing: refreshing object state and re-pushing a frame for every drawnow
+        // repaints unchanged containers (uipanel/uitab axes) and paces to the frame
+        // clock, which the idle-drawnow test measures as cost.
+        if (goFigure->isRenderingStateInvalid()) {
+            // repaint()/repaintNow() first refreshes object-model state (legend
+            // auto-populate, auto limits and modes). With the web frame hook active the
+            // host is headless, so repaint() refreshes state without an on-screen paint
+            // and the shared frame-push throttle keeps the hook loop below from
+            // rendering the figure a second time.
             if (window->isHeadlessHost()) {
                 goFigure->repaint();
             } else {
@@ -117,6 +126,7 @@ drawNow(DrawNowMode mode)
                 // timer ticks (~60 ms) per frame and caps animations near 16 fps.
                 goFigure->repaintNow();
             }
+            dirtyFigures.push_back(f);
         }
         window->syncHostRendering(DRAWNOW_RENDER_SYNC_TIMEOUT_MS);
         if (restoreOffAfter) {
@@ -124,11 +134,11 @@ drawNow(DrawNowMode mode)
         }
     }
 
-    // WEB_GUI: stream the current frame so drawnow animations play live. drawNow runs on the
+    // Desktop: stream the current frame so drawnow animations play live. drawNow runs on the
     // interpreter thread and renders the display list directly. An RPC would block until the
     // script yields at the prompt.
     WebDesktopBridge* bridge = WebDesktopBridge::getInstance();
-    if (bridge->hasWebFigureFrameHook()) {
+    if (bridge->hasWebFigureFrameHook() && !dirtyFigures.empty()) {
         // Pace the loop to ~60 fps by sleeping the rest of the frame interval. The browser has
         // no Qt repaint to pace it, so an un-delayed loop would finish instantly.
         using clock = std::chrono::steady_clock;
@@ -147,7 +157,7 @@ drawNow(DrawNowMode mode)
             }
         }
         lastPush = clock::now();
-        for (auto f : figures) {
+        for (auto f : dirtyFigures) {
             if (webFigureFramePushedWithin(static_cast<int64_t>(f), DRAWNOW_WEB_PUSH_INTERVAL_US)) {
                 continue;
             }

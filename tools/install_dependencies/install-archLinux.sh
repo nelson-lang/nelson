@@ -64,8 +64,6 @@ print_status "Installing core libraries"
 install_packages libffi icu zlib zstd libarchive curl libgit2 pcre2
 
 # Install Qt dependencies
-print_status "Installing Qt dependencies"
-install_packages qt6-base qt6-svg qt6-declarative
 
 # Install math libraries
 print_status "Installing math libraries"

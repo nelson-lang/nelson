@@ -24,8 +24,8 @@ using namespace Nelson;
 static bool
 isCurrentGuiProcess(int32 pid)
 {
-    return pid == getCurrentPID()
-        && NelsonConfiguration::getInstance()->getNelsonEngineMode() == NELSON_ENGINE_MODE::GUI;
+    const int mode = NelsonConfiguration::getInstance()->getNelsonEngineMode();
+    return pid == getCurrentPID() && mode == NELSON_ENGINE_MODE::GUI;
 }
 //=============================================================================
 static NELSON_INTERPROCESS_COMMAND

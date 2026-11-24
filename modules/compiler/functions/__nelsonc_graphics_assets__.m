@@ -12,12 +12,9 @@ function folders = __nelsonc_graphics_assets__(runtime)
   if ~runtime.gui
     return;
   end
-  folders = {'plugins/platforms', 'plugins/styles', 'plugins/imageformats', ...
-    'plugins/iconengines', 'plugins/platforminputcontexts'};
-  if any(strcmp(runtime.modules, 'qml_engine'))
-    folders = [folders, {'qml', 'plugins/networkinformation', 'plugins/tls'}];
-  end
-  if any(strcmp(runtime.modules, 'webview'))
-    folders{end + 1} = 'web_gui';
+  % The graphical desktop is the native WebView: a compiled GUI application
+  % ships the gui frontend assets and nothing else.
+  if any(strcmp(runtime.modules, 'gui'))
+    folders{end + 1} = 'gui';
   end
 end

@@ -2154,21 +2154,47 @@ RenderWeb::drawPatch(const FaceList& faces, const PatchRenderOptions& options)
             pts.clear();
             ptVertexIndex.clear();
         };
-        for (size_t vi = 0; vi < face.vertices.size(); ++vi) {
-            const point& v = face.vertices[vi];
+        bool faceHasNaN = false;
+        for (const point& v : face.vertices) {
             if (std::isnan(v.x) || std::isnan(v.y) || std::isnan(v.z)) {
-                emitSubPath();
-                depthSum = 0;
-                depthCount = 0;
-                continue;
+                faceHasNaN = true;
+                break;
             }
-            double px, py;
-            depthSum += mapXYZ(v.x, v.y, v.z, px, py);
-            depthCount++;
-            pts.emplace_back(px, py);
-            ptVertexIndex.push_back(vi);
         }
-        emitSubPath();
+        // Clipping 'on': the flat-fill fallback clips the face to the axes data box here, as
+        // the z-buffered and surface paths already do. A color-graded edge (its per-vertex
+        // mapping) and a face split by NaN sub-paths keep the unclipped path.
+        if (m_dataClip.enabled && !gradientEdge && !faceHasNaN) {
+            std::vector<coloredPoint> polygon;
+            polygon.reserve(face.vertices.size());
+            for (const point& v : face.vertices) {
+                polygon.emplace_back(v.x, v.y, v.z, fill.r, fill.g, fill.b, fill.a);
+            }
+            for (const coloredPoint& cp : renderClipPolygon(m_dataClip, polygon)) {
+                double px, py;
+                depthSum += mapXYZ(cp.x, cp.y, cp.z, px, py);
+                depthCount++;
+                pts.emplace_back(px, py);
+                ptVertexIndex.push_back(0);
+            }
+            emitSubPath();
+        } else {
+            for (size_t vi = 0; vi < face.vertices.size(); ++vi) {
+                const point& v = face.vertices[vi];
+                if (std::isnan(v.x) || std::isnan(v.y) || std::isnan(v.z)) {
+                    emitSubPath();
+                    depthSum = 0;
+                    depthCount = 0;
+                    continue;
+                }
+                double px, py;
+                depthSum += mapXYZ(v.x, v.y, v.z, px, py);
+                depthCount++;
+                pts.emplace_back(px, py);
+                ptVertexIndex.push_back(vi);
+            }
+            emitSubPath();
+        }
     }
 }
 //=============================================================================

@@ -10,6 +10,8 @@
 % <--INTERACTIVE TEST-->
 % <--GUI MODE-->
 %=============================================================================
+skip_testsuite(isempty(which('questdlg')), _('webview module not loaded.'));
+%=============================================================================
 asserts.isequal(nargin('questdlg'), -1);
 asserts.isequal(nargout('questdlg'), 1);
 %=============================================================================

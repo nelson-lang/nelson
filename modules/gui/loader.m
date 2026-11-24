@@ -7,10 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-if (strcmp(getnelsonmode(), 'GUI') == true || ...
-  strcmp(getnelsonmode(), 'WEB_GUI') == true || ...
-  strcmp(getnelsonmode(), 'ADVANCED_ENGINE') == true || ...
-  strcmp(getnelsonmode(), 'ADVANCED_TERMINAL') == true)
+if (strcmp(getnelsonmode(), 'GUI') == true)
   addmodule([nelsonroot() '/modules/' 'gui'], 'gui');
 end
 %=============================================================================

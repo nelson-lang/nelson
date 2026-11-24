@@ -269,30 +269,6 @@ if(UNIX)
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libwebkit2gtk-4.1-0 | libwebkit2gtk-4.0-37"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qt6-declarative-dev"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtquick"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtquick-templates"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtquick-controls"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtquick-window"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtquick-dialogs"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtqml-workerscript"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtquick-layouts"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libasound2t64 (>= 1.0.16)"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
@@ -342,27 +318,6 @@ if(UNIX)
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libportaudio2 (>= 19+svn20101113)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6core6t64 (>= 6.10.2)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6gui6 (>= 6.9.1)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6printsupport6 (>= 6.1.2)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6qml6 (>= 6.6.0)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6quick6 (>= 6.6.0)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6svg6 (>= 6.6.0)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6widgets6 (>= 6.3.0)"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libsndfile1 (>= 1.0.20)"
@@ -501,27 +456,6 @@ if(UNIX)
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libpcre2-32-0"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6core6 (>= 6.4.2)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6gui6 (>= 6.4.2)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6printsupport6 (>= 6.4.2)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6qml6 (>= 6.4.2)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6quick6 (>= 6.4.2)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6svg6 (>= 6.4.2)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6widgets6 (>= 6.4.2)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libsndfile1 (>= 1.2.2)"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
@@ -541,30 +475,6 @@ if(UNIX)
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libzstd1"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qt6-declarative-dev (>= 6.4.2)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtquick (>= 6.4.2)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtquick-templates (>= 6.4.2)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtquick-controls (>= 6.4.2)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtquick-window (>= 6.4.2)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtquick-dialogs (>= 6.4.2)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtqml-workerscript (>= 6.4.2)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtquick-layouts (>= 6.4.2)"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libtbb12 (>= 2021.11.0-2ubuntu2)"

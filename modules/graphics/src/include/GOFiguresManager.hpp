@@ -20,11 +20,6 @@ namespace Nelson {
 NLSGRAPHICS_IMPEXP void
 initializeGraphic();
 //=============================================================================
-// The windowing layer registers how figure hosts are created; without a
-// factory the manager cannot open figures (the Qt layer registers GOWindow).
-NLSGRAPHICS_IMPEXP void
-setFigureHostFactory(FigureHostFactory factory);
-//=============================================================================
 NLSGRAPHICS_IMPEXP void
 shutdownGraphic();
 //=============================================================================
@@ -37,14 +32,28 @@ getHandleWindow(int64 fignum);
 NLSGRAPHICS_IMPEXP int64
 findAvailableFigureId();
 //=============================================================================
+// deferLifecycleNotify leaves the "figure window opened" notification to the
+// caller (pushNewFigureLifecycle), so a figure created with creation properties
+// can apply its Position first and open its native window at the final size.
 NLSGRAPHICS_IMPEXP int64
-createNewFigure(bool show = true);
+createNewFigure(bool show = true, bool deferLifecycleNotify = false);
 //=============================================================================
 NLSGRAPHICS_IMPEXP GOFigure*
 getCurrentGOFigure();
 //=============================================================================
+// When outCreated is not null it reports whether a new figure was created (as
+// opposed to selecting an existing one). deferLifecycleNotify behaves as in
+// createNewFigure and only matters when a figure is created.
 NLSGRAPHICS_IMPEXP int64
-selectFigure(int64 fignum, bool show = true);
+selectFigure(
+    int64 fignum, bool show = true, bool deferLifecycleNotify = false, bool* outCreated = nullptr);
+//=============================================================================
+// Emit the deferred "figure window opened" notification for a figure created
+// with deferLifecycleNotify = true, after its creation properties (notably
+// Position) are applied, so the native window opens at the figure's final size
+// instead of popping at the default size and then resizing.
+NLSGRAPHICS_IMPEXP void
+pushNewFigureLifecycle(int64 figNum);
 //=============================================================================
 NLSGRAPHICS_IMPEXP bool
 closeFigure(go_handle fignum, bool forceClose = true);
@@ -58,15 +67,15 @@ getFigure(int64 id);
 NLSGRAPHICS_IMPEXP std::vector<int64>
 getFigureGraphicsObjects();
 //=============================================================================
-// Notify the web desktop that a figure's WindowStyle changed at runtime so it
+// Notify the desktop that a figure's WindowStyle changed at runtime so it
 // can move between a separate native window and a docked panel. No-op unless a
-// web figure window-style hook is registered (i.e. only in WEB_GUI mode).
+// web figure window-style hook is registered (i.e. only in the desktop / GUI mode).
 NLSGRAPHICS_IMPEXP void
 notifyWebFigureWindowStyleChanged(GOFigure* fig);
 //=============================================================================
-// Notify the web desktop that a figure's Visible changed at runtime so it can
+// Notify the desktop that a figure's Visible changed at runtime so it can
 // hide or show its separate native window. No-op unless a web figure visible
-// hook is registered (i.e. only in WEB_GUI mode).
+// hook is registered (i.e. only in the desktop / GUI mode).
 NLSGRAPHICS_IMPEXP void
 notifyWebFigureVisibleChanged(GOFigure* fig);
 //=============================================================================
@@ -76,10 +85,16 @@ notifyWebFigureVisibleChanged(GOFigure* fig);
 NLSGRAPHICS_IMPEXP std::wstring
 computeFigureTitle(int64 figNum);
 //=============================================================================
-// Notify the web desktop that a figure's title changed (Name / NumberTitle) so
+// Notify the desktop that a figure's title changed (Name / NumberTitle) so
 // it can rename the panel and the separate native window.
 NLSGRAPHICS_IMPEXP void
 notifyWebFigureTitleChanged(GOFigure* fig);
+//=============================================================================
+// Notify the desktop that a figure's Position changed at runtime so it can
+// slide the separate native window. No-op unless a web figure position hook is
+// registered (i.e. only in the desktop / GUI mode).
+NLSGRAPHICS_IMPEXP void
+notifyWebFigurePositionChanged(GOFigure* fig);
 //=============================================================================
 NLSGRAPHICS_IMPEXP int64
 getCurrentFigure();

@@ -621,11 +621,14 @@ initializeFigureProperties(GraphicsObject* go)
     setTwo(go, GO_CURRENT_POINT_PROPERTY_NAME_STR, 0, 0);
     setString(go, GO_DOCK_CONTROLS_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     std::vector<double> defaultPosition = defaultFigurePosition();
-    setFour(go, GO_INNER_POSITION_PROPERTY_NAME_STR, defaultPosition[0], defaultPosition[1],
+    // Pixel-origin properties store the zero-based origin: the default is given with
+    // the one-based origin, so shift x/y by -1 to match the Position default and keep
+    // the three position properties consistent when read back.
+    setFour(go, GO_INNER_POSITION_PROPERTY_NAME_STR, defaultPosition[0] - 1, defaultPosition[1] - 1,
         defaultPosition[2], defaultPosition[3]);
     setString(go, GO_INTEGER_HANDLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setString(go, GO_INVERT_HARDCOPY_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
-    setFour(go, GO_OUTER_POSITION_PROPERTY_NAME_STR, defaultPosition[0], defaultPosition[1],
+    setFour(go, GO_OUTER_POSITION_PROPERTY_NAME_STR, defaultPosition[0] - 1, defaultPosition[1] - 1,
         defaultPosition[2], defaultPosition[3]);
     setString(go, GO_PAPER_ORIENTATION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_PORTRAIT_STR);
     setFour(go, GO_PAPER_POSITION_PROPERTY_NAME_STR, -0.863854846666666, 8.01052034333333,

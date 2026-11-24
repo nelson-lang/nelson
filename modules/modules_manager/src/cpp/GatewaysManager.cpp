@@ -297,11 +297,10 @@ GatewaysManager::removeGateway(
 
     bool res = removeGatewayPtr((void*)eval, resolved.cacheKey.c_str());
     libraryMap.erase(found);
-    // Once the process is shutting down, the library must stay mapped: gateway
-    // dependencies (e.g. Qt Quick pulled in by qml_engine) leave callbacks
-    // registered in subsystems destroyed later (Qt accessibility factories),
-    // and unmapping their code here turns that teardown into a jump into freed
-    // pages. The loader reclaims everything at process exit anyway.
+    // Once the process is shutting down, the library must stay mapped: a gateway
+    // (or one of its dependencies) can leave callbacks registered in subsystems
+    // destroyed later, and unmapping its code here turns that teardown into a
+    // jump into freed pages. The loader reclaims everything at process exit anyway.
     if (!NelsonConfiguration::getInstance()->isShuttingDown()) {
         close_dynamic_library(handle);
     }

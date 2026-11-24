@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-// NFlow-side permission UI for the assistant, mirroring what the web desktop
+// NFlow-side permission UI for the assistant, mirroring what the desktop
 // offers so the NFlow host reaches the same session-wide engine state:
 //  - a mode selector (Ask every time / Approve for me / Full access), read and
 //    written through nelson.ai.acp.permissionMode over the NFlow bridge;
@@ -42,7 +42,7 @@ function runEngine(code: string): void {
 // Session-wide selector for how the assistant's file and tool actions are
 // approved. The engine owns the value across every surface, so this reads it once
 // on mount (via the one-shot __ai_notify__ round-trip the model list also uses)
-// and writes every change back; it therefore matches the web desktop selector.
+// and writes every change back; it therefore matches the desktop selector.
 export function AssistantPermissionModeSelect(): JSX.Element {
   const [mode, setMode] = useState<PermissionMode>('always_ask');
 

@@ -13,11 +13,10 @@
 #include <vector>
 #include "nlsFontMetrics_exports.h"
 //=============================================================================
-// Qt-free font engine (stb_truetype over the platform TTF files, AFM core-font
-// advance tables as fallback), tuned to track QFontMetrics closely.
+// Self-contained font engine (stb_truetype over the platform TTF files, AFM
+// core-font advance tables as fallback).
 // The graphics model measures text with it (text Extent, tick label widths) and
-// RenderWeb rasterizes glyphs from it. It sits below graphics and render_web so
-// that render_qt stays Qt-only and render_web stays web-only.
+// RenderWeb rasterizes glyphs from it. It sits below graphics and render_web.
 //
 // `family` accepts a real family name ("Times New Roman", "Consolas") or a CSS
 // generic ("serif", "sans-serif", "monospace"); it resolves to one of three
@@ -44,7 +43,7 @@ namespace FontMetrics {
     ascentPixels(const std::wstring& family, double pixelSize, bool bold, bool italic);
     //=============================================================================
     // Full hhea line height (raw ascent + descent, no ink clamping) in pixels.
-    // Round it to get the integers QFontMetrics reports for the '|' bounding box.
+    // Round it to get the reference integers for the '|' bounding box.
     NLSFONTMETRICS_IMPEXP double
     lineHeightPixels(const std::wstring& family, double pixelSize, bool bold, bool italic);
     //=============================================================================

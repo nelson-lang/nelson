@@ -15,10 +15,12 @@ enum NELSON_ENGINE_MODE
     ADVANCED_ENGINE = 1,
     BASIC_TERMINAL = 2,
     ADVANCED_TERMINAL = 3,
+    // Desktop: the Qt-free desktop (gui frontend + webview), loaded
+    // dynamically at runtime so terminal binaries never link the web stack.
     GUI = 4,
-    WEB_GUI = 5,
     // Terminal hosted by a WebAssembly worker: same evaluator as BASIC_TERMINAL,
     // the browser desktop connects through PortableInterface/WebDesktopBridge.
+    // Value 5 (the former WEB_GUI mode) was folded into GUI and retired.
     WASM_TERMINAL = 6
 };
 //=============================================================================

@@ -9,10 +9,10 @@
 //=============================================================================
 #pragma once
 //=============================================================================
-// Qt-free font handling for the drawing model: build a
+// Self-contained font handling for the drawing model: build a
 // FontSpec from the standard GO font properties and measure text through the
-// shared font engine (module font_metrics) instead of QFontMetrics. The
-// measurements are tuned to track Qt's, so the Qt desktop layout stays put.
+// shared font engine (module font_metrics). The measurements are tuned to track
+// the reference metrics, so the desktop layout stays put.
 //=============================================================================
 #include <cmath>
 #include <string>
@@ -58,7 +58,7 @@ makeGOFontSpec(const std::wstring& fontName, bool sizeInPixels, double fontSize,
     return spec;
 }
 //=============================================================================
-// Pixel bounding box of a string (QFontMetrics::boundingRect equivalent).
+// Pixel bounding box of a string.
 inline void
 measureGOText(const std::wstring& text, const FontSpec& font, int& width, int& height)
 {
@@ -70,7 +70,7 @@ measureGOText(const std::wstring& text, const FontSpec& font, int& width, int& h
         std::lround(FontMetrics::textHeightPixels(text, font.family, px, font.bold, font.italic)));
 }
 //=============================================================================
-// Full line height (ascent + descent), what QFontMetrics::height() reports.
+// Full line height (ascent + descent), what the reference metrics report.
 inline int
 goFontLineHeight(const FontSpec& font)
 {

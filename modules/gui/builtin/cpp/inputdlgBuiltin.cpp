@@ -11,7 +11,7 @@
 #include "GuiDialogs.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
-namespace Nelson::GuiGateway {
+namespace Nelson::WebviewGateway {
 //=============================================================================
 ArrayOfVector
 inputdlgBuiltin(int nLhs, const ArrayOfVector& argIn)
@@ -23,5 +23,5 @@ inputdlgBuiltin(int nLhs, const ArrayOfVector& argIn)
     return retval;
 }
 //=============================================================================
-} // namespace Nelson::GuiGateway
+} // namespace Nelson::WebviewGateway
 //=============================================================================

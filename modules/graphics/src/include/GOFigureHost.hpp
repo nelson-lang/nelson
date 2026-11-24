@@ -38,9 +38,8 @@ enum class WAIT_PRESS_MODE
 // Qt-free host of one figure.
 //
 // The drawing model talks to its window only through this interface, so it never
-// references a windowing type. The Qt desktop implements it with GOWindow; WEB_GUI uses
-// the headless implementation. The windowing layer registers a factory (see
-// setFigureHostFactory) and calls into the model; the model never links back.
+// references a windowing type. Qt was removed: every figure uses the headless RenderWeb
+// implementation; the model never links back.
 //=============================================================================
 class GOFigureHost
 {
@@ -102,8 +101,8 @@ public:
     grabHostFrameRGBA(bool rawOpenGL, std::vector<unsigned char>& rgba, int& width, int& height)
         = 0;
     //=============================================================================
-    // Opaque native widget (QWidget*) or nullptr when headless. Only the Qt-side widget
-    // layer casts it back.
+    // Opaque native widget handle or nullptr when headless. Only the native
+    // widget layer casts it back.
     virtual void*
     nativeParentWidget()
         = 0;
@@ -131,9 +130,6 @@ public:
     hostDrawingAreaScreenRect(double& x, double& y, double& width, double& height)
         = 0;
 };
-//=============================================================================
-// Registered by the windowing layer at load. `headless` mirrors WEB_GUI mode.
-using FigureHostFactory = GOFigureHost* (*)(int64 figureId, bool headless);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

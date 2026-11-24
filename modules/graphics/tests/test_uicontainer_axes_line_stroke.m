@@ -46,7 +46,11 @@ check_sawtooth(8);
 %=============================================================================
 x = linspace(0, 1, 400);
 y = 0.5 * ones(size(x));
-image = capture_panel_line(x, y, [-0.05 1.05], [0 1], {'LineWidth', 2, 'LineStyle', '--'});
+% getframe captures an axes figure at device resolution, so on a scaled display
+% dash runs and tip windows are DevicePixelRatio times larger (1.25 at 125%, a
+% no-op at 96 dpi where CI runs). Scale the absolute-pixel windows and tolerances
+% by the same ratio so the join/dash/seam checks stay in the raster's own units.
+[image, deviceRatio] = capture_panel_line(x, y, [-0.05 1.05], [0 1], {'LineWidth', 2, 'LineStyle', '--'});
 green = is_green(image);
 [~, row] = max(sum(green, 2));
 runs = run_lengths(green(row, :));
@@ -55,10 +59,10 @@ gaps = runs(2:2:end);
 % first and last dash are clipped by the axes limits
 dashes = dashes(2:(end - 1));
 assert_istrue(numel(dashes) > 5);
-assert_istrue(max(dashes) - min(dashes) <= 2);
-assert_istrue(max(gaps) - min(gaps) <= 2);
+assert_istrue(max(dashes) - min(dashes) <= ceil(2 * deviceRatio));
+assert_istrue(max(gaps) - min(gaps) <= ceil(2 * deviceRatio));
 %=============================================================================
-function image = capture_panel_line(x, y, xLimits, yLimits, options)
+function [image, deviceRatio] = capture_panel_line(x, y, xLimits, yLimits, options)
   % a visible panel: its widget paints the axes, and getframe grabs that paint
   f = uifigure('Position', [100 100 600 400]);
   p = uipanel(f, 'Position', [0 0 600 400], 'BackgroundColor', [0 0 0]);
@@ -68,6 +72,7 @@ function image = capture_panel_line(x, y, xLimits, yLimits, options)
   drawnow();
   drawnow();
   frame = getframe(f);
+  deviceRatio = max(1, get(f, 'DevicePixelRatio'));
   close(f);
   image = frame.cdata;
 end
@@ -93,7 +98,9 @@ function check_sawtooth(lineWidth)
   % the y range is flat enough that a missing join shows at the tips
   xLimits = [-8 48];
   yLimits = [-6 7];
-  image = capture_panel_line(x, y, xLimits, yLimits, {'LineWidth', lineWidth});
+  % getframe captures at device resolution; scale the absolute-pixel tip window and
+  % tolerances by DevicePixelRatio (1.25 at 125%, a no-op at 96 dpi where CI runs).
+  [image, deviceRatio] = capture_panel_line(x, y, xLimits, yLimits, {'LineWidth', lineWidth});
   green = is_green(image);
   [~, cols] = find(green);
   assert_istrue(~isempty(cols));
@@ -103,18 +110,20 @@ function check_sawtooth(lineWidth)
   assert_isequal(sum(any(green(:, left:right), 1)), right - left + 1);
   % all the tips of a side reach the same row: a stray cap raises one
   spacing = (right - left) / segments;
+  halfWindow = round(2 * deviceRatio);
+  tipTolerance = ceil(deviceRatio);
   tips = zeros(1, segments - 1);
   for k = 1:(segments - 1)
     center = round(left + k * spacing);
-    windowRows = find(any(green(:, (center - 2):(center + 2)), 2));
+    windowRows = find(any(green(:, (center - halfWindow):(center + halfWindow)), 2));
     if mod(k, 2) == 1
       tips(k) = min(windowRows);
     else
       tips(k) = max(windowRows);
     end
   end
-  assert_istrue(max(tips(1:2:end)) - min(tips(1:2:end)) <= 1);
-  assert_istrue(max(tips(2:2:end)) - min(tips(2:2:end)) <= 1);
+  assert_istrue(max(tips(1:2:end)) - min(tips(1:2:end)) <= tipTolerance);
+  assert_istrue(max(tips(2:2:end)) - min(tips(2:2:end)) <= tipTolerance);
   % one more (collinear) vertex in the first segment moves every boundary
   % between pieces by one vertex, not the drawing: a seam would show up
   shifted = capture_panel_line([0, 0.5, x(2:end)], [0, 0.5, y(2:end)], ...

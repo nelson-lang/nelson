@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<testsuites tests="4" failures="1" errors="0" skipped="0" time="0.523">
+  <testsuite name="compiler" tests="2" failures="0" errors="0" skipped="0" time="0.469">
+    <testcase name="test_application_graphics" time="0.22" classname="compiler">
+    </testcase>
+    <testcase name="test_application_module_isolation" time="0.25" classname="compiler">
+    </testcase>
+  </testsuite>
+  <testsuite name="gui" tests="2" failures="1" errors="0" skipped="0" time="0.054">
+    <testcase name="test_uihtml_spike_fixture" time="0.014" classname="gui">
+    </testcase>
+    <testcase name="test_demo" time="0.039" classname="gui">
+      <failure message="test failed"><![CDATA[Assertion failed: found false entry in condition = false.]]></failure>
+    </testcase>
+  </testsuite>
+</testsuites>

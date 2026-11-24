@@ -95,7 +95,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSTEXT_EDITOR_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/text_editor/builtin/include;$(SolutionDir)modules/text_editor/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/nelson_manager/src/include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/text_editor/builtin/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/nelson_manager/src/include;</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -117,7 +117,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSTEXT_EDITOR_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/text_editor/builtin/include;$(SolutionDir)modules/text_editor/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/nelson_manager/src/include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/text_editor/builtin/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/nelson_manager/src/include;</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -142,7 +142,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSTEXT_EDITOR_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/text_editor/builtin/include;$(SolutionDir)modules/text_editor/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/nelson_manager/src/include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/text_editor/builtin/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/nelson_manager/src/include;</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -170,7 +170,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSTEXT_EDITOR_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/text_editor/builtin/include;$(SolutionDir)modules/text_editor/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/nelson_manager/src/include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/text_editor/builtin/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/nelson_manager/src/include;</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -191,6 +191,7 @@
     <ClCompile Include="..\cpp\editorHookBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
+    <ClCompile Include="..\cpp\TextEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\error_manager\src\c\nlsError_manager.vcxproj">
@@ -210,9 +211,6 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\types\src\c\nlsTypes.vcxproj">
       <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\c\nlsText_editor.vcxproj">
-      <Project>{02ad5a6d-f80a-4888-9178-29a0d7d04814}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -203,6 +203,8 @@
     <ClInclude Include="..\include\PackageUpdatesCount.hpp" />
     <ClInclude Include="..\include\RecentDirectories.hpp" />
     <ClInclude Include="..\include\DialogDirectories.hpp" />
+    <ClInclude Include="..\include\GuiDialogProvider.hpp" />
+    <ClInclude Include="..\include\HtmlToPdfProvider.hpp" />
     <ClInclude Include="..\include\nlsNelson_manager_exports.h" />
     <ClInclude Include="..\cpp\RecentDirectoriesStore.hpp" />
     <ClInclude Include="..\cpp\DialogDirectoriesStore.hpp" />
@@ -215,6 +217,8 @@
     <ClCompile Include="..\cpp\RecentDirectories.cpp" />
     <ClCompile Include="..\cpp\DialogDirectories.cpp" />
     <ClCompile Include="..\cpp\DialogDirectoriesStore.cpp" />
+    <ClCompile Include="..\cpp\GuiDialogProvider.cpp" />
+    <ClCompile Include="..\cpp\HtmlToPdfProvider.cpp" />
     <ClCompile Include="..\cpp\RecentDirectoriesStore.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>

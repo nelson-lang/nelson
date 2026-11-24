@@ -8,7 +8,7 @@
   <description>
     <p>      Le débogueur de Nelson fournit des outils interactifs pour diagnostiquer
       et corriger les scripts et fonctions en contrôlant l'exécution et en
-      inspectant l'état du programme. Le bureau Qt et le bureau web exposent
+      inspectant l'état du programme. Le bureau graphique expose
       les mêmes commandes, touches, couleurs de marqueurs et libellés.</p>
     <p>      Avant de déboguer, enregistrez les fichiers. Les points d'arrêt
       appartiennent au fichier enregistré : tant qu'un fichier a des

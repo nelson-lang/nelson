@@ -130,45 +130,6 @@ if exist "%BAT_PATH%\..\..\..\nelson-thirdparty-arm64\" (
     )
 )
 rem =============================================================================
-rem Clone or update the qt6
-if exist "%BAT_PATH%\..\..\..\qt_woa64\" (
-    if exist "%BAT_PATH%\..\..\..\qt_woa64\.git" (
-        echo Repository Qt already exists. Pulling latest changes...
-        cd "%BAT_PATH%\..\..\..\qt_woa64"
-        git pull
-        if errorlevel 1 (
-            echo Failed to pull the latest changes. Please check your internet connection or repository state.
-            cd "%ORIGINAL_DIR%"
-            exit /b 1
-        )
-        cd "%BAT_PATH%"
-    ) else (
-        echo The directory woa64 exists but is not a valid git repository.
-        echo Please remove the directory and try again.
-        cd "%ORIGINAL_DIR%"
-        exit /b 1
-    )
-) else (
-    echo Cloning the repository...
-    git clone https://github.com/nelson-lang/qt_woa64.git %BAT_PATH%\..\..\..\qt_woa64
-    if errorlevel 1 (
-        echo Failed to clone the repository. Please check your internet connection or SSH configuration.
-        cd "%ORIGINAL_DIR%"
-        exit /b 1
-    )
-)
-rem =============================================================================
-rem Resolve QTDIR64 to absolute path by temporarily changing directory
-pushd "%BAT_PATH%\..\..\..\qt_woa64\6.11.0\msvc2022_arm64" 2>nul
-if errorlevel 1 (
-    echo ERROR: Qt directory does not exist: "%BAT_PATH%\..\..\..\qt_woa64\6.11.0\msvc2022_arm64"
-    cd "%ORIGINAL_DIR%"
-    exit /b 1
-)
-set QTDIRARM64=%CD%
-popd
-echo QTDIRARM64 resolved to: %QTDIRARM64%
-rem =============================================================================
 rem Check and execute the install.bat script
 set INSTALL_SCRIPT=%BAT_PATH%\..\..\..\nelson-thirdparty-arm64\install.bat
 if exist "%INSTALL_SCRIPT%" (

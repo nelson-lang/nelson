@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>helpdlg</keyword>
+  <short_description>Crée une boîte de dialogue d'aide.</short_description>
+  <syntax>
+    <syntax_item>h = helpdlg</syntax_item>
+    <syntax_item>h = helpdlg(message)</syntax_item>
+    <syntax_item>h = helpdlg(message, title)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>message</param_name>
+      <param_description>Help text. Use a character vector, string, or cell array of character vectors.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>Graphics figure handle.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>helpdlg creates a help message dialog and returns a graphics figure handle.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Créer une boîte d aide.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[h = helpdlg('Use the OK button to close this dialog.', 'Help');]]></example_item_data>
+      <example_item_img
+        src="../images/helpdlg_example.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Display several help lines.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[h = helpdlg({'Select a file.', 'Then press Open.'}, 'Help');
+close(h)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}msgbox">msgbox</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}warndlg">warndlg</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}errordlg">errordlg</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version aide API dialogue mise à jour.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -102,7 +102,7 @@ function Read-EmbeddedApplication([string]$Executable) {
 
 function Assert-ConsoleLibraries([string[]]$Names) {
     $unexpected = @($Names | Where-Object {
-        [IO.Path]::GetFileName($_) -match '^(?i:Qt[0-9].*|libnlsGui|libnlsWeb_gui|libnlsWebview|WebView2Loader)\.dll$'
+        [IO.Path]::GetFileName($_) -match '^(?i:libnlsGui|libnlsWeb_engine|WebView2Loader)\.dll$'
     })
     if ($unexpected.Count) { throw "Unneeded graphical library in numerical runtime: $($unexpected -join ', ')" }
 }
@@ -502,15 +502,15 @@ if (-not $graphicsArchive.Manifest.gui -or @($graphicsArchive.Names | Where-Obje
 }
 $graphicsRuntime = Join-Path $graphicsDistribution 'graphics.runtime'
 $graphicsInventory = Read-CheckedRuntime $graphicsRuntime
-foreach ($required in @('graphics', 'gui')) {
+foreach ($required in @('graphics', 'webview')) {
     if ($graphicsInventory.modules -notcontains $required) { throw "Missing graphical module: $required" }
 }
 foreach ($excluded in @('qml_engine', 'text_editor')) {
     if ($graphicsInventory.modules -contains $excluded) { throw "Unneeded graphical module: $excluded" }
 }
 $graphicsBinaries = Join-Path $graphicsRuntime ('bin/' + $platform)
-if (-not (Test-Path -LiteralPath (Join-Path $graphicsBinaries 'plugins/platforms/qwindows.dll'))) { throw 'Missing Qt platform plugin.' }
-foreach ($excluded in @('plugins/designer', 'qml', 'kernel32.dll', 'kernelbase.dll', 'msvcrt.dll')) {
+if (-not (Test-Path -LiteralPath (Join-Path $graphicsBinaries 'gui/index.html'))) { throw 'Missing desktop frontend (gui).' }
+foreach ($excluded in @('plugins/platforms', 'qml', 'kernel32.dll', 'kernelbase.dll', 'msvcrt.dll')) {
     if (Test-Path -LiteralPath (Join-Path $graphicsBinaries $excluded)) { throw "Non-runtime dependency copied: $excluded" }
 }
 $graphicsInstalled = Join-Path $graphicsDistribution 'graphics-installed.exe'
@@ -538,7 +538,7 @@ $graphicsRuntime = Join-Path $graphicsRelocated 'graphics.runtime'
 $graphicsBinaries = Join-Path $graphicsRuntime ('bin/' + $platform)
 $beforeGraphics = @(Get-ChildItem -LiteralPath $root -Directory | ForEach-Object FullName)
 foreach ($mode in @('batch', 'offscreen', 'hide', 'lifetime')) {
-    $graphicsRun = Invoke-Application $graphicsApplication @($mode) 30000 '' @{ PATH = ''; QT_PLUGIN_PATH = 'invalid' } -CaptureModules
+    $graphicsRun = Invoke-Application $graphicsApplication @($mode) 30000 '' @{ PATH = '' } -CaptureModules
     if ($graphicsRun.ExitCode -ne 0 -or $graphicsRun.Output -notmatch 'GUI_RENDER_OK') {
         throw ("Relocated graphics failed ($mode): " + $graphicsRun.Output + $graphicsRun.Error)
     }
@@ -549,11 +549,9 @@ foreach ($mode in @('batch', 'offscreen', 'hide', 'lifetime')) {
         default { 'GUI_RENDER_OK' }
     }
     if ($graphicsRun.Output -notmatch $marker) { throw "Graphical window lifetime failed ($mode): $($graphicsRun.Output)" }
-    foreach ($required in @('Qt6Core.dll', 'Qt6Gui.dll', 'Qt6Widgets.dll', 'plugins/platforms/qwindows.dll')) {
+    foreach ($required in @('libnlsWeb_engine.dll', 'libnlsGraphics.dll')) {
         if ($graphicsRun.Modules -notcontains (Join-Path $graphicsBinaries $required)) { throw "Relocated library was not observed: $required" }
     }
-    $foreignQt = @($graphicsRun.Modules | Where-Object { [IO.Path]::GetFileName($_) -like 'Qt6*.dll' -and -not $_.StartsWith($graphicsBinaries + '\', [StringComparison]::OrdinalIgnoreCase) })
-    if ($foreignQt.Count) { throw "Host Qt libraries leaked into application: $foreignQt" }
 }
 foreach ($selectedRuntime in @($graphicsRuntime, $installedRoot)) {
     $installedGuiRun = Invoke-Application $graphicsInstalled @('lifetime') 30000 '' @{ NELSONC_RUNTIME_ROOT = $selectedRuntime; PATH = '' }
@@ -565,7 +563,7 @@ $afterGraphics = @(Get-ChildItem -LiteralPath $root -Directory | ForEach-Object 
 if (Compare-Object $beforeGraphics $afterGraphics) { throw 'Graphical application left an extraction directory.' }
 if (-not (Test-Path -LiteralPath (Join-Path $root 'packaged-graphics.png'))) { throw 'Missing graphical output.' }
 $null = Read-CheckedRuntime $graphicsRuntime
-Write-Output 'PASS automatic GUI selection, explicit CLI mode, runtime-only Qt plugins and relocated native rendering'
+Write-Output 'PASS automatic GUI selection, explicit CLI mode, runtime-only WebView frontend and relocated native rendering'
 Write-Output 'PASS invisible and hidden-handle windows, timer callbacks, successive windows and installed GUI runtime'
 Write-Output "GRAPHICS_ARTIFACT=$graphicsApplication"
 Write-Output "GRAPHICS_INSTALLED_ARTIFACT=$graphicsInstalled"

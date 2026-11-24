@@ -9,9 +9,8 @@
     <syntax_item>nelson-cli arg1 ... argn</syntax_item>
     <syntax_item>nelson-adv-cli arg1 ... argn</syntax_item>
     <syntax_item>nelson-gui arg1 ... argn</syntax_item>
-    <syntax_item>nelson --webview [--url hote] [--port port]</syntax_item>
     <syntax_item>nelson --web [--url hote] [--port port]</syntax_item>
-    <syntax_item>nelson-webview [--web] [--url hote] [--port port]</syntax_item>
+    <syntax_item>nelson-adv-cli [--headless] arg1 ... argn</syntax_item>
     <syntax_item>nelson-cli options -- user_arg1 ... user_argn</syntax_item>
   </syntax>
   <param_input>
@@ -28,20 +27,20 @@
       <param_description>sélectionne <b>nelson-gui</b> quand l&apos;option est passée au lanceur <b>nelson</b>.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>--webview</param_name>
-      <param_description>sélectionne <b>nelson-webview</b> en mode webview desktop quand l&apos;option est passée au lanceur <b>nelson</b>. Passée directement a <b>nelson-adv-cli</b>, c&apos;est au contraire une option qui rend les figures avec le backend web (RenderWeb), sans fenêtre figure Qt, tout en conservant le REPL terminal.</param_description>
-    </param_input_item>
-    <param_input_item>
       <param_name>--web</param_name>
-      <param_description>sélectionne <b>nelson-webview</b> en mode serveur HTTP quand l&apos;option est passée au lanceur <b>nelson</b>. La même option sélectionne le mode serveur pour l&apos;exécutable direct <b>nelson-webview</b>.</param_description>
+      <param_description>démarre le bureau graphique <b>nelson-gui</b> en mode serveur HTTP (servi en HTTP au lieu d&apos;une fenêtre native), via le lanceur <b>nelson</b> ou directement <b>nelson-gui</b>.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>--url hôte</param_name>
-      <param_description>fixe l&apos;hôte HTTP. Cette option est validé uniquement avec <b>--web</b>, <b>--webview</b>, ou l&apos;exécutable direct <b>nelson-webview</b>.</param_description>
+      <param_description>fixe l&apos;hôte HTTP. Cette option est valide uniquement avec <b>--web</b> ou le bureau graphique <b>nelson-gui</b>.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>--port port</param_name>
-      <param_description>fixe le port web entre 1 et 65535. Cette option est validé uniquement avec <b>--web</b>, <b>--webview</b>, ou l&apos;exécutable direct <b>nelson-webview</b>.</param_description>
+      <param_description>fixe le port web entre 1 et 65535. Cette option est valide uniquement avec <b>--web</b> ou le bureau graphique <b>nelson-gui</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>--headless</param_name>
+      <param_description>sur <b>nelson-adv-cli</b>, rend les figures uniquement hors écran (sans fenêtre). Par défaut le terminal avancé rend les figures comme de vraies fenêtres web.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>--</param_name>
@@ -131,9 +130,9 @@
       <b>nelson-adv-cli</b> : terminal avance, sans console graphique, historique et complétion disponibles.</p>
     <p>
       <b>nelson-gui</b> : console graphique, historique et complétion disponibles.</p>
-    <p><b>nelson --webview</b> et <b>nelson-webview</b> ouvrent une webview desktop native par défaut avec un port localhost privé qui n&apos;est pas affiché. Fournir <b>--url</b> ou <b>--port</b> garde la webview ouverte et publie la même session a l&apos;adresse HTTP sélectionnée. Si la webview native est indisponible, Nelson s&apos;arrête avec une erreur.</p>
-    <p><b>nelson --web</b> et <b>nelson-webview --web</b> démarrent un serveur HTTP sans ouvrir de fenêtre desktop et affichent l&apos;URL servie.</p>
-    <p>Les sélecteurs de mode <b>--cli</b>, <b>--adv-cli</b>, <b>--gui</b>, <b>--webview</b> et le <b>--web</b> du lanceur sont validés uniquement pour le lanceur générique <b>nelson</b>. Les exécutables directs comme <b>nelson-cli</b>, <b>nelson-adv-cli</b> et <b>nelson-gui</b> les refusent avant <b>--</b>. La seule exception est <b>nelson-adv-cli --webview</b>, ou <b>--webview</b> est accepté comme option qui bascule le backend des figures vers le rendu web (RenderWeb).</p>
+    <p><b>nelson-gui</b> ouvre le bureau graphique par défaut avec un port localhost privé qui n&apos;est pas affiché. Fournir <b>--url</b> ou <b>--port</b> garde le bureau ouvert et publie la même session a l&apos;adresse HTTP sélectionnée. Si le runtime web est indisponible, Nelson s&apos;arrête avec une erreur.</p>
+    <p><b>nelson --web</b> et <b>nelson-gui --web</b> démarrent un serveur HTTP sans ouvrir de fenêtre desktop et affichent l&apos;URL servie.</p>
+    <p>Les sélecteurs de mode <b>--cli</b>, <b>--adv-cli</b>, <b>--gui</b> et le <b>--web</b> du lanceur sont validés uniquement pour le lanceur générique <b>nelson</b>. Les exécutables directs comme <b>nelson-cli</b>, <b>nelson-adv-cli</b> et <b>nelson-gui</b> les refusent avant <b>--</b>. Sur <b>nelson-adv-cli</b>, les figures sont rendues comme de vraies fenêtres web par défaut ; passez <b>--headless</b> pour un rendu hors écran uniquement.</p>
     <p>Après <b>--</b>, les sélecteurs de mode sont des arguments utilisateur normaux et peuvent être lus avec <b>argv('user')</b>.</p>
     <p>Les arguments de démarrage de modules comme <b>--no-audio</b> et <b>--without-python</b> restent visibles dans <b>argv()</b> pour compatibilité. Les nouveaux constructeurs de commandes doivent placer les arguments utilisateur après <b>--</b> et les lire avec <b>argv('user')</b>.</p>
     <p>Les guillemets utilisés pour grouper les arguments sont interprétés par le système d&apos;exploitation ou le shell avant le démarrage de Nelson. Utiliser une forme portable comme <b>nelson-cli -e &quot;disp('hello world'); quit&quot;</b>.</p>

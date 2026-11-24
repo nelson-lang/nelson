@@ -11,7 +11,7 @@
 //=============================================================================
 // Frozen extern "C" ABI (form C2): an opaque NFlow headless host for the stdio
 // kernel. The kernel resolves these five symbols dynamically in
-// libnlsNflow_gui_builtin (nflow stays optional, no hard web_gui -> nflow link).
+// libnlsNflow_gui_builtin (nflow stays optional, no hard gui -> nflow link).
 // All strings are nul-terminated UTF-8. The host owns the whole run-state (runId,
 // partials, pause/cancel, detached worker) and drives runNFlowSimulationCore.
 //=============================================================================

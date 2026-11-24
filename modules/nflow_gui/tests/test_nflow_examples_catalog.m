@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % NFlow registers an examples provider at startup: its models and scripts
-% join the unified examples catalog shared by demo(), the web desktop and
+% join the unified examples catalog shared by demo(), the desktop and
 % the NFlow example browser.
 %=============================================================================
 % <--GUI MODE-->

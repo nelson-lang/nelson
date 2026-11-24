@@ -18,9 +18,7 @@
 #include "PreferencesStore.hpp"
 #include "StringHelpers.hpp"
 #include "i18n.hpp"
-#ifdef WITH_NELSON_GUI_PREFS
-#include "GuiDialogs.hpp"
-#endif
+#include "GuiDialogProvider.hpp"
 //=============================================================================
 namespace Nelson::PreferencesGateway {
 //=============================================================================
@@ -221,7 +219,6 @@ namespace {
         return options;
     }
     //=============================================================================
-#ifdef WITH_NELSON_GUI_PREFS
     void
     runHelpCallback(Evaluator* eval, const UiGetPrefOptions& options)
     {
@@ -252,7 +249,6 @@ namespace {
         } catch (const NelsonException&) {
         }
     }
-#endif
     //=============================================================================
     ArrayOf
     lowerAnswer(const ArrayOf& value)
@@ -296,51 +292,63 @@ uigetprefBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         return retval;
     }
 
-#ifdef WITH_NELSON_GUI_PREFS
+    if (!hasGuiDialogProvider()) {
+        Error(L"Nelson:preferences:noDisplay",
+            L"The preference dialog requires a graphical desktop, which is not available.");
+    }
     Preferences::registerUiPreference(group, preference);
-    UiPreferenceDialogOptions dialogOptions;
-    dialogOptions.title = title;
-    dialogOptions.question = question;
-    dialogOptions.buttonLabels = buttons.labels;
-    dialogOptions.buttonValues = buttons.values;
-    dialogOptions.extraButtons = options.extraOptions;
-    dialogOptions.defaultButton = options.defaultButton;
-    dialogOptions.checkboxText = options.checkboxString;
-    dialogOptions.checkboxState = options.checkboxState;
-    dialogOptions.helpString = options.helpString;
-    UiPreferenceDialogResult result;
+    // The dialog is served by the desktop front end through the registered
+    // provider (kind == "preference"); the help button re-opens it.
+    GuiDialogRequest request;
+    request.kind = L"preference";
+    request.title = title;
+    request.message = question;
+    request.icon = L"question";
+    request.buttons = buttons.labels;
+    request.buttonValues = buttons.values;
+    request.extraButtons = options.extraOptions;
+    request.defaultButton = options.defaultButton;
+    request.checkboxVisible = true;
+    request.checkboxText = options.checkboxString;
+    request.checkboxState = options.checkboxState;
+    request.helpString = options.helpString;
+
+    std::wstring resultValue;
+    bool checkboxChecked = options.checkboxState;
+    bool buttonClicked = false;
     while (true) {
-        result = UiPreferenceDialog(dialogOptions);
-        if (!result.helpRequested) {
+        GuiDialogResponse response;
+        if (!runGuiDialog(request, response)) {
             break;
         }
-        // The help button closes the dialog: run the help, then show the dialog again.
-        dialogOptions.checkboxState = result.checkboxChecked;
-        runHelpCallback(eval, options);
+        checkboxChecked = response.checkboxChecked;
+        if (response.helpRequested) {
+            request.checkboxState = response.checkboxChecked;
+            runHelpCallback(eval, options);
+            continue;
+        }
+        buttonClicked = response.ok;
+        resultValue = response.button;
+        break;
     }
-    if (!result.buttonClicked) {
+    if (!buttonClicked) {
         // Closed without a button: default button and initial check box state.
-        result.value = options.defaultButton;
-        result.checkboxChecked = options.checkboxState;
+        resultValue = options.defaultButton;
+        checkboxChecked = options.checkboxState;
     }
-    if (result.checkboxChecked
-        && std::find(buttons.values.begin(), buttons.values.end(), result.value)
+    if (checkboxChecked
+        && std::find(buttons.values.begin(), buttons.values.end(), resultValue)
             != buttons.values.end()) {
         Preferences::setPreferences(group,
             Preferences::PreferenceNames { { preference }, Dimensions(1, 1), true },
-            scalarArrayOfToArrayOfVector(ArrayOf::characterArray(result.value)), false);
+            scalarArrayOfToArrayOfVector(ArrayOf::characterArray(resultValue)), false);
     }
     ArrayOfVector retval;
-    retval << ArrayOf::characterArray(lowerPreferenceText(result.value));
+    retval << ArrayOf::characterArray(lowerPreferenceText(resultValue));
     if (nLhs > 1) {
         retval << ArrayOf::logicalScalar(true);
     }
     return retval;
-#else
-    Error(L"Nelson:preferences:dialogNotAvailable",
-        L"Preferences dialog is not available in this build.");
-    return {};
-#endif
 }
 //=============================================================================
 } // namespace Nelson::PreferencesGateway

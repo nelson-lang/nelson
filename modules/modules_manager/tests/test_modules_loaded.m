@@ -45,8 +45,8 @@ end
 if ~ismodule('ipc')
   modules_list(strcmp(modules_list, 'ipc')) = [];
 end
-if ~ismodule('webview')
-  modules_list(strcmp(modules_list, 'webview')) = [];
+if ~ismodule('gui')
+  modules_list(strcmp(modules_list, 'gui')) = [];
 end
 if ~ismodule('python_engine')
   modules_list(strcmp(modules_list, 'python_engine')) = [];

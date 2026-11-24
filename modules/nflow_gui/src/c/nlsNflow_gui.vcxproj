@@ -132,7 +132,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSNFLOW_GUI_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/nflow_blocks/src/include;$(SolutionDir)modules/nflow_fmi/src/include;$(SolutionDir)modules/nflow_gui/src/include;$(SolutionDir)modules/webview/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/commons/src/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/nflow_blocks/src/include;$(SolutionDir)modules/nflow_fmi/src/include;$(SolutionDir)modules/nflow_gui/src/include;$(SolutionDir)modules/web_engine/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/commons/src/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -153,7 +153,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSNFLOW_GUI_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/nflow_blocks/src/include;$(SolutionDir)modules/nflow_fmi/src/include;$(SolutionDir)modules/nflow_gui/src/include;$(SolutionDir)modules/webview/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/commons/src/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/nflow_blocks/src/include;$(SolutionDir)modules/nflow_fmi/src/include;$(SolutionDir)modules/nflow_gui/src/include;$(SolutionDir)modules/web_engine/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/commons/src/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -174,7 +174,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSNFLOW_GUI_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/nflow_blocks/src/include;$(SolutionDir)modules/nflow_fmi/src/include;$(SolutionDir)modules/nflow_gui/src/include;$(SolutionDir)modules/webview/src/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/nflow_blocks/src/include;$(SolutionDir)modules/nflow_fmi/src/include;$(SolutionDir)modules/nflow_gui/src/include;$(SolutionDir)modules/web_engine/src/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -198,7 +198,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSNFLOW_GUI_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/nflow_blocks/src/include;$(SolutionDir)modules/nflow_fmi/src/include;$(SolutionDir)modules/nflow_gui/src/include;$(SolutionDir)modules/webview/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/commons/src/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/nflow_blocks/src/include;$(SolutionDir)modules/nflow_fmi/src/include;$(SolutionDir)modules/nflow_gui/src/include;$(SolutionDir)modules/web_engine/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/commons/src/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -224,7 +224,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSNFLOW_GUI_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/nflow_blocks/src/include;$(SolutionDir)modules/nflow_fmi/src/include;$(SolutionDir)modules/nflow_gui/src/include;$(SolutionDir)modules/webview/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/commons/src/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/nflow_blocks/src/include;$(SolutionDir)modules/nflow_fmi/src/include;$(SolutionDir)modules/nflow_gui/src/include;$(SolutionDir)modules/web_engine/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/os_functions/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/commons/src/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -251,7 +251,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSNFLOW_GUI_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/nflow_blocks/src/include;$(SolutionDir)modules/nflow_fmi/src/include;$(SolutionDir)modules/nflow_gui/src/include;$(SolutionDir)modules/webview/src/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/nflow_blocks/src/include;$(SolutionDir)modules/nflow_fmi/src/include;$(SolutionDir)modules/nflow_gui/src/include;$(SolutionDir)modules/web_engine/src/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -309,7 +309,7 @@
     <ProjectReference Include="..\..\..\os_functions\src\c\nlsOs_functions.vcxproj">
       <Project>{fa50a5eb-b1b3-4035-87bb-8d3124cb7c80}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\webview\src\c\nlsWebview.vcxproj">
+    <ProjectReference Include="..\..\..\web_engine\src\c\nlsWeb_engine.vcxproj">
       <Project>{585fa4c3-c0be-4fe9-b4d3-476fe810ceb8}</Project>
     </ProjectReference>
   </ItemGroup>
@@ -319,7 +319,7 @@
   <ItemGroup>
     <NFlowTsSources Include="$(MSBuildThisFileDirectory)..\..\src\ts\**\*" />
     <NFlowTsSources Include="$(MSBuildThisFileDirectory)..\..\package.json" />
-    <NFlowTsSources Include="$(MSBuildThisFileDirectory)..\..\..\webview\frontend\examples\*" />
+    <NFlowTsSources Include="$(MSBuildThisFileDirectory)..\..\..\web_engine\frontend\examples\*" />
   </ItemGroup>
   <Target Name="NFlowNpmInstall" Condition="Exists('$(MSBuildThisFileDirectory)..\..\package.json') And !Exists('$(MSBuildThisFileDirectory)..\..\node_modules')">
     <Message Importance="high" Text="Installing npm deps for nflow_gui..." />

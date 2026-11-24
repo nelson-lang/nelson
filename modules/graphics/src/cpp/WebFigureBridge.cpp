@@ -8,9 +8,9 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 //
-// extern "C" bridge so nelson-webview (modules/web_gui) can enumerate and render
-// figures WITHOUT linking Qt. nlsWeb_gui loads these dynamically. They MUST be
-// invoked on the GUI/interpreter thread; nlsWeb_gui marshals the call through
+// extern "C" bridge so nelson-webview (modules/gui) can enumerate and render
+// figures WITHOUT linking Qt. nlsGui loads these dynamically. They MUST be
+// invoked on the GUI/interpreter thread; nlsGui marshals the call through
 // its interpreter-thread task queue, so grabFrameImage() renders inline (its
 // own callGuiSync would deadlock in web mode, where the main thread does not
 // spin a Qt event loop).
@@ -409,7 +409,7 @@ encodeMeshCached(const Nelson::WebGlMesh& mesh)
 extern "C"
 {
     //=============================================================================
-    // Close a figure from the web desktop. The figure close-request callback decides whether
+    // Close a figure from the desktop. The figure close-request callback decides whether
     // destruction continues.
     NLSGRAPHICS_IMPEXP bool
     nlsWebGuiCloseFigure(int64_t handle)
@@ -457,7 +457,7 @@ extern "C"
     }
     //=============================================================================
     // The figure's WindowStyle as an int enum (0 normal, 1 modal, 2 docked, 3 alwaysontop; -1 if
-    // the figure is gone). The web desktop uses it to pick a native window or a docked panel.
+    // the figure is gone). The desktop uses it to pick a native window or a docked panel.
     NLSGRAPHICS_IMPEXP int
     nlsWebGuiGetFigureWindowStyle(int64_t handle)
     {
@@ -504,6 +504,44 @@ extern "C"
         const int h = static_cast<int>(position[3]);
         if (w <= 0 || h <= 0) {
             return false;
+        }
+        if (outWidth != nullptr) {
+            *outWidth = w;
+        }
+        if (outHeight != nullptr) {
+            *outHeight = h;
+        }
+        return true;
+    }
+    //=============================================================================
+    // The figure's Position (left, bottom, width, height) in pixels, so a native
+    // window can be placed where the figure asks, not only sized. Returns false
+    // (outputs untouched) when the figure or its Position is gone.
+    NLSGRAPHICS_IMPEXP bool
+    nlsWebGuiGetFigurePosition(int64_t handle, int* outX, int* outY, int* outWidth, int* outHeight)
+    {
+        Nelson::GOFigureHost* win = Nelson::getFigure(static_cast<Nelson::int64>(handle));
+        if (win == nullptr) {
+            return false;
+        }
+        Nelson::GOFigure* fig = win->hostFigure();
+        if (fig == nullptr) {
+            return false;
+        }
+        std::vector<double> position = fig->findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR);
+        if (position.size() < 4) {
+            return false;
+        }
+        const int w = static_cast<int>(position[2]);
+        const int h = static_cast<int>(position[3]);
+        if (w <= 0 || h <= 0) {
+            return false;
+        }
+        if (outX != nullptr) {
+            *outX = static_cast<int>(position[0]);
+        }
+        if (outY != nullptr) {
+            *outY = static_cast<int>(position[1]);
         }
         if (outWidth != nullptr) {
             *outWidth = w;

@@ -16,16 +16,6 @@ set "BAT_PATH=%~dp0"
 rem Remove trailing backslash if present
 set "BAT_PATH=%BAT_PATH:~0,-1%"
 rem =============================================================================
-if not defined QTDIR64 (
-  for %%i in ("%BAT_PATH%\..\qt_windows_x64\6.11.0\msvc2022_64") do set "QTDIR64=%%~fi"
-)
-rem =============================================================================
-if not exist "%QTDIR64%" (
-    echo %QTDIR64% not found.
-    exit /b 1
-)
-set "QTDIR=%QTDIR64%"
-rem =============================================================================
 if "%~1"=="" (
     echo Starting nelson.sln...
     start nelson.sln
@@ -50,7 +40,7 @@ if /i "%~1"=="nflow" (
 rem =============================================================================
 rem Check for the "env-only" parameter
 if /i "%~1"=="env-only" (
-    echo Environment initialized only ^(QTDIR=%QTDIR%^)
+    echo Environment initialized only.
     exit /b 0
 )
 rem =============================================================================

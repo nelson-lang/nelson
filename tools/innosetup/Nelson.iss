@@ -20,7 +20,6 @@
 #define APPLICATION_EXE_GUI_NAME "Nelson-gui.exe"
 #define APPLICATION_EXE_CLI_NAME "Nelson-cli.exe"
 #define APPLICATION_EXE_ADV_CLI_NAME "Nelson-adv-cli.exe"
-#define APPLICATION_EXE_WEBVIEW_NAME "nelson-webview.exe"
 #define APPLICATION_EXE_LINT_NAME "Nelson-lint.exe"
 #define APPLICATION_EXE_LSP_NAME "Nelson-lsp.exe"
 #define APPLICATION_EXE_FORMAT_NAME "Nelson-format.exe"

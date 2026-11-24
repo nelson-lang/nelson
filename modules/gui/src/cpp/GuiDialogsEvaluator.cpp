@@ -9,6 +9,7 @@
 //=============================================================================
 #include "GuiDialogs.hpp"
 #include "GuiDialogsHelpers.hpp"
+#include "Error.hpp"
 #include "ErrorID.hpp"
 #include "FileSystemWrapper.hpp"
 #include "StringHelpers.hpp"

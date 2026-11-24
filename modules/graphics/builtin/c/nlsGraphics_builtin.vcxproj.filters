@@ -126,6 +126,9 @@
     <ClCompile Include="..\cpp\__figure_native_geometry__Builtin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\__native_screen_info__Builtin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\cpp\__uicontrol_key_event__Builtin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -430,6 +433,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\uicontrolBuiltin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\uiprogressdlgBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\uifigureBuiltin.cpp">
@@ -850,6 +856,9 @@
     <ClInclude Include="..\include\uicontrolBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\uiprogressdlgBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\include\uifigureBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -920,6 +929,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\__figure_native_geometry__Builtin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\__native_screen_info__Builtin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\__uicontrol_key_event__Builtin.hpp">

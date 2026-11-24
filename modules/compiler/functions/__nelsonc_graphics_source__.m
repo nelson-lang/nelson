@@ -7,15 +7,21 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% Resolves a logical graphics asset name (e.g. 'plugins/platforms', 'qml') to
-% its on-disk source folder under the given graphics root. For a development
-% or Homebrew layout the assets sit directly under the root. For an installed
-% macOS application bundle the Qt plugins live in Contents/PlugIns and the
-% remaining assets (qml, web_gui) in Contents/Resources, so the logical name
-% is remapped accordingly.
+% Resolves a logical graphics asset name (e.g. 'gui') to its on-disk source
+% folder under the given graphics root. For a development layout the assets sit
+% directly under the root. For an installed macOS application bundle they live
+% in Contents/Resources, so the logical name is remapped accordingly.
 function source = __nelsonc_graphics_source__(root, name)
   source = fullfile(root, name);
   if isfolder(source)
+    return;
+  end
+  % The gui frontend ships under the module tree (modules/<name>/dist), the same
+  % convention as nflow_gui and what nelson-gui serves at runtime, rather than
+  % next to the library.
+  moduleDist = fullfile(nelsonroot(), 'modules', name, 'dist');
+  if isfolder(moduleDist)
+    source = moduleDist;
     return;
   end
   contents = __nelsonc_bundle_contents__(root);
@@ -23,11 +29,7 @@ function source = __nelsonc_graphics_source__(root, name)
     return;
   end
   parts = strsplit(strrep(name, '\', '/'), '/');
-  if strcmp(parts{1}, 'plugins') && numel(parts) > 1
-    candidate = fullfile(contents, 'PlugIns', parts{2:end});
-  else
-    candidate = fullfile(contents, 'Resources', parts{:});
-  end
+  candidate = fullfile(contents, 'Resources', parts{:});
   if isfolder(candidate)
     source = candidate;
   end

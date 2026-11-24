@@ -17,7 +17,7 @@ using namespace Nelson;
 //=============================================================================
 namespace {
 //=============================================================================
-// libnlsWeb_gui loads on first use; this module never links it and nelson-cli never loads it.
+// libnlsGui loads on first use; this module never links it and nelson-cli never loads it.
 using OpenNotebookFn = bool (*)(void*, const wchar_t*);
 using CloseNotebookHostFn = void (*)();
 library_handle webGuiLibrary = nullptr;
@@ -26,22 +26,22 @@ CloseNotebookHostFn closeNotebookHostFn = nullptr;
 bool webGuiLibraryTried = false;
 //=============================================================================
 void
-loadWebGuiBackend()
+loadGuiBackend()
 {
     if (webGuiLibraryTried) {
         return;
     }
     webGuiLibraryTried = true;
     const std::wstring filename = NelsonConfiguration::getInstance()->getNelsonLibraryDirectory()
-        + L"/libnlsWeb_gui" + get_dynamic_library_extensionW();
+        + L"/libnlsGui" + get_dynamic_library_extensionW();
     webGuiLibrary = load_dynamic_libraryW(filename);
     if (webGuiLibrary == nullptr) {
         return;
     }
     openNotebookFn
-        = reinterpret_cast<OpenNotebookFn>(get_function(webGuiLibrary, "NelsonWebGuiOpenNotebook"));
+        = reinterpret_cast<OpenNotebookFn>(get_function(webGuiLibrary, "NelsonGuiOpenNotebook"));
     closeNotebookHostFn = reinterpret_cast<CloseNotebookHostFn>(
-        get_function(webGuiLibrary, "NelsonWebGuiCloseNotebookHost"));
+        get_function(webGuiLibrary, "NelsonGuiCloseNotebookHost"));
 }
 //=============================================================================
 } // namespace
@@ -49,11 +49,11 @@ loadWebGuiBackend()
 bool
 Nelson::NotebookGateway::openNotebookEditor(Evaluator* eval, const std::wstring& filename)
 {
-    // The web desktop takes the document itself; the Qt desktop hosts it in the Notebook window.
+    // The desktop takes the document itself; the Qt desktop hosts it in the Notebook window.
     bool opened = WebDesktopBridge::getInstance()->openWebNotebook(filename);
     if (!opened
         && NelsonConfiguration::getInstance()->getNelsonEngineMode() == NELSON_ENGINE_MODE::GUI) {
-        loadWebGuiBackend();
+        loadGuiBackend();
         if (openNotebookFn != nullptr) {
             opened = openNotebookFn(eval, filename.c_str());
         }

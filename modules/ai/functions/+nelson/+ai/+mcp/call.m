@@ -155,7 +155,7 @@ function result = openNelsonFile(args)
     return
   end
   % editor() resolves the name and opens it in whichever editor the surface uses
-  % (Qt, web desktop, external); with a line it scrolls there.
+  % (Qt, desktop, external); with a line it scrolls there.
   try
     if line >= 1
       editor(filename, line);

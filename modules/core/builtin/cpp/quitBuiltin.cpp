@@ -31,7 +31,7 @@ Nelson::CoreGateway::quitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector&
     // Close figure windows while the interpreter and the Qt event loop are still
     // alive: destroying a figure's OpenGL context during the C++ exit teardown
     // deadlocks in wglDeleteContext on Windows. Only the Qt/OpenGL figure hosts
-    // need it (modes with a GUI event loop); WEB_GUI renders in the browser and has
+    // need it (modes with a GUI event loop); the desktop renders in the browser and has
     // no GL context. Best-effort, and skipped when the graphics gateway is not
     // loaded. Function-call syntax keeps the lexer off the command-shortcut path.
     if (eval->haveEventsLoop() && !WebDesktopBridge::getInstance()->hasWebFigureFrameHook()

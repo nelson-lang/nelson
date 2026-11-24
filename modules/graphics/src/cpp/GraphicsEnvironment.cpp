@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "GraphicsEnvironment.hpp"
+#include <cmath>
 #ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
@@ -56,6 +57,25 @@ x11ScreenResolution(int& width, int& height)
     }
     dlclose(x11);
     return found;
+}
+#endif
+//=============================================================================
+#ifdef _WIN32
+static double
+nativeMonitorDpi(HMONITOR monitor)
+{
+    // shcore is resolved at run time so the module keeps its link dependencies.
+    using GetDpiForMonitorFunction = HRESULT(WINAPI*)(HMONITOR, int, UINT*, UINT*);
+    static const auto getDpiForMonitor = reinterpret_cast<GetDpiForMonitorFunction>(
+        GetProcAddress(LoadLibraryW(L"shcore.dll"), "GetDpiForMonitor"));
+    constexpr int MDT_EFFECTIVE = 0;
+    UINT dpiX = 0;
+    UINT dpiY = 0;
+    if (getDpiForMonitor != nullptr
+        && SUCCEEDED(getDpiForMonitor(monitor, MDT_EFFECTIVE, &dpiX, &dpiY)) && dpiX > 0) {
+        return static_cast<double>(dpiX);
+    }
+    return 96.0;
 }
 #endif
 //=============================================================================
@@ -118,8 +138,27 @@ namespace GraphicsEnvironment {
     double
     frameCaptureDeviceRatio()
     {
-        return environmentHooks.frameCaptureDeviceRatio ? environmentHooks.frameCaptureDeviceRatio()
-                                                        : 1.0;
+        if (environmentHooks.frameCaptureDeviceRatio) {
+            return environmentHooks.frameCaptureDeviceRatio();
+        }
+        // No windowing backend registered: report the primary display's scale as the
+        // operating system reports it at process start, so a figure's DevicePixelRatio
+        // matches the real display the way a windowed backend would, at any scale
+        // (1.0 at 100 %, a no-op there). Computed once: the native query is not free
+        // and the start-time scale is the reference the point-to-pixel layout uses.
+        static const double headlessRatio = [] {
+            std::wstring deviceName;
+            int x = 0;
+            int y = 0;
+            int width = 0;
+            int height = 0;
+            double dpi = 96.0;
+            if (nativePrimaryDisplay(deviceName, x, y, width, height, dpi) && dpi > 0.0) {
+                return dpi / 96.0;
+            }
+            return 1.0;
+        }();
+        return headlessRatio;
     }
     //=============================================================================
     int
@@ -234,6 +273,47 @@ namespace GraphicsEnvironment {
             return environmentHooks.desktopPrefersDockedFigures();
         }
         return false;
+    }
+    //=============================================================================
+    bool
+    nativePrimaryDisplay(
+        std::wstring& deviceName, int& x, int& y, int& width, int& height, double& dpi)
+    {
+#ifdef _WIN32
+        // Per-monitor awareness for this thread only: physical pixels and the
+        // monitor's own dpi instead of values virtualized for the process.
+        DPI_AWARENESS_CONTEXT previous
+            = SetThreadDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
+        HMONITOR monitor = MonitorFromPoint(POINT { 0, 0 }, MONITOR_DEFAULTTOPRIMARY);
+        MONITORINFOEXW info {};
+        info.cbSize = sizeof(info);
+        const bool found = monitor != nullptr && GetMonitorInfoW(monitor, &info) != FALSE;
+        if (found) {
+            deviceName = info.szDevice;
+            x = info.rcMonitor.left;
+            y = info.rcMonitor.top;
+            width = info.rcMonitor.right - info.rcMonitor.left;
+            height = info.rcMonitor.bottom - info.rcMonitor.top;
+            dpi = nativeMonitorDpi(monitor);
+        }
+        if (previous != nullptr) {
+            SetThreadDpiAwarenessContext(previous);
+        }
+        return found;
+#elif defined(__linux__) && !defined(__EMSCRIPTEN__)
+        // X11 itself answers before any display is opened; one logical pixel per
+        // pixel, the same units reported without an Xft.dpi setting.
+        if (x11ScreenResolution(width, height)) {
+            deviceName.clear();
+            x = 0;
+            y = 0;
+            dpi = 96.0;
+            return true;
+        }
+        return false;
+#else
+        return false;
+#endif
     }
     //=============================================================================
 } // namespace GraphicsEnvironment

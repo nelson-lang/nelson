@@ -11,6 +11,15 @@
 % <--ENGLISH IMPOSED-->
 %=============================================================================
 % dbstop if caught error seen from the editor: raising line shown, dbcont resumes in the catch.
+% The editor-driven checks need the headless __editor__ hook; the desktop
+% serves the editor through Monaco and provides no such hook, so skip then.
+editorHookAvailable = true;
+try
+  __editor__('close');
+catch editorHookProbe
+  editorHookAvailable = ~strcmp(editorHookProbe.identifier, 'Nelson:editor:hookUnavailable');
+end
+skip_testsuite(~editorHookAvailable, 'the headless text editor hook is unavailable (editor served by the desktop)');
 LF = char(10);
 fixtureDirectory = tempname();
 mkdir(fixtureDirectory);

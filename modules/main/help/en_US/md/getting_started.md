@@ -28,8 +28,8 @@ The `nelson` command accepts a mode option:
 nelson              # desktop with command window, editor and workspace browser
 nelson --cli        # text mode in the terminal
 nelson --adv-cli    # text mode with graphics support
-nelson-webview      # the desktop in a native web window
-nelson-webview --web   # the same desktop served over HTTP for a browser
+nelson-gui          # the desktop in a native web window
+nelson-gui --web    # the same desktop served over HTTP for a browser
 ```
 
 Two options are useful for automation:

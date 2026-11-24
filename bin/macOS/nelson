@@ -33,8 +33,8 @@ has_mode_argument()
 #==============================================================================
 if [ "$(basename "$progname")" = "nelson-adv-cli" ] || has_mode_argument "--adv-cli" "$@"; then
     NELSON_MODE="-adv-cli"
-elif [ "$(basename "$progname")" = "nelson-webview" ] || has_mode_argument "--webview" "$@" || has_mode_argument "--web" "$@"; then
-    NELSON_MODE="-webview"
+elif has_mode_argument "--web" "$@"; then
+    NELSON_MODE="-gui"
 elif [ "$(basename "$progname")" = "nelson-cli" ] || has_mode_argument "--cli" "$@"; then
     NELSON_MODE="-cli"
 elif [ "$(basename "$progname")" = "nelson-gui" ] || has_mode_argument "--gui" "$@"; then
@@ -50,7 +50,7 @@ for arg do
     fi
     case $arg in
         (--) after_terminator=true; set -- "$@" "$arg" ;;
-        (--cli|--adv-cli|--gui|--webview) : ;;
+        (--cli|--adv-cli|--gui) : ;;
             (*) set -- "$@" "$arg" ;;
     esac
 done    
@@ -116,11 +116,8 @@ export LD_LIBRARY_PATH="$SCRIPT_DIRECTORY:$LD_LIBRARY_PATH"
 export DYLD_LIBRARY_PATH="$SCRIPT_DIRECTORY:$DYLD_LIBRARY_PATH"
 NELSON_EXECUTABLE="$SCRIPT_DIRECTORY/nelson$NELSON_MODE-exec"
 NELSON_GUI_BUNDLE_EXECUTABLE="$SCRIPT_DIRECTORY/Nelson.app/Contents/MacOS/nelson-gui-exec"
-NELSON_WEBVIEW_BUNDLE_EXECUTABLE="$SCRIPT_DIRECTORY/Nelson WebView.app/Contents/MacOS/nelson-webview-exec"
 if [ "$NELSON_MODE" = "-gui" ] && test -x "$NELSON_GUI_BUNDLE_EXECUTABLE"; then
     NELSON_EXECUTABLE="$NELSON_GUI_BUNDLE_EXECUTABLE"
-elif [ "$NELSON_MODE" = "-webview" ] && test -x "$NELSON_WEBVIEW_BUNDLE_EXECUTABLE"; then
-    NELSON_EXECUTABLE="$NELSON_WEBVIEW_BUNDLE_EXECUTABLE"
 fi
 "$NELSON_EXECUTABLE" "$@"
 #==============================================================================

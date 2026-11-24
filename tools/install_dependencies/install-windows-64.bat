@@ -132,45 +132,6 @@ if exist "%BAT_PATH%\..\..\..\nelson-thirdparty-x64\" (
     )
 )
 rem =============================================================================
-rem Clone or update the qt6
-if exist "%BAT_PATH%\..\..\..\qt_windows_x64\" (
-    if exist "%BAT_PATH%\..\..\..\qt_windows_x64\.git" (
-        echo Repository Qt already exists. Pulling latest changes...
-        cd "%BAT_PATH%\..\..\..\qt_windows_x64"
-        git pull
-        if errorlevel 1 (
-            echo Failed to pull the latest changes. Please check your internet connection or repository state.
-            cd "%ORIGINAL_DIR%"
-            exit /b 1
-        )
-        cd "%BAT_PATH%"
-    ) else (
-        echo The directory qt_windows_x64 exists but is not a valid git repository.
-        echo Please remove the directory and try again.
-        cd "%ORIGINAL_DIR%"
-        exit /b 1
-    )
-) else (
-    echo Cloning the repository...
-    git clone https://github.com/nelson-lang/qt_windows_x64.git %BAT_PATH%\..\..\..\qt_windows_x64
-    if errorlevel 1 (
-        echo Failed to clone the repository. Please check your internet connection or SSH configuration.
-        cd "%ORIGINAL_DIR%"
-        exit /b 1
-    )
-)
-rem =============================================================================
-rem Resolve QTDIR64 to absolute path by temporarily changing directory
-pushd "%BAT_PATH%\..\..\..\qt_windows_x64\6.11.0\msvc2022_64" 2>nul
-if errorlevel 1 (
-    echo ERROR: Qt directory does not exist: "%BAT_PATH%\..\..\..\qt_windows_x64\6.11.0\msvc2022_64"
-    cd "%ORIGINAL_DIR%"
-    exit /b 1
-)
-set QTDIR64=%CD%
-popd
-echo QTDIR64 resolved to: %QTDIR64%
-rem =============================================================================
 rem Install dll files in bin directory (x64)
 call "%BAT_PATH%\copy-dependencies-x64.bat"
 if errorlevel 1 (
@@ -180,24 +141,6 @@ if errorlevel 1 (
 )
 rem Copy optional tooling moved into copy-dependencies-x64.bat
 
-rem =============================================================================
-rem Check for optional parameter "remove-debug"
-if "%1"=="remove-debug" (
-    echo "remove-debug" parameter detected. Calling qt-remove-debug.bat...
-    if exist "%BAT_PATH%\qt-remove-debug.bat" (
-        echo Found qt-remove-debug.bat. Executing the script...
-        call "%BAT_PATH%\qt-remove-debug.bat" x64
-        if errorlevel 1 (
-            echo qt-remove-debug.bat encountered an error during execution.
-            cd "%ORIGINAL_DIR%"
-            exit /b 1
-        )
-    ) else (
-        echo ERROR: qt-remove-debug.bat does not exist in the expected location: "%BAT_PATH%\qt-remove-debug.bat"
-        cd "%ORIGINAL_DIR%"
-        exit /b 1
-    )
-)
 rem =============================================================================
 rem Restore the original directory on successful completion
 cd "%ORIGINAL_DIR%"

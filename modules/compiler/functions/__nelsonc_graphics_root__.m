@@ -9,58 +9,28 @@
 %=============================================================================
 function root = __nelsonc_graphics_root__(runtime, libraryDirectory)
   root = libraryDirectory;
-  checked = {root};
-  if ~ismac() || ~runtime.gui || has_assets(root, runtime)
+  if ~ismac() || ~runtime.gui
     return;
   end
+  % On an installed macOS application bundle the graphical runtime assets
+  % (gui) live under Contents/Resources rather than next to the library, so the
+  % root is the bundle Contents folder. Outside a bundle the assets sit next to
+  % the library and the library directory is the root.
   contents = __nelsonc_bundle_contents__(libraryDirectory);
-  if ~isempty(contents)
-    checked{end + 1} = contents;
-    if bundle_has_essentials(contents, runtime)
-      root = contents;
-      return;
-    end
+  if isempty(contents)
+    return;
   end
-  for k = 1:numel(runtime.libraries)
-    item = runtime.libraries(k);
-    marker = '/lib/QtCore.framework/';
-    source = strrep(item.source, '\', '/');
-    position = strfind(source, marker);
-    if strcmp(item.filename, 'QtCore') && ~isempty(position)
-      cellar = strfind(source, '/Cellar/');
-      if ~isempty(cellar)
-        candidate = fullfile(source(1:cellar(1) - 1), 'share', 'qt');
-        checked{end + 1} = candidate;
-        if has_assets(candidate, runtime); root = candidate; return; end
-      end
-      opt = strfind(source, '/opt/');
-      if ~isempty(opt) && opt(end) > 1
-        candidate = fullfile(source(1:opt(end) - 1), 'share', 'qt');
-        checked{end + 1} = candidate;
-        if has_assets(candidate, runtime); root = candidate; return; end
-      end
-      candidate = fullfile(source(1:position(1) - 1), 'share', 'qt');
-      checked{end + 1} = candidate;
-      if has_assets(candidate, runtime); root = candidate; return; end
-    end
+  if has_assets(contents, runtime)
+    root = contents;
+    return;
   end
-  error('Nelson:nelsonc:nativeMissing:macOSGraphicalRuntimePluginsMissing', ...
-    'Cannot locate the macOS graphical runtime plugins in: %s.', strjoin(unique(checked), ', '));
+  error('Nelson:nelsonc:nativeMissing:macOSGraphicalRuntimeAssetsMissing', ...
+    'Cannot locate the macOS graphical runtime assets for: %s.', libraryDirectory);
 end
 
 function found = has_assets(root, runtime)
   found = true;
   for name = __nelsonc_graphics_assets__(runtime)
     if ~isfolder(__nelsonc_graphics_source__(root, name{1})); found = false; return; end
-  end
-end
-
-% An installed bundle ships only the Qt plugins it actually needs, so the full
-% development asset set is not required. The platform plugin is indispensable
-% for any Qt GUI, and qml is required when the qml engine is deployed.
-function ok = bundle_has_essentials(contents, runtime)
-  ok = isfolder(__nelsonc_graphics_source__(contents, 'plugins/platforms'));
-  if ok && any(strcmp(__nelsonc_graphics_assets__(runtime), 'qml'))
-    ok = isfolder(__nelsonc_graphics_source__(contents, 'qml'));
   end
 end

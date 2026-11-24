@@ -200,8 +200,12 @@ copyOne(int64 sourceHandle, int64 parentHandle)
 
     int64 newHandle = HANDLE_UNASSIGNED_OBJECT;
     GraphicsObject* target = nullptr;
+    // A copied figure opens its native window at its own size: defer the
+    // window-open notification until the source Position has been copied.
+    bool createdFigure = false;
     if (source->isType(GO_PROPERTY_VALUE_FIGURE_STR)) {
-        newHandle = createNewFigure(false);
+        newHandle = createNewFigure(false, true);
+        createdFigure = true;
         target = static_cast<GraphicsObject*>(findGOFigure(newHandle));
     } else {
         target = newGraphicsObjectForSource(source);
@@ -240,6 +244,11 @@ copyOne(int64 sourceHandle, int64 parentHandle)
         }
     }
 
+    if (createdFigure) {
+        // Position is copied: open the native window now, at the copy's own size,
+        // before updateState so a copied 'Visible','off' hides an existing window.
+        pushNewFigureLifecycle(newHandle);
+    }
     target->updateState();
     restoreAutoManualModes(source, target);
     return newHandle;

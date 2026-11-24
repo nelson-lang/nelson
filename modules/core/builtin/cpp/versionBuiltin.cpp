@@ -44,7 +44,7 @@ Nelson::CoreGateway::versionBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (option == L"-semantic") {
             retval << ArrayOf::characterArray(NELSON_SEMANTIC_VERSION_STRING);
         } else if (option == L"-date") {
-            retval << ArrayOf::characterArray(std::string(__DATE__) + " " + std::string(__TIME__));
+            retval << ArrayOf::characterArray(std::string(NELSON_VERSION_BUILD_DATE));
         } else if (option == L"-description") {
             retval << ArrayOf::characterArray(L"");
         } else if (option == L"-release") {

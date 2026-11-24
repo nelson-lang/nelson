@@ -914,9 +914,9 @@ int
 GOText::getTextHeightInPixels()
 {
     updateState();
-    // Qt reported QFontMetrics::boundingRect("|").height(), which equals
+    // The reference bounding-box height of "|" equals
     // round(pixelSize * (hhea ascent + descent)) for the fonts and sizes the compat
-    // tests use. Reproduce the same integers without QFontMetrics, so the
+    // tests use. Reproduce the same integers from the shared font engine, so the
     // title/label spacing stays identical.
     return static_cast<int>(std::lround(
         FontMetrics::lineHeightPixels(fnt.family, fontSpecPixelSize(fnt), fnt.bold, fnt.italic)));

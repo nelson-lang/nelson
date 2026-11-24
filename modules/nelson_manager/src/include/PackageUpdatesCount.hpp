@@ -16,7 +16,7 @@ namespace Nelson {
 // Number of installed packages with a newer registry version, as last computed
 // by the package manager window (nmm_gui) in this session, 0 until then. The
 // desktops show it as a badge on their Package Manager action: the Qt desktop
-// reads it, the web desktop receives it through WebDesktopBridge.
+// reads it, the desktop receives it through WebDesktopBridge.
 NLSNELSON_MANAGER_IMPEXP void
 setPackageUpdatesCount(int count);
 //=============================================================================

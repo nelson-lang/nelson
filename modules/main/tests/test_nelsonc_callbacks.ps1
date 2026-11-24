@@ -30,7 +30,7 @@ $null = Read-CheckedRuntime $callbackRuntime
 $callbackDirectories = @(Get-ChildItem -LiteralPath $root -Directory | ForEach-Object FullName)
 foreach ($deployment in @('bundled', 'installed')) {
     foreach ($mode in @('create', 'close', 'timer')) {
-        $environment = @{ PATH = ''; QT_PLUGIN_PATH = 'invalid' }
+        $environment = @{ PATH = '' }
         if ($deployment -eq 'installed') { $environment.NELSONC_RUNTIME_ROOT = $callbackRuntime }
         $run = Invoke-Application (Join-Path $callbackRelocated ($deployment + '.exe')) @($mode) 30000 '' $environment
         $run | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $root "callback-$deployment-$mode.json")

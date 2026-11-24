@@ -222,6 +222,7 @@ if(NOT WITHOUT_GUI_MODULE)
   target_include_directories(nelson-gui-exec
     PRIVATE
       ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
+      ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
       ${CMAKE_CURRENT_SOURCE_DIR}/commons
   )
   if(WIN32)
@@ -230,7 +231,14 @@ if(NOT WITHOUT_GUI_MODULE)
       target_sources(nelson-gui-exec PRIVATE "${_nelson_gui_rc}")
     endif()
   endif()
-  target_link_libraries(nelson-gui-exec PRIVATE nlsEngine)
+  # The single desktop binary launches GUI (the desktop). It links
+  # nlsNelson_manager for WebDesktopBridge (the "no WebView" startup check); the
+  # gui (desktop) backend is loaded dynamically at runtime, not linked, so the terminal
+  # binaries never pull in the web stack.
+  target_link_libraries(nelson-gui-exec PRIVATE nlsEngine nlsNelson_manager)
+  if(WITH_GUI_MODULE)
+    add_dependencies(nelson-gui-exec nlsGui)
+  endif()
   if(APPLE)
     _nelson_stage_macos_application(
       nelson-gui-exec
@@ -241,77 +249,9 @@ if(NOT WITHOUT_GUI_MODULE)
   endif()
 endif()
 # ==============================================================================
-# Nelson WebView is opt-in (OFF by default) until the web_gui module + frontend
-# bundle are built. Enable with -DWITH_WEB_GUI_MODULE=ON. See
-# modules/web_gui/INTEGRATION.md.
-if(WITH_WEB_GUI_MODULE)
-  file(GLOB MAINWEB_SRC
-    "${CMAKE_CURRENT_SOURCE_DIR}/nelson_web/*.cpp"
-    ${_main_common_sources}
-  )
-  if(WIN32)
-    add_executable(nelson-webview-exec WIN32 ${MAINWEB_SRC})
-  else()
-    add_executable(nelson-webview-exec ${MAINWEB_SRC})
-  endif()
-  _nelson_configure_main_executable(nelson-webview-exec nelson-webview)
-  target_include_directories(nelson-webview-exec
-    PRIVATE
-      ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
-      ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
-      ${CMAKE_CURRENT_SOURCE_DIR}/commons
-  )
-  if(WIN32)
-    set(_nelson_web_rc "${CMAKE_CURRENT_SOURCE_DIR}/nelson_web/resource.rc")
-    if(EXISTS "${_nelson_web_rc}")
-      target_sources(nelson-webview-exec PRIVATE "${_nelson_web_rc}")
-    endif()
-  endif()
-  target_link_libraries(nelson-webview-exec
-    PRIVATE
-      nlsEngine
-      nlsNelson_manager
-      nlsWeb_gui
-  )
-  if(WIN32)
-    add_custom_command(
-      TARGET nelson-webview-exec
-      POST_BUILD
-      COMMAND ${CMAKE_COMMAND} -E remove -f ${BIN_DIRECTORY}/nelson-web.exe
-      COMMENT "Removing stale nelson-web executable"
-    )
-  endif()
-  if(APPLE)
-    _nelson_stage_macos_application(
-      nelson-webview-exec
-      "Nelson WebView"
-      "Nelson WebView"
-      "${NELSON_APP_ID}.webview"
-    )
-  endif()
-  if(UNIX)
-    add_custom_command(
-      TARGET nelson-webview-exec
-      POST_BUILD
-      COMMAND ${CMAKE_COMMAND} -E remove -f ${BIN_DIRECTORY}/nelson-web
-      COMMAND ${CMAKE_COMMAND} -E remove -f ${BIN_DIRECTORY}/nelson-web-exec
-      COMMAND ${CMAKE_COMMAND} -E remove -f ${BIN_DIRECTORY}/nelson-webview
-      COMMAND ${CMAKE_COMMAND} -E remove_directory
-        "${BIN_DIRECTORY}/Nelson Web.app"
-      COMMAND ${CMAKE_COMMAND} -E create_symlink nelson
-        ${BIN_DIRECTORY}/nelson-webview
-      COMMENT "Creating nelson-webview launcher"
-    )
-  endif()
-endif()
-# ==============================================================================
 if(NOT WITHOUT_HELP_TOOLS_MODULE)
   set(BUILDHELP_ACTION
     COMMAND
-    ${CMAKE_COMMAND}
-    -E
-    env
-    'QTDIR_BINARIES=${QTDIR_BINARIES}'
     ${BIN_DIRECTORY}/nelson-cli
     --no-ipc
     --no-user-modules
@@ -355,11 +295,6 @@ if(NOT WITHOUT_GUI_MODULE)
   list(APPEND executableList
     nelson-gui-exec
     nelson-adv-cli-exec
-  )
-endif()
-if(WITH_WEB_GUI_MODULE)
-  list(APPEND executableList
-    nelson-webview-exec
   )
 endif()
 add_custom_target(Name ALL
@@ -486,14 +421,6 @@ if(NOT WITHOUT_GUI_MODULE)
   )
 endif()
 
-if(WITH_WEB_GUI_MODULE AND UNIX)
-  install(
-    FILES ${BIN_DIRECTORY}/nelson-webview
-    DESTINATION ${CMAKE_INSTALL_BINDIR}
-    PERMISSIONS ${_script_perms}
-  )
-endif()
-
 install(TARGETS nelson-cli-exec RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 if(NOT NELSON_PORTABLE_BUILD)
   install(TARGETS nelson-lint-exec RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
@@ -510,18 +437,6 @@ if(NOT WITHOUT_GUI_MODULE)
       nelson-gui-exec
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
   )
-endif()
-if(WITH_WEB_GUI_MODULE)
-  install(
-    TARGETS nelson-webview-exec
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-  )
-  if(APPLE)
-    install(
-      DIRECTORY "${BIN_DIRECTORY}/Nelson WebView.app"
-      DESTINATION ${CMAKE_INSTALL_BINDIR}
-    )
-  endif()
 endif()
 # ==============================================================================
 install(

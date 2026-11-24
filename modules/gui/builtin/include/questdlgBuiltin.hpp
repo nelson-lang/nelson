@@ -10,15 +10,10 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
+#include "nlsGui_builtin_exports.h"
 //=============================================================================
-namespace Nelson {
-//=============================================================================
-namespace GuiGateway {
-    //=============================================================================
-    ArrayOfVector
-    questdlgBuiltin(int nLhs, const ArrayOfVector& argIn);
-    //=============================================================================
-} // namespace GuiGateway
-//=============================================================================
-}; // namespace Nelson
+namespace Nelson::WebviewGateway {
+NLSGUI_BUILTIN_IMPEXP ArrayOfVector
+questdlgBuiltin(int nLhs, const ArrayOfVector& argIn);
+} // namespace Nelson::WebviewGateway
 //=============================================================================

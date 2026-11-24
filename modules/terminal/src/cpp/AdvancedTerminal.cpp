@@ -520,7 +520,7 @@ AdvancedTerminal::getTextLine(const std::wstring& prompt, bool bIsInput)
     }
 
     bool bracketedPasteEnabled = enableBracketedPaste(repl.get());
-    // Parked at the prompt: let background posters (nelson-adv-cli --webview
+    // Parked at the prompt: let background posters (nelson-adv-cli web
     // figure interactions) run in place instead of waking the prompt, so mouse
     // rotate/zoom does not flood the terminal with empty prompts.
     Nelson::MainThreadTaskQueue::getInstance()->setInterpreterIdle(true);

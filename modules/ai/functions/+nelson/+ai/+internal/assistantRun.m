@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% Run the assistant for the web desktop pane and push the answer as an event.
+% Run the assistant for the desktop pane and push the answer as an event.
 % Queued (not run synchronously in an RPC) so the engine stays interruptible and
 % the UI responsive while the model works. Streaming tokens are pushed by the
 % agent; this adds a final 'answer' event (or 'error' on failure).

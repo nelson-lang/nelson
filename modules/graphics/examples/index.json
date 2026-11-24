@@ -668,7 +668,7 @@
         "interactive"
       ],
       "requirements": [
-        "web_gui"
+        "gui"
       ]
     },
     {
@@ -688,7 +688,7 @@
         "animation"
       ],
       "requirements": [
-        "web_gui"
+        "gui"
       ]
     },
     {

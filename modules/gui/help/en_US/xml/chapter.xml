@@ -1,11 +1,10 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>en_US</language>
-  <module_name>gui</module_name>
-  <chapter>Gui module</chapter>
+  <module_name>webview</module_name>
+  <chapter>Web view</chapter>
   <chapter_description>
-    <p
-    >The GUI module provides functions to create and interact with graphical user interface components, dialogs, and application windows.</p>
+    <p>The WebView module opens local HTML, inline HTML text, web addresses and the examples gallery from Nelson.</p>
   </chapter_description>
 </xmldoc>

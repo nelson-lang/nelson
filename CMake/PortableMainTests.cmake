@@ -192,7 +192,7 @@ if(NELSON_PORTABLE_BUILD AND NELSON_PORTABLE_ENABLE_TESTS)
     )
     set_tests_properties(portable-browser
       PROPERTIES
-        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/modules/web_gui/frontend"
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/modules/gui/src/ts/frontend"
         ENVIRONMENT "NELSON_WASM_BROWSER_DIR=${BIN_DIRECTORY}/browser"
         TIMEOUT 1200
     )

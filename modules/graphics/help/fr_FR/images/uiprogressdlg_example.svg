@@ -1,0 +1,9 @@
+<svg width="420.48" height="260.48" viewBox="0 0 657 407" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="657" height="407" fill="#ffffff"/>
+<rect x="0" y="0" width="656.25" height="406.25" fill="rgba(255,255,255,1.000000)"/>
+<polygon points="115.818,320.364 563.244,320.364 563.244,69.3253 115.818,69.3253 " fill="rgba(247,249,252,1.000000)" stroke="rgba(158,165,173,1.000000)" stroke-width="1"/>
+<text x="165.625" y="117.976" fill="rgba(33,33,33,1.000000)" font-size="25" font-family="sans-serif" font-weight="bold" text-anchor="start">Working</text>
+<text x="196.875" y="174.206" fill="rgba(33,33,33,1.000000)" font-size="22.9167" font-family="sans-serif" text-anchor="start">Please wait</text>
+<polygon points="197.169,217.967 481.894,217.967 481.894,194.845 197.169,194.845 " fill="rgba(255,255,255,1.000000)" stroke="rgba(140,140,140,1.000000)" stroke-width="1"/>
+<polygon points="197.169,217.967 349.7,217.967 349.7,194.845 197.169,194.845 " fill="rgba(0,114,188,1.000000)" stroke="rgba(0,114,188,1.000000)" stroke-width="1"/>
+</svg>

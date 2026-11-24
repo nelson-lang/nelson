@@ -13,10 +13,10 @@
 #include "nlsGraphics_exports.h"
 //=============================================================================
 // Environment services the drawing model needs from the desktop (screen
-// geometry, mouse pointer, event pumping, focus, user preferences). The
-// windowing module (graphics_qt) registers implementations at load time;
-// without a registration (nelson-webview, headless) the Qt-free defaults below
-// apply. This keeps libnlsGraphics free of any Qt-linked import.
+// geometry, mouse pointer, event pumping, focus, user preferences). A native
+// windowing backend registers implementations at load time; without a
+// registration (nelson-webview, headless) the defaults below apply. This keeps
+// libnlsGraphics free of any windowing-toolkit import.
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -75,6 +75,15 @@ namespace GraphicsEnvironment {
     platformReportsWindowPosition(); // true headless
     NLSGRAPHICS_IMPEXP bool
     desktopPrefersDockedFigures(); // false headless
+    //=============================================================================
+    // Primary display as the operating system reports it, whatever the DPI
+    // awareness of the calling process: device name, rectangle in physical
+    // pixels and effective dpi (96 = 100 % scale). Queries the OS directly (no
+    // windowing backend needed), so it answers the same headless. False where no
+    // native query exists (web / wasm).
+    NLSGRAPHICS_IMPEXP bool
+    nativePrimaryDisplay(
+        std::wstring& deviceName, int& x, int& y, int& width, int& height, double& dpi);
     //=============================================================================
 } // namespace GraphicsEnvironment
 //=============================================================================

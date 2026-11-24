@@ -2,7 +2,7 @@
 
 # Nelson 2.0.0
 
-**Nelson 2.0 est une version majeure.** Elle apporte un moteur de langage plus rapide fondé sur du bytecode, la programmation orientée objet complète avec `classdef`, NFlow (un éditeur visuel de schémas-blocs avec simulation native et génération de code C/Rust), un bureau web disponible en aperçu (avec une version WebAssembly qui s'exécute dans le navigateur), ainsi qu'un ensemble bien plus large de types de données, de graphiques, de statistiques et d'outils de développement.
+**Nelson 2.0 est une version majeure.** Elle apporte un moteur de langage plus rapide fondé sur du bytecode, la programmation orientée objet complète avec `classdef`, NFlow (un éditeur visuel de schémas-blocs avec simulation native et génération de code C/Rust), un bureau graphique disponible en aperçu (avec une version WebAssembly qui s'exécute dans le navigateur), ainsi qu'un ensemble bien plus large de types de données, de graphiques, de statistiques et d'outils de développement.
 
 La page d'accueil principale de Nelson se trouve à [https://nelson-lang.github.io/nelson-website/](https://nelson-lang.github.io/nelson-website/). La liste complète des changements est disponible dans le [Journal des modifications v2.x.x](CHANGELOG.md).
 
@@ -41,14 +41,14 @@ Nelson reprend les conventions orientées tableaux utilisées par les environnem
 - **Génération de code et FMI** : génération C ou Rust autonome depuis le même schéma, import FMI 2.0/3.0, export FMI 3.0 Co-Simulation et import/export SSP.
 - **API de modèle scriptée** : `new_system`, `add_block`, `add_line`, `get_param`/`set_param`, `find_system` et fonctions associées ; les modifications faites par script apparaissent immédiatement dans l'éditeur.
 
-### Bureau web et interface navigateur (aperçu)
+### Bureau graphique et interface navigateur (aperçu)
 
 - **Tout le bureau dans un navigateur** : fenêtre de commandes, explorateur d'espace de travail, historique, explorateur de fichiers, éditeur de variables, éditeur de code et figures dans des panneaux ancrables avec thèmes clair et sombre.
-- **Deux modes d'exécution** : le lanceur `nelson-webview` ouvre par défaut une fenêtre webview native, ou sert le même bureau en HTTP avec `--web`.
+- **Deux modes d'exécution** : le lanceur `nelson-gui` ouvre par défaut une fenêtre de bureau graphique native, ou sert le même bureau en HTTP avec `--web`.
 - **Éditeur de code** : un éditeur fondé sur Monaco, avec autocomplétion, aide au survol, exécution de sections `%%`, débogage en direct et un panneau Problèmes avec corrections rapides.
 - **Figures et interfaces sans Qt** : un moteur de rendu par liste d'affichage avec WebGL2 pour la 3-D, rotation/déplacement/zoom interactifs, `uicontrol` et composants ui rendus comme des widgets HTML, et boîtes de dialogue standard en modales.
 - **Autres panneaux** : profileur, navigateur de documentation, terminal système, boîte d'import de données, galerie d'exemples et gestionnaire de paquets.
-- **Version WebAssembly** : Nelson se compile aussi en WebAssembly. Le même bureau web s'exécute alors entièrement dans le navigateur, sans serveur ni installation, et le moteur peut être utilisé depuis Node.js. Cette version est monothread et exclut les extensions natives, la création de processus et la génération de code ; `iswasm` indique la plateforme.
+- **Version WebAssembly** : Nelson se compile aussi en WebAssembly. Le même bureau graphique s'exécute alors entièrement dans le navigateur, sans serveur ni installation, et le moteur peut être utilisé depuis Node.js. Cette version est monothread et exclut les extensions natives, la création de processus et la génération de code ; `iswasm` indique la plateforme.
 
 ### Nouveaux types de données
 
@@ -105,7 +105,7 @@ Nelson reprend les conventions orientées tableaux utilisées par les environnem
 
 ### Visualisation et interface
 
-- **Tracés 2-D et 3-D** avec commandes de haut niveau et deux moteurs de rendu (Qt et web).
+- **Tracés 2-D et 3-D** avec commandes de haut niveau.
 - **Contrôles d'interface utilisateur** et composants `uifigure` pour construire des applications personnalisées.
 - **Environnement de bureau** avec historique des commandes, explorateur de fichiers, explorateur d'espace de travail, éditeur de variables, éditeur de code intégré et panneau terminal.
 

@@ -15,9 +15,6 @@ jobs:
     runs-on: ubuntu-26.04
     container: fedora:44
     timeout-minutes: 120
-    env:
-      QTDIR_BINARIES: /usr/lib64/qt6/bin
-
     steps:
       - name: Prepare container
         run: dnf install -y git sudo

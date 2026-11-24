@@ -9,8 +9,6 @@ dependencies:
   - pkg-config
   - cxx-compiler
   - libgfortran
-  # GUI, graphics and help (qt6-main bundles qtbase, qtdeclarative, qtsvg and qttools)
-  - qt6-main
   # Numerics
   - openblas
   - fftw

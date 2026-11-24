@@ -22,19 +22,19 @@ export default defineConfig({
       // Shared, Qt-free dialog components live in the neutral webview module.
       {
         find: '@nelson/dialogs',
-        replacement: path.resolve(moduleRoot, '../webview/frontend/dialogs'),
+        replacement: path.resolve(moduleRoot, '../web_engine/frontend/dialogs'),
       },
       {
         find: '@nelson/assistant',
-        replacement: path.resolve(moduleRoot, '../webview/frontend/assistant'),
+        replacement: path.resolve(moduleRoot, '../web_engine/frontend/assistant'),
       },
       {
         find: '@nelson/native-menu',
-        replacement: path.resolve(moduleRoot, '../webview/frontend/native-menu'),
+        replacement: path.resolve(moduleRoot, '../web_engine/frontend/native-menu'),
       },
       {
         find: '@nelson/example-gallery',
-        replacement: path.resolve(moduleRoot, '../webview/frontend/examples'),
+        replacement: path.resolve(moduleRoot, '../web_engine/frontend/examples'),
       },
       { find: 'react', replacement: path.resolve(moduleRoot, 'node_modules/react') },
       // Historical specs import build outputs (`../../../dist/x/y.js`).

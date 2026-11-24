@@ -10,10 +10,10 @@
     "esModuleInterop": true,
     "baseUrl": ".",
     "paths": {
-      "@nelson/dialogs": ["../../../webview/frontend/dialogs/index.ts"],
-      "@nelson/assistant": ["../../../webview/frontend/assistant/index.ts"],
-      "@nelson/native-menu": ["../../../webview/frontend/native-menu/index.ts"],
-      "@nelson/example-gallery/*": ["../../../webview/frontend/examples/*"],
+      "@nelson/dialogs": ["../../../web_engine/frontend/dialogs/index.ts"],
+      "@nelson/assistant": ["../../../web_engine/frontend/assistant/index.ts"],
+      "@nelson/native-menu": ["../../../web_engine/frontend/native-menu/index.ts"],
+      "@nelson/example-gallery/*": ["../../../web_engine/frontend/examples/*"],
       "@nelson/wasm-client": ["wasm/wasm-client.d.ts"],
       "react": ["../../node_modules/@types/react"],
       "react/jsx-runtime": ["../../node_modules/@types/react/jsx-runtime"]
@@ -21,9 +21,9 @@
   },
   "include": [
     "**/*",
-    "../../../webview/frontend/dialogs",
-    "../../../webview/frontend/native-menu",
-    "../../../webview/frontend/examples"
+    "../../../web_engine/frontend/dialogs",
+    "../../../web_engine/frontend/native-menu",
+    "../../../web_engine/frontend/examples"
   ],
   "exclude": ["**/*.spec.ts", "**/*.spec.tsx", "**/*.spec.cjs", "**/*.bench.ts"]
 }

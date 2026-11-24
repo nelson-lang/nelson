@@ -63,7 +63,6 @@
       "modules\\logical\\src\\c\\nlsLogical.vcxproj",
       "modules\\main\\nelson_adv_cli\\NelSon-adv-cli.vcxproj",
       "modules\\main\\nelson_gui\\NelSon-gui.vcxproj",
-      "modules\\main\\nelson_web\\NelSon-web.vcxproj",
       "modules\\main\\nelsonc\\nelson-app.vcxproj",
       "modules\\main\\nelsonc\\nelson-app-windowed.vcxproj",
       "modules\\main\\nelsonc\\nelsonc.vcxproj",
@@ -110,9 +109,9 @@
       "modules\\types\\src\\c\\nlsTypes.vcxproj",
       "modules\\validators\\builtin\\c\\nlsValidators_builtin.vcxproj",
       "modules\\validators\\src\\c\\nlsValidators.vcxproj",
-      "modules\\web_gui\\src\\c\\nlsWeb_gui.vcxproj",
-      "modules\\webview\\builtin\\c\\nlsWebview_builtin.vcxproj",
-      "modules\\webview\\src\\c\\nlsWebview.vcxproj"
+      "modules\\gui\\builtin\\c\\nlsGui_builtin.vcxproj",
+      "modules\\gui\\src\\c\\nlsGui.vcxproj",
+      "modules\\web_engine\\src\\c\\nlsWeb_engine.vcxproj"
     ]
   }
 }

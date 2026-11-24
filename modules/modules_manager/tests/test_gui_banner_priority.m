@@ -11,7 +11,9 @@
 % <--NO USER MODULES-->
 %=============================================================================
 if strcmp(getnelsonmode(), 'GUI')
+  % Qt was removed with the gui module that used to override it: the banner
+  % builtin now resolves from the core module.
   banner_path = which('banner');
-  asserts.istrue(contains(banner_path, 'libnlsGui_builtin'));
+  asserts.istrue(contains(banner_path, 'libnlsCore_builtin'));
 end
 %=============================================================================

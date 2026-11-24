@@ -8,19 +8,16 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <--WEIGHT 16-->
-% <--TIMEOUT 300-->
-% nelson-gui and nelson-webview are windowed binaries without a console: they
-% must run --execute and honour exit(code) exactly like nelson-adv-cli, and
-% never stay alive waiting for a startup dialog nobody can close.
-% Six windowed binaries are launched in sequence; the default 140 s deadline is
-% tight on a loaded sharded runner, so the kill budget is widened.
+% nelson-gui is a windowed binary without a console: it must run --execute and
+% honour exit(code) exactly like nelson-adv-cli, and never stay alive waiting for
+% a startup dialog nobody can close.
 %=============================================================================
 if ~ispc()
   return
 end
 %=============================================================================
 binpath = modulepath('nelson', 'bin');
-executables = {[binpath, '/nelson-gui'], [binpath, '/nelson-webview']};
+executables = {[binpath, '/nelson-gui']};
 %=============================================================================
 for k = 1:numel(executables)
   nelson_exe = executables{k};

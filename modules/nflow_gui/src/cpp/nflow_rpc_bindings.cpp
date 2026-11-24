@@ -27,8 +27,6 @@
 #include "FmiInspect.hpp"
 #include "nflow_rpc_codegen.hpp"
 #include "FileSystemWrapper.hpp"
-#include "DynamicLibrary.hpp"
-#include "NelsonConfiguration.hpp"
 #include "DialogDirectories.hpp"
 #include "GuiDialogProvider.hpp"
 #include "i18n.hpp"
@@ -50,9 +48,6 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
-#ifndef _MSC_VER
-#include <dlfcn.h>
-#endif
 //=============================================================================
 namespace Nelson::NFlowUiBindings {
 //=============================================================================
@@ -256,46 +251,10 @@ namespace {
         return res.dump();
     }
     //=============================================================================
-    // System (OS) file dialog, served by the Qt implementation in libnlsGui, which
-    // is resolved DYNAMICALLY so nflow_gui never links Qt. Returns nullptr when
-    // libnlsGui cannot be loaded/resolved (e.g. a Qt-free build); the caller then
-    // reports the dialog as unavailable to the front end.
-    using RunFileDialogFn = bool (*)(void*, const GuiDialogRequest&, GuiDialogResponse&);
-    static std::string s_guiDialogBridgeError;
-    static RunFileDialogFn
-    resolveRunFileDialog()
-    {
-        static RunFileDialogFn fn = nullptr;
-        if (fn != nullptr) {
-            return fn;
-        }
-#ifndef _MSC_VER
-        fn = reinterpret_cast<RunFileDialogFn>(dlsym(RTLD_DEFAULT, "nlsGuiRunFileDialog"));
-        if (fn != nullptr) {
-            s_guiDialogBridgeError.clear();
-            return fn;
-        }
-#endif
-        const std::wstring libName = L"libnlsGui" + get_dynamic_library_extensionW();
-        const std::wstring dir = NelsonConfiguration::getInstance()->getNelsonLibraryDirectory();
-        library_handle handle = load_dynamic_libraryW(dir + L"/" + libName);
-        if (handle == nullptr) {
-            s_guiDialogBridgeError = get_dynamic_library_error();
-            return nullptr;
-        }
-        fn = reinterpret_cast<RunFileDialogFn>(get_function(handle, "nlsGuiRunFileDialog"));
-        if (fn == nullptr) {
-            s_guiDialogBridgeError = "nlsGuiRunFileDialog symbol not found";
-        } else {
-            s_guiDialogBridgeError.clear();
-        }
-        return fn;
-    }
-    //=============================================================================
-    // Builds a Qt filter string ("Files (*.a *.b);;All Files (*)") from the JSON
+    // Builds a filter string ("Files (*.a *.b);;All Files (*)") from the JSON
     // `filters` array of extensions (e.g. [".nflow"]).
     static std::wstring
-    buildQtFilterFromParams(const nlohmann::json& params)
+    buildFileFilterFromParams(const nlohmann::json& params)
     {
         std::wstring pattern;
         if (params.contains("filters") && params["filters"].is_array()) {
@@ -457,31 +416,25 @@ namespace {
                 return stringResult(
                     "{\"available\":false,\"reason\":\"not_webview\"}", "application/json");
             }
-            // Try the system (Qt) chooser through libnlsGui, resolved dynamically so
-            // nflow_gui stays Qt-free. When it is unavailable, report available=false and
-            // let the front end show the reason.
-            RunFileDialogFn runDialog = resolveRunFileDialog();
-            if (runDialog == nullptr) {
-                nlohmann::json res;
-                res["available"] = false;
-                res["reason"] = s_guiDialogBridgeError.empty()
-                    ? std::string("qt_bridge_unavailable")
-                    : std::string("qt_bridge_unavailable: ") + s_guiDialogBridgeError;
-                return stringResult(res.dump(), "application/json");
+            // Serve the file dialog through the shared Qt-free dialog provider, the
+            // same seam the desktop uses for uigetfile. When no provider is
+            // registered, report available=false and let the front end show the reason.
+            if (!hasGuiDialogProvider()) {
+                return stringResult(
+                    "{\"available\":false,\"reason\":\"no_dialog_provider\"}", "application/json");
             }
-            void* parent = context.nativeWindowHandle ? context.nativeWindowHandle() : nullptr;
             GuiDialogRequest request;
             request.kind = L"file";
             request.fileMode = utf8_to_wstring(params.value("mode", "open"));
             request.title = utf8_to_wstring(params.value("title", ""));
             request.defaultPath = utf8_to_wstring(params.value("defaultPath", ""));
             request.historyKey = utf8_to_wstring(dialogHistoryKey(params.value("mode", "open")));
-            request.fileFilters.push_back(buildQtFilterFromParams(params));
+            request.fileFilters.push_back(buildFileFilterFromParams(params));
             GuiDialogResponse response;
-            const bool ran = runDialog(parent, request, response);
+            const bool ran = runGuiDialog(request, response);
             if (!ran) {
-                return stringResult("{\"available\":false,\"reason\":\"qt_dialog_unavailable\"}",
-                    "application/json");
+                return stringResult(
+                    "{\"available\":false,\"reason\":\"dialog_unavailable\"}", "application/json");
             }
             nlohmann::json res;
             res["available"] = true;

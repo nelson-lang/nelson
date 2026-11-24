@@ -45,7 +45,7 @@ Nelson 2.0 is a major release. Existing scripts run faster, larger projects can 
 - Bytecode engine: loops and recursive functions run much faster.
 - Object-oriented programming with `classdef`.
 - NFlow (1.0.0-beta.1): block diagram editor, simulation, C and Rust code generation, FMI and SSP.
-- Web desktop and WebAssembly build (preview): Nelson in a browser, with no installation.
+- Graphical desktop and WebAssembly build (preview): Nelson in a browser, with no installation.
 - Debugger in the editor and `.nlx` notebooks.
 - `datetime`, `duration`, `table`, `timetable`, `timeseries`, and `categorical`.
 - ODE, DAE, DDE, and BVP solvers, optimization, statistics, image processing, and optional GPU computing.
@@ -97,7 +97,7 @@ See the [changelog](CHANGELOG.md) for the full list of changes.
 - User interface controls and `uifigure` components to build applications.
 - Desktop environment with command history, file explorer, workspace browser, variable editor, code editor, and debugger.
 - Notebooks (`.nlx`) with code, results, and text.
-- Web desktop and WebAssembly build (preview).
+- Graphical desktop and WebAssembly build (preview).
 
 ### Data Formats and Interfacing
 

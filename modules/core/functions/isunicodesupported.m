@@ -20,7 +20,7 @@ function tf = isunicodesupported()
     with_unicode_support = tf;
     return
   end
-  if contains(getnelsonmode(), {'GUI', 'WEB_GUI', 'WASM_TERMINAL'})
+  if contains(getnelsonmode(), {'GUI', 'WASM_TERMINAL'})
     tf = true;
     with_unicode_support = tf;
     return

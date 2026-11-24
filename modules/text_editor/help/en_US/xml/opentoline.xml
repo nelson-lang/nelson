@@ -24,7 +24,7 @@
   </param_input>
   <description>
     <p><b>opentoline</b> opens <b>filename</b> in the text editor and places the cursor at <b>linenumber</b>, at the start of the line or at <b>columnnumber</b>.</p>
-    <p>The line numbers printed by the debugger at a stop, and the locations of error messages, are links that call the same behaviour in the Qt and web desktops.</p>
+    <p>The line numbers printed by the debugger at a stop, and the locations of error messages, are links that call the same behaviour in the graphical desktop.</p>
   </description>
   <used_function />
   <bibliography />

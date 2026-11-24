@@ -16,7 +16,7 @@
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::GuiGateway::uigetdirBuiltin(int nLhs, const ArrayOfVector& argIn)
+Nelson::WebviewGateway::uigetdirBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);

@@ -211,7 +211,8 @@ fn edit_nelson_version_h_vc(
                 "#define NELSON_VERSION_MAINTENANCE {}",
                 maintenance
             ));
-        } else if trimmed.starts_with("#define NELSON_VERSION_BUILD") {
+        } else if trimmed.starts_with("#define NELSON_VERSION_BUILD ") {
+            // Trailing space: match the exact macro, not NELSON_VERSION_BUILD_DATE.
             lines_out.push(format!("#define NELSON_VERSION_BUILD {}", build));
         } else {
             lines_out.push(line.to_string());
@@ -527,6 +528,7 @@ project(Nelson)\n";
 #define NELSON_VERSION_MINOR 0\n\
 #define NELSON_VERSION_MAINTENANCE 0\n\
 #define NELSON_VERSION_BUILD 0\n\
+#define NELSON_VERSION_BUILD_DATE __DATE__ \" \" __TIME__\n\
 #define NELSON_VERSION_COMMIT_HASH \"000\"\n\
 // other stuff\n";
         fs::write(&file, content).unwrap();
@@ -540,6 +542,10 @@ project(Nelson)\n";
         assert_that(&result.contains("#define NELSON_VERSION_BUILD 42")).is_true();
         assert_that(&result.contains("#define NELSON_VERSION_COMMIT_HASH \"abc123\"")).is_true();
         assert_that(&result.contains("// other stuff")).is_true();
+        // NELSON_VERSION_BUILD_DATE must survive: it shares the NELSON_VERSION_BUILD
+        // prefix but is a different macro and must not be rewritten.
+        assert_that(&result.contains("#define NELSON_VERSION_BUILD_DATE __DATE__ \" \" __TIME__"))
+            .is_true();
     }
 
     // -----------------------------------------------------------------------

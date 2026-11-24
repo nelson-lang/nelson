@@ -24,8 +24,8 @@ struct WebUIControl;
 // Base class for app-style UI components (uibutton, uilabel,
 // uidropdown, ...). Each component exposes a compatible property set; the
 // native widget hosted in the figure window is owned by a UIComponentBinding
-// created through the registered factory (graphics_qt). The model itself is
-// widget-toolkit free.
+// created through the registered factory (the native widget backend). The model
+// itself is widget-toolkit free.
 class NLSGRAPHICS_IMPEXP GOUIComponent : public GraphicsObject
 {
 protected:

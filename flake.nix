@@ -23,7 +23,6 @@
           # the libraries CMake looks for, also exposed at run time through the library path below
           nelsonLibraries = [
             # GUI, graphics and help
-            qt6.full
             # numerics
             mpich
             fftw
@@ -101,8 +100,6 @@
           nativeBuildInputs = [
             cmake
             pkg-config
-            qt6.qtbase
-            qt6.wrapQtAppsHook
             makeWrapper
           ];
 

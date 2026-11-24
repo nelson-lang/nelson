@@ -57,34 +57,14 @@ $harnesses = @(
         Source = "modules\ipc\tests\cpp"
     },
     @{
-        Name = "webview_tests"
-        Source = "modules\webview\tests\cpp"
-    },
-    @{
-        Name = "web_gui_tests"
-        Source = "modules\web_gui\tests\cpp"
+        Name = "web_engine_tests"
+        Source = "modules\web_engine\tests\cpp"
     },
     @{
         Name = "gui_tests"
         Source = "modules\gui\tests\cpp"
-        RequiresQt = $true
     }
 )
-
-function Resolve-QtDir {
-    if ($env:QTDIR -and (Test-Path $env:QTDIR)) {
-        return (Resolve-Path $env:QTDIR).Path
-    }
-    if ($Platform -eq "ARM64") {
-        $candidate = Join-Path $repoRoot "..\qt_woa64\6.11.0\msvc2022_arm64"
-    } else {
-        $candidate = Join-Path $repoRoot "..\qt_windows_x64\6.11.0\msvc2022_64"
-    }
-    if (Test-Path $candidate) {
-        return (Resolve-Path $candidate).Path
-    }
-    throw "Qt not found: set QTDIR or install Qt at $candidate"
-}
 
 if ($ListOnly) {
     foreach ($harness in $harnesses) {
@@ -123,11 +103,6 @@ function Invoke-CdoctestHarness {
 
     Write-Host "==> Configuring $($harness.Name)"
     $configureArgs = @("-S", $sourceDir, "-B", $buildDir, "-A", $Platform)
-    if ($harness.RequiresQt) {
-        $qtDir = Resolve-QtDir
-        Write-Host "==> Using Qt: $qtDir"
-        $configureArgs += "-DCMAKE_PREFIX_PATH=$qtDir"
-    }
     & $cmake @configureArgs
     if ($LASTEXITCODE -ne 0) {
         exit $LASTEXITCODE
@@ -141,17 +116,11 @@ function Invoke-CdoctestHarness {
 
     Write-Host "==> Running $($harness.Name)"
     $oldPath = $env:PATH
-    $oldQtPluginPath = $env:QT_QPA_PLATFORM_PATH
     if (Test-Path $runtimeBin) {
         Write-Host "==> Adding runtime DLL directory to PATH: $runtimeBin"
         $env:PATH = "$runtimeBin$([IO.Path]::PathSeparator)$oldPath"
     } else {
         Write-Host "==> Runtime DLL directory not found: $runtimeBin"
-    }
-    if ($harness.RequiresQt) {
-        $qtDir = Resolve-QtDir
-        $env:PATH = "$qtDir\bin$([IO.Path]::PathSeparator)$env:PATH"
-        $env:QT_QPA_PLATFORM_PATH = "$qtDir\plugins\platforms"
     }
     try {
         & $ctest --test-dir $buildDir -C $Configuration --output-on-failure

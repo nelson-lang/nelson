@@ -18,9 +18,9 @@ namespace Nelson {
 //=============================================================================
 class GOUIComponent;
 //=============================================================================
-// Qt-free view of the native widget backing an App Designer component. The model only
-// talks to this interface; graphics_qt implements it and registers a factory below at load
-// time. Headless hosts (nelson-webview) never create bindings.
+// Toolkit-free view of the native widget backing an App Designer component. The model only
+// talks to this interface; the native widget backend implements it and registers a factory
+// below at load time. Headless hosts (nelson-webview) never create bindings.
 class UIComponentBinding
 {
 public:
@@ -55,7 +55,7 @@ public:
     destroy()
         = 0;
     //=============================================================================
-    // QWidget*, for parent/child wiring inside the backend.
+    // Native widget handle, for parent/child wiring inside the backend.
     virtual void*
     nativeWidget()
         = 0;

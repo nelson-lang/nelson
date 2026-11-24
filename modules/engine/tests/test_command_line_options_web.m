@@ -11,14 +11,14 @@
 binpath = modulepath('nelson', 'bin');
 nelson_cli = [binpath, '/nelson-cli'];
 if ispc()
-  % Windows: batch launcher, and nelson-webview.exe is the web executable itself.
+  % Windows: batch launcher, and nelson-gui.exe is the desktop executable.
   nelson_launcher = [binpath, '/nelson.bat'];
-  nelson_web = [binpath, '/nelson-webview.exe'];
+  nelson_web = [binpath, '/nelson-gui.exe'];
   nelson_web_exec = nelson_web;
 else
   nelson_launcher = [binpath, '/nelson'];
-  nelson_web = [binpath, '/nelson-webview'];
-  nelson_web_exec = [binpath, '/nelson-webview-exec'];
+  nelson_web = [binpath, '/nelson-gui'];
+  nelson_web_exec = [binpath, '/nelson-gui-exec'];
 end
 web_timeout = 120;
 %=============================================================================

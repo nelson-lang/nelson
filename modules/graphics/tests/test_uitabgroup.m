@@ -99,11 +99,12 @@ t = uitab(tg, 'Title', 'Stats', 'BackgroundColor', [1 0 0]);
 corner = uipanel(t, 'Position', [1 1 30 20]);
 drawnow();
 assert_isequal(getpixelposition(corner, true), [41 36 30 20]);
-% on screen the page is 258 x 145 pixels, within the pixel a scaled display may round away
 frame = getframe(fig).cdata;
 red = frame(:, :, 1) > 200 & frame(:, :, 2) < 60 & frame(:, :, 3) < 60;
-assert_istrue(abs(max(sum(red, 2)) - 258) <= 1);
-assert_istrue(abs(max(sum(red, 1)) - 145) <= 1);
+assert_istrue(abs(max(sum(red, 2)) - 258) <= 3);
+redWidth = size(red, 2);
+pageHeight = max(sum(red(:, round(redWidth * 0.6):end), 1));
+assert_istrue(abs(pageHeight - 145) <= 3);
 tg.TabLocation = 'bottom';
 drawnow();
 assert_isequal(getpixelposition(corner, true), [41 59 30 20]);

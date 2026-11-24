@@ -608,10 +608,11 @@ Nelson::NFlowGateway::nflow_guiBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         webui::set_timeout(0);
     }
 
-    const int MIN_WINDOW_WIDTH = 800;
-    const int MIN_WINDOW_HEIGHT = 600;
-    const int DEFAULT_WINDOW_WIDTH = 1280;
-    const int DEFAULT_WINDOW_HEIGHT = 890;
+    // Logical sizes, brought to the pixels the window calls take.
+    const int MIN_WINDOW_WIDTH = static_cast<int>(webUiScaledToDisplay(800));
+    const int MIN_WINDOW_HEIGHT = static_cast<int>(webUiScaledToDisplay(600));
+    const int DEFAULT_WINDOW_WIDTH = static_cast<int>(webUiScaledToDisplay(1280));
+    const int DEFAULT_WINDOW_HEIGHT = static_cast<int>(webUiScaledToDisplay(890));
     const WebUiWindowGeometry savedGeometry
         = loadWindowGeometry(bootstrapVars.nflowPreferencesPath);
     const int windowWidth = savedGeometry.valid ? savedGeometry.width : DEFAULT_WINDOW_WIDTH;

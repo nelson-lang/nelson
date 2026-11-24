@@ -7,7 +7,10 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% <--ADV-CLI MODE-->
+% <--GUI MODE-->
+%=============================================================================
+skip_testsuite(~strcmp(getnelsonmode(), 'GUI'), _('newsfeed tests require GUI mode.'));
+skip_testsuite(isempty(which('newsfeed')), _('webview module not loaded.'));
 %=============================================================================
 asserts.isequal(nargout('newsfeed'), -1);
 %=============================================================================

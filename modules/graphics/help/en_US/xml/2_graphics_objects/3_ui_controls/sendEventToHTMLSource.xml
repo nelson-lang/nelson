@@ -37,7 +37,7 @@
     <p>
       <b>h</b> must be a single uihtml object, otherwise the error <b>Nelson:sendEventToHTMLSource:invalidHandle</b> is raised. An event name that is not a nonempty text raises <b>Nelson:sendEventToHTMLSource:invalidEventName</b>.</p>
     <p
-    >Like uihtml, this function is only useful in the WebView desktop.</p>
+    >Like uihtml, this function is only useful in the graphical desktop.</p>
   </description>
   <used_function />
   <bibliography />

@@ -31,27 +31,40 @@ namespace Nelson {
 static ArrayOf
 rgbaToArrayOf(const std::vector<unsigned char>& rgba, int width, int height);
 //=============================================================================
-// A figure with axes is captured at device resolution (Position x DevicePixelRatio), a
-// figure without axes at its logical pixel size. GOPolarAxes derives from GOAxis, so it
-// is caught here too. The Qt path applies the same split in
-// BaseFigureQt::renderFigureToImage.
+// True when the object holds an axes anywhere in its subtree. GOPolarAxes derives from
+// GOAxis, so it is caught here too. The search recurses because nexttile parents its axes
+// to the tiledlayout (and a panel holds its axes likewise), not to the figure, so a
+// direct-children scan would miss them.
 static bool
-figureHasAxes(GOFigure* fig)
+objectHasAxesDescendant(GraphicsObject* obj)
 {
-    if (fig == nullptr) {
+    if (obj == nullptr) {
         return false;
     }
     auto* children
-        = static_cast<GOGObjectsProperty*>(fig->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false));
+        = static_cast<GOGObjectsProperty*>(obj->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false));
     if (children == nullptr) {
         return false;
     }
     for (int64 handle : children->data()) {
-        if (dynamic_cast<GOAxis*>(findGraphicsObject(handle, false)) != nullptr) {
+        GraphicsObject* child = findGraphicsObject(handle, false);
+        if (dynamic_cast<GOAxis*>(child) != nullptr) {
+            return true;
+        }
+        if (objectHasAxesDescendant(child)) {
             return true;
         }
     }
     return false;
+}
+//=============================================================================
+// A figure with axes is captured at device resolution (Position x DevicePixelRatio), a
+// figure without axes at its logical pixel size. Axes nested in a layout container
+// (tiledlayout) or a panel count: every axes-bearing figure must scale the same way.
+static bool
+figureHasAxes(GOFigure* fig)
+{
+    return objectHasAxesDescendant(fig);
 }
 //=============================================================================
 static bool

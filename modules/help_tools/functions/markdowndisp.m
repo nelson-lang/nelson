@@ -19,7 +19,7 @@ function markdowndisp(textToRender)
   end
 
   mode = getnelsonmode();
-  if ~strcmp(mode, 'GUI') && ~strcmp(mode, 'WEB_GUI') && ~strcmp(mode, 'WASM_TERMINAL')
+  if ~strcmp(mode, 'GUI') && ~strcmp(mode, 'WASM_TERMINAL')
     disp(textToRender);
     return
   end
@@ -29,7 +29,7 @@ function markdowndisp(textToRender)
   end
 
   html = markdown(textToRender, 'advanced');
-  if strcmp(mode, 'WEB_GUI') || strcmp(mode, 'WASM_TERMINAL')
+  if strcmp(mode, 'GUI') || strcmp(mode, 'WASM_TERMINAL')
     % The web command window renders HTML and typesets LaTeX (KaTeX) itself,
     % so the raw markdown HTML is inserted directly; no MathJax pre-render.
     inserthtml(html);

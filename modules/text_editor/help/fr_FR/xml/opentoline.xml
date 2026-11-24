@@ -24,7 +24,7 @@
   </param_input>
   <description>
     <p><b>opentoline</b> ouvre <b>filename</b> dans l'éditeur de texte et place le curseur à la ligne <b>linenumber</b>, en début de ligne ou à la colonne <b>columnnumber</b>.</p>
-    <p>Les numéros de ligne imprimés par le débogueur à un arrêt, et les positions des messages d'erreur, sont des liens qui déclenchent le même comportement dans les bureaux Qt et web.</p>
+    <p>Les numéros de ligne imprimés par le débogueur à un arrêt, et les positions des messages d'erreur, sont des liens qui déclenchent le même comportement dans le bureau graphique.</p>
   </description>
   <used_function />
   <bibliography />

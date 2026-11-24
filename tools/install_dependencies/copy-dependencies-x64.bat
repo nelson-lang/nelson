@@ -33,8 +33,6 @@ if errorlevel 1 (
 )
 set "BIN_DIR=%CD%"
 popd
-rem Resolve QTDIR if not already set (fallback to QTDIR64)
-if not defined QTDIR if defined QTDIR64 set "QTDIR=%QTDIR64%"
 
 rem =============================================================================
 rem Install dll files in bin directory
@@ -335,7 +333,7 @@ set rc=%ERRORLEVEL%
 if %rc% GEQ 8 ( echo ERROR: Failed to copy dawn DLLs (robocopy rc=%rc%) & exit /b 1 )
 :dawn_done
 
-rem WebView2 loader - required by the webview module to host nflow/open_system in
+rem WebView2 loader - required by the web_engine module to host nflow/open_system in
 rem an embedded WebView2 window. WebUI resolves it at runtime with
 rem LoadLibraryA("WebView2Loader.dll"), so it must sit next to the binaries; the
 rem system-wide WebView2 Runtime alone is NOT enough. Without it WebUI silently
@@ -414,72 +412,6 @@ goto :after_cmake
 echo Skipping cmake helper files (NELSON_DIR not resolved).
 
 :after_cmake
-
-rem MKL handled below after Qt copy (robocopy-based)
-
-rem QT dependencies
-if not defined QTDIR (
-    echo WARNING: QTDIR not defined; skipping Qt dependencies.
-    goto :after_qt_copy
-)
-
-rem copy ICU data files (use xcopy to avoid prompts when multiple matches)
-echo Copying Qt: ICU data...
-xcopy /Y "%QTDIR%\bin\icudt5?.dll" "%BIN_DIR%\\" >nul 2>&1
-xcopy /Y "%QTDIR%\bin\icuin5?.dll" "%BIN_DIR%\\" >nul 2>&1
-xcopy /Y "%QTDIR%\bin\icuuc5?.dll" "%BIN_DIR%\\" >nul 2>&1
-
-echo Copying Qt: plugins...
-if exist "%QTDIR%\plugins\" (
-    if not exist "%BIN_DIR%\plugins\" mkdir "%BIN_DIR%\plugins" >nul 2>&1
-    xcopy /E /I /Y "%QTDIR%\plugins" "%BIN_DIR%\plugins" >nul 2>&1
-)
-if not exist "%QTDIR%\plugins\" echo Skipping Qt plugins (not found).
-
-echo Copying Qt: qml...
-if exist "%QTDIR%\qml\" (
-    if not exist "%BIN_DIR%\qml\" mkdir "%BIN_DIR%\qml" >nul 2>&1
-    xcopy /E /I /Y "%QTDIR%\qml" "%BIN_DIR%\qml" >nul 2>&1
-)
-if not exist "%QTDIR%\qml\" echo Skipping Qt qml (not found).
-echo Copying Qt: QtCanvas3D (if present)...
-if not exist "%BIN_DIR%\qml\QtCanvas3D" mkdir "%BIN_DIR%\qml\QtCanvas3D" >nul 2>&1
-if exist "%QTDIR%\qml\QtCanvas3D\qtcanvas3d.dll" (
-    echo Copying QtCanvas3D plugin...
-    copy "%QTDIR%\qml\QtCanvas3D\qtcanvas3d.dll" "%BIN_DIR%\qml\QtCanvas3D" >nul 2>&1
-)
-
-echo Copying Qt: graphics/runtime libraries...
-copy "%QTDIR%\bin\d3dcompiler_*.dll" "%BIN_DIR%\\" >nul 2>&1
-copy "%QTDIR%\bin\libEGL.dll" "%BIN_DIR%\\" >nul 2>&1
-copy "%QTDIR%\bin\libGLESv2.dll" "%BIN_DIR%\\" >nul 2>&1
-copy "%QTDIR%\bin\opengl32sw.dll" "%BIN_DIR%\\" >nul 2>&1
-
-echo Copying Qt: core and module libraries (this may take a moment)...
-call "%~dp0copy-qt-runtime.bat" "%QTDIR%" "%BIN_DIR%"
-if errorlevel 1 exit /b 1
-
-rem Modules the Nelson binaries import directly. Anything absent here means the
-rem build will not start, so report it instead of failing later at runtime.
-set "QT_MISSING="
-for %%m in (
-    Core
-    Gui
-    OpenGLWidgets
-    PrintSupport
-    Qml
-    Quick
-    Svg
-    Widgets
-) do call :_check_qt_module %%m
-if defined QT_MISSING (
-    echo WARNING: missing Qt libraries in "%BIN_DIR%":%QT_MISSING%
-    echo WARNING: Nelson will fail to start until they are copied from "%QTDIR%\bin".
-) else (
-    echo Qt files copy complete.
-)
-
-:after_qt_copy
 
 rem MKL blas, lapack, FFTW, VML wrapper
 echo Copying MKL wrapper libraries...
@@ -585,13 +517,6 @@ if %rc% GEQ 8 (
 goto :eof
 
 exit /b 0
-
-rem helper: check that both variants of a required Qt module reached BIN_DIR
-:_check_qt_module
-rem %1 = module name without the "Qt6" prefix. Appends to QT_MISSING.
-if not exist "%BIN_DIR%\Qt6%~1.dll" set "QT_MISSING=%QT_MISSING% Qt6%~1.dll"
-if not exist "%BIN_DIR%\Qt6%~1d.dll" set "QT_MISSING=%QT_MISSING% Qt6%~1d.dll"
-goto :eof
 
 :_robocopy_env
 rem env-driven robocopy helper: expects ROBO_SRC, ROBO_DST, ROBO_PAT, ROBO_MSG

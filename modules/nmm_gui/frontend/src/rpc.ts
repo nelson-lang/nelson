@@ -19,7 +19,7 @@ declare global {
 }
 //=============================================================================
 // The WebUI bridge of the window page. Read through a local view of window:
-// the web desktop that embeds this page declares the global with its own type.
+// the desktop that embeds this page declares the global with its own type.
 interface WebUiBridge {
   call(name: string, payload: string): Promise<string>;
   isConnected?: () => boolean;
@@ -31,7 +31,7 @@ function webuiBridge(): WebUiBridge | undefined {
 //=============================================================================
 export type Json = any;
 let rpcId = 0;
-// The page normally talks to its WebUI window. Embedded in the web desktop
+// The page normally talks to its WebUI window. Embedded in the desktop
 // (see embed.tsx) the host injects a transport instead and no window exists.
 export type RpcTransport = (method: string, params: Record<string, unknown>) => Promise<Json>;
 let transport: RpcTransport | null = null;

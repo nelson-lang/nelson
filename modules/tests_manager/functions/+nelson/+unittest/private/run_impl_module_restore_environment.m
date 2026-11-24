@@ -7,12 +7,9 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function run_impl_module_restore_environment(restoreEnvironment, previousPlatform)
+function run_impl_module_restore_environment(restoreEnvironment)
   if restoreEnvironment.audio
     setenv('AUDIODEV', '');
-  end
-  if restoreEnvironment.platform
-    setenv('QT_QPA_PLATFORM', previousPlatform);
   end
 end
 %=============================================================================

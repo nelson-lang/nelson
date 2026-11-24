@@ -43,11 +43,11 @@ if (!nflowProductVersion) {
 //=============================================================================
 const sharedExampleGalleryStyles = path.resolve(
   moduleRoot,
-  '../webview/frontend/examples/gallery-shared.css'
+  '../web_engine/frontend/examples/gallery-shared.css'
 );
 const sharedAssistantStyles = path.resolve(
   moduleRoot,
-  '../webview/frontend/assistant/assistant-pane.css'
+  '../web_engine/frontend/assistant/assistant-pane.css'
 );
 // Declarative block libraries (library.json manifests + exported SVG icons).
 // The palette and head-init request icons relative to document.baseURI
@@ -175,10 +175,10 @@ function nflowDevServer(): Plugin {
           res.end('// webui bridge stub (dev server, no Nelson host)\n');
           return;
         }
-        if (url === '/webview/frontend/examples/gallery-shared.css') {
+        if (url === '/web_engine/frontend/examples/gallery-shared.css') {
           if (sendFile(res, sharedExampleGalleryStyles, 'text/css; charset=utf-8')) return;
         }
-        if (url === '/webview/frontend/assistant/assistant-pane.css') {
+        if (url === '/web_engine/frontend/assistant/assistant-pane.css') {
           if (sendFile(res, sharedAssistantStyles, 'text/css; charset=utf-8')) return;
         }
         if (url.startsWith('/@katex/')) {
@@ -305,11 +305,11 @@ function nflowDevServer(): Plugin {
 //=============================================================================
 // Shared, Qt-free dialog components live in the neutral webview module (the
 // shared WebUI layer both front ends already depend on), so nflow_gui does not
-// depend on web_gui. Consumed source-only through the `@nelson/dialogs` alias.
-const dialogsAlias = path.resolve(moduleRoot, '../webview/frontend/dialogs');
-const nativeMenuAlias = path.resolve(moduleRoot, '../webview/frontend/native-menu');
-const exampleGalleryAlias = path.resolve(moduleRoot, '../webview/frontend/examples');
-const assistantAlias = path.resolve(moduleRoot, '../webview/frontend/assistant');
+// depend on gui. Consumed source-only through the `@nelson/dialogs` alias.
+const dialogsAlias = path.resolve(moduleRoot, '../web_engine/frontend/dialogs');
+const nativeMenuAlias = path.resolve(moduleRoot, '../web_engine/frontend/native-menu');
+const exampleGalleryAlias = path.resolve(moduleRoot, '../web_engine/frontend/examples');
+const assistantAlias = path.resolve(moduleRoot, '../web_engine/frontend/assistant');
 export default defineConfig({
   root: moduleRoot,
   base: './',

@@ -204,7 +204,7 @@ buildApplicationRuntimePlan(const std::wstring& application, bool gui)
         runtime.builtin(name, true);
     }
     if (gui) {
-        for (const char* module : { "gui", "graphics" }) {
+        for (const char* module : { "gui", "web_engine", "graphics" }) {
             runtime.module(module);
         }
         runtime.builtin("__nelsonc_wait_for_windows__", true);

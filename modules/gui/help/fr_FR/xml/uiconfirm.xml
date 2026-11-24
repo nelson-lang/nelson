@@ -68,10 +68,10 @@ disp(answer)]]></example_item_data>
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${gui}uialert">uialert</link>
+      <link linkend="${webview}uialert">uialert</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${gui}questdlg">questdlg</link>
+      <link linkend="${webview}questdlg">questdlg</link>
     </see_also_item>
   </see_also>
   <history>

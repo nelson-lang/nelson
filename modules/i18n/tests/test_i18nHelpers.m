@@ -34,8 +34,8 @@ asserts.istrue(contains(uiContent, '"hello from cpp"'));
 asserts.istrue(contains(uiContent, '"hello from m"'));
 asserts.isfalse(contains(uiContent, 'alpha template'));
 %=============================================================================
-% web desktop sources: t('...') and tf('...') literals are harvested
-tsDir = [srcDir, 'web_gui/frontend/src/'];
+% desktop sources: t('...') and tf('...') literals are harvested
+tsDir = [srcDir, 'gui/src/ts/frontend/src/'];
 mkdir(tsDir);
 crlf = char([13 10]);
 tsLines = {'const a = t(''hello from tsx'');'; ...

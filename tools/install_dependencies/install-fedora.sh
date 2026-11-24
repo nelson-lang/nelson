@@ -60,11 +60,8 @@ audio_libs=(
     jack-audio-connection-kit-devel taglib-devel
 )
 
-# --- GUI / Qt / Graphics ---
-qt_gui_libs=(
-    qt6-qtbase-devel qt6-qtdeclarative-devel
-    qt6-qtbase-mysql qt6-qtbase-odbc qt6-qtbase-postgresql
-    qt6-qtsvg-devel qt6-qtquickcontrols2
+# --- Graphics ---
+graphics_libs=(
     giflib-devel libjpeg-turbo-devel libpng-devel libtiff-devel libwebp-devel
 )
 
@@ -149,7 +146,7 @@ fi
 
 sudo dnf install -y "${math_libs[@]}"
 sudo dnf install -y "${audio_libs[@]}"
-sudo dnf install -y "${qt_gui_libs[@]}"
+sudo dnf install -y "${graphics_libs[@]}"
 sudo dnf install -y "${python_libs[@]}"
 sudo dnf install -y "${other_libs[@]}"
 sudo dnf install -y "${geometry_libs[@]}"

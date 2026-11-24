@@ -18,12 +18,11 @@ set(_options_modules
   MPI
   AUDIO
   WEBTOOLS
-  WEBVIEW
+  WEB_ENGINE
   FILE_ARCHIVER
   IPC
   PARALLEL
   GRAPHICS
-  QML_ENGINE
   SIGNAL_PROCESSING
   VALIDATORS
   MATIO
@@ -95,6 +94,13 @@ if(WITHOUT_GUI_MODULE)
   set(WITH_HISTORY_MANAGER_MODULE_LOADER "false")
 else()
   set(WITH_HISTORY_MANAGER_MODULE_LOADER "true")
+endif()
+# The gui (web desktop) module is loaded through the registry; it is available
+# unless the whole GUI stack is disabled (minimal/CLI build).
+if(WITHOUT_GUI_MODULE)
+  set(WITH_GUI_MODULE_LOADER "false")
+else()
+  set(WITH_GUI_MODULE_LOADER "true")
 endif()
 # ==============================================================================
 configure_file(

@@ -1,4 +1,4 @@
-﻿//=============================================================================
+//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -8,59 +8,26 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "workspacebrowserBuiltin.hpp"
-#include "Error.hpp"
-#include "ErrorID.hpp"
+#include "GuiDialogProvider.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "WorkspaceBrowser.hpp"
-#include "NelsonConfiguration.hpp"
-#include "NelSon_engine_mode.h"
 //=============================================================================
-using namespace Nelson;
+namespace Nelson::WebviewGateway {
 //=============================================================================
 ArrayOfVector
-Nelson::GuiGateway::workspacebrowserBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+workspacebrowserBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 0, 2);
     nargoutcheck(nLhs, 0, 0);
-    auto engineMode = NelsonConfiguration::getInstance()->getNelsonEngineMode();
-    if (engineMode != GUI) {
-        return {};
-    }
-    switch (argIn.size()) {
-    case 0: {
-        WorkspaceBrowser::showWorkspaceBrowser();
-    } break;
-    case 1: {
-        std::wstring param = argIn[0].asWideString();
-        if (param == L"sync") {
-            WorkspaceBrowser::updateWorkspaceBrowser();
-        } else {
-            Error(L"Nelson:gui:invalidValue", L"Wrong value for #%d argument.", 1);
-        }
-    } break;
-    case 2: {
-        std::wstring param1 = argIn[0].asWideString();
-        if (param1 == L"visible") {
-            if (argIn[1].isRowVectorCharacterArray()) {
-                std::wstring param2 = argIn[1].asWideString();
-                if (param2 == L"toggle") {
-                    WorkspaceBrowser::toggleVisibilityWorkspaceBrowser();
-                } else {
-                    Error(L"Nelson:gui:invalidValue", L"Wrong value for #%d argument.", 2);
-                }
-            } else {
-                logical visibility = argIn[1].asLogicalScalar();
-                if (visibility) {
-                    WorkspaceBrowser::showWorkspaceBrowser();
-                } else {
-                    WorkspaceBrowser::hideWorkspaceBrowser();
-                }
-            }
-        } else {
-            Error(L"Nelson:gui:invalidValue", L"Wrong value for #%d argument.", 1);
-        }
-    } break;
+    // Open (or focus) the docked panel in the desktop.
+    if (hasGuiDialogProvider()) {
+        GuiDialogRequest request;
+        request.kind = L"showpanel";
+        request.defaultPath = L"workspace";
+        GuiDialogResponse response;
+        runGuiDialog(request, response);
     }
     return {};
 }
+//=============================================================================
+} // namespace Nelson::WebviewGateway
 //=============================================================================

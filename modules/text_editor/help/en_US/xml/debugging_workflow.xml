@@ -8,7 +8,7 @@
   <description>
     <p>      The Nelson debugger provides interactive tools to diagnose and fix
       problems in scripts and functions by controlling execution and
-      inspecting program state. The Qt desktop and the web desktop expose
+      inspecting program state. The graphical desktop exposes
       the same controls, keys, marker colours and menu labels.</p>
     <p>      Before starting a debugging session, save the code files. Breakpoints
       belong to the saved file: while a file has unsaved changes its markers

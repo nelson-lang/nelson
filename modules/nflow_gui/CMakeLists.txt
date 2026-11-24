@@ -11,12 +11,12 @@ set(module_name nflow_gui)
 set(module_library_name nlsNflow_gui)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
-# Native WebUI/CivetWeb/WebView code is owned by modules/webview. Keep nflow_gui
-# focused on NFlow-specific bindings and depend on nlsWebview for the shared
+# Native WebUI/CivetWeb/WebView code is owned by modules/web_engine. Keep nflow_gui
+# focused on NFlow-specific bindings and depend on nlsWeb_engine for the shared
 # WebUI headers and compiled implementation.
 if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/webui/include/webui.h)
   message(FATAL_ERROR
-    "nflow_gui must use modules/webview for WebUI; remove the embedded copy."
+    "nflow_gui must use modules/web_engine for WebUI; remove the embedded copy."
   )
 endif()
 # ==============================================================================
@@ -48,7 +48,7 @@ target_include_directories(${module_library_name}
     ${CMAKE_CURRENT_SOURCE_DIR}/../operators/src/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../webview/src/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../web_engine/src/include
 )
 
 target_link_libraries(${module_library_name}
@@ -64,7 +64,7 @@ target_link_libraries(${module_library_name}
     nlsStream_manager
     nlsNelson_manager
     nlsTypes
-    nlsWebview
+    nlsWeb_engine
 )
 # ==============================================================================
 # Builtin library
@@ -99,9 +99,6 @@ target_include_directories(${module_library_builtin_name}
     ${CMAKE_CURRENT_SOURCE_DIR}/../nflow_blocks/src/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../nflow_engine/src/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../nflow_engine/builtin/include
-    # Headers only (GuiDialogProvider.hpp for the system file dialog seam). nlsGui
-    # is resolved dynamically at runtime, never linked, so nflow_gui stays Qt-free.
-    ${CMAKE_CURRENT_SOURCE_DIR}/../gui/src/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
@@ -121,7 +118,7 @@ target_link_libraries(${module_library_builtin_name}
     nlsNflow_engine_builtin
     nlsNflow_blocks
     nlsNflow_fmi
-    nlsWebview
+    nlsWeb_engine
     nlsCharacters_encoding
     nlsCommons
     nlsError_manager
@@ -161,7 +158,7 @@ nelson_install_module_data(
   resources
 )
 # dist only exists after the frontend build, so it can not go through the EXTRA_DIRS
-# check made at configure time: install it unconditionally, as web_gui does
+# check made at configure time: install it unconditionally, as gui does
 install(
   DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/dist/
   DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}/dist

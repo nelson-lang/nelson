@@ -1,77 +1,68 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(nelson_desktop_shell_tests LANGUAGES CXX)
+project(gui_json_tests LANGUAGES CXX)
 
-set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-find_package(Qt6 6.2 REQUIRED COMPONENTS Widgets)
-message(STATUS "Qt6 detected and used for desktop shell tests.")
-
 set(GUI_DIR "${CMAKE_CURRENT_LIST_DIR}/../..")
-set(REPOSITORY_DIR "${GUI_DIR}/../..")
 
-add_executable(nelson_desktop_shell_tests
-  desktop_shell_tests.cpp
-  "${GUI_DIR}/src/cpp/NelsonApplication.cpp"
-  "${GUI_DIR}/src/include/NelsonApplication.hpp"
-  "${GUI_DIR}/src/cpp/CurrentDirectoryWidget.cpp"
-  "${GUI_DIR}/src/cpp/CurrentDirectoryWidget.h"
-  "${GUI_DIR}/src/cpp/DesktopCommandPalette.cpp"
-  "${GUI_DIR}/src/cpp/DesktopCommandPalette.h"
-  "${GUI_DIR}/src/cpp/DesktopPanelRail.cpp"
-  "${GUI_DIR}/src/cpp/DesktopPanelRail.h"
-  "${GUI_DIR}/src/cpp/DesktopUiStyle.cpp"
-  "${GUI_DIR}/src/cpp/DesktopUiStyle.h"
-  "${GUI_DIR}/src/cpp/QtDockTitleBar.cpp"
-  "${GUI_DIR}/src/cpp/QtDockTitleBar.h"
-  "${GUI_DIR}/../nelson_manager/src/cpp/RecentDirectoriesStore.cpp"
-  "${GUI_DIR}/../nelson_manager/src/cpp/RecentDirectoriesStore.hpp"
-  "${GUI_DIR}/../nelson_manager/src/cpp/DialogDirectoriesStore.cpp"
-  "${GUI_DIR}/../nelson_manager/src/cpp/DialogDirectoriesStore.hpp"
+add_executable(gui_json_tests json_serialization_tests.cpp)
+add_executable(gui_native_close_contract_tests
+  native_close_contract_tests.cpp
+)
+add_executable(gui_native_launch_contract_tests
+  native_launch_contract_tests.cpp
 )
 
-target_include_directories(nelson_desktop_shell_tests
+target_include_directories(gui_json_tests
   PRIVATE
     "${GUI_DIR}/src/cpp"
-    "${GUI_DIR}/src/include"
     "${GUI_DIR}/../commons/src/include"
-    "${GUI_DIR}/../nelson_manager/src/cpp"
+)
+target_compile_definitions(gui_native_close_contract_tests
+  PRIVATE NELSON_SOURCE_ROOT="${GUI_DIR}/../.."
+)
+target_compile_definitions(gui_native_launch_contract_tests
+  PRIVATE NELSON_SOURCE_ROOT="${GUI_DIR}/../.."
 )
 
-# NelsonSettingsScope.hpp includes the generated Nelson_VERSION.h
-include("${REPOSITORY_DIR}/CMake/NelsonVersionHeaderForTests.cmake")
-nelson_tests_version_header(nelson_desktop_shell_tests "${REPOSITORY_DIR}")
-
-target_compile_definitions(nelson_desktop_shell_tests
-  PRIVATE "NELSON_TEST_REPOSITORY_DIR=\"${REPOSITORY_DIR}\""
-)
-
-target_link_libraries(nelson_desktop_shell_tests
-  PRIVATE Qt6::Widgets
-)
+if(MSVC)
+  target_compile_options(gui_json_tests PRIVATE /W4 /permissive-)
+  target_compile_options(gui_native_close_contract_tests
+    PRIVATE
+      /W4
+      /permissive-
+  )
+  target_compile_options(gui_native_launch_contract_tests
+    PRIVATE
+      /W4
+      /permissive-
+  )
+else()
+  target_compile_options(gui_json_tests PRIVATE -Wall -Wextra -Wpedantic)
+  target_compile_options(gui_native_close_contract_tests
+    PRIVATE
+      -Wall
+      -Wextra
+      -Wpedantic
+  )
+  target_compile_options(gui_native_launch_contract_tests
+    PRIVATE
+      -Wall
+      -Wextra
+      -Wpedantic
+  )
+endif()
 
 enable_testing()
-add_test(NAME nelson_desktop_shell_tests COMMAND nelson_desktop_shell_tests)
+add_test(NAME gui_json_tests COMMAND gui_json_tests)
 add_test(
-  NAME nflow_file_icon_test
-  COMMAND ${CMAKE_COMMAND} -DNELSON_TEST_REPOSITORY_DIR=${REPOSITORY_DIR} -P
-    ${CMAKE_CURRENT_LIST_DIR}/nflow_file_icon_test.cmake
+  NAME gui_native_close_contract_tests
+  COMMAND gui_native_close_contract_tests
 )
 add_test(
-  NAME application_icon_assets_test
-  COMMAND ${CMAKE_COMMAND} -DNELSON_TEST_REPOSITORY_DIR=${REPOSITORY_DIR} -P
-    ${CMAKE_CURRENT_LIST_DIR}/application_icon_assets_test.cmake
-)
-add_test(
-  NAME graphics_toolbar_dispatch_test
-  COMMAND ${CMAKE_COMMAND} -DNELSON_TEST_REPOSITORY_DIR=${REPOSITORY_DIR} -P
-    ${CMAKE_CURRENT_LIST_DIR}/graphics_toolbar_dispatch_test.cmake
-)
-add_test(
-  NAME desktop_docking_layout_test
-  COMMAND ${CMAKE_COMMAND} -DNELSON_TEST_REPOSITORY_DIR=${REPOSITORY_DIR} -P
-    ${CMAKE_CURRENT_LIST_DIR}/desktop_docking_layout_test.cmake
+  NAME gui_native_launch_contract_tests
+  COMMAND gui_native_launch_contract_tests
 )

@@ -37,6 +37,10 @@ figureBuiltin(int nLhs, const ArrayOfVector& argIn)
     // A SizeChangedFcn given at creation runs before the constructor returns.
     SizeChangedScope sizeChangedScope;
     bool figureCreated = false;
+    // A newly created figure whose window-open notification is deferred until its
+    // creation properties (notably Position) are applied, so the native window
+    // opens at the final size instead of popping at the default and resizing.
+    bool lifecyclePending = false;
     int64 currentFigureID;
     if (argIn.size() == 0) {
         currentFigureID = createNewFigure();
@@ -54,19 +58,20 @@ figureBuiltin(int nLhs, const ArrayOfVector& argIn)
             Error("Nelson:figure:numberOutOfRange",
                 "figure number is out of range - it must be between 1 and 2147483647.");
         }
-        currentFigureID = selectFigure(fignum - 1, false);
+        currentFigureID = selectFigure(fignum - 1, false, true, &lifecyclePending);
         pos = pos + 1;
     } else if (argIn[0].isGraphicsObject()) {
         int64 handle = argIn[0].asGraphicsObjectScalar();
         if (handle == HANDLE_ROOT_OBJECT || handle >= HANDLE_OFFSET_OBJECT) {
             Error("Nelson:figure:expectedFigure", "figure graphics object expected.");
         } else {
-            currentFigureID = selectFigure(handle, false);
+            currentFigureID = selectFigure(handle, false, true, &lifecyclePending);
             pos = pos + 1;
         }
     } else {
-        currentFigureID = createNewFigure(false);
+        currentFigureID = createNewFigure(false, true);
         figureCreated = true;
+        lifecyclePending = true;
     }
     GOFigure* fig = findGOFigure(currentFigureID);
     if (!fig) {
@@ -96,6 +101,13 @@ figureBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (figureCreated) {
             // The window was sized before the properties were applied: report it again.
             forgetSizeChangedState(fig);
+        }
+        if (lifecyclePending) {
+            // Open the figure's native window now, with Position applied, so it
+            // opens at its final size. Before updateState(true): a 'Visible','off'
+            // at creation then hides an existing window, instead of the hide
+            // finding no window and the figure staying on screen.
+            pushNewFigureLifecycle(currentFigureID);
         }
         fig->updateState(true);
         if (figureCreated) {

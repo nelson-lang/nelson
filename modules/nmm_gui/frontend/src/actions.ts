@@ -211,7 +211,7 @@ async function finishOperation(name: string): Promise<void> {
 //=============================================================================
 // nmm_gui('install', name) parks a deep link on the backend; the page claims
 // it exactly once, on startup or when woken by the 'deeplink' notification.
-// In the web desktop the deep link comes with the request instead; the window
+// In the desktop the deep link comes with the request instead; the window
 // fetches the one the builtin left pending.
 export async function consumeDeepLink(given: Json = null): Promise<void> {
   let link: Json = given;
@@ -254,7 +254,7 @@ function onProgress(payload: string): void {
 }
 //=============================================================================
 // Backend events (__nmm_gui_notify__): the window receives them through
-// window.nmmGuiPush, the web desktop panel through its host subscription.
+// window.nmmGuiPush, the desktop panel through its host subscription.
 export function handleBackendEvent(channel: string, payload: string): void {
   if (channel === 'deeplink') {
     let link: Json = null;

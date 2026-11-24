@@ -88,6 +88,34 @@ GOUITabGroup::setupDefaults()
         GO_AUTO_RESIZE_CHILDREN_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
 }
 //=============================================================================
+void
+GOUITabGroup::updateState()
+{
+    GOUIComponent::updateState();
+    auto* selectedProperty
+        = dynamic_cast<GOGObjectsProperty*>(findProperty(GO_SELECTED_TAB_PROPERTY_NAME_STR, false));
+    if (selectedProperty == nullptr) {
+        return;
+    }
+    const std::vector<GOUITab*> tabs = tabsOf(this);
+    const int64 current = selectedProperty->data().empty() ? -1 : selectedProperty->data()[0];
+    for (GOUITab* tab : tabs) {
+        if (findGraphicsObjectHandle(tab) == current) {
+            return;
+        }
+    }
+    // The selected tab is gone (deleted or reparented away): default to the first tab, or to
+    // no selection when the group is now empty.
+    std::vector<int64> selection;
+    if (!tabs.empty()) {
+        selection.push_back(findGraphicsObjectHandle(tabs.front()));
+    }
+    if (selection != selectedProperty->data()) {
+        selectedProperty->data(selection);
+        selectedProperty->setModified(true);
+    }
+}
+//=============================================================================
 double
 GOUITabGroup::tabBarThickness(RenderInterface& gc)
 {

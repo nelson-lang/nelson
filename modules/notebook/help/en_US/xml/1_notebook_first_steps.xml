@@ -14,7 +14,7 @@
       <li><b>notebook()</b> with no argument opens a new, empty document.</li>
       <li><b>notebook(filename, 'edit')</b> opens an existing document, and <b>edit(filename)</b> does the same for a <b>.nlx</b> file.</li>
     </ul>
-    <p>On the Nelson desktop you can also use the <b>New Notebook</b> button of the toolbar, or the <b>Window</b> menu. The editor opens as a tab of the web desktop, or, on the Qt desktop, as the Notebook window (one window, one tab per document). Without a desktop (nelson-cli, nelson-adv-cli) the editor cannot open and the call reports an error.</p>
+    <p>On the Nelson desktop you can also use the <b>New Notebook</b> button of the toolbar, or the <b>Window</b> menu. The editor opens as a tab of the graphical desktop. Without a desktop (nelson-cli, nelson-adv-cli) the editor cannot open and the call reports an error.</p>
     <p>The editor shows a toolbar at the top and the document below. A new document already contains a short example you can run and edit.</p>
     <p>
       <img src="../images/notebook_editor.png" align="middle" />

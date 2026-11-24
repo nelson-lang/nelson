@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Keep the browser translation bubble away: it would also rewrite the
+         console output and variable names. -->
+    <meta name="google" content="notranslate" />
+    <title>Nelson</title>
+    <!--
+      The production postbuild step injects /webui.js before the app bundle.
+      In standalone `npm run dev` it is absent and the RPC client falls back to a mock.
+    -->
+    <!-- Boot splash, painted before the app bundle so the native window is never
+         blank while app.js downloads, parses and React mounts. Its colours match
+         the saved theme (mirrored to localStorage) so the real desktop replaces
+         it with no flash. The progress bar advances on real boot milestones. -->
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #nelson-splash {
+        position: fixed;
+        inset: 0;
+        z-index: 2147483647;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 22px;
+        background: var(--boot-bg, #1e1e1e);
+        color: var(--boot-fg, #d4d4d4);
+        font-family: 'Segoe UI', system-ui, sans-serif;
+        opacity: 1;
+        transition: opacity 0.25s ease;
+      }
+      #nelson-splash.nelson-splash--hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      #nelson-splash .nelson-splash__mark {
+        width: 68px;
+        height: 68px;
+        color: var(--boot-accent, #0e639c);
+      }
+      #nelson-splash .nelson-splash__name {
+        font-size: 22px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      }
+      #nelson-splash .nelson-splash__track {
+        width: 180px;
+        height: 3px;
+        border-radius: 3px;
+        background: var(--boot-track, rgba(212, 212, 212, 0.18));
+        overflow: hidden;
+      }
+      #nelson-splash .nelson-splash__fill {
+        height: 100%;
+        width: 0;
+        border-radius: 3px;
+        background: var(--boot-accent, #0e639c);
+        transition: width 0.35s ease;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #nelson-splash,
+        #nelson-splash .nelson-splash__fill {
+          transition: none;
+        }
+      }
+    </style>
+    <script>
+      // Match the splash to the saved theme before the bundle loads. The desktop
+      // mirrors its theme preference to localStorage, so this is correct on every
+      // launch after the first; otherwise it follows the OS preference.
+      (function () {
+        var dark = true;
+        try {
+          var pref = localStorage.getItem('nelson-gui.theme');
+          dark =
+            pref === 'dark' ||
+            (pref !== 'light' &&
+              (!window.matchMedia || window.matchMedia('(prefers-color-scheme: dark)').matches));
+        } catch (e) {
+          /* storage optional */
+        }
+        var r = document.documentElement.style;
+        if (dark) {
+          r.setProperty('--boot-bg', '#1e1e1e');
+          r.setProperty('--boot-fg', '#d4d4d4');
+          r.setProperty('--boot-accent', '#0e639c');
+          r.setProperty('--boot-track', 'rgba(212, 212, 212, 0.18)');
+        } else {
+          r.setProperty('--boot-bg', '#ffffff');
+          r.setProperty('--boot-fg', '#1f1f1f');
+          r.setProperty('--boot-accent', '#0072bd');
+          r.setProperty('--boot-track', 'rgba(31, 31, 31, 0.12)');
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <div id="nelson-splash" role="status" aria-label="Loading Nelson">
+      <svg class="nelson-splash__mark" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+        <path
+          d="M98 50 A48 48 0 0 1 50 98 A30 30 0 0 1 20 68 A18 18 0 0 1 38 50 A12 12 0 0 1 50 62 A7 7 0 0 1 43 55"
+          stroke="currentColor"
+          stroke-width="4"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+      <div class="nelson-splash__name">Nelson</div>
+      <div class="nelson-splash__track">
+        <div class="nelson-splash__fill" id="nelson-splash-fill"></div>
+      </div>
+    </div>
+    <script>
+      // Determinate boot progress driven by real milestones from main.tsx, with a
+      // gentle creep so the bar keeps moving while app.js downloads and parses
+      // (no page-side event is available during that phase).
+      (function () {
+        var fill = document.getElementById('nelson-splash-fill');
+        var splash = document.getElementById('nelson-splash');
+        var cur = 0;
+        var cap = 50;
+        var timer = null;
+        function paint() {
+          if (fill) fill.style.width = cur + '%';
+        }
+        function stopCreep() {
+          if (timer) {
+            clearInterval(timer);
+            timer = null;
+          }
+        }
+        function set(p) {
+          if (p <= cur) return;
+          cur = p;
+          paint();
+          if (cur >= cap) stopCreep();
+        }
+        cur = 8;
+        paint();
+        timer = setInterval(function () {
+          if (cur < cap) {
+            cur = Math.min(cap, cur + 2);
+            paint();
+          } else {
+            stopCreep();
+          }
+        }, 110);
+        window.__nelsonBoot = {
+          set: set,
+          done: function () {
+            stopCreep();
+            cur = 100;
+            paint();
+            if (!splash) return;
+            // Drop the loading indicator from the accessibility tree at once: a
+            // hidden splash must not stay exposed as a status region while it fades.
+            splash.setAttribute('aria-hidden', 'true');
+            splash.classList.add('nelson-splash--hidden');
+            window.setTimeout(function () {
+              if (splash && splash.parentNode) splash.parentNode.removeChild(splash);
+            }, 300);
+          },
+        };
+      })();
+    </script>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

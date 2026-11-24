@@ -88,7 +88,7 @@ try {
 $forwarded = @('', 'two words', $unicode, 'a"b', 'ends\', '--literal', '"quoted"')
 foreach ($deployment in @('bundled', 'installed')) {
     foreach ($kind in @('console', 'windowed')) {
-        $environment = @{ PATH = ''; QT_PLUGIN_PATH = 'invalid' }
+        $environment = @{ PATH = '' }
         if ($deployment -eq 'installed') { $environment.NELSONC_RUNTIME_ROOT = $windowedRuntime }
         $application = Join-Path $windowedRelocated "$deployment-$kind.exe"
         $destination = Join-Path $root "$deployment-$kind-result.json"
@@ -157,7 +157,7 @@ foreach ($fixture in @('graphics', 'callbacks')) {
     $modes = if ($fixture -eq 'graphics') { @('batch', 'offscreen', 'hide', 'lifetime') } else { @('create', 'close', 'timer') }
     foreach ($deployment in @('bundled', 'installed')) {
         foreach ($mode in $modes) {
-            $environment = @{ PATH = ''; QT_PLUGIN_PATH = 'invalid' }
+            $environment = @{ PATH = '' }
             if ($deployment -eq 'installed') { $environment.NELSONC_RUNTIME_ROOT = $graphicsRuntime }
             $run = Invoke-Application (Join-Path $relocated ($deployment + '.exe')) @($mode) 30000 '' $environment -CaptureModules -AllowConsole
             $run | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $root "windowed-$fixture-$deployment-$mode.json")
@@ -171,7 +171,7 @@ foreach ($fixture in @('graphics', 'callbacks')) {
                 'timer' { 'CALLBACK_ENTRY_RETURN[\s\S]*TIMER_TEXT_OK' }
             }
             if ($run.ExitCode -ne 0 -or $run.Output -notmatch $expected) { throw "Windowed GUI failure ($fixture/$mode): $($run.Output) $($run.Error)" }
-            foreach ($library in @('Qt6Core.dll', 'Qt6Gui.dll', 'Qt6Widgets.dll', 'qwindows.dll')) {
+            foreach ($library in @('libnlsWeb_engine.dll', 'libnlsGraphics.dll')) {
                 $paths = @($run.Modules | Where-Object { [IO.Path]::GetFileName($_) -ieq $library })
                 if ($paths.Count -ne 1 -or -not $paths[0].StartsWith($graphicsRuntime + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) {
                     throw "Windowed graphics loaded the wrong library: $library"

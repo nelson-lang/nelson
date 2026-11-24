@@ -12,8 +12,7 @@ rem Launcher dispatcher: a leading mode selector picks the matching executable.
 rem   --gui (default) -> nelson-gui.exe      (own window)
 rem   --cli           -> nelson-cli.exe      (console)
 rem   --adv-cli       -> nelson-adv-cli.exe  (console)
-rem   --webview       -> nelson-webview.exe  (own window)
-rem   --web           -> nelson-webview.exe  (console, forwarded to the exe)
+rem   --web           -> nelson-gui.exe      (console, forwarded to the exe)
 rem Any other argument is forwarded to the selected executable.
 rem =============================================================================
 SETLOCAL ENABLEEXTENSIONS
@@ -41,13 +40,8 @@ IF "%CURRENT_ARG%"=="--gui" (
     GOTO NEXT
 )
 
-IF "%CURRENT_ARG%"=="--webview" (
-    SET "NELSON_MODE=-webview"
-    GOTO NEXT
-)
-
 IF "%CURRENT_ARG%"=="--web" (
-    SET "NELSON_MODE=-webview"
+    SET "NELSON_MODE=-gui"
     SET "START_CMD="
     SET FILTERED_ARGS=%FILTERED_ARGS% %1%
     GOTO NEXT
@@ -62,7 +56,7 @@ IF not "%CURRENT_ARG%"=="" GOTO LOOP
 
 SET "PARENT=%PARENT:"=%"
 rem Fall back to the console CLI when the selected executable is not installed
-rem (for example a CLI-only / minimal install has no GUI, adv-cli or webview exe).
+rem (for example a CLI-only / minimal install has no GUI or adv-cli exe).
 IF NOT EXIST "%PARENT%nelson%NELSON_MODE%.exe" (
     SET "NELSON_MODE=-cli"
     SET "START_CMD="

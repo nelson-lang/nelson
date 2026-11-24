@@ -41,7 +41,10 @@ Nelson::GraphicsGateway::__uicontrol_key_event__Builtin(int nLhs, const ArrayOfV
     std::wstring key = argIn[1].asWideString();
     UIControlKeyInjector injector = getUIControlKeyInjector();
     GOUIControl* focused = nullptr;
-    bool delivered = injector != nullptr && injector(control, key, &focused);
+    // A native widget backend may register an injector; without one (headless and web hosts)
+    // the key is delivered against the model directly.
+    bool delivered = injector != nullptr ? injector(control, key, &focused)
+                                         : deliverUIControlKeyModel(control, key, &focused);
     ArrayOfVector retval;
     retval << ArrayOf::logicalScalar(delivered);
     if (nLhs > 1) {

@@ -10,7 +10,7 @@
 % The uihtml contract. Every assertion below mirrors a behaviour that was
 % measured before the component was written, not a behaviour invented for it.
 %=============================================================================
-skip_testsuite(~strcmp(getnelsonmode(), 'WEB_GUI'), _('uihtml requires the WebView desktop.'));
+skip_testsuite(~strcmp(getnelsonmode(), 'GUI'), _('uihtml requires the desktop.'));
 %=============================================================================
 addpath([modulepath('graphics', 'tests'), '/test_callback/']);
 TIMEOUT = 30;

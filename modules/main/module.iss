@@ -13,7 +13,6 @@ Source: {#RootPath}bin\{#BinPath}\nelson.bat; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\NelSon-adv-cli.exe; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GUI};
 Source: {#RootPath}bin\{#BinPath}\NelSon-cli.exe; DestDir: {app}\bin\{#BinPath}\;
 Source: {#RootPath}bin\{#BinPath}\NelSon-gui.exe; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GUI};
-Source: {#RootPath}bin\{#BinPath}\nelson-webview.exe; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_WEB_GUI};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\fixtures\*; DestDir: {app}\modules\{#MODULE_NAME}\tests\fixtures\; Flags: recursesubdirs;Components: {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_UNIT_TESTS};
 ;==============================================================================

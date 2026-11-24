@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% Run by test_web_figure_size_changed_fcn in a child started with --webview.
+% Run by test_web_figure_size_changed_fcn in a child that renders figures as web windows.
 try
   checkClassicFigure();
   checkInvisibleParent();

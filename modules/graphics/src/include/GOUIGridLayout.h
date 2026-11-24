@@ -36,13 +36,13 @@ public:
     void
     performLayout(double gridW, double gridH);
     //=============================================================================
-    // headless (WEB_GUI) layout: resolve the grid size Qt-free from the parent
+    // headless (desktop) layout: resolve the grid size Qt-free from the parent
     // container Position (or the figure render size) and run the layout. Does
     // nothing when a widget backend drives the layout instead.
     void
     performLayout();
     //=============================================================================
-    // headless (WEB_GUI): no widget binding is ever created, but the layout
+    // headless (desktop): no widget binding is ever created, but the layout
     // must still run to write the children's cell Positions.
     void
     updateState() override;

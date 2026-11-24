@@ -33,33 +33,23 @@ assert_rejected(@() __nelsonc_select_mode__(plan, false));
 assert_rejected(@() __nelsonc_plan__('runtime', jsonencode(plan), false));
 runtime = jsondecode(__nelsonc_plan__('runtime', jsonencode(plan), true));
 asserts.istrue(any(strcmp(runtime.modules, 'graphics')));
-asserts.istrue(any(strcmp(runtime.modules, 'gui')));
 asserts.isfalse(any(strcmp(runtime.modules, 'qml_engine')));
-runtime.gui = true;
-folders = __nelsonc_graphics_assets__(runtime);
-asserts.istrue(any(strcmp(folders, 'plugins/platforms')));
-asserts.istrue(any(strcmp(folders, 'plugins/iconengines')));
+% A compiled GUI application ships the gui frontend of the native WebView
+% desktop and no windowing-toolkit plugins.
+guiRuntime = struct('gui', true, 'modules', {{'graphics', 'gui'}});
+folders = __nelsonc_graphics_assets__(guiRuntime);
+asserts.istrue(any(strcmp(folders, 'gui')));
+asserts.isfalse(any(strcmp(folders, 'plugins/platforms')));
 asserts.isfalse(any(strcmp(folders, 'qml')));
-asserts.isfalse(any(strcmp(folders, 'plugins/designer')));
+libraryDirectory = modulepath('nelson', 'builtin');
+root = __nelsonc_graphics_root__(guiRuntime, libraryDirectory);
+webgui = __nelsonc_canonical_path__(__nelsonc_graphics_source__(root, 'gui'));
+asserts.istrue(isfolder(webgui));
 if ismac()
-  libraryDirectory = modulepath('nelson', 'builtin');
-  guiInfo = jsondecode(__library_dependencies__(fullfile(libraryDirectory, 'libnlsGui.dylib')));
-  qtCore = guiInfo.needed{find(contains(guiInfo.needed, '/QtCore.framework/'), 1)};
-  runtime.libraries = struct('filename', 'QtCore', 'source', qtCore);
-  root = __nelsonc_graphics_root__(runtime, libraryDirectory);
   bundle = __nelsonc_bundle_contents__(libraryDirectory);
-  % The platform plugin resolves in both the development and installed-bundle
-  % layouts; the source resolver maps Contents/PlugIns for an installed bundle.
-  platforms = __nelsonc_canonical_path__(__nelsonc_graphics_source__(root, 'plugins/platforms'));
-  asserts.istrue(isfolder(platforms));
-  asserts.istrue(isfile(fullfile(platforms, 'libqcocoa.dylib')));
-  if isempty(bundle)
-    % Development/Homebrew layout ships the full plugin set under a single root.
-    engine = __nelsonc_canonical_path__(__nelsonc_graphics_source__(root, 'plugins/iconengines'));
-    asserts.istrue(isfile(fullfile(engine, 'libqsvgicon.dylib')));
-  else
+  if ~isempty(bundle)
     % Installed .app bundle: the graphics root is the bundle Contents folder,
-    % with Qt plugins under PlugIns and qml under Resources.
+    % with gui under Resources.
     asserts.isequal(root, bundle);
   end
   asserts.istrue(isfile(fullfile(nelsonroot(), 'resources', 'help-icon.svg')));
@@ -67,10 +57,8 @@ if ismac()
   asserts.istrue(isfile(fullfile(nelsonroot(), 'modules', 'graphics', 'resources', ...
     'icon-mathematical-plot.svg')));
 end
-runtime.modules{end + 1} = 'qml_engine';
-asserts.istrue(any(strcmp(__nelsonc_graphics_assets__(runtime), 'qml')));
-runtime.gui = false;
-asserts.istrue(isempty(__nelsonc_graphics_assets__(runtime)));
+withoutGui = struct('gui', false, 'modules', {{'graphics', 'gui'}});
+asserts.istrue(isempty(__nelsonc_graphics_assets__(withoutGui)));
 for name = {'api-ms-win-core-file-l1-1-0.dll', 'EXT-MS-ONECORE-APPMODEL-STATEREPOSITORY-CACHE-L1-1-0.DLL'}
   asserts.istrue(__nelsonc_is_system_library__(name{1}, ''));
 end

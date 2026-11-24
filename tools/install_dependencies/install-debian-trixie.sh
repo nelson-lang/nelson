@@ -84,11 +84,6 @@ apt-get install -y libgif-dev libjpeg62-turbo-dev libpng-dev libtiff-dev libwebp
 print_status "Installing MPI libraries"
 apt-get install -y libopenmpi-dev openmpi-bin
 
-print_status "Installing Qt6 dependencies"
-apt-get install -y qt6-base-dev libqt6svg6-dev qt6-declarative-dev \
-                   qml6-module-qtquick qml6-module-qtquick-templates qml6-module-qtquick-controls \
-                   qml6-module-qtquick-window qml6-module-qtquick-dialogs \
-                   qml6-module-qtqml-workerscript qml6-module-qtquick-layouts
 
 print_status "Installing Python dependencies"
 apt-get install -y python3 python3-numpy

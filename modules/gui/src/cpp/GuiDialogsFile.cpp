@@ -7,82 +7,148 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include "nlsQtWarnings.h"
-#include <QtCore/QDir>
-#include <QtCore/QFileInfo>
-#include <QtWidgets/QColorDialog>
-#include <QtWidgets/QFileDialog>
-#include <QtWidgets/QFontDialog>
-#ifdef _MSC_VER
-#include "ForceWindowsTitleBarToDark.hpp"
-#endif
+#include <cmath>
+#include <cwchar>
+#include <filesystem>
 #include "GuiDialogs.hpp"
 #include "GuiDialogProvider.hpp"
-#include "i18n.hpp"
 #include "GuiDialogsHelpers.hpp"
-#include "QStringConverter.hpp"
 #include "DialogDirectories.hpp"
+#include "Error.hpp"
+#include "ErrorID.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static QStringList
-runFileDialog(bool saveMode, const QString& title, const QString& path, const QString& filter,
-    bool multiSelect, QString& selectedFilter);
+// Builds a filter string ("Description (*.ext);;All Files (*)") from the
+// uigetfile/uiputfile first argument. The web front end parses it.
+static std::wstring
+fileFilter(const ArrayOfVector& argIn)
+{
+    if (argIn.empty()) {
+        return L"All Files (*)";
+    }
+    ArrayOf filter = argIn[0];
+    if (filter.isCellArrayOfCharacterVectors()) {
+        wstringVector parts = filter.asWideStringVector();
+        if (parts.empty()) {
+            return L"All Files (*)";
+        }
+        Dimensions dims = filter.dimensions();
+        const size_t rows = (size_t)dims.rows();
+        const size_t columns = (size_t)dims.columns();
+        wstringVector filters;
+        if (parts.size() == rows * columns && columns == 2 && rows >= 1) {
+            // Nx2 cell: { pattern, description ; ... } (column major storage)
+            for (size_t row = 0; row < rows; ++row) {
+                const std::wstring pattern = parts[row];
+                const std::wstring description = parts[rows + row];
+                if (description.empty()) {
+                    filters.push_back(pattern);
+                } else {
+                    filters.push_back(description + L" (" + pattern + L")");
+                }
+            }
+        } else {
+            for (const std::wstring& part : parts) {
+                filters.push_back(part);
+            }
+        }
+        std::wstring joined;
+        for (const std::wstring& f : filters) {
+            if (f.empty()) {
+                continue;
+            }
+            if (!joined.empty()) {
+                joined += L";;";
+            }
+            joined += f;
+        }
+        return joined.empty() ? L"All Files (*)" : joined;
+    }
+    if (filter.isRowVectorCharacterArray() || filter.isStringArray()) {
+        return filter.asWideString();
+    }
+    return L"All Files (*)";
+}
 //=============================================================================
-static QColor
-runColorDialog(const QColor& initial, const QString& title);
+static std::wstring
+rgbToHex(double r, double g, double b)
+{
+    auto clamp255 = [](double value) {
+        long i = std::lround(value * 255.0);
+        if (i < 0) {
+            i = 0;
+        }
+        if (i > 255) {
+            i = 255;
+        }
+        return (int)i;
+    };
+    wchar_t buffer[8];
+    std::swprintf(buffer, 8, L"#%02x%02x%02x", clamp255(r), clamp255(g), clamp255(b));
+    return buffer;
+}
 //=============================================================================
-static QFont
-runFontDialog(bool& ok, const QFont& initial, const QString& title);
+static bool
+hexToRgb(const std::wstring& hex, double& r, double& g, double& b)
+{
+    std::wstring s = hex;
+    if (!s.empty() && s[0] == L'#') {
+        s = s.substr(1);
+    }
+    if (s.size() != 6) {
+        return false;
+    }
+    try {
+        int ri = std::stoi(s.substr(0, 2), nullptr, 16);
+        int gi = std::stoi(s.substr(2, 2), nullptr, 16);
+        int bi = std::stoi(s.substr(4, 2), nullptr, 16);
+        r = ri / 255.0;
+        g = gi / 255.0;
+        b = bi / 255.0;
+        return true;
+    } catch (...) {
+        return false;
+    }
+}
 //=============================================================================
 ArrayOfVector
 UiGetFile(const ArrayOfVector& argIn, bool saveMode)
 {
-    QString title = saveMode ? QString("Save File") : QString("Open File");
+    std::wstring title = saveMode ? L"Save File" : L"Open File";
     if (argIn.size() > 1) {
-        title = wstringToQString(argIn[1].asWideString());
+        title = argIn[1].asWideString();
     }
-    QString selectedFilter;
-    QString explicitPath;
+    std::wstring explicitPath;
     if (argIn.size() > 2) {
-        explicitPath = wstringToQString(argIn[2].asWideString());
+        explicitPath = argIn[2].asWideString();
     }
     const std::wstring historyKey = saveMode ? L"desktop.save" : L"desktop.open";
-    QString explicitDirectory = explicitPath;
-    QString suggestedName;
-    if (saveMode && !explicitPath.isEmpty() && explicitPath != QStringLiteral(".")) {
-        QFileInfo info(explicitPath);
-        if (!info.isDir()) {
-            suggestedName = info.fileName();
-            explicitDirectory
-                = info.path() == QStringLiteral(".") ? QString() : info.absolutePath();
+    std::wstring explicitDirectory = explicitPath;
+    std::wstring suggestedName;
+    if (saveMode && !explicitPath.empty() && explicitPath != L".") {
+        std::error_code ec;
+        std::filesystem::path info(explicitPath);
+        if (!std::filesystem::is_directory(info, ec)) {
+            suggestedName = info.filename().wstring();
+            std::wstring parent = info.parent_path().wstring();
+            explicitDirectory = (parent == L".") ? std::wstring() : parent;
         }
     }
-    const QString path = wstringToQString(resolveDialogDirectory(
-        historyKey, QStringTowstring(explicitDirectory), QStringTowstring(QDir::currentPath())));
-    const QString startPath = suggestedName.isEmpty() ? path : QDir(path).filePath(suggestedName);
-    // Optional 'MultiSelect', 'on' | 'off' pairs (open mode only).
-    bool multiSelect = false;
-    if (!saveMode) {
-        for (size_t k = 3; k + 1 < argIn.size(); k += 2) {
-            if (!argIn[k].isRowVectorCharacterArray() && !argIn[k].isStringArray()) {
-                continue;
-            }
-            if (GuiDialogHelpers::isName(argIn[k], L"MultiSelect")) {
-                multiSelect = GuiDialogHelpers::isName(argIn[k + 1], L"on");
-            }
-        }
-    }
-    // Non-Qt front end (web): serve the file picker through the provider.
+    std::error_code ec;
+    const std::wstring currentPath = std::filesystem::current_path(ec).wstring();
+    const std::wstring path = resolveDialogDirectory(historyKey, explicitDirectory, currentPath);
+
     if (hasGuiDialogProvider()) {
         GuiDialogRequest request;
         request.kind = L"file";
-        request.title = QStringTowstring(title);
+        request.title = title;
         request.fileMode = saveMode ? L"save" : L"open";
-        request.defaultPath = QStringTowstring(path);
-        request.suggestedName = QStringTowstring(suggestedName);
+        request.defaultPath = path;
+        request.suggestedName = suggestedName;
         request.historyKey = historyKey;
-        request.fileFilters.push_back(QStringTowstring(GuiDialogHelpers::fileFilter(argIn)));
+        request.fileFilters.push_back(fileFilter(argIn));
         GuiDialogResponse response;
         if (runGuiDialog(request, response)) {
             ArrayOfVector out;
@@ -92,107 +158,93 @@ UiGetFile(const ArrayOfVector& argIn, bool saveMode)
                 out << ArrayOf::doubleScalar(0);
                 return out;
             }
-            QFileInfo picked(wstringToQString(response.path));
-            setDialogDirectory(historyKey, QStringTowstring(picked.absolutePath()));
-            out << ArrayOf::characterArray(QStringTowstring(picked.fileName()));
-            out << ArrayOf::characterArray(
-                QStringTowstring(QDir::toNativeSeparators(picked.path() + "/")));
+            std::filesystem::path picked(response.path);
+            const std::wstring directory = picked.parent_path().wstring();
+            setDialogDirectory(historyKey, directory);
+            std::wstring directoryWithSeparator = directory;
+            if (!directoryWithSeparator.empty() && directoryWithSeparator.back() != L'/'
+                && directoryWithSeparator.back() != L'\\') {
+                directoryWithSeparator += (wchar_t)std::filesystem::path::preferred_separator;
+            }
+            out << ArrayOf::characterArray(picked.filename().wstring());
+            out << ArrayOf::characterArray(directoryWithSeparator);
             out << ArrayOf::doubleScalar(1);
             return out;
         }
     }
-    QStringList files = runFileDialog(saveMode, title, startPath,
-        GuiDialogHelpers::fileFilter(argIn), multiSelect, selectedFilter);
-    ArrayOfVector retval;
-    if (files.isEmpty()) {
-        retval << ArrayOf::doubleScalar(0);
-        retval << ArrayOf::doubleScalar(0);
-        retval << ArrayOf::doubleScalar(0);
-        return retval;
-    }
-    QFileInfo info(files.first());
-    setDialogDirectory(historyKey, QStringTowstring(info.absolutePath()));
-    if (multiSelect && files.size() > 1) {
-        // MultiSelect only changes the first output when several files are
-        // selected: a cell array of file names, as expected by callers.
-        wstringVector names;
-        for (const QString& file : files) {
-            names.push_back(QStringTowstring(QFileInfo(file).fileName()));
-        }
-        retval << ArrayOf::cellArrayFromArrayOfCharacterRowVectors(names);
-    } else {
-        retval << ArrayOf::characterArray(QStringTowstring(info.fileName()));
-    }
-    retval << ArrayOf::characterArray(
-        QStringTowstring(QDir::toNativeSeparators(info.path() + "/")));
-    retval << ArrayOf::doubleScalar(1);
-    return retval;
+    Error(L"Nelson:uigetfile:noDisplay",
+        L"File dialogs require a graphical desktop, which is not available.");
+    ArrayOfVector out;
+    out << ArrayOf::doubleScalar(0);
+    out << ArrayOf::doubleScalar(0);
+    out << ArrayOf::doubleScalar(0);
+    return out;
 }
 //=============================================================================
 ArrayOf
 UiSetColor(const ArrayOfVector& argIn)
 {
-    QColor initial = Qt::white;
+    double ir = 1.0;
+    double ig = 1.0;
+    double ib = 1.0;
     if (!argIn.empty() && argIn[0].isNumeric() && argIn[0].elementCount() >= 3) {
-        initial = QColor::fromRgbF(GuiDialogHelpers::numericElement(argIn[0], 0, 1),
-            GuiDialogHelpers::numericElement(argIn[0], 1, 1),
-            GuiDialogHelpers::numericElement(argIn[0], 2, 1));
+        ir = GuiDialogHelpers::numericElement(argIn[0], 0, 1);
+        ig = GuiDialogHelpers::numericElement(argIn[0], 1, 1);
+        ib = GuiDialogHelpers::numericElement(argIn[0], 2, 1);
     }
-    QString title;
+    std::wstring title;
     if (argIn.size() > 1) {
-        title = wstringToQString(argIn[1].asWideString());
+        title = argIn[1].asWideString();
     }
-    // Non-Qt front end (web): serve the color picker through the provider.
     if (hasGuiDialogProvider()) {
         GuiDialogRequest request;
         request.kind = L"color";
-        request.title = title.isEmpty() ? _W("Select a color") : QStringTowstring(title);
-        request.defaultPath = QStringTowstring(initial.name());
+        request.title = title.empty() ? _W("Select a color") : title;
+        request.defaultPath = rgbToHex(ir, ig, ib);
         GuiDialogResponse response;
         if (runGuiDialog(request, response)) {
             if (!response.ok || response.path.empty()) {
                 return ArrayOf::doubleScalar(0);
             }
-            QColor picked(wstringToQString(response.path));
-            if (!picked.isValid()) {
+            double r = 0.0;
+            double g = 0.0;
+            double b = 0.0;
+            if (!hexToRgb(response.path, r, g, b)) {
                 return ArrayOf::doubleScalar(0);
             }
-            return ArrayOf::doubleRowVector({ picked.redF(), picked.greenF(), picked.blueF() });
+            return ArrayOf::doubleRowVector({ r, g, b });
         }
     }
-    QColor color = runColorDialog(initial, title);
-    if (!color.isValid()) {
-        return ArrayOf::doubleScalar(0);
-    }
-    return ArrayOf::doubleRowVector({ color.redF(), color.greenF(), color.blueF() });
+    Error(L"Nelson:uisetcolor:noDisplay",
+        L"uisetcolor requires a graphical desktop, which is not available.");
+    return ArrayOf::doubleScalar(0);
 }
 //=============================================================================
 ArrayOf
 UiSetFont(const ArrayOfVector& argIn)
 {
-    bool ok = false;
-    QFont initial;
+    std::wstring family;
+    double size = 0.0;
     if (!argIn.empty() && argIn[0].isStruct() && argIn[0].isScalar()) {
         if (argIn[0].isField("FontName")) {
-            initial.setFamily(wstringToQString(argIn[0].field("FontName").asWideString()));
+            family = argIn[0].field("FontName").asWideString();
         }
         if (argIn[0].isField("FontSize")) {
-            initial.setPointSizeF(argIn[0].field("FontSize").asDoubleScalar());
+            size = argIn[0].field("FontSize").asDoubleScalar();
         }
     }
-    QString title;
+    std::wstring title;
     if (argIn.size() > 1) {
-        title = wstringToQString(argIn[1].asWideString());
+        title = argIn[1].asWideString();
     }
-    // Non-Qt front end (web): serve the font picker through the provider.
     if (hasGuiDialogProvider()) {
         GuiDialogRequest request;
         request.kind = L"font";
-        request.title = title.isEmpty() ? _W("Select a font") : QStringTowstring(title);
-        request.fontFamily = QStringTowstring(initial.family());
-        request.fontSize = initial.pointSizeF() > 0 ? initial.pointSizeF() : 10.0;
-        request.fontBold = initial.bold();
-        request.fontItalic = initial.italic();
+        request.title = title.empty() ? _W("Select a font") : title;
+        request.fontFamily = family;
+        request.fontSize = size > 0 ? size : 10.0;
+        request.fontBold = false;
+        request.fontItalic = false;
         GuiDialogResponse response;
         if (runGuiDialog(request, response)) {
             if (!response.ok || response.values.size() < 2) {
@@ -215,69 +267,9 @@ UiSetFont(const ArrayOfVector& argIn)
                 { "FontName", "FontSize", "FontWeight", "FontAngle", "FontUnits" }, fields);
         }
     }
-    QFont font = runFontDialog(ok, initial, title);
-    if (!ok) {
-        return ArrayOf::doubleScalar(0);
-    }
-    ArrayOfVector values;
-    values << ArrayOf::characterArray(QStringTowstring(font.family()));
-    values << ArrayOf::doubleScalar(font.pointSizeF());
-    values << ArrayOf::characterArray(font.bold() ? L"bold" : L"normal");
-    values << ArrayOf::characterArray(font.italic() ? L"italic" : L"normal");
-    values << ArrayOf::characterArray(L"points");
-    return ArrayOf::structScalar(
-        { "FontName", "FontSize", "FontWeight", "FontAngle", "FontUnits" }, values);
-}
-//=============================================================================
-static QStringList
-runFileDialog(bool saveMode, const QString& title, const QString& path, const QString& filter,
-    bool multiSelect, QString& selectedFilter)
-{
-    QFileDialog dialog(GuiDialogHelpers::mainWindowParent(), title, path, filter);
-#ifdef _MSC_VER
-    forceWindowsTitleBarToDark(dialog.winId());
-#endif
-    dialog.setAcceptMode(saveMode ? QFileDialog::AcceptSave : QFileDialog::AcceptOpen);
-    if (saveMode) {
-        dialog.setFileMode(QFileDialog::AnyFile);
-    } else {
-        dialog.setFileMode(multiSelect ? QFileDialog::ExistingFiles : QFileDialog::ExistingFile);
-    }
-    if (dialog.exec() != QDialog::Accepted || dialog.selectedFiles().isEmpty()) {
-        return QStringList();
-    }
-    selectedFilter = dialog.selectedNameFilter();
-    return dialog.selectedFiles();
-}
-//=============================================================================
-static QColor
-runColorDialog(const QColor& initial, const QString& title)
-{
-    QColorDialog dialog(initial, GuiDialogHelpers::mainWindowParent());
-    if (!title.isEmpty()) {
-        dialog.setWindowTitle(title);
-    }
-#ifdef _MSC_VER
-    forceWindowsTitleBarToDark(dialog.winId());
-#endif
-    if (dialog.exec() != QDialog::Accepted) {
-        return QColor();
-    }
-    return dialog.selectedColor();
-}
-//=============================================================================
-static QFont
-runFontDialog(bool& ok, const QFont& initial, const QString& title)
-{
-    QFontDialog dialog(initial, GuiDialogHelpers::mainWindowParent());
-    if (!title.isEmpty()) {
-        dialog.setWindowTitle(title);
-    }
-#ifdef _MSC_VER
-    forceWindowsTitleBarToDark(dialog.winId());
-#endif
-    ok = dialog.exec() == QDialog::Accepted;
-    return ok ? dialog.selectedFont() : QFont();
+    Error(L"Nelson:uisetfont:noDisplay",
+        L"uisetfont requires a graphical desktop, which is not available.");
+    return ArrayOf::doubleScalar(0);
 }
 //=============================================================================
 } // namespace Nelson

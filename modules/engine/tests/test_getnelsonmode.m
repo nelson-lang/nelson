@@ -14,7 +14,7 @@ mode = getnelsonmode();
 asserts.isequal(class(mode), 'char');
 asserts.istrue(~isempty(mode));
 allowed_modes = {'BASIC_ENGINE', 'ADVANCED_ENGINE', 'BASIC_TERMINAL', ...
-  'ADVANCED_TERMINAL', 'GUI', 'WEB_GUI', 'WASM_TERMINAL'};
+  'ADVANCED_TERMINAL', 'GUI', 'WASM_TERMINAL'};
 asserts.istrue(ismember(mode, allowed_modes));
 if iswasm()
   asserts.isequal(mode, 'WASM_TERMINAL');

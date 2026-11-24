@@ -28,12 +28,10 @@ static const nlsGateway gateway[] = {
 static bool
 initializeTextEditorModule(Nelson::Evaluator* eval)
 {
-    // Only the Qt desktop has a native editor window and a QApplication to host it.
-    // Install the persistent assistant 'editorInsert' router here so an assistant
-    // insert can open the editor on demand even before any editor window exists.
-    if (NelsonConfiguration::getInstance()->getNelsonEngineMode() == GUI) {
-        installTextEditorAssistantRouter(eval);
-    }
+    // The code editor is served by the desktop (Monaco); install the
+    // persistent assistant 'editorInsert' router so an assistant insert can open
+    // the editor on demand.
+    installTextEditorAssistantRouter(eval);
     return true;
 }
 //=============================================================================

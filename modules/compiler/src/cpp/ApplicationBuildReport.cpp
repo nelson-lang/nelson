@@ -200,8 +200,8 @@ namespace {
             "Runtime startup order does not match selected modules.");
         require(runtime.at("gui").is_boolean() && runtime.at("dynamicStartup").is_boolean(),
             "Runtime flags must be logical scalars.");
-        require(
-            !runtime.at("gui").get<bool>() || (modules.count("graphics") && modules.count("gui")),
+        require(!runtime.at("gui").get<bool>()
+                || (modules.count("graphics") && modules.count("web_engine")),
             "A graphical runtime must include its graphical modules.");
         // glnxa64arm is Linux arm64: same bin/linux layout and .so as glnxa64
         const bool linux = architecture == "glnxa64" || architecture == "glnxa64arm";

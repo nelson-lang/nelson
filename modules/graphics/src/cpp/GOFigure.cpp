@@ -556,7 +556,7 @@ updateResizeChildren(GOFigure* fig);
 void
 GOFigure::updateState(bool forceUpdate)
 {
-    // Capture before the host consumes it: the web desktop reacts to a runtime
+    // Capture before the host consumes it: the desktop reacts to a runtime
     // WindowStyle change by moving the figure between a native window and a docked
     // panel. Cleared here so a later repaint does not re-fire it.
     const bool windowStyleChanged = hasChanged(GO_WINDOW_STYLE_PROPERTY_NAME_STR);
@@ -578,9 +578,13 @@ GOFigure::updateState(bool forceUpdate)
         clearChanged(GO_WINDOW_STYLE_PROPERTY_NAME_STR);
     }
     if (visibleChanged) {
-        // Web desktop: show or hide the native window. The notify clears the changed
+        // Desktop: show or hide the native window. The notify clears the changed
         // flag in web mode only.
         notifyWebFigureVisibleChanged(this);
+        // Consume the flag in every mode: a headless host never clears it, so each
+        // later updateState would re-run notifyFigureShown and record the current
+        // Position size, masking a subsequent resize from the SizeChangedFcn.
+        clearChanged(GO_VISIBLE_PROPERTY_NAME_STR);
     }
     if (titleChanged) {
         notifyWebFigureTitleChanged(this);
@@ -601,6 +605,15 @@ GOFigure::updateState(bool forceUpdate)
         clearChanged(GO_COLOR_MAP_PROPERTY_NAME_STR);
     }
     refreshPositionProperties(forceUpdate);
+    if (positionChanged) {
+        // A headless (web) figure renders at a size it adopts from Position; keep
+        // it in step when Position changes at runtime so the drawing area resizes,
+        // not only at creation.
+        adoptPositionAsRenderingSize();
+        // Desktop: slide the separate native window to follow a programmatic
+        // Position change. A no-op unless a position hook is registered.
+        notifyWebFigurePositionChanged(this);
+    }
     if (positionChanged || m_childrenLayoutStale) {
         m_childrenLayoutStale = false;
         updateResizeChildren(this);
@@ -877,6 +890,20 @@ GOFigure::refreshChildrenLayout()
     }
     m_childrenLayoutStale = false;
     updateResizeChildren(this);
+}
+//=============================================================================
+void
+GOFigure::adoptPositionAsRenderingSize()
+{
+    // Only a headless host leaves the rendering size unmanaged: a native or web
+    // window reports its own drawing area. The default rendering size comes from
+    // the screen-scaled defaultFigurePosition(), which differs from a Position set
+    // by a groot default or figure() argument; the layout (ticks, insets) would
+    // then be computed for the wrong width.
+    if (!m_win || !m_win->isHeadlessHost()) {
+        return;
+    }
+    syncRenderingSizeFromPosition(this);
 }
 //=============================================================================
 void

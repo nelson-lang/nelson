@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-if ((strcmp(getnelsonmode(), 'GUI') == 1) || (strcmp(getnelsonmode(), 'WEB_GUI') == 1) || (strcmp(getnelsonmode(), 'ADVANCED_TERMINAL') == 1))
+if ((strcmp(getnelsonmode(), 'GUI') == 1) || (strcmp(getnelsonmode(), 'ADVANCED_TERMINAL') == 1))
   if ~any(strcmp(argv(), '--no-user-startup'))
     history('save');
   end

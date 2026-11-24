@@ -36,7 +36,7 @@ end
 %=============================================================================
 function haveGui = shouldDisplayGui(forceNoGui)
   haveGui = (strcmp(getnelsonmode(), 'ADVANCED_TERMINAL') || strcmp(getnelsonmode(), ...
-    'GUI') || strcmp(getnelsonmode(), 'WEB_GUI')) && ~forceNoGui;
+    'GUI')) && ~forceNoGui;
 end
 %=============================================================================
 function [url, forceNoGui] = parseInputArguments(inputs)

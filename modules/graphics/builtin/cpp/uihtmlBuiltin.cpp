@@ -26,9 +26,9 @@ uihtmlBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 1);
     // Only a desktop able to run an HTML page can host this component. Nothing renders
     // it in the Qt desktop, so raise an error instead of returning a handle that never displays.
-    if (NelsonConfiguration::getInstance()->getNelsonEngineMode() != NELSON_ENGINE_MODE::WEB_GUI) {
+    if (NelsonConfiguration::getInstance()->getNelsonEngineMode() != NELSON_ENGINE_MODE::GUI) {
         Error(L"Nelson:uihtml:webviewDesktopRequired",
-            L"uihtml is supported only in the WebView desktop. See help uihtml.");
+            L"uihtml is supported only in the desktop. See help uihtml.");
     }
     ArrayOfVector retval;
     retval << graphicsObjectHandle(UIHtmlBuilder(argIn));

@@ -18,7 +18,7 @@
   </param_input>
   <param_output />
   <description>
-    <p><b>inspect</b> opens the property inspector, a panel hosted inside the figure window that lists the properties of the selected object and lets you edit them. The same inspector is available on the Qt desktop, the webview and the WebAssembly builds.</p>
+    <p><b>inspect</b> opens the property inspector, a panel hosted inside the figure window that lists the properties of the selected object and lets you edit them. The same inspector is available on the graphical desktop and the WebAssembly build.</p>
     <p><b>inspect</b> with no argument opens the inspector for the current figure.</p>
     <p><b>inspect(obj)</b> opens the inspector and selects <b>obj</b>. An object browser shows the figure, its axes and their children (lines, surfaces, patches, titles, labels, ...); selecting an entry displays its full list of properties.</p>
     <p>Editable properties are shown with the appropriate editor: a drop-down list for enumerated values, a color picker for colors, a check box for on/off values and a text field for numbers, vectors and strings. Read-only properties are shown but cannot be changed. Large or structured values (for example data arrays) are summarised, such as <b>1x100 double</b>.</p>

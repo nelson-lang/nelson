@@ -7,11 +7,11 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% uihtml hosts a live HTML page, which only the WebView desktop can display.
+% uihtml hosts a live HTML page, which only the desktop can display.
 % Everywhere else it must say so plainly instead of handing back a handle that
 % would never show anything.
 %=============================================================================
-skip_testsuite(strcmp(getnelsonmode(), 'WEB_GUI'), _('this test covers the modes without a WebView desktop.'));
+skip_testsuite(strcmp(getnelsonmode(), 'GUI'), _('this test covers the modes without a desktop.'));
 %=============================================================================
 asserts.isfalse(isempty(which('uihtml')));
 asserts.isfalse(isempty(which('sendEventToHTMLSource')));

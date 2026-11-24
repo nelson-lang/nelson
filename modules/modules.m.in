@@ -70,15 +70,13 @@ modules_list = {
 {'ipc', @WITH_IPC_MODULE@};
 {'audio', @WITH_AUDIO_MODULE@};
 {'history_manager', @WITH_HISTORY_MANAGER_MODULE_LOADER@};
-{'gui', @WITH_GUI_MODULE@};
-{'qml_engine', @WITH_QML_ENGINE_MODULE@};
-{'text_editor', @WITH_TEXT_EDITOR_MODULE@};
+{'text_editor', true};
 {'notebook', true};
 {'graphics', @WITH_GRAPHICS_MODULE@};
 {'graphics_io', @WITH_GRAPHICS_MODULE@};
 {'image_processing', @WITH_IMAGE_PROCESSING_MODULE@};
 {'webtools', @WITH_WEBTOOLS_MODULE@};
-{'webview', @WITH_WEBVIEW_MODULE@};
+{'gui', @WITH_GUI_MODULE_LOADER@};
 {'dynamic_link', @WITH_DYNAMIC_LINK_MODULE@};
 {'mex', @WITH_MEX_MODULE@};
 {'f2c', @WITH_F2C_MODULE@};

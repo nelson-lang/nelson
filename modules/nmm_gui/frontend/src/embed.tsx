@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-// The package manager as an embeddable component: the web desktop mounts it
+// The package manager as an embeddable component: the desktop mounts it
 // in a docked panel and provides the transport (its `tool.dispatch` RPC), the
 // backend events (`tool.event` pushes) and the deep link nmm_gui() was called
 // with. The window page (main.tsx) keeps its WebUI transport.

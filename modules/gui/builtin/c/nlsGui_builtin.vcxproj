@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{DA362D59-BF19-4889-B427-6F7A8497AAE2}</ProjectGuid>
+    <ProjectGuid>{795031B7-9EDF-4FBE-AF83-365DFB0BD473}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>nlsGui_builtin</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
@@ -89,92 +89,82 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader></PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>QT_NO_VERSION_TAGGING;WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSGUI_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSGUI_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/gui/builtin/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/error_manager/src/include;$(QTDIR)/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/gui/builtin/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/web_engine/src/include;$(SolutionDir)modules/web_engine/src/webui/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/nelson_manager/src/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalOptions> /Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>/lib;$(QTDIR)/lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader></PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>QT_NO_VERSION_TAGGING;WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSGUI_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSGUI_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/gui/builtin/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/error_manager/src/include;$(QTDIR)/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/gui/builtin/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/web_engine/src/include;$(SolutionDir)modules/web_engine/src/webui/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/nelson_manager/src/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalOptions> /Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>/lib;$(QTDIR)/lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <DebugInformationFormat>None</DebugInformationFormat>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader></PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>QT_NO_VERSION_TAGGING;WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSGUI_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSGUI_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/gui/builtin/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/error_manager/src/include;$(QTDIR)/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/gui/builtin/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/web_engine/src/include;$(SolutionDir)modules/web_engine/src/webui/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/nelson_manager/src/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalOptions> /Zc:__cplusplus /arch:AVX2 %(AdditionalOptions)</AdditionalOptions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalOptions>/arch:AVX2 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>/lib;$(QTDIR)/lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <ClCompile>
       <DebugInformationFormat>None</DebugInformationFormat>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader></PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>QT_NO_VERSION_TAGGING;WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSGUI_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSGUI_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/gui/builtin/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/error_manager/src/include;$(QTDIR)/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/gui/builtin/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/web_engine/src/include;$(SolutionDir)modules/web_engine/src/webui/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/nelson_manager/src/include</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalOptions> /Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -182,40 +172,12 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>/lib;$(QTDIR)/lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\cpp\bannerBuiltin.cpp" />
-    <ClCompile Include="..\cpp\openvarBuiltin.cpp" />
-    <ClCompile Include="..\cpp\filebrowserBuiltin.cpp" />
-    <ClCompile Include="..\cpp\Gateway.cpp" />
-    <ClCompile Include="..\cpp\historybrowserBuiltin.cpp" />
-    <ClCompile Include="..\cpp\inputdlgBuiltin.cpp" />
-    <ClCompile Include="..\cpp\inserthtmlBuiltin.cpp" />
-    <ClCompile Include="..\cpp\listdlgBuiltin.cpp" />
-    <ClCompile Include="..\cpp\lookandfeelBuiltin.cpp" />
-    <ClCompile Include="..\cpp\qt_verboseBuiltin.cpp" />
-    <ClCompile Include="..\cpp\__native_screen_info__Builtin.cpp" />
-    <ClCompile Include="..\cpp\questdlgBuiltin.cpp" />
-    <ClCompile Include="..\cpp\terminalBuiltin.cpp" />
-    <ClCompile Include="..\cpp\uialertBuiltin.cpp" />
-    <ClCompile Include="..\cpp\uiconfirmBuiltin.cpp" />
-    <ClCompile Include="..\cpp\uigetdirBuiltin.cpp" />
-    <ClCompile Include="..\cpp\uigetfileBuiltin.cpp" />
-    <ClCompile Include="..\cpp\uiopenBuiltin.cpp" />
-    <ClCompile Include="..\cpp\uiprogressdlgBuiltin.cpp" />
-    <ClCompile Include="..\cpp\uiputfileBuiltin.cpp" />
-    <ClCompile Include="..\cpp\uisaveBuiltin.cpp" />
-    <ClCompile Include="..\cpp\uisetcolorBuiltin.cpp" />
-    <ClCompile Include="..\cpp\uisetfontBuiltin.cpp" />
-    <ClCompile Include="..\cpp\dllMain.cpp" />
-    <ClCompile Include="..\cpp\workspacebrowserBuiltin.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\core\src\c\nlsCore.vcxproj">
-      <Project>{2e6aabb4-2551-4478-814d-648150952186}</Project>
-    </ProjectReference>
+    <ProjectReference Include="..\..\..\engine\src\c\nlsEngine.vcxproj"><Project>{B6946BBD-72C9-4257-AA48-535AE9B4D776}</Project></ProjectReference>
+    <ProjectReference Include="..\..\..\modules_manager\src\c\nlsModules_manager.vcxproj"><Project>{F666AC18-EEDA-4A00-ACD2-4CAFE3865C15}</Project></ProjectReference>
+    <ProjectReference Include="..\..\..\nelson_manager\src\c\nlsNelson_manager.vcxproj"><Project>{E467B14F-0D56-4237-B649-EB5572B5E731}</Project></ProjectReference>
     <ProjectReference Include="..\..\..\error_manager\src\c\nlsError_manager.vcxproj">
       <Project>{d0ef0ceb-a3bd-44ab-91b3-f33db1870f8d}</Project>
     </ProjectReference>
@@ -225,47 +187,19 @@
     <ProjectReference Include="..\..\..\interpreter\src\c\nlsInterpreter.vcxproj">
       <Project>{17135b09-bc25-448e-9750-c09a87fde6f8}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\nelson_manager\src\c\nlsNelson_manager.vcxproj">
-      <Project>{e467b14f-0d56-4237-b649-eb5572b5e731}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\types\src\c\nlsTypes.vcxproj">
       <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\c\nlsGui.vcxproj">
-      <Project>{075f60ad-38ba-4531-9d46-7453e3416e15}</Project>
+    <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">
+      <Project>{A75DC538-EEFA-4873-888B-A034A7EE72C5}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\c\nlsGui.vcxproj">
+      <Project>{C1D2E3F4-0001-4A2B-8C3D-A1B2C3D40001}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\web_engine\src\c\nlsWeb_engine.vcxproj"><Project>{585FA4C3-C0BE-4FE9-B4D3-476FE810CEB8}</Project></ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\include\bannerBuiltin.hpp" />
-    <ClInclude Include="..\include\dialogBuiltin.hpp" />
-    <ClInclude Include="..\include\openvarBuiltin.hpp" />
-    <ClInclude Include="..\include\errordlgBuiltin.hpp" />
-    <ClInclude Include="..\include\filebrowserBuiltin.hpp" />
-    <ClInclude Include="..\include\helpdlgBuiltin.hpp" />
-    <ClInclude Include="..\include\historybrowserBuiltin.hpp" />
-    <ClInclude Include="..\include\inputdlgBuiltin.hpp" />
-    <ClInclude Include="..\include\inserthtmlBuiltin.hpp" />
-    <ClInclude Include="..\include\listdlgBuiltin.hpp" />
-    <ClInclude Include="..\include\lookandfeelBuiltin.hpp" />
-    <ClInclude Include="..\include\nlsGui_builtin_exports.h" />
-    <ClInclude Include="..\include\qt_verboseBuiltin.hpp" />
-    <ClInclude Include="..\include\__native_screen_info__Builtin.hpp" />
-    <ClInclude Include="..\include\questdlgBuiltin.hpp" />
-    <ClInclude Include="..\include\terminalBuiltin.hpp" />
-    <ClInclude Include="..\include\uialertBuiltin.hpp" />
-    <ClInclude Include="..\include\uiconfirmBuiltin.hpp" />
-    <ClInclude Include="..\include\uigetdirBuiltin.hpp" />
-    <ClInclude Include="..\include\uigetfileBuiltin.hpp" />
-    <ClInclude Include="..\include\uiopenBuiltin.hpp" />
-    <ClInclude Include="..\include\uiprogressdlgBuiltin.hpp" />
-    <ClInclude Include="..\include\uiputfileBuiltin.hpp" />
-    <ClInclude Include="..\include\uisaveBuiltin.hpp" />
-    <ClInclude Include="..\include\uisetcolorBuiltin.hpp" />
-    <ClInclude Include="..\include\uisetfontBuiltin.hpp" />
-    <ClInclude Include="..\include\workspacebrowserBuiltin.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\etc\finish.m" />
@@ -275,6 +209,57 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\cpp\examplesBuiltin.cpp" />
+    <ClCompile Include="..\cpp\questdlgBuiltin.cpp" />
+    <ClCompile Include="..\cpp\inputdlgBuiltin.cpp" />
+    <ClCompile Include="..\cpp\listdlgBuiltin.cpp" />
+    <ClCompile Include="..\cpp\uialertBuiltin.cpp" />
+    <ClCompile Include="..\cpp\uiconfirmBuiltin.cpp" />
+    <ClCompile Include="..\cpp\uigetfileBuiltin.cpp" />
+    <ClCompile Include="..\cpp\uiputfileBuiltin.cpp" />
+    <ClCompile Include="..\cpp\uigetdirBuiltin.cpp" />
+    <ClCompile Include="..\cpp\uisetcolorBuiltin.cpp" />
+    <ClCompile Include="..\cpp\uisetfontBuiltin.cpp" />
+    <ClCompile Include="..\cpp\uiopenBuiltin.cpp" />
+    <ClCompile Include="..\cpp\uisaveBuiltin.cpp" />
+    <ClCompile Include="..\cpp\workspacebrowserBuiltin.cpp" />
+    <ClCompile Include="..\cpp\historybrowserBuiltin.cpp" />
+    <ClCompile Include="..\cpp\filebrowserBuiltin.cpp" />
+    <ClCompile Include="..\cpp\openvarBuiltin.cpp" />
+    <ClCompile Include="..\cpp\terminalBuiltin.cpp" />
+    <ClCompile Include="..\cpp\inserthtmlBuiltin.cpp" />
+    <ClCompile Include="..\cpp\Gateway.cpp" />
+    <ClCompile Include="..\cpp\render_htmlBuiltin.cpp" />
+    <ClCompile Include="..\cpp\uihtml_spikeBuiltin.cpp" />
+    <ClCompile Include="..\cpp\webviewBuiltin.cpp" />
+    <ClCompile Include="..\cpp\dllMain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\examplesBuiltin.hpp" />
+    <ClInclude Include="..\include\questdlgBuiltin.hpp" />
+    <ClInclude Include="..\include\inputdlgBuiltin.hpp" />
+    <ClInclude Include="..\include\listdlgBuiltin.hpp" />
+    <ClInclude Include="..\include\uialertBuiltin.hpp" />
+    <ClInclude Include="..\include\uiconfirmBuiltin.hpp" />
+    <ClInclude Include="..\include\uigetfileBuiltin.hpp" />
+    <ClInclude Include="..\include\uiputfileBuiltin.hpp" />
+    <ClInclude Include="..\include\uigetdirBuiltin.hpp" />
+    <ClInclude Include="..\include\uisetcolorBuiltin.hpp" />
+    <ClInclude Include="..\include\uisetfontBuiltin.hpp" />
+    <ClInclude Include="..\include\uiopenBuiltin.hpp" />
+    <ClInclude Include="..\include\uisaveBuiltin.hpp" />
+    <ClInclude Include="..\include\workspacebrowserBuiltin.hpp" />
+    <ClInclude Include="..\include\historybrowserBuiltin.hpp" />
+    <ClInclude Include="..\include\filebrowserBuiltin.hpp" />
+    <ClInclude Include="..\include\openvarBuiltin.hpp" />
+    <ClInclude Include="..\include\terminalBuiltin.hpp" />
+    <ClInclude Include="..\include\inserthtmlBuiltin.hpp" />
+    <ClInclude Include="..\include\nlsGui_builtin_exports.h" />
+    <ClInclude Include="..\include\render_htmlBuiltin.hpp" />
+    <ClInclude Include="..\include\uihtml_spikeBuiltin.hpp" />
+    <ClInclude Include="..\include\webviewBuiltin.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

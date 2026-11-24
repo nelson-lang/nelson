@@ -224,6 +224,7 @@
     <ClCompile Include="..\cpp\__figure_mouse_event__Builtin.cpp" />
     <ClCompile Include="..\cpp\__uicomponent_event__Builtin.cpp" />
     <ClCompile Include="..\cpp\__figure_native_geometry__Builtin.cpp" />
+    <ClCompile Include="..\cpp\__native_screen_info__Builtin.cpp" />
     <ClCompile Include="..\cpp\__uicontrol_key_event__Builtin.cpp" />
     <ClCompile Include="..\cpp\allchildBuiltin.cpp" />
     <ClCompile Include="..\cpp\axesBuiltin.cpp" />
@@ -331,6 +332,7 @@
     <ClCompile Include="..\cpp\uibuttongroupBuiltin.cpp" />
     <ClCompile Include="..\cpp\uicontextmenuBuiltin.cpp" />
     <ClCompile Include="..\cpp\uicontrolBuiltin.cpp" />
+    <ClCompile Include="..\cpp\uiprogressdlgBuiltin.cpp" />
     <ClCompile Include="..\cpp\uifigureBuiltin.cpp" />
     <ClCompile Include="..\cpp\uigridlayoutBuiltin.cpp" />
     <ClCompile Include="..\cpp\uilabelBuiltin.cpp" />
@@ -508,6 +510,7 @@
     <ClInclude Include="..\include\uitogglebuttonBuiltin.hpp" />
     <ClInclude Include="..\include\uibuttongroupBuiltin.hpp" />
     <ClInclude Include="..\include\uicontrolBuiltin.hpp" />
+    <ClInclude Include="..\include\uiprogressdlgBuiltin.hpp" />
     <ClInclude Include="..\include\uifigureBuiltin.hpp" />
     <ClInclude Include="..\include\uigridlayoutBuiltin.hpp" />
     <ClInclude Include="..\include\uilabelBuiltin.hpp" />
@@ -532,6 +535,7 @@
     <ClInclude Include="..\include\__figure_mouse_event__Builtin.hpp" />
     <ClInclude Include="..\include\__uicomponent_event__Builtin.hpp" />
     <ClInclude Include="..\include\__figure_native_geometry__Builtin.hpp" />
+    <ClInclude Include="..\include\__native_screen_info__Builtin.hpp" />
     <ClInclude Include="..\include\__uicontrol_key_event__Builtin.hpp" />
     <ClInclude Include="..\include\__zoom__Builtin.hpp" />
   </ItemGroup>

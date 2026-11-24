@@ -560,7 +560,7 @@ namespace FontMetrics {
         if (text.find(L'\n') != std::wstring::npos) {
             // Ink top of the first line to ink bottom of the last: full line height
             // for every line but the last, tight height for the last.
-            // whole pixel line step, as QFontMetrics::lineSpacing: each added line grows the
+            // whole pixel line step (the reference line spacing): each added line grows the
             // rounded block by the same amount on every platform
             const std::vector<std::wstring> lines = splitTextLines(text);
             return (lines.size() - 1)

@@ -143,6 +143,12 @@ public:
     // the script-side logical size, apart from the panel rendering size).
     void
     refreshChildrenLayout();
+    // Headless host only: adopt the Position pixel size as the rendering size
+    // (m_width/m_height). A headless figure has no window to report a drawing area,
+    // so the layout size must track Position. A web panel later reports its own
+    // size through setFigureSize/applyWebWindowGeometry and takes over from there.
+    void
+    adoptPositionAsRenderingSize();
     bool
     applyWebWindowGeometry(int x, int y, int width, int height);
     double

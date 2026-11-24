@@ -187,7 +187,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\copygraphicsBuiltin.cpp" />
-    <ClCompile Include="..\qt\GraphicsIoQtAdapterLoader.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
     <ClCompile Include="..\cpp\imformatsBuiltin.cpp" />
@@ -245,9 +244,6 @@
     </ProjectReference>
     <ProjectReference Include="..\..\src\c\nlsGraphics_io.vcxproj">
       <Project>{5a91d173-5401-481e-bdac-a79e210009a6}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\c\nlsGraphics_io_qt.vcxproj">
-      <Project>{55062246-8aaa-41d4-9767-92bafa387861}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

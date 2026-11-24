@@ -10,12 +10,10 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
+#include "nlsGui_builtin_exports.h"
 //=============================================================================
-namespace Nelson::GuiGateway {
-//=============================================================================
-ArrayOfVector
-workspacebrowserBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-//=============================================================================
-}; // namespace Nelson
+namespace Nelson::WebviewGateway {
+NLSGUI_BUILTIN_IMPEXP ArrayOfVector
+workspacebrowserBuiltin(int nLhs, const ArrayOfVector& argIn);
+} // namespace Nelson::WebviewGateway
 //=============================================================================

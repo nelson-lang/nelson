@@ -9,8 +9,7 @@ dependencies:
   - just
   - pkg-config
   - cxx-compiler
-  # GUI, graphics and help (qt6-main bundles qtbase, qtdeclarative, qtsvg and qttools)
-  - qt6-main
+  # Graphics (OpenGL for rendering; the native WebView loads GTK/WebKit at run time)
   - libgl-devel
   - libegl-devel
   - libopengl-devel

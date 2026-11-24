@@ -117,10 +117,10 @@ public:
     haveNoIpc();
     bool
     haveWithoutFileWatcher();
-    // `--webview` on the advanced terminal: terminal REPL, figures rendered by
-    // the headless RenderWeb host instead of Qt.
+    // `--headless` on the advanced terminal: render figures offscreen only (no
+    // window). By default the advanced terminal renders figures as real web windows.
     bool
-    haveWebGraphics();
+    haveHeadless();
 
     // `--notebook-kernel` on the advanced terminal: drive the interpreter over a
     // stdio JSON-RPC frame channel, figures served headless on the same channel.
@@ -153,7 +153,7 @@ private:
     bool _minimize;
     bool _withoutFileWatcher;
     bool _webServerMode;
-    bool _webGraphics;
+    bool _headless;
     bool _notebookKernel;
     bool _dap;
     int _dapPort;

@@ -8,94 +8,51 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "HtmlToPdf.hpp"
-#include "DynamicLibrary.hpp"
-#include <cstdio>
-#include <string>
-#include <mutex>
-#include <stdexcept>
-#include "Error.hpp"
-#include "ErrorID.hpp"
-#include "i18n.hpp"
-#include "NelsonConfiguration.hpp"
-#include "RuntimeDispatch.hpp"
+#include "HtmlToPdfProvider.hpp"
+#include "characters_encoding.hpp"
+#include <chrono>
+#include <filesystem>
+#include <fstream>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-namespace {
-    library_handle nlsGuiHandleDynamicLibrary = nullptr;
-    std::once_flag guiLibraryInitFlag;
-    void
-    logErrorAndThrow(const std::string& message)
-    {
-        const std::string msg = _(message.c_str());
-        const std::string error_msg = get_dynamic_library_error();
-        if (!error_msg.empty()) {
-            RaiseError(msg + "\n" + error_msg, "Nelson:htmltopdf:conversionFailed");
-        } else {
-            Error("Nelson:htmltopdf:conversionFailed", msg);
-        }
-    }
-    //=============================================================================
-    template <typename FuncPtr>
-    FuncPtr
-    getFunctionPointer(const char* functionName)
-    {
-        auto funcPtr
-            = reinterpret_cast<FuncPtr>(get_function(nlsGuiHandleDynamicLibrary, functionName));
-        if (funcPtr == nullptr) {
-            logErrorAndThrow(Nelson::resolveMessageTemplate(
-                "Nelson:help_tools:guiFunctionLoaded", "Gui Function not loaded."));
-        }
-        return funcPtr;
-    }
-    //=============================================================================
-} // namespace
+// HTML to PDF conversion is served by the web stack (nelson-webview) through the
+// nelson_manager seam. help_tools stays free of any desktop web dependency; when
+// no provider is registered the conversion is reported as unavailable.
 //=============================================================================
-static void
-initGuiDynamicLibrary()
+bool
+HtmlFileToPdfFile(const std::wstring& htmlsrcfilename, const std::wstring& pdfdestfilename,
+    std::wstring& errorMessage)
 {
-    if (!hasGuiServices()) {
-        logErrorAndThrow("Gui services not available.");
-    }
-    std::call_once(guiLibraryInitFlag, []() {
-        const std::wstring fullpathGuiSharedLibrary
-            = L"libnlsGui" + get_dynamic_library_extensionW();
-        const std::wstring nelsonLibrariesDirectory
-            = NelsonConfiguration::getInstance()->getNelsonLibraryDirectory();
-        const std::wstring libraryPath = nelsonLibrariesDirectory + L"/" + fullpathGuiSharedLibrary;
-
-        nlsGuiHandleDynamicLibrary = load_dynamic_libraryW(libraryPath);
-        if (nlsGuiHandleDynamicLibrary == nullptr) {
-            logErrorAndThrow("Gui module not loaded.");
-        }
-    });
+    errorMessage.clear();
+    return runHtmlToPdf(htmlsrcfilename, pdfdestfilename, errorMessage);
 }
 //=============================================================================
 bool
-HtmlFileToPdfFile(const std::wstring& htmlsrcfilename, const std::wstring& pdfdestfilename)
+HtmlStreamToPdfFile(
+    const std::wstring& htmlstream, const std::wstring& pdfdestfilename, std::wstring& errorMessage)
 {
-    using PROC_HtmlFileToPdfFile = bool (*)(std::wstring, std::wstring);
-    static PROC_HtmlFileToPdfFile HtmlFileToPdfFilePtr = nullptr;
-
-    initGuiDynamicLibrary();
-    if (HtmlFileToPdfFilePtr == nullptr) {
-        HtmlFileToPdfFilePtr = getFunctionPointer<PROC_HtmlFileToPdfFile>("HtmlFileToPdfFile");
+    errorMessage.clear();
+    std::error_code ec;
+    std::filesystem::path base = std::filesystem::temp_directory_path(ec);
+    if (ec || base.empty()) {
+        base = std::filesystem::current_path();
     }
-    return HtmlFileToPdfFilePtr(htmlsrcfilename, pdfdestfilename);
-}
-//=============================================================================
-bool
-HtmlStreamToPdfFile(const std::wstring& htmlstream, const std::wstring& pdfdestfilename)
-{
-    using PROC_HtmlStreamToPdfFile = bool (*)(std::wstring, std::wstring);
-    static PROC_HtmlStreamToPdfFile HtmlStreamToPdfFilePtr = nullptr;
+    const auto stamp = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+    std::filesystem::path htmlPath
+        = base / ("nelson_htmltopdf_stream_" + std::to_string(stamp) + ".html");
 
-    initGuiDynamicLibrary();
-    if (HtmlStreamToPdfFilePtr == nullptr) {
-        HtmlStreamToPdfFilePtr
-            = getFunctionPointer<PROC_HtmlStreamToPdfFile>("HtmlStreamToPdfFile");
+    std::ofstream htmlFile(htmlPath, std::ios::binary);
+    if (!htmlFile.is_open()) {
+        return false;
     }
-    return HtmlStreamToPdfFilePtr(htmlstream, pdfdestfilename);
+    const std::string utf8Html = wstring_to_utf8(htmlstream);
+    htmlFile.write(utf8Html.data(), static_cast<std::streamsize>(utf8Html.size()));
+    htmlFile.close();
+
+    const bool ok = runHtmlToPdf(htmlPath.wstring(), pdfdestfilename, errorMessage);
+    std::filesystem::remove(htmlPath, ec);
+    return ok;
 }
 //=============================================================================
 } // namespace Nelson

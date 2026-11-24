@@ -36,7 +36,7 @@
     <p>
       <b>h</b> doit être un unique objet uihtml, sinon l'erreur <b>Nelson:sendEventToHTMLSource:invalidHandle</b> est levée. Un nom d'événement qui n'est pas un texte non vide lève <b>Nelson:sendEventToHTMLSource:invalidEventName</b>.</p>
     <p
-    >Comme uihtml, cette fonction n'est utile que dans le bureau WebView.</p>
+    >Comme uihtml, cette fonction n'est utile que dans le bureau graphique.</p>
   </description>
   <used_function />
   <bibliography />

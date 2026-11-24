@@ -165,12 +165,6 @@ run(const NelsonApplicationStartup& startup)
         fs::current_path(root);
         extraction.emplace();
         environment("NELSONC_EXTRACTION_DIRECTORY", extraction->path());
-        if (gui) {
-            environment("QT_PLUGIN_PATH", libraries / "plugins");
-            environment("QT_QPA_PLATFORM_PLUGIN_PATH", libraries / "plugins" / "platforms");
-            environment("QML_IMPORT_PATH", libraries / "qml");
-            environment("QML2_IMPORT_PATH", libraries / "qml");
-        }
     }
 
     std::vector<fs::path::string_type> arguments { startup.executable };

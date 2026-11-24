@@ -13,6 +13,6 @@ end
 filename = fullfile(modulepath('nelson', 'builtin'), ['libnlsEngine', getdynlibext()]);
 info = jsondecode(__library_dependencies__(filename));
 imports = lower(string([info.needed; info.delayed]));
-asserts.isfalse(any(contains(imports, 'libnlsweb_gui')));
+asserts.isfalse(any(contains(imports, 'libnlsgui')));
 asserts.isfalse(any(contains(imports, 'libnlswebview')));
 %=============================================================================

@@ -408,7 +408,7 @@ if(NELSON_PORTABLE_BUILD)
         ${_nelson_runtime_capabilities}
       )
       if(NELSON_PORTABLE_WITH_PLOTS)
-        list(APPEND _nelson_wasm_example_capabilities gui web_gui)
+        list(APPEND _nelson_wasm_example_capabilities gui)
       endif()
       string(JOIN "," _nelson_wasm_example_modules ${_nelson_runtime_modules})
       string(JOIN
@@ -639,8 +639,8 @@ if(NELSON_PORTABLE_BUILD)
       endif()
       file(GLOB_RECURSE _nelson_wasm_frontend_sources
         CONFIGURE_DEPENDS
-        "${CMAKE_SOURCE_DIR}/modules/web_gui/frontend/src/*"
-        "${CMAKE_SOURCE_DIR}/modules/web_gui/frontend/scripts/*"
+        "${CMAKE_SOURCE_DIR}/modules/gui/src/ts/frontend/src/*"
+        "${CMAKE_SOURCE_DIR}/modules/gui/src/ts/frontend/scripts/*"
       )
       set(_nelson_wasm_browser_stamp
         "${CMAKE_BINARY_DIR}/generated/wasm-browser.stamp"
@@ -666,11 +666,12 @@ if(NELSON_PORTABLE_BUILD)
           ${_nelson_wasm_nmm_build_commands}
         COMMAND "${NELSON_NODE_EXECUTABLE}"
           "${CMAKE_SOURCE_DIR}/tools/wasm/package-browser.mjs" --frontend
-          "${CMAKE_SOURCE_DIR}/modules/web_gui/frontend/dist-wasm" --runtime
+          "${CMAKE_SOURCE_DIR}/modules/gui/src/ts/frontend/dist-wasm" --runtime
           "${BIN_DIRECTORY}" ${_nelson_wasm_runtime_package_arguments}
           --adapters "${CMAKE_SOURCE_DIR}/tools/wasm" --output
           "${BIN_DIRECTORY}/browser" --examples "${_nelson_wasm_examples_dir}"
-          --examples-ui "${CMAKE_SOURCE_DIR}/modules/webview/frontend/examples"
+          --examples-ui
+          "${CMAKE_SOURCE_DIR}/modules/web_engine/frontend/examples"
           --capabilities "${_nelson_wasm_capabilities_file}" --pwa-icon
           "${CMAKE_SOURCE_DIR}/desktop/icons/hicolor/512x512/apps/nelson.png"
           ${_nelson_wasm_module_resource_package_arguments}
@@ -680,8 +681,8 @@ if(NELSON_PORTABLE_BUILD)
         DEPENDS
           nelson-cli-exec
           ${_nelson_wasm_frontend_sources}
-          "${CMAKE_SOURCE_DIR}/modules/web_gui/frontend/package.json"
-          "${CMAKE_SOURCE_DIR}/modules/web_gui/frontend/package-lock.json"
+          "${CMAKE_SOURCE_DIR}/modules/gui/src/ts/frontend/package.json"
+          "${CMAKE_SOURCE_DIR}/modules/gui/src/ts/frontend/package-lock.json"
           "${CMAKE_SOURCE_DIR}/tools/wasm/nelson-runtime.mjs"
           "${CMAKE_SOURCE_DIR}/tools/wasm/nelson-coi-serviceworker.js"
           "${CMAKE_SOURCE_DIR}/tools/wasm/nelson-help-sw.js"
@@ -701,7 +702,7 @@ if(NELSON_PORTABLE_BUILD)
           ${_nelson_wasm_module_resource_dependencies}
           ${_nelson_wasm_nflow_dependencies}
           ${_nelson_wasm_nmm_dependencies}
-        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/modules/web_gui/frontend"
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/modules/gui/src/ts/frontend"
         COMMENT "Building the Nelson WebAssembly browser bundle"
         VERBATIM
       )

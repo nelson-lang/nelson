@@ -14,6 +14,13 @@ baseline = jsondecode(fileread(baselineFile));
 asserts.isequal(baseline.schemaVersion, 1);
 asserts.isequal(baseline.grid(:).', [6 8]);
 
+% The baseline stores logical sizes (= Position in pixels). getframe captures an
+% axes figure at device resolution, so on a scaled display the cdata is the logical
+% size times DevicePixelRatio (1.25 at 125%, a no-op at 96 dpi where CI runs). Scale
+% the expected sizes by the same ratio the engine uses so the check tracks the real
+% raster at any display scale; the normalized block samples stay scale-independent.
+deviceRatio = capture_device_ratio();
+
 [actual.line, pngBase64] = capture_line_scene();
 actual.bars = capture_bar_scene();
 actual.multi2d = capture_multi2d_scene();
@@ -34,7 +41,7 @@ lines = cell(1, length(sceneNames));
 failed = false;
 for sceneIndex = 1:length(sceneNames)
   sceneName = sceneNames{sceneIndex};
-  [meanAbsoluteError, outlierFraction, sizeOk] = raster_scene_error(actual.(sceneName), baseline.scenes.(sceneName));
+  [meanAbsoluteError, outlierFraction, sizeOk] = raster_scene_error(actual.(sceneName), baseline.scenes.(sceneName), deviceRatio);
   lines{sceneIndex} = sprintf('%s: MAE=%.4f outlier=%.4f sizeOk=%d', ...
     sceneName, meanAbsoluteError, outlierFraction, sizeOk);
   if ~sizeOk || meanAbsoluteError > maxMeanAbsoluteError || outlierFraction > maxOutlierFraction
@@ -136,8 +143,16 @@ function result = raster_fingerprint(image, rowCount, columnCount)
   result = struct('size', [height width 3], 'samples', samples);
 end
 
-function [meanAbsoluteError, outlierFraction, sizeOk] = raster_scene_error(actual, expected)
-  sizeOk = isequal(actual.size, expected.size(:).') && isequal(size(actual.samples), size(expected.samples));
+function result = capture_device_ratio()
+  f = figure('Visible', 'off', 'Position', [0 0 160 120]);
+  cleanup = onCleanup(@() close(f)); %#ok<NLS0004>
+  result = max(1, get(f, 'DevicePixelRatio'));
+end
+
+function [meanAbsoluteError, outlierFraction, sizeOk] = raster_scene_error(actual, expected, deviceRatio)
+  expectedSize = expected.size(:).';
+  expectedSize(1:2) = round(expectedSize(1:2) * deviceRatio);
+  sizeOk = isequal(actual.size, expectedSize) && isequal(size(actual.samples), size(expected.samples));
   if ~sizeOk
     meanAbsoluteError = inf;
     outlierFraction = inf;

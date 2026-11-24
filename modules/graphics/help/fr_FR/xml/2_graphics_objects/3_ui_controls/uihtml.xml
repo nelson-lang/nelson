@@ -27,7 +27,7 @@
   </param_output>
   <description>
     <p><b>h = uihtml()</b> crée un composant qui affiche une page HTML dans une figure et échange des données avec elle.</p>
-    <p><b>uihtml nécessite le bureau WebView.</b> Ailleurs, il lève <b>Nelson:uihtml:webviewDesktopRequired</b>, car aucune page ne peut y être affichée. Démarrez le bureau WebView pour l'utiliser.</p>
+    <p><b>uihtml nécessite le bureau graphique.</b> Ailleurs, il lève <b>Nelson:uihtml:webviewDesktopRequired</b>, car aucune page ne peut y être affichée. Démarrez le bureau graphique pour l'utiliser.</p>
     <p><b>HTMLSource</b> accepte deux formes : du balisage HTML, ou le nom d'un fichier HTML (relatif ou absolu). La valeur est conservée telle quelle. Une URL n'est pas acceptée.</p>
     <p>La page doit définir une fonction globale <b>setup</b> prenant un argument. Elle s'exécute une fois le contenu chargé, puis à chaque fois que <b>HTMLSource</b> prend une valeur différente. Réaffecter la même valeur ne change rien.</p>
     <p>L'objet passé à <b>setup</b> porte la propriété <b>Data</b>, les méthodes <b>addEventListener</b> et <b>removeEventListener</b>, et la méthode <b>sendEventToNelson(nom, données)</b>. Les pages écrites pour d'autres environnements nomment cette dernière méthode autrement et doivent être modifiées.</p>

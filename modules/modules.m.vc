@@ -70,15 +70,13 @@ modules_list = {
 {'ipc', true};
 {'audio', true};
 {'history_manager', true};
-{'gui', true};
-{'qml_engine', true};
 {'text_editor', true};
 {'notebook', true};
 {'graphics', true};
 {'graphics_io', true};
 {'image_processing', true};
 {'webtools', true};
-{'webview', true};
+{'gui', true};
 {'dynamic_link', true};
 {'mex', true};
 {'f2c', true};

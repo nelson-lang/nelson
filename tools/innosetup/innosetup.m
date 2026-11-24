@@ -15,13 +15,6 @@ if fp ~= -1
   compiler = version('-compiler');
   vernumber = version('-number');
   arch = computer('arch');
-  isQt6 = isfile([modulepath('nelson','builtin'), '/', 'Qt6Core.dll']);
-  if isQt6
-    fprintf(fp, ['#define QT6_USED', char(10)]);
-  else
-    fclose(fp);
-    error('Qt6 is required: Qt6Core.dll not found.');
-  end
   if strcmp(compiler{1}, 'icx') == true
     fprintf(fp, ['#define ICX_COMPILER', char(10)]);
   end

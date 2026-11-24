@@ -170,6 +170,11 @@ struct WebUIControl
     std::string horizontalAlignment = "center"; // left, center, right
     std::string verticalAlignment = "center"; // top, center, bottom
     std::string extraJson; // rich payload (uitable/uitree) as a JSON object
+    // True-color icon (uibutton Icon given as an RGB(A) matrix): tightly packed RGBA8,
+    // row-major, iconWidth * iconHeight pixels. Empty when there is no raster icon.
+    std::vector<unsigned char> iconRgba;
+    int iconWidth = 0;
+    int iconHeight = 0;
 };
 //=============================================================================
 // A vertex of the software z-buffer raster: screen pixel position (top-left
@@ -657,7 +662,7 @@ private:
 // Qt-free software rasterizer for a web display list (the primitives RenderWeb
 // records). Text is drawn with stb_truetype, embedded rasters are decoded with
 // stb_image, 2x supersampled for anti-aliasing. rgbOut is row-major RGB8
-// (width*height*3). Used by getframe and the web PNG export in WEB_GUI mode.
+// (width*height*3). Used by getframe and the web PNG export in the desktop (GUI) mode.
 NLSRENDERWEB_IMPEXP bool
 rasterizeWebPrimitives(const std::vector<WebDrawPrimitive>& primitives, int width, int height,
     std::vector<unsigned char>& rgbOut);

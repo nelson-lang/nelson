@@ -11,7 +11,9 @@
 %=============================================================================
 matver = {'-v7', '-v7.3'};
 %=============================================================================
-h = warndlg();
+% A graphics handle cannot be serialized. Use a figure handle directly: dialog
+% helpers return an empty handle when a desktop renders them in the browser.
+h = figure('Visible', 'off');
 %=============================================================================
 for v = matver
   test_file_mat = [tempname(), '.mat'];

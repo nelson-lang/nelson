@@ -14,26 +14,24 @@
 #include "Evaluator.hpp"
 #include "nlsGui_exports.h"
 //=============================================================================
+// Dialog functions served by the desktop front end through the registered
+// dialog provider (see GuiDialogProvider.hpp). No native widget toolkit is
+// used; without a front end the functions raise a "no graphical desktop" error.
+//=============================================================================
 namespace Nelson {
 //=============================================================================
 NLSGUI_IMPEXP ArrayOf
 InputDialog(const ArrayOfVector& argIn);
-//=============================================================================
 NLSGUI_IMPEXP ArrayOfVector
 ListDialog(const ArrayOfVector& argIn);
-//=============================================================================
 NLSGUI_IMPEXP ArrayOfVector
 UiGetFile(const ArrayOfVector& argIn, bool saveMode);
-//=============================================================================
 NLSGUI_IMPEXP ArrayOf
 UiSetColor(const ArrayOfVector& argIn);
-//=============================================================================
 NLSGUI_IMPEXP ArrayOf
 UiSetFont(const ArrayOfVector& argIn);
-//=============================================================================
 NLSGUI_IMPEXP ArrayOf
 UiAlert(const ArrayOfVector& argIn);
-//=============================================================================
 NLSGUI_IMPEXP ArrayOf
 UiConfirm(const ArrayOfVector& argIn);
 //=============================================================================
@@ -49,7 +47,6 @@ struct UiPreferenceDialogOptions
     bool checkboxState = false;
     std::wstring helpString;
 };
-//=============================================================================
 struct UiPreferenceDialogResult
 {
     std::wstring value;
@@ -58,19 +55,10 @@ struct UiPreferenceDialogResult
     bool buttonClicked = false;
     bool helpRequested = false;
 };
-//=============================================================================
 NLSGUI_IMPEXP UiPreferenceDialogResult
 UiPreferenceDialog(const UiPreferenceDialogOptions& options);
-//=============================================================================
-NLSGUI_IMPEXP void
-ShowPreferencesDialog(const std::wstring& page);
-//=============================================================================
-NLSGUI_IMPEXP ArrayOf
-UiProgressDialog(const ArrayOfVector& argIn);
-//=============================================================================
 NLSGUI_IMPEXP void
 UiOpen(Evaluator* eval, const ArrayOfVector& argIn);
-//=============================================================================
 NLSGUI_IMPEXP void
 UiSave(Evaluator* eval, const ArrayOfVector& argIn);
 //=============================================================================

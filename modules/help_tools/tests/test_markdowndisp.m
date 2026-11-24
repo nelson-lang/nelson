@@ -13,7 +13,7 @@ asserts.isequal(nargin('markdowndisp'), 1);
 asserts.isequal(nargout('markdowndisp'), 0);
 %=============================================================================
 mode = getnelsonmode();
-if ~contains(mode, {'GUI', 'WEB_GUI', 'WASM_TERMINAL'})
+if ~contains(mode, {'GUI', 'WASM_TERMINAL'})
   txt = evalc('markdowndisp(''**bold**'')');
   asserts.istrue(contains(txt, '**bold**'));
 end
@@ -22,7 +22,7 @@ asserts.checkerror('markdowndisp(1)', _('Input argument must be a string scalar 
 asserts.checkerror('markdowndisp(1)', _('Input argument must be a string scalar or row character vector.'), 'Nelson:markdowndisp:invalidInput');
 asserts.checkerror('markdowndisp([''a''; ''b''])', _('Input argument must be a string scalar or row character vector.'));
 %=============================================================================
-if contains(mode, {'GUI', 'WEB_GUI', 'WASM_TERMINAL'})
+if contains(mode, {'GUI', 'WASM_TERMINAL'})
   asserts.checkerror('markdowndisp([''a'', char(8)])', _('Backspace character is not supported.'));
   asserts.checkerror('markdowndisp([''a'', char(8)])', _('Backspace character is not supported.'), 'Nelson:markdowndisp:backspaceNotSupported');
 end

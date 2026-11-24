@@ -1,4 +1,4 @@
-﻿//=============================================================================
+//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -8,30 +8,27 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "openvarBuiltin.hpp"
-#include "Error.hpp"
+#include "GuiDialogProvider.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "VariablesEditor.hpp"
-#include "NelsonConfiguration.hpp"
-#include "NelSon_engine_mode.h"
-#include "ErrorID.hpp"
 //=============================================================================
-using namespace Nelson;
+namespace Nelson::WebviewGateway {
 //=============================================================================
 ArrayOfVector
-Nelson::GuiGateway::openvarBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+openvarBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 0);
-    auto engineMode = NelsonConfiguration::getInstance()->getNelsonEngineMode();
-    if (engineMode != GUI) {
-        return {};
+    const std::wstring variableName = argIn[0].asWideString();
+    // Open the variable editor of the desktop on this variable.
+    if (hasGuiDialogProvider()) {
+        GuiDialogRequest request;
+        request.kind = L"openvariable";
+        request.defaultPath = variableName;
+        GuiDialogResponse response;
+        runGuiDialog(request, response);
     }
-    std::wstring variableName = argIn[0].asWideString();
-    if (!VariablesEditor::getVariablesEditor()) {
-        VariablesEditor::createVariablesEditor(eval);
-    }
-    VariablesEditor::openVariable(variableName);
-    VariablesEditor::showVariablesEditor();
     return {};
 }
+//=============================================================================
+} // namespace Nelson::WebviewGateway
 //=============================================================================

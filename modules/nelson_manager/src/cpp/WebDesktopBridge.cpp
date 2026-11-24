@@ -255,6 +255,22 @@ WebDesktopBridge::pushWebFigureTitle(long long handle, const char* title)
 }
 //=============================================================================
 void
+WebDesktopBridge::setWebFigurePositionHook(
+    void (*fn)(void*, long long, int, int, int, int), void* ctx)
+{
+    this->m_webFigurePositionFn = fn;
+    this->m_webFigurePositionCtx = ctx;
+}
+//=============================================================================
+void
+WebDesktopBridge::pushWebFigurePosition(long long handle, int x, int y, int width, int height)
+{
+    if (this->m_webFigurePositionFn != nullptr) {
+        this->m_webFigurePositionFn(this->m_webFigurePositionCtx, handle, x, y, width, height);
+    }
+}
+//=============================================================================
+void
 WebDesktopBridge::setWebClipboardImageHook(void (*fn)(void*, const char*, int), void* ctx)
 {
     this->m_webClipboardImageFn = fn;
@@ -285,6 +301,64 @@ WebDesktopBridge::pushWebPackageUpdates(int count)
     if (this->m_webPackageUpdatesFn != nullptr) {
         this->m_webPackageUpdatesFn(this->m_webPackageUpdatesCtx, count);
     }
+}
+//=============================================================================
+void
+WebDesktopBridge::setWebMinimizeHook(void (*fn)(void*, bool), void* ctx)
+{
+    this->m_webMinimizeFn = fn;
+    this->m_webMinimizeCtx = ctx;
+}
+//=============================================================================
+void
+WebDesktopBridge::setWebIsMinimizedHook(bool (*fn)(void*), void* ctx)
+{
+    this->m_webIsMinimizedFn = fn;
+    this->m_webIsMinimizedCtx = ctx;
+}
+//=============================================================================
+bool
+WebDesktopBridge::hasWebMinimizeHook() const
+{
+    return this->m_webMinimizeFn != nullptr;
+}
+//=============================================================================
+bool
+WebDesktopBridge::requestWebMinimize(bool minimize)
+{
+    if (this->m_webMinimizeFn == nullptr) {
+        return false;
+    }
+    this->m_webMinimizeFn(this->m_webMinimizeCtx, minimize);
+    return true;
+}
+//=============================================================================
+bool
+WebDesktopBridge::queryWebMinimized()
+{
+    if (this->m_webIsMinimizedFn == nullptr) {
+        return false;
+    }
+    return this->m_webIsMinimizedFn(this->m_webIsMinimizedCtx);
+}
+//=============================================================================
+void
+WebDesktopBridge::setWebFigureNativeGeometryHook(
+    bool (*fn)(void*, long long, double*, double*, double*, double*), void* ctx)
+{
+    this->m_webFigureNativeGeometryFn = fn;
+    this->m_webFigureNativeGeometryCtx = ctx;
+}
+//=============================================================================
+bool
+WebDesktopBridge::queryWebFigureNativeGeometry(
+    long long handle, double* x, double* y, double* width, double* height)
+{
+    if (this->m_webFigureNativeGeometryFn == nullptr) {
+        return false;
+    }
+    return this->m_webFigureNativeGeometryFn(
+        this->m_webFigureNativeGeometryCtx, handle, x, y, width, height);
 }
 //=============================================================================
 void

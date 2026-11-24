@@ -237,7 +237,10 @@ TestChildProcess::start(const std::wstring& executable, const std::wstring& argu
     startup.StartupInfo.hStdInput = inputRead;
     std::vector<HANDLE> inherited { outputWrite, errorWrite, inputRead };
     AttributeList attributes(inherited);
-    DWORD flags = CREATE_NEW_PROCESS_GROUP;
+    // CREATE_NO_WINDOW: the child nelson-cli is a console program but its output is
+    // captured through the redirected pipes, so it must not pop its own console. Under
+    // the desktop (a GUI process) each test would otherwise flash a black window.
+    DWORD flags = CREATE_NEW_PROCESS_GROUP | CREATE_NO_WINDOW;
     if (_impl->job != nullptr) {
         flags |= CREATE_SUSPENDED;
     }

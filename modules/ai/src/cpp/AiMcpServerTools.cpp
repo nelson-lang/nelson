@@ -732,7 +732,7 @@ captureNelsonFigure(Evaluator* eval, const ArrayOf& args, const McpOptions& opti
 }
 //=============================================================================
 // Write generated code to a file and open it in the active editor (Qt desktop,
-// web desktop or notebook host, through the host-agnostic edit() function), so
+// desktop or notebook host, through the host-agnostic edit() function), so
 // the assistant can hand a script to the user instead of only running it.
 ToolResult
 openInNelsonEditor(Evaluator* eval, const ArrayOf& args, const McpOptions& options)

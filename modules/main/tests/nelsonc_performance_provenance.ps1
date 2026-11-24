@@ -50,7 +50,7 @@ function Assert-NelsoncPerformanceRuntimePair([object[]]$Before, [object[]]$Afte
         'libnlsDynamic_link_builtin.dll' = 'dynamic_link/builtin/c/nlsDynamic_link_builtin.vcxproj'
         'libnlsFile_archiver.dll' = 'file_archiver/src/c/nlsFile_archiver.vcxproj'
         'libnlsFile_archiver_builtin.dll' = 'file_archiver/builtin/c/nlsFile_archiver_builtin.vcxproj'
-        'libnlsWeb_gui.dll' = 'web_gui/src/c/nlsWeb_gui.vcxproj'
+        'libnlsGui.dll' = 'gui/src/c/nlsGui.vcxproj'
         'libnlsEngine.dll' = 'engine/src/c/nlsEngine.vcxproj'
     }
     $buildOnly = @{

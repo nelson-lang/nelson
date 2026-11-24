@@ -8,8 +8,8 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 addgateway(modulepath('nmm_gui', 'builtin'), 'nmm_gui');
-if ismodule('webview')
-  % The web desktop hosts the package manager as a panel through this dispatcher.
+if ismodule('gui')
+  % The desktop hosts the package manager as a panel through this dispatcher.
   __webview__('registerWebTool', 'nmm', modulepath('nmm_gui', 'builtin'), 'nlsNmmGuiWebToolDispatch');
 end
 addpath(modulepath('nmm_gui', 'functions'), '-frozen');

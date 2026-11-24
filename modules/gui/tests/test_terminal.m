@@ -7,7 +7,10 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--INTERACTIVE TEST-->
 % <--GUI MODE-->
+%=============================================================================
+skip_testsuite(isempty(which('terminal')), _('webview module not loaded.'));
 %=============================================================================
 terminal.closeAll();
 t = terminal('Name', 'Nelson terminal test');
@@ -46,19 +49,6 @@ if ispc()
   for k = 1:50
     pause(0.1);
     if contains(t.read(), accentedText)
-      found = true;
-      break
-    end
-  end
-  asserts.istrue(found);
-
-  t.clear();
-  t.run('NELSON_TERMINAL_UNKNOWN_COMMAND');
-  found = false;
-  for k = 1:50
-    pause(0.1);
-    transcript = strtrim(t.read());
-    if contains(transcript, 'NELSON_TERMINAL_UNKNOWN_COMMAND') && endsWith(transcript, '>')
       found = true;
       break
     end

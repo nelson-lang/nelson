@@ -35,7 +35,7 @@ copygraphicsBuiltin(int nLhs, const ArrayOfVector& argIn)
     GOFigure* figure = host->hostFigure();
     figure->setRenderingStateInvalid(true);
     const auto mode = NelsonConfiguration::getInstance()->getNelsonEngineMode();
-    if (mode == WEB_GUI || mode == WASM_TERMINAL) {
+    if (mode == GUI || mode == WASM_TERMINAL) {
         const int width = figure->getWidth();
         const int height = figure->getHeight();
         RenderWeb renderer(0, 0, width, height);

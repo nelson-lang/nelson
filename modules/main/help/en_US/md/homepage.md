@@ -2,7 +2,7 @@
 
 # Nelson 2.0.0
 
-**Nelson 2.0 is a major release.** It includes a faster language engine based on bytecode, object-oriented programming with `classdef`, NFlow (a visual block diagram editor with simulation and C/Rust code generation), a preview of the web desktop (including a WebAssembly build that runs in the browser), and many new data types, graphics functions, statistics functions, and developer tools.
+**Nelson 2.0 is a major release.** It includes a faster language engine based on bytecode, object-oriented programming with `classdef`, NFlow (a visual block diagram editor with simulation and C/Rust code generation), a preview of the graphical desktop (including a WebAssembly build that runs in the browser), and many new data types, graphics functions, statistics functions, and developer tools.
 
 The main homepage for Nelson can be found at [https://nelson-lang.github.io/nelson-website/](https://nelson-lang.github.io/nelson-website/). The complete list of changes is available in the [Changelog v2.x.x](CHANGELOG.md).
 
@@ -41,14 +41,14 @@ Nelson follows the array-oriented conventions used by established numerical comp
 - **Code generation and FMI**: standalone C or Rust generation from the same diagram, FMI 2.0/3.0 import, FMI 3.0 Co-Simulation export, and SSP import/export.
 - **Scripted model API**: `new_system`, `add_block`, `add_line`, `get_param`/`set_param`, `find_system`, and related helpers; changes made from scripts appear immediately in the editor.
 
-### Web Desktop and Browser Interface (preview)
+### Graphical Desktop and Browser Interface (preview)
 
 - **The whole desktop in a browser**: Command Window, Workspace browser, Command History, file browser, Variable Editor, code editor, and figures in dockable panels with light and dark themes.
-- **Two ways to run it**: the `nelson-webview` launcher opens a native webview window by default, or serves the same desktop over HTTP with `--web`.
+- **Two ways to run it**: the `nelson-gui` launcher opens a native graphical desktop window by default, or serves the same desktop over HTTP with `--web`.
 - **Code editor**: an editor based on Monaco, with autocompletion, hover help, Run Section for `%%` blocks, live debugging, and a Problems panel with quick fixes.
 - **Figures and user interfaces without Qt**: a display-list renderer with WebGL2 for 3-D, interactive rotation, pan and zoom, `uicontrol` and ui components as HTML widgets, and standard dialogs as modals.
 - **Other panels**: profiler, documentation browser, system terminal, import data dialog, examples gallery, and package manager.
-- **WebAssembly build**: Nelson also compiles to WebAssembly. The same web desktop then runs entirely in the browser, with no server and no installation, and the engine can be used from Node.js. This build is single-threaded and excludes native extensions, process creation, and code generation; `iswasm` reports the platform.
+- **WebAssembly build**: Nelson also compiles to WebAssembly. The same graphical desktop then runs entirely in the browser, with no server and no installation, and the engine can be used from Node.js. This build is single-threaded and excludes native extensions, process creation, and code generation; `iswasm` reports the platform.
 
 ### New Data Types
 
@@ -105,7 +105,7 @@ Nelson follows the array-oriented conventions used by established numerical comp
 
 ### Visualization and Interface
 
-- **2-D and 3-D plotting** with high-level commands and two rendering backends (Qt and web).
+- **2-D and 3-D plotting** with high-level commands.
 - **User interface controls** and `uifigure` components for building custom applications.
 - **Desktop environment** with command history, file explorer, workspace browser, variable editor, embedded code editor, and terminal panel.
 

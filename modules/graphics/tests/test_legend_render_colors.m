@@ -20,9 +20,14 @@ lgd = legend(ax, {'red'; 'blue'}, 'Location', 'northeast');
 lgd.Direction = 'reverse';
 drawnow();
 frame = getframe(f);
+% getframe captures an axes figure at device resolution, so on a scaled display the
+% swatch sits DevicePixelRatio times further right and larger (1.25 at 125%, a no-op at
+% 96 dpi where CI runs). The normalized legend anchor already tracks the physical cdata;
+% only the absolute-pixel sampling window needs the same scaling.
+deviceRatio = max(1, get(f, 'DevicePixelRatio'));
 if ~ismac()
-  assert_legend_swatch_color(frame.cdata, lgd.Position, 1, [0 0 1]);
-  assert_legend_swatch_color(frame.cdata, lgd.Position, 2, [1 0 0]);
+  assert_legend_swatch_color(frame.cdata, lgd.Position, 1, [0 0 1], deviceRatio);
+  assert_legend_swatch_color(frame.cdata, lgd.Position, 2, [1 0 0], deviceRatio);
 end
 close(f);
 %=============================================================================
@@ -60,12 +65,12 @@ function names = reference_legend_properties()
     'SelectionHighlight'; 'HitTest'; 'PickableParts'; 'Layout'};
 end
 %=============================================================================
-function assert_legend_swatch_color(cdata, position, rowIndex, expectedColor)
+function assert_legend_swatch_color(cdata, position, rowIndex, expectedColor, deviceRatio)
   figureHeight = size(cdata, 1);
   figureWidth = size(cdata, 2);
-  rowHeight = ceil(9 * 1.35);
-  xmin = max(1, round(position(1) * figureWidth) + 4);
-  xmax = min(figureWidth, round(position(1) * figureWidth) + 35);
+  rowHeight = ceil(9 * 1.35 * deviceRatio);
+  xmin = max(1, round(position(1) * figureWidth) + round(4 * deviceRatio));
+  xmax = min(figureWidth, round(position(1) * figureWidth) + round(35 * deviceRatio));
   legendTop = round(figureHeight - (position(2) + position(4)) * figureHeight);
   ymin = max(1, legendTop + (rowIndex - 1) * rowHeight);
   ymax = min(figureHeight, ymin + rowHeight - 1);

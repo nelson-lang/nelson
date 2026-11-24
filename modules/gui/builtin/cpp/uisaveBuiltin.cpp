@@ -11,7 +11,7 @@
 #include "GuiDialogs.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
-namespace Nelson::GuiGateway {
+namespace Nelson::WebviewGateway {
 //=============================================================================
 ArrayOfVector
 uisaveBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
@@ -22,5 +22,5 @@ uisaveBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
     return {};
 }
 //=============================================================================
-} // namespace Nelson::GuiGateway
+} // namespace Nelson::WebviewGateway
 //=============================================================================

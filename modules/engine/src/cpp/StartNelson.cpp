@@ -64,14 +64,14 @@
 #include "i18n.hpp"
 #include "PathFunctionIndexerManager.hpp"
 #include "RuntimeDispatch.hpp"
-#ifdef NELSON_WEB_GUI_ENABLED
-#include "MainWebGuiDynamic.hpp"
+#ifdef NELSON_GUI_ENABLED
+#include "MainGuiDynamic.hpp"
 #endif
 //=============================================================================
 static bool
 isWindowedStartupMode(NELSON_ENGINE_MODE mode)
 {
-    return mode == GUI || mode == WEB_GUI;
+    return mode == GUI;
 }
 //=============================================================================
 // nelson-gui and nelson-webview own no console: a MessageBox startup diagnostic
@@ -282,7 +282,7 @@ restoreDesktopCurrentDirectory()
 {
     const NELSON_ENGINE_MODE mode = static_cast<NELSON_ENGINE_MODE>(
         NelsonConfiguration::getInstance()->getNelsonEngineMode());
-    if (mode != NELSON_ENGINE_MODE::GUI && mode != NELSON_ENGINE_MODE::WEB_GUI) {
+    if (mode != NELSON_ENGINE_MODE::GUI) {
         return;
     }
 
@@ -318,18 +318,18 @@ EvaluateCommandLineCommand(Evaluator* eval, const std::wstring& command)
     }
 }
 //=============================================================================
-// Advanced terminal with web figures (--webview): the figure server owns a push thread,
+// Advanced terminal with web figures: the figure server owns a push thread,
 // WebUI server threads and RPC threads that call into the graphics module. Stop them and
 // close the native windows before the modules are unloaded, or they race the teardown
-// (access violation or a hang at exit). The web desktop stops its server after its own loop.
+// (access violation or a hang at exit). The desktop stops its server after its own loop.
 static void
 shutdownWebGraphicsFigures()
 {
-#ifdef NELSON_WEB_GUI_ENABLED
+#ifdef NELSON_GUI_ENABLED
     NelsonConfiguration* configuration = NelsonConfiguration::getInstance();
     if (configuration->isWebGraphicsMode()
         && configuration->getNelsonEngineMode() == NELSON_ENGINE_MODE::ADVANCED_TERMINAL) {
-        ShutdownWebGuiDynamic();
+        ShutdownGuiDynamic();
     }
 #endif
 }
@@ -374,11 +374,11 @@ NelsonMainStates(Evaluator* eval, bool haveNoStartup, bool haveNoUserStartup,
         }
     }
     PathFunctionIndexerManager::getInstance()->startFileWatcher();
-#ifdef NELSON_WEB_GUI_ENABLED
+#ifdef NELSON_GUI_ENABLED
     if ((NELSON_ENGINE_MODE)NelsonConfiguration::getInstance()->getNelsonEngineMode()
-        == NELSON_ENGINE_MODE::WEB_GUI) {
+        == NELSON_ENGINE_MODE::GUI) {
         std::string launchError;
-        if (!WaitWebGuiLaunchedDynamic(launchError)) {
+        if (!WaitGuiLaunchedDynamic(launchError)) {
             eval->getInterface()->errorMessage(utf8_to_wstring(launchError));
             eval->setExitCode(1);
             goto FINISH;
@@ -485,7 +485,7 @@ EXIT:
 static bool
 runEvaluatorInWorker(NELSON_ENGINE_MODE mode)
 {
-    return mode == NELSON_ENGINE_MODE::GUI || mode == NELSON_ENGINE_MODE::WEB_GUI;
+    return mode == NELSON_ENGINE_MODE::GUI;
 }
 //=============================================================================
 #ifndef _MSC_VER
@@ -498,10 +498,10 @@ runEvaluatorThread(void* context)
 #endif
 //=============================================================================
 static int
-NelsonMainStatesWithMainThreadEvents(Evaluator* eval, NELSON_ENGINE_MODE mode, bool haveNoStartup,
-    bool haveNoUserStartup, bool haveNoUserModules, const std::wstring& commandToExecute,
-    const std::wstring& fileToExecute, const wstringVector& filesToOpen,
-    const wstringVector& filesToLoad, const wstringVector& associatedFiles)
+NelsonMainStatesWithMainThreadEvents(Evaluator* eval, bool haveNoStartup, bool haveNoUserStartup,
+    bool haveNoUserModules, const std::wstring& commandToExecute, const std::wstring& fileToExecute,
+    const wstringVector& filesToOpen, const wstringVector& filesToLoad,
+    const wstringVector& associatedFiles)
 {
     int exitCode = -1;
     std::exception_ptr workerException;
@@ -515,9 +515,6 @@ NelsonMainStatesWithMainThreadEvents(Evaluator* eval, NELSON_ENGINE_MODE mode, b
             workerException = std::current_exception();
         }
         evaluatorDone.store(true, std::memory_order_release);
-        if (mode == NELSON_ENGINE_MODE::GUI) {
-            postToGui([]() { });
-        }
     };
 
 #ifdef _MSC_VER
@@ -544,25 +541,12 @@ NelsonMainStatesWithMainThreadEvents(Evaluator* eval, NELSON_ENGINE_MODE mode, b
 #endif
 
     while (!evaluatorDone.load(std::memory_order_acquire)) {
-        if (mode == NELSON_ENGINE_MODE::GUI) {
-            // The blocking pump wakes on posted events, so evaluator-to-GUI calls
-            // are not delayed by the sleep below (~15.6 ms OS timer tick on Windows).
-            if (Nelson::pumpGuiEventsBlocking(50)) {
-                continue;
-            }
-            Nelson::processGuiEvents(false);
-        }
-#ifdef NELSON_WEB_GUI_ENABLED
-        else if (mode == NELSON_ENGINE_MODE::WEB_GUI) {
-            ProcessWebGuiEventsDynamic();
-        }
+#ifdef NELSON_GUI_ENABLED
+        // The desktop owns the main thread here: pump its event queue, then yield
+        // briefly so the evaluator worker makes progress (~15.6 ms OS timer tick on Windows).
+        ProcessGuiEventsDynamic();
 #endif
-        if (mode == NELSON_ENGINE_MODE::GUI) {
-            // Wakes at once when the evaluator posts GUI work (callGuiSync).
-            Nelson::waitGuiWork(1);
-        } else {
-            std::this_thread::sleep_for(std::chrono::milliseconds(1));
-        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
 #ifdef _MSC_VER
     evaluatorThread.join();
@@ -573,13 +557,8 @@ NelsonMainStatesWithMainThreadEvents(Evaluator* eval, NELSON_ENGINE_MODE mode, b
             joinError, std::generic_category(), "Cannot join the evaluator thread");
     }
 #endif
-    if (mode == NELSON_ENGINE_MODE::GUI) {
-        Nelson::processGuiEvents(false);
-    }
-#ifdef NELSON_WEB_GUI_ENABLED
-    else if (mode == NELSON_ENGINE_MODE::WEB_GUI) {
-        ShutdownWebGuiDynamic();
-    }
+#ifdef NELSON_GUI_ENABLED
+    ShutdownGuiDynamic();
 #endif
 
     if (workerException) {
@@ -617,10 +596,12 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
     } else {
         NelsonConfiguration::getInstance()->enableFileWatcher();
     }
-    // The three headless figure modes (--webview, --notebook-kernel, --dap) render
-    // figures through the Qt-free RenderWeb host instead of Qt windows, so
-    // web-graphics mode underlies all of them.
-    if (po.haveWebGraphics() || po.haveNotebookKernel() || po.haveDap()) {
+    // The advanced terminal renders figures through the Qt-free RenderWeb host by
+    // default (real web windows); `--headless` opts out to offscreen-only rendering.
+    // notebook-kernel and dap always drive the headless-web host over their channel.
+    const bool advTerminalRenders
+        = (_mode == NELSON_ENGINE_MODE::ADVANCED_TERMINAL) && !po.haveHeadless();
+    if (advTerminalRenders || po.haveNotebookKernel() || po.haveDap()) {
         NelsonConfiguration::getInstance()->setWebGraphicsMode(true);
     }
     // `--notebook-kernel`: drive the interpreter over a stdio JSON-RPC frame channel
@@ -771,11 +752,11 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
                                  L"Nelson cannot load base modules.")
                 + L"\n");
         }
-        const bool useMainThreadEvents = runEvaluatorInWorker(_mode)
-            && (_mode == NELSON_ENGINE_MODE::WEB_GUI || hasGuiServices());
+        const bool useMainThreadEvents
+            = runEvaluatorInWorker(_mode) && (_mode == NELSON_ENGINE_MODE::GUI || hasGuiServices());
         prepareEngineEvaluator(eval);
         if (useMainThreadEvents) {
-            exitCode = NelsonMainStatesWithMainThreadEvents(eval, _mode, po.haveNoStartup(),
+            exitCode = NelsonMainStatesWithMainThreadEvents(eval, po.haveNoStartup(),
                 po.haveNoUserStartup(), po.haveNoUserModules(), commandToExecute, fileToExecute,
                 filesToOpen, filesToLoad, associatedFiles);
         } else {

@@ -13,8 +13,8 @@
 #include "AdvancedTerminal.hpp"
 #include "MainEvaluator.hpp"
 #include "BasicTerminal.hpp"
-#ifdef NELSON_WEB_GUI_ENABLED
-#include "MainWebGuiDynamic.hpp"
+#ifdef NELSON_GUI_ENABLED
+#include "MainGuiDynamic.hpp"
 #include "WebUiHelpers.hpp"
 #endif
 #include "BuiltInFunctionDefManager.hpp"
@@ -22,9 +22,7 @@
 #include "Clear.hpp"
 #include "ClearGlobal.hpp"
 #include "ComputionalThreads.hpp"
-#include "GuiTerminal.hpp"
 #include "Localization.hpp"
-#include "MainGuiObjectDynamic.hpp"
 #include "ModulesManager.hpp"
 #include "PathFunctionIndexerManager.hpp"
 #include "i18n.hpp"
@@ -34,18 +32,6 @@
 #include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-// Whether the process can talk to a window server. Graphics availability follows
-// the display, not the terminal: redirected standard streams still draw figures.
-static bool
-isDisplayAvailable()
-{
-#if defined(_WIN32) || defined(__APPLE__)
-    return true;
-#else
-    return (getenv("DISPLAY") != nullptr) || (getenv("WAYLAND_DISPLAY") != nullptr);
-#endif
-}
 //=============================================================================
 Evaluator*
 createMainEvaluator(NELSON_ENGINE_MODE _mode, const std::wstring& lang, bool minimizeWindow,
@@ -75,7 +61,6 @@ createMainEvaluator(NELSON_ENGINE_MODE _mode, const std::wstring& lang, bool min
                 exit(1);
                 break;
             case ADVANCED_ENGINE:
-                InitGuiObjectsDynamic();
                 fprintf(stderr, "%s", msg.c_str());
                 exit(1);
                 break;
@@ -97,7 +82,7 @@ createMainEvaluator(NELSON_ENGINE_MODE _mode, const std::wstring& lang, bool min
                 break;
             }
             case ADVANCED_TERMINAL: {
-#ifdef NELSON_WEB_GUI_ENABLED
+#ifdef NELSON_GUI_ENABLED
                 // Notebook kernel: the interpreter is driven over a stdio JSON-RPC
                 // frame channel, figures served headless on the same channel. No GUI
                 // objects, so figure RPC dispatches in place while the kernel is idle.
@@ -114,9 +99,6 @@ createMainEvaluator(NELSON_ENGINE_MODE _mode, const std::wstring& lang, bool min
                     break;
                 }
 #endif
-                if (isDisplayAvailable()) {
-                    InitGuiObjectsDynamic();
-                }
                 std::unique_ptr<AdvancedTerminal> nlsTerm;
                 try {
                     nlsTerm = std::make_unique<AdvancedTerminal>();
@@ -125,22 +107,16 @@ createMainEvaluator(NELSON_ENGINE_MODE _mode, const std::wstring& lang, bool min
                 if (nlsTerm) {
                     mainEvaluator = std::make_unique<Evaluator>(
                         context.release(), nlsTerm.release(), true, mainEvaluatorID);
-#ifdef NELSON_WEB_GUI_ENABLED
+#ifdef NELSON_GUI_ENABLED
                     if (config.isWebGraphicsMode()) {
-                        StartWebGuiFiguresDynamic(mainEvaluator.get());
+                        StartGuiFiguresDynamic(mainEvaluator.get());
                     }
 #endif
                 }
                 break;
             }
-            case GUI:
-                InitGuiObjectsDynamic();
-                mainEvaluator = std::unique_ptr<Evaluator>(static_cast<Evaluator*>(
-                    CreateGuiEvaluatorDynamic(static_cast<void*>(context.release()), _mode,
-                        minimizeWindow, mainEvaluatorID)));
-                break;
-#ifdef NELSON_WEB_GUI_ENABLED
-            case WEB_GUI: {
+#ifdef NELSON_GUI_ENABLED
+            case GUI: {
                 WebUiLaunchOptions options;
                 options.host = wstring_to_utf8(webUrl);
                 options.port = webPort;
@@ -148,7 +124,7 @@ createMainEvaluator(NELSON_ENGINE_MODE _mode, const std::wstring& lang, bool min
                 options.hasPort = haveWebPort;
                 options.serverMode = webServerMode;
                 mainEvaluator.reset(static_cast<Evaluator*>(
-                    CreateWebGuiEvaluatorDynamic(context.get(), mainEvaluatorID, options)));
+                    CreateGuiEvaluatorDynamic(context.get(), mainEvaluatorID, options)));
                 if (mainEvaluator) {
                     context.release();
                 }
@@ -202,15 +178,10 @@ destroyMainEvaluator()
             int engineMode = config.getNelsonEngineMode();
             switch (engineMode) {
             case BASIC_ENGINE:
-                break;
             case ADVANCED_ENGINE:
-                DestroyMainGuiObjectDynamic(nullptr);
                 break;
-            case GUI:
-                DestroyMainGuiObjectDynamic(static_cast<void*>(io));
-                break;
-#ifdef NELSON_WEB_GUI_ENABLED
-            case WEB_GUI: {
+#ifdef NELSON_GUI_ENABLED
+            case GUI: {
                 delete io;
                 break;
             }
@@ -226,9 +197,6 @@ destroyMainEvaluator()
                 auto* nlsTerm = static_cast<AdvancedTerminal*>(io);
                 delete nlsTerm;
                 nlsTerm = nullptr;
-                if (hasGuiServices()) {
-                    DestroyMainGuiObjectDynamic(nullptr);
-                }
                 break;
             }
             default:

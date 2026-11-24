@@ -15,7 +15,7 @@ const moduleDir = path.basename(cwd) === 'nflow_gui' ? cwd : path.join(cwd, 'mod
 const repoDir = path.resolve(moduleDir, '..', '..');
 const webviewProjectGuid = '{585FA4C3-C0BE-4FE9-B4D3-476FE810CEB8}';
 const nflowGuiProjectGuid = '{F8F4AB1A-3E4B-4207-911C-1304618410AA}';
-test('nflow_gui depends on modules/webview for WebUI', () => {
+test('nflow_gui depends on modules/web_engine for WebUI', () => {
   const cmake = readFileSync(path.join(moduleDir, 'CMakeLists.txt'), 'utf8');
   const helpers = readFileSync(path.join(moduleDir, 'src/cpp/NFlowHelpers.cpp'), 'utf8');
   const bootstrapHtml = readFileSync(
@@ -38,7 +38,7 @@ test('nflow_gui depends on modules/webview for WebUI', () => {
     'utf8'
   );
   const webviewProject = readFileSync(
-    path.join(repoDir, 'modules/webview/src/c/nlsWebview.vcxproj'),
+    path.join(repoDir, 'modules/web_engine/src/c/nlsWeb_engine.vcxproj'),
     'utf8'
   );
   const solution = readFileSync(path.join(repoDir, 'NelSon.sln'), 'utf8');
@@ -51,9 +51,9 @@ test('nflow_gui depends on modules/webview for WebUI', () => {
     solution.indexOf('Global')
   );
 
-  expect(cmake).toContain('nlsWebview');
-  expect(cmake).toContain('../webview/src/include');
-  expect(cmake).toContain('nflow_gui must use modules/webview for WebUI');
+  expect(cmake).toContain('nlsWeb_engine');
+  expect(cmake).toContain('../web_engine/src/include');
+  expect(cmake).toContain('nflow_gui must use modules/web_engine for WebUI');
   expect(helpers).not.toContain('escape_json_string');
   expect(bootstrapHtml).toContain('#include "WebUiHelpers.hpp"');
   expect(bootstrapHtml).toContain('escapeWebUiJsonString');
@@ -82,12 +82,12 @@ test('nflow_gui depends on modules/webview for WebUI', () => {
   expect(rpcBindings).toContain('BLOB_CHUNK_SIZE = 32 * 1024');
   expect(rpcBindings).toContain('"application/json", POLL_RESULT_INLINE_THRESHOLD');
   expect(rpcBindings).not.toContain('escape_json_string');
-  expect(nflowGuiProject).toContain('modules/webview/src/include');
-  expect(nflowGuiProject).toContain('nlsWebview.vcxproj');
+  expect(nflowGuiProject).toContain('modules/web_engine/src/include');
+  expect(nflowGuiProject).toContain('nlsWeb_engine.vcxproj');
   expect(nflowGuiProject).toContain('..\\include\\webui_bindings.hpp');
   expect(nflowGuiProject).toContain('..\\include\\nflow_rpc_codegen.hpp');
-  expect(nflowGuiBuiltinProject).toContain('modules/webview/src/include');
-  expect(nflowGuiBuiltinProject).toContain('nlsWebview.vcxproj');
+  expect(nflowGuiBuiltinProject).toContain('modules/web_engine/src/include');
+  expect(nflowGuiBuiltinProject).toContain('nlsWeb_engine.vcxproj');
   expect(nflowGuiBuiltinProject).toContain('..\\..\\src\\cpp\\nflow_rpc_bindings.cpp');
   expect(nflowGuiBuiltinProject).toContain('..\\..\\src\\cpp\\nflow_rpc_codegen.cpp');
   // The async-sim invariants above are grepped from NFlowSimSession.cpp, so the
@@ -116,8 +116,8 @@ test('async simulation publishes its final result before running StopFcn', () =>
   expect(stopFcn).toBeGreaterThan(pushFinal);
 });
 //=============================================================================
-test('Qt prompt exposes interpreter idle state to the NFlow bridge', () => {
-  const terminal = readFileSync(path.join(repoDir, 'modules/gui/src/cpp/QtTerminal.cpp'), 'utf8');
+test('the native prompt serves interpreter tasks for the NFlow bridge', () => {
+  const terminal = readFileSync(path.join(repoDir, 'modules/gui/src/cpp/GuiTerminal.cpp'), 'utf8');
   const bridge = readFileSync(
     path.join(repoDir, 'modules/nflow_engine/builtin/cpp/NFlowNelsonBridge.cpp'),
     'utf8'
@@ -127,9 +127,8 @@ test('Qt prompt exposes interpreter idle state to the NFlow bridge', () => {
     'utf8'
   );
 
-  expect(terminal).toContain('taskQueue->setInterpreterIdle(true);');
-  expect(terminal).toContain('~IdleReset() { queue->setInterpreterIdle(false); }');
-  expect(terminal).toContain('taskQueue->processTasksAtPrompt(eval)');
+  expect(terminal).toContain('m_atPrompt = true;');
+  expect(terminal).toContain('MainThreadTaskQueue::getInstance()->processTasksAtPrompt(eval)');
   expect(bridge).toContain('runNowIfIdleOrQueue(');
   expect(taskQueue).toContain('MainThreadTaskQueue::getInstance()');
 });

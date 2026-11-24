@@ -11,10 +11,6 @@ set(module_name graphics_io)
 set(module_library_name nlsGraphics_io)
 set(module_library_builtin_name ${module_library_name}_builtin)
 # ==============================================================================
-option(WITH_GRAPHICS_IO_QT_ADAPTER
-  "Build the optional graphics_io desktop Qt adapter"
-  ON
-)
 file(GLOB RASTER_CODEC_SRC
   CONFIGURE_DEPENDS
   ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp/Raster*.cpp
@@ -113,7 +109,6 @@ nelson_module_sources_from_glob(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp
 )
 list(FILTER GRAPHICS_IO_SRC EXCLUDE REGEX "/Raster[^/]*\\.cpp$")
-list(FILTER GRAPHICS_IO_SRC EXCLUDE REGEX "/src/qt/")
 
 add_library(${module_library_name} ${GRAPHICS_IO_SRC})
 set_target_properties(${module_library_name}
@@ -217,66 +212,6 @@ target_link_libraries(${module_library_builtin_name}
     nlsInterpreter
     nlsTypes
 )
-# ==============================================================================
-# Optional desktop adapter. The codec and public graphics_io libraries above
-# remain GUI-toolkit-free; this target only supplies native dialogs/clipboard.
-if(WITH_GRAPHICS_IO_QT_ADAPTER
-  AND NOT WITHOUT_GUI_MODULE
-  AND NOT WITHOUT_RENDER_QT_MODULE
-  AND NOT WITHOUT_GRAPHICS_QT_MODULE
-)
-  nelson_module_sources_from_glob(
-    GRAPHICS_IO_QT_SRC
-    DIRS
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/qt
-  )
-  add_library(nlsGraphics_io_qt ${GRAPHICS_IO_QT_SRC})
-  target_include_directories(nlsGraphics_io_qt
-    PRIVATE
-      ${CMAKE_CURRENT_SOURCE_DIR}/src/include
-      ${CMAKE_CURRENT_SOURCE_DIR}/../graphics/src/include
-      ${CMAKE_CURRENT_SOURCE_DIR}/../graphics_qt/src/include
-      ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
-      ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
-      ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/fmt/include
-      ${CMAKE_CURRENT_SOURCE_DIR}/../engine/src/include
-      ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
-      ${CMAKE_CURRENT_SOURCE_DIR}/../gui/src/include
-      ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
-      ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
-      ${CMAKE_CURRENT_SOURCE_DIR}/../render_interface/src/include
-      ${CMAKE_CURRENT_SOURCE_DIR}/../render_qt/src/include
-      ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
-      ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
-  )
-  # graphics_io_qt only references GOWindow through its (weak) typeinfo, so the
-  # GNU linker's default --as-needed drops the libnlsGraphics_qt DT_NEEDED entry
-  # even though the symbol is required at load time. Force the dependency to be
-  # recorded on Linux; Windows/macOS record it unconditionally.
-  target_link_libraries(nlsGraphics_io_qt
-    PRIVATE
-      ${module_library_name}
-      nlsCharacters_encoding
-      $<$<PLATFORM_ID:Linux>:-Wl,--no-as-needed>
-      nlsGraphics_qt
-      $<$<PLATFORM_ID:Linux>:-Wl,--as-needed>
-      nlsGui
-      Qt6::Core
-      Qt6::Gui
-      Qt6::Widgets
-  )
-  # Pull the Qt figure backend into the builtin so its host-factory registers at
-  # startup (GraphicsIoQtAdapterLoader's static ctor loads graphics_io_qt, which
-  # links graphics_qt). Without this, no desktop figure window is ever created:
-  # createFigureHost() finds a null factory and falls back to the headless host.
-  target_link_libraries(${module_library_builtin_name}
-    PRIVATE nlsGraphics_io_qt
-  )
-  target_sources(${module_library_builtin_name}
-    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/builtin/qt/GraphicsIoQtAdapterLoader.cpp
-  )
-  nelson_install_library(nlsGraphics_io_qt)
-endif()
 # ==============================================================================
 if(NELSON_PORTABLE_BUILD)
   nelson_install_library(nlsGraphics_io_codec)

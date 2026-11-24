@@ -1,0 +1,89 @@
+#!/usr/bin/env node
+// ============================================================================
+// Copyright (c) 2016-present Allan CORNET (Nelson)
+// ============================================================================
+// This file is part of Nelson.
+// ============================================================================
+// LICENCE_BLOCK_BEGIN
+// SPDX-License-Identifier: LGPL-3.0-or-later
+// LICENCE_BLOCK_END
+// ============================================================================
+// Launches a real Nelson web desktop for back-to-back tests.
+// ============================================================================
+import { spawn } from 'node:child_process';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const scriptDir = path.dirname(fileURLToPath(import.meta.url));
+const repoRoot = path.resolve(scriptDir, '..', '..', '..', '..', '..', '..', '..');
+const b2bRoot = path.join(repoRoot, 'temp', 'gui_b2b');
+const b2bWorkdir = path.join(b2bRoot, 'workdir');
+const b2bPreferences = path.join(b2bRoot, 'preferences');
+fs.mkdirSync(b2bWorkdir, { recursive: true });
+fs.mkdirSync(b2bPreferences, { recursive: true });
+fs.mkdirSync(path.join(b2bWorkdir, 'b2b_menu_folder'), { recursive: true });
+fs.writeFileSync(path.join(b2bWorkdir, 'b2b_menu_fixture.m'), '%% fixture\n');
+
+const platformCandidates = {
+  darwin: [
+    path.join(repoRoot, 'bin', 'macOS', 'nelson-gui-exec'),
+    path.join(repoRoot, 'bin', 'macOS', 'nelson-gui'),
+  ],
+  linux: [
+    path.join(repoRoot, 'bin', 'linux', 'nelson-gui-exec'),
+    path.join(repoRoot, 'bin', 'linux', 'nelson-gui'),
+  ],
+  win32: [
+    path.join(repoRoot, 'bin', 'x64', 'nelson-gui.exe'),
+    path.join(repoRoot, 'bin', 'ARM64', 'nelson-gui.exe'),
+  ],
+};
+
+const fallbackCandidates = Object.entries(platformCandidates)
+  .filter(([platform]) => platform !== process.platform)
+  .flatMap(([, paths]) => paths);
+
+const candidates = [
+  process.env.NELSON_WEBVIEW_PATH,
+  ...(platformCandidates[process.platform] || []),
+  ...fallbackCandidates,
+].filter(Boolean);
+const nelsonWeb = candidates.find((p) => fs.existsSync(p));
+if (!nelsonWeb) {
+  console.error(
+    'start-nelson: Nelson desktop (nelson-gui) executable not found. Build Nelson first or set NELSON_WEBVIEW_PATH.'
+  );
+  process.exit(1);
+}
+
+console.log(`start-nelson-gui: launching ${nelsonWeb}`);
+const port = String(Number(process.env.NELSON_B2B_PORT) || 22333);
+const child = spawn(nelsonWeb, ['--web', '--url', 'localhost', '--port', port], {
+  cwd: b2bWorkdir,
+  env: {
+    ...process.env,
+    NELSON_PREFERENCES_PATH: b2bPreferences,
+    NELSON_USERPATH: b2bWorkdir,
+    // Opt in to the AI assistant UI so the notebookAssistant spec can open the
+    // pane (appCapabilities() reports assistant:true from this env; no model is
+    // configured in CI, so the pane only opens and lists the ACP backend).
+    NELSON_ASSISTANT_AI: '1',
+  },
+  stdio: 'inherit',
+});
+
+const stop = () => {
+  try {
+    child.kill();
+  } catch {
+    // ignore
+  }
+};
+process.on('SIGTERM', stop);
+process.on('SIGINT', stop);
+process.on('exit', stop);
+
+child.on('exit', (code) => {
+  process.exit(code ?? 0);
+});

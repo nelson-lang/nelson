@@ -183,16 +183,13 @@ set(NELSON_OPTIONAL_MODULES
   MPI
   AUDIO
   WEBTOOLS
-  WEBVIEW
+  WEB_ENGINE
   FILE_ARCHIVER
   IPC
   PARALLEL
   GRAPHICS
-  RENDER_QT
-  GRAPHICS_QT
   GRAPHICS_IO
   IMAGE_PROCESSING
-  QML_ENGINE
   SIGNAL_PROCESSING
   VALIDATORS
   HDF5
@@ -206,7 +203,6 @@ set(NELSON_OPTIONAL_MODULES
   DATA_ANALYSIS
   DYNAMIC_LINK
   TESTS_MANAGER
-  GUI
   JSON
   AI
   XML
@@ -242,12 +238,12 @@ foreach(_mod IN LISTS NELSON_OPTIONAL_MODULES)
   )
 endforeach()
 
-# Nelson WebView desktop (not part of NELSON_OPTIONAL_MODULES). Built by default;
-# disable with -DWITH_WEB_GUI_MODULE=OFF. It requires the WEBVIEW and
+# Nelson desktop GUI module (not part of NELSON_OPTIONAL_MODULES). Built by default;
+# disable with -DWITH_GUI_MODULE=OFF. It requires the WEB_ENGINE and
 # TEXT_COMPLETION modules and is automatically disabled when either is off (e.g.
-# in a MINIMAL_BUILD). See modules/web_gui/INTEGRATION.md.
-option(WITH_WEB_GUI_MODULE
-  "Build the WEB_GUI module and the nelson-webview executable"
+# in a MINIMAL_BUILD). See modules/gui/INTEGRATION.md.
+option(WITH_GUI_MODULE
+  "Build the GUI (desktop) module and the nelson-gui executable"
   ON
 )
 
@@ -312,18 +308,8 @@ include(PortableProfile)
 if(WITHOUT_LOCALIZATION_MODULE)
   set(WITHOUT_I18N_MODULE ON)
 endif()
-if(WITHOUT_GUI_MODULE)
-  set(WITHOUT_QML_ENGINE_MODULE ON)
-  set(WITHOUT_TEXT_EDITOR_MODULE ON)
-  set(WITHOUT_RENDER_QT_MODULE ON)
-  set(WITHOUT_GRAPHICS_QT_MODULE ON)
-endif()
 if(WITHOUT_GRAPHICS_MODULE)
   set(WITHOUT_GRAPHICS_IO_MODULE ON)
-  set(WITHOUT_GRAPHICS_QT_MODULE ON)
-endif()
-if(WITHOUT_RENDER_QT_MODULE)
-  set(WITHOUT_GRAPHICS_QT_MODULE ON)
 endif()
 if(WITHOUT_DATA_ANALYSIS_MODULE)
   set(WITHOUT_VALIDATORS_MODULE ON)
@@ -340,11 +326,11 @@ if(WITHOUT_SLICOT_MODULE)
   set(WITHOUT_CONTROL_SYSTEM_MODULE ON)
 endif()
 # WebView drives the NFlow GUI, the package-manager window (nmm_gui) and the
-# web desktop; without it the whole NFlow feature set and the module-manager
+# desktop; without it the whole NFlow feature set and the module-manager
 # GUI are disabled. The portable and WebAssembly profiles run the NFlow
 # simulation core without WebView (the browser shell is the GUI host), so
 # their explicit NFlow selection is kept.
-if(WITHOUT_WEBVIEW_MODULE)
+if(WITHOUT_WEB_ENGINE_MODULE)
   if(NOT NELSON_PORTABLE_WITH_NFLOW)
     set(WITHOUT_NFLOW_BLOCKS_MODULE ON)
   endif()
@@ -368,7 +354,7 @@ if(WITHOUT_NFLOW_ENGINE_MODULE)
 endif()
 if(WITHOUT_NFLOW_ENGINE_MODULE
   OR WITHOUT_NFLOW_BLOCKS_MODULE
-  OR WITHOUT_WEBVIEW_MODULE
+  OR WITHOUT_WEB_ENGINE_MODULE
 )
   set(WITHOUT_NFLOW_GUI_MODULE ON)
 endif()
@@ -392,13 +378,13 @@ if(WITHOUT_FILE_ARCHIVER_MODULE
 )
   set(WITHOUT_COMPILER_MODULE ON)
 endif()
-if(WITH_WEB_GUI_MODULE
-  AND (WITHOUT_WEBVIEW_MODULE OR WITHOUT_TEXT_COMPLETION_MODULE)
+if(WITH_GUI_MODULE
+  AND (WITHOUT_WEB_ENGINE_MODULE OR WITHOUT_TEXT_COMPLETION_MODULE)
 )
   message(STATUS
-    "WEB_GUI module disabled (requires the WEBVIEW and TEXT_COMPLETION modules)."
+    "GUI module disabled (requires the WEB_ENGINE and TEXT_COMPLETION modules)."
   )
-  set(WITH_WEB_GUI_MODULE OFF)
+  set(WITH_GUI_MODULE OFF)
 endif()
 # ==============================================================================
 # Status messages for disabled features
@@ -467,11 +453,6 @@ endif()
 # Third-party dependencies
 # ==============================================================================
 include(ConfigureEigen)
-# ==============================================================================
-# -- Qt (GUI modules)
-if(NOT WITHOUT_GUI_MODULE)
-  include(QtConfig)
-endif()
 # ==============================================================================
 # -- MPI
 if(NOT WITHOUT_MPI_MODULE)
