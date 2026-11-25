@@ -11,6 +11,7 @@
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "StringHelpers.hpp"
+#include "NelsonTypeVisitor.hpp"
 #include "DisplayCell.hpp"
 #include "DisplayCellHelpers.hpp"
 #include "NelsonConfiguration.hpp"
@@ -309,54 +310,26 @@ getAsFormattedString(ArrayOf* elements, indexType idx, NumericFormatDisplay curr
         msg = summarizeCellLogicalEntry(elements[idx], 0, termWidth, currentNumericFormat, false);
         msg = L"{" + msg + L"}";
     } break;
-    case NLS_UINT8: {
-        msg = summarizeCellIntegerEntry<uint8>(
-            elements[idx], 0, termWidth, currentNumericFormat, false);
-        msg = L"{" + msg + L"}";
-    } break;
-    case NLS_INT8: {
-        msg = summarizeCellIntegerEntry<int8>(
-            elements[idx], 0, termWidth, currentNumericFormat, false);
-        msg = L"{" + msg + L"}";
-    } break;
-    case NLS_UINT16: {
-        msg = summarizeCellIntegerEntry<uint16>(
-            elements[idx], 0, termWidth, currentNumericFormat, false);
-        msg = L"{" + msg + L"}";
-    } break;
-    case NLS_INT16: {
-        msg = summarizeCellIntegerEntry<int16>(
-            elements[idx], 0, termWidth, currentNumericFormat, false);
-        msg = L"{" + msg + L"}";
-    } break;
-    case NLS_UINT32: {
-        msg = summarizeCellIntegerEntry<uint32>(
-            elements[idx], 0, termWidth, currentNumericFormat, false);
-        msg = L"{" + msg + L"}";
-    } break;
-    case NLS_INT32: {
-        msg = summarizeCellIntegerEntry<int32>(
-            elements[idx], 0, termWidth, currentNumericFormat, false);
-        msg = L"{" + msg + L"}";
-    } break;
-    case NLS_UINT64: {
-        msg = summarizeCellIntegerEntry<uint64>(
-            elements[idx], 0, termWidth, currentNumericFormat, false);
-        msg = L"{" + msg + L"}";
-    } break;
+    case NLS_UINT8:
+    case NLS_INT8:
+    case NLS_UINT16:
+    case NLS_INT16:
+    case NLS_UINT32:
+    case NLS_INT32:
+    case NLS_UINT64:
     case NLS_INT64: {
-        msg = summarizeCellIntegerEntry<int64>(
-            elements[idx], 0, termWidth, currentNumericFormat, false);
+        msg = TypeTraits::visitInteger(elements[idx].dataClass(), [&](auto tag) {
+            return summarizeCellIntegerEntry<decltype(tag)>(
+                elements[idx], 0, termWidth, currentNumericFormat, false);
+        });
         msg = L"{" + msg + L"}";
     } break;
-    case NLS_DOUBLE: {
-        msg = summarizeCellRealEntry<double>(
-            elements[idx], 0, termWidth, currentNumericFormat, false);
-        msg = L"{" + msg + L"}";
-    } break;
+    case NLS_DOUBLE:
     case NLS_SINGLE: {
-        msg = summarizeCellRealEntry<single>(
-            elements[idx], 0, termWidth, currentNumericFormat, false);
+        msg = TypeTraits::visitFloat(elements[idx].dataClass(), [&](auto tag) {
+            return summarizeCellRealEntry<decltype(tag)>(
+                elements[idx], 0, termWidth, currentNumericFormat, false);
+        });
         msg = L"{" + msg + L"}";
     } break;
     case NLS_DCOMPLEX: {

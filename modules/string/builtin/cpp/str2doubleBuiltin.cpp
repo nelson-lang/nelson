@@ -9,6 +9,7 @@
 //=============================================================================
 #include <cmath>
 #include "str2doubleBuiltin.hpp"
+#include "NelsonComplexStorage.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
 #include "StringToDoubleComplex.hpp"
@@ -42,7 +43,7 @@ Nelson::StringGateway::str2doubleBuiltin(int nLhs, const ArrayOfVector& argIn)
             size_t nbElements = dimParam1.elementCount();
             double* pComplex = static_cast<double*>(
                 ArrayOf::allocateArrayOf(NLS_DCOMPLEX, nbElements, stringVector(), false));
-            auto* outPutAsComplex = reinterpret_cast<doublecomplex*>(pComplex);
+            auto* outPutAsComplex = TypeTraits::asComplex<double>(pComplex);
             ArrayOfView<ArrayOf> cellParam1(param1, ArrayOfViewAssumeValidated {});
             for (size_t k = 0; k < nbElements; k++) {
                 ArrayOf element = cellParam1[k];

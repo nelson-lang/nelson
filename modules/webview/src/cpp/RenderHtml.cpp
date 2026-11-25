@@ -15,6 +15,7 @@
 #endif
 #include "characters_encoding.hpp"
 #include "ErrorID.hpp"
+#include "JsonStringEscape.hpp"
 //=============================================================================
 extern "C"
 {
@@ -234,46 +235,6 @@ std::wstring
 stringToWide(const std::string& value)
 {
     return Nelson::utf8_to_wstring(value);
-}
-//=============================================================================
-std::string
-jsonEscape(const std::string& value)
-{
-    std::string escaped;
-    escaped.reserve(value.size() + 16);
-    for (unsigned char c : value) {
-        switch (c) {
-        case '\\':
-            escaped += "\\\\";
-            break;
-        case '"':
-            escaped += "\\\"";
-            break;
-        case '\b':
-            escaped += "\\b";
-            break;
-        case '\f':
-            escaped += "\\f";
-            break;
-        case '\n':
-            escaped += "\\n";
-            break;
-        case '\r':
-            escaped += "\\r";
-            break;
-        case '\t':
-            escaped += "\\t";
-            break;
-        default:
-            if (c < 0x20) {
-                escaped += " ";
-            } else {
-                escaped += static_cast<char>(c);
-            }
-            break;
-        }
-    }
-    return escaped;
 }
 //=============================================================================
 void
@@ -750,7 +711,7 @@ bool
 PersistentHeadlessRenderer::navigate(const std::string& url)
 {
     std::string response;
-    const std::string params = "{\"url\":\"" + jsonEscape(url) + "\"}";
+    const std::string params = "{\"url\":\"" + Nelson::escapeJsonString(url) + "\"}";
     return sendCommand("Page.navigate", params, response);
 }
 //=============================================================================
@@ -758,8 +719,8 @@ bool
 PersistentHeadlessRenderer::waitReady()
 {
     const std::string expression = "window.nelsonMarkdownReady ? '1' : '0'";
-    const std::string params
-        = "{\"expression\":\"" + jsonEscape(expression) + "\",\"returnByValue\":true}";
+    const std::string params = "{\"expression\":\"" + Nelson::escapeJsonString(expression)
+        + "\",\"returnByValue\":true}";
     for (int k = 0; k < 120; ++k) {
         std::string response;
         if (!sendCommand("Runtime.evaluate", params, response)) {
@@ -780,8 +741,8 @@ PersistentHeadlessRenderer::evaluateRoot(std::string& root)
     const std::string expression
         = "(()=>{const n=document.getElementById('nelson-markdowndisp-root');"
           "return n?n.innerHTML:document.body.innerHTML;})()";
-    const std::string params
-        = "{\"expression\":\"" + jsonEscape(expression) + "\",\"returnByValue\":true}";
+    const std::string params = "{\"expression\":\"" + Nelson::escapeJsonString(expression)
+        + "\",\"returnByValue\":true}";
     std::string response;
     if (!sendCommand("Runtime.evaluate", params, response)) {
         return false;

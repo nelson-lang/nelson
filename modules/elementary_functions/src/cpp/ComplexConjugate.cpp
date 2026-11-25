@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "NelsonComplexStorage.hpp"
 #include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #if defined(_NLS_WITH_VML)
@@ -119,7 +120,7 @@ ComplexConjugate(const ArrayOf& A)
             MKL_Complex8* ptrCz = reinterpret_cast<MKL_Complex8*>(ptrC);
             vcConj((MKL_INT)A.elementCount(), ptrAz, ptrCz);
 #else
-            auto* Az = reinterpret_cast<singlecomplex*>(psingleA);
+            auto* Az = TypeTraits::asComplex<single>(psingleA);
             OMP_PARALLEL_FOR_LOOP(N)
             for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
                 ptrC[i] = std::conj(Az[i]);
@@ -138,7 +139,7 @@ ComplexConjugate(const ArrayOf& A)
         MKL_Complex16* ptrCz = reinterpret_cast<MKL_Complex16*>(ptrC);
         vzConj((MKL_INT)A.elementCount(), ptrAz, ptrCz);
 #else
-        auto* Az = reinterpret_cast<doublecomplex*>(pdoubleA);
+        auto* Az = TypeTraits::asComplex<double>(pdoubleA);
         OMP_PARALLEL_FOR_LOOP(N)
         for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
             ptrC[i] = std::conj(Az[i]);

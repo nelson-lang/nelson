@@ -14,6 +14,7 @@
 #include <mkl_vml.h>
 #endif
 #include "AbsoluteValue.hpp"
+#include "NelsonComplexStorage.hpp"
 #include "ClassName.hpp"
 #include "characters_encoding.hpp"
 #include "Error.hpp"
@@ -135,7 +136,7 @@ template <class T>
 void
 absoluteValueComplexTemplate(T* ptrA, indexType N, T* ptrRes)
 {
-    auto* matCplxA = reinterpret_cast<std::complex<T>*>(ptrA);
+    auto* matCplxA = TypeTraits::asComplex<T>(ptrA);
     OMP_PARALLEL_FOR_LOOP(N)
     for (ompIndexType i = 0; i < (ompIndexType)N; i++) {
         ptrRes[i] = std::abs(matCplxA[i]);

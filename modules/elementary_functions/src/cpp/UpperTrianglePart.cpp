@@ -9,6 +9,9 @@
 //=============================================================================
 #include <cstring>
 #include "nlsBuildConfig.h"
+#include "NelsonComplexStorage.hpp"
+#include "NelsonTypeTraits.hpp"
+#include "NelsonTypeVisitor.hpp"
 #include "omp_for_loop.hpp"
 #include "UpperTrianglePart.hpp"
 #include "Error.hpp"
@@ -73,9 +76,9 @@ UpperTrianglePartComplex(const ArrayOf& A, signedIndexType offset)
     Dimensions dimsA = A.dimensions();
     indexType nbElements = dimsA.elementCount();
     T* D = (T*)ArrayOf::allocateArrayOf(classA, nbElements, stringVector(), true);
-    auto* Dz = reinterpret_cast<std::complex<T>*>(D);
+    auto* Dz = TypeTraits::asComplex<T>(D);
     T* S = (T*)A.dataPointer();
-    auto* Sz = reinterpret_cast<std::complex<T>*>(S);
+    auto* Sz = TypeTraits::asComplex<T>(S);
     indexType C = dimsA.columns();
     indexType R = dimsA.rows();
     OMP_PARALLEL_FOR_LOOP(C)
@@ -124,6 +127,12 @@ UpperTrianglePart(const ArrayOf& A, signedIndexType offset, bool& needToOverload
     if (A.isSparse()) {
         return UpperTrianglePartSparse(A, offset, needToOverload);
     }
+    if (TypeTraits::isInteger(A.dataClass())) {
+        return TypeTraits::visitInteger(A.dataClass(), [&](auto tag) {
+            using T = decltype(tag);
+            return UpperTrianglePartReal<T>(A, offset);
+        });
+    }
     switch (A.dataClass()) {
     case NLS_LOGICAL: {
         res = UpperTrianglePartReal<logical>(A, offset);
@@ -131,30 +140,6 @@ UpperTrianglePart(const ArrayOf& A, signedIndexType offset, bool& needToOverload
     } break;
     case NLS_CHAR: {
         res = UpperTrianglePartReal<charType>(A, offset);
-    } break;
-    case NLS_UINT8: {
-        res = UpperTrianglePartReal<uint8>(A, offset);
-    } break;
-    case NLS_UINT16: {
-        res = UpperTrianglePartReal<uint16>(A, offset);
-    } break;
-    case NLS_UINT32: {
-        res = UpperTrianglePartReal<uint32>(A, offset);
-    } break;
-    case NLS_UINT64: {
-        res = UpperTrianglePartReal<uint64>(A, offset);
-    } break;
-    case NLS_INT8: {
-        res = UpperTrianglePartReal<int8>(A, offset);
-    } break;
-    case NLS_INT16: {
-        res = UpperTrianglePartReal<int16>(A, offset);
-    } break;
-    case NLS_INT32: {
-        res = UpperTrianglePartReal<int32>(A, offset);
-    } break;
-    case NLS_INT64: {
-        res = UpperTrianglePartReal<int64>(A, offset);
     } break;
     case NLS_SINGLE: {
         res = UpperTrianglePartReal<single>(A, offset);

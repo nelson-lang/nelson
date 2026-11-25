@@ -11,6 +11,7 @@
 #include <complex>
 #include <vector>
 #include "nlsBuildConfig.h"
+#include "NelsonComplexStorage.hpp"
 #include "lapack_eigen_config.hpp"
 #if defined(_NLS_WITH_VML)
 #include <mkl_vml.h>
@@ -24,6 +25,7 @@
 #include "AdditionReal.hpp"
 #include "AdditionComplex.hpp"
 #include "AdditionInteger.hpp"
+#include "NelsonTypeVisitor.hpp"
 #include "IntegerDoubleArithmetic.hpp"
 #include "BinaryOperatorsHelpers.hpp"
 #include "SparseOperatorsHelpers.hpp"
@@ -33,32 +35,6 @@ namespace Nelson {
 //=============================================================================
 static bool
 tryIntegerDoubleAddition(const ArrayOf& A, const ArrayOf& B, ArrayOf& res);
-//=============================================================================
-template <class T>
-static T
-sparseAdditionValueAtIndex(
-    const ArrayOf& A, const NelsonSparseMatrix<T>* sparseA, const T* denseA, indexType linearIndex)
-{
-    if (A.isSparse()) {
-        indexType row = linearIndex % A.rows();
-        indexType col = linearIndex / A.rows();
-        return sparseA->coeff(static_cast<signedIndexType>(row), static_cast<signedIndexType>(col));
-    }
-    return denseA[linearIndex];
-}
-//=============================================================================
-template <class T>
-static T
-sparseAdditionValue(const ArrayOf& A, const NelsonSparseMatrix<T>* sparseA, const T* denseA,
-    indexType row, indexType col, indexType linearIndex)
-{
-    if (A.isSparse()) {
-        signedIndexType sparseRow = A.isScalar() ? 0 : static_cast<signedIndexType>(row);
-        signedIndexType sparseCol = A.isScalar() ? 0 : static_cast<signedIndexType>(col);
-        return sparseA->coeff(sparseRow, sparseCol);
-    }
-    return denseA[A.isScalar() ? 0 : linearIndex];
-}
 //=============================================================================
 template <class T>
 static ArrayOf
@@ -74,8 +50,8 @@ sparseScalarExpansionAddition(
     for (indexType col = 0; col < cols; ++col) {
         for (indexType row = 0; row < rows; ++row) {
             indexType idx = row + col * rows;
-            T value = sparseAdditionValue<T>(A, sparseA, nullptr, row, col, idx)
-                + sparseAdditionValue<T>(B, sparseB, nullptr, row, col, idx);
+            T value = sparseOperandValue<T>(A, sparseA, nullptr, row, col, idx)
+                + sparseOperandValue<T>(B, sparseB, nullptr, row, col, idx);
             if (value != T(0)) {
                 triplets.emplace_back(
                     static_cast<signedIndexType>(row), static_cast<signedIndexType>(col), value);
@@ -100,8 +76,8 @@ denseSparseAddition(NelsonType dataClass, const ArrayOf& A, const ArrayOf& B)
     for (indexType idx = 0; idx < info.dimensions.elementCount(); ++idx) {
         indexType indexA = binaryOperatorBroadcastIndex(info, idx, info.aStrides);
         indexType indexB = binaryOperatorBroadcastIndex(info, idx, info.bStrides);
-        T a = sparseAdditionValueAtIndex<T>(A, sparseA, denseA, indexA);
-        T b = sparseAdditionValueAtIndex<T>(B, sparseB, denseB, indexB);
+        T a = sparseOperandValueAtIndex<T>(A, sparseA, denseA, indexA);
+        T b = sparseOperandValueAtIndex<T>(B, sparseB, denseB, indexB);
         ptrC[idx] = a + b;
     }
     return ArrayOf(dataClass, info.dimensions, ptrC, false);
@@ -121,8 +97,8 @@ sparseSparseBroadcastAddition(NelsonType dataClass, const ArrayOf& A, const Arra
     for (indexType idx = 0; idx < info.dimensions.elementCount(); ++idx) {
         indexType indexA = binaryOperatorBroadcastIndex(info, idx, info.aStrides);
         indexType indexB = binaryOperatorBroadcastIndex(info, idx, info.bStrides);
-        T value = sparseAdditionValueAtIndex<T>(A, sparseA, nullptr, indexA)
-            + sparseAdditionValueAtIndex<T>(B, sparseB, nullptr, indexB);
+        T value = sparseOperandValueAtIndex<T>(A, sparseA, nullptr, indexA)
+            + sparseOperandValueAtIndex<T>(B, sparseB, nullptr, indexB);
         if (value != T(0)) {
             triplets.emplace_back(static_cast<signedIndexType>(idx % rows),
                 static_cast<signedIndexType>(idx / rows), value);
@@ -257,35 +233,20 @@ Addition(const ArrayOf& A, const ArrayOf& B)
         } else {
             res = binaryOperatorEmptyMatrixEmptyMatrix(A, B, commonClass, "+");
         }
-        if (res.dataClass() == NLS_DCOMPLEX) {
-            if (res.allReal()) {
-                res.promoteType(NLS_DOUBLE);
-            }
-        }
-        if (res.dataClass() == NLS_SCOMPLEX) {
-            if (res.allReal()) {
-                res.promoteType(NLS_SINGLE);
-            }
-        }
+        res.demoteIfReal();
         return res;
     }
     switch (commonClass) {
     case NLS_INT8:
-        return integer_addition<int8>(NLS_INT8, A, B);
     case NLS_UINT8:
-        return integer_addition<uint8>(NLS_UINT8, A, B);
     case NLS_INT16:
-        return integer_addition<int16>(NLS_INT16, A, B);
     case NLS_UINT16:
-        return integer_addition<uint16>(NLS_UINT16, A, B);
     case NLS_INT32:
-        return integer_addition<int32>(NLS_INT32, A, B);
     case NLS_UINT32:
-        return integer_addition<uint32>(NLS_UINT32, A, B);
     case NLS_INT64:
-        return integer_addition<int64>(NLS_INT64, A, B);
     case NLS_UINT64:
-        return integer_addition<uint64>(NLS_UINT64, A, B);
+        return TypeTraits::visitInteger(commonClass,
+            [&](auto tag) { return integer_addition<decltype(tag)>(commonClass, A, B); });
     case NLS_STRING_ARRAY: {
         return stringArray_plus_stringArray(A, B);
     } break;
@@ -360,9 +321,7 @@ Addition(const ArrayOf& A, const ArrayOf& B)
                 res = complex_addition<single>(NLS_SCOMPLEX, A, B);
             }
         }
-        if (res.allReal()) {
-            res.promoteType(NLS_SINGLE);
-        }
+        res.demoteIfReal();
     } break;
     case NLS_DCOMPLEX: {
         if (A.isScalar() && B.isScalar()) {
@@ -389,9 +348,7 @@ Addition(const ArrayOf& A, const ArrayOf& B)
                 res = complex_addition<double>(NLS_DCOMPLEX, A, B);
             }
         }
-        if (res.allReal()) {
-            res.promoteType(NLS_DOUBLE);
-        }
+        res.demoteIfReal();
     } break;
     default: {
         Error(L"Nelson:operators:typeNotManaged", L"Type not supported.");
@@ -457,10 +414,9 @@ complexRealAddKernel(NelsonType classDestination, const ArrayOf& complexArray,
     Dimensions dimsC = complexIsMatrix ? complexArray.dimensions() : realArray.dimensions();
     indexType Clen = dimsC.elementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
-    const std::complex<T>* Az
-        = reinterpret_cast<const std::complex<T>*>(complexArray.dataPointer());
+    const std::complex<T>* Az = TypeTraits::asComplex<T>(complexArray.dataPointer());
     const T* Br = reinterpret_cast<const T*>(realArray.dataPointer());
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(Cp);
     for (indexType k = 0; k < Clen; ++k) {
         const std::complex<T>& a = complexIsMatrix ? Az[k] : Az[0];
         T c = realIsMatrix ? Br[k] : Br[0];

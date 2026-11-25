@@ -260,6 +260,8 @@
     <ClCompile Include="..\cpp\ArrayOf_LogicalType.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_MissingType.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_PromoteType.cpp" />
+    <ClCompile Include="..\cpp\ArrayOf_PromoteNumeric.cpp" />
+    <ClCompile Include="..\cpp\NelsonTypeVisitor.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_Properties.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_SingleType.cpp" />
     <ClCompile Include="..\cpp\ArrayOf_SparseType.cpp" />

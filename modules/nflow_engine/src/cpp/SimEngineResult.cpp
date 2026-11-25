@@ -8,55 +8,12 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "SimEngineResult.hpp"
+#include "JsonStringEscape.hpp"
 #include <algorithm>
 #include <cstdio>
 #include <functional>
 //=============================================================================
 namespace Nelson::NFlow {
-//=============================================================================
-std::string
-escapeJsonString(const std::string& s)
-{
-    static const char* kHex = "0123456789abcdef";
-    std::string r;
-    r.reserve(s.size());
-    for (char c : s) {
-        const unsigned char u = static_cast<unsigned char>(c);
-        switch (c) {
-        case '"':
-            r += "\\\"";
-            continue;
-        case '\\':
-            r += "\\\\";
-            continue;
-        case '\b':
-            r += "\\b";
-            continue;
-        case '\f':
-            r += "\\f";
-            continue;
-        case '\n':
-            r += "\\n";
-            continue;
-        case '\r':
-            r += "\\r";
-            continue;
-        case '\t':
-            r += "\\t";
-            continue;
-        default:
-            break;
-        }
-        if (u < 0x20) {
-            r += "\\u00";
-            r += kHex[(u >> 4) & 0x0F];
-            r += kHex[u & 0x0F];
-            continue;
-        }
-        r += c;
-    }
-    return r;
-}
 //=============================================================================
 static std::string
 escapeJsonId(const std::string& s)

@@ -221,6 +221,12 @@
     <ClCompile Include="..\cpp\ArrayOf_PromoteType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\ArrayOf_PromoteNumeric.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\NelsonTypeVisitor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\cpp\Decomplexify.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

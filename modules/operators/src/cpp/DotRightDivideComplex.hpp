@@ -10,6 +10,7 @@
 #pragma once
 //=============================================================================
 #include "lapack_eigen_config.hpp"
+#include "NelsonComplexStorage.hpp"
 #include <Eigen/Dense>
 #include <algorithm>
 #include <cmath>
@@ -81,9 +82,9 @@ scalar_matrix_complex_dotRightDivide(
     T* ptrA = (T*)A.dataPointer();
     T* ptrB = (T*)B.dataPointer();
     T* ptrC = (T*)Cp;
-    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(ptrA);
-    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
+    std::complex<T>* Az = TypeTraits::asComplex<T>(ptrA);
+    std::complex<T>* Bz = TypeTraits::asComplex<T>(ptrB);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(ptrC);
     blockedComplexQuotient<T>(Cz, Az, true, Bz, false, Clen);
     return res;
 }
@@ -101,9 +102,9 @@ matrix_scalar_complex_dotRightDivide(
     T* ptrA = (T*)A.dataPointer();
     T* ptrB = (T*)B.dataPointer();
     T* ptrC = (T*)Cp;
-    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(ptrA);
-    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
+    std::complex<T>* Az = TypeTraits::asComplex<T>(ptrA);
+    std::complex<T>* Bz = TypeTraits::asComplex<T>(ptrB);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(ptrC);
     blockedComplexQuotient<T>(Cz, Az, false, Bz, true, Clen);
     return res;
 }
@@ -121,9 +122,9 @@ matrix_matrix_complex_dotRightDivide(
     T* ptrA = (T*)A.dataPointer();
     T* ptrB = (T*)B.dataPointer();
     T* ptrC = (T*)Cp;
-    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(ptrA);
-    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
+    std::complex<T>* Az = TypeTraits::asComplex<T>(ptrA);
+    std::complex<T>* Bz = TypeTraits::asComplex<T>(ptrB);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(ptrC);
     blockedComplexQuotient<T>(Cz, Az, false, Bz, false, Clen);
     return res;
 }
@@ -144,9 +145,9 @@ row_column_complex_dotRightDivide(NelsonType classDestination, const ArrayOf& A,
     T* ptrA = (T*)A.dataPointer();
     T* ptrB = (T*)B.dataPointer();
     T* ptrC = (T*)Cp;
-    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(ptrA);
-    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
+    std::complex<T>* Az = TypeTraits::asComplex<T>(ptrA);
+    std::complex<T>* Bz = TypeTraits::asComplex<T>(ptrB);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(ptrC);
     indexType m = 0;
     for (indexType i = 0; i < dimsA.columns(); i++) {
         for (indexType j = 0; j < dimsB.rows(); j++) {
@@ -173,9 +174,9 @@ column_row_complex_dotRightDivide(NelsonType classDestination, const ArrayOf& A,
     T* ptrA = (T*)A.dataPointer();
     T* ptrB = (T*)B.dataPointer();
     T* ptrC = (T*)Cp;
-    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(ptrA);
-    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
+    std::complex<T>* Az = TypeTraits::asComplex<T>(ptrA);
+    std::complex<T>* Bz = TypeTraits::asComplex<T>(ptrB);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(ptrC);
     indexType m = 0;
     indexType elementCountA = dimsA.elementCount();
     indexType elementCountB = dimsB.elementCount();
@@ -201,9 +202,9 @@ row_matrix_complex_dotRightDivide(NelsonType classDestination, const ArrayOf& A,
     T* ptrA = (T*)A.dataPointer();
     T* ptrB = (T*)B.dataPointer();
     T* ptrC = (T*)Cp;
-    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(ptrA);
-    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
+    std::complex<T>* Az = TypeTraits::asComplex<T>(ptrA);
+    std::complex<T>* Bz = TypeTraits::asComplex<T>(ptrB);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(ptrC);
     indexType q = 0;
     for (indexType i = 0; i < dimsC.rows(); i++) {
         for (indexType j = 0; j < dimsC.columns(); j++) {
@@ -229,9 +230,9 @@ matrix_row_complex_dotRightDivide(NelsonType classDestination, const ArrayOf& A,
     T* ptrA = (T*)A.dataPointer();
     T* ptrB = (T*)B.dataPointer();
     T* ptrC = (T*)Cp;
-    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(ptrA);
-    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
+    std::complex<T>* Az = TypeTraits::asComplex<T>(ptrA);
+    std::complex<T>* Bz = TypeTraits::asComplex<T>(ptrB);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(ptrC);
     indexType q = 0;
     for (indexType i = 0; i < dimsC.rows(); i++) {
         for (indexType j = 0; j < dimsC.columns(); j++) {
@@ -257,9 +258,9 @@ column_matrix_complex_dotRightDivide(
     T* ptrA = (T*)A.dataPointer();
     T* ptrB = (T*)B.dataPointer();
     T* ptrC = (T*)Cp;
-    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(ptrA);
-    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
+    std::complex<T>* Az = TypeTraits::asComplex<T>(ptrA);
+    std::complex<T>* Bz = TypeTraits::asComplex<T>(ptrB);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(ptrC);
     for (indexType i = 0; i < dimsC.rows(); i++) {
         for (indexType j = 0; j < dimsC.columns(); j++) {
             indexType m = i + j * dimsB.rows();
@@ -284,9 +285,9 @@ matrix_column_complex_dotRightDivide(
     T* ptrA = (T*)A.dataPointer();
     T* ptrB = (T*)B.dataPointer();
     T* ptrC = (T*)Cp;
-    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(ptrA);
-    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
+    std::complex<T>* Az = TypeTraits::asComplex<T>(ptrA);
+    std::complex<T>* Bz = TypeTraits::asComplex<T>(ptrB);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(ptrC);
     for (indexType i = 0; i < dimsC.rows(); i++) {
         for (indexType j = 0; j < dimsC.columns(); j++) {
             indexType m = i + j * dimsA.rows();
@@ -307,9 +308,9 @@ matrix_matrix_complex_real_dotRightDivide(
     Dimensions dimsC = A.dimensions();
     indexType Clen = dimsC.elementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
-    const std::complex<T>* Az = reinterpret_cast<const std::complex<T>*>(A.dataPointer());
+    const std::complex<T>* Az = TypeTraits::asComplex<T>(A.dataPointer());
     const T* Br = reinterpret_cast<const T*>(B.dataPointer());
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(Cp);
     for (indexType k = 0; k < Clen; ++k) {
         Cz[k] = std::complex<T>(Az[k].real() / Br[k], Az[k].imag() / Br[k]);
     }
@@ -324,9 +325,9 @@ matrix_scalar_complex_real_dotRightDivide(
     Dimensions dimsC = A.dimensions();
     indexType Clen = dimsC.elementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
-    const std::complex<T>* Az = reinterpret_cast<const std::complex<T>*>(A.dataPointer());
+    const std::complex<T>* Az = TypeTraits::asComplex<T>(A.dataPointer());
     T c = reinterpret_cast<const T*>(B.dataPointer())[0];
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(Cp);
     for (indexType k = 0; k < Clen; ++k) {
         Cz[k] = std::complex<T>(Az[k].real() / c, Az[k].imag() / c);
     }
@@ -341,9 +342,9 @@ scalar_matrix_complex_real_dotRightDivide(
     Dimensions dimsC = B.dimensions();
     indexType Clen = dimsC.elementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
-    std::complex<T> a = reinterpret_cast<const std::complex<T>*>(A.dataPointer())[0];
+    std::complex<T> a = TypeTraits::asComplex<T>(A.dataPointer())[0];
     const T* Br = reinterpret_cast<const T*>(B.dataPointer());
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(Cp);
     for (indexType k = 0; k < Clen; ++k) {
         Cz[k] = std::complex<T>(a.real() / Br[k], a.imag() / Br[k]);
     }

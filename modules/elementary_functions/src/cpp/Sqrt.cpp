@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "NelsonComplexStorage.hpp"
 #include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #include <limits>
@@ -98,8 +99,8 @@ SqrtComplex(NelsonType classDestination, const ArrayOf& A)
     ompIndexType elementCount = (ompIndexType)A.elementCount();
     T* ptrOut = (T*)ArrayOf::allocateArrayOf(
         classDestination, dimsA.elementCount(), stringVector(), false);
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>((T*)ptrOut);
-    const std::complex<T>* Az = reinterpret_cast<const std::complex<T>*>(A.dataPointer());
+    std::complex<T>* Cz = TypeTraits::asComplex<T>((T*)ptrOut);
+    const std::complex<T>* Az = TypeTraits::asComplex<T>(A.dataPointer());
     OMP_PARALLEL_FOR_LOOP(elementCount)
     for (ompIndexType k = 0; k < elementCount; k++) {
         Cz[k] = SqrtComplexScalar<T>(Az[k]);
@@ -115,7 +116,7 @@ SqrtRealToComplex(NelsonType classDestination, const ArrayOf& A)
     ompIndexType elementCount = (ompIndexType)A.elementCount();
     T* ptrOut = (T*)ArrayOf::allocateArrayOf(
         classDestination, dimsA.elementCount(), stringVector(), false);
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>((T*)ptrOut);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>((T*)ptrOut);
     const T* ptrIn = (const T*)A.dataPointer();
     OMP_PARALLEL_FOR_LOOP(elementCount)
     for (ompIndexType k = 0; k < elementCount; k++) {
@@ -229,15 +230,11 @@ Sqrt(const ArrayOf& A, bool& needToOverload)
     } break;
     case NLS_DCOMPLEX: {
         res = SqrtComplex<double>(NLS_DCOMPLEX, A);
-        if (res.allReal()) {
-            res.promoteType(NLS_DOUBLE);
-        }
+        res.demoteIfReal();
     } break;
     case NLS_SCOMPLEX: {
         res = SqrtComplex<single>(NLS_SCOMPLEX, A);
-        if (res.allReal()) {
-            res.promoteType(NLS_SINGLE);
-        }
+        res.demoteIfReal();
     } break;
     default: {
         needToOverload = true;

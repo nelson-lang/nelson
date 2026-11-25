@@ -59,7 +59,7 @@ cumulativeFunctionBuiltin(int nLhs, const ArrayOfVector& argIn, std::string cumu
     size_t nRhs = argIn.size();
     nargincheck(argIn, 1, 4);
     nargoutcheck(nLhs, 0, 1);
-    if (argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct() || argIn[0].isClassType()) {
+    if (isOverloadRequiredType(argIn[0])) {
         OverloadRequired(cumulativeFunctionName);
     }
     bool withNaN = true;

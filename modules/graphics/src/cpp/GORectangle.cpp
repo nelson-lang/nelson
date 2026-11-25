@@ -87,27 +87,18 @@ void
 GORectangle::constructProperties()
 {
     registerProperty(new GOOnOffProperty, GO_ALIGN_VERTEX_CENTERS_PROPERTY_NAME_STR);
-    registerProperty(new GOOnOffProperty, GO_BEING_DELETED_PROPERTY_NAME_STR, false);
-    registerProperty(new GOBusyActionProperty, GO_BUSY_ACTION_PROPERTY_NAME_STR);
-    registerProperty(new GOGObjectsProperty, GO_CHILDREN_PROPERTY_NAME_STR);
-    registerProperty(new GOCallbackProperty, GO_CREATE_FCN_PROPERTY_NAME_STR);
+    registerBaseProperties(this);
+    registerStandardContainerProperties(this);
     registerProperty(new GOCurvatureProperty, GO_CURVATURE_PROPERTY_NAME_STR);
-    registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
     registerProperty(
         new GORestrictedStringColorProperty(RECTANGLE_COLOR_DICT), GO_EDGE_COLOR_PROPERTY_NAME_STR);
     registerProperty(new GOAutoManualProperty, GO_EDGE_COLOR_MODE_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty(0, 1), GO_FACE_ALPHA_PROPERTY_NAME_STR);
     registerProperty(
         new GORestrictedStringColorProperty(RECTANGLE_COLOR_DICT), GO_FACE_COLOR_PROPERTY_NAME_STR);
-    registerProperty(new GOOnOffProperty, GO_INTERRUPTIBLE_PROPERTY_NAME_STR);
     registerProperty(new GOLineStyleProperty, GO_LINE_STYLE_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty, GO_LINE_WIDTH_PROPERTY_NAME_STR);
-    registerProperty(new GOGObjectsProperty, GO_PARENT_PROPERTY_NAME_STR);
     registerProperty(new GORectanglePositionProperty, GO_POSITION_PROPERTY_NAME_STR);
-    registerProperty(new GOStringProperty, GO_TAG_PROPERTY_NAME_STR);
-    registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR, false);
-    registerProperty(new GOArrayOfProperty, GO_USER_DATA_PROPERTY_NAME_STR);
-    registerProperty(new GOOnOffProperty, GO_VISIBLE_PROPERTY_NAME_STR);
     registerCommonProperties(this);
     sortProperties();
 }

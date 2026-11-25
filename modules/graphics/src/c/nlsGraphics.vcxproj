@@ -304,6 +304,11 @@
     <ClCompile Include="..\cpp\GOAnnotation.cpp" />
     <ClCompile Include="..\cpp\GOAutoFlatColorProperty.cpp" />
     <ClCompile Include="..\cpp\GOAxis.cpp" />
+    <ClCompile Include="..\cpp\GOAxis_Interaction.cpp" />
+    <ClCompile Include="..\cpp\GOAxis_DualYAxis.cpp" />
+    <ClCompile Include="..\cpp\GOAxis_SetupAxis.cpp" />
+    <ClCompile Include="..\cpp\GOAxis_Toolbar.cpp" />
+    <ClCompile Include="..\cpp\GOAxis_CameraProjection.cpp" />
     <ClCompile Include="..\cpp\GOAxisOrthographicProjection.cpp" />
     <ClCompile Include="..\cpp\GOAxisHelpers.cpp" />
     <ClCompile Include="..\cpp\GOSurfaceScale.cpp" />

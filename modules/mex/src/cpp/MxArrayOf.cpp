@@ -10,7 +10,11 @@
 #define EIGEN_NO_DEBUG
 //=============================================================================
 #include <Eigen/Sparse>
+#include <type_traits>
 #include "nlsBuildConfig.h"
+#include "NelsonComplexStorage.hpp"
+#include "NelsonTypeTraits.hpp"
+#include "NelsonTypeVisitor.hpp"
 #include "omp_for_loop.hpp"
 #include "MxArrayOf.hpp"
 #include "MxNumericTypes.h"
@@ -119,6 +123,76 @@ ArrayOfRealToMexArray(const ArrayOf& array, mxClassID classID)
         }
     }
     return ret;
+}
+//=============================================================================
+// mxClassID for each Nelson integer class, so the eight integer cases share one
+// templated conversion instead of a hand-written case each.
+template <class T>
+constexpr mxClassID
+mxClassIdOfInteger()
+{
+    if constexpr (std::is_same_v<T, int8>) {
+        return mxINT8_CLASS;
+    } else if constexpr (std::is_same_v<T, uint8>) {
+        return mxUINT8_CLASS;
+    } else if constexpr (std::is_same_v<T, int16>) {
+        return mxINT16_CLASS;
+    } else if constexpr (std::is_same_v<T, uint16>) {
+        return mxUINT16_CLASS;
+    } else if constexpr (std::is_same_v<T, int32>) {
+        return mxINT32_CLASS;
+    } else if constexpr (std::is_same_v<T, uint32>) {
+        return mxUINT32_CLASS;
+    } else if constexpr (std::is_same_v<T, int64>) {
+        return mxINT64_CLASS;
+    } else {
+        static_assert(std::is_same_v<T, uint64>, "unsupported integer type");
+        return mxUINT64_CLASS;
+    }
+}
+//=============================================================================
+static bool
+isIntegerMxClass(mxClassID classID)
+{
+    return classID == mxINT8_CLASS || classID == mxUINT8_CLASS || classID == mxINT16_CLASS
+        || classID == mxUINT16_CLASS || classID == mxINT32_CLASS || classID == mxUINT32_CLASS
+        || classID == mxINT64_CLASS || classID == mxUINT64_CLASS;
+}
+//=============================================================================
+// Dispatch over the eight integer mxClassID values, calling f(T{}) with the
+// matching Nelson integer type. Caller guards with isIntegerMxClass.
+template <class F>
+static void
+visitMxInteger(mxClassID classID, F&& f)
+{
+    switch (classID) {
+    case mxINT8_CLASS:
+        f(int8 {});
+        break;
+    case mxUINT8_CLASS:
+        f(uint8 {});
+        break;
+    case mxINT16_CLASS:
+        f(int16 {});
+        break;
+    case mxUINT16_CLASS:
+        f(uint16 {});
+        break;
+    case mxINT32_CLASS:
+        f(int32 {});
+        break;
+    case mxUINT32_CLASS:
+        f(uint32 {});
+        break;
+    case mxINT64_CLASS:
+        f(int64 {});
+        break;
+    case mxUINT64_CLASS:
+        f(uint64 {});
+        break;
+    default:
+        break;
+    }
 }
 //=============================================================================
 static mxArray*
@@ -389,7 +463,7 @@ MxArraySparseToSparseDoubleComplexArrayOf(const mxArray* pm)
             interleaved[q + 1] = imagpart[k];
             q = q + 2;
         }
-        auto* ri = reinterpret_cast<doublecomplex*>(interleaved);
+        auto* ri = TypeTraits::asComplex<double>(interleaved);
         Eigen::Map<Eigen::SparseMatrix<doublecomplex, 0, Nelson::signedIndexType>> sm(
             rows, cols, nnz, outerIndexPtr, innerIndexPtr, ri);
         std::vector<SPARSE_INDEX_TYPE> i;
@@ -504,6 +578,12 @@ mxArray*
 ArrayOfToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex)
 {
     mxArray* res = nullptr;
+    if (TypeTraits::isInteger(nlsArrayOf.dataClass())) {
+        return TypeTraits::visitInteger(nlsArrayOf.dataClass(), [&](auto tag) -> mxArray* {
+            using T = decltype(tag);
+            return ArrayOfRealToMexArray<T, T>(nlsArrayOf, mxClassIdOfInteger<T>());
+        });
+    }
     switch (nlsArrayOf.dataClass()) {
     case NLS_STRING_ARRAY: {
         res = mxNewArray();
@@ -602,30 +682,6 @@ ArrayOfToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex)
             res = ArrayOfRealToMexArray<mxLogical, logical>(nlsArrayOf, mxLOGICAL_CLASS);
         }
     } break;
-    case NLS_UINT8: {
-        res = ArrayOfRealToMexArray<mxUint8, uint8>(nlsArrayOf, mxUINT8_CLASS);
-    } break;
-    case NLS_INT8: {
-        res = ArrayOfRealToMexArray<mxInt8, int8>(nlsArrayOf, mxINT8_CLASS);
-    } break;
-    case NLS_UINT16: {
-        res = ArrayOfRealToMexArray<mxUint16, uint16>(nlsArrayOf, mxUINT16_CLASS);
-    } break;
-    case NLS_INT16: {
-        res = ArrayOfRealToMexArray<mxInt16, int16>(nlsArrayOf, mxINT16_CLASS);
-    } break;
-    case NLS_UINT32: {
-        res = ArrayOfRealToMexArray<mxUint32, uint32>(nlsArrayOf, mxUINT32_CLASS);
-    } break;
-    case NLS_INT32: {
-        res = ArrayOfRealToMexArray<mxInt32, int32>(nlsArrayOf, mxINT32_CLASS);
-    } break;
-    case NLS_UINT64: {
-        res = ArrayOfRealToMexArray<mxUint64, uint64>(nlsArrayOf, mxUINT64_CLASS);
-    } break;
-    case NLS_INT64: {
-        res = ArrayOfRealToMexArray<mxInt64, int64>(nlsArrayOf, mxINT64_CLASS);
-    } break;
     case NLS_SINGLE: {
         res = ArrayOfRealToMexArray<mxSingle, single>(nlsArrayOf, mxSINGLE_CLASS);
     } break;
@@ -697,6 +753,18 @@ MxArrayToArrayOf(const mxArray* pm)
         dim[i] = pm->dims[i];
     }
     size_t N = mxGetNumberOfElements(pm);
+    if (isIntegerMxClass(pm->classID)) {
+        visitMxInteger(pm->classID, [&](auto tag) {
+            using T = decltype(tag);
+            destClass = TypeTraits::nelsonTypeOf<T>;
+            if (pm->iscomplex) {
+                Error("Nelson:MEX:typeNotManaged", "C MEX type not managed.");
+            }
+            cp = ArrayOf::allocateArrayOf(destClass, N);
+            MexRealToArrayOfReal<T, T>((T*)pm->realdata, (T*)cp, N);
+        });
+        return ArrayOf(destClass, dim, cp);
+    }
     switch (pm->classID) {
     case mxCELL_CLASS: {
         destClass = NLS_CELL_ARRAY;
@@ -771,70 +839,6 @@ MxArrayToArrayOf(const mxArray* pm)
             cp = ArrayOf::allocateArrayOf(destClass, N);
             MexRealToArrayOfReal<mxSingle, single>((mxSingle*)pm->realdata, (single*)cp, N);
         }
-    } break;
-    case mxINT8_CLASS: {
-        destClass = NLS_INT8;
-        if (pm->iscomplex) {
-            Error("Nelson:MEX:typeNotManaged", "C MEX type not managed.");
-        }
-        cp = ArrayOf::allocateArrayOf(destClass, N);
-        MexRealToArrayOfReal<mxInt8, int8>((mxInt8*)pm->realdata, (int8*)cp, N);
-    } break;
-    case mxUINT8_CLASS: {
-        destClass = NLS_UINT8;
-        if (pm->iscomplex) {
-            Error("Nelson:MEX:typeNotManaged", "C MEX type not managed.");
-        }
-        cp = ArrayOf::allocateArrayOf(destClass, N);
-        MexRealToArrayOfReal<mxUint8, uint8>((mxUint8*)pm->realdata, (uint8*)cp, N);
-    } break;
-    case mxINT16_CLASS: {
-        destClass = NLS_INT16;
-        if (pm->iscomplex) {
-            Error("Nelson:MEX:typeNotManaged", "C MEX type not managed.");
-        }
-        cp = ArrayOf::allocateArrayOf(destClass, N);
-        MexRealToArrayOfReal<mxInt16, int16>((mxInt16*)pm->realdata, (int16*)cp, N);
-    } break;
-    case mxUINT16_CLASS: {
-        destClass = NLS_UINT16;
-        if (pm->iscomplex) {
-            Error("Nelson:MEX:typeNotManaged", "C MEX type not managed.");
-        }
-        cp = ArrayOf::allocateArrayOf(destClass, N);
-        MexRealToArrayOfReal<mxUint16, uint16>((mxUint16*)pm->realdata, (uint16*)cp, N);
-    } break;
-    case mxINT32_CLASS: {
-        destClass = NLS_INT32;
-        if (pm->iscomplex) {
-            Error("Nelson:MEX:typeNotManaged", "C MEX type not managed.");
-        }
-        cp = ArrayOf::allocateArrayOf(destClass, N);
-        MexRealToArrayOfReal<mxInt32, int32>((mxInt32*)pm->realdata, (int32*)cp, N);
-    } break;
-    case mxUINT32_CLASS: {
-        destClass = NLS_UINT32;
-        if (pm->iscomplex) {
-            Error("Nelson:MEX:typeNotManaged", "C MEX type not managed.");
-        }
-        cp = ArrayOf::allocateArrayOf(destClass, N);
-        MexRealToArrayOfReal<mxUint32, uint32>((mxUint32*)pm->realdata, (uint32*)cp, N);
-    } break;
-    case mxINT64_CLASS: {
-        destClass = NLS_INT64;
-        if (pm->iscomplex) {
-            Error("Nelson:MEX:typeNotManaged", "C MEX type not managed.");
-        }
-        cp = ArrayOf::allocateArrayOf(destClass, N);
-        MexRealToArrayOfReal<mxInt64, int64>((mxInt64*)pm->realdata, (int64*)cp, N);
-    } break;
-    case mxUINT64_CLASS: {
-        destClass = NLS_UINT64;
-        if (pm->iscomplex) {
-            Error("Nelson:MEX:typeNotManaged", "C MEX type not managed.");
-        }
-        cp = ArrayOf::allocateArrayOf(destClass, N);
-        MexRealToArrayOfReal<mxUint64, uint64>((mxUint64*)pm->realdata, (uint64*)cp, N);
     } break;
     case mxOBJECT_CLASS: {
         auto* ptr = (ArrayOf*)pm->ptr;

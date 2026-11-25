@@ -94,23 +94,14 @@ GOImage::GOImage() : imageResourceKey(nextImageResourceKey.fetch_add(1))
 void
 GOImage::constructProperties()
 {
-    registerProperty(new GOOnOffProperty, GO_BEING_DELETED_PROPERTY_NAME_STR, false);
-    registerProperty(new GOCallbackProperty, GO_CREATE_FCN_PROPERTY_NAME_STR);
-    registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
-    registerProperty(new GOBusyActionProperty, GO_BUSY_ACTION_PROPERTY_NAME_STR);
-    registerProperty(new GOOnOffProperty, GO_INTERRUPTIBLE_PROPERTY_NAME_STR);
+    registerBaseProperties(this);
+    registerStandardContainerProperties(this);
     registerProperty(new GOArrayOfProperty, GO_ALPHA_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOArrayOfProperty, GO_C_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOMappingModeProperty, GO_ALPHA_DATA_MAPPING_PROPERTY_NAME_STR);
     registerProperty(new GODataMappingModeProperty, GO_C_DATA_MAPPING_PROPERTY_NAME_STR);
-    registerProperty(new GOGObjectsProperty, GO_CHILDREN_PROPERTY_NAME_STR);
-    registerProperty(new GOGObjectsProperty, GO_PARENT_PROPERTY_NAME_STR);
-    registerProperty(new GOStringProperty, GO_TAG_PROPERTY_NAME_STR);
-    registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR, false);
     registerProperty(new GOVectorProperty, GO_X_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOVectorProperty, GO_Y_DATA_PROPERTY_NAME_STR);
-    registerProperty(new GOArrayOfProperty, GO_USER_DATA_PROPERTY_NAME_STR);
-    registerProperty(new GOOnOffProperty, GO_VISIBLE_PROPERTY_NAME_STR);
     registerCommonProperties(this);
     sortProperties();
 }

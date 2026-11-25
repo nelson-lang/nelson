@@ -17,55 +17,35 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+template <class T>
+static indexType
+sparseNonZerosOf(const ArrayOf& a)
+{
+    auto* spmat = (Eigen::SparseMatrix<T, 0, signedIndexType>*)a.sparseDataPointer();
+    return spmat ? spmat->nonZeros() : 0;
+}
+//=============================================================================
 indexType
 SparseNonZeros(const ArrayOf& a)
 {
-    indexType nnz = 0;
-    if (a.isSparse()) {
-        switch (a.dataClass()) {
-        case NLS_LOGICAL: {
-            Eigen::SparseMatrix<logical, 0, signedIndexType>* spmat
-                = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)a.sparseDataPointer();
-            if (spmat) {
-                nnz = spmat->nonZeros();
-            }
-        } break;
-        case NLS_DOUBLE: {
-            Eigen::SparseMatrix<double, 0, signedIndexType>* spmat
-                = (Eigen::SparseMatrix<double, 0, signedIndexType>*)a.sparseDataPointer();
-            if (spmat) {
-                nnz = spmat->nonZeros();
-            }
-        } break;
-        case NLS_SINGLE: {
-            Eigen::SparseMatrix<single, 0, signedIndexType>* spmat
-                = (Eigen::SparseMatrix<single, 0, signedIndexType>*)a.sparseDataPointer();
-            if (spmat) {
-                nnz = spmat->nonZeros();
-            }
-        } break;
-        case NLS_DCOMPLEX: {
-            Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spmat
-                = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>*)a.sparseDataPointer();
-            if (spmat) {
-                nnz = spmat->nonZeros();
-            }
-        } break;
-        case NLS_SCOMPLEX: {
-            Eigen::SparseMatrix<singlecomplex, 0, signedIndexType>* spmat
-                = (Eigen::SparseMatrix<singlecomplex, 0, signedIndexType>*)a.sparseDataPointer();
-            if (spmat) {
-                nnz = spmat->nonZeros();
-            }
-        } break;
-        default:
-            Error(L"Nelson:types:typeNotManaged", L"Type not supported.");
-            break;
-        }
-    } else {
+    if (!a.isSparse()) {
         Error(L"Nelson:types:typeNotManaged", L"Type not supported.");
     }
-    return nnz;
+    switch (a.dataClass()) {
+    case NLS_LOGICAL:
+        return sparseNonZerosOf<logical>(a);
+    case NLS_DOUBLE:
+        return sparseNonZerosOf<double>(a);
+    case NLS_SINGLE:
+        return sparseNonZerosOf<single>(a);
+    case NLS_DCOMPLEX:
+        return sparseNonZerosOf<doublecomplex>(a);
+    case NLS_SCOMPLEX:
+        return sparseNonZerosOf<singlecomplex>(a);
+    default:
+        Error(L"Nelson:types:typeNotManaged", L"Type not supported.");
+    }
+    return 0;
 }
 //=============================================================================
 } // namespace Nelson

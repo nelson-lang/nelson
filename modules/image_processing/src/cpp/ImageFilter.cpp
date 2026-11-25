@@ -124,24 +124,30 @@ copyOutput(ArrayOf& out, const std::vector<double>& realValues,
         }
         return;
     }
+    // The clamped real classes share one copy path; a generic lambda factors
+    // them. Double (the default) is copied unclamped.
+    auto copyAs = [&](auto tag) {
+        using T = decltype(tag);
+        copyRealOutput((T*)out.readWriteDataPointer(), realValues);
+    };
     switch (outClass) {
     case NLS_UINT8:
-        copyRealOutput((uint8*)out.readWriteDataPointer(), realValues);
+        copyAs(uint8 {});
         break;
     case NLS_UINT16:
-        copyRealOutput((uint16*)out.readWriteDataPointer(), realValues);
+        copyAs(uint16 {});
         break;
     case NLS_INT8:
-        copyRealOutput((int8*)out.readWriteDataPointer(), realValues);
+        copyAs(int8 {});
         break;
     case NLS_INT16:
-        copyRealOutput((int16*)out.readWriteDataPointer(), realValues);
+        copyAs(int16 {});
         break;
     case NLS_SINGLE:
-        copyRealOutput((single*)out.readWriteDataPointer(), realValues);
+        copyAs(single {});
         break;
     case NLS_LOGICAL:
-        copyRealOutput((logical*)out.readWriteDataPointer(), realValues);
+        copyAs(logical {});
         break;
     default:
         std::copy(realValues.begin(), realValues.end(), (double*)out.readWriteDataPointer());

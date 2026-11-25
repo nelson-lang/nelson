@@ -561,56 +561,50 @@ ImageRotation(
     double new_center_x = new_width / 2.0;
     double new_center_y = new_height / 2.0;
 
+    // Every supported class forwards to the same rotateTyped<T> kernel with a
+    // zero fill value; a generic lambda factors the eleven identical cases.
+    auto rotate = [&](auto tag) {
+        using T = decltype(tag);
+        rotateTyped<T>(image, outputImage, width, height, channels, new_width, new_height, center_x,
+            center_y, new_center_x, new_center_y, cos_angle, sin_angle, method, (T)0);
+    };
     switch (dataClass) {
-    case NLS_DOUBLE: {
-        rotateTyped<double>(image, outputImage, width, height, channels, new_width, new_height,
-            center_x, center_y, new_center_x, new_center_y, cos_angle, sin_angle, method, 0.0);
-    } break;
-    case NLS_SINGLE: {
-        rotateTyped<single>(image, outputImage, width, height, channels, new_width, new_height,
-            center_x, center_y, new_center_x, new_center_y, cos_angle, sin_angle, method,
-            (single)0);
-    } break;
-    case NLS_INT8: {
-        rotateTyped<int8>(image, outputImage, width, height, channels, new_width, new_height,
-            center_x, center_y, new_center_x, new_center_y, cos_angle, sin_angle, method, 0);
-    } break;
-    case NLS_INT16: {
-        rotateTyped<int16>(image, outputImage, width, height, channels, new_width, new_height,
-            center_x, center_y, new_center_x, new_center_y, cos_angle, sin_angle, method, 0);
-    } break;
-    case NLS_INT32: {
-        rotateTyped<int32>(image, outputImage, width, height, channels, new_width, new_height,
-            center_x, center_y, new_center_x, new_center_y, cos_angle, sin_angle, method, 0);
-    } break;
-    case NLS_INT64: {
-        rotateTyped<int64>(image, outputImage, width, height, channels, new_width, new_height,
-            center_x, center_y, new_center_x, new_center_y, cos_angle, sin_angle, method, 0);
-    } break;
-    case NLS_UINT8: {
-        rotateTyped<uint8>(image, outputImage, width, height, channels, new_width, new_height,
-            center_x, center_y, new_center_x, new_center_y, cos_angle, sin_angle, method, 0);
-    } break;
-    case NLS_UINT16: {
-        rotateTyped<uint16>(image, outputImage, width, height, channels, new_width, new_height,
-            center_x, center_y, new_center_x, new_center_y, cos_angle, sin_angle, method, 0);
-    } break;
-    case NLS_UINT32: {
-        rotateTyped<uint32>(image, outputImage, width, height, channels, new_width, new_height,
-            center_x, center_y, new_center_x, new_center_y, cos_angle, sin_angle, method, 0);
-    } break;
-    case NLS_UINT64: {
-        rotateTyped<uint64>(image, outputImage, width, height, channels, new_width, new_height,
-            center_x, center_y, new_center_x, new_center_y, cos_angle, sin_angle, method, 0);
-    } break;
-    case NLS_LOGICAL: {
-        rotateTyped<logical>(image, outputImage, width, height, channels, new_width, new_height,
-            center_x, center_y, new_center_x, new_center_y, cos_angle, sin_angle, method,
-            (logical)0);
-    } break;
-    default: {
+    case NLS_DOUBLE:
+        rotate(double {});
+        break;
+    case NLS_SINGLE:
+        rotate(single {});
+        break;
+    case NLS_INT8:
+        rotate(int8 {});
+        break;
+    case NLS_INT16:
+        rotate(int16 {});
+        break;
+    case NLS_INT32:
+        rotate(int32 {});
+        break;
+    case NLS_INT64:
+        rotate(int64 {});
+        break;
+    case NLS_UINT8:
+        rotate(uint8 {});
+        break;
+    case NLS_UINT16:
+        rotate(uint16 {});
+        break;
+    case NLS_UINT32:
+        rotate(uint32 {});
+        break;
+    case NLS_UINT64:
+        rotate(uint64 {});
+        break;
+    case NLS_LOGICAL:
+        rotate(logical {});
+        break;
+    default:
         Error(L"Nelson:image_processing:typeNotSupported", L"Type not supported.");
-    } break;
+        break;
     }
 
     return outputImage;

@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "NelsonComplexStorage.hpp"
 #include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 // The dense matrix product below calls the Fortran BLAS xgemm directly (via
@@ -464,7 +465,7 @@ complex_mtimes(NelsonType currentClass, const ArrayOf& A, const ArrayOf& B)
         return zeroMatrixProductResult(currentClass, Cdim);
     }
     void* Cp = new_with_exception<T>(Clen * 2, false);
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(Cp);
     size_t mC = Cdim.rows();
     size_t nC = Cdim.columns();
     Eigen::Map<Eigen::Matrix<std::complex<T>, -1, -1>> matC(Cz, mC, nC);
@@ -474,9 +475,9 @@ complex_mtimes(NelsonType currentClass, const ArrayOf& A, const ArrayOf& B)
     Dimensions dimB = B.dimensions();
     size_t nB = dimB.columns();
     if (A.isScalar() && B.isScalar()) {
-        std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)AA.dataPointer());
+        std::complex<T>* Az = TypeTraits::asComplex<T>((T*)AA.dataPointer());
         std::complex<T> cxa = Az[0];
-        std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)BB.dataPointer());
+        std::complex<T>* Bz = TypeTraits::asComplex<T>((T*)BB.dataPointer());
         std::complex<T> cxb = Bz[0];
         if ((cxa.real() == 0.) && (cxa.imag() == 0.) || (cxb.real() == 0.) && (cxb.imag() == 0.)) {
             T* pd = (T*)Cp;
@@ -490,8 +491,8 @@ complex_mtimes(NelsonType currentClass, const ArrayOf& A, const ArrayOf& B)
         Cz[0] = cxa * cxb;
 
     } else if (A.isScalar()) {
-        std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)AA.dataPointer());
-        std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)BB.dataPointer());
+        std::complex<T>* Az = TypeTraits::asComplex<T>((T*)AA.dataPointer());
+        std::complex<T>* Bz = TypeTraits::asComplex<T>((T*)BB.dataPointer());
         if ((Az[0].real() == 0.) && (Az[0].imag() == 0.)) {
             T* pd = (T*)Cp;
             delete[] pd;
@@ -512,8 +513,8 @@ complex_mtimes(NelsonType currentClass, const ArrayOf& A, const ArrayOf& B)
 #endif
 
     } else if (B.isScalar()) {
-        std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)BB.dataPointer());
-        std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)AA.dataPointer());
+        std::complex<T>* Bz = TypeTraits::asComplex<T>((T*)BB.dataPointer());
+        std::complex<T>* Az = TypeTraits::asComplex<T>((T*)AA.dataPointer());
         Eigen::Map<Eigen::Matrix<std::complex<T>, -1, -1>> matA(Az, mA, nA);
         matC = matA.array() * Bz[0];
         if ((Bz[0].real() == 0.) && (Bz[0].imag() == 0.)) {
@@ -536,8 +537,8 @@ complex_mtimes(NelsonType currentClass, const ArrayOf& A, const ArrayOf& B)
 #endif
 
     } else {
-        std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)AA.dataPointer());
-        std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)BB.dataPointer());
+        std::complex<T>* Az = TypeTraits::asComplex<T>((T*)AA.dataPointer());
+        std::complex<T>* Bz = TypeTraits::asComplex<T>((T*)BB.dataPointer());
         if (useBlasGemm(mA, nA, nB)) {
             blasGemm((int)mA, (int)nB, (int)nA, Az, Bz, Cz);
         } else {

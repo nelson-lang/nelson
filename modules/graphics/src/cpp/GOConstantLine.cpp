@@ -85,17 +85,8 @@ GOConstantLine::constructProperties()
     registerProperty(new GOAutoManualProperty, GO_LINE_STYLE_MODE_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_DISPLAY_NAME_PROPERTY_NAME_STR);
 
-    registerProperty(new GOOnOffProperty, GO_BEING_DELETED_PROPERTY_NAME_STR, false);
-    registerProperty(new GOBusyActionProperty, GO_BUSY_ACTION_PROPERTY_NAME_STR);
-    registerProperty(new GOGObjectsProperty, GO_CHILDREN_PROPERTY_NAME_STR);
-    registerProperty(new GOCallbackProperty, GO_CREATE_FCN_PROPERTY_NAME_STR);
-    registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
-    registerProperty(new GOOnOffProperty, GO_INTERRUPTIBLE_PROPERTY_NAME_STR);
-    registerProperty(new GOGObjectsProperty, GO_PARENT_PROPERTY_NAME_STR);
-    registerProperty(new GOStringProperty, GO_TAG_PROPERTY_NAME_STR);
-    registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR, false);
-    registerProperty(new GOArrayOfProperty, GO_USER_DATA_PROPERTY_NAME_STR);
-    registerProperty(new GOOnOffProperty, GO_VISIBLE_PROPERTY_NAME_STR);
+    registerBaseProperties(this);
+    registerStandardContainerProperties(this);
 
     registerCommonProperties(this);
     sortProperties();

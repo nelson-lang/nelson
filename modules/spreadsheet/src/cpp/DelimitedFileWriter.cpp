@@ -18,6 +18,7 @@
 #include <fstream>
 #include <iostream>
 #include "DelimitedFileWriter.hpp"
+#include "NelsonComplexStorage.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
 #include "i18n.hpp"
@@ -118,7 +119,7 @@ writeComplexData(const ArrayOf& mat, FILE* file, const std::string& formatPrecis
     const std::string& delimiter, const std::string& newline, int64 ymax, int64 colsOffset)
 {
     Dimensions dims = mat.dimensions();
-    auto* matCplx = reinterpret_cast<doublecomplex*>((double*)mat.dataPointer());
+    auto* matCplx = TypeTraits::asComplex<double>((double*)mat.dataPointer());
     for (int64 x = 0; x < static_cast<int64>(dims.rows()); x++) {
         for (int64 x = 0; x < colsOffset; x++) {
             fmt::fprintf(file, "%s", delimiter);

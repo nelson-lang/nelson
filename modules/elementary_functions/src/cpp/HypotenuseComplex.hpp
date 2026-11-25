@@ -10,6 +10,7 @@
 #pragma once
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "NelsonComplexStorage.hpp"
 #include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #include "ArrayOf.hpp"
@@ -44,9 +45,9 @@ scalar_matrix_complex_hypotenuse(NelsonType classDestination, const ArrayOf& A, 
     T* ptrA = (T*)A.dataPointer();
     T* ptrB = (T*)B.dataPointer();
     T* ptrC = (T*)Cp;
-    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(ptrA);
-    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
+    std::complex<T>* Az = TypeTraits::asComplex<T>(ptrA);
+    std::complex<T>* Bz = TypeTraits::asComplex<T>(ptrB);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(ptrC);
     OMP_PARALLEL_FOR_LOOP(Clen)
     for (ompIndexType k = 0; k < (ompIndexType)Clen; ++k) {
         Cz[k] = hypothenusComplexNelson<T>(Az[0], Bz[k]);
@@ -66,9 +67,9 @@ matrix_scalar_complex_hypotenuse(NelsonType classDestination, const ArrayOf& A, 
     T* ptrA = (T*)A.dataPointer();
     T* ptrB = (T*)B.dataPointer();
     T* ptrC = (T*)Cp;
-    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(ptrA);
-    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
+    std::complex<T>* Az = TypeTraits::asComplex<T>(ptrA);
+    std::complex<T>* Bz = TypeTraits::asComplex<T>(ptrB);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(ptrC);
     OMP_PARALLEL_FOR_LOOP(Clen)
     for (ompIndexType k = 0; k < (ompIndexType)Clen; ++k) {
         Cz[k] = hypothenusComplexNelson<T>(Az[k], Bz[0]);
@@ -88,9 +89,9 @@ matrix_matrix_complex_hypotenuse(NelsonType classDestination, const ArrayOf& A, 
     T* ptrA = (T*)A.dataPointer();
     T* ptrB = (T*)B.dataPointer();
     T* ptrC = (T*)Cp;
-    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(ptrA);
-    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
+    std::complex<T>* Az = TypeTraits::asComplex<T>(ptrA);
+    std::complex<T>* Bz = TypeTraits::asComplex<T>(ptrB);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(ptrC);
     OMP_PARALLEL_FOR_LOOP(Clen)
     for (ompIndexType k = 0; k < (ompIndexType)Clen; ++k) {
         Cz[k] = hypothenusComplexNelson<T>(Az[k], Bz[k]);
@@ -114,9 +115,9 @@ row_column_complex_hypotenuse(NelsonType classDestination, const ArrayOf& A, con
     T* ptrA = (T*)A.dataPointer();
     T* ptrB = (T*)B.dataPointer();
     T* ptrC = (T*)Cp;
-    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(ptrA);
-    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
+    std::complex<T>* Az = TypeTraits::asComplex<T>(ptrA);
+    std::complex<T>* Bz = TypeTraits::asComplex<T>(ptrB);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(ptrC);
     indexType m = 0;
     for (indexType i = 0; i < dimsA.columns(); i++) {
         for (indexType j = 0; j < dimsB.rows(); j++) {
@@ -143,9 +144,9 @@ column_row_complex_hypotenuse(NelsonType classDestination, const ArrayOf& A, con
     T* ptrA = (T*)A.dataPointer();
     T* ptrB = (T*)B.dataPointer();
     T* ptrC = (T*)Cp;
-    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(ptrA);
-    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
+    std::complex<T>* Az = TypeTraits::asComplex<T>(ptrA);
+    std::complex<T>* Bz = TypeTraits::asComplex<T>(ptrB);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(ptrC);
     indexType m = 0;
     indexType elementCountB = dimsB.elementCount();
     indexType elementCountA = dimsA.elementCount();
@@ -171,9 +172,9 @@ row_matrix_complex_hypotenuse(NelsonType classDestination, const ArrayOf& A, con
     T* ptrA = (T*)A.dataPointer();
     T* ptrB = (T*)B.dataPointer();
     T* ptrC = (T*)Cp;
-    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(ptrA);
-    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
+    std::complex<T>* Az = TypeTraits::asComplex<T>(ptrA);
+    std::complex<T>* Bz = TypeTraits::asComplex<T>(ptrB);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(ptrC);
     indexType q = 0;
     for (indexType i = 0; i < dimsC.rows(); i++) {
         for (indexType j = 0; j < dimsC.columns(); j++) {
@@ -199,9 +200,9 @@ matrix_row_complex_hypotenuse(NelsonType classDestination, const ArrayOf& A, con
     T* ptrA = (T*)A.dataPointer();
     T* ptrB = (T*)B.dataPointer();
     T* ptrC = (T*)Cp;
-    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(ptrA);
-    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
+    std::complex<T>* Az = TypeTraits::asComplex<T>(ptrA);
+    std::complex<T>* Bz = TypeTraits::asComplex<T>(ptrB);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(ptrC);
     indexType q = 0;
     for (indexType i = 0; i < dimsC.rows(); i++) {
         for (indexType j = 0; j < dimsC.columns(); j++) {
@@ -226,9 +227,9 @@ column_matrix_complex_hypotenuse(NelsonType classDestination, const ArrayOf& A, 
     T* ptrA = (T*)A.dataPointer();
     T* ptrB = (T*)B.dataPointer();
     T* ptrC = (T*)Cp;
-    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(ptrA);
-    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
+    std::complex<T>* Az = TypeTraits::asComplex<T>(ptrA);
+    std::complex<T>* Bz = TypeTraits::asComplex<T>(ptrB);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(ptrC);
     for (indexType i = 0; i < dimsC.rows(); i++) {
         for (indexType j = 0; j < dimsC.columns(); j++) {
             indexType m = i + j * dimsB.rows();
@@ -251,9 +252,9 @@ matrix_column_complex_hypotenuse(NelsonType classDestination, const ArrayOf& A, 
     T* ptrA = (T*)A.dataPointer();
     T* ptrB = (T*)B.dataPointer();
     T* ptrC = (T*)Cp;
-    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(ptrA);
-    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
+    std::complex<T>* Az = TypeTraits::asComplex<T>(ptrA);
+    std::complex<T>* Bz = TypeTraits::asComplex<T>(ptrB);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(ptrC);
     for (indexType i = 0; i < dimsC.rows(); i++) {
         for (indexType j = 0; j < dimsC.columns(); j++) {
             indexType m = i + j * dimsA.rows();
@@ -275,9 +276,9 @@ scalar_scalar_complex_hypotenuse(NelsonType classDestination, const ArrayOf& A, 
     T* ptrA = (T*)A.dataPointer();
     T* ptrB = (T*)B.dataPointer();
     T* ptrC = (T*)Cp;
-    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(ptrA);
-    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
+    std::complex<T>* Az = TypeTraits::asComplex<T>(ptrA);
+    std::complex<T>* Bz = TypeTraits::asComplex<T>(ptrB);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(ptrC);
     Cz[0] = hypothenusComplexNelson<T>(Az[0], Bz[0]);
     return res;
 }

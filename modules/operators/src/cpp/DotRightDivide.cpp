@@ -11,6 +11,7 @@
 #include <vector>
 #include "DotRightDivide.hpp"
 #include "MatrixCheck.hpp"
+#include "NelsonTypeVisitor.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
 #include "i18n.hpp"
@@ -365,21 +366,15 @@ DotRightDivide(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 
     switch (commonType) {
     case NLS_INT8:
-        return integer_dotRightDivide<int8>(NLS_INT8, A, B);
     case NLS_UINT8:
-        return integer_dotRightDivide<uint8>(NLS_UINT8, A, B);
     case NLS_INT16:
-        return integer_dotRightDivide<int16>(NLS_INT16, A, B);
     case NLS_UINT16:
-        return integer_dotRightDivide<uint16>(NLS_UINT16, A, B);
     case NLS_INT32:
-        return integer_dotRightDivide<int32>(NLS_INT32, A, B);
     case NLS_UINT32:
-        return integer_dotRightDivide<uint32>(NLS_UINT32, A, B);
     case NLS_INT64:
-        return integer_dotRightDivide<int64>(NLS_INT64, A, B);
     case NLS_UINT64:
-        return integer_dotRightDivide<uint64>(NLS_UINT64, A, B);
+        return TypeTraits::visitInteger(commonType,
+            [&](auto tag) { return integer_dotRightDivide<decltype(tag)>(commonType, A, B); });
     case NLS_SINGLE: {
         res = real_dotRightDivide<single>(NLS_SINGLE, A, B);
     } break;

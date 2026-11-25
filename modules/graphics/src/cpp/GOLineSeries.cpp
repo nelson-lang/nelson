@@ -186,14 +186,10 @@ GOLineSeries::~GOLineSeries() { }
 void
 GOLineSeries::constructProperties()
 {
-    registerProperty(new GOOnOffProperty, GO_BEING_DELETED_PROPERTY_NAME_STR, false);
-    registerProperty(new GOCallbackProperty, GO_CREATE_FCN_PROPERTY_NAME_STR);
-    registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
-    registerProperty(new GOBusyActionProperty, GO_BUSY_ACTION_PROPERTY_NAME_STR);
-    registerProperty(new GOOnOffProperty, GO_INTERRUPTIBLE_PROPERTY_NAME_STR);
+    registerBaseProperties(this);
+    registerStandardContainerProperties(this);
 
     registerProperty(new GOColorProperty, GO_COLOR_PROPERTY_NAME_STR);
-    registerProperty(new GOGObjectsProperty, GO_CHILDREN_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_DISPLAY_NAME_PROPERTY_NAME_STR);
     registerProperty(new GOLineStyleProperty, GO_LINE_STYLE_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty, GO_LINE_WIDTH_PROPERTY_NAME_STR);
@@ -201,10 +197,6 @@ GOLineSeries::constructProperties()
     registerProperty(new GOAutoFlatColorProperty, GO_MARKER_EDGE_COLOR_PROPERTY_NAME_STR);
     registerProperty(new GOAutoFlatColorProperty, GO_MARKER_FACE_COLOR_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty, GO_MARKER_SIZE_PROPERTY_NAME_STR);
-    registerProperty(new GOGObjectsProperty, GO_PARENT_PROPERTY_NAME_STR);
-    registerProperty(new GOStringProperty, GO_TAG_PROPERTY_NAME_STR);
-    registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR, false);
-    registerProperty(new GOOnOffProperty, GO_VISIBLE_PROPERTY_NAME_STR);
     registerProperty(new GOAutoManualProperty, GO_X_DATA_MODE_PROPERTY_NAME_STR);
     registerProperty(new GOAutoManualProperty, GO_Y_DATA_MODE_PROPERTY_NAME_STR);
     registerProperty(new GOAutoManualProperty, GO_Z_DATA_MODE_PROPERTY_NAME_STR);
@@ -221,7 +213,6 @@ GOLineSeries::constructProperties()
     registerProperty(new GOAutoManualProperty, GO_THETA_DATA_MODE_PROPERTY_NAME_STR);
     registerProperty(new GOVectorProperty, GO_R_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOAutoManualProperty, GO_R_DATA_MODE_PROPERTY_NAME_STR);
-    registerProperty(new GOArrayOfProperty, GO_USER_DATA_PROPERTY_NAME_STR);
     registerCommonProperties(this);
     sortProperties();
 }

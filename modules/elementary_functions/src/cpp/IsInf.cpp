@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "NelsonComplexStorage.hpp"
 #include "omp_for_loop.hpp"
 #include "IsInf.hpp"
 #include "ClassName.hpp"
@@ -112,7 +113,7 @@ IsInf(const ArrayOf& A)
         void* Cp = Nelson::ArrayOf::allocateArrayOf(
             NLS_LOGICAL, A.elementCount(), stringVector(), false);
         auto* pValueA = (single*)A.dataPointer();
-        auto* cplx = reinterpret_cast<singlecomplex*>(pValueA);
+        auto* cplx = TypeTraits::asComplex<single>(pValueA);
         boolean_isinf_cplx<singlecomplex>(A.elementCount(), (logical*)Cp, cplx);
         C.setDataPointer(Cp);
     } break;
@@ -121,7 +122,7 @@ IsInf(const ArrayOf& A)
         void* Cp = Nelson::ArrayOf::allocateArrayOf(
             NLS_LOGICAL, A.elementCount(), stringVector(), false);
         auto* pValueA = (double*)A.dataPointer();
-        auto* cplx = reinterpret_cast<doublecomplex*>(pValueA);
+        auto* cplx = TypeTraits::asComplex<double>(pValueA);
         boolean_isinf_cplx<doublecomplex>(A.elementCount(), (logical*)Cp, cplx);
         C.setDataPointer(Cp);
     } break;

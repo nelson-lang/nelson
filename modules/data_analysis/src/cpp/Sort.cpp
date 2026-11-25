@@ -8,7 +8,10 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <complex>
+#include <type_traits>
 #include "Sort.hpp"
+#include "NelsonTypeTraits.hpp"
+#include "NelsonTypeVisitor.hpp"
 #include "SortHelpers.hpp"
 #include "SortIntegerHelpers.hpp"
 #include "SortCellHelpers.hpp"
@@ -123,6 +126,22 @@ Sort(const ArrayOf& arrayIn, size_t nargin, bool withIndex, indexType dim, bool 
         for (indexType d = dimOperate + 1; d < inDim.length(); d++) {
             planecount *= inDim[d];
         }
+        if (TypeTraits::isInteger(arrayIn.dataClass())) {
+            res = TypeTraits::visitInteger(arrayIn.dataClass(), [&](auto tag) -> ArrayOfVector {
+                using T = decltype(tag);
+                if constexpr (std::is_unsigned_v<T>) {
+                    return sortInteger<T>(arrayIn, TypeTraits::nelsonTypeOf<T>, withIndex, linesize,
+                        planecount, planesize, outDim, dim, ascend);
+                }
+                if (comparisonMethod == COMPARISON_METHOD::ABS_METHOD) {
+                    return sortIntegerByAbsolute<T>(arrayIn, TypeTraits::nelsonTypeOf<T>, withIndex,
+                        linesize, planecount, planesize, outDim, ascend);
+                }
+                return sortInteger<T>(arrayIn, TypeTraits::nelsonTypeOf<T>, withIndex, linesize,
+                    planecount, planesize, outDim, dim, ascend);
+            });
+            return res;
+        }
         switch (arrayIn.dataClass()) {
         case NLS_HANDLE: {
             needToOverload = true;
@@ -150,58 +169,6 @@ Sort(const ArrayOf& arrayIn, size_t nargin, bool withIndex, indexType dim, bool 
         case NLS_LOGICAL: {
             res = sortInteger<logical>(arrayIn, NLS_UINT8, withIndex, linesize, planecount,
                 planesize, outDim, dim, ascend);
-        } break;
-        case NLS_UINT8: {
-            res = sortInteger<uint8>(arrayIn, NLS_UINT8, withIndex, linesize, planecount, planesize,
-                outDim, dim, ascend);
-        } break;
-        case NLS_INT8: {
-            if (comparisonMethod == COMPARISON_METHOD::ABS_METHOD) {
-                res = sortIntegerByAbsolute<int8>(
-                    arrayIn, NLS_INT8, withIndex, linesize, planecount, planesize, outDim, ascend);
-            } else {
-                res = sortInteger<int8>(arrayIn, NLS_INT8, withIndex, linesize, planecount,
-                    planesize, outDim, dim, ascend);
-            }
-        } break;
-        case NLS_UINT16: {
-            res = sortInteger<uint16>(arrayIn, NLS_UINT16, withIndex, linesize, planecount,
-                planesize, outDim, dim, ascend);
-        } break;
-        case NLS_INT16: {
-            if (comparisonMethod == COMPARISON_METHOD::ABS_METHOD) {
-                res = sortIntegerByAbsolute<int16>(
-                    arrayIn, NLS_INT16, withIndex, linesize, planecount, planesize, outDim, ascend);
-            } else {
-                res = sortInteger<int16>(arrayIn, NLS_INT16, withIndex, linesize, planecount,
-                    planesize, outDim, dim, ascend);
-            }
-        } break;
-        case NLS_UINT32: {
-            res = sortInteger<uint32>(arrayIn, NLS_UINT32, withIndex, linesize, planecount,
-                planesize, outDim, dim, ascend);
-        } break;
-        case NLS_INT32: {
-            if (comparisonMethod == COMPARISON_METHOD::ABS_METHOD) {
-                res = sortIntegerByAbsolute<int32>(
-                    arrayIn, NLS_INT32, withIndex, linesize, planecount, planesize, outDim, ascend);
-            } else {
-                res = sortInteger<int32>(arrayIn, NLS_INT32, withIndex, linesize, planecount,
-                    planesize, outDim, dim, ascend);
-            }
-        } break;
-        case NLS_UINT64: {
-            res = sortInteger<uint64>(arrayIn, NLS_UINT64, withIndex, linesize, planecount,
-                planesize, outDim, dim, ascend);
-        } break;
-        case NLS_INT64: {
-            if (comparisonMethod == COMPARISON_METHOD::ABS_METHOD) {
-                res = sortIntegerByAbsolute<int64>(
-                    arrayIn, NLS_INT64, withIndex, linesize, planecount, planesize, outDim, ascend);
-            } else {
-                res = sortInteger<int64>(arrayIn, NLS_INT64, withIndex, linesize, planecount,
-                    planesize, outDim, dim, ascend);
-            }
         } break;
         case NLS_SINGLE: {
             if (comparisonMethod == COMPARISON_METHOD::ABS_METHOD) {

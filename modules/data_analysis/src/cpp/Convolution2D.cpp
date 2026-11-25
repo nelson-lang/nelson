@@ -13,6 +13,7 @@
 //=============================================================================
 #include <complex>
 #include "nlsBuildConfig.h"
+#include "NelsonComplexStorage.hpp"
 #include "Convolution2D.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
@@ -178,9 +179,9 @@ Conv2dDispatch(const ArrayOf& X, const ArrayOf& Y, indexType Cm, indexType Cn, i
         void* ptr = ArrayOf::allocateArrayOf(NLS_DCOMPLEX, dimsRes.elementCount());
         res = ArrayOf(NLS_DCOMPLEX, dimsRes, ptr);
 
-        auto* ptrz = reinterpret_cast<std::complex<double>*>((double*)ptr);
-        auto* ptrX = reinterpret_cast<std::complex<double>*>((double*)X.dataPointer());
-        auto* ptrY = reinterpret_cast<std::complex<double>*>((double*)Y.dataPointer());
+        auto* ptrz = TypeTraits::asComplex<double>((double*)ptr);
+        auto* ptrX = TypeTraits::asComplex<double>((double*)X.dataPointer());
+        auto* ptrY = TypeTraits::asComplex<double>((double*)Y.dataPointer());
         Conv2Complex<double>(ptrz, ptrX, ptrY, X.rows(), X.columns(), Y.rows(), Y.columns(), Cm, Cn,
             Cm_offset, Cn_offset);
     } break;
@@ -188,9 +189,9 @@ Conv2dDispatch(const ArrayOf& X, const ArrayOf& Y, indexType Cm, indexType Cn, i
         void* ptr = ArrayOf::allocateArrayOf(NLS_SCOMPLEX, dimsRes.elementCount());
         res = ArrayOf(NLS_SCOMPLEX, dimsRes, ptr);
 
-        auto* ptrz = reinterpret_cast<std::complex<single>*>((single*)ptr);
-        auto* ptrX = reinterpret_cast<std::complex<single>*>((single*)X.dataPointer());
-        auto* ptrY = reinterpret_cast<std::complex<single>*>((single*)Y.dataPointer());
+        auto* ptrz = TypeTraits::asComplex<single>((single*)ptr);
+        auto* ptrX = TypeTraits::asComplex<single>((single*)X.dataPointer());
+        auto* ptrY = TypeTraits::asComplex<single>((single*)Y.dataPointer());
         Conv2Complex<single>(ptrz, ptrX, ptrY, X.rows(), X.columns(), Y.rows(), Y.columns(), Cm, Cn,
             Cm_offset, Cn_offset);
     } break;

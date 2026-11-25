@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "MatrixPower.hpp"
+#include "NelsonComplexStorage.hpp"
 #include <cmath>
 #include <Eigen/Eigenvalues>
 #include <Eigen/Sparse>
@@ -97,7 +98,7 @@ hasNegativeRealEigenvalue(const ArrayOf& D)
 {
     ArrayOf eigenvalues = ArrayOf(D).diagonal(0);
     eigenvalues.promoteType(NLS_DCOMPLEX);
-    const auto* values = reinterpret_cast<const doublecomplex*>(eigenvalues.dataPointer());
+    const auto* values = TypeTraits::asComplex<double>(eigenvalues.dataPointer());
     for (indexType k = 0; k < eigenvalues.elementCount(); ++k) {
         if (values[k].imag() == 0 && values[k].real() < 0) {
             return true;
@@ -240,8 +241,8 @@ schurFractionalPower(const ArrayOf& A, const ArrayOf& D, double exponent)
     auto n = static_cast<Eigen::Index>(A.rows());
     ArrayOf complexA(A);
     complexA.promoteType(complexClass);
-    ComplexMatrix matA = Eigen::Map<const ComplexMatrix>(
-        reinterpret_cast<const std::complex<T>*>(complexA.dataPointer()), n, n);
+    ComplexMatrix matA
+        = Eigen::Map<const ComplexMatrix>(TypeTraits::asComplex<T>(complexA.dataPointer()), n, n);
     ComplexMatrix powered(n, n);
     if (!matA.allFinite()) {
         powered.setConstant(std::complex<T>(std::numeric_limits<T>::quiet_NaN(), (T)0));

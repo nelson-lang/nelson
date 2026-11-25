@@ -12,6 +12,7 @@
 #include <limits>
 #include <vector>
 #include "nlsBuildConfig.h"
+#include "NelsonComplexStorage.hpp"
 #include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #include "LapackPrototypes.hpp"
@@ -150,14 +151,14 @@ PageInverse(const ArrayOf& X, bool& needToOverload)
         }
     } break;
     case NLS_DCOMPLEX: {
-        auto* data = reinterpret_cast<doublecomplex*>((double*)res.dataPointer());
+        auto* data = TypeTraits::asComplex<double>((double*)res.dataPointer());
         OMP_PARALLEL_FOR_LOOP(pages)
         for (ompIndexType p = 0; p < (ompIndexType)pages; ++p) {
             invPageZ(data + (indexType)p * pageElems, n);
         }
     } break;
     case NLS_SCOMPLEX: {
-        auto* data = reinterpret_cast<singlecomplex*>((single*)res.dataPointer());
+        auto* data = TypeTraits::asComplex<single>((single*)res.dataPointer());
         OMP_PARALLEL_FOR_LOOP(pages)
         for (ompIndexType p = 0; p < (ompIndexType)pages; ++p) {
             invPageC(data + (indexType)p * pageElems, n);

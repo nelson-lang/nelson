@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "GORainCloudPlot.hpp"
+#include "GOCommonProperties.hpp"
 #include "GOChartDecorators.hpp"
 #include "ViolinDensityHelpers.hpp"
 #include "GOArrayOfProperty.hpp"
@@ -452,20 +453,14 @@ namespace {
         go->registerProperty(new GOOnOffProperty, GO_SELECTION_HIGHLIGHT_PROPERTY_NAME_STR);
         go->registerProperty(new GOOnOffProperty, GO_CLIPPING_PROPERTY_NAME_STR);
         go->registerProperty(new GOCallbackProperty, GO_BUTTON_DOWN_FCN_PROPERTY_NAME_STR);
-        go->registerProperty(new GOCallbackProperty, GO_CREATE_FCN_PROPERTY_NAME_STR);
-        go->registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
-        go->registerProperty(new GOOnOffProperty, GO_INTERRUPTIBLE_PROPERTY_NAME_STR);
-        go->registerProperty(new GOBusyActionProperty, GO_BUSY_ACTION_PROPERTY_NAME_STR);
+        registerBaseProperties(go);
         go->registerProperty(new GOPickablePartsProperty, GO_PICKABLE_PARTS_PROPERTY_NAME_STR);
         go->registerProperty(new GOOnOffProperty, GO_HIT_TEST_PROPERTY_NAME_STR);
-        go->registerProperty(new GOOnOffProperty, GO_BEING_DELETED_PROPERTY_NAME_STR, false);
         go->registerProperty(new GOGObjectsProperty, GO_PARENT_PROPERTY_NAME_STR);
         go->registerProperty(new GOGObjectsProperty, GO_CHILDREN_PROPERTY_NAME_STR, false);
         go->registerProperty(
             new GOHandleVisibilityProperty, GO_HANDLE_VISIBILITY_PROPERTY_NAME_STR);
-        go->registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR, false);
         go->registerProperty(new GOStringProperty, GO_TAG_PROPERTY_NAME_STR);
-        go->registerProperty(new GOArrayOfProperty, GO_USER_DATA_PROPERTY_NAME_STR);
     }
     //=============================================================================
     void

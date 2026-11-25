@@ -81,29 +81,36 @@ scaledRealData(const ArrayOf& image, double offset, double scale)
 static std::vector<double>
 imageAsUnitDouble(const ArrayOf& image)
 {
+    // Same scaling kernel for every class; only the (offset, range) normalization
+    // constants differ per class, so they stay explicit while the generic lambda
+    // factors the scaledRealData<T>(image, ...) call.
+    auto scaled = [&](auto tag, double offset, double range) {
+        using T = decltype(tag);
+        return scaledRealData<T>(image, offset, range);
+    };
     switch (image.dataClass()) {
     case NLS_LOGICAL:
-        return scaledRealData<logical>(image, 0.0, 1.0);
+        return scaled(logical {}, 0.0, 1.0);
     case NLS_DOUBLE:
-        return scaledRealData<double>(image, 0.0, 1.0);
+        return scaled(double {}, 0.0, 1.0);
     case NLS_SINGLE:
-        return scaledRealData<single>(image, 0.0, 1.0);
+        return scaled(single {}, 0.0, 1.0);
     case NLS_UINT8:
-        return scaledRealData<uint8>(image, 0.0, 255.0);
+        return scaled(uint8 {}, 0.0, 255.0);
     case NLS_UINT16:
-        return scaledRealData<uint16>(image, 0.0, 65535.0);
+        return scaled(uint16 {}, 0.0, 65535.0);
     case NLS_UINT32:
-        return scaledRealData<uint32>(image, 0.0, 4294967295.0);
+        return scaled(uint32 {}, 0.0, 4294967295.0);
     case NLS_UINT64:
-        return scaledRealData<uint64>(image, 0.0, 18446744073709551615.0);
+        return scaled(uint64 {}, 0.0, 18446744073709551615.0);
     case NLS_INT8:
-        return scaledRealData<int8>(image, 128.0, 255.0);
+        return scaled(int8 {}, 128.0, 255.0);
     case NLS_INT16:
-        return scaledRealData<int16>(image, 32768.0, 65535.0);
+        return scaled(int16 {}, 32768.0, 65535.0);
     case NLS_INT32:
-        return scaledRealData<int32>(image, 2147483648.0, 4294967295.0);
+        return scaled(int32 {}, 2147483648.0, 4294967295.0);
     case NLS_INT64:
-        return scaledRealData<int64>(image, 9223372036854775808.0, 18446744073709551615.0);
+        return scaled(int64 {}, 9223372036854775808.0, 18446744073709551615.0);
     default: {
         ArrayOf work(image);
         work.promoteType(NLS_DOUBLE);

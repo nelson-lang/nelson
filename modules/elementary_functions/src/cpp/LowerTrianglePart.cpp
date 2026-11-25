@@ -9,6 +9,9 @@
 //=============================================================================
 #include <cstring>
 #include "nlsBuildConfig.h"
+#include "NelsonComplexStorage.hpp"
+#include "NelsonTypeTraits.hpp"
+#include "NelsonTypeVisitor.hpp"
 #include "omp_for_loop.hpp"
 #include "LowerTrianglePart.hpp"
 #include "Error.hpp"
@@ -74,7 +77,7 @@ LowerTrianglePartComplex(const ArrayOf& A, signedIndexType offset)
     ArrayOf res = A;
     res.ensureSingleOwner();
     T* D = (T*)res.dataPointer();
-    auto* Dz = reinterpret_cast<std::complex<T>*>(D);
+    auto* Dz = TypeTraits::asComplex<T>(D);
     indexType C = dimsA.columns();
     indexType R = dimsA.rows();
     OMP_PARALLEL_FOR_LOOP(C)
@@ -122,6 +125,12 @@ LowerTrianglePart(const ArrayOf& A, signedIndexType offset, bool& needToOverload
     if (A.isSparse()) {
         return LowerTrianglePartSparse(A, offset, needToOverload);
     }
+    if (TypeTraits::isInteger(A.dataClass())) {
+        return TypeTraits::visitInteger(A.dataClass(), [&](auto tag) {
+            using T = decltype(tag);
+            return LowerTrianglePartReal<T>(A, offset);
+        });
+    }
     switch (A.dataClass()) {
     case NLS_LOGICAL: {
         res = LowerTrianglePartReal<logical>(A, offset);
@@ -129,30 +138,6 @@ LowerTrianglePart(const ArrayOf& A, signedIndexType offset, bool& needToOverload
     } break;
     case NLS_CHAR: {
         res = LowerTrianglePartReal<charType>(A, offset);
-    } break;
-    case NLS_UINT8: {
-        res = LowerTrianglePartReal<uint8>(A, offset);
-    } break;
-    case NLS_UINT16: {
-        res = LowerTrianglePartReal<uint16>(A, offset);
-    } break;
-    case NLS_UINT32: {
-        res = LowerTrianglePartReal<uint32>(A, offset);
-    } break;
-    case NLS_UINT64: {
-        res = LowerTrianglePartReal<uint64>(A, offset);
-    } break;
-    case NLS_INT8: {
-        res = LowerTrianglePartReal<int8>(A, offset);
-    } break;
-    case NLS_INT16: {
-        res = LowerTrianglePartReal<int16>(A, offset);
-    } break;
-    case NLS_INT32: {
-        res = LowerTrianglePartReal<int32>(A, offset);
-    } break;
-    case NLS_INT64: {
-        res = LowerTrianglePartReal<int64>(A, offset);
     } break;
     case NLS_SINGLE: {
         res = LowerTrianglePartReal<single>(A, offset);

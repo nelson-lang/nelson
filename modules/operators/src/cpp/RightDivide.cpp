@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "lapack_eigen_config.hpp"
+#include "NelsonComplexStorage.hpp"
 #include "LapackPrototypes.hpp"
 #include <Eigen/Dense>
 #include "RightDivide.hpp"
@@ -150,8 +151,8 @@ template <class T>
 void
 complexTransposeInPlaceComplexTemplate(const Dimensions& dimsA, T* ptrA, T* ptrRes)
 {
-    std::complex<T>* matCplxA = reinterpret_cast<std::complex<T>*>(ptrA);
-    std::complex<T>* matCplxRes = reinterpret_cast<std::complex<T>*>(ptrRes);
+    std::complex<T>* matCplxA = TypeTraits::asComplex<T>(ptrA);
+    std::complex<T>* matCplxRes = TypeTraits::asComplex<T>(ptrRes);
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matOrigin(
         matCplxA, dimsA.rows(), dimsA.columns());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matTransposed(

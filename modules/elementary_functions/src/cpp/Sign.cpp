@@ -11,10 +11,13 @@
 #include "omp_for_loop.hpp"
 #include "Sign.hpp"
 #include "Decomplexify.hpp"
+#include "NelsonTypeTraits.hpp"
+#include "NelsonTypeVisitor.hpp"
 #include "SparseType.hpp"
 #include "SparseArrayOf.hpp"
 #include <cmath>
 #include <memory>
+#include <type_traits>
 #include <vector>
 #include <Eigen/Sparse>
 //=============================================================================
@@ -159,6 +162,19 @@ Sign(const ArrayOf& A, bool& needToOverload)
         }
     }
     needToOverload = false;
+    if (TypeTraits::isInteger(A.dataClass())) {
+        Dimensions dimsA = A.dimensions();
+        return TypeTraits::visitInteger(A.dataClass(), [&](auto tag) -> ArrayOf {
+            using T = decltype(tag);
+            if constexpr (std::is_unsigned_v<T>) {
+                return SignUnsignedInteger<T>(
+                    TypeTraits::nelsonTypeOf<T>, (const T*)A.dataPointer(), dimsA);
+            } else {
+                return SignSignedInteger<T>(
+                    TypeTraits::nelsonTypeOf<T>, (const T*)A.dataPointer(), dimsA);
+            }
+        });
+    }
     switch (A.dataClass()) {
     case NLS_LOGICAL:
     case NLS_CHAR: {
@@ -166,38 +182,6 @@ Sign(const ArrayOf& A, bool& needToOverload)
         promoted.promoteType(NLS_DOUBLE);
         Dimensions dimsA = A.dimensions();
         return SignReal<double>(NLS_DOUBLE, (double*)promoted.dataPointer(), dimsA);
-    } break;
-    case NLS_UINT8: {
-        Dimensions dimsA = A.dimensions();
-        return SignUnsignedInteger<uint8>(NLS_UINT8, (uint8*)A.dataPointer(), dimsA);
-    } break;
-    case NLS_INT8: {
-        Dimensions dimsA = A.dimensions();
-        return SignSignedInteger<int8>(NLS_INT8, (int8*)A.dataPointer(), dimsA);
-    } break;
-    case NLS_UINT16: {
-        Dimensions dimsA = A.dimensions();
-        return SignUnsignedInteger<uint16>(NLS_UINT16, (uint16*)A.dataPointer(), dimsA);
-    } break;
-    case NLS_INT16: {
-        Dimensions dimsA = A.dimensions();
-        return SignSignedInteger<int16>(NLS_INT16, (int16*)A.dataPointer(), dimsA);
-    } break;
-    case NLS_UINT32: {
-        Dimensions dimsA = A.dimensions();
-        return SignUnsignedInteger<uint32>(NLS_UINT32, (uint32*)A.dataPointer(), dimsA);
-    } break;
-    case NLS_INT32: {
-        Dimensions dimsA = A.dimensions();
-        return SignSignedInteger<int32>(NLS_INT32, (int32*)A.dataPointer(), dimsA);
-    } break;
-    case NLS_UINT64: {
-        Dimensions dimsA = A.dimensions();
-        return SignUnsignedInteger<uint64>(NLS_UINT64, (uint64*)A.dataPointer(), dimsA);
-    } break;
-    case NLS_INT64: {
-        Dimensions dimsA = A.dimensions();
-        return SignSignedInteger<int64>(NLS_INT64, (int64*)A.dataPointer(), dimsA);
     } break;
     case NLS_SINGLE: {
         Dimensions dimsA = A.dimensions();

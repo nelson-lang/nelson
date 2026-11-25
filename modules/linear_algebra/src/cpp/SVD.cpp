@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "NelsonComplexStorage.hpp"
 #include "i18n.hpp"
 #include "BlasThreadScope.hpp"
 #include "omp_for_loop.hpp"
@@ -461,7 +462,7 @@ SVD_doublecomplex(const ArrayOf& A, ArrayOf& s)
     int ldvt = n;
     int lda = m;
     double* ds = new_with_exception<double>(std::min(m, n), false);
-    auto* Rz = reinterpret_cast<doublecomplex*>((double*)A.dataPointer());
+    auto* Rz = TypeTraits::asComplex<double>((double*)A.dataPointer());
     doublecomplex* uz = nullptr;
     doublecomplex* vtz = nullptr;
     Eigen::Map<Eigen::MatrixXcd> matA(Rz, (Eigen::Index)m, (Eigen::Index)n);
@@ -554,7 +555,7 @@ SVD_singlecomplex(const ArrayOf& A, ArrayOf& s)
     int ldvt = n;
     int lda = m;
     single* ds = new_with_exception<single>(std::min(m, n), false);
-    auto* Rz = reinterpret_cast<singlecomplex*>((single*)A.dataPointer());
+    auto* Rz = TypeTraits::asComplex<single>((single*)A.dataPointer());
     singlecomplex* uz = nullptr;
     singlecomplex* vtz = nullptr;
     Eigen::Map<Eigen::MatrixXcf> matA(Rz, (Eigen::Index)m, (Eigen::Index)n);
@@ -590,7 +591,7 @@ SVD_doublecomplex(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, Array
     Dimensions dimsA = A.dimensions();
     int m = static_cast<int>(dimsA.rows());
     int n = static_cast<int>(dimsA.columns());
-    auto* Rz = reinterpret_cast<doublecomplex*>((double*)A.dataPointer());
+    auto* Rz = TypeTraits::asComplex<double>((double*)A.dataPointer());
     Eigen::Map<Eigen::MatrixXcd> matA(Rz, (Eigen::Index)m, (Eigen::Index)n);
     // NaN or Inf input gives NaN outputs
     bool asNaN = !matA.allFinite();
@@ -606,12 +607,12 @@ SVD_doublecomplex(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, Array
         int minMN = std::min(m, n);
         double* dstemp = new_with_exception<double>(minMN, false);
         double* u = new_with_exception<double>(((size_t)ldu * (size_t)m * (size_t)2), false);
-        auto* uz = reinterpret_cast<doublecomplex*>(u);
+        auto* uz = TypeTraits::asComplex<double>(u);
         double* vt = nullptr;
         doublecomplex* vtz = nullptr;
         if (withV) {
             vt = new_with_exception<double>((size_t)ldvt * (size_t)n * (size_t)2, false);
-            vtz = reinterpret_cast<doublecomplex*>(vt);
+            vtz = TypeTraits::asComplex<double>(vt);
         }
         char JOBZ = 'N';
         if (JOBU == 'A' && JOBVT == 'A') {
@@ -713,12 +714,12 @@ SVD_doublecomplex(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, Array
         int maxMN = std::max(m, n);
         double* dstemp = new_with_exception<double>(minMN, false);
         double* u = new_with_exception<double>((size_t)ldu * (size_t)m * (size_t)2, false);
-        auto* uz = reinterpret_cast<doublecomplex*>(u);
+        auto* uz = TypeTraits::asComplex<double>(u);
         double* vt = nullptr;
         doublecomplex* vtz = nullptr;
         if (withV) {
             vt = new_with_exception<double>((size_t)ldvt * (size_t)n * (size_t)2, false);
-            vtz = reinterpret_cast<doublecomplex*>(vt);
+            vtz = TypeTraits::asComplex<double>(vt);
         }
         char JOBZ = 'N';
         if (JOBU == 'A' && JOBVT == 'A') {
@@ -779,7 +780,7 @@ SVD_doublecomplex(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, Array
         if (withV) {
             Eigen::Map<Eigen::MatrixXcd> matV(vtz, ldvt, n);
             double* vt2 = new_with_exception<double>((size_t)ldvt * (size_t)n * (size_t)2, false);
-            auto* vt2z = reinterpret_cast<doublecomplex*>(vt2);
+            auto* vt2z = TypeTraits::asComplex<double>(vt2);
             // manual transpose copy: vt2z[a + b*n] = vtz[b + a*ldvt]
             for (int a = 0; a < n; ++a) {
                 for (int b = 0; b < ldvt; ++b) {
@@ -1206,7 +1207,7 @@ SVD_singlecomplex(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, Array
     Dimensions dimsA = A.dimensions();
     int m = static_cast<int>(dimsA.rows());
     int n = static_cast<int>(dimsA.columns());
-    auto* Rz = reinterpret_cast<singlecomplex*>((single*)A.dataPointer());
+    auto* Rz = TypeTraits::asComplex<single>((single*)A.dataPointer());
     Eigen::Map<Eigen::MatrixXcf> matA(Rz, (Eigen::Index)m, (Eigen::Index)n);
     // NaN or Inf input gives NaN outputs
     bool asNaN = !matA.allFinite();
@@ -1226,9 +1227,9 @@ SVD_singlecomplex(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, Array
         singlecomplex* vtz = nullptr;
         if (withV) {
             vt = new_with_exception<single>((size_t)ldvt * (size_t)n * (size_t)2, false);
-            vtz = reinterpret_cast<singlecomplex*>(vt);
+            vtz = TypeTraits::asComplex<single>(vt);
         }
-        auto* uz = reinterpret_cast<singlecomplex*>(u);
+        auto* uz = TypeTraits::asComplex<single>(u);
         char JOBZ = 'N';
         if (JOBU == 'A' && JOBVT == 'A') {
             JOBZ = 'A';
@@ -1329,12 +1330,12 @@ SVD_singlecomplex(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, Array
         int maxMN = std::max(m, n);
         single* dstemp = new_with_exception<single>(minMN, false);
         single* u = new_with_exception<single>((size_t)ldu * (size_t)m * (size_t)2, false);
-        auto* uz = reinterpret_cast<singlecomplex*>(u);
+        auto* uz = TypeTraits::asComplex<single>(u);
         single* vt = nullptr;
         singlecomplex* vtz = nullptr;
         if (withV) {
             vt = new_with_exception<single>((size_t)ldvt * (size_t)n * (size_t)2, false);
-            vtz = reinterpret_cast<singlecomplex*>(vt);
+            vtz = TypeTraits::asComplex<single>(vt);
         }
         char JOBZ = 'N';
         if (JOBU == 'A' && JOBVT == 'A') {
@@ -1395,7 +1396,7 @@ SVD_singlecomplex(const ArrayOf& A, SVD_FLAG flag, ArrayOf& U, ArrayOf& S, Array
         if (withV) {
             Eigen::Map<Eigen::MatrixXcf> matV(vtz, ldvt, n);
             single* vt2 = new_with_exception<single>((size_t)ldvt * (size_t)n * (size_t)2, false);
-            auto* vt2z = reinterpret_cast<singlecomplex*>(vt2);
+            auto* vt2z = TypeTraits::asComplex<single>(vt2);
             // manual transpose copy: vt2z[a + b*n] = vtz[b + a*ldvt]
             for (int a = 0; a < n; ++a) {
                 for (int b = 0; b < ldvt; ++b) {

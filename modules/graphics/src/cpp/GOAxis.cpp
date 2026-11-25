@@ -27,6 +27,7 @@
 #include "GOPropertyValues.hpp"
 #include "GOAxesToolbar.hpp"
 #include "GOAxis.hpp"
+#include "GOAxisInternal.hpp"
 #include "GOFigureHost.hpp"
 #include "RenderWeb.hpp"
 #include "GOPositionHelpers.hpp"
@@ -86,50 +87,10 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-constexpr double DEFAULT_CAMERA_VIEW_ANGLE = 6.60861036031192;
-constexpr double PROJECTION_CLIP_MARGIN = 0.01;
-constexpr double DEPTH_PROJECTION_CLIP_EXPANSION = 100.0;
-constexpr double DEFAULT_3D_PLOT_BOX_ASPECT_MIN = 0.78023598820059;
-constexpr double DEFAULT_3D_PLOT_BOX_ASPECT_Z_MAX = 0.879058613749489;
-constexpr double DEFAULT_3D_PLOT_BOX_ASPECT_XY_POWER = 1.7056592968232565;
-constexpr double DEFAULT_3D_PLOT_BOX_ASPECT_Z_POWER = 1.9;
-constexpr double UI_AXES_LEFT_INSET = 10.9333329518636;
-constexpr double UI_AXES_BOTTOM_INSET = 17.3333327412605;
-constexpr double UI_AXES_RIGHT_INSET = 3.60000006357827;
-constexpr double UI_AXES_TOP_INSET = 17.7000002543131;
-constexpr double UI_AXES_PROPERTY_LEFT_INSET = 20.1333338419596;
-constexpr double UI_AXES_PROPERTY_BOTTOM_INSET = 16.9333327611287;
-constexpr double UI_AXES_PROPERTY_RIGHT_INSET = 5.0;
-constexpr double UI_AXES_PROPERTY_TOP_INSET = 6.8;
-// Auto FontSize shrinks linearly to 80% between these plot box widths (pixels, fitted).
-constexpr double AUTO_FONT_FULL_WIDTH = 299.96;
-constexpr double AUTO_FONT_MIN_WIDTH = 106.08;
-constexpr double AUTO_FONT_HEIGHT_TO_WIDTH = 1.2495;
-constexpr double AUTO_FONT_MIN_SCALE = 0.8;
-constexpr double AXES_FACTORY_FONT_SIZE = 10.0;
-constexpr double DEFAULT_PLOT_BOX_WIDTH = 0.775;
-constexpr double DEFAULT_PLOT_BOX_HEIGHT = 0.815;
-//=============================================================================
-static double
-autoFontSizeForBox(double baseFontSize, double widthPixels, double heightPixels);
-static void
-followAutoFontSize(GOAxis* axis, double previousFontSize, double fontSize);
-//=============================================================================
 static std::vector<double>
-uiAxesViewportPosition(const std::vector<double>& position, double scaleX, double scaleY)
-{
-    if (position.size() != 4) {
-        return position;
-    }
-    double x = position[0] + UI_AXES_LEFT_INSET * scaleX;
-    double y = position[1] + UI_AXES_BOTTOM_INSET * scaleY;
-    double width = position[2] - (UI_AXES_LEFT_INSET + UI_AXES_RIGHT_INSET) * scaleX;
-    double height = position[3] - (UI_AXES_BOTTOM_INSET + UI_AXES_TOP_INSET) * scaleY;
-    if (width <= 1.0 || height <= 1.0) {
-        return position;
-    }
-    return { x, y, width, height };
-}
+uiAxesViewportPosition(const std::vector<double>& position, double scaleX, double scaleY);
+//=============================================================================
+// Auto FontSize shrinks linearly to 80% between these plot box widths (pixels, fitted).
 //=============================================================================
 static std::vector<double>
 uiAxesInnerPositionFromOuter(const std::vector<double>& outerPosition)
@@ -343,55 +304,6 @@ median3(double a, double b, double c)
     return values[1];
 }
 //=============================================================================
-// The auto up-vector is derived from View (azimuth/elevation) only. Setting CameraPosition manually
-// does not update View, so a camera posed straight along an axis (e.g. CameraPosition [0 0 40],
-// target at the origin) can leave the candidate up collinear with the viewing direction. That gives
-// a degenerate camera basis, so the up is replaced in place by a world axis that is not aligned
-// with the view direction.
-//
-// The axes are tried in z, y, x order: z stays up unless the look is straight along z, which falls
-// back to y. The y fallback is oriented by the look direction (forward_z < 0 for a camera above the
-// target), so a top view reports [0 1 0] like view(2) and a bottom view [0 -1 0] like view(0, -90).
-static void
-resolveDegenerateAutoUpVector(std::vector<double>& cameraUp,
-    const std::vector<double>& cameraCenter, const std::vector<double>& cameraPosition)
-{
-    double forward[3] = { cameraCenter[0] - cameraPosition[0], cameraCenter[1] - cameraPosition[1],
-        cameraCenter[2] - cameraPosition[2] };
-    double forwardNorm
-        = std::sqrt(forward[0] * forward[0] + forward[1] * forward[1] + forward[2] * forward[2]);
-    if (forwardNorm <= 0) {
-        return;
-    }
-    forward[0] /= forwardNorm;
-    forward[1] /= forwardNorm;
-    forward[2] /= forwardNorm;
-    double upNorm = std::sqrt(
-        cameraUp[0] * cameraUp[0] + cameraUp[1] * cameraUp[1] + cameraUp[2] * cameraUp[2]);
-    double cosAngle = (upNorm > 0)
-        ? (cameraUp[0] * forward[0] + cameraUp[1] * forward[1] + cameraUp[2] * forward[2]) / upNorm
-        : 0.0;
-    if (upNorm > 0 && std::abs(cosAngle) <= 0.9999) {
-        return;
-    }
-    static const double candidateAxes[3][3]
-        = { { 0.0, 0.0, 1.0 }, { 0.0, 1.0, 0.0 }, { 1.0, 0.0, 0.0 } };
-    for (const auto& axis : candidateAxes) {
-        double dot = axis[0] * forward[0] + axis[1] * forward[1] + axis[2] * forward[2];
-        if (std::abs(dot) <= 0.9999) {
-            cameraUp[0] = axis[0];
-            cameraUp[1] = axis[1];
-            cameraUp[2] = axis[2];
-            // Orient the y fallback by the look direction: a camera below the
-            // target (forward_z > 0) reports [0 -1 0], matching view(0, -90).
-            if (axis[1] != 0.0 && forward[2] > 0.0) {
-                cameraUp[1] = -cameraUp[1];
-            }
-            return;
-        }
-    }
-}
-//=============================================================================
 static int
 plotBoxScaledTickCount(double axisLength, double referenceLength)
 {
@@ -483,8 +395,6 @@ static double
 polarTitleTopMargin(GOAxis* axis, double boxWidth, double boxHeight);
 //=============================================================================
 // Theta label gap in pixels: base plus a share of the font size in pixels.
-static constexpr double POLAR_THETA_LABEL_GAP_BASE = 3.3;
-static constexpr double POLAR_THETA_LABEL_GAP_EM = 0.24;
 //=============================================================================
 static double
 polarDiscRadius(GOAxis* axis, const std::vector<double>& limits);
@@ -1170,57 +1080,6 @@ applyAutoAxisLabelOrientation(GOAxis* axis)
     }
 }
 //=============================================================================
-static double
-norm3(const std::vector<double>& value)
-{
-    return std::sqrt(value[0] * value[0] + value[1] * value[1] + value[2] * value[2]);
-}
-//=============================================================================
-static double
-dot3(const std::vector<double>& a, const std::vector<double>& b)
-{
-    return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
-}
-//=============================================================================
-static std::vector<double>
-cross3(const std::vector<double>& a, const std::vector<double>& b)
-{
-    return { a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0] };
-}
-//=============================================================================
-static bool
-normalize3(std::vector<double>& value)
-{
-    double n = norm3(value);
-    if (!std::isfinite(n) || n <= 0) {
-        return false;
-    }
-    value[0] /= n;
-    value[1] /= n;
-    value[2] /= n;
-    return true;
-}
-//=============================================================================
-static void
-expandProjectionRange(double& amin, double& amax)
-{
-    double range = amax - amin;
-    if (!std::isfinite(range) || range <= 0) {
-        return;
-    }
-    rerange(amin, amax, range * (1.0 + PROJECTION_CLIP_MARGIN));
-}
-//=============================================================================
-static void
-expandDepthProjectionRange(double& amin, double& amax)
-{
-    double range = amax - amin;
-    if (!std::isfinite(range) || range <= 0) {
-        return;
-    }
-    rerange(amin, amax, range * DEPTH_PROJECTION_CLIP_EXPANSION);
-}
-//=============================================================================
 // The view angle spans the extent that fills the axes first. A box stretched to the viewport
 // ('axis equal') ties: the width then wins, so a frozen angle keeps the whole box in view.
 // The tolerance absorbs the device-pixel rounding between the layout size and the on-screen
@@ -1239,76 +1098,6 @@ GOAxis::cameraViewAngleForSpan(double span, double distance, double fallback)
     }
     double angle = 360.0 / M_PI * std::atan(span / (2.0 * distance));
     return std::isfinite(angle) && angle > 0 && angle < 180 ? angle : fallback;
-}
-//=============================================================================
-static double
-computeAutoCameraViewAngle(const std::vector<double>& limits,
-    const std::vector<double>& cameraPosition, const std::vector<double>& cameraTarget,
-    const std::vector<double>& cameraUp, const std::vector<double>& dataAspectRatio,
-    const std::vector<double>& axisPosition)
-{
-    std::vector<double> dar = dataAspectRatio;
-    if (dar.size() < 3 || !std::isfinite(dar[0]) || !std::isfinite(dar[1]) || !std::isfinite(dar[2])
-        || dar[0] <= 0 || dar[1] <= 0 || dar[2] <= 0) {
-        dar = { 1.0, 1.0, 1.0 };
-    }
-    std::vector<double> scaledLimits = { limits[0] / dar[0], limits[1] / dar[0], limits[2] / dar[1],
-        limits[3] / dar[1], limits[4] / dar[2], limits[5] / dar[2] };
-    std::vector<double> scaledCameraPosition
-        = { cameraPosition[0] / dar[0], cameraPosition[1] / dar[1], cameraPosition[2] / dar[2] };
-    std::vector<double> scaledCameraTarget
-        = { cameraTarget[0] / dar[0], cameraTarget[1] / dar[1], cameraTarget[2] / dar[2] };
-    std::vector<double> scaledCameraUp
-        = { cameraUp[0] / dar[0], cameraUp[1] / dar[1], cameraUp[2] / dar[2] };
-
-    std::vector<double> forward = { scaledCameraTarget[0] - scaledCameraPosition[0],
-        scaledCameraTarget[1] - scaledCameraPosition[1],
-        scaledCameraTarget[2] - scaledCameraPosition[2] };
-    double distance = norm3(forward);
-    if (!std::isfinite(distance) || distance <= 0 || !normalize3(forward)) {
-        return DEFAULT_CAMERA_VIEW_ANGLE;
-    }
-    std::vector<double> right = cross3(forward, scaledCameraUp);
-    if (!normalize3(right)) {
-        return DEFAULT_CAMERA_VIEW_ANGLE;
-    }
-    std::vector<double> up = cross3(right, forward);
-    if (!normalize3(up)) {
-        return DEFAULT_CAMERA_VIEW_ANGLE;
-    }
-
-    double xMin = std::numeric_limits<double>::infinity();
-    double xMax = -std::numeric_limits<double>::infinity();
-    double yMin = std::numeric_limits<double>::infinity();
-    double yMax = -std::numeric_limits<double>::infinity();
-    for (int ix = 0; ix < 2; ++ix) {
-        for (int iy = 0; iy < 2; ++iy) {
-            for (int iz = 0; iz < 2; ++iz) {
-                std::vector<double> point = { ix == 0 ? scaledLimits[0] : scaledLimits[1],
-                    iy == 0 ? scaledLimits[2] : scaledLimits[3],
-                    iz == 0 ? scaledLimits[4] : scaledLimits[5] };
-                std::vector<double> relative = { point[0] - scaledCameraPosition[0],
-                    point[1] - scaledCameraPosition[1], point[2] - scaledCameraPosition[2] };
-                double x = dot3(relative, right);
-                double y = dot3(relative, up);
-                xMin = std::min(xMin, x);
-                xMax = std::max(xMax, x);
-                yMin = std::min(yMin, y);
-                yMax = std::max(yMax, y);
-            }
-        }
-    }
-    double xSpan = xMax - xMin;
-    double ySpan = yMax - yMin;
-    double width = 1.0;
-    double height = 1.0;
-    if (axisPosition.size() >= 4 && std::isfinite(axisPosition[2]) && std::isfinite(axisPosition[3])
-        && axisPosition[2] > 0 && axisPosition[3] > 0) {
-        width = axisPosition[2];
-        height = axisPosition[3];
-    }
-    double span = GOAxis::viewAngleSpansWidth(xSpan, ySpan, width, height) ? xSpan : ySpan;
-    return GOAxis::cameraViewAngleForSpan(span, distance, DEFAULT_CAMERA_VIEW_ANGLE);
 }
 //=============================================================================
 static std::vector<double>
@@ -2094,10 +1883,8 @@ public:
 void
 GOAxis::constructProperties()
 {
-    registerProperty(new GOOnOffProperty, GO_BEING_DELETED_PROPERTY_NAME_STR, false);
-    registerProperty(new GOCallbackProperty, GO_CREATE_FCN_PROPERTY_NAME_STR);
-    registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
-    registerProperty(new GOBusyActionProperty, GO_BUSY_ACTION_PROPERTY_NAME_STR);
+    registerBaseProperties(this);
+    registerStandardContainerProperties(this);
 
     registerProperty(new GOTwoVectorProperty, GO_A_LIM_PROPERTY_NAME_STR);
     registerProperty(new GOAutoManualProperty, GO_A_LIM_MODE_PROPERTY_NAME_STR);
@@ -2111,7 +1898,6 @@ GOAxis::constructProperties()
     registerProperty(new GOAutoManualProperty, GO_CAMERA_UP_VECTOR_MODE_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty, GO_CAMERA_VIEW_ANGLE_PROPERTY_NAME_STR);
     registerProperty(new GOAutoManualProperty, GO_CAMERA_VIEW_ANGLE_MODE_PROPERTY_NAME_STR);
-    registerProperty(new GOGObjectsProperty, GO_CHILDREN_PROPERTY_NAME_STR);
     registerProperty(new GOTwoVectorProperty, GO_C_LIM_PROPERTY_NAME_STR);
     registerProperty(new GOAutoManualProperty, GO_C_LIM_MODE_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_CLIPPING_PROPERTY_NAME_STR);
@@ -2132,7 +1918,6 @@ GOAxis::constructProperties()
     registerProperty(new GOLineStyleProperty, GO_GRID_LINE_STYLE_PROPERTY_NAME_STR);
     registerProperty(new GOHandleVisibilityProperty, GO_HANDLE_VISIBILITY_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_HIT_TEST_PROPERTY_NAME_STR);
-    registerProperty(new GOOnOffProperty, GO_INTERRUPTIBLE_PROPERTY_NAME_STR);
     registerProperty(new GOTopBottomProperty, GO_LAYER_PROPERTY_NAME_STR);
     registerProperty(new GOLineStyleOrderProperty, GO_LINE_STYLE_ORDER_PROPERTY_NAME_STR);
     registerProperty(
@@ -2141,7 +1926,6 @@ GOAxis::constructProperties()
     registerProperty(new GOLineStyleProperty, GO_MINOR_GRID_LINE_STYLE_PROPERTY_NAME_STR);
     registerProperty(new GONextPlotModeProperty, GO_NEXT_PLOT_PROPERTY_NAME_STR);
     registerProperty(new GORectanglePositionProperty, GO_OUTER_POSITION_PROPERTY_NAME_STR);
-    registerProperty(new GOGObjectsProperty, GO_PARENT_PROPERTY_NAME_STR);
     registerProperty(new GOThreeVectorProperty, GO_PLOT_BOX_ASPECT_RATIO_PROPERTY_NAME_STR);
     registerProperty(new GOAutoManualProperty, GO_PLOT_BOX_ASPECT_RATIO_MODE_PROPERTY_NAME_STR);
     registerProperty(new GORectanglePositionProperty, GO_POSITION_PROPERTY_NAME_STR);
@@ -2155,7 +1939,6 @@ GOAxis::constructProperties()
     registerProperty(new GOAutoManualProperty, GO_R_TICK_LABEL_MODE_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_SELECTED_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_SELECTION_HIGHLIGHT_PROPERTY_NAME_STR);
-    registerProperty(new GOStringProperty, GO_TAG_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty, GO_TEXT_HEIGHT_PROPERTY_NAME_STR);
     registerProperty(new GOThetaAxisUnitsProperty, GO_THETA_AXIS_UNITS_PROPERTY_NAME_STR);
     registerProperty(new GOTwoVectorProperty, GO_THETA_LIM_PROPERTY_NAME_STR);
@@ -2169,10 +1952,7 @@ GOAxis::constructProperties()
     registerProperty(new GOTwoVectorProperty, GO_TICK_LENGTH_PROPERTY_NAME_STR);
     registerProperty(new GOTightInsetProperty(this), GO_TIGHT_INSET_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_TITLE_PROPERTY_NAME_STR);
-    registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR, false);
     registerProperty(new GOUnitsProperty, GO_UNITS_PROPERTY_NAME_STR);
-    registerProperty(new GOArrayOfProperty, GO_USER_DATA_PROPERTY_NAME_STR);
-    registerProperty(new GOOnOffProperty, GO_VISIBLE_PROPERTY_NAME_STR);
     registerProperty(new GOTopBottomProperty, GO_X_AXIS_LOCATION_PROPERTY_NAME_STR);
     registerProperty(new GOLeftRightProperty, GO_Y_AXIS_LOCATION_PROPERTY_NAME_STR);
     registerProperty(new GOColorProperty, GO_X_COLOR_PROPERTY_NAME_STR);
@@ -2480,144 +2260,6 @@ GOAxis::~GOAxis()
 {
     if (m_toolbarHandle >= HANDLE_OFFSET_OBJECT && !isDeletedGraphicsObject(m_toolbarHandle)) {
         deleteGraphicsObject(m_toolbarHandle, false, false);
-    }
-}
-//=============================================================================
-void
-GOAxis::ensureToolbar(int64 axisHandle)
-{
-    if (m_toolbarHandle < HANDLE_OFFSET_OBJECT || isDeletedGraphicsObject(m_toolbarHandle)) {
-        GraphicsObject* toolbar = new GOAxesToolbar;
-        m_toolbarHandle = assignGraphicsObject(toolbar);
-        toolbar->setGoProperty(GO_PARENT_PROPERTY_NAME_STR, axisHandle);
-    }
-}
-//=============================================================================
-void
-GOAxis::restoreToolbar(int64 axisHandle)
-{
-    ensureToolbar(axisHandle);
-    setGoProperty(GO_TOOLBAR_PROPERTY_NAME_STR, m_toolbarHandle);
-}
-//=============================================================================
-void
-GOAxis::loadParulaColorMap()
-{
-    static const std::vector<double> cmap = { 0.2422, 0.1504, 0.6603, 0.2444, 0.1534, 0.6728,
-        0.2464, 0.1569, 0.6847, 0.2484, 0.1607, 0.6961, 0.2503, 0.1648, 0.7071, 0.2522, 0.1689,
-        0.7179, 0.254, 0.1732, 0.7286, 0.2558, 0.1773, 0.7393, 0.2576, 0.1814, 0.7501, 0.2594,
-        0.1854, 0.761, 0.2611, 0.1893, 0.7719, 0.2628, 0.1932, 0.7828, 0.2645, 0.1972, 0.7937,
-        0.2661, 0.2011, 0.8043, 0.2676, 0.2052, 0.8148, 0.2691, 0.2094, 0.8249, 0.2704, 0.2138,
-        0.8346, 0.2717, 0.2184, 0.8439, 0.2729, 0.2231, 0.8528, 0.274, 0.228, 0.8612, 0.2749, 0.233,
-        0.8692, 0.2758, 0.2382, 0.8767, 0.2766, 0.2435, 0.884, 0.2774, 0.2489, 0.8908, 0.2781,
-        0.2543, 0.8973, 0.2788, 0.2598, 0.9035, 0.2794, 0.2653, 0.9094, 0.2798, 0.2708, 0.915,
-        0.2802, 0.2764, 0.9204, 0.2806, 0.2819, 0.9255, 0.2809, 0.2875, 0.9305, 0.2811, 0.293,
-        0.9352, 0.2813, 0.2985, 0.9397, 0.2814, 0.304, 0.9441, 0.2814, 0.3095, 0.9483, 0.2813,
-        0.315, 0.9524, 0.2811, 0.3204, 0.9563, 0.2809, 0.3259, 0.96, 0.2807, 0.3313, 0.9636, 0.2803,
-        0.3367, 0.967, 0.2798, 0.3421, 0.9702, 0.2791, 0.3475, 0.9733, 0.2784, 0.3529, 0.9763,
-        0.2776, 0.3583, 0.9791, 0.2766, 0.3638, 0.9817, 0.2754, 0.3693, 0.984, 0.2741, 0.3748,
-        0.9862, 0.2726, 0.3804, 0.9881, 0.271, 0.386, 0.9898, 0.2691, 0.3916, 0.9912, 0.267, 0.3973,
-        0.9924, 0.2647, 0.403, 0.9935, 0.2621, 0.4088, 0.9946, 0.2591, 0.4145, 0.9955, 0.2556,
-        0.4203, 0.9965, 0.2517, 0.4261, 0.9974, 0.2473, 0.4319, 0.9983, 0.2424, 0.4378, 0.9991,
-        0.2369, 0.4437, 0.9996, 0.2311, 0.4497, 0.9995, 0.225, 0.4559, 0.9985, 0.2189, 0.462,
-        0.9968, 0.2128, 0.4682, 0.9948, 0.2066, 0.4743, 0.9926, 0.2006, 0.4803, 0.9906, 0.195,
-        0.4861, 0.9887, 0.1903, 0.4919, 0.9867, 0.1869, 0.4975, 0.9844, 0.1847, 0.503, 0.9819,
-        0.1831, 0.5084, 0.9793, 0.1818, 0.5138, 0.9766, 0.1806, 0.5191, 0.9738, 0.1795, 0.5244,
-        0.9709, 0.1785, 0.5296, 0.9677, 0.1778, 0.5349, 0.9641, 0.1773, 0.5401, 0.9602, 0.1768,
-        0.5452, 0.956, 0.1764, 0.5504, 0.9516, 0.1755, 0.5554, 0.9473, 0.174, 0.5605, 0.9432,
-        0.1716, 0.5655, 0.9393, 0.1686, 0.5705, 0.9357, 0.1649, 0.5755, 0.9323, 0.161, 0.5805,
-        0.9289, 0.1573, 0.5854, 0.9254, 0.154, 0.5902, 0.9218, 0.1513, 0.595, 0.9182, 0.1492,
-        0.5997, 0.9147, 0.1475, 0.6043, 0.9113, 0.1461, 0.6089, 0.908, 0.1446, 0.6135, 0.905,
-        0.1429, 0.618, 0.9022, 0.1408, 0.6226, 0.8998, 0.1383, 0.6272, 0.8975, 0.1354, 0.6317,
-        0.8953, 0.1321, 0.6363, 0.8932, 0.1288, 0.6408, 0.891, 0.1253, 0.6453, 0.8887, 0.1219,
-        0.6497, 0.8862, 0.1185, 0.6541, 0.8834, 0.1152, 0.6584, 0.8804, 0.1119, 0.6627, 0.877,
-        0.1085, 0.6669, 0.8734, 0.1048, 0.671, 0.8695, 0.1009, 0.675, 0.8653, 0.0964, 0.6789,
-        0.8609, 0.0914, 0.6828, 0.8562, 0.0855, 0.6865, 0.8513, 0.0789, 0.6902, 0.8462, 0.0713,
-        0.6938, 0.8409, 0.0628, 0.6972, 0.8355, 0.0535, 0.7006, 0.8299, 0.0433, 0.7039, 0.8242,
-        0.0328, 0.7071, 0.8183, 0.0234, 0.7103, 0.8124, 0.0155, 0.7133, 0.8064, 0.0091, 0.7163,
-        0.8003, 0.0046, 0.7192, 0.7941, 0.0019, 0.722, 0.7878, 0.0009, 0.7248, 0.7815, 0.0018,
-        0.7275, 0.7752, 0.0046, 0.7301, 0.7688, 0.0094, 0.7327, 0.7623, 0.0162, 0.7352, 0.7558,
-        0.0253, 0.7376, 0.7492, 0.0369, 0.74, 0.7426, 0.0504, 0.7423, 0.7359, 0.0638, 0.7446,
-        0.7292, 0.077, 0.7468, 0.7224, 0.0899, 0.7489, 0.7156, 0.1023, 0.751, 0.7088, 0.1141,
-        0.7531, 0.7019, 0.1252, 0.7552, 0.695, 0.1354, 0.7572, 0.6881, 0.1448, 0.7593, 0.6812,
-        0.1532, 0.7614, 0.6741, 0.1609, 0.7635, 0.6671, 0.1678, 0.7656, 0.6599, 0.1741, 0.7678,
-        0.6527, 0.1799, 0.7699, 0.6454, 0.1853, 0.7721, 0.6379, 0.1905, 0.7743, 0.6303, 0.1954,
-        0.7765, 0.6225, 0.2003, 0.7787, 0.6146, 0.2061, 0.7808, 0.6065, 0.2118, 0.7828, 0.5983,
-        0.2178, 0.7849, 0.5899, 0.2244, 0.7869, 0.5813, 0.2318, 0.7887, 0.5725, 0.2401, 0.7905,
-        0.5636, 0.2491, 0.7922, 0.5546, 0.2589, 0.7937, 0.5454, 0.2695, 0.7951, 0.536, 0.2809,
-        0.7964, 0.5266, 0.2929, 0.7975, 0.517, 0.3052, 0.7985, 0.5074, 0.3176, 0.7994, 0.4975,
-        0.3301, 0.8002, 0.4876, 0.3424, 0.8009, 0.4774, 0.3548, 0.8016, 0.4669, 0.3671, 0.8021,
-        0.4563, 0.3795, 0.8026, 0.4454, 0.3921, 0.8029, 0.4344, 0.405, 0.8031, 0.4233, 0.4184,
-        0.803, 0.4122, 0.4322, 0.8028, 0.4013, 0.4463, 0.8024, 0.3904, 0.4608, 0.8018, 0.3797,
-        0.4753, 0.8011, 0.3691, 0.4899, 0.8002, 0.3586, 0.5044, 0.7993, 0.348, 0.5187, 0.7982,
-        0.3374, 0.5329, 0.797, 0.3267, 0.547, 0.7957, 0.3159, 0.5609, 0.7943, 0.305, 0.5748, 0.7929,
-        0.2941, 0.5886, 0.7913, 0.2833, 0.6024, 0.7896, 0.2726, 0.6161, 0.7878, 0.2622, 0.6297,
-        0.7859, 0.2521, 0.6433, 0.7839, 0.2423, 0.6567, 0.7818, 0.2329, 0.6701, 0.7796, 0.2239,
-        0.6833, 0.7773, 0.2155, 0.6963, 0.775, 0.2075, 0.7091, 0.7727, 0.1998, 0.7218, 0.7703,
-        0.1924, 0.7344, 0.7679, 0.1852, 0.7468, 0.7654, 0.1782, 0.759, 0.7629, 0.1717, 0.771,
-        0.7604, 0.1658, 0.7829, 0.7579, 0.1608, 0.7945, 0.7554, 0.157, 0.806, 0.7529, 0.1546,
-        0.8172, 0.7505, 0.1535, 0.8281, 0.7481, 0.1536, 0.8389, 0.7457, 0.1546, 0.8495, 0.7435,
-        0.1564, 0.86, 0.7413, 0.1587, 0.8703, 0.7392, 0.1615, 0.8804, 0.7372, 0.165, 0.8903, 0.7353,
-        0.1695, 0.9, 0.7336, 0.1749, 0.9093, 0.7321, 0.1815, 0.9184, 0.7308, 0.189, 0.9272, 0.7298,
-        0.1973, 0.9357, 0.729, 0.2061, 0.944, 0.7285, 0.2151, 0.9523, 0.7284, 0.2237, 0.9606,
-        0.7285, 0.2312, 0.9689, 0.7292, 0.2373, 0.977, 0.7304, 0.2418, 0.9842, 0.733, 0.2446, 0.99,
-        0.7365, 0.2429, 0.9946, 0.7407, 0.2394, 0.9966, 0.7458, 0.2351, 0.9971, 0.7513, 0.2309,
-        0.9972, 0.7569, 0.2267, 0.9971, 0.7626, 0.2224, 0.9969, 0.7683, 0.2181, 0.9966, 0.774,
-        0.2138, 0.9962, 0.7798, 0.2095, 0.9957, 0.7856, 0.2053, 0.9949, 0.7915, 0.2012, 0.9938,
-        0.7974, 0.1974, 0.9923, 0.8034, 0.1939, 0.9906, 0.8095, 0.1906, 0.9885, 0.8156, 0.1875,
-        0.9861, 0.8218, 0.1846, 0.9835, 0.828, 0.1817, 0.9807, 0.8342, 0.1787, 0.9778, 0.8404,
-        0.1757, 0.9748, 0.8467, 0.1726, 0.972, 0.8529, 0.1695, 0.9694, 0.8591, 0.1665, 0.9671,
-        0.8654, 0.1636, 0.9651, 0.8716, 0.1608, 0.9634, 0.8778, 0.1582, 0.9619, 0.884, 0.1557,
-        0.9608, 0.8902, 0.1532, 0.9601, 0.8963, 0.1507, 0.9596, 0.9023, 0.148, 0.9595, 0.9084,
-        0.145, 0.9597, 0.9143, 0.1418, 0.9601, 0.9203, 0.1382, 0.9608, 0.9262, 0.1344, 0.9618,
-        0.932, 0.1304, 0.9629, 0.9379, 0.1261, 0.9642, 0.9437, 0.1216, 0.9657, 0.9494, 0.1168,
-        0.9674, 0.9552, 0.1116, 0.9692, 0.9609, 0.1061, 0.9711, 0.9667, 0.1001, 0.973, 0.9724,
-        0.0938, 0.9749, 0.9782, 0.0872, 0.9769, 0.9839, 0.0805 };
-    GOColorVectorProperty* hcv
-        = static_cast<GOColorVectorProperty*>(findProperty(GO_COLOR_MAP_PROPERTY_NAME_STR));
-    hcv->data(cmap);
-    static const std::vector<double> alphaMap = []() {
-        std::vector<double> values;
-        constexpr int alphaMapElementCount = 64;
-        values.reserve(alphaMapElementCount);
-        for (int k = 0; k < alphaMapElementCount; ++k) {
-            double value = static_cast<double>(k) / (alphaMapElementCount - 1);
-            values.push_back(std::round(value * 10000.0) / 10000.0);
-        }
-        return values;
-    }();
-    GOVectorProperty* hv
-        = static_cast<GOVectorProperty*>(findProperty(GO_ALPHA_MAP_PROPERTY_NAME_STR));
-    hv->data(alphaMap);
-}
-//=============================================================================
-double
-GOAxis::getAxisPixelLength(
-    RenderInterface& gc, double x1, double y1, double z1, double x2, double y2, double z2)
-{
-    // The tick projection renders in logical figure coordinates, so no
-    // device-pixel-ratio correction applies here.
-    double u1, v1, u2, v2;
-    gc.toPixels(x1, y1, z1, u1, v1);
-    gc.toPixels(x2, y2, z2, u2, v2);
-    return sqrt((u2 - u1) * (u2 - u1) + (v2 - v1) * (v2 - v1));
-}
-//=============================================================================
-void
-GOAxis::getAxisPixelDelta(RenderInterface& gc, double x1, double y1, double z1, double x2,
-    double y2, double z2, double& length, double& angleDeg)
-{
-    double u1, v1, u2, v2;
-    gc.toPixels(x1, y1, z1, u1, v1);
-    gc.toPixels(x2, y2, z2, u2, v2);
-    double du = u2 - u1;
-    double dv = v2 - v1;
-    length = sqrt(du * du + dv * dv);
-    if (length > 0) {
-        double theta = std::atan2(std::fabs(dv), std::fabs(du));
-        angleDeg = theta * 180.0 / M_PI;
-    } else {
-        angleDeg = 90.0;
     }
 }
 //=============================================================================
@@ -3914,13 +3556,6 @@ GOAxis::getParentFigure()
     return parentObject ? parentObject->getParentFigure() : nullptr;
 }
 //=============================================================================
-std::vector<double>
-GOAxis::getPropertyVectorAsPixels(const std::wstring& name)
-{
-    GOFourVectorProperty* hp = static_cast<GOFourVectorProperty*>(findProperty(name));
-    return (unitsReinterpret(hp->data()));
-}
-//=============================================================================
 void
 GOAxis::drawBox(RenderInterface& gc)
 {
@@ -4091,259 +3726,6 @@ GOAxis::drawPolarBackground(RenderInterface& gc)
         }
     }
     gc.depth(true);
-}
-//=============================================================================
-void
-GOAxis::setupAxis(RenderInterface& gc)
-{
-    std::vector<double> limits(getAxisLimits());
-    computeAxisEdges(gc, limits);
-    double x1, y1, x2, y2;
-    gc.toPixels(limits[0], x1pos[1], x1pos[2], x1, y1);
-    gc.toPixels(limits[1], x1pos[1], x1pos[2], x2, y2);
-    xvisible = (fabs(x1 - x2) > 2) || (fabs(y1 - y2) > 2);
-    gc.toPixels(y1pos[0], limits[2], y1pos[2], x1, y1);
-    gc.toPixels(y1pos[0], limits[3], y1pos[2], x2, y2);
-    yvisible = (fabs(x1 - x2) > 2) || (fabs(y1 - y2) > 2);
-    gc.toPixels(z1pos[0], z1pos[1], limits[4], x1, y1);
-    gc.toPixels(z1pos[0], z1pos[1], limits[5], x2, y2);
-    zvisible = (fabs(x1 - x2) > 2) || (fabs(y1 - y2) > 2);
-}
-//=============================================================================
-void
-GOAxis::computeAxisEdges(RenderInterface& gc, const std::vector<double>& limits)
-{
-    std::vector<double> model;
-    gc.getModelviewMatrix(model);
-    auto flipXValue = [&limits](double t) { return t == limits[0] ? limits[1] : limits[0]; };
-    auto flipYValue = [&limits](double t) { return t == limits[2] ? limits[3] : limits[2]; };
-    auto flipZValue = [&limits](double t) { return t == limits[4] ? limits[5] : limits[4]; };
-    if ((static_cast<GOTopBottomProperty*>(findProperty(GO_X_AXIS_LOCATION_PROPERTY_NAME_STR)))
-            ->isEqual(GO_PROPERTY_VALUE_BOTTOM_STR)) {
-        x1pos[2] = limits[4];
-    } else {
-        x1pos[2] = limits[5];
-    }
-    if ((static_cast<GOLeftRightProperty*>(findProperty(GO_Y_AXIS_LOCATION_PROPERTY_NAME_STR)))
-            ->isEqual(GO_PROPERTY_VALUE_LEFT_STR)) {
-        y1pos[2] = limits[4];
-    } else {
-        y1pos[2] = limits[5];
-    }
-    if ((model[10] > 0) && (model[6] > 0)) {
-        if (x1pos[2] == limits[4]) {
-            x1pos[1] = limits[3];
-        } else {
-            x1pos[1] = limits[2];
-        }
-    } else if ((model[10] > 0) && (model[6] <= 0)) {
-        if (x1pos[2] == limits[4]) {
-            x1pos[1] = limits[2];
-        } else {
-            x1pos[1] = limits[3];
-        }
-    } else if ((model[10] <= 0) && (model[6] > 0)) {
-        if (x1pos[2] == limits[4]) {
-            x1pos[1] = limits[2];
-        } else {
-            x1pos[1] = limits[3];
-        }
-    } else if ((model[10] <= 0) && (model[6] <= 0)) {
-        if (x1pos[2] == limits[4]) {
-            x1pos[1] = limits[3];
-        } else {
-            x1pos[1] = limits[2];
-        }
-    }
-    x2pos[1] = flipYValue(x1pos[1]);
-    x2pos[2] = x1pos[2];
-    if ((model[10] > 0) && (model[2] > 0)) {
-        if (y1pos[2] == limits[4]) {
-            y1pos[0] = limits[1];
-        } else {
-            y1pos[0] = limits[0];
-        }
-    } else if ((model[10] <= 0) && (model[2] > 0)) {
-        if (y1pos[2] == limits[4]) {
-            y1pos[0] = limits[0];
-        } else {
-            y1pos[0] = limits[1];
-        }
-    } else if ((model[10] > 0) && (model[2] <= 0)) {
-        if (y1pos[2] == limits[4]) {
-            y1pos[0] = limits[0];
-        } else {
-            y1pos[0] = limits[1];
-        }
-    } else if ((model[10] <= 0) && (model[2] <= 0)) {
-        if (y1pos[2] == limits[4]) {
-            y1pos[0] = limits[1];
-        } else {
-            y1pos[0] = limits[0];
-        }
-    }
-    y2pos[0] = flipXValue(y1pos[0]);
-    y2pos[2] = y1pos[2];
-    if (model[6] > 0) {
-        z1pos[0] = limits[1];
-    } else {
-        z1pos[0] = limits[0];
-    }
-    if (model[2] > 0) {
-        z1pos[1] = limits[2];
-    } else {
-        z1pos[1] = limits[3];
-    }
-    if ((model[10] >= 0) && (model[6] >= 0) && (model[2] >= 0)) {
-        z2pos[0] = limits[1];
-        z2pos[1] = limits[3];
-    } else if ((model[10] >= 0) && (model[6] >= 0) && (model[2] < 0)) {
-        z2pos[0] = limits[0];
-        z2pos[1] = limits[3];
-    } else if ((model[10] >= 0) && (model[6] < 0) && (model[2] >= 0)) {
-        z2pos[0] = limits[1];
-        z2pos[1] = limits[2];
-    } else if ((model[10] >= 0) && (model[6] < 0) && (model[2] < 0)) {
-        z2pos[0] = limits[0];
-        z2pos[1] = limits[2];
-    } else if ((model[10] < 0) && (model[6] >= 0) && (model[2] >= 0)) {
-        z2pos[0] = limits[0];
-        z2pos[1] = limits[2];
-    } else if ((model[10] < 0) && (model[6] >= 0) && (model[2] < 0)) {
-        z2pos[0] = limits[1];
-        z2pos[1] = limits[2];
-    } else if ((model[10] < 0) && (model[6] < 0) && (model[2] >= 0)) {
-        z2pos[0] = limits[0];
-        z2pos[1] = limits[3];
-    } else if ((model[10] < 0) && (model[6] < 0) && (model[2] < 0)) {
-        z2pos[0] = limits[1];
-        z2pos[1] = limits[3];
-    }
-    if ((model[2] == 0) && (model[6] == 0)) {
-        x2pos[1] = flipYValue(x1pos[1]);
-        x2pos[2] = x1pos[2];
-        y2pos[0] = flipXValue(y1pos[0]);
-    }
-    if ((model[6] == 0) && (model[10] == 0)) {
-        y2pos[0] = y1pos[0];
-        y2pos[2] = flipZValue(y1pos[2]);
-        z2pos[0] = z1pos[0];
-        z2pos[1] = flipYValue(z1pos[1]);
-    }
-    if ((model[2] == 0) && (model[10] == 0)) {
-        x2pos[1] = x1pos[1];
-        x2pos[2] = flipZValue(x1pos[2]);
-        z2pos[0] = flipXValue(z1pos[0]);
-        z2pos[1] = z1pos[1];
-    }
-}
-//=============================================================================
-double
-GOAxis::flipZ(double t)
-{
-    std::vector<double> limits(getAxisLimits());
-    if (t == limits[4]) {
-        return limits[5];
-    }
-    return limits[4];
-}
-//=============================================================================
-double
-GOAxis::flipY(double t)
-{
-    std::vector<double> limits(getAxisLimits());
-    if (t == limits[2]) {
-        return limits[3];
-    }
-    return limits[2];
-}
-//=============================================================================
-double
-GOAxis::flipX(double t)
-{
-    std::vector<double> limits(getAxisLimits());
-    if (t == limits[0]) {
-        return limits[1];
-    }
-    return limits[0];
-}
-//=============================================================================
-void
-GOAxis::updateAxisFont()
-{
-    GOStringProperty* fontname
-        = static_cast<GOStringProperty*>(findProperty(GO_FONT_NAME_PROPERTY_NAME_STR));
-    GOFontAngleProperty* fontangle
-        = static_cast<GOFontAngleProperty*>(findProperty(GO_FONT_ANGLE_PROPERTY_NAME_STR));
-    GOFontWeightProperty* fontweight
-        = static_cast<GOFontWeightProperty*>(findProperty(GO_FONT_WEIGHT_PROPERTY_NAME_STR));
-    GOScalarProperty* fontsize
-        = static_cast<GOScalarProperty*>(findProperty(GO_FONT_SIZE_PROPERTY_NAME_STR));
-    GOFontUnitsProperty* fontUnits
-        = static_cast<GOFontUnitsProperty*>(findProperty(GO_FONT_UNITS_PROPERTY_NAME_STR));
-    const bool sizeInPixels = fontUnits->isEqual(GO_PROPERTY_VALUE_PIXELS_STR);
-    m_font = makeGOFontSpec(resolveRootFontName(fontname->data()), sizeInPixels,
-        sizeInPixels ? fontsize->data() : fontSizeInPoints(this), fontangle->data(),
-        fontweight->data());
-    setScalarDoubleDefault(GO_TEXT_HEIGHT_PROPERTY_NAME_STR,
-        std::lround(FontMetrics::lineHeightPixels(
-            m_font.family, fontSpecPixelSize(m_font), m_font.bold, m_font.italic)));
-}
-//=============================================================================
-bool
-GOAxis::applyAutoFontSize()
-{
-    // uiaxes keep their size whatever the box.
-    if (usesUiAxesLayout() || !isAuto(GO_FONT_SIZE_MODE_PROPERTY_NAME_STR)
-        || hasChanged(GO_FONT_SIZE_PROPERTY_NAME_STR)
-        || !stringCheck(GO_FONT_UNITS_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_POINTS_STR)) {
-        return false;
-    }
-    std::vector<double> box = getPropertyVectorAsPixels(GO_POSITION_PROPERTY_NAME_STR);
-    if (box.size() < 4 || !std::isfinite(box[2]) || !std::isfinite(box[3])) {
-        return false;
-    }
-    // A subplot grid cell or an outer box counts as the default plot box inside it.
-    std::vector<double> grid = findVectorDoubleProperty(GO_SUBPLOT_GRID_INTERNAL_PROPERTY_NAME_STR);
-    if (grid.size() == 2 && grid[0] >= 1 && grid[1] >= 1) {
-        double parentWidth = 0;
-        double parentHeight = 0;
-        graphicsParentSizeInPixels(this, getParentFigure(), parentWidth, parentHeight);
-        box[2] = DEFAULT_PLOT_BOX_WIDTH * parentWidth / grid[1];
-        box[3] = DEFAULT_PLOT_BOX_HEIGHT * parentHeight / grid[0];
-    } else if (stringCheck(
-                   GO_POSITION_CONSTRAINT_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OUTERPOSITION_STR)) {
-        // Room taken by outside legends and colorbars does not count.
-        std::vector<double> outer;
-        if (axesLayoutBaseOuterPosition(this, outer)) {
-            outer = layoutUnitsToPixels(outer);
-        } else {
-            outer = getPropertyVectorAsPixels(GO_OUTER_POSITION_PROPERTY_NAME_STR);
-        }
-        if (outer.size() >= 4 && std::isfinite(outer[2]) && std::isfinite(outer[3])) {
-            box[2] = DEFAULT_PLOT_BOX_WIDTH * outer[2];
-            box[3] = DEFAULT_PLOT_BOX_HEIGHT * outer[3];
-        }
-    }
-    // The auto size starts from the user default (groot) or the factory size.
-    double baseFontSize = AXES_FACTORY_FONT_SIZE;
-    GORoot* root = getGraphicsRootObject();
-    ArrayOf userDefault;
-    if (!isPolarAxes() && root && root->getUserDefaultProperty(L"DefaultAxesFontSize", userDefault)
-        && userDefault.isNumeric() && userDefault.isScalar()) {
-        double value = userDefault.asDoubleScalar();
-        if (std::isfinite(value) && value > 0) {
-            baseFontSize = value;
-        }
-    }
-    double fontSize = autoFontSizeForBox(baseFontSize, box[2], box[3]);
-    double previousFontSize = findScalarDoubleProperty(GO_FONT_SIZE_PROPERTY_NAME_STR);
-    if (fontSize == previousFontSize) {
-        return false;
-    }
-    setScalarDoubleDefault(GO_FONT_SIZE_PROPERTY_NAME_STR, fontSize);
-    followAutoFontSize(this, previousFontSize, fontSize);
-    return true;
 }
 //=============================================================================
 void
@@ -5174,376 +4556,6 @@ GOAxis::updateLimits(bool x, bool y, bool z, bool a, bool c)
     if (a && limits[8] <= limits[9]) {
         setTwoVectorDefault(GO_A_LIM_PROPERTY_NAME_STR, limits[8], limits[9]);
     }
-}
-//=============================================================================
-bool
-GOAxis::isDualYAxis()
-{
-    return stringCheck(GO_YY_AXIS_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
-}
-//=============================================================================
-void
-GOAxis::swapSecondaryYState()
-{
-    // Exchange the active (canonical) Y ruler state with the stashed secondary
-    // side. The exchange goes through the low-level accessors so it never looks
-    // like a user edit (which would flip YLimMode/YTickMode to manual): every
-    // touched property has its changed flag cleared afterwards.
-    static const wchar_t* valuePairs[][2] = {
-        { GO_Y_LIM_PROPERTY_NAME_STR, GO_Y_LIM_SECONDARY_PROPERTY_NAME_STR },
-        { GO_Y_LIM_MODE_PROPERTY_NAME_STR, GO_Y_LIM_MODE_SECONDARY_PROPERTY_NAME_STR },
-        { GO_Y_COLOR_PROPERTY_NAME_STR, GO_Y_COLOR_SECONDARY_PROPERTY_NAME_STR },
-        { GO_Y_SCALE_PROPERTY_NAME_STR, GO_Y_SCALE_SECONDARY_PROPERTY_NAME_STR },
-        { GO_Y_DIR_PROPERTY_NAME_STR, GO_Y_DIR_SECONDARY_PROPERTY_NAME_STR },
-        { GO_Y_TICK_PROPERTY_NAME_STR, GO_Y_TICK_SECONDARY_PROPERTY_NAME_STR },
-        { GO_Y_TICK_MODE_PROPERTY_NAME_STR, GO_Y_TICK_MODE_SECONDARY_PROPERTY_NAME_STR },
-        { GO_Y_TICK_LABEL_PROPERTY_NAME_STR, GO_Y_TICK_LABEL_SECONDARY_PROPERTY_NAME_STR },
-        { GO_Y_TICK_LABEL_MODE_PROPERTY_NAME_STR,
-            GO_Y_TICK_LABEL_MODE_SECONDARY_PROPERTY_NAME_STR },
-        { GO_COLOR_ORDER_INDEX_PROPERTY_NAME_STR,
-            GO_COLOR_ORDER_INDEX_SECONDARY_PROPERTY_NAME_STR },
-        { GO_LINE_STYLE_ORDER_INDEX_PROPERTY_NAME_STR,
-            GO_LINE_STYLE_ORDER_INDEX_SECONDARY_PROPERTY_NAME_STR },
-    };
-    for (auto& pr : valuePairs) {
-        GOGenericProperty* pa = findProperty(pr[0], false);
-        GOGenericProperty* pb = findProperty(pr[1], false);
-        if (!pa || !pb) {
-            continue;
-        }
-        ArrayOf va = pa->get();
-        ArrayOf vb = pb->get();
-        pa->set(vb);
-        pb->set(va);
-        clearChanged(pr[0]);
-        clearChanged(pr[1]);
-    }
-    // Handle lists go through the typed accessor so no reparenting is triggered.
-    static const wchar_t* handlePairs[][2] = {
-        { GO_CHILDREN_PROPERTY_NAME_STR, GO_CHILDREN_SECONDARY_PROPERTY_NAME_STR },
-        { GO_Y_LABEL_PROPERTY_NAME_STR, GO_Y_LABEL_SECONDARY_PROPERTY_NAME_STR },
-    };
-    for (auto& pr : handlePairs) {
-        GOGObjectsProperty* pa = static_cast<GOGObjectsProperty*>(findProperty(pr[0], false));
-        GOGObjectsProperty* pb = static_cast<GOGObjectsProperty*>(findProperty(pr[1], false));
-        if (!pa || !pb) {
-            continue;
-        }
-        std::vector<int64> tmp = pa->data();
-        pa->data(pb->data());
-        pb->data(tmp);
-        clearChanged(pr[0]);
-        clearChanged(pr[1]);
-    }
-}
-//=============================================================================
-void
-GOAxis::enableDualYAxis()
-{
-    if (isDualYAxis()) {
-        return;
-    }
-    // The left ruler takes the first ColorOrder entry, the right ruler the second.
-    std::vector<double> co = findVectorDoubleProperty(GO_COLOR_ORDER_PROPERTY_NAME_STR);
-    if (co.size() >= 6) {
-        setThreeVectorDefault(GO_Y_COLOR_PROPERTY_NAME_STR, co[0], co[1], co[2]);
-        clearChanged(GO_Y_COLOR_PROPERTY_NAME_STR);
-        setThreeVectorDefault(GO_Y_COLOR_SECONDARY_PROPERTY_NAME_STR, co[3], co[4], co[5]);
-        clearChanged(GO_Y_COLOR_SECONDARY_PROPERTY_NAME_STR);
-    }
-    // The stashed side starts empty, auto-scaled, and cycling from the second color.
-    GOGObjectsProperty* sc
-        = static_cast<GOGObjectsProperty*>(findProperty(GO_CHILDREN_SECONDARY_PROPERTY_NAME_STR));
-    sc->data(std::vector<int64>());
-    setRestrictedStringDefault(
-        GO_Y_LIM_MODE_SECONDARY_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
-    setScalarPositiveIntegerValueDefault(GO_COLOR_ORDER_INDEX_SECONDARY_PROPERTY_NAME_STR, 2.0);
-    clearChanged(GO_COLOR_ORDER_INDEX_SECONDARY_PROPERTY_NAME_STR);
-    setRestrictedStringDefault(GO_YY_AXIS_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
-    clearChanged(GO_YY_AXIS_PROPERTY_NAME_STR);
-}
-//=============================================================================
-void
-GOAxis::disableDualYAxis()
-{
-    if (!isDualYAxis()) {
-        return;
-    }
-    // Return to a single left ruler; the stashed side is discarded (the reset /
-    // clear that triggers this also blanks the surviving side).
-    setRestrictedStringDefault(GO_YY_AXIS_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
-    clearChanged(GO_YY_AXIS_PROPERTY_NAME_STR);
-    setRestrictedStringDefault(GO_Y_AXIS_LOCATION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_LEFT_STR);
-    clearChanged(GO_Y_AXIS_LOCATION_PROPERTY_NAME_STR);
-    static_cast<GOGObjectsProperty*>(findProperty(GO_CHILDREN_SECONDARY_PROPERTY_NAME_STR))
-        ->data(std::vector<int64>());
-    static_cast<GOGObjectsProperty*>(findProperty(GO_Y_LABEL_SECONDARY_PROPERTY_NAME_STR))
-        ->data(std::vector<int64>());
-    ensureYAxisRulers();
-}
-//=============================================================================
-void
-GOAxis::setActiveYSide(const std::wstring& side)
-{
-    std::wstring requested = (side == GO_PROPERTY_VALUE_RIGHT_STR) ? GO_PROPERTY_VALUE_RIGHT_STR
-                                                                   : GO_PROPERTY_VALUE_LEFT_STR;
-    std::wstring current = findStringProperty(GO_Y_AXIS_LOCATION_PROPERTY_NAME_STR);
-    if (current != requested) {
-        swapSecondaryYState();
-        setRestrictedStringDefault(GO_Y_AXIS_LOCATION_PROPERTY_NAME_STR, requested);
-        clearChanged(GO_Y_AXIS_LOCATION_PROPERTY_NAME_STR);
-    }
-}
-//=============================================================================
-void
-GOAxis::updateSecondaryYLimits()
-{
-    // Compute the stashed side's auto limits and ticks by briefly making it the
-    // canonical ruler and reusing the standard single-sided machinery.
-    swapSecondaryYState();
-    std::vector<double> savedDataLimits
-        = findVectorDoubleProperty(GO_DATA_LIMITS_PROPERTY_NAME_STR);
-    bool yAuto = isAuto(GO_Y_LIM_MODE_PROPERTY_NAME_STR);
-    updateLimits(false, yAuto, false, false, false);
-    // Only the Y ruler differs between the two sides; restore the shared extents.
-    if (savedDataLimits.size() >= 6) {
-        GOSixVectorProperty* dl
-            = static_cast<GOSixVectorProperty*>(findProperty(GO_DATA_LIMITS_PROPERTY_NAME_STR));
-        dl->value(savedDataLimits[0], savedDataLimits[1], savedDataLimits[2], savedDataLimits[3],
-            savedDataLimits[4], savedDataLimits[5]);
-    }
-    recalculateTicks();
-    swapSecondaryYState();
-}
-//=============================================================================
-void
-GOAxis::drawSecondaryYRuler(RenderInterface& gc)
-{
-    // Render the stashed ruler and its children by swapping it in as canonical,
-    // flipping the drawn edge, redrawing, then restoring the active side.
-    std::wstring activeSide = findStringProperty(GO_Y_AXIS_LOCATION_PROPERTY_NAME_STR);
-    std::wstring otherSide = (activeSide == GO_PROPERTY_VALUE_RIGHT_STR)
-        ? GO_PROPERTY_VALUE_LEFT_STR
-        : GO_PROPERTY_VALUE_RIGHT_STR;
-    swapSecondaryYState();
-    setRestrictedStringDefault(GO_Y_AXIS_LOCATION_PROPERTY_NAME_STR, otherSide);
-    clearChanged(GO_Y_AXIS_LOCATION_PROPERTY_NAME_STR);
-
-    setupAxis(gc);
-    setupProjection(gc, false);
-    drawChildren(gc);
-    drawAxisLines(gc);
-    drawTickMarks(gc);
-    drawAxisLabels(gc);
-
-    setRestrictedStringDefault(GO_Y_AXIS_LOCATION_PROPERTY_NAME_STR, activeSide);
-    clearChanged(GO_Y_AXIS_LOCATION_PROPERTY_NAME_STR);
-    swapSecondaryYState();
-    setupAxis(gc);
-    setupProjection(gc, false);
-}
-//=============================================================================
-std::wstring
-GOAxis::axesPropertyForRulerProperty(int axisKind, int side, const std::wstring& rulerProperty)
-{
-    if (axisKind == RULER_AXIS_X || axisKind == RULER_AXIS_Z) {
-        // X and Z are single-sided: map the ruler property straight to the
-        // matching axes X*/Z* property.
-        struct SingleAxisPair
-        {
-            const wchar_t* ruler;
-            const wchar_t* xName;
-            const wchar_t* zName;
-        };
-        static const SingleAxisPair singlePairs[] = {
-            { GO_LIMITS_PROPERTY_NAME_STR, GO_X_LIM_PROPERTY_NAME_STR, GO_Z_LIM_PROPERTY_NAME_STR },
-            { GO_LIMITS_MODE_PROPERTY_NAME_STR, GO_X_LIM_MODE_PROPERTY_NAME_STR,
-                GO_Z_LIM_MODE_PROPERTY_NAME_STR },
-            { GO_COLOR_PROPERTY_NAME_STR, GO_X_COLOR_PROPERTY_NAME_STR,
-                GO_Z_COLOR_PROPERTY_NAME_STR },
-            { GO_SCALE_PROPERTY_NAME_STR, GO_X_SCALE_PROPERTY_NAME_STR,
-                GO_Z_SCALE_PROPERTY_NAME_STR },
-            { GO_DIRECTION_PROPERTY_NAME_STR, GO_X_DIR_PROPERTY_NAME_STR,
-                GO_Z_DIR_PROPERTY_NAME_STR },
-            { GO_TICK_VALUES_PROPERTY_NAME_STR, GO_X_TICK_PROPERTY_NAME_STR,
-                GO_Z_TICK_PROPERTY_NAME_STR },
-            { GO_TICK_VALUES_MODE_PROPERTY_NAME_STR, GO_X_TICK_MODE_PROPERTY_NAME_STR,
-                GO_Z_TICK_MODE_PROPERTY_NAME_STR },
-            { GO_TICK_LABELS_PROPERTY_NAME_STR, GO_X_TICK_LABEL_PROPERTY_NAME_STR,
-                GO_Z_TICK_LABEL_PROPERTY_NAME_STR },
-            { GO_TICK_LABELS_MODE_PROPERTY_NAME_STR, GO_X_TICK_LABEL_MODE_PROPERTY_NAME_STR,
-                GO_Z_TICK_LABEL_MODE_PROPERTY_NAME_STR },
-            { GO_LABEL_PROPERTY_NAME_STR, GO_X_LABEL_PROPERTY_NAME_STR,
-                GO_Z_LABEL_PROPERTY_NAME_STR },
-            // Font is shared by the axes (not per-axis): X and Z rulers both
-            // mirror the same axes Font* property.
-            { GO_FONT_SIZE_PROPERTY_NAME_STR, GO_FONT_SIZE_PROPERTY_NAME_STR,
-                GO_FONT_SIZE_PROPERTY_NAME_STR },
-            { GO_FONT_NAME_PROPERTY_NAME_STR, GO_FONT_NAME_PROPERTY_NAME_STR,
-                GO_FONT_NAME_PROPERTY_NAME_STR },
-            { GO_FONT_WEIGHT_PROPERTY_NAME_STR, GO_FONT_WEIGHT_PROPERTY_NAME_STR,
-                GO_FONT_WEIGHT_PROPERTY_NAME_STR },
-            { GO_FONT_ANGLE_PROPERTY_NAME_STR, GO_FONT_ANGLE_PROPERTY_NAME_STR,
-                GO_FONT_ANGLE_PROPERTY_NAME_STR },
-            // The ruler's TickDirection mirrors the shared axes TickDir.
-            { GO_TICK_DIRECTION_PROPERTY_NAME_STR, GO_TICK_DIR_PROPERTY_NAME_STR,
-                GO_TICK_DIR_PROPERTY_NAME_STR },
-            // TickLength is shared by the axes (not per-axis): rulers mirror it directly.
-            { GO_TICK_LENGTH_PROPERTY_NAME_STR, GO_TICK_LENGTH_PROPERTY_NAME_STR,
-                GO_TICK_LENGTH_PROPERTY_NAME_STR },
-            // These are shared axes state the plotly export reads on a ruler when it
-            // stands in as axisData; they mirror the identically named axes property.
-            { GO_FONT_UNITS_PROPERTY_NAME_STR, GO_FONT_UNITS_PROPERTY_NAME_STR,
-                GO_FONT_UNITS_PROPERTY_NAME_STR },
-            { GO_LINE_WIDTH_PROPERTY_NAME_STR, GO_LINE_WIDTH_PROPERTY_NAME_STR,
-                GO_LINE_WIDTH_PROPERTY_NAME_STR },
-            { GO_TICK_DIR_PROPERTY_NAME_STR, GO_TICK_DIR_PROPERTY_NAME_STR,
-                GO_TICK_DIR_PROPERTY_NAME_STR },
-            { GO_GRID_COLOR_PROPERTY_NAME_STR, GO_GRID_COLOR_PROPERTY_NAME_STR,
-                GO_GRID_COLOR_PROPERTY_NAME_STR },
-            { GO_GRID_ALPHA_PROPERTY_NAME_STR, GO_GRID_ALPHA_PROPERTY_NAME_STR,
-                GO_GRID_ALPHA_PROPERTY_NAME_STR },
-            { GO_BOX_PROPERTY_NAME_STR, GO_BOX_PROPERTY_NAME_STR, GO_BOX_PROPERTY_NAME_STR },
-            { GO_UNITS_PROPERTY_NAME_STR, GO_UNITS_PROPERTY_NAME_STR, GO_UNITS_PROPERTY_NAME_STR },
-            // The ruler's date/datetime TickLabelFormat maps to the matching axes
-            // X*/Z* TickLabelFormat.
-            { GO_TICK_LABEL_FORMAT_PROPERTY_NAME_STR, GO_X_TICK_LABEL_FORMAT_PROPERTY_NAME_STR,
-                GO_Z_TICK_LABEL_FORMAT_PROPERTY_NAME_STR },
-        };
-        for (const SingleAxisPair& p : singlePairs) {
-            if (rulerProperty == p.ruler) {
-                return (axisKind == RULER_AXIS_X) ? p.xName : p.zName;
-            }
-        }
-        return std::wstring();
-    }
-    // side 1 == left, side 2 == right. The active side lives in the canonical Y
-    // properties; the other side in the *_Secondary stash.
-    int canonicalSide
-        = stringCheck(GO_Y_AXIS_LOCATION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_RIGHT_STR) ? 2 : 1;
-    bool canonical = (side == canonicalSide);
-    struct RulerAxisPair
-    {
-        const wchar_t* ruler;
-        const wchar_t* canon;
-        const wchar_t* secondary;
-    };
-    static const RulerAxisPair pairs[] = {
-        { GO_LIMITS_PROPERTY_NAME_STR, GO_Y_LIM_PROPERTY_NAME_STR,
-            GO_Y_LIM_SECONDARY_PROPERTY_NAME_STR },
-        { GO_LIMITS_MODE_PROPERTY_NAME_STR, GO_Y_LIM_MODE_PROPERTY_NAME_STR,
-            GO_Y_LIM_MODE_SECONDARY_PROPERTY_NAME_STR },
-        { GO_COLOR_PROPERTY_NAME_STR, GO_Y_COLOR_PROPERTY_NAME_STR,
-            GO_Y_COLOR_SECONDARY_PROPERTY_NAME_STR },
-        { GO_SCALE_PROPERTY_NAME_STR, GO_Y_SCALE_PROPERTY_NAME_STR,
-            GO_Y_SCALE_SECONDARY_PROPERTY_NAME_STR },
-        { GO_DIRECTION_PROPERTY_NAME_STR, GO_Y_DIR_PROPERTY_NAME_STR,
-            GO_Y_DIR_SECONDARY_PROPERTY_NAME_STR },
-        { GO_TICK_VALUES_PROPERTY_NAME_STR, GO_Y_TICK_PROPERTY_NAME_STR,
-            GO_Y_TICK_SECONDARY_PROPERTY_NAME_STR },
-        { GO_TICK_VALUES_MODE_PROPERTY_NAME_STR, GO_Y_TICK_MODE_PROPERTY_NAME_STR,
-            GO_Y_TICK_MODE_SECONDARY_PROPERTY_NAME_STR },
-        { GO_TICK_LABELS_PROPERTY_NAME_STR, GO_Y_TICK_LABEL_PROPERTY_NAME_STR,
-            GO_Y_TICK_LABEL_SECONDARY_PROPERTY_NAME_STR },
-        { GO_TICK_LABELS_MODE_PROPERTY_NAME_STR, GO_Y_TICK_LABEL_MODE_PROPERTY_NAME_STR,
-            GO_Y_TICK_LABEL_MODE_SECONDARY_PROPERTY_NAME_STR },
-        { GO_LABEL_PROPERTY_NAME_STR, GO_Y_LABEL_PROPERTY_NAME_STR,
-            GO_Y_LABEL_SECONDARY_PROPERTY_NAME_STR },
-        // Font is not stashed per Y side: both sides mirror the shared axes font.
-        { GO_FONT_SIZE_PROPERTY_NAME_STR, GO_FONT_SIZE_PROPERTY_NAME_STR,
-            GO_FONT_SIZE_PROPERTY_NAME_STR },
-        { GO_FONT_NAME_PROPERTY_NAME_STR, GO_FONT_NAME_PROPERTY_NAME_STR,
-            GO_FONT_NAME_PROPERTY_NAME_STR },
-        { GO_FONT_WEIGHT_PROPERTY_NAME_STR, GO_FONT_WEIGHT_PROPERTY_NAME_STR,
-            GO_FONT_WEIGHT_PROPERTY_NAME_STR },
-        { GO_FONT_ANGLE_PROPERTY_NAME_STR, GO_FONT_ANGLE_PROPERTY_NAME_STR,
-            GO_FONT_ANGLE_PROPERTY_NAME_STR },
-        // TickDirection mirrors the shared axes TickDir (not stashed per side).
-        { GO_TICK_DIRECTION_PROPERTY_NAME_STR, GO_TICK_DIR_PROPERTY_NAME_STR,
-            GO_TICK_DIR_PROPERTY_NAME_STR },
-        // TickLength is shared by the axes (not stashed per side).
-        { GO_TICK_LENGTH_PROPERTY_NAME_STR, GO_TICK_LENGTH_PROPERTY_NAME_STR,
-            GO_TICK_LENGTH_PROPERTY_NAME_STR },
-        // Shared axes state (not stashed per side); the ruler mirrors the axes
-        // property of the same name so the plotly yyaxis export can read it.
-        { GO_FONT_UNITS_PROPERTY_NAME_STR, GO_FONT_UNITS_PROPERTY_NAME_STR,
-            GO_FONT_UNITS_PROPERTY_NAME_STR },
-        { GO_LINE_WIDTH_PROPERTY_NAME_STR, GO_LINE_WIDTH_PROPERTY_NAME_STR,
-            GO_LINE_WIDTH_PROPERTY_NAME_STR },
-        { GO_TICK_DIR_PROPERTY_NAME_STR, GO_TICK_DIR_PROPERTY_NAME_STR,
-            GO_TICK_DIR_PROPERTY_NAME_STR },
-        { GO_GRID_COLOR_PROPERTY_NAME_STR, GO_GRID_COLOR_PROPERTY_NAME_STR,
-            GO_GRID_COLOR_PROPERTY_NAME_STR },
-        { GO_GRID_ALPHA_PROPERTY_NAME_STR, GO_GRID_ALPHA_PROPERTY_NAME_STR,
-            GO_GRID_ALPHA_PROPERTY_NAME_STR },
-        { GO_BOX_PROPERTY_NAME_STR, GO_BOX_PROPERTY_NAME_STR, GO_BOX_PROPERTY_NAME_STR },
-        { GO_UNITS_PROPERTY_NAME_STR, GO_UNITS_PROPERTY_NAME_STR, GO_UNITS_PROPERTY_NAME_STR },
-        // TickLabelFormat is shared axes Y state (not stashed per side); both sides
-        // mirror the axes YTickLabelFormat.
-        { GO_TICK_LABEL_FORMAT_PROPERTY_NAME_STR, GO_Y_TICK_LABEL_FORMAT_PROPERTY_NAME_STR,
-            GO_Y_TICK_LABEL_FORMAT_PROPERTY_NAME_STR },
-    };
-    for (const RulerAxisPair& p : pairs) {
-        if (rulerProperty == p.ruler) {
-            return canonical ? p.canon : p.secondary;
-        }
-    }
-    return std::wstring();
-}
-//=============================================================================
-void
-GOAxis::applyRulerSideProperty(
-    int axisKind, int side, const std::wstring& rulerProperty, const ArrayOf& value)
-{
-    std::wstring target = axesPropertyForRulerProperty(axisKind, side, rulerProperty);
-    if (target.empty()) {
-        return;
-    }
-    GOGenericProperty* prop = findProperty(target, false);
-    if (!prop) {
-        return;
-    }
-    prop->set(value);
-    // Setting limits or ticks pins the matching mode to manual, as on the axes.
-    auto pinMode = [&](const std::wstring& modeName) {
-        if (modeName.empty()) {
-            return;
-        }
-        setRestrictedStringDefault(modeName, GO_PROPERTY_VALUE_MANUAL_STR);
-        clearChanged(modeName);
-    };
-    if (rulerProperty == GO_LIMITS_PROPERTY_NAME_STR) {
-        pinMode(axesPropertyForRulerProperty(axisKind, side, GO_LIMITS_MODE_PROPERTY_NAME_STR));
-    } else if (rulerProperty == GO_TICK_VALUES_PROPERTY_NAME_STR) {
-        pinMode(
-            axesPropertyForRulerProperty(axisKind, side, GO_TICK_VALUES_MODE_PROPERTY_NAME_STR));
-    } else if (rulerProperty == GO_TICK_LABELS_PROPERTY_NAME_STR) {
-        pinMode(
-            axesPropertyForRulerProperty(axisKind, side, GO_TICK_LABELS_MODE_PROPERTY_NAME_STR));
-    }
-}
-//=============================================================================
-void
-GOAxis::ensureYAxisRulers()
-{
-    int64 axisHandle = findGraphicsObjectHandle(this);
-    if (axisHandle == -1) {
-        return;
-    }
-    int wanted = isDualYAxis() ? 2 : 1;
-    GOGObjectsProperty* yap
-        = static_cast<GOGObjectsProperty*>(findProperty(GO_Y_AXIS_PROPERTY_NAME_STR));
-    std::vector<int64> handles = yap->data();
-    while (static_cast<int>(handles.size()) < wanted) {
-        GORuler* ruler = new GORuler;
-        int64 rulerHandle = assignGraphicsObject(ruler);
-        ruler->linkToAxis(axisHandle, static_cast<int>(handles.size()) + 1, RULER_AXIS_Y);
-        handles.push_back(rulerHandle);
-    }
-    if (static_cast<int>(handles.size()) > wanted) {
-        handles.resize(wanted);
-    }
-    yap->data(handles);
 }
 //=============================================================================
 void
@@ -7812,121 +6824,6 @@ GOAxis::getAxisLimits()
     return lims;
 }
 //=============================================================================
-void
-GOAxis::setupProjection(RenderInterface& gc, bool updateLimits)
-{
-    GOThreeVectorProperty* cameraPositionVector
-        = static_cast<GOThreeVectorProperty*>(findProperty(GO_CAMERA_POSITION_PROPERTY_NAME_STR));
-    GOThreeVectorProperty* cameraTargetVector
-        = static_cast<GOThreeVectorProperty*>(findProperty(GO_CAMERA_TARGET_PROPERTY_NAME_STR));
-    GOThreeVectorProperty* cameraUpVector
-        = static_cast<GOThreeVectorProperty*>(findProperty(GO_CAMERA_UP_VECTOR_PROPERTY_NAME_STR));
-
-    std::vector<double> dar(findVectorDoubleProperty(GO_DATA_ASPECT_RATIO_PROPERTY_NAME_STR));
-    if (dar.size() < 3 || !std::isfinite(dar[0]) || !std::isfinite(dar[1]) || !std::isfinite(dar[2])
-        || dar[0] <= 0 || dar[1] <= 0 || dar[2] <= 0) {
-        dar = { 1.0, 1.0, 1.0 };
-    }
-    std::vector<double> scale = { 1.0 / dar[0], 1.0 / dar[1], 1.0 / dar[2] };
-
-    if (renderedAs2D()) {
-        gc.lookAt(cameraPositionVector->data()[0] * scale[0],
-            cameraPositionVector->data()[1] * scale[1], cameraPositionVector->data()[2] * scale[2],
-            cameraTargetVector->data()[0] * scale[0], cameraTargetVector->data()[1] * scale[1],
-            cameraTargetVector->data()[2] * scale[2], cameraUpVector->data()[0] * scale[0],
-            cameraUpVector->data()[1] * scale[1], cameraUpVector->data()[2] * scale[2]);
-    } else {
-        std::vector<double> cameraPosition = cameraPositionVector->data();
-        std::vector<double> cameraTarget = cameraTargetVector->data();
-        std::vector<double> cameraUp = cameraUpVector->data();
-        cameraPosition = mapCamera(cameraPosition);
-        cameraTarget = mapCamera(cameraTarget);
-        if (stringCheck(GO_X_DIR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_REVERSE_STR)) {
-            cameraUp[0] = -cameraUp[0];
-        }
-        if (stringCheck(GO_Y_DIR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_REVERSE_STR)) {
-            cameraUp[1] = -cameraUp[1];
-        }
-        if (stringCheck(GO_Z_DIR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_REVERSE_STR)) {
-            cameraUp[2] = -cameraUp[2];
-        }
-
-        gc.lookAt(cameraPosition[0] * scale[0], cameraPosition[1] * scale[1],
-            cameraPosition[2] * scale[2], cameraTarget[0] * scale[0], cameraTarget[1] * scale[1],
-            cameraTarget[2] * scale[2], cameraUp[0] * scale[0], cameraUp[1] * scale[1],
-            cameraUp[2] * scale[2]);
-    }
-
-    gc.scale(scale[0], scale[1], scale[2]);
-    std::vector<double> limits(getAxisLimits());
-    double xvals[8];
-    double yvals[8];
-    double zValues[8];
-    gc.mapPoint(limits[0], limits[2], limits[4], xvals[0], yvals[0], zValues[0]);
-    gc.mapPoint(limits[0], limits[2], limits[5], xvals[1], yvals[1], zValues[1]);
-    gc.mapPoint(limits[0], limits[3], limits[4], xvals[2], yvals[2], zValues[2]);
-    gc.mapPoint(limits[0], limits[3], limits[5], xvals[3], yvals[3], zValues[3]);
-    gc.mapPoint(limits[1], limits[2], limits[4], xvals[4], yvals[4], zValues[4]);
-    gc.mapPoint(limits[1], limits[2], limits[5], xvals[5], yvals[5], zValues[5]);
-    gc.mapPoint(limits[1], limits[3], limits[4], xvals[6], yvals[6], zValues[6]);
-    gc.mapPoint(limits[1], limits[3], limits[5], xvals[7], yvals[7], zValues[7]);
-    double xmin, xmax, ymin, ymax, zmin, zmax;
-    minMaxVector(xvals, 8, xmin, xmax);
-    minMaxVector(yvals, 8, ymin, ymax);
-    minMaxVector(zValues, 8, zmin, zmax);
-    if (zmin == zmax) {
-        zmin = zmax - 1;
-        zmax = zmax + 1;
-    }
-    // Depth span of the real data box along the view axis, captured before the
-    // aspect-ratio rerange below rewrites zmin/zmax to fit the plot box. The
-    // perspective near/far planes must bound the actual geometry: the reranged
-    // span can fall short of it (clipping away the far half of a near object),
-    // so both projections widen their depth range to it.
-    double zMappedMinRaw = zmin;
-    double zMappedMaxRaw = zmax;
-    std::vector<double> position(getPropertyVectorAsPixels(gc, GO_POSITION_PROPERTY_NAME_STR));
-    // Which viewport dimension the data box fills, decided on the unpadded box: the camera view
-    // angle spans that extent (see cameraViewAngleForSpan).
-    bool angleSpansWidth = viewAngleSpansWidth(xmax - xmin, ymax - ymin, position[2], position[3]);
-    bool manualAspect
-        = stringCheck(GO_PLOT_BOX_ASPECT_RATIO_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR)
-        || stringCheck(GO_DATA_ASPECT_RATIO_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR);
-    // A manually set CameraViewAngle also makes the view isotropic (equal x and y screen scale,
-    // square pixels), so an image drawn under camva renders round instead of stretched to the axes
-    // box.
-    bool manualViewAngle
-        = stringCheck(GO_CAMERA_VIEW_ANGLE_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR);
-    if (manualAspect || manualViewAngle) {
-        double xratio = (xmax - xmin) / position[2];
-        double yratio = (ymax - ymin) / position[3];
-        double maxratio = std::max(xratio, yratio);
-        rerange(xmin, xmax, maxratio * position[2]);
-        rerange(ymin, ymax, maxratio * position[3]);
-        rerange(zmin, zmax, maxratio * position[3]);
-        if (updateLimits && manualAspect) {
-            setAxisLimits(limits);
-        }
-    }
-    if (!renderedAs2D()
-        && stringCheck(GO_PROJECTION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_PERSPECTIVE_STR)
-        && setupPerspectiveProjection(
-            gc, zMappedMinRaw, zMappedMaxRaw, angleSpansWidth, position)) {
-        return;
-    }
-    if (!renderedAs2D()) {
-        expandProjectionRange(xmin, xmax);
-        expandProjectionRange(ymin, ymax);
-    }
-    // The depth range must still hold the whole data box: the aspect rerange above may
-    // shrink it, cutting a 2D patch drawn at ZLim(2) out of the view.
-    zmin = std::min(zmin, zMappedMinRaw);
-    zmax = std::max(zmax, zMappedMaxRaw);
-    expandDepthProjectionRange(zmin, zmax);
-    setupOrthographicProjection(gc, scale, position, { xmin, xmax, ymin, ymax, zmin, zmax },
-        DEFAULT_CAMERA_VIEW_ANGLE, angleSpansWidth);
-}
-//=============================================================================
 bool
 GOAxis::setupPerspectiveProjection(RenderInterface& gc, double zMappedMin, double zMappedMax,
     bool angleSpansWidth, const std::vector<double>& position)
@@ -8007,140 +6904,6 @@ GOAxis::getNormalizedView(double& azimuth, double& elevation)
 }
 //=============================================================================
 void
-GOAxis::updateCamera()
-{
-    GOThreeVectorProperty* plotBoxAspectRatio = static_cast<GOThreeVectorProperty*>(
-        findProperty(GO_PLOT_BOX_ASPECT_RATIO_PROPERTY_NAME_STR));
-
-    double azimuth;
-    double elevation;
-    getNormalizedView(azimuth, elevation);
-
-    double azimuthRadians = azimuth * M_PI / 180.;
-    double elevationRadians = elevation * M_PI / 180.;
-    std::vector<double> limits(getAxisLimits());
-
-    if (hasChanged(GO_CAMERA_TARGET_PROPERTY_NAME_STR)) {
-        toManual(GO_CAMERA_TARGET_MODE_PROPERTY_NAME_STR);
-    }
-
-    std::vector<double> cameraCenter(3);
-    if (isAuto(GO_CAMERA_TARGET_MODE_PROPERTY_NAME_STR)) {
-        cameraCenter[0] = (limits[0] + limits[1]) / 2.0;
-        cameraCenter[1] = (limits[2] + limits[3]) / 2.0;
-        cameraCenter[2] = (limits[4] + limits[5]) / 2.0;
-
-        GOThreeVectorProperty* cameraTargetProperty
-            = static_cast<GOThreeVectorProperty*>(findProperty(GO_CAMERA_TARGET_PROPERTY_NAME_STR));
-        cameraTargetProperty->value(cameraCenter[0], cameraCenter[1], cameraCenter[2]);
-    } else {
-        GOThreeVectorProperty* cameraTargetProperty
-            = static_cast<GOThreeVectorProperty*>(findProperty(GO_CAMERA_TARGET_PROPERTY_NAME_STR));
-        cameraCenter = cameraTargetProperty->data();
-    }
-
-    if (hasChanged(GO_CAMERA_POSITION_PROPERTY_NAME_STR)) {
-        toManual(GO_CAMERA_POSITION_MODE_PROPERTY_NAME_STR);
-    }
-    if (isAuto(GO_CAMERA_POSITION_MODE_PROPERTY_NAME_STR)) {
-        std::vector<double> cameraPosition(3);
-        double xmax = std::max(
-            std::abs(limits[0] - cameraCenter[0]), std::abs(limits[1] - cameraCenter[0]));
-        double ymax = std::max(
-            std::abs(limits[2] - cameraCenter[1]), std::abs(limits[3] - cameraCenter[1]));
-        double zmax = std::max(
-            std::abs(limits[4] - cameraCenter[2]), std::abs(limits[5] - cameraCenter[2]));
-        std::vector<double> dar(findVectorDoubleProperty(GO_DATA_ASPECT_RATIO_PROPERTY_NAME_STR));
-        if (dar.size() < 3 || !std::isfinite(dar[0]) || !std::isfinite(dar[1])
-            || !std::isfinite(dar[2]) || dar[0] <= 0 || dar[1] <= 0 || dar[2] <= 0) {
-            dar = { 1.0, 1.0, 1.0 };
-        }
-        // Camera distance: ten times the half diagonal of the data box in aspect-scaled units.
-        // The straight top and bottom views use the same distance (a cube for an automatic
-        // aspect, the real box for a manual one) with exactly zero lateral offsets.
-        double r = 10.0
-            * std::sqrt(std::pow(xmax / dar[0], 2) + std::pow(ymax / dar[1], 2)
-                + std::pow(zmax / dar[2], 2));
-        if (azimuth == 0. && (elevation == 90. || elevation == -90.)) {
-            cameraPosition[0] = (limits[0] + limits[1]) / 2.0;
-            cameraPosition[1] = (limits[2] + limits[3]) / 2.0;
-            cameraPosition[2] = cameraCenter[2] + ((elevation > 0) ? 1.0 : -1.0) * r * dar[2];
-        } else {
-            cameraPosition[0] = std::cos(elevationRadians) * std::sin(azimuthRadians) * r * dar[0]
-                + cameraCenter[0];
-            cameraPosition[1] = -std::cos(elevationRadians) * std::cos(azimuthRadians) * r * dar[1]
-                + cameraCenter[1];
-            cameraPosition[2] = std::sin(elevationRadians) * r * dar[2] + cameraCenter[2];
-        }
-        if (stringCheck(GO_X_DIR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_REVERSE_STR)) {
-            cameraPosition[0] = 2 * cameraCenter[0] - cameraPosition[0];
-        }
-        if (stringCheck(GO_Y_DIR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_REVERSE_STR)) {
-            cameraPosition[1] = 2 * cameraCenter[1] - cameraPosition[1];
-        }
-        if (stringCheck(GO_Z_DIR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_REVERSE_STR)) {
-            cameraPosition[2] = 2 * cameraCenter[2] - cameraPosition[2];
-        }
-
-        GOThreeVectorProperty* cameraPositionProperty = static_cast<GOThreeVectorProperty*>(
-            findProperty(GO_CAMERA_POSITION_PROPERTY_NAME_STR));
-        cameraPositionProperty->value(cameraPosition[0], cameraPosition[1], cameraPosition[2]);
-    }
-
-    if (hasChanged(GO_CAMERA_UP_VECTOR_PROPERTY_NAME_STR)) {
-        toManual(GO_CAMERA_UP_VECTOR_MODE_PROPERTY_NAME_STR);
-    }
-    if (isAuto(GO_CAMERA_UP_VECTOR_MODE_PROPERTY_NAME_STR)) {
-        GOThreeVectorProperty* cameraUpProperty = static_cast<GOThreeVectorProperty*>(
-            findProperty(GO_CAMERA_UP_VECTOR_PROPERTY_NAME_STR));
-        std::vector<double> cameraUp(3);
-
-        if (elevation == 90 || elevation == -90) {
-            if (azimuth == 0. || (abs(elevationRadians - M_PI / 2) < .001)) {
-                cameraUp[0] = 0;
-                cameraUp[1] = (elevation > 0) ? 1 : -1;
-                cameraUp[2] = 0;
-            } else {
-                cameraUp[0] = ((elevation > 0) ? -1 : 1) * sin(azimuth * M_PI / 180.0)
-                    * (limits[1] - limits[0]) / plotBoxAspectRatio->data()[0];
-                cameraUp[1] = ((elevation > 0) ? 1 : -1) * cos(azimuth * M_PI / 180.0)
-                    * (limits[3] - limits[2]) / plotBoxAspectRatio->data()[1];
-            }
-        } else {
-            cameraUp[0] = 0;
-            cameraUp[1] = 0;
-            cameraUp[2] = 1;
-        }
-
-        GOThreeVectorProperty* cameraPositionProperty = static_cast<GOThreeVectorProperty*>(
-            findProperty(GO_CAMERA_POSITION_PROPERTY_NAME_STR));
-        resolveDegenerateAutoUpVector(cameraUp, cameraCenter, cameraPositionProperty->data());
-
-        cameraUpProperty->value(cameraUp[0], cameraUp[1], cameraUp[2]);
-    }
-    if (hasChanged(GO_CAMERA_VIEW_ANGLE_PROPERTY_NAME_STR)) {
-        toManual(GO_CAMERA_VIEW_ANGLE_MODE_PROPERTY_NAME_STR);
-    }
-    // A manual view angle (set by hand or frozen by 'axis vis3d') is kept as given,
-    // whatever the limits do afterwards.
-    if (isAuto(GO_CAMERA_VIEW_ANGLE_MODE_PROPERTY_NAME_STR)) {
-        GOThreeVectorProperty* cameraPositionProperty = static_cast<GOThreeVectorProperty*>(
-            findProperty(GO_CAMERA_POSITION_PROPERTY_NAME_STR));
-        GOThreeVectorProperty* cameraTargetProperty
-            = static_cast<GOThreeVectorProperty*>(findProperty(GO_CAMERA_TARGET_PROPERTY_NAME_STR));
-        GOThreeVectorProperty* cameraUpProperty = static_cast<GOThreeVectorProperty*>(
-            findProperty(GO_CAMERA_UP_VECTOR_PROPERTY_NAME_STR));
-        GOScalarProperty* cameraViewAngleProperty
-            = static_cast<GOScalarProperty*>(findProperty(GO_CAMERA_VIEW_ANGLE_PROPERTY_NAME_STR));
-        std::vector<double> axisPosition(getPropertyVectorAsPixels(GO_POSITION_PROPERTY_NAME_STR));
-        cameraViewAngleProperty->data(computeAutoCameraViewAngle(limits,
-            cameraPositionProperty->data(), cameraTargetProperty->data(), cameraUpProperty->data(),
-            findVectorDoubleProperty(GO_DATA_ASPECT_RATIO_PROPERTY_NAME_STR), axisPosition));
-        clearChanged(GO_CAMERA_VIEW_ANGLE_PROPERTY_NAME_STR);
-    }
-}
-//=============================================================================
-void
 GOAxis::setView(double azimuth, double elevation)
 {
     GOTwoVectorProperty* viewProperty
@@ -8196,167 +6959,6 @@ GOAxis::updateInteractionState()
             fig->repaint();
         }
     }
-}
-//=============================================================================
-bool
-GOAxis::updateViewState()
-{
-    constexpr unsigned requiredWarmupUpdates = 2;
-    if (m_viewStateWarmupCount >= requiredWarmupUpdates) {
-        updateInteractionState();
-        return true;
-    }
-    GOFigure* fig = getParentFigure();
-    if (fig) {
-        fig->setRenderingStateInvalid(true);
-    }
-    updateState();
-    ++m_viewStateWarmupCount;
-    return false;
-}
-//=============================================================================
-void
-GOAxis::invalidateViewState()
-{
-    m_viewStateWarmupCount = 0;
-}
-//=============================================================================
-void
-GOAxis::markViewStateReady()
-{
-    constexpr unsigned requiredWarmupUpdates = 2;
-    m_viewStateWarmupCount = requiredWarmupUpdates;
-}
-//=============================================================================
-void
-GOAxis::resetView()
-{
-    setRestrictedStringDefault(GO_X_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
-    setRestrictedStringDefault(GO_Y_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
-    setRestrictedStringDefault(GO_Z_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
-    updateState();
-}
-//=============================================================================
-void
-GOAxis::zoom(double scaleFactor)
-{
-    if (zoomXOn) {
-        GOVectorProperty* hp = (GOVectorProperty*)findProperty(GO_X_LIM_PROPERTY_NAME_STR);
-        double range = (hp->data()[1] - hp->data()[0]) / 2;
-        double mean = (hp->data()[1] + hp->data()[0]) / 2;
-        setTwoVectorDefault(
-            GO_X_LIM_PROPERTY_NAME_STR, mean - range * scaleFactor, mean + range * scaleFactor);
-        setRestrictedStringDefault(GO_X_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR);
-    }
-    if (zoomYOn) {
-        GOVectorProperty* hp = (GOVectorProperty*)findProperty(GO_Y_LIM_PROPERTY_NAME_STR);
-        double range = (hp->data()[1] - hp->data()[0]) / 2;
-        double mean = (hp->data()[1] + hp->data()[0]) / 2;
-        setTwoVectorDefault(
-            GO_Y_LIM_PROPERTY_NAME_STR, mean - range * scaleFactor, mean + range * scaleFactor);
-        setRestrictedStringDefault(GO_Y_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR);
-    }
-    updateState();
-}
-//=============================================================================
-void
-GOAxis::pan(double stepX, double stepY)
-{
-    std::vector<double> position(getClientAreaAsPixels());
-    if (panXOn) {
-        std::vector<double> xLim = findVectorDoubleProperty(GO_X_LIM_PROPERTY_NAME_STR);
-        double delx = stepX * (xLim[1] - xLim[0]) / position[2];
-        setTwoVectorDefault(GO_X_LIM_PROPERTY_NAME_STR, xLim[0] + delx, xLim[1] + delx);
-        setRestrictedStringDefault(GO_X_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR);
-    }
-    if (panYOn) {
-        std::vector<double> yLim = findVectorDoubleProperty(GO_Y_LIM_PROPERTY_NAME_STR);
-        double dely = stepY * (yLim[1] - yLim[0]) / position[3];
-        setTwoVectorDefault(GO_Y_LIM_PROPERTY_NAME_STR, yLim[0] + dely, yLim[1] + dely);
-        setRestrictedStringDefault(GO_Y_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR);
-    }
-    if (panXOn || panYOn) {
-        updateState();
-    };
-}
-//=============================================================================
-void
-GOAxis::zoomXMode()
-{
-    zoomXOn = true;
-    zoomYOn = false;
-}
-//=============================================================================
-void
-GOAxis::zoomYMode()
-{
-    zoomYOn = true;
-    zoomXOn = false;
-}
-//=============================================================================
-void
-GOAxis::zoomOn()
-{
-    zoomXOn = true;
-    zoomYOn = true;
-}
-//=============================================================================
-void
-GOAxis::zoomOff()
-{
-    zoomXOn = false;
-    zoomYOn = false;
-}
-//=============================================================================
-void
-GOAxis::zoomOut()
-{
-    if (!zoomXStore.empty()) {
-        setTwoVectorDefault(GO_X_LIM_PROPERTY_NAME_STR, zoomXStore[0], zoomXStore[1]);
-        setRestrictedStringDefault(GO_X_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR);
-    }
-    if (!zoomYStore.empty()) {
-        setTwoVectorDefault(GO_Y_LIM_PROPERTY_NAME_STR, zoomYStore[0], zoomYStore[1]);
-        setRestrictedStringDefault(GO_Y_LIM_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR);
-    }
-    updateState();
-}
-//=============================================================================
-void
-GOAxis::zoomReset()
-{
-    GOVectorProperty* hp = (GOVectorProperty*)findProperty(GO_X_LIM_PROPERTY_NAME_STR);
-    zoomXStore = hp->data();
-    hp = (GOVectorProperty*)findProperty(GO_Y_LIM_PROPERTY_NAME_STR);
-    zoomYStore = hp->data();
-}
-//=============================================================================
-void
-GOAxis::panXMode()
-{
-    panXOn = true;
-    panYOn = false;
-}
-//=============================================================================
-void
-GOAxis::panYMode()
-{
-    panXOn = false;
-    panYOn = true;
-}
-//=============================================================================
-void
-GOAxis::panOn()
-{
-    panXOn = true;
-    panYOn = true;
-}
-//=============================================================================
-void
-GOAxis::panOff()
-{
-    panXOn = false;
-    panYOn = false;
 }
 //=============================================================================
 // Mirrors an axes property onto its ruler. A categorical position axis stores
@@ -8680,46 +7282,6 @@ polarTitleTopMargin(GOAxis* axis, double boxWidth, double boxHeight)
     return std::max(0., labelPixels + 0.55 + stack - slack);
 }
 //=============================================================================
-static double
-autoFontSizeForBox(double baseFontSize, double widthPixels, double heightPixels)
-{
-    // The height counts as a 1.25x wider box; the smaller side drives the shrink.
-    double size = std::min(widthPixels, heightPixels * AUTO_FONT_HEIGHT_TO_WIDTH);
-    double ratio = (size - AUTO_FONT_MIN_WIDTH) / (AUTO_FONT_FULL_WIDTH - AUTO_FONT_MIN_WIDTH);
-    ratio = std::clamp(ratio, 0.0, 1.0);
-    double scale = AUTO_FONT_MIN_SCALE + (1.0 - AUTO_FONT_MIN_SCALE) * ratio;
-    // Rounded to the nearest half point.
-    return std::round(baseFontSize * scale * 2.0) / 2.0;
-}
-//=============================================================================
-static void
-followAutoFontSize(GOAxis* axis, double previousFontSize, double fontSize)
-{
-    // Title and labels still sized from the previous axes size follow the new one.
-    const std::pair<const wchar_t*, const wchar_t*> texts[] = {
-        { GO_TITLE_PROPERTY_NAME_STR, GO_TITLE_FONT_SIZE_MULTIPLIER_PROPERTY_NAME_STR },
-        { GO_SUBTITLE_PROPERTY_NAME_STR, GO_TITLE_FONT_SIZE_MULTIPLIER_PROPERTY_NAME_STR },
-        { GO_X_LABEL_PROPERTY_NAME_STR, GO_LABEL_FONT_SIZE_MULTIPLIER_PROPERTY_NAME_STR },
-        { GO_Y_LABEL_PROPERTY_NAME_STR, GO_LABEL_FONT_SIZE_MULTIPLIER_PROPERTY_NAME_STR },
-        { GO_Z_LABEL_PROPERTY_NAME_STR, GO_LABEL_FONT_SIZE_MULTIPLIER_PROPERTY_NAME_STR },
-    };
-    for (const auto& entry : texts) {
-        GOText* text = axisTextObject(axis, entry.first);
-        if (!text || !text->isAuto(GO_FONT_SIZE_MODE_PROPERTY_NAME_STR)) {
-            continue;
-        }
-        double multiplier = axis->findScalarDoubleProperty(entry.second);
-        double current = text->findScalarDoubleProperty(GO_FONT_SIZE_PROPERTY_NAME_STR);
-        if (std::fabs(current - previousFontSize * multiplier) > 1e-9) {
-            continue;
-        }
-        text->setScalarDoubleDefault(GO_FONT_SIZE_PROPERTY_NAME_STR, fontSize * multiplier);
-        markAxisTextFontWritten(
-            text, GO_FONT_SIZE_PROPERTY_NAME_STR, GO_FONT_SIZE_MODE_PROPERTY_NAME_STR);
-        text->updateState();
-    }
-}
-//=============================================================================
 static void
 syncAxisLabelColors(GOAxis* axis)
 {
@@ -8846,5 +7408,127 @@ convertAxisFontUnits(GOAxis* axis)
     }
 }
 //=============================================================================
+
+//=============================================================================
+static double
+autoFontSizeForBox(double baseFontSize, double widthPixels, double heightPixels)
+{
+    // The height counts as a 1.25x wider box; the smaller side drives the shrink.
+    double size = std::min(widthPixels, heightPixels * AUTO_FONT_HEIGHT_TO_WIDTH);
+    double ratio = (size - AUTO_FONT_MIN_WIDTH) / (AUTO_FONT_FULL_WIDTH - AUTO_FONT_MIN_WIDTH);
+    ratio = std::clamp(ratio, 0.0, 1.0);
+    double scale = AUTO_FONT_MIN_SCALE + (1.0 - AUTO_FONT_MIN_SCALE) * ratio;
+    // Rounded to the nearest half point.
+    return std::round(baseFontSize * scale * 2.0) / 2.0;
+}
+//=============================================================================
+static void
+followAutoFontSize(GOAxis* axis, double previousFontSize, double fontSize)
+{
+    // Title and labels still sized from the previous axes size follow the new one.
+    const std::pair<const wchar_t*, const wchar_t*> texts[] = {
+        { GO_TITLE_PROPERTY_NAME_STR, GO_TITLE_FONT_SIZE_MULTIPLIER_PROPERTY_NAME_STR },
+        { GO_SUBTITLE_PROPERTY_NAME_STR, GO_TITLE_FONT_SIZE_MULTIPLIER_PROPERTY_NAME_STR },
+        { GO_X_LABEL_PROPERTY_NAME_STR, GO_LABEL_FONT_SIZE_MULTIPLIER_PROPERTY_NAME_STR },
+        { GO_Y_LABEL_PROPERTY_NAME_STR, GO_LABEL_FONT_SIZE_MULTIPLIER_PROPERTY_NAME_STR },
+        { GO_Z_LABEL_PROPERTY_NAME_STR, GO_LABEL_FONT_SIZE_MULTIPLIER_PROPERTY_NAME_STR },
+    };
+    for (const auto& entry : texts) {
+        GOText* text = axisTextObject(axis, entry.first);
+        if (!text || !text->isAuto(GO_FONT_SIZE_MODE_PROPERTY_NAME_STR)) {
+            continue;
+        }
+        double multiplier = axis->findScalarDoubleProperty(entry.second);
+        double current = text->findScalarDoubleProperty(GO_FONT_SIZE_PROPERTY_NAME_STR);
+        if (std::fabs(current - previousFontSize * multiplier) > 1e-9) {
+            continue;
+        }
+        text->setScalarDoubleDefault(GO_FONT_SIZE_PROPERTY_NAME_STR, fontSize * multiplier);
+        markAxisTextFontWritten(
+            text, GO_FONT_SIZE_PROPERTY_NAME_STR, GO_FONT_SIZE_MODE_PROPERTY_NAME_STR);
+        text->updateState();
+    }
+}
+//=============================================================================
+static std::vector<double>
+uiAxesViewportPosition(const std::vector<double>& position, double scaleX, double scaleY)
+{
+    if (position.size() != 4) {
+        return position;
+    }
+    double x = position[0] + UI_AXES_LEFT_INSET * scaleX;
+    double y = position[1] + UI_AXES_BOTTOM_INSET * scaleY;
+    double width = position[2] - (UI_AXES_LEFT_INSET + UI_AXES_RIGHT_INSET) * scaleX;
+    double height = position[3] - (UI_AXES_BOTTOM_INSET + UI_AXES_TOP_INSET) * scaleY;
+    if (width <= 1.0 || height <= 1.0) {
+        return position;
+    }
+    return { x, y, width, height };
+}
+//=============================================================================
+bool
+GOAxis::applyAutoFontSize()
+{
+    // uiaxes keep their size whatever the box.
+    if (usesUiAxesLayout() || !isAuto(GO_FONT_SIZE_MODE_PROPERTY_NAME_STR)
+        || hasChanged(GO_FONT_SIZE_PROPERTY_NAME_STR)
+        || !stringCheck(GO_FONT_UNITS_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_POINTS_STR)) {
+        return false;
+    }
+    std::vector<double> box = getPropertyVectorAsPixels(GO_POSITION_PROPERTY_NAME_STR);
+    if (box.size() < 4 || !std::isfinite(box[2]) || !std::isfinite(box[3])) {
+        return false;
+    }
+    // A subplot grid cell or an outer box counts as the default plot box inside it.
+    std::vector<double> grid = findVectorDoubleProperty(GO_SUBPLOT_GRID_INTERNAL_PROPERTY_NAME_STR);
+    if (grid.size() == 2 && grid[0] >= 1 && grid[1] >= 1) {
+        double parentWidth = 0;
+        double parentHeight = 0;
+        graphicsParentSizeInPixels(this, getParentFigure(), parentWidth, parentHeight);
+        box[2] = DEFAULT_PLOT_BOX_WIDTH * parentWidth / grid[1];
+        box[3] = DEFAULT_PLOT_BOX_HEIGHT * parentHeight / grid[0];
+    } else if (stringCheck(
+                   GO_POSITION_CONSTRAINT_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OUTERPOSITION_STR)) {
+        // Room taken by outside legends and colorbars does not count.
+        std::vector<double> outer;
+        if (axesLayoutBaseOuterPosition(this, outer)) {
+            outer = layoutUnitsToPixels(outer);
+        } else {
+            outer = getPropertyVectorAsPixels(GO_OUTER_POSITION_PROPERTY_NAME_STR);
+        }
+        if (outer.size() >= 4 && std::isfinite(outer[2]) && std::isfinite(outer[3])) {
+            box[2] = DEFAULT_PLOT_BOX_WIDTH * outer[2];
+            box[3] = DEFAULT_PLOT_BOX_HEIGHT * outer[3];
+        }
+    }
+    // The auto size starts from the user default (groot) or the factory size.
+    double baseFontSize = AXES_FACTORY_FONT_SIZE;
+    GORoot* root = getGraphicsRootObject();
+    ArrayOf userDefault;
+    if (!isPolarAxes() && root && root->getUserDefaultProperty(L"DefaultAxesFontSize", userDefault)
+        && userDefault.isNumeric() && userDefault.isScalar()) {
+        double value = userDefault.asDoubleScalar();
+        if (std::isfinite(value) && value > 0) {
+            baseFontSize = value;
+        }
+    }
+    double fontSize = autoFontSizeForBox(baseFontSize, box[2], box[3]);
+    double previousFontSize = findScalarDoubleProperty(GO_FONT_SIZE_PROPERTY_NAME_STR);
+    if (fontSize == previousFontSize) {
+        return false;
+    }
+    setScalarDoubleDefault(GO_FONT_SIZE_PROPERTY_NAME_STR, fontSize);
+    followAutoFontSize(this, previousFontSize, fontSize);
+    return true;
+}
+//=============================================================================
+std::vector<double>
+GOAxis::getPropertyVectorAsPixels(const std::wstring& name)
+{
+    GOFourVectorProperty* hp = static_cast<GOFourVectorProperty*>(findProperty(name));
+    return (unitsReinterpret(hp->data()));
+}
+//=============================================================================
+
 } // namespace Nelson
 //=============================================================================

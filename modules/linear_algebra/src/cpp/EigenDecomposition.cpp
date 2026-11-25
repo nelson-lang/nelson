@@ -16,6 +16,7 @@
 #include <limits>
 #include <vector>
 #include "nlsBuildConfig.h"
+#include "NelsonComplexStorage.hpp"
 #include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #include "LapackPrototypes.hpp"
@@ -319,7 +320,7 @@ EigenDecompositionFullSymmetric(
         std::complex<single>* Vp
             = (std::complex<single>*)new_with_exception<std::complex<single>>(N * N, false);
         float* ptrA = (float*)ArrayOf(A).readWriteDataPointer();
-        auto* ptrAz = reinterpret_cast<singlecomplex*>(ptrA);
+        auto* ptrAz = TypeTraits::asComplex<single>(ptrA);
         singleComplexEigenDecompositionSymmetric((int)N, Vp, eigenvals, ptrAz, true);
         single* Dp = (single*)new_with_exception<single>(N * N, true);
         D = ArrayOf(NLS_SINGLE, Vdims, Dp);
@@ -336,7 +337,7 @@ EigenDecompositionFullSymmetric(
         doublecomplex* Vp = (doublecomplex*)new_with_exception<doublecomplex>(N * N, false);
 
         auto* ptrA = (double*)_A.readWriteDataPointer();
-        auto* ptrAz = reinterpret_cast<doublecomplex*>(ptrA);
+        auto* ptrAz = TypeTraits::asComplex<double>(ptrA);
         doubleComplexEigenDecompositionSymmetric((int)N, Vp, eigenvals, ptrAz, true);
         doublecomplex* Dp = (doublecomplex*)new_with_exception<doublecomplex>(N * N, true);
         D = ArrayOf(NLS_DCOMPLEX, Vdims, Dp);
@@ -484,7 +485,7 @@ EigenDecompositionFullGeneral(const ArrayOf& A, bool balance, ArrayOf& V, ArrayO
         std::complex<single>* Vp
             = (std::complex<single>*)new_with_exception<std::complex<single>>(N * N, false);
         auto* ptrA = (single*)_A.readWriteDataPointer();
-        auto* ptrAz = reinterpret_cast<singlecomplex*>(ptrA);
+        auto* ptrAz = TypeTraits::asComplex<single>(ptrA);
         singleComplexEigenDecomposition((int)N, Vp, eigenvals, ptrAz, true, balance);
         std::complex<single>* Dp
             = (std::complex<single>*)new_with_exception<std::complex<single>>(N * N, true);
@@ -503,7 +504,7 @@ EigenDecompositionFullGeneral(const ArrayOf& A, bool balance, ArrayOf& V, ArrayO
         std::complex<double>* Vp
             = (std::complex<double>*)new_with_exception<std::complex<double>>(N * N, false);
         auto* ptrA = (double*)_A.readWriteDataPointer();
-        auto* ptrAz = reinterpret_cast<doublecomplex*>(ptrA);
+        auto* ptrAz = TypeTraits::asComplex<double>(ptrA);
         doubleComplexEigenDecomposition((int)N, Vp, eigenvals, ptrAz, true, balance);
         std::complex<double>* Dp
             = (std::complex<double>*)new_with_exception<std::complex<double>>(N * N, true);
@@ -565,7 +566,7 @@ EigenDecompositionCompactSymmetric(
     case NLS_SCOMPLEX: {
         single* eigenvals = (single*)new_with_exception<single>(N, false);
         float* ptrA = (float*)ArrayOf(A).readWriteDataPointer();
-        auto* ptrAz = reinterpret_cast<singlecomplex*>(ptrA);
+        auto* ptrAz = TypeTraits::asComplex<single>(ptrA);
         singleComplexEigenDecompositionSymmetric((int)N, nullptr, eigenvals, ptrAz, false);
         D = ArrayOf(NLS_SINGLE, Ddims, eigenvals);
     } break;
@@ -573,7 +574,7 @@ EigenDecompositionCompactSymmetric(
         ArrayOf _A(A);
         double* eigenvals = (double*)new_with_exception<double>(N, false);
         auto* ptrA = (double*)_A.readWriteDataPointer();
-        auto* ptrAz = reinterpret_cast<doublecomplex*>(ptrA);
+        auto* ptrAz = TypeTraits::asComplex<double>(ptrA);
         doubleComplexEigenDecompositionSymmetric((int)N, nullptr, eigenvals, ptrAz, false);
         D = ArrayOf(NLS_DCOMPLEX, Ddims, eigenvals);
     } break;
@@ -628,7 +629,7 @@ EigenDecompositionCompactGeneral(
         std::complex<single>* eigenvals
             = (std::complex<single>*)new_with_exception<std::complex<single>>(N, false);
         auto* ptrA = (single*)_A.readWriteDataPointer();
-        auto* ptrAz = reinterpret_cast<singlecomplex*>(ptrA);
+        auto* ptrAz = TypeTraits::asComplex<single>(ptrA);
         singleComplexEigenDecomposition((int)N, nullptr, eigenvals, ptrAz, false, balance);
         D = ArrayOf(NLS_SCOMPLEX, Ddims, eigenvals);
     } break;
@@ -637,7 +638,7 @@ EigenDecompositionCompactGeneral(
         std::complex<double>* eigenvals
             = (std::complex<double>*)new_with_exception<std::complex<double>>(N, false);
         auto* ptrA = (double*)_A.readWriteDataPointer();
-        auto* ptrAz = reinterpret_cast<doublecomplex*>(ptrA);
+        auto* ptrAz = TypeTraits::asComplex<double>(ptrA);
         doubleComplexEigenDecomposition((int)N, nullptr, eigenvals, ptrAz, false, balance);
         D = ArrayOf(NLS_DCOMPLEX, Ddims, eigenvals);
     } break;

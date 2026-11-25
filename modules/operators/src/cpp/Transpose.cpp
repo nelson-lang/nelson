@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "NelsonComplexStorage.hpp"
 #include "omp_for_loop.hpp"
 #include "Transpose.hpp"
 #include "TransposeSparseDouble.hpp"
@@ -37,8 +38,8 @@ template <class T>
 void
 transposeComplexTemplate(const Dimensions& dimsA, T* ptrA, T* ptrRes)
 {
-    auto* matCplxA = reinterpret_cast<std::complex<T>*>(ptrA);
-    auto* matCplxRes = reinterpret_cast<std::complex<T>*>(ptrRes);
+    auto* matCplxA = TypeTraits::asComplex<T>(ptrA);
+    auto* matCplxRes = TypeTraits::asComplex<T>(ptrRes);
     ompIndexType nbRows = dimsA.rows();
     ompIndexType nbColumns = dimsA.columns();
     OMP_PARALLEL_FOR_LOOP(nbRows * nbColumns)

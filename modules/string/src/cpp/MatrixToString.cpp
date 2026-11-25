@@ -14,6 +14,7 @@
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "MatrixToString.hpp"
+#include "NelsonComplexStorage.hpp"
 #include "StringHelpers.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
@@ -234,7 +235,7 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
         } break;
         case NLS_SCOMPLEX: {
             auto* pValue = (single*)A.dataPointer();
-            auto* pComplexValue = reinterpret_cast<singlecomplex*>(pValue);
+            auto* pComplexValue = TypeTraits::asComplex<single>(pValue);
             for (indexType x = 0; x < dims.rows(); x++) {
                 for (indexType y = 0; y < dims.columns(); y++) {
                     singlecomplex complexVal = pComplexValue[x + y * dims.rows()];
@@ -248,7 +249,7 @@ MatrixToString(ArrayOf A, indexType precision, bool withClass)
         } break;
         case NLS_DCOMPLEX: {
             auto* pValue = (double*)A.dataPointer();
-            auto* pComplexValue = reinterpret_cast<doublecomplex*>(pValue);
+            auto* pComplexValue = TypeTraits::asComplex<double>(pValue);
             for (indexType x = 0; x < dims.rows(); x++) {
                 for (indexType y = 0; y < dims.columns(); y++) {
                     doublecomplex complexVal = pComplexValue[x + y * dims.rows()];

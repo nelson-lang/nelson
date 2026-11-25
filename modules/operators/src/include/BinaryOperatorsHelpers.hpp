@@ -15,6 +15,7 @@
 #include <limits>
 #include <string>
 #include "ArrayOf.hpp"
+#include "NelsonComplexStorage.hpp"
 #include "MatrixCheck.hpp"
 #include "nlsOperators_exports.h"
 //=============================================================================
@@ -87,9 +88,9 @@ binaryOperatorBroadcastComplex(const ArrayOf& A, const ArrayOf& B, NelsonType de
     BinaryBroadcast info = binaryOperatorBroadcast(A, B, operatorName);
     indexType elementCount = info.dimensions.elementCount();
     T* ptrC = static_cast<T*>(ArrayOf::allocateArrayOf(destinationClass, elementCount));
-    const auto* ptrA = reinterpret_cast<const std::complex<T>*>(A.dataPointer());
-    const auto* ptrB = reinterpret_cast<const std::complex<T>*>(B.dataPointer());
-    auto* ptrZC = reinterpret_cast<std::complex<T>*>(ptrC);
+    const auto* ptrA = TypeTraits::asComplex<T>(A.dataPointer());
+    const auto* ptrB = TypeTraits::asComplex<T>(B.dataPointer());
+    auto* ptrZC = TypeTraits::asComplex<T>(ptrC);
     for (indexType k = 0; k < elementCount; ++k) {
         indexType indexA = binaryOperatorBroadcastIndex(info, k, info.aStrides);
         indexType indexB = binaryOperatorBroadcastIndex(info, k, info.bStrides);

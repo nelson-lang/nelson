@@ -245,36 +245,42 @@ copyOutput(ArrayOf& out, const std::vector<double>& realValues,
         }
         return;
     }
+    // The clamped real classes share one copy path; a generic lambda factors
+    // them. Double (the default) is copied unclamped.
+    auto copyAs = [&](auto tag) {
+        using T = decltype(tag);
+        copyRealOutput((T*)out.readWriteDataPointer(), realValues);
+    };
     switch (outClass) {
     case NLS_UINT8:
-        copyRealOutput((uint8*)out.readWriteDataPointer(), realValues);
+        copyAs(uint8 {});
         break;
     case NLS_UINT16:
-        copyRealOutput((uint16*)out.readWriteDataPointer(), realValues);
+        copyAs(uint16 {});
         break;
     case NLS_UINT32:
-        copyRealOutput((uint32*)out.readWriteDataPointer(), realValues);
+        copyAs(uint32 {});
         break;
     case NLS_UINT64:
-        copyRealOutput((uint64*)out.readWriteDataPointer(), realValues);
+        copyAs(uint64 {});
         break;
     case NLS_INT8:
-        copyRealOutput((int8*)out.readWriteDataPointer(), realValues);
+        copyAs(int8 {});
         break;
     case NLS_INT16:
-        copyRealOutput((int16*)out.readWriteDataPointer(), realValues);
+        copyAs(int16 {});
         break;
     case NLS_INT32:
-        copyRealOutput((int32*)out.readWriteDataPointer(), realValues);
+        copyAs(int32 {});
         break;
     case NLS_INT64:
-        copyRealOutput((int64*)out.readWriteDataPointer(), realValues);
+        copyAs(int64 {});
         break;
     case NLS_SINGLE:
-        copyRealOutput((single*)out.readWriteDataPointer(), realValues);
+        copyAs(single {});
         break;
     case NLS_LOGICAL:
-        copyRealOutput((logical*)out.readWriteDataPointer(), realValues);
+        copyAs(logical {});
         break;
     default:
         std::copy(realValues.begin(), realValues.end(), (double*)out.readWriteDataPointer());
@@ -300,33 +306,39 @@ static bool
 nearestCopyByClass(const ArrayOf& volume, ArrayOf& out, const VolumeShape3D& inShape,
     const VolumeShape3D& outShape)
 {
+    // Every class forwards to the same tryNearestCopy<T> with its own class tag;
+    // a generic lambda factors the thirteen identical cases.
+    auto nearest = [&](auto tag) {
+        using T = decltype(tag);
+        return tryNearestCopy<T>(volume, out, inShape, outShape, volume.dataClass());
+    };
     switch (volume.dataClass()) {
     case NLS_UINT8:
-        return tryNearestCopy<uint8>(volume, out, inShape, outShape, NLS_UINT8);
+        return nearest(uint8 {});
     case NLS_UINT16:
-        return tryNearestCopy<uint16>(volume, out, inShape, outShape, NLS_UINT16);
+        return nearest(uint16 {});
     case NLS_UINT32:
-        return tryNearestCopy<uint32>(volume, out, inShape, outShape, NLS_UINT32);
+        return nearest(uint32 {});
     case NLS_UINT64:
-        return tryNearestCopy<uint64>(volume, out, inShape, outShape, NLS_UINT64);
+        return nearest(uint64 {});
     case NLS_INT8:
-        return tryNearestCopy<int8>(volume, out, inShape, outShape, NLS_INT8);
+        return nearest(int8 {});
     case NLS_INT16:
-        return tryNearestCopy<int16>(volume, out, inShape, outShape, NLS_INT16);
+        return nearest(int16 {});
     case NLS_INT32:
-        return tryNearestCopy<int32>(volume, out, inShape, outShape, NLS_INT32);
+        return nearest(int32 {});
     case NLS_INT64:
-        return tryNearestCopy<int64>(volume, out, inShape, outShape, NLS_INT64);
+        return nearest(int64 {});
     case NLS_SINGLE:
-        return tryNearestCopy<single>(volume, out, inShape, outShape, NLS_SINGLE);
+        return nearest(single {});
     case NLS_DOUBLE:
-        return tryNearestCopy<double>(volume, out, inShape, outShape, NLS_DOUBLE);
+        return nearest(double {});
     case NLS_LOGICAL:
-        return tryNearestCopy<logical>(volume, out, inShape, outShape, NLS_LOGICAL);
+        return nearest(logical {});
     case NLS_SCOMPLEX:
-        return tryNearestCopy<std::complex<single>>(volume, out, inShape, outShape, NLS_SCOMPLEX);
+        return nearest(std::complex<single> {});
     case NLS_DCOMPLEX:
-        return tryNearestCopy<std::complex<double>>(volume, out, inShape, outShape, NLS_DCOMPLEX);
+        return nearest(std::complex<double> {});
     default:
         return false;
     }

@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "NelsonComplexStorage.hpp"
 #include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #include "LapackPrototypes.hpp"
@@ -168,7 +169,7 @@ doubleComplexBalance(const ArrayOf& A, bool noperm, int nLhs)
     int IHI = 0;
     ArrayOf B(A);
     B.ensureSingleOwner();
-    auto* pzB = reinterpret_cast<doublecomplex*>((double*)B.dataPointer());
+    auto* pzB = TypeTraits::asComplex<double>((double*)B.dataPointer());
 
     ArrayOf SCALE = ArrayOf::doubleMatrix2d(N, 1);
     double* ptrScale = (double*)SCALE.dataPointer();
@@ -250,7 +251,7 @@ singleComplexBalance(const ArrayOf& A, bool noperm, int nLhs)
     int IHI = 0;
     ArrayOf B(A);
     B.ensureSingleOwner();
-    auto* pzB = reinterpret_cast<singlecomplex*>((single*)B.dataPointer());
+    auto* pzB = TypeTraits::asComplex<single>((single*)B.dataPointer());
 
     ArrayOf SCALE = ArrayOf::singleMatrix2d(N, 1);
     single* ptrScale = (single*)SCALE.dataPointer();

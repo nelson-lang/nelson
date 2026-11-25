@@ -20,6 +20,8 @@
 #include <cstring>
 #include <vector>
 #include "StringHelpers.hpp"
+#include "NelsonComplexStorage.hpp"
+#include "NelsonTypeVisitor.hpp"
 #include "NumberToString.hpp"
 #include "PrintfFunction.hpp"
 #include "nlsBuildConfig.h"
@@ -153,7 +155,7 @@ NumberToStringHelperComplex(
 {
     std::string uformat;
     T* dp = (T*)A.dataPointer();
-    std::complex<T>* dpz = reinterpret_cast<std::complex<T>*>(dp);
+    std::complex<T>* dpz = TypeTraits::asComplex<T>(dp);
     Dimensions dimsA = A.dimensions();
     bool allint = true;
     size_t maxlen = 0;
@@ -428,30 +430,17 @@ NumberToString(const ArrayOf& A, NUM2STR_ENUM formatType, const std::wstring& fo
     case NLS_LOGICAL: {
         res = NumberToStringHelperLogical<logical>(as2D, formatType, format);
     } break;
-    case NLS_UINT8: {
-        res = NumberToStringHelperInteger<uint8>(as2D);
-    } break;
-    case NLS_INT8: {
-        res = NumberToStringHelperInteger<int8>(as2D);
-    } break;
-    case NLS_UINT16: {
-        res = NumberToStringHelperInteger<uint16>(as2D);
-    } break;
-    case NLS_INT16: {
-        res = NumberToStringHelperInteger<int16>(as2D);
-    } break;
-    case NLS_UINT32: {
-        res = NumberToStringHelperInteger<uint32>(as2D);
-    } break;
-    case NLS_INT32: {
-        res = NumberToStringHelperInteger<int32>(as2D);
-    } break;
-    case NLS_UINT64: {
-        res = NumberToStringHelperInteger<uint64>(as2D);
-    } break;
-    case NLS_INT64: {
-        res = NumberToStringHelperInteger<int64>(as2D);
-    } break;
+    case NLS_UINT8:
+    case NLS_INT8:
+    case NLS_UINT16:
+    case NLS_INT16:
+    case NLS_UINT32:
+    case NLS_INT32:
+    case NLS_UINT64:
+    case NLS_INT64:
+        res = TypeTraits::visitInteger(A.dataClass(),
+            [&](auto tag) { return NumberToStringHelperInteger<decltype(tag)>(as2D); });
+        break;
     case NLS_CHAR: {
         res = A;
     } break;

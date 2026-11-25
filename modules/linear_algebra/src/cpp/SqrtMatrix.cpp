@@ -13,6 +13,7 @@
 #pragma warning(disable : 4723)
 #endif
 #include "nlsBuildConfig.h"
+#include "NelsonComplexStorage.hpp"
 #include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #include <unsupported/Eigen/MatrixFunctions>
@@ -73,7 +74,7 @@ template <class T>
 ArrayOf
 sqrtmComplex(ArrayOf& A)
 {
-    const auto* inputData = reinterpret_cast<const std::complex<T>*>(A.dataPointer());
+    const auto* inputData = TypeTraits::asComplex<T>(A.dataPointer());
     for (indexType k = 0; k < A.elementCount(); ++k) {
         if (!std::isfinite(static_cast<double>(inputData[k].real()))
             || !std::isfinite(static_cast<double>(inputData[k].imag()))) {
@@ -89,9 +90,9 @@ sqrtmComplex(ArrayOf& A)
     ArrayOf R(U);
     R.ensureSingleOwner();
     using MatrixType = Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>;
-    const auto* up = reinterpret_cast<const std::complex<T>*>(U.dataPointer());
-    const auto* tp = reinterpret_cast<const std::complex<T>*>(Tschur.dataPointer());
-    auto* rp = reinterpret_cast<std::complex<T>*>(const_cast<void*>(R.dataPointer()));
+    const auto* up = TypeTraits::asComplex<T>(U.dataPointer());
+    const auto* tp = TypeTraits::asComplex<T>(Tschur.dataPointer());
+    auto* rp = TypeTraits::asComplex<T>(const_cast<void*>(R.dataPointer()));
     Eigen::Map<const MatrixType> matU(up, (Eigen::Index)U.rows(), (Eigen::Index)U.columns());
     Eigen::Map<const MatrixType> matT(
         tp, (Eigen::Index)Tschur.rows(), (Eigen::Index)Tschur.columns());
@@ -180,17 +181,13 @@ SqrtMatrix(ArrayOf A)
             A.promoteType(NLS_DCOMPLEX);
         }
         res = sqrtmComplex<double>(A);
-        if (res.allReal()) {
-            res.promoteType(NLS_DOUBLE);
-        }
+        res.demoteIfReal();
     } else {
         if (A.dataClass() == NLS_SINGLE) {
             A.promoteType(NLS_SCOMPLEX);
         }
         res = sqrtmComplex<single>(A);
-        if (res.allReal()) {
-            res.promoteType(NLS_SINGLE);
-        }
+        res.demoteIfReal();
     }
     return res;
 }

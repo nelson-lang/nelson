@@ -17,6 +17,7 @@
 #include <unordered_map>
 #include <fast_float/fast_float.h>
 #include "ReadTable.hpp"
+#include "NelsonComplexStorage.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
 #include "nlsBuildConfig.h"
@@ -195,8 +196,8 @@ ReadTable(
                 columnValues[c] = ArrayOf(NLS_DOUBLE, dims, ptr);
             } break;
             case NLS_DCOMPLEX: {
-                std::complex<double>* ptr = reinterpret_cast<std::complex<double>*>(
-                    ArrayOf::allocateArrayOf(NLS_DCOMPLEX, nbRows));
+                std::complex<double>* ptr
+                    = TypeTraits::asComplex<double>(ArrayOf::allocateArrayOf(NLS_DCOMPLEX, nbRows));
 #if WITH_OPENMP
 #pragma omp for
 #endif
@@ -371,8 +372,8 @@ buildColumnFromCells(const std::vector<DoubleDoubleComplexString>& structValues,
         return ArrayOf(NLS_DOUBLE, dims, ptr);
     }
     case NLS_DCOMPLEX: {
-        std::complex<double>* ptr = reinterpret_cast<std::complex<double>*>(
-            ArrayOf::allocateArrayOf(NLS_DCOMPLEX, nbRows));
+        std::complex<double>* ptr
+            = TypeTraits::asComplex<double>(ArrayOf::allocateArrayOf(NLS_DCOMPLEX, nbRows));
         for (size_t r = 0; r < nbRows; r++) {
             ptr[r] = structValues[r].asDoubleComplex;
         }

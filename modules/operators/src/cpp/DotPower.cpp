@@ -744,17 +744,13 @@ DotPower(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
     case NLS_SINGLE:
     case NLS_SCOMPLEX: {
         ArrayOf res = DoPowerTwoArgFunction(A, B);
-        if (res.allReal()) {
-            res.promoteType(NLS_SINGLE);
-        }
+        res.demoteIfReal();
         return res;
     } break;
     case NLS_DOUBLE:
     case NLS_DCOMPLEX: {
         ArrayOf res = DoPowerTwoArgFunction(A, B);
-        if (res.allReal()) {
-            res.promoteType(NLS_DOUBLE);
-        }
+        res.demoteIfReal();
         return res;
     } break;
     case NLS_CHAR: {

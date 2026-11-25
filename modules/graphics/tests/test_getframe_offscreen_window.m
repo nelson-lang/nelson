@@ -24,12 +24,13 @@ offScreen = [screenSize(3) + 2000, 100, 400, 300];
 f = figure('Name', 'getframe off-screen', 'Position', offScreen);
 ax = axes('Parent', f);
 surf(ax, peaks());
-captures = 6;
-t = tic();
+captures = 10;
+captureTimes = zeros(1, captures);
 for k = 1:captures
+  t = tic();
   frame = getframe(f);
+  captureTimes(k) = toc(t);
 end
-elapsedPerCapture = toc(t) / captures;
 ratio = f.DevicePixelRatio;
 framePosition = f.Position;
 close(f);
@@ -37,9 +38,10 @@ close(f);
 assert_isequal(size(frame.cdata), [round(framePosition(4) * ratio), round(framePosition(3) * ratio), 3]);
 assert_isequal(class(frame.cdata), 'uint8');
 assert_istrue(max(frame.cdata(:)) > min(frame.cdata(:)));
-% A full render sync timeout is 0.25 s to 1 s per capture; the offscreen render
-% returns in a few milliseconds.
-assert_istrue(elapsedPerCapture < 0.2);
+% A render sync wait floors every capture at 0.25 s to 1 s; the offscreen render
+% returns in milliseconds. The fastest capture is checked so a one-off CPU stall
+% on a loaded runner cannot fail a path that is actually fast.
+assert_istrue(min(captureTimes) < 0.2);
 %=============================================================================
 % A figure created Visible 'off' is captured the same bounded way.
 % Its capture is a CPU render (peaks() takes 0.1 s, 0.3 s on a busy host): a small grid
@@ -47,12 +49,13 @@ assert_istrue(elapsedPerCapture < 0.2);
 f = figure('Visible', 'off', 'Position', [100 100 400 300]);
 ax = axes('Parent', f);
 surf(ax, peaks(20));
-t = tic();
+captureTimes = zeros(1, captures);
 for k = 1:captures
+  t = tic();
   frame = getframe(f);
+  captureTimes(k) = toc(t);
 end
-elapsedPerCapture = toc(t) / captures;
 close(f);
 assert_istrue(max(frame.cdata(:)) > min(frame.cdata(:)));
-assert_istrue(elapsedPerCapture < 0.2);
+assert_istrue(min(captureTimes) < 0.2);
 %=============================================================================

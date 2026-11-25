@@ -11,6 +11,7 @@
 #define _SCL_SECURE_NO_WARNINGS
 #endif
 #include "nlsBuildConfig.h"
+#include "NelsonComplexStorage.hpp"
 #include "i18n.hpp"
 #include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
@@ -78,8 +79,8 @@ InverseDoubleComplex(ArrayOf A, double rcond)
 {
     ArrayOf res(A);
     res.ensureSingleOwner();
-    auto* Az = reinterpret_cast<doublecomplex*>((double*)A.dataPointer());
-    auto* Rz = reinterpret_cast<doublecomplex*>((double*)res.dataPointer());
+    auto* Az = TypeTraits::asComplex<double>((double*)A.dataPointer());
+    auto* Rz = TypeTraits::asComplex<double>((double*)res.dataPointer());
     Eigen::Map<Eigen::MatrixXcd> matA(Az, (Eigen::Index)A.rows(), (Eigen::Index)A.columns());
     Eigen::Map<Eigen::MatrixXcd> matR(Rz, (Eigen::Index)res.rows(), (Eigen::Index)res.columns());
     if (matA.isDiagonal()) {
@@ -113,9 +114,7 @@ InverseDoubleComplex(ArrayOf A, double rcond)
                 matR = matA.inverse();
             }
         }
-        if (res.allReal()) {
-            res.promoteType(NLS_DOUBLE);
-        }
+        res.demoteIfReal();
     }
     return res;
 }
@@ -171,8 +170,8 @@ InverseSingleComplex(ArrayOf A, single rcond)
 {
     ArrayOf res(A);
     res.ensureSingleOwner();
-    auto* Az = reinterpret_cast<singlecomplex*>((single*)A.dataPointer());
-    auto* Rz = reinterpret_cast<singlecomplex*>((single*)res.dataPointer());
+    auto* Az = TypeTraits::asComplex<single>((single*)A.dataPointer());
+    auto* Rz = TypeTraits::asComplex<single>((single*)res.dataPointer());
     Eigen::Map<Eigen::MatrixXcf> matA(Az, (Eigen::Index)A.rows(), (Eigen::Index)A.columns());
     Eigen::Map<Eigen::MatrixXcf> matR(Rz, (Eigen::Index)res.rows(), (Eigen::Index)res.columns());
     if (matA.isDiagonal()) {
@@ -206,9 +205,7 @@ InverseSingleComplex(ArrayOf A, single rcond)
                 matR = matA.inverse();
             }
         }
-        if (res.allReal()) {
-            res.promoteType(NLS_SINGLE);
-        }
+        res.demoteIfReal();
     }
     return res;
 }

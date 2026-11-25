@@ -151,8 +151,6 @@ Eigen_TypeConvertSparse(
         }
     } break;
     case NLS_DOUBLE: {
-        Eigen::SparseMatrix<double, 0, signedIndexType>* spMat
-            = (Eigen::SparseMatrix<double, 0, signedIndexType>*)cp;
         switch (dclass) {
         case NLS_LOGICAL: {
             return Eigen_SparseMatrixToLogical<double>(rows, cols, cp);
@@ -164,27 +162,7 @@ Eigen_TypeConvertSparse(
             return Eigen_CopySparseMatrix(NLS_DOUBLE, rows, cols, cp);
         } break;
         case NLS_DCOMPLEX: {
-            Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spMatdest = nullptr;
-            try {
-                spMatdest = new Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>(rows, cols);
-            } catch (const std::bad_alloc&) {
-                Error(L"Nelson:outOfMemory",
-                    L"Memory allocation error... You may have run out of memory!");
-            }
-            if (rows * cols) {
-                std::vector<Eigen::Triplet<doublecomplex, signedIndexType>> triplets;
-                triplets.reserve(spMat->nonZeros());
-                for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
-                    for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(
-                             *spMat, k);
-                        it; ++it) {
-                        triplets.emplace_back(it.row(), it.col(), doublecomplex(it.value(), 0.0));
-                    }
-                }
-                spMatdest->setFromTriplets(triplets.begin(), triplets.end());
-            }
-            spMatdest->makeCompressed();
-            return (void*)spMatdest;
+            return Eigen_CastSparseMatrix<double, doublecomplex>(cp);
         } break;
         case NLS_SCOMPLEX: {
             return Eigen_CastSparseMatrix<double, singlecomplex>(cp);

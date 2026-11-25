@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "__filter__Builtin.hpp"
+#include "NelsonComplexStorage.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -211,21 +212,19 @@ filterDoubleComplex(ArrayOf& b, ArrayOf& a, ArrayOf& x, ArrayOf& zi, indexType d
 
     auto* yPtr = static_cast<double*>(
         ArrayOf::allocateArrayOf(NLS_DCOMPLEX, totalCount, stringVector(), false));
-    auto* yComplex = reinterpret_cast<std::complex<double>*>(yPtr);
+    auto* yComplex = TypeTraits::asComplex<double>(yPtr);
     std::vector<std::complex<double>> state(filterOrder * numberOfSignals, { 0, 0 });
     if (filterOrder != 0 && !zi.isEmpty()) {
-        auto* ziPtr = reinterpret_cast<const std::complex<double>*>(
-            static_cast<const double*>(zi.dataPointer()));
+        auto* ziPtr = TypeTraits::asComplex<double>(static_cast<const double*>(zi.dataPointer()));
         std::copy(ziPtr, ziPtr + state.size(), state.begin());
     }
     std::vector<indexType> strides = stridesFromDimensions(dims);
     std::vector<indexType> remaining = remainingDimensions(dims.length(), dim);
-    filterComplex(
-        reinterpret_cast<const std::complex<double>*>(static_cast<const double*>(b.dataPointer())),
-        reinterpret_cast<const std::complex<double>*>(static_cast<const double*>(a.dataPointer())),
-        reinterpret_cast<const std::complex<double>*>(static_cast<const double*>(x.dataPointer())),
-        yComplex, state.data(), filterOrder, sampleCount, numberOfSignals, strides[dim], dims,
-        strides, remaining);
+    filterComplex(TypeTraits::asComplex<double>(static_cast<const double*>(b.dataPointer())),
+        TypeTraits::asComplex<double>(static_cast<const double*>(a.dataPointer())),
+        TypeTraits::asComplex<double>(static_cast<const double*>(x.dataPointer())), yComplex,
+        state.data(), filterOrder, sampleCount, numberOfSignals, strides[dim], dims, strides,
+        remaining);
 
     ArrayOfVector retval;
     retval << ArrayOf(NLS_DCOMPLEX, x.dimensions(), yPtr);
@@ -235,7 +234,7 @@ filterDoubleComplex(ArrayOf& b, ArrayOf& a, ArrayOf& x, ArrayOf& zi, indexType d
         } else {
             auto* zfPtr = static_cast<double*>(
                 ArrayOf::allocateArrayOf(NLS_DCOMPLEX, state.size(), stringVector(), false));
-            auto* zfComplex = reinterpret_cast<std::complex<double>*>(zfPtr);
+            auto* zfComplex = TypeTraits::asComplex<double>(zfPtr);
             std::copy(state.begin(), state.end(), zfComplex);
             retval << ArrayOf(NLS_DCOMPLEX, stateDimensions(filterOrder, dims, dim), zfPtr);
         }

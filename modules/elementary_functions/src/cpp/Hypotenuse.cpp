@@ -35,16 +35,7 @@ Hypotenuse(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
             Error(L"Nelson:sizeDimensionsMustMatch",
                 L"Arrays have incompatible sizes for this operation.");
         }
-        if (res.dataClass() == NLS_DCOMPLEX) {
-            if (res.allReal()) {
-                res.promoteType(NLS_DOUBLE);
-            }
-        }
-        if (res.dataClass() == NLS_SCOMPLEX) {
-            if (res.allReal()) {
-                res.promoteType(NLS_SINGLE);
-            }
-        }
+        res.demoteIfReal();
         return res;
     }
     if (A.isSparse() || B.isSparse()) {
@@ -61,15 +52,11 @@ Hypotenuse(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
     } break;
     case NLS_SCOMPLEX: {
         res = complex_hypotenuse<single>(NLS_SCOMPLEX, A, B);
-        if (res.allReal()) {
-            res.promoteType(NLS_SINGLE);
-        }
+        res.demoteIfReal();
     } break;
     case NLS_DCOMPLEX: {
         res = complex_hypotenuse<double>(NLS_DCOMPLEX, A, B);
-        if (res.allReal()) {
-            res.promoteType(NLS_DOUBLE);
-        }
+        res.demoteIfReal();
     } break;
     default: {
         needToOverload = true;

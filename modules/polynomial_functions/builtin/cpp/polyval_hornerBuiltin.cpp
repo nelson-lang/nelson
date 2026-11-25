@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "polyval_hornerBuiltin.hpp"
+#include "NelsonComplexStorage.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -129,11 +130,9 @@ hornerComplex(
 
     const indexType coefficientCount = coefficients.elementCount();
     const indexType pointCount = evaluationPoints.elementCount();
-    const auto* coefficientData
-        = reinterpret_cast<const std::complex<T>*>(coefficients.dataPointer());
-    const auto* pointData
-        = reinterpret_cast<const std::complex<T>*>(evaluationPoints.dataPointer());
-    auto* resultData = reinterpret_cast<std::complex<T>*>(
+    const auto* coefficientData = TypeTraits::asComplex<T>(coefficients.dataPointer());
+    const auto* pointData = TypeTraits::asComplex<T>(evaluationPoints.dataPointer());
+    auto* resultData = TypeTraits::asComplex<T>(
         ArrayOf::allocateArrayOf(outputClass, pointCount, stringVector(), false));
 
     const bool useFusedProduct

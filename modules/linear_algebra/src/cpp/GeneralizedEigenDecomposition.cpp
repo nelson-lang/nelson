@@ -12,6 +12,7 @@
 #endif
 #include <cstring>
 #include "nlsBuildConfig.h"
+#include "NelsonComplexStorage.hpp"
 #include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #include "LapackPrototypes.hpp"
@@ -158,8 +159,8 @@ GeneralizedEigenDecompositionCompactSymmetric(const ArrayOf& A, const ArrayOf& B
         single* eigenvals = (single*)new_with_exception<single>(N, true);
         auto* ptrA = (single*)_A.readWriteDataPointer();
         auto* ptrB = (single*)_B.readWriteDataPointer();
-        auto* cplxA = reinterpret_cast<std::complex<single>*>(ptrA);
-        auto* cplxB = reinterpret_cast<std::complex<single>*>(ptrB);
+        auto* cplxA = TypeTraits::asComplex<single>(ptrA);
+        auto* cplxB = TypeTraits::asComplex<single>(ptrB);
         if (!singleComplexGeneralizedEigenDecompositionSymmetric(
                 (int)N, nullptr, eigenvals, cplxA, cplxB, true)) {
             delete[] eigenvals;
@@ -172,8 +173,8 @@ GeneralizedEigenDecompositionCompactSymmetric(const ArrayOf& A, const ArrayOf& B
         double* eigenvals = (double*)new_with_exception<double>(N, true);
         auto* ptrA = (double*)_A.readWriteDataPointer();
         auto* ptrB = (double*)_B.readWriteDataPointer();
-        auto* cplxA = reinterpret_cast<std::complex<double>*>(ptrA);
-        auto* cplxB = reinterpret_cast<std::complex<double>*>(ptrB);
+        auto* cplxA = TypeTraits::asComplex<double>(ptrA);
+        auto* cplxB = TypeTraits::asComplex<double>(ptrB);
         if (!doubleComplexGeneralizedEigenDecompositionSymmetric(
                 (int)N, nullptr, eigenvals, cplxA, cplxB, true)) {
             delete[] eigenvals;
@@ -258,8 +259,8 @@ GeneralizedEigenDecompositionFullSymmetric(const ArrayOf& A, const ArrayOf& B, A
             = (std::complex<single>*)new_with_exception<std::complex<single>>(N * N);
         auto* ptrA = (single*)_A.readWriteDataPointer();
         auto* ptrB = (single*)_B.readWriteDataPointer();
-        auto* cplxA = reinterpret_cast<std::complex<single>*>(ptrA);
-        auto* cplxB = reinterpret_cast<std::complex<single>*>(ptrB);
+        auto* cplxA = TypeTraits::asComplex<single>(ptrA);
+        auto* cplxB = TypeTraits::asComplex<single>(ptrB);
         if (!singleComplexGeneralizedEigenDecompositionSymmetric(
                 (int)N, Vp, eigenvals, cplxA, cplxB, true)) {
             delete[] eigenvals;
@@ -282,8 +283,8 @@ GeneralizedEigenDecompositionFullSymmetric(const ArrayOf& A, const ArrayOf& B, A
             = (std::complex<double>*)new_with_exception<std::complex<double>>(N * N);
         auto* ptrA = (double*)_A.readWriteDataPointer();
         auto* ptrB = (double*)_B.readWriteDataPointer();
-        auto* cplxA = reinterpret_cast<std::complex<double>*>(ptrA);
-        auto* cplxB = reinterpret_cast<std::complex<double>*>(ptrB);
+        auto* cplxA = TypeTraits::asComplex<double>(ptrA);
+        auto* cplxB = TypeTraits::asComplex<double>(ptrB);
         if (!doubleComplexGeneralizedEigenDecompositionSymmetric(
                 (int)N, Vp, eigenvals, cplxA, cplxB, true)) {
             delete[] eigenvals;
@@ -448,8 +449,8 @@ GeneralizedEigenDecompositionFullGeneral(const ArrayOf& A, const ArrayOf& B, Arr
             = (std::complex<single>*)new_with_exception<std::complex<single>>(N, false);
         std::complex<single>* Vp
             = (std::complex<single>*)new_with_exception<std::complex<single>>(N * N, false);
-        auto* cplxA = reinterpret_cast<std::complex<single>*>(_A.readWriteDataPointer());
-        auto* cplxB = reinterpret_cast<std::complex<single>*>(_B.readWriteDataPointer());
+        auto* cplxA = TypeTraits::asComplex<single>(_A.readWriteDataPointer());
+        auto* cplxB = TypeTraits::asComplex<single>(_B.readWriteDataPointer());
         singleComplexGeneralizedEigenDecomposition((int)N, Vp, eigenvals, cplxA, cplxB, true);
         std::complex<single>* Dp
             = (std::complex<single>*)new_with_exception<std::complex<single>>(N * N, false);
@@ -470,8 +471,8 @@ GeneralizedEigenDecompositionFullGeneral(const ArrayOf& A, const ArrayOf& B, Arr
             = (std::complex<double>*)new_with_exception<std::complex<double>>(N, false);
         std::complex<double>* Vp
             = (std::complex<double>*)new_with_exception<std::complex<double>>(N * N, false);
-        auto* cplxA = reinterpret_cast<std::complex<double>*>(_A.readWriteDataPointer());
-        auto* cplxB = reinterpret_cast<std::complex<double>*>(_B.readWriteDataPointer());
+        auto* cplxA = TypeTraits::asComplex<double>(_A.readWriteDataPointer());
+        auto* cplxB = TypeTraits::asComplex<double>(_B.readWriteDataPointer());
         doubleComplexGeneralizedEigenDecomposition((int)N, Vp, eigenvals, cplxA, cplxB, true);
         std::complex<double>* Dp
             = (std::complex<double>*)new_with_exception<std::complex<double>>(N * N, false);
@@ -585,8 +586,8 @@ GeneralizedEigenDecompositionCompactGeneral(const ArrayOf& A, const ArrayOf& B, 
     case NLS_SCOMPLEX: {
         std::complex<single>* eigenvals
             = (std::complex<single>*)new_with_exception<std::complex<single>>(N, false);
-        auto* cplxA = reinterpret_cast<std::complex<single>*>(_A.readWriteDataPointer());
-        auto* cplxB = reinterpret_cast<std::complex<single>*>(_B.readWriteDataPointer());
+        auto* cplxA = TypeTraits::asComplex<single>(_A.readWriteDataPointer());
+        auto* cplxB = TypeTraits::asComplex<single>(_B.readWriteDataPointer());
         singleComplexGeneralizedEigenDecomposition((int)N, nullptr, eigenvals, cplxA, cplxB, false);
         D = ArrayOf(NLS_SCOMPLEX, Vdims, eigenvals);
         return true;
@@ -594,8 +595,8 @@ GeneralizedEigenDecompositionCompactGeneral(const ArrayOf& A, const ArrayOf& B, 
     case NLS_DCOMPLEX: {
         std::complex<double>* eigenvals
             = (std::complex<double>*)new_with_exception<std::complex<double>>(N, false);
-        auto* cplxA = reinterpret_cast<std::complex<double>*>(_A.readWriteDataPointer());
-        auto* cplxB = reinterpret_cast<std::complex<double>*>(_B.readWriteDataPointer());
+        auto* cplxA = TypeTraits::asComplex<double>(_A.readWriteDataPointer());
+        auto* cplxB = TypeTraits::asComplex<double>(_B.readWriteDataPointer());
         doubleComplexGeneralizedEigenDecomposition((int)N, nullptr, eigenvals, cplxA, cplxB, false);
         D = ArrayOf(NLS_DCOMPLEX, Vdims, eigenvals);
         return true;

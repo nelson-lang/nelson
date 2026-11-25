@@ -280,16 +280,11 @@ GOFigure::getHost()
 void
 GOFigure::registerProperties()
 {
-    registerProperty(new GOOnOffProperty, GO_BEING_DELETED_PROPERTY_NAME_STR, false);
-    registerProperty(new GOCallbackProperty, GO_CREATE_FCN_PROPERTY_NAME_STR);
-    registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
-    registerProperty(new GOBusyActionProperty, GO_BUSY_ACTION_PROPERTY_NAME_STR);
-    registerProperty(new GOOnOffProperty, GO_INTERRUPTIBLE_PROPERTY_NAME_STR);
+    registerBaseProperties(this);
     registerProperty(new GOCallbackProperty, GO_KEY_PRESS_FCN_PROPERTY_NAME_STR);
     registerProperty(new GOCallbackProperty, GO_KEY_RELEASE_FCN_PROPERTY_NAME_STR);
     registerProperty(new GOCallbackProperty, GO_BUTTON_DOWN_FCN_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty, GO_NUMBER_PROPERTY_NAME_STR, false);
-    registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR, false);
     registerProperty(new GOStringProperty, GO_TAG_PROPERTY_NAME_STR);
     registerProperty(new GOVectorProperty, GO_ALPHA_MAP_PROPERTY_NAME_STR);
     registerProperty(new GOColorProperty, GO_COLOR_PROPERTY_NAME_STR);
@@ -299,7 +294,6 @@ GOFigure::registerProperties()
     registerProperty(new GOGObjectsProperty, GO_CURRENT_OBJECT_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_PARENT_PROPERTY_NAME_STR, false);
     registerProperty(new GOPixelOriginPositionProperty(this), GO_POSITION_PROPERTY_NAME_STR);
-    registerProperty(new GOArrayOfProperty, GO_USER_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_NAME_PROPERTY_NAME_STR);
     registerProperty(new GONextPlotModeProperty, GO_NEXT_PLOT_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_DRAW_LATER_PROPERTY_NAME_STR, true, false);

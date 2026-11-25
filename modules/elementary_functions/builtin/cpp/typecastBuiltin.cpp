@@ -17,30 +17,18 @@
 #include "i18n.hpp"
 #include "StringToClass.hpp"
 #include "ClassToString.hpp"
+#include "NelsonTypeTraits.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 static size_t
 supportedClassByteSize(NelsonType type)
 {
-    switch (type) {
-    case NLS_INT8:
-    case NLS_UINT8:
-        return 1;
-    case NLS_INT16:
-    case NLS_UINT16:
-        return 2;
-    case NLS_INT32:
-    case NLS_UINT32:
-    case NLS_SINGLE:
-        return 4;
-    case NLS_INT64:
-    case NLS_UINT64:
-    case NLS_DOUBLE:
-        return 8;
-    default:
-        return 0;
+    // typecast only accepts the fixed-width real numeric classes.
+    if (TypeTraits::isInteger(type) || TypeTraits::isFloat(type)) {
+        return static_cast<size_t>(TypeTraits::byteSize(type));
     }
+    return 0;
 }
 //=============================================================================
 ArrayOfVector

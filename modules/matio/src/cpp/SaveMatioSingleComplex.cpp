@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "SaveMatioSingleComplex.hpp"
+#include "NelsonComplexStorage.hpp"
 #include "matioHelpers.hpp"
 //=============================================================================
 namespace Nelson {
@@ -38,7 +39,7 @@ SaveMatioSingleComplex(const std::string& variableName, const ArrayOf& variableV
             delete[] re;
             return nullptr;
         }
-        auto* ptrZ = reinterpret_cast<singlecomplex*>((single*)variableValue.dataPointer());
+        auto* ptrZ = TypeTraits::asComplex<single>((single*)variableValue.dataPointer());
         for (indexType k = 0; k < nbElements; ++k) {
             re[k] = ptrZ[k].real();
             im[k] = ptrZ[k].imag();

@@ -9,6 +9,7 @@
 //=============================================================================
 #include <limits>
 #include "nlsBuildConfig.h"
+#include "NelsonComplexStorage.hpp"
 #include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
@@ -77,9 +78,9 @@ uminusComplex(const ArrayOf& A)
         return decomplexify(A);
     }
     void* pRes = ArrayOf::allocateArrayOf(A.dataClass(), nbElements, Nelson::stringVector(), false);
-    std::complex<T>* pResz = reinterpret_cast<std::complex<T>*>(pRes);
+    std::complex<T>* pResz = TypeTraits::asComplex<T>(pRes);
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, 1>> matRes(pResz, nbElements, 1);
-    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.dataPointer());
+    std::complex<T>* Az = TypeTraits::asComplex<T>((T*)A.dataPointer());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, 1>> matA(Az, nbElements, 1);
     matRes = -matA.array();
     return ArrayOf(A.dataClass(), A.dimensions(), pRes);

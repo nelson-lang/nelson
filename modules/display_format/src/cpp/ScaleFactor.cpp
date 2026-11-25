@@ -11,6 +11,7 @@
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
 #include "ScaleFactor.hpp"
+#include "NelsonComplexStorage.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -109,7 +110,7 @@ ComputeScaleFactor(const ArrayOf& A, bool allInteger, FormatDisplayInformation& 
             ptrZ = spMat->valuePtr();
             nbElements = (indexType)spMat->nonZeros();
         } else {
-            ptrZ = reinterpret_cast<std::complex<double>*>((double*)A.dataPointer());
+            ptrZ = TypeTraits::asComplex<double>((double*)A.dataPointer());
             nbElements = (indexType)A.elementCount();
         }
         return ComputeScaleFactorComplex<double>(
@@ -125,7 +126,7 @@ ComputeScaleFactor(const ArrayOf& A, bool allInteger, FormatDisplayInformation& 
             ptrZ = spMat->valuePtr();
             nbElements = (indexType)spMat->nonZeros();
         } else {
-            ptrZ = reinterpret_cast<std::complex<single>*>((single*)A.dataPointer());
+            ptrZ = TypeTraits::asComplex<single>((single*)A.dataPointer());
             nbElements = (indexType)A.elementCount();
         }
         return ComputeScaleFactorComplex<single>(

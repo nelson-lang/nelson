@@ -11,6 +11,7 @@
 #define _SCL_SECURE_NO_WARNINGS
 #endif
 #include "nlsBuildConfig.h"
+#include "NelsonComplexStorage.hpp"
 #include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #if WITH_OPENMP
@@ -113,12 +114,11 @@ firstNonFiniteMinor(const ArrayOf& A, bool lowerTriangle)
     indexType order = A.columns();
     if (A.isComplex()) {
         if (A.isDoubleClass()) {
-            auto* values = reinterpret_cast<const std::complex<double>*>(
-                static_cast<const double*>(A.dataPointer()));
+            auto* values
+                = TypeTraits::asComplex<double>(static_cast<const double*>(A.dataPointer()));
             return firstNonFiniteMinor(values, order, lowerTriangle);
         }
-        auto* values = reinterpret_cast<const std::complex<single>*>(
-            static_cast<const single*>(A.dataPointer()));
+        auto* values = TypeTraits::asComplex<single>(static_cast<const single*>(A.dataPointer()));
         return firstNonFiniteMinor(values, order, lowerTriangle);
     }
     if (A.isDoubleClass()) {
@@ -166,11 +166,9 @@ firstNonRealDiagonal(const ArrayOf& A)
                                  : firstNonRealDiagonalSparse<single>(A.sparseDataPointer(), order);
     }
     if (A.isDoubleClass()) {
-        return firstNonRealDiagonalDense(
-            reinterpret_cast<const std::complex<double>*>(A.dataPointer()), order);
+        return firstNonRealDiagonalDense(TypeTraits::asComplex<double>(A.dataPointer()), order);
     }
-    return firstNonRealDiagonalDense(
-        reinterpret_cast<const std::complex<single>*>(A.dataPointer()), order);
+    return firstNonRealDiagonalDense(TypeTraits::asComplex<single>(A.dataPointer()), order);
 }
 //=============================================================================
 template <class T>
@@ -357,16 +355,14 @@ factorizeInPlace(ArrayOf& R, bool lowerTriangle)
     if (R.isComplex()) {
         if (R.isDoubleClass()) {
             double* ptr = (double*)R.readWriteDataPointer();
-            auto* ptrZ = reinterpret_cast<std::complex<double>*>(ptr);
+            auto* ptrZ = TypeTraits::asComplex<double>(ptr);
             info = doubleComplexCholeskyFactorization(lowerTriangle, ptrZ, order);
         } else {
             single* ptr = (single*)R.readWriteDataPointer();
-            auto* ptrZ = reinterpret_cast<std::complex<single>*>(ptr);
+            auto* ptrZ = TypeTraits::asComplex<single>(ptr);
             info = singleComplexCholeskyFactorization(lowerTriangle, ptrZ, order);
         }
-        if (R.allReal()) {
-            R.promoteType(R.isDoubleClass() ? NLS_DOUBLE : NLS_SINGLE);
-        }
+        R.demoteIfReal();
     } else if (R.isDoubleClass()) {
         double* ptr = (double*)R.readWriteDataPointer();
         info = doubleRealCholeskyFactorization(lowerTriangle, ptr, order);

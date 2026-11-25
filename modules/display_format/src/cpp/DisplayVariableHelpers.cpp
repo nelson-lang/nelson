@@ -14,6 +14,7 @@
 #include <algorithm>
 #include <limits>
 #include "StringHelpers.hpp"
+#include "ClassToString.hpp"
 #include "DisplayVariableHelpers.hpp"
 #include "NelsonConfiguration.hpp"
 #include "IEEEFP.hpp"
@@ -208,28 +209,16 @@ getClassAsWideString(const ArrayOf& A, bool isInAcell)
         typeAsText = utf8_to_wstring(isInAcell ? A.handleClassName() : "handle");
         break;
     case NLS_UINT8:
-        typeAsText = L"uint8";
-        break;
     case NLS_INT8:
-        typeAsText = L"int8";
-        break;
     case NLS_UINT16:
-        typeAsText = L"uint16";
-        break;
     case NLS_INT16:
-        typeAsText = L"int16";
-        break;
     case NLS_UINT32:
-        typeAsText = L"uint32";
-        break;
     case NLS_INT32:
-        typeAsText = L"int32";
-        break;
     case NLS_UINT64:
-        typeAsText = L"uint64";
-        break;
     case NLS_INT64:
-        typeAsText = L"int64";
+        // Integer class names map directly; display-specific classes (handle,
+        // sparse, complex, in-cell variants) keep their own cases below.
+        typeAsText = ClassToStringW(A.dataClass());
         break;
     case NLS_SINGLE:
         typeAsText = (A.isSparse() && !isInAcell) ? L"sparse single" : L"single";

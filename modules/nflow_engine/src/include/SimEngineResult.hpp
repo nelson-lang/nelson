@@ -11,18 +11,11 @@
 //=============================================================================
 #include <string>
 #include <vector>
+#include "JsonStringEscape.hpp"
 #include "SimEngineTypes.hpp"
 #include "SimEngineBusTypes.hpp"
 //=============================================================================
 namespace Nelson::NFlow {
-//=============================================================================
-// JSON string escaping for values the result payload carries verbatim (block ids,
-// bus member names). Diagram editors wrap long labels, so a block id routinely
-// holds a newline; emitted raw it made the reader reject the whole result.
-// Escapes the two structural characters and every control character (short
-// escape where JSON has one, \u00XX otherwise).
-std::string
-escapeJsonString(const std::string& s);
 //=============================================================================
 // Result-JSON assembly helpers extracted from SimEngine::runSimulation.
 //

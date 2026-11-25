@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "lapack_eigen_config.hpp"
+#include "NelsonComplexStorage.hpp"
 #include <Eigen/Dense>
 #include <cstring>
 #include <vector>
@@ -64,15 +65,15 @@ VertCatComplexTemplate(const ArrayOf& A, const ArrayOf& B, Dimensions& dimsRes)
     void* pRes = ArrayOf::allocateArrayOf(
         A.dataClass(), dimsRes.elementCount() * 2, stringVector(), false);
     T* ptrC = (T*)pRes;
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrC);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(ptrC);
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matC(
         Cz, dimsRes.rows(), dimsRes.columns());
     Dimensions dimsA = A.dimensions();
-    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.dataPointer());
+    std::complex<T>* Az = TypeTraits::asComplex<T>((T*)A.dataPointer());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matA(
         Az, dimsA.rows(), dimsA.columns());
     Dimensions dimsB = B.dimensions();
-    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)B.dataPointer());
+    std::complex<T>* Bz = TypeTraits::asComplex<T>((T*)B.dataPointer());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matB(
         Bz, dimsB.rows(), dimsB.columns());
     matC << matA, matB;

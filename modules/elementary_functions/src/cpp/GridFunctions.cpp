@@ -14,6 +14,8 @@
 #include "Error.hpp"
 #include "ErrorID.hpp"
 #include "GridFunctions.hpp"
+#include "NelsonTypeTraits.hpp"
+#include "NelsonTypeVisitor.hpp"
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
 //=============================================================================
@@ -128,26 +130,16 @@ makeGrid(const ArrayOf& value, const Dimensions& dimensions, indexType axis)
     if (dimensions.is2D()) {
         return makeGrid2D(value, dimensions, axis);
     }
+    if (TypeTraits::isInteger(value.dataClass())) {
+        return TypeTraits::visitInteger(value.dataClass(), [&](auto tag) {
+            using T = decltype(tag);
+            return makeDenseGrid<T>(value, dimensions, axis);
+        });
+    }
     switch (value.dataClass()) {
     case NLS_LOGICAL:
         return value.isSparse() ? makeSparseInputGrid<logical>(value, dimensions, axis)
                                 : makeDenseGrid<logical>(value, dimensions, axis);
-    case NLS_UINT8:
-        return makeDenseGrid<uint8>(value, dimensions, axis);
-    case NLS_INT8:
-        return makeDenseGrid<int8>(value, dimensions, axis);
-    case NLS_UINT16:
-        return makeDenseGrid<uint16>(value, dimensions, axis);
-    case NLS_INT16:
-        return makeDenseGrid<int16>(value, dimensions, axis);
-    case NLS_UINT32:
-        return makeDenseGrid<uint32>(value, dimensions, axis);
-    case NLS_INT32:
-        return makeDenseGrid<int32>(value, dimensions, axis);
-    case NLS_UINT64:
-        return makeDenseGrid<uint64>(value, dimensions, axis);
-    case NLS_INT64:
-        return makeDenseGrid<int64>(value, dimensions, axis);
     case NLS_SINGLE:
         return value.isSparse() ? makeSparseInputGrid<single>(value, dimensions, axis)
                                 : makeDenseGrid<single>(value, dimensions, axis);
@@ -171,26 +163,16 @@ makeGrid(const ArrayOf& value, const Dimensions& dimensions, indexType axis)
 static ArrayOf
 makeGrid2D(const ArrayOf& value, const Dimensions& dimensions, indexType axis)
 {
+    if (TypeTraits::isInteger(value.dataClass())) {
+        return TypeTraits::visitInteger(value.dataClass(), [&](auto tag) {
+            using T = decltype(tag);
+            return makeDenseGrid2D<T>(value, dimensions, axis);
+        });
+    }
     switch (value.dataClass()) {
     case NLS_LOGICAL:
         return value.isSparse() ? makeSparseInputGrid2D<logical>(value, dimensions, axis)
                                 : makeDenseGrid2D<logical>(value, dimensions, axis);
-    case NLS_UINT8:
-        return makeDenseGrid2D<uint8>(value, dimensions, axis);
-    case NLS_INT8:
-        return makeDenseGrid2D<int8>(value, dimensions, axis);
-    case NLS_UINT16:
-        return makeDenseGrid2D<uint16>(value, dimensions, axis);
-    case NLS_INT16:
-        return makeDenseGrid2D<int16>(value, dimensions, axis);
-    case NLS_UINT32:
-        return makeDenseGrid2D<uint32>(value, dimensions, axis);
-    case NLS_INT32:
-        return makeDenseGrid2D<int32>(value, dimensions, axis);
-    case NLS_UINT64:
-        return makeDenseGrid2D<uint64>(value, dimensions, axis);
-    case NLS_INT64:
-        return makeDenseGrid2D<int64>(value, dimensions, axis);
     case NLS_SINGLE:
         return value.isSparse() ? makeSparseInputGrid2D<single>(value, dimensions, axis)
                                 : makeDenseGrid2D<single>(value, dimensions, axis);

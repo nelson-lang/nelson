@@ -14,6 +14,9 @@
 #include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
 #include "Flip.hpp"
+#include "NelsonComplexStorage.hpp"
+#include "NelsonTypeTraits.hpp"
+#include "NelsonTypeVisitor.hpp"
 #include "Decomplexify.hpp"
 //=============================================================================
 namespace Nelson {
@@ -42,9 +45,9 @@ template <class T>
 void
 TFlipLR2dComplex(T* ptrIn, T* ptrOut, indexType m, indexType n)
 {
-    auto* Az = reinterpret_cast<std::complex<T>*>(ptrIn);
+    auto* Az = TypeTraits::asComplex<T>(ptrIn);
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matIn(Az, m, n);
-    auto* Cz = reinterpret_cast<std::complex<T>*>(ptrOut);
+    auto* Cz = TypeTraits::asComplex<T>(ptrOut);
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matOut(Cz, m, n);
     OMP_PARALLEL_FOR_LOOP(m * n)
     for (ompIndexType j = 0; j < (ompIndexType)(m * n); ++j) {
@@ -73,9 +76,9 @@ template <class T>
 void
 TFlipUD2dComplex(T* ptrIn, T* ptrOut, indexType m, indexType n)
 {
-    auto* Az = reinterpret_cast<std::complex<T>*>(ptrIn);
+    auto* Az = TypeTraits::asComplex<T>(ptrIn);
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matIn(Az, m, n);
-    auto* Cz = reinterpret_cast<std::complex<T>*>(ptrOut);
+    auto* Cz = TypeTraits::asComplex<T>(ptrOut);
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matOut(Cz, m, n);
     OMP_PARALLEL_FOR_LOOP(m * n)
     for (ompIndexType idx = 0; idx < (ompIndexType)(m * n); ++idx) {
@@ -101,6 +104,16 @@ Fliplr(const ArrayOf& arrayIn, bool& needToOverload)
     Dimensions dims = arrayIn.dimensions();
     indexType elementCount = dims.elementCount();
     NelsonType outType = arrayIn.dataClass();
+    if (TypeTraits::isInteger(outType)) {
+        return TypeTraits::visitInteger(outType, [&](auto tag) {
+            using T = decltype(tag);
+            needToOverload = false;
+            T* ptr = static_cast<T*>(ArrayOf::allocateArrayOf(outType, elementCount));
+            ArrayOf r(outType, dims, ptr);
+            TFlipLR2dReal<T>((T*)arrayIn.dataPointer(), ptr, dims.rows(), dims.columns());
+            return r;
+        });
+    }
     switch (outType) {
     case NLS_HANDLE:
     case NLS_CELL_ARRAY:
@@ -117,54 +130,6 @@ Fliplr(const ArrayOf& arrayIn, bool& needToOverload)
         logical* ptr = static_cast<logical*>(ArrayOf::allocateArrayOf(outType, elementCount));
         res = ArrayOf(outType, dims, ptr);
         TFlipLR2dReal<logical>((logical*)arrayIn.dataPointer(), ptr, dims.rows(), dims.columns());
-    } break;
-    case NLS_UINT8: {
-        needToOverload = false;
-        uint8* ptr = static_cast<uint8*>(ArrayOf::allocateArrayOf(outType, elementCount));
-        res = ArrayOf(outType, dims, ptr);
-        TFlipLR2dReal<uint8>((uint8*)arrayIn.dataPointer(), ptr, dims.rows(), dims.columns());
-    } break;
-    case NLS_INT8: {
-        needToOverload = false;
-        int8* ptr = static_cast<int8*>(ArrayOf::allocateArrayOf(outType, elementCount));
-        res = ArrayOf(outType, dims, ptr);
-        TFlipLR2dReal<int8>((int8*)arrayIn.dataPointer(), ptr, dims.rows(), dims.columns());
-    } break;
-    case NLS_UINT16: {
-        needToOverload = false;
-        uint16* ptr = static_cast<uint16*>(ArrayOf::allocateArrayOf(outType, elementCount));
-        res = ArrayOf(outType, dims, ptr);
-        TFlipLR2dReal<uint16>((uint16*)arrayIn.dataPointer(), ptr, dims.rows(), dims.columns());
-    } break;
-    case NLS_INT16: {
-        needToOverload = false;
-        int16* ptr = static_cast<int16*>(ArrayOf::allocateArrayOf(outType, elementCount));
-        res = ArrayOf(outType, dims, ptr);
-        TFlipLR2dReal<int16>((int16*)arrayIn.dataPointer(), ptr, dims.rows(), dims.columns());
-    } break;
-    case NLS_UINT32: {
-        needToOverload = false;
-        uint32* ptr = static_cast<uint32*>(ArrayOf::allocateArrayOf(outType, elementCount));
-        res = ArrayOf(outType, dims, ptr);
-        TFlipLR2dReal<uint32>((uint32*)arrayIn.dataPointer(), ptr, dims.rows(), dims.columns());
-    } break;
-    case NLS_INT32: {
-        needToOverload = false;
-        int32* ptr = static_cast<int32*>(ArrayOf::allocateArrayOf(outType, elementCount));
-        res = ArrayOf(outType, dims, ptr);
-        TFlipLR2dReal<int32>((int32*)arrayIn.dataPointer(), ptr, dims.rows(), dims.columns());
-    } break;
-    case NLS_UINT64: {
-        needToOverload = false;
-        uint64* ptr = static_cast<uint64*>(ArrayOf::allocateArrayOf(outType, elementCount));
-        res = ArrayOf(outType, dims, ptr);
-        TFlipLR2dReal<uint64>((uint64*)arrayIn.dataPointer(), ptr, dims.rows(), dims.columns());
-    } break;
-    case NLS_INT64: {
-        needToOverload = false;
-        int64* ptr = static_cast<int64*>(ArrayOf::allocateArrayOf(outType, elementCount));
-        res = ArrayOf(outType, dims, ptr);
-        TFlipLR2dReal<int64>((int64*)arrayIn.dataPointer(), ptr, dims.rows(), dims.columns());
     } break;
     case NLS_SINGLE: {
         needToOverload = false;
@@ -216,6 +181,17 @@ Flipud(const ArrayOf& arrayIn, bool& needToOverload)
     Dimensions dims = arrayIn.dimensions();
     indexType elementCount = dims.elementCount();
     NelsonType outType = arrayIn.dataClass();
+    if (TypeTraits::isInteger(outType)) {
+        return TypeTraits::visitInteger(outType, [&](auto tag) {
+            using T = decltype(tag);
+            needToOverload = false;
+            T* ptr = static_cast<T*>(const_cast<void*>(
+                static_cast<const void*>(ArrayOf::allocateArrayOf(outType, elementCount))));
+            ArrayOf r(outType, dims, ptr);
+            TFlipUD2dReal<T>((T*)arrayIn.dataPointer(), ptr, dims.rows(), dims.columns());
+            return r;
+        });
+    }
     switch (outType) {
     case NLS_HANDLE:
     case NLS_CELL_ARRAY:
@@ -233,62 +209,6 @@ Flipud(const ArrayOf& arrayIn, bool& needToOverload)
             static_cast<const void*>(ArrayOf::allocateArrayOf(outType, elementCount))));
         res = ArrayOf(outType, dims, ptr);
         TFlipUD2dReal<logical>((logical*)arrayIn.dataPointer(), ptr, dims.rows(), dims.columns());
-    } break;
-    case NLS_UINT8: {
-        needToOverload = false;
-        uint8* ptr = static_cast<uint8*>(const_cast<void*>(
-            static_cast<const void*>(ArrayOf::allocateArrayOf(outType, elementCount))));
-        res = ArrayOf(outType, dims, ptr);
-        TFlipUD2dReal<uint8>((uint8*)arrayIn.dataPointer(), ptr, dims.rows(), dims.columns());
-    } break;
-    case NLS_INT8: {
-        needToOverload = false;
-        int8* ptr = static_cast<int8*>(const_cast<void*>(
-            static_cast<const void*>(ArrayOf::allocateArrayOf(outType, elementCount))));
-        res = ArrayOf(outType, dims, ptr);
-        TFlipUD2dReal<int8>((int8*)arrayIn.dataPointer(), ptr, dims.rows(), dims.columns());
-    } break;
-    case NLS_UINT16: {
-        needToOverload = false;
-        uint16* ptr = static_cast<uint16*>(const_cast<void*>(
-            static_cast<const void*>(ArrayOf::allocateArrayOf(outType, elementCount))));
-        res = ArrayOf(outType, dims, ptr);
-        TFlipUD2dReal<uint16>((uint16*)arrayIn.dataPointer(), ptr, dims.rows(), dims.columns());
-    } break;
-    case NLS_INT16: {
-        needToOverload = false;
-        int16* ptr = static_cast<int16*>(const_cast<void*>(
-            static_cast<const void*>(ArrayOf::allocateArrayOf(outType, elementCount))));
-        res = ArrayOf(outType, dims, ptr);
-        TFlipUD2dReal<int16>((int16*)arrayIn.dataPointer(), ptr, dims.rows(), dims.columns());
-    } break;
-    case NLS_UINT32: {
-        needToOverload = false;
-        uint32* ptr = static_cast<uint32*>(const_cast<void*>(
-            static_cast<const void*>(ArrayOf::allocateArrayOf(outType, elementCount))));
-        res = ArrayOf(outType, dims, ptr);
-        TFlipUD2dReal<uint32>((uint32*)arrayIn.dataPointer(), ptr, dims.rows(), dims.columns());
-    } break;
-    case NLS_INT32: {
-        needToOverload = false;
-        int32* ptr = static_cast<int32*>(const_cast<void*>(
-            static_cast<const void*>(ArrayOf::allocateArrayOf(outType, elementCount))));
-        res = ArrayOf(outType, dims, ptr);
-        TFlipUD2dReal<int32>((int32*)arrayIn.dataPointer(), ptr, dims.rows(), dims.columns());
-    } break;
-    case NLS_UINT64: {
-        needToOverload = false;
-        uint64* ptr = static_cast<uint64*>(const_cast<void*>(
-            static_cast<const void*>(ArrayOf::allocateArrayOf(outType, elementCount))));
-        res = ArrayOf(outType, dims, ptr);
-        TFlipUD2dReal<uint64>((uint64*)arrayIn.dataPointer(), ptr, dims.rows(), dims.columns());
-    } break;
-    case NLS_INT64: {
-        needToOverload = false;
-        int64* ptr = static_cast<int64*>(const_cast<void*>(
-            static_cast<const void*>(ArrayOf::allocateArrayOf(outType, elementCount))));
-        res = ArrayOf(outType, dims, ptr);
-        TFlipUD2dReal<int64>((int64*)arrayIn.dataPointer(), ptr, dims.rows(), dims.columns());
     } break;
     case NLS_SINGLE: {
         needToOverload = false;

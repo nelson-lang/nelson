@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "Zeros.hpp"
+#include "NelsonTypeTraits.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
 //=============================================================================
@@ -28,128 +29,18 @@ Zeros(Dimensions& dims, NelsonType cl)
         res.promoteType(cl);
         return res;
     }
-    switch (cl) {
-    case NLS_LOGICAL: {
-        indexType nbElements = dims.elementCount();
-        logical* mat = nullptr;
-        if (nbElements != 0) {
-            mat = static_cast<logical*>(
-                ArrayOf::allocateArrayOf(cl, nbElements, stringVector(), true));
-        }
-        return ArrayOf(cl, dims, mat, false);
-    } break;
-    case NLS_INT8: {
-        indexType nbElements = dims.elementCount();
-        int8* mat = nullptr;
-        if (nbElements != 0) {
-            mat = static_cast<int8*>(
-                ArrayOf::allocateArrayOf(cl, nbElements, stringVector(), true));
-        }
-        return ArrayOf(cl, dims, mat, false);
-    } break;
-    case NLS_UINT8: {
-        indexType nbElements = dims.elementCount();
-        uint8* mat = nullptr;
-        if (nbElements != 0) {
-            mat = static_cast<uint8*>(
-                ArrayOf::allocateArrayOf(cl, nbElements, stringVector(), true));
-        }
-        return ArrayOf(cl, dims, mat, false);
-    } break;
-    case NLS_INT16: {
-        indexType nbElements = dims.elementCount();
-        int16* mat = nullptr;
-        if (nbElements != 0) {
-            mat = static_cast<int16*>(
-                ArrayOf::allocateArrayOf(cl, nbElements, stringVector(), true));
-        }
-        return ArrayOf(cl, dims, mat, false);
-    } break;
-    case NLS_UINT16: {
-        indexType nbElements = dims.elementCount();
-        uint16* mat = nullptr;
-        if (nbElements != 0) {
-            mat = static_cast<uint16*>(
-                ArrayOf::allocateArrayOf(cl, nbElements, stringVector(), true));
-        }
-        return ArrayOf(cl, dims, mat, false);
-    } break;
-    case NLS_INT32: {
-        indexType nbElements = dims.elementCount();
-        int32* mat = nullptr;
-        if (nbElements != 0) {
-            mat = static_cast<int32*>(
-                ArrayOf::allocateArrayOf(cl, nbElements, stringVector(), true));
-        }
-        return ArrayOf(cl, dims, mat, false);
-    } break;
-    case NLS_UINT32: {
-        indexType nbElements = dims.elementCount();
-        uint32* mat = nullptr;
-        if (nbElements != 0) {
-            mat = static_cast<uint32*>(
-                ArrayOf::allocateArrayOf(cl, nbElements, stringVector(), true));
-        }
-        return ArrayOf(cl, dims, mat, false);
-    } break;
-    case NLS_INT64: {
-        indexType nbElements = dims.elementCount();
-        int64* mat = nullptr;
-        if (nbElements != 0) {
-            mat = static_cast<int64*>(
-                ArrayOf::allocateArrayOf(cl, nbElements, stringVector(), true));
-        }
-        return ArrayOf(cl, dims, mat, false);
-    } break;
-    case NLS_UINT64: {
-        indexType nbElements = dims.elementCount();
-        uint64* mat = nullptr;
-        if (nbElements != 0) {
-            mat = static_cast<uint64*>(
-                ArrayOf::allocateArrayOf(cl, nbElements, stringVector(), true));
-        }
-        return ArrayOf(cl, dims, mat, false);
-    } break;
-    case NLS_SINGLE: {
-        indexType nbElements = dims.elementCount();
-        single* mat = nullptr;
-        if (nbElements != 0) {
-            mat = static_cast<single*>(
-                ArrayOf::allocateArrayOf(cl, nbElements, stringVector(), true));
-        }
-        return ArrayOf(cl, dims, mat, false);
-    } break;
-    case NLS_DOUBLE: {
-        indexType nbElements = dims.elementCount();
-        double* mat = nullptr;
-        if (nbElements != 0) {
-            mat = static_cast<double*>(
-                ArrayOf::allocateArrayOf(cl, nbElements, stringVector(), true));
-        }
-        return ArrayOf(cl, dims, mat, false);
-    } break;
-    case NLS_SCOMPLEX: {
-        indexType nbElements = dims.elementCount();
-        single* mat = nullptr;
-        if (nbElements != 0) {
-            mat = static_cast<single*>(
-                ArrayOf::allocateArrayOf(cl, nbElements * 2, stringVector(), true));
-        }
-        return ArrayOf(cl, dims, mat, false);
-    } break;
-    case NLS_DCOMPLEX: {
-        indexType nbElements = dims.elementCount();
-        double* mat = nullptr;
-        if (nbElements != 0) {
-            mat = static_cast<double*>(
-                ArrayOf::allocateArrayOf(cl, nbElements * 2, stringVector(), true));
-        }
-        return ArrayOf(cl, dims, mat, false);
-    } break;
-    default:
+    if (!TypeTraits::isNumeric(cl) && cl != NLS_LOGICAL) {
         Error(L"Nelson:constructors_functions:typeNotSupported", L"Type not supported.");
     }
-    return {};
+    // allocateArrayOf with initializeValues zero-fills; complex classes store two
+    // real components per element.
+    indexType nbElements = dims.elementCount();
+    void* mat = nullptr;
+    if (nbElements != 0) {
+        indexType storageCount = TypeTraits::isComplex(cl) ? nbElements * 2 : nbElements;
+        mat = ArrayOf::allocateArrayOf(cl, storageCount, stringVector(), true);
+    }
+    return ArrayOf(cl, dims, mat, false);
 }
 //=============================================================================
 } // namespace Nelson

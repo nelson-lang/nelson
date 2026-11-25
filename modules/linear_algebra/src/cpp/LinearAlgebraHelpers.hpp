@@ -10,6 +10,7 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
+#include "NelsonComplexStorage.hpp"
 #include <cmath>
 #include <complex>
 //=============================================================================
@@ -21,7 +22,7 @@ isAllFinite(const ArrayOf& A)
 {
     indexType elementCount = A.elementCount();
     if (A.isComplex()) {
-        auto* data = reinterpret_cast<const std::complex<T>*>((const T*)A.dataPointer());
+        auto* data = TypeTraits::asComplex<T>((const T*)A.dataPointer());
         for (indexType k = 0; k < elementCount; ++k) {
             if (!std::isfinite(data[k].real()) || !std::isfinite(data[k].imag())) {
                 return false;

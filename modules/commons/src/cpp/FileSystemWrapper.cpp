@@ -22,6 +22,7 @@
 #include "characters_encoding.hpp"
 #include <chrono>
 #include <system_error>
+#include <thread>
 #include "UuidHelpers.hpp"
 //=============================================================================
 namespace Nelson::FileSystemWrapper {
@@ -363,6 +364,31 @@ bool
 Path::remove(Path const& p, std::string& errorMessage)
 {
     bool bRes = false;
+#ifdef _MSC_VER
+    // On Windows a file another process still holds open (an antivirus scanning a
+    // just-written file, the search indexer) cannot be deleted and remove() throws
+    // a sharing violation. The lock is transient, so retry briefly before failing.
+    constexpr int maxAttempts = 20;
+    constexpr std::chrono::milliseconds retryDelay { 25 };
+    for (int attempt = 0; attempt < maxAttempts; ++attempt) {
+        try {
+            bRes = nfs::remove(nfs::path(p.nativePath));
+            errorMessage.clear();
+            return bRes;
+        } catch (const nfs::filesystem_error& e) {
+            std::error_code error_code = e.code();
+            bRes = false;
+            errorMessage = error_code.message();
+            bool transientLock = error_code == std::errc::permission_denied
+                || error_code == std::errc::device_or_resource_busy;
+            if (!transientLock || attempt + 1 == maxAttempts) {
+                return bRes;
+            }
+            std::this_thread::sleep_for(retryDelay);
+        }
+    }
+    return bRes;
+#else
     try {
         bRes = nfs::remove(nfs::path(p.nativePath));
         errorMessage.clear();
@@ -372,6 +398,7 @@ Path::remove(Path const& p, std::string& errorMessage)
         errorMessage = error_code.message();
     }
     return bRes;
+#endif
 }
 //=============================================================================
 bool

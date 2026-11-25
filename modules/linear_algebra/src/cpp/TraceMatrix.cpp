@@ -11,6 +11,7 @@
 #define _SCL_SECURE_NO_WARNINGS
 #endif
 #include "TraceMatrix.hpp"
+#include "NelsonComplexStorage.hpp"
 #include "ClassName.hpp"
 #include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
@@ -79,7 +80,7 @@ TraceMatrix(const ArrayOf& A)
             return ArrayOf::doubleScalar(res);
         } // NLS_DCOMPLEX
 
-        auto* Az = reinterpret_cast<doublecomplex*>((single*)A.dataPointer());
+        auto* Az = TypeTraits::asComplex<double>((single*)A.dataPointer());
         Eigen::Map<Eigen::MatrixXcd> matA(Az, (Eigen::Index)A.rows(), (Eigen::Index)A.columns());
         doublecomplex res = matA.trace();
         return ArrayOf::dsingleComplexScalar(res.real(), res.imag());
@@ -89,7 +90,7 @@ TraceMatrix(const ArrayOf& A)
             (single*)A.dataPointer(), (Eigen::Index)A.rows(), (Eigen::Index)A.columns());
         return ArrayOf::singleScalar(matA.trace());
     } // NLS_SCOMPLEX
-    auto* Az = reinterpret_cast<singlecomplex*>((single*)A.dataPointer());
+    auto* Az = TypeTraits::asComplex<single>((single*)A.dataPointer());
     Eigen::Map<Eigen::MatrixXcf> matA(Az, (Eigen::Index)A.rows(), (Eigen::Index)A.columns());
     singlecomplex res = matA.trace();
     return ArrayOf::singleComplexScalar(res.real(), res.imag());

@@ -10,6 +10,7 @@
 #include <cmath>
 #include <complex>
 #include "nlsBuildConfig.h"
+#include "NelsonComplexStorage.hpp"
 #include "Variance.hpp"
 #include "VarianceOptions.hpp"
 #include "Error.hpp"
@@ -304,13 +305,13 @@ Variance(const ArrayOf& A, int w, int dim, bool omitNaN, bool& needToOverload)
     case NLS_DCOMPLEX: {
         double* ptr = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, outDim.elementCount());
         res = ArrayOf(NLS_DOUBLE, outDim, ptr);
-        auto* ptrZ = reinterpret_cast<std::complex<double>*>((double*)A.dataPointer());
+        auto* ptrZ = TypeTraits::asComplex<double>((double*)A.dataPointer());
         VarianceComplex<double>(ptrZ, ptr, planecount, planesize, linesize, w, omitNaN);
     } break;
     case NLS_SCOMPLEX: {
         single* ptr = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, outDim.elementCount());
         res = ArrayOf(NLS_SINGLE, outDim, ptr);
-        auto* ptrZ = reinterpret_cast<std::complex<single>*>((single*)A.dataPointer());
+        auto* ptrZ = TypeTraits::asComplex<single>((single*)A.dataPointer());
         VarianceComplex<single>(ptrZ, ptr, planecount, planesize, linesize, w, omitNaN);
     } break;
     default: {
@@ -378,13 +379,13 @@ Variance(const ArrayOf& A, const ArrayOf& weights, int dim, bool omitNaN, bool& 
     case NLS_DCOMPLEX: {
         double* ptr = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, outDim.elementCount());
         res = ArrayOf(NLS_DOUBLE, outDim, ptr);
-        auto* ptrZ = reinterpret_cast<std::complex<double>*>((double*)A.dataPointer());
+        auto* ptrZ = TypeTraits::asComplex<double>((double*)A.dataPointer());
         VarianceWeightedComplex<double>(ptrZ, ptr, planecount, planesize, linesize, wgt, omitNaN);
     } break;
     case NLS_SCOMPLEX: {
         single* ptr = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, outDim.elementCount());
         res = ArrayOf(NLS_SINGLE, outDim, ptr);
-        auto* ptrZ = reinterpret_cast<std::complex<single>*>((single*)A.dataPointer());
+        auto* ptrZ = TypeTraits::asComplex<single>((single*)A.dataPointer());
         VarianceWeightedComplex<single>(ptrZ, ptr, planecount, planesize, linesize, wgt, omitNaN);
     } break;
     default: {

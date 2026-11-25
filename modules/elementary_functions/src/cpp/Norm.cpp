@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "NelsonComplexStorage.hpp"
 #include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
 #include <algorithm>
@@ -252,8 +253,7 @@ template <class T>
 T
 NormPComplexVector(const ArrayOf& arrayIn, double p)
 {
-    const std::complex<T>* values
-        = reinterpret_cast<const std::complex<T>*>((const T*)arrayIn.dataPointer());
+    const std::complex<T>* values = TypeTraits::asComplex<T>((const T*)arrayIn.dataPointer());
     Eigen::Map<const Eigen::Array<std::complex<T>, Eigen::Dynamic, 1>> mapped(
         values, (Eigen::Index)arrayIn.elementCount());
     T result;
@@ -291,7 +291,7 @@ template <class T>
 T
 NormP2ComplexMatrix(const ArrayOf& arrayIn)
 {
-    std::complex<T>* arrayInz = reinterpret_cast<std::complex<T>*>((T*)arrayIn.dataPointer());
+    std::complex<T>* arrayInz = TypeTraits::asComplex<T>((T*)arrayIn.dataPointer());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matArrayIn(
         arrayInz, (Eigen::Index)arrayIn.rows(), (Eigen::Index)arrayIn.columns());
     Eigen::JacobiSVD<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> svd(
@@ -309,7 +309,7 @@ template <class T>
 T
 NormP1ComplexMatrix(const ArrayOf& arrayIn)
 {
-    std::complex<T>* arrayInz = reinterpret_cast<std::complex<T>*>((T*)arrayIn.dataPointer());
+    std::complex<T>* arrayInz = TypeTraits::asComplex<T>((T*)arrayIn.dataPointer());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matArrayIn(
         arrayInz, (Eigen::Index)arrayIn.rows(), (Eigen::Index)arrayIn.columns());
     if (arrayIn.isScalar() || arrayIn.isVector()) {
@@ -356,7 +356,7 @@ template <class T>
 T
 NormPInfComplexMatrix(const ArrayOf& arrayIn)
 {
-    std::complex<T>* arrayInz = reinterpret_cast<std::complex<T>*>((T*)arrayIn.dataPointer());
+    std::complex<T>* arrayInz = TypeTraits::asComplex<T>((T*)arrayIn.dataPointer());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matArrayIn(
         arrayInz, (Eigen::Index)arrayIn.rows(), (Eigen::Index)arrayIn.columns());
     if (arrayIn.isScalar() || arrayIn.isVector()) {

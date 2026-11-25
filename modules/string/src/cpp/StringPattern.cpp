@@ -9,6 +9,7 @@
 //=============================================================================
 #include "StringPattern.hpp"
 #include "RegularExpression.hpp"
+#include "RegularExpressionTextUtils.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
 #include "i18n.hpp"
@@ -76,20 +77,6 @@ PatternExpression(const ArrayOf& value)
         Error(L"Nelson:string:patternExpected", L"Pattern expected.");
     }
     return value.field("Expression").asWideString();
-}
-//=============================================================================
-static std::wstring
-escapeRegex(const std::wstring& input)
-{
-    const std::wstring special = L"\\.^$|()[]{}*+?";
-    std::wstring out;
-    for (wchar_t c : input) {
-        if (special.find(c) != std::wstring::npos) {
-            out.push_back(L'\\');
-        }
-        out.push_back(c);
-    }
-    return out;
 }
 //=============================================================================
 std::wstring

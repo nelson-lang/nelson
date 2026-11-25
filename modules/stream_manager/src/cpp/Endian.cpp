@@ -22,76 +22,51 @@ isLittleEndianFormat()
 bool
 BITSWAP(void* ptrReadWrite, size_t count, NelsonType destClass)
 {
+    // Every supported class does the same byte-swap loop, differing only in the
+    // element type; a generic lambda factors the eleven identical cases.
+    auto swapBuffer = [ptrReadWrite, count](auto tag) {
+        using T = decltype(tag);
+        auto* buffer = static_cast<T*>(ptrReadWrite);
+        for (size_t k = 0; k < count; k++) {
+            buffer[k] = bswap<T>(buffer[k]);
+        }
+    };
     switch (destClass) {
-    case NLS_LOGICAL: {
-        auto* buffer = static_cast<logical*>(ptrReadWrite);
-        for (size_t k = 0; k < count; k++) {
-            buffer[k] = bswap<logical>(buffer[k]);
-        }
-    } break;
-    case NLS_UINT8: {
-        auto* buffer = static_cast<uint8*>(ptrReadWrite);
-        for (size_t k = 0; k < count; k++) {
-            buffer[k] = bswap<uint8>(buffer[k]);
-        }
-    } break;
-    case NLS_INT8: {
-        int8* buffer = static_cast<int8*>(ptrReadWrite);
-        for (size_t k = 0; k < count; k++) {
-            buffer[k] = bswap<int8>(buffer[k]);
-        }
-    } break;
-    case NLS_UINT16: {
-        auto* buffer = static_cast<uint16*>(ptrReadWrite);
-        for (size_t k = 0; k < count; k++) {
-            buffer[k] = bswap<uint16>(buffer[k]);
-        }
-    } break;
-    case NLS_INT16: {
-        auto* buffer = static_cast<int16*>(ptrReadWrite);
-        for (size_t k = 0; k < count; k++) {
-            buffer[k] = bswap<int16>(buffer[k]);
-        }
-    } break;
-    case NLS_UINT32: {
-        auto* buffer = static_cast<uint32*>(ptrReadWrite);
-        for (size_t k = 0; k < count; k++) {
-            buffer[k] = bswap<uint32>(buffer[k]);
-        }
-    } break;
-    case NLS_INT32: {
-        auto* buffer = static_cast<int32*>(ptrReadWrite);
-        for (size_t k = 0; k < count; k++) {
-            buffer[k] = bswap<int32>(buffer[k]);
-        }
-    } break;
-    case NLS_UINT64: {
-        auto* buffer = static_cast<uint64*>(ptrReadWrite);
-        for (size_t k = 0; k < count; k++) {
-            buffer[k] = bswap<uint64>(buffer[k]);
-        }
-    } break;
-    case NLS_INT64: {
-        auto* buffer = static_cast<int64*>(ptrReadWrite);
-        for (size_t k = 0; k < count; k++) {
-            buffer[k] = bswap<int64>(buffer[k]);
-        }
-    } break;
-    case NLS_SINGLE: {
-        auto* buffer = static_cast<single*>(ptrReadWrite);
-        for (size_t k = 0; k < count; k++) {
-            buffer[k] = bswap<single>(buffer[k]);
-        }
-    } break;
-    case NLS_DOUBLE: {
-        auto* buffer = static_cast<double*>(ptrReadWrite);
-        for (size_t k = 0; k < count; k++) {
-            buffer[k] = bswap<double>(buffer[k]);
-        }
-    } break;
-    default: {
+    case NLS_LOGICAL:
+        swapBuffer(logical {});
+        break;
+    case NLS_UINT8:
+        swapBuffer(uint8 {});
+        break;
+    case NLS_INT8:
+        swapBuffer(int8 {});
+        break;
+    case NLS_UINT16:
+        swapBuffer(uint16 {});
+        break;
+    case NLS_INT16:
+        swapBuffer(int16 {});
+        break;
+    case NLS_UINT32:
+        swapBuffer(uint32 {});
+        break;
+    case NLS_INT32:
+        swapBuffer(int32 {});
+        break;
+    case NLS_UINT64:
+        swapBuffer(uint64 {});
+        break;
+    case NLS_INT64:
+        swapBuffer(int64 {});
+        break;
+    case NLS_SINGLE:
+        swapBuffer(single {});
+        break;
+    case NLS_DOUBLE:
+        swapBuffer(double {});
+        break;
+    default:
         return false;
-    } break;
     }
     return true;
 }

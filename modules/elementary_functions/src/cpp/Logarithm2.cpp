@@ -9,6 +9,7 @@
 //=============================================================================
 #include <complex>
 #include "nlsBuildConfig.h"
+#include "NelsonComplexStorage.hpp"
 #include "omp_for_loop.hpp"
 #include "Logarithm2.hpp"
 #include "LogarithmKernels.hpp"
@@ -93,7 +94,7 @@ Frexp(const ArrayOf& A, bool& needToOverload)
     } break;
     case NLS_DCOMPLEX: {
         double* ptrA = (double*)A.dataPointer();
-        std::complex<double>* ptrCplxA = reinterpret_cast<std::complex<double>*>((double*)ptrA);
+        std::complex<double>* ptrCplxA = TypeTraits::asComplex<double>((double*)ptrA);
         double* ptrM = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, elementCount);
         double* ptrE = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, elementCount);
         ArrayOf M = ArrayOf(NLS_DOUBLE, dimsA, ptrM);
@@ -115,7 +116,7 @@ Frexp(const ArrayOf& A, bool& needToOverload)
     } break;
     case NLS_SCOMPLEX: {
         single* ptrA = (single*)A.dataPointer();
-        std::complex<single>* ptrCplxA = reinterpret_cast<std::complex<single>*>((single*)ptrA);
+        std::complex<single>* ptrCplxA = TypeTraits::asComplex<single>((single*)ptrA);
         single* ptrM = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, elementCount);
         single* ptrE = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, elementCount);
         ArrayOf M = ArrayOf(NLS_SINGLE, dimsA, ptrM);

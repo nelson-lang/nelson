@@ -12,6 +12,7 @@
 #include <cmath>
 #include <complex>
 #include "linspaceBuiltin.hpp"
+#include "NelsonComplexStorage.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
 #include "i18n.hpp"
@@ -84,7 +85,7 @@ linspaceComplex(NelsonType destinationClass, std::complex<T> startValue, std::co
         res.promoteType(destinationClass);
     } else {
         T* val = (T*)ArrayOf::allocateArrayOf(destinationClass, n, stringVector(), false);
-        std::complex<T>* cz = reinterpret_cast<std::complex<T>*>((T*)val);
+        std::complex<T>* cz = TypeTraits::asComplex<T>((T*)val);
         Dimensions dims(1, n);
         res = ArrayOf(destinationClass, dims, val);
         Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, 1>> Range(cz, n);

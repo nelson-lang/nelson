@@ -12,6 +12,7 @@
 #define EIGEN_NO_DEBUG
 #include <Eigen/Dense>
 #include "repmatBuiltin.hpp"
+#include "NelsonComplexStorage.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
 #include "ClassdefParser.hpp"
@@ -76,8 +77,8 @@ template <class T>
 ArrayOf
 scalarComplexRepmat(const ArrayOf& x, void* dp, const Dimensions& outDims)
 {
-    auto* ptrXz = reinterpret_cast<std::complex<T>*>((T*)x.dataPointer());
-    auto* ptrDpz = reinterpret_cast<std::complex<T>*>((T*)dp);
+    auto* ptrXz = TypeTraits::asComplex<T>((T*)x.dataPointer());
+    auto* ptrDpz = TypeTraits::asComplex<T>((T*)dp);
 
     std::complex<T> value = ptrXz[0];
     ompIndexType nbElements = (ompIndexType)outDims.elementCount();

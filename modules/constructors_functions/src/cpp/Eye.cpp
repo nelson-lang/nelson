@@ -10,13 +10,43 @@
 #include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
 #include "omp_for_loop.hpp"
+#include <algorithm>
 #include "Eye.hpp"
 #include "SparseType.hpp"
+#include "NelsonTypeVisitor.hpp"
+#include "NelsonComplexStorage.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+// Fill a freshly zero-allocated buffer with 1 on the main diagonal (real
+// scalar classes); returns the payload pointer.
+template <class T>
+static void*
+eyeRealDiagonal(NelsonType classDest, indexType n, indexType m)
+{
+    T* mat = static_cast<T*>(ArrayOf::allocateArrayOf(classDest, m * n, stringVector(), true));
+    ompIndexType elementCount = (ompIndexType)std::min(m, n);
+    OMP_PARALLEL_FOR_LOOP(elementCount)
+    for (ompIndexType i = 0; i < elementCount; i++) {
+        mat[i * n + i] = (T)1;
+    }
+    return (void*)mat;
+}
+//=============================================================================
+// Dense complex identity via Eigen setIdentity; T is the real element type.
+template <class T>
+static void*
+eyeComplexIdentity(NelsonType classDest, indexType n, indexType m)
+{
+    T* mat = static_cast<T*>(ArrayOf::allocateArrayOf(classDest, m * n, stringVector(), true));
+    auto* pzMat = TypeTraits::asComplex<T>(mat);
+    Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matEye(pzMat, n, m);
+    matEye.setIdentity();
+    return (void*)pzMat;
+}
 //=============================================================================
 ArrayOf
 Eye(indexType n, indexType m, NelsonType classDest, bool bIsSparse)
@@ -26,175 +56,42 @@ Eye(indexType n, indexType m, NelsonType classDest, bool bIsSparse)
     if (m * n != 0) {
         switch (classDest) {
         case NLS_DCOMPLEX: {
-            if (bIsSparse) {
-                vmat = Eigen_EyeSparseMatrixConstructor(NLS_DCOMPLEX, n, m);
-            } else {
-                double* mat = static_cast<double*>(
-                    ArrayOf::allocateArrayOf(NLS_DCOMPLEX, m * n, stringVector(), true));
-                auto* pzMat = reinterpret_cast<doublecomplex*>(mat);
-                Eigen::Map<Eigen::Matrix<doublecomplex, Eigen::Dynamic, Eigen::Dynamic>> matEye(
-                    pzMat, n, m);
-                matEye.setIdentity();
-                vmat = (void*)pzMat;
-            }
-        } break;
-        case NLS_DOUBLE: {
-            if (bIsSparse) {
-                vmat = Eigen_EyeSparseMatrixConstructor(NLS_DOUBLE, n, m);
-            } else {
-                double* mat = static_cast<double*>(
-                    ArrayOf::allocateArrayOf(NLS_DOUBLE, m * n, stringVector(), true));
-
-                ompIndexType elementCount = std::min(m, n);
-                OMP_PARALLEL_FOR_LOOP(elementCount)
-                for (ompIndexType i = 0; i < elementCount; i++) {
-                    mat[i * n + i] = 1;
-                }
-                vmat = (void*)mat;
-            }
+            vmat = bIsSparse ? Eigen_EyeSparseMatrixConstructor(NLS_DCOMPLEX, n, m)
+                             : eyeComplexIdentity<double>(classDest, n, m);
         } break;
         case NLS_SCOMPLEX: {
             if (bIsSparse) {
                 Error(L"Nelson:constructors_functions:sparseSupported", L"Sparse not supported.");
             }
-            single* mat = static_cast<single*>(
-                ArrayOf::allocateArrayOf(NLS_SCOMPLEX, m * n, stringVector(), true));
-            auto* pzMat = reinterpret_cast<singlecomplex*>(mat);
-            Eigen::Map<Eigen::Matrix<singlecomplex, Eigen::Dynamic, Eigen::Dynamic>> matEye(
-                pzMat, n, m);
-            matEye.setIdentity();
-            vmat = (void*)mat;
+            vmat = eyeComplexIdentity<single>(classDest, n, m);
+        } break;
+        case NLS_DOUBLE: {
+            vmat = bIsSparse ? Eigen_EyeSparseMatrixConstructor(NLS_DOUBLE, n, m)
+                             : eyeRealDiagonal<double>(classDest, n, m);
         } break;
         case NLS_SINGLE: {
             if (bIsSparse) {
                 Error(L"Nelson:constructors_functions:sparseSupported", L"Sparse not supported.");
             }
-            single* mat = static_cast<single*>(
-                ArrayOf::allocateArrayOf(NLS_SINGLE, m * n, stringVector(), true));
-            ompIndexType nbElements = std::min(m, n);
-            OMP_PARALLEL_FOR_LOOP(nbElements)
-            for (ompIndexType i = 0; i < nbElements; i++) {
-                mat[i * n + i] = (single)1;
-            }
-            vmat = (void*)mat;
+            vmat = eyeRealDiagonal<single>(classDest, n, m);
         } break;
         case NLS_LOGICAL: {
-            if (bIsSparse) {
-                vmat = Eigen_EyeSparseMatrixConstructor(NLS_LOGICAL, n, m);
-            } else {
-                logical* mat = static_cast<logical*>(
-                    ArrayOf::allocateArrayOf(NLS_LOGICAL, m * n, stringVector(), true));
-                ompIndexType nbElements = std::min(m, n);
-                OMP_PARALLEL_FOR_LOOP(nbElements)
-                for (ompIndexType i = 0; i < nbElements; i++) {
-                    mat[i * n + i] = (logical)1;
-                }
-                vmat = (void*)mat;
-            }
+            vmat = bIsSparse ? Eigen_EyeSparseMatrixConstructor(NLS_LOGICAL, n, m)
+                             : eyeRealDiagonal<logical>(classDest, n, m);
         } break;
-        case NLS_INT8: {
-            if (bIsSparse) {
-                Error(L"Nelson:constructors_functions:sparseSupported", L"Sparse not supported.");
-            }
-            int8* mat = static_cast<int8*>(
-                ArrayOf::allocateArrayOf(NLS_INT8, m * n, stringVector(), true));
-            ompIndexType elementCount = std::min(m, n);
-            OMP_PARALLEL_FOR_LOOP(elementCount)
-            for (ompIndexType i = 0; i < (ompIndexType)elementCount; i++) {
-                mat[i * n + i] = (int8)1;
-            }
-            vmat = (void*)mat;
-        } break;
-        case NLS_INT16: {
-            if (bIsSparse) {
-                Error(L"Nelson:constructors_functions:sparseSupported", L"Sparse not supported.");
-            }
-            int16* mat = static_cast<int16*>(
-                ArrayOf::allocateArrayOf(NLS_INT16, m * n, stringVector(), true));
-            ompIndexType elementCount = std::min(m, n);
-            OMP_PARALLEL_FOR_LOOP(elementCount)
-            for (ompIndexType i = 0; i < elementCount; i++) {
-                mat[i * n + i] = (int16)1;
-            }
-            vmat = (void*)mat;
-        } break;
-        case NLS_INT32: {
-            if (bIsSparse) {
-                Error(L"Nelson:constructors_functions:sparseSupported", L"Sparse not supported.");
-            }
-            int32* mat = static_cast<int32*>(
-                ArrayOf::allocateArrayOf(NLS_INT32, m * n, stringVector(), true));
-            ompIndexType elementCount = std::min(m, n);
-            OMP_PARALLEL_FOR_LOOP(elementCount)
-            for (ompIndexType i = 0; i < elementCount; i++) {
-                mat[i * n + i] = (int32)1;
-            }
-            vmat = (void*)mat;
-        } break;
-        case NLS_INT64: {
-            if (bIsSparse) {
-                Error(L"Nelson:constructors_functions:sparseSupported", L"Sparse not supported.");
-            }
-            int64* mat = static_cast<int64*>(
-                ArrayOf::allocateArrayOf(NLS_INT64, m * n, stringVector(), true));
-            ompIndexType elementCount = std::min(m, n);
-            OMP_PARALLEL_FOR_LOOP(elementCount)
-            for (ompIndexType i = 0; i < elementCount; i++) {
-                mat[i * n + i] = (int64)1;
-            }
-            vmat = (void*)mat;
-        } break;
-        case NLS_UINT8: {
-            if (bIsSparse) {
-                Error(L"Nelson:constructors_functions:sparseSupported", L"Sparse not supported.");
-            }
-            uint8* mat = static_cast<uint8*>(
-                ArrayOf::allocateArrayOf(NLS_UINT8, m * n, stringVector(), true));
-            ompIndexType elementCount = std::min(m, n);
-            OMP_PARALLEL_FOR_LOOP(elementCount)
-            for (ompIndexType i = 0; i < elementCount; i++) {
-                mat[i * n + i] = (uint8)1;
-            }
-            vmat = (void*)mat;
-        } break;
-        case NLS_UINT16: {
-            if (bIsSparse) {
-                Error(L"Nelson:constructors_functions:sparseSupported", L"Sparse not supported.");
-            }
-            uint16* mat = static_cast<uint16*>(
-                ArrayOf::allocateArrayOf(NLS_UINT16, m * n, stringVector(), true));
-            ompIndexType elementCount = std::min(m, n);
-            OMP_PARALLEL_FOR_LOOP(elementCount)
-            for (ompIndexType i = 0; i < elementCount; i++) {
-                mat[i * n + i] = (uint16)1;
-            }
-            vmat = (void*)mat;
-        } break;
-        case NLS_UINT32: {
-            if (bIsSparse) {
-                Error(L"Nelson:constructors_functions:sparseSupported", L"Sparse not supported.");
-            }
-            uint32* mat = static_cast<uint32*>(
-                ArrayOf::allocateArrayOf(NLS_UINT32, m * n, stringVector(), true));
-            ompIndexType elementCount = std::min(m, n);
-            OMP_PARALLEL_FOR_LOOP(elementCount)
-            for (ompIndexType i = 0; i < elementCount; i++) {
-                mat[i * n + i] = (uint32)1;
-            }
-            vmat = (void*)mat;
-        } break;
+        case NLS_INT8:
+        case NLS_INT16:
+        case NLS_INT32:
+        case NLS_INT64:
+        case NLS_UINT8:
+        case NLS_UINT16:
+        case NLS_UINT32:
         case NLS_UINT64: {
             if (bIsSparse) {
                 Error(L"Nelson:constructors_functions:sparseSupported", L"Sparse not supported.");
             }
-            uint64* mat = static_cast<uint64*>(
-                ArrayOf::allocateArrayOf(NLS_UINT64, m * n, stringVector(), true));
-            ompIndexType elementCount = std::min(m, n);
-            OMP_PARALLEL_FOR_LOOP(elementCount)
-            for (ompIndexType i = 0; i < elementCount; i++) {
-                mat[i * n + i] = (int8)1;
-            }
-            vmat = (void*)mat;
+            vmat = TypeTraits::visitReal(classDest,
+                [&](auto tag) { return eyeRealDiagonal<decltype(tag)>(classDest, n, m); });
         } break;
         default: {
             Error(L"Nelson:constructors_functions:inputFollowingLikeNumericArray",

@@ -15,6 +15,8 @@
 #include <Eigen/Sparse>
 #include <memory>
 #include "Exponential.hpp"
+#include "NelsonComplexStorage.hpp"
+#include "NelsonElementwiseMap.hpp"
 #include "SparseType.hpp"
 #include "SparseArrayOf.hpp"
 //=============================================================================
@@ -111,25 +113,15 @@ Exponential(const ArrayOf& A, bool& needToOverload)
         } else {
             double* ptrOut = (double*)ArrayOf::allocateArrayOf(
                 NLS_DCOMPLEX, nElementsA, stringVector(), false);
-            auto* Cz = reinterpret_cast<std::complex<double>*>(ptrOut);
-            double* ptrIn = (double*)A.dataPointer();
-            auto* Az = reinterpret_cast<std::complex<double>*>(ptrIn);
-            Eigen::Map<Eigen::ArrayXcd> matOut(Cz, nElementsA);
-            Eigen::Map<Eigen::ArrayXcd> matIn(Az, nElementsA);
-#if defined(_NLS_WITH_VML)
-            matOut = matIn.array().exp();
-#else
-            ompIndexType elementCount = (ompIndexType)nElementsA;
-            OMP_PARALLEL_FOR_LOOP(elementCount)
-            for (ompIndexType k = 0; k < elementCount; k++) {
-                matOut[k] = ExponentialComplexScalar<std::complex<double>>(matIn[k]);
-            }
-
-#endif
+            TypeTraits::mapComplexDense<double>(
+                TypeTraits::asComplex<double>(A.dataPointer()),
+                TypeTraits::asComplex<double>(ptrOut), (ompIndexType)nElementsA,
+                [](const auto& a) { return a.exp(); },
+                [](const std::complex<double>& z) {
+                    return ExponentialComplexScalar<std::complex<double>>(z);
+                });
             res = ArrayOf(NLS_DCOMPLEX, dimsA, ptrOut);
-            if (res.allReal()) {
-                res.promoteType(NLS_DOUBLE);
-            }
+            res.demoteIfReal();
         }
     } else if (classA == NLS_SINGLE || classA == NLS_SCOMPLEX) {
         Dimensions dimsA = A.dimensions();
@@ -145,24 +137,15 @@ Exponential(const ArrayOf& A, bool& needToOverload)
         } else {
             single* ptrOut = (single*)ArrayOf::allocateArrayOf(
                 NLS_SCOMPLEX, nElementsA, stringVector(), false);
-            auto* Cz = reinterpret_cast<std::complex<single>*>(ptrOut);
-            auto* ptrIn = (single*)A.dataPointer();
-            auto* Az = reinterpret_cast<std::complex<single>*>(ptrIn);
-            Eigen::Map<Eigen::ArrayXcf> matOut(Cz, nElementsA);
-            Eigen::Map<Eigen::ArrayXcf> matIn(Az, nElementsA);
-#if defined(_NLS_WITH_VML)
-            matOut = matIn.array().exp();
-#else
-            ompIndexType elementCount = (ompIndexType)nElementsA;
-            OMP_PARALLEL_FOR_LOOP(elementCount)
-            for (ompIndexType k = 0; k < elementCount; k++) {
-                matOut[k] = ExponentialComplexScalar<std::complex<single>>(matIn[k]);
-            }
-#endif
+            TypeTraits::mapComplexDense<single>(
+                TypeTraits::asComplex<single>(A.dataPointer()),
+                TypeTraits::asComplex<single>(ptrOut), (ompIndexType)nElementsA,
+                [](const auto& a) { return a.exp(); },
+                [](const std::complex<single>& z) {
+                    return ExponentialComplexScalar<std::complex<single>>(z);
+                });
             res = ArrayOf(NLS_SCOMPLEX, dimsA, ptrOut);
-            if (res.allReal()) {
-                res.promoteType(NLS_SINGLE);
-            }
+            res.demoteIfReal();
         }
     } else {
         needToOverload = true;

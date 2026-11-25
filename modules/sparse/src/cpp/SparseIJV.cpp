@@ -49,6 +49,36 @@ Eigen_SparseToIJV(const void* cp, indexType*& I, indexType*& J, int& nnz)
     return (void*)pV;
 }
 //=============================================================================
+// Complex variant: real and imaginary parts are interleaved into a 2*nnz real buffer.
+template <class TReal, class TComplex>
+void*
+Eigen_SparseComplexToIJV(const void* cp, indexType*& I, indexType*& J, int& nnz)
+{
+    auto* spMat = (Eigen::SparseMatrix<TComplex, 0, signedIndexType>*)cp;
+    TReal* pV = nullptr;
+    if (spMat) {
+        indexType q = 0;
+        indexType l = 0;
+        pV = new_with_exception<TReal>(spMat->nonZeros() * 2, false);
+        for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
+            for (typename Eigen::SparseMatrix<TComplex, 0, signedIndexType>::InnerIterator it(
+                     *spMat, k);
+                it; ++it) {
+                I[q] = it.row() + 1;
+                J[q] = it.col() + 1;
+                pV[l] = it.value().real();
+                pV[l + 1] = it.value().imag();
+                l = l + 2;
+                q++;
+            }
+        }
+        nnz = (int)spMat->nonZeros();
+    } else {
+        nnz = 0;
+    }
+    return (void*)pV;
+}
+//=============================================================================
 void*
 Eigen_SparseToIJV(NelsonType dclass, indexType rows, indexType cols, const void* cp, indexType*& I,
     indexType*& J, int& nnz)
@@ -64,57 +94,10 @@ Eigen_SparseToIJV(NelsonType dclass, indexType rows, indexType cols, const void*
         return Eigen_SparseToIJV<single>(cp, I, J, nnz);
     } break;
     case NLS_DCOMPLEX: {
-        Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spMat
-            = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>*)cp;
-        double* pV = nullptr;
-        if (spMat) {
-            indexType q = 0;
-            indexType k = 0;
-            indexType l = 0;
-            pV = new_with_exception<double>(spMat->nonZeros() * 2, false);
-            for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
-                for (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>::InnerIterator it(
-                         *spMat, k);
-                    it; ++it) {
-                    I[q] = it.row() + 1;
-                    J[q] = it.col() + 1;
-                    pV[l] = it.value().real();
-                    pV[l + 1] = it.value().imag();
-                    l = l + 2;
-                    q++;
-                }
-            }
-            nnz = (int)spMat->nonZeros();
-        } else {
-            nnz = 0;
-        }
-        return (void*)pV;
+        return Eigen_SparseComplexToIJV<double, doublecomplex>(cp, I, J, nnz);
     } break;
     case NLS_SCOMPLEX: {
-        Eigen::SparseMatrix<singlecomplex, 0, signedIndexType>* spMat
-            = (Eigen::SparseMatrix<singlecomplex, 0, signedIndexType>*)cp;
-        single* pV = nullptr;
-        if (spMat) {
-            indexType q = 0;
-            indexType l = 0;
-            pV = new_with_exception<single>(spMat->nonZeros() * 2, false);
-            for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
-                for (Eigen::SparseMatrix<singlecomplex, 0, signedIndexType>::InnerIterator it(
-                         *spMat, k);
-                    it; ++it) {
-                    I[q] = it.row() + 1;
-                    J[q] = it.col() + 1;
-                    pV[l] = it.value().real();
-                    pV[l + 1] = it.value().imag();
-                    l = l + 2;
-                    q++;
-                }
-            }
-            nnz = (int)spMat->nonZeros();
-        } else {
-            nnz = 0;
-        }
-        return (void*)pV;
+        return Eigen_SparseComplexToIJV<single, singlecomplex>(cp, I, J, nnz);
     } break;
     default: {
         Error(L"Nelson:sparse:typeNotSupported", L"Unsupported type in %s.", L"SparseToIJV");

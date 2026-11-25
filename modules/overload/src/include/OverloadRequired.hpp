@@ -10,6 +10,7 @@
 #pragma once
 //=============================================================================
 #include <string>
+#include "ArrayOf.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
 #include "i18n.hpp"
@@ -22,6 +23,14 @@ OverloadRequired(const std::string& functionName)
     Error("Nelson:UndefinedFunction:incorrectArgumentType",
         "Check for incorrect argument data type or missing argument in call to function '%s'.",
         functionName);
+}
+//=============================================================================
+// Container / object classes that element-wise numeric builtins cannot handle
+// directly and must defer to an overloaded function.
+inline bool
+isOverloadRequiredType(const ArrayOf& value)
+{
+    return value.isCell() || value.isHandle() || value.isStruct() || value.isClassType();
 }
 //=============================================================================
 } // namespace Nelson

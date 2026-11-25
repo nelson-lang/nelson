@@ -14,6 +14,7 @@
 #include <cwchar>
 #include <cstring>
 #include "lapack_eigen_config.hpp"
+#include "NelsonComplexStorage.hpp"
 #include "omp_for_loop.hpp"
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
@@ -26,6 +27,7 @@
 #include "CharRowComparison.hpp"
 #include "ClassName.hpp"
 #include "ArrayOf.hpp"
+#include "NelsonTypeTraits.hpp"
 #include "Data.hpp"
 #include "HandleState.hpp"
 #include "IEEEFP.hpp"
@@ -72,48 +74,17 @@ ArrayOf::elementSize() const
     case NLS_GO_HANDLE:
         return sizeof(nelson_handle);
     case NLS_STRING_ARRAY:
-        return sizeof(ArrayOf);
     case NLS_CELL_ARRAY:
         return sizeof(ArrayOf);
     case NLS_FUNCTION_HANDLE:
-        return (sizeof(ArrayOf) * dp->fieldNames().size());
     case NLS_CLASS_ARRAY:
     case NLS_CLASSDEF_ARRAY:
-        return (sizeof(ArrayOf) * dp->fieldNames().size());
     case NLS_STRUCT_ARRAY:
         return (sizeof(ArrayOf) * dp->fieldNames().size());
-    case NLS_LOGICAL:
-        return sizeof(logical);
-    case NLS_UINT8:
-        return sizeof(uint8);
-    case NLS_INT8:
-        return sizeof(int8);
-    case NLS_UINT16:
-        return sizeof(uint16);
-    case NLS_INT16:
-        return sizeof(int16);
-    case NLS_UINT32:
-        return sizeof(uint32);
-    case NLS_INT32:
-        return sizeof(int32);
-    case NLS_UINT64:
-        return sizeof(uint64);
-    case NLS_INT64:
-        return sizeof(int64);
-    case NLS_SINGLE:
-        return sizeof(single);
-    case NLS_DOUBLE:
-        return sizeof(double);
-    case NLS_SCOMPLEX:
-        return sizeof(single) * 2;
-    case NLS_DCOMPLEX:
-        return sizeof(double) * 2;
-    case NLS_CHAR:
-        return sizeof(charType);
-    default: {
-    } break;
+    default:
+        // Numeric, logical, char and complex classes have a fixed element size.
+        return TypeTraits::byteSize(dp->dataClass);
     }
-    return 0;
 }
 //=============================================================================
 indexType
@@ -541,7 +512,7 @@ ArrayOf::allReal() const
             res = sparseImaginaryPartIsZero<singlecomplex>(dp->data());
         } else {
             single* psingle = (single*)dp->data();
-            singlecomplex* Bz = reinterpret_cast<singlecomplex*>(psingle);
+            singlecomplex* Bz = TypeTraits::asComplex<single>(psingle);
             Eigen::Map<Eigen::MatrixXcf> mat(Bz, 1, dp->dimensions().elementCount());
             res = mat.imag().isZero(0);
         }
@@ -554,7 +525,7 @@ ArrayOf::allReal() const
                 res = sparseImaginaryPartIsZero<doublecomplex>(dp->data());
             } else {
                 double* pdouble = (double*)dp->data();
-                doublecomplex* Bz = reinterpret_cast<doublecomplex*>(pdouble);
+                doublecomplex* Bz = TypeTraits::asComplex<double>(pdouble);
                 Eigen::Map<Eigen::MatrixXcd> mat(Bz, 1, dp->dimensions().elementCount());
                 res = mat.imag().isZero(0);
             }
@@ -573,6 +544,14 @@ ArrayOf::allReal() const
     }
     }
     return res;
+}
+//=============================================================================
+void
+ArrayOf::demoteIfReal()
+{
+    if (isComplex() && allReal()) {
+        promoteType(TypeTraits::realClass(dataClass()));
+    }
 }
 //=============================================================================
 bool

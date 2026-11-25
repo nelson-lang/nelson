@@ -424,14 +424,10 @@ Prod(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan, indexTyp
     res.promoteType(outputClass);
     switch (outputClass) {
     case NLS_SCOMPLEX: {
-        if (res.allReal()) {
-            res.promoteType(NLS_SINGLE);
-        }
+        res.demoteIfReal();
     } break;
     case NLS_DCOMPLEX: {
-        if (res.allReal()) {
-            res.promoteType(NLS_DOUBLE);
-        }
+        res.demoteIfReal();
     } break;
     default: {
     } break;

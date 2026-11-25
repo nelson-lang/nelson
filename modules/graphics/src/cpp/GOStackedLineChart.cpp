@@ -164,12 +164,7 @@ GOStackedLineChart::getType()
 void
 GOStackedLineChart::registerProperties()
 {
-    registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR, false);
-    registerProperty(new GOOnOffProperty, GO_BEING_DELETED_PROPERTY_NAME_STR, false);
-    registerProperty(new GOCallbackProperty, GO_CREATE_FCN_PROPERTY_NAME_STR);
-    registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
-    registerProperty(new GOBusyActionProperty, GO_BUSY_ACTION_PROPERTY_NAME_STR);
-    registerProperty(new GOOnOffProperty, GO_INTERRUPTIBLE_PROPERTY_NAME_STR);
+    registerBaseProperties(this);
     registerProperty(new GOGObjectsProperty, GO_PARENT_PROPERTY_NAME_STR, false);
     registerProperty(new GOGObjectsProperty, GO_CHILDREN_PROPERTY_NAME_STR);
     registerProperty(new GOColorProperty, GO_COLOR_PROPERTY_NAME_STR);
@@ -199,7 +194,6 @@ GOStackedLineChart::registerProperties()
     registerProperty(new GOStringProperty, GO_X_LABEL_PROPERTY_NAME_STR);
     registerProperty(new GOArrayOfProperty, GO_X_VARIABLE_PROPERTY_NAME_STR);
     registerProperty(new GOSourceTableProperty(true), GO_SOURCE_TABLE_PROPERTY_NAME_STR);
-    registerProperty(new GOArrayOfProperty, GO_USER_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_TAG_PROPERTY_NAME_STR);
     sortProperties();
 }

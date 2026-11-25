@@ -9,6 +9,7 @@
 //=============================================================================
 #include <cmath>
 #include "mat2strBuiltin.hpp"
+#include "NelsonComplexStorage.hpp"
 #include "StringHelpers.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
@@ -48,7 +49,7 @@ complexColumnVectorFromVector(const std::vector<doublecomplex>& values)
 {
     Dimensions dims(values.size(), 1);
     auto* data = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, values.size());
-    auto* complexData = reinterpret_cast<doublecomplex*>(data);
+    auto* complexData = TypeTraits::asComplex<double>(data);
     for (indexType k = 0; k < (indexType)values.size(); ++k) {
         complexData[k] = values[k];
     }

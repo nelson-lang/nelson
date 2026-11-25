@@ -301,6 +301,14 @@ isReal() const;
 [[nodiscard]] bool
 allReal() const;
 /**
+ * Demote a complex array to its real counterpart when every imaginary part is
+ * zero: DCOMPLEX becomes DOUBLE and SCOMPLEX becomes SINGLE. Real arrays are
+ * left unchanged. This replaces the `if (allReal()) promoteType(real)` epilogue
+ * repeated after complex kernels.
+ */
+void
+demoteIfReal();
+/**
  * Return whether the array is sparse double storage.
  */
 [[nodiscard]] bool

@@ -146,13 +146,9 @@ GOContour::~GOContour() { }
 void
 GOContour::constructProperties()
 {
-    registerProperty(new GOOnOffProperty, GO_BEING_DELETED_PROPERTY_NAME_STR, false);
-    registerProperty(new GOCallbackProperty, GO_CREATE_FCN_PROPERTY_NAME_STR);
-    registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
-    registerProperty(new GOBusyActionProperty, GO_BUSY_ACTION_PROPERTY_NAME_STR);
-    registerProperty(new GOOnOffProperty, GO_INTERRUPTIBLE_PROPERTY_NAME_STR);
+    registerBaseProperties(this);
+    registerStandardContainerProperties(this);
     registerProperty(new GOArrayOfProperty, GO_CONTOUR_MATRIX_PROPERTY_NAME_STR);
-    registerProperty(new GOGObjectsProperty, GO_CHILDREN_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_DISPLAY_NAME_PROPERTY_NAME_STR);
     registerProperty(new GOFaceAlphaProperty, GO_FACE_ALPHA_PROPERTY_NAME_STR);
     registerProperty(new GOContourFaceColorProperty(this), GO_FACE_COLOR_PROPERTY_NAME_STR);
@@ -175,16 +171,11 @@ GOContour::constructProperties()
     registerProperty(new GOScalarProperty(0, 1), GO_EDGE_ALPHA_PROPERTY_NAME_STR);
     registerProperty(new GOLineStyleProperty, GO_LINE_STYLE_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty, GO_LINE_WIDTH_PROPERTY_NAME_STR);
-    registerProperty(new GOGObjectsProperty, GO_PARENT_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_SHOW_TEXT_PROPERTY_NAME_STR);
-    registerProperty(new GOStringProperty, GO_TAG_PROPERTY_NAME_STR);
     registerProperty(new GOVectorProperty, GO_TEXT_LIST_PROPERTY_NAME_STR);
     registerProperty(new GOAutoManualProperty, GO_TEXT_LIST_MODE_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty, GO_TEXT_STEP_PROPERTY_NAME_STR);
     registerProperty(new GOAutoManualProperty, GO_TEXT_STEP_MODE_PROPERTY_NAME_STR);
-    registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR, false);
-    registerProperty(new GOArrayOfProperty, GO_USER_DATA_PROPERTY_NAME_STR);
-    registerProperty(new GOOnOffProperty, GO_VISIBLE_PROPERTY_NAME_STR);
     registerProperty(new GOArrayOfProperty, GO_X_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOAutoManualProperty, GO_X_DATA_MODE_PROPERTY_NAME_STR);
     registerProperty(new GOArrayOfProperty, GO_Y_DATA_PROPERTY_NAME_STR);

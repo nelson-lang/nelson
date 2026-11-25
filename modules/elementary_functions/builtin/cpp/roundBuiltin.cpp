@@ -155,7 +155,7 @@ Nelson::ElementaryFunctionsGateway::roundBuiltin(int nLhs, const ArrayOfVector& 
     ArrayOfVector retval;
     nargincheck(argIn, 1, 3);
     nargoutcheck(nLhs, 0, 1);
-    if (argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct() || argIn[0].isClassType()) {
+    if (isOverloadRequiredType(argIn[0])) {
         OverloadRequired("round");
     }
     if (argIn.size() >= 2) {

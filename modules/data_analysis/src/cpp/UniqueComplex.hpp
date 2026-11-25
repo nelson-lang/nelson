@@ -10,6 +10,7 @@
 #pragma once
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "NelsonComplexStorage.hpp"
 #include "ArrayOf.hpp"
 #include <vector>
 #include <algorithm>
@@ -75,7 +76,7 @@ UniqueComplexOneLhs(const ArrayOf& input)
     bool isRowVector = input.isRowVector();
     ompIndexType len = input.elementCount();
     const T* dp = static_cast<const T*>(input.dataPointer());
-    auto* ptrDpz = reinterpret_cast<std::complex<T>*>((T*)dp);
+    auto* ptrDpz = TypeTraits::asComplex<T>((T*)dp);
 
     std::vector<UniqueComplexEntry<T>> values(len);
     OMP_PARALLEL_FOR_LOOP(len)
@@ -89,7 +90,7 @@ UniqueComplexOneLhs(const ArrayOf& input)
     ArrayOfVector retval;
     NelsonType cls(input.dataClass());
     T* op = (T*)ArrayOf::allocateArrayOf(cls, values.size());
-    auto* ptrOpz = reinterpret_cast<std::complex<T>*>((T*)op);
+    auto* ptrOpz = TypeTraits::asComplex<T>((T*)op);
 
     ompIndexType elementCount = values.size();
     OMP_PARALLEL_FOR_LOOP(elementCount)
@@ -108,7 +109,7 @@ UniqueComplexTwoLhs(const ArrayOf& input)
     bool isRowVector = input.isRowVector();
     ompIndexType len = input.elementCount();
     const T* dp = (T*)input.dataPointer();
-    auto* ptrDpz = reinterpret_cast<std::complex<T>*>((T*)dp);
+    auto* ptrDpz = TypeTraits::asComplex<T>((T*)dp);
 
     std::vector<UniqueComplexEntry<T>> values(len);
     OMP_PARALLEL_FOR_LOOP(len)
@@ -123,7 +124,7 @@ UniqueComplexTwoLhs(const ArrayOf& input)
     NelsonType cls(input.dataClass());
     double* mp = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, values.size());
     T* op = (T*)ArrayOf::allocateArrayOf(cls, values.size());
-    auto* ptrOpz = reinterpret_cast<std::complex<T>*>((T*)op);
+    auto* ptrOpz = TypeTraits::asComplex<T>((T*)op);
 
     ompIndexType elementCount = values.size();
     OMP_PARALLEL_FOR_LOOP(elementCount)
@@ -151,7 +152,7 @@ UniqueComplexThreeLhs(const ArrayOf& input)
     cols = 1;
 
     const T* dp = (const T*)input.dataPointer();
-    auto* ptrDpz = reinterpret_cast<std::complex<T>*>((T*)dp);
+    auto* ptrDpz = TypeTraits::asComplex<T>((T*)dp);
     ompIndexType len = input.elementCount();
     std::vector<UniqueComplexEntry<T>> values(len);
     OMP_PARALLEL_FOR_LOOP(len)
@@ -170,7 +171,7 @@ UniqueComplexThreeLhs(const ArrayOf& input)
     double* np = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
     double* mp = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, cnt);
     T* op = (T*)ArrayOf::allocateArrayOf(input.dataClass(), cnt);
-    auto* ptrOpz = reinterpret_cast<std::complex<T>*>((T*)op);
+    auto* ptrOpz = TypeTraits::asComplex<T>((T*)op);
     if (len > 0) {
         ptrOpz[0] = ptrDpz[values[0].n];
         cnt = 1;

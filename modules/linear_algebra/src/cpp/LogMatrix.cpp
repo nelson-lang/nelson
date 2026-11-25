@@ -13,6 +13,7 @@
 #include <complex>
 #include <cmath>
 #include "nlsBuildConfig.h"
+#include "NelsonComplexStorage.hpp"
 #include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #include "LogMatrix.hpp"
@@ -38,8 +39,8 @@ logmComplex(ArrayOf& A)
 {
     ArrayOf R(A);
     R.ensureSingleOwner();
-    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.dataPointer());
-    std::complex<T>* Rz = reinterpret_cast<std::complex<T>*>((T*)R.dataPointer());
+    std::complex<T>* Az = TypeTraits::asComplex<T>((T*)A.dataPointer());
+    std::complex<T>* Rz = TypeTraits::asComplex<T>((T*)R.dataPointer());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matA(
         Az, (Eigen::Index)A.rows(), (Eigen::Index)A.columns());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matR(
@@ -166,17 +167,13 @@ LogMatrix(ArrayOf A)
             A.promoteType(NLS_DCOMPLEX);
         }
         res = logmComplex<double>(A);
-        if (res.allReal()) {
-            res.promoteType(NLS_DOUBLE);
-        }
+        res.demoteIfReal();
     } else {
         if (A.dataClass() == NLS_SINGLE) {
             A.promoteType(NLS_SCOMPLEX);
         }
         res = logmComplex<single>(A);
-        if (res.allReal()) {
-            res.promoteType(NLS_SINGLE);
-        }
+        res.demoteIfReal();
     }
     return res;
 }

@@ -13,6 +13,7 @@
 #include <algorithm>
 #include <vector>
 #include "Types.hpp"
+#include "NelsonComplexStorage.hpp"
 #include "SortHelpers.hpp"
 #include "Sort.hpp"
 #include "nlsBuildConfig.h"
@@ -110,7 +111,7 @@ void
 VectorComplexSortWithoutIndexMissingAuto(const T* sp, T* dp, indexType planes, indexType planesize,
     indexType linesize, bool ascend, COMPARISON_METHOD comparisonMethod)
 {
-    std::complex<T>* z = reinterpret_cast<std::complex<T>*>(dp);
+    std::complex<T>* z = TypeTraits::asComplex<T>(dp);
     if (ascend) {
         std::complex<T>* pt = std::stable_partition(z, z + linesize, [](const std::complex<T>& i) {
             return !std::isnan(i.real()) && !std::isnan(i.imag());
@@ -148,7 +149,7 @@ void
 VectorComplexSortWithoutIndexMissingFirst(const T* sp, T* dp, indexType planes, indexType planesize,
     indexType linesize, bool ascend, COMPARISON_METHOD comparisonMethod)
 {
-    std::complex<T>* z = reinterpret_cast<std::complex<T>*>(dp);
+    std::complex<T>* z = TypeTraits::asComplex<T>(dp);
     std::complex<T>* pt = std::stable_partition(z, z + linesize,
         [](const std::complex<T>& i) { return std::isnan(i.real()) || std::isnan(i.imag()); });
     if (ascend) {
@@ -183,7 +184,7 @@ void
 VectorComplexSortWithoutIndexMissingLast(const T* sp, T* dp, indexType planes, indexType planesize,
     indexType linesize, bool ascend, COMPARISON_METHOD comparisonMethod)
 {
-    std::complex<T>* z = reinterpret_cast<std::complex<T>*>(dp);
+    std::complex<T>* z = TypeTraits::asComplex<T>(dp);
     std::complex<T>* pt = std::stable_partition(z, z + linesize,
         [](const std::complex<T>& i) { return !std::isnan(i.real()) && !std::isnan(i.imag()); });
     if (ascend) {

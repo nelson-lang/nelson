@@ -13,6 +13,7 @@
 #include "GraphicsEnvironment.hpp"
 #include "ArrayOf.hpp"
 #include "GOArrayOfProperty.hpp"
+#include "GOBusyActionProperty.hpp"
 #include "GOAxesToolbarProperty.hpp"
 #include "GOCallbackProperty.hpp"
 #include "GOColorProperty.hpp"
@@ -822,6 +823,33 @@ initializeByType(GraphicsObject* go, const std::wstring& type)
             go, GO_POSITION_CONSTRAINT_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OUTERPOSITION_STR);
         setString(go, GO_UNITS_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NORMALIZED_STR);
     }
+}
+//=============================================================================
+void
+registerBaseProperties(GraphicsObject* go)
+{
+    if (!go) {
+        return;
+    }
+    go->registerProperty(new GOCallbackProperty, GO_CREATE_FCN_PROPERTY_NAME_STR);
+    go->registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
+    go->registerProperty(new GOBusyActionProperty, GO_BUSY_ACTION_PROPERTY_NAME_STR);
+    go->registerProperty(new GOOnOffProperty, GO_INTERRUPTIBLE_PROPERTY_NAME_STR);
+    go->registerProperty(new GOOnOffProperty, GO_BEING_DELETED_PROPERTY_NAME_STR, false);
+    go->registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR, false);
+    go->registerProperty(new GOArrayOfProperty, GO_USER_DATA_PROPERTY_NAME_STR);
+}
+//=============================================================================
+void
+registerStandardContainerProperties(GraphicsObject* go)
+{
+    if (!go) {
+        return;
+    }
+    go->registerProperty(new GOGObjectsProperty, GO_PARENT_PROPERTY_NAME_STR);
+    go->registerProperty(new GOGObjectsProperty, GO_CHILDREN_PROPERTY_NAME_STR);
+    go->registerProperty(new GOOnOffProperty, GO_VISIBLE_PROPERTY_NAME_STR);
+    go->registerProperty(new GOStringProperty, GO_TAG_PROPERTY_NAME_STR);
 }
 //=============================================================================
 void

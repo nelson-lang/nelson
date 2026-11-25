@@ -8,9 +8,12 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <--WEIGHT 16-->
+% <--TIMEOUT 300-->
 % nelson-gui and nelson-webview are windowed binaries without a console: they
 % must run --execute and honour exit(code) exactly like nelson-adv-cli, and
 % never stay alive waiting for a startup dialog nobody can close.
+% Six windowed binaries are launched in sequence; the default 140 s deadline is
+% tight on a loaded sharded runner, so the kill budget is widened.
 %=============================================================================
 if ~ispc()
   return
@@ -36,7 +39,7 @@ for k = 1:numel(executables)
     else
       arguments = [' --quiet --no-ipc --no-user-startup --execute "', nelson_command, '"'];
     end
-    [status, output] = system([quoted_exe, arguments], 180);
+    [status, output] = system([quoted_exe, arguments], 120);
     diagnostic = [nelson_exe, arguments, newline, output];
     asserts.isequal(status, 42, diagnostic);
     asserts.istrue(isfile(probe_file), diagnostic);
@@ -51,7 +54,7 @@ for k = 1:numel(executables)
     'fprintf(fid, ''alive'');', 'fclose(fid);', 'exit(42);'});
   arguments = [' --quiet --no-ipc --no-user-startup --execute="run(''', ...
     replace(script_file, '\', '/'), ''')"'];
-  [status, output] = system([quoted_exe, arguments], 180);
+  [status, output] = system([quoted_exe, arguments], 120);
   diagnostic = [nelson_exe, arguments, newline, output];
   asserts.isequal(status, 42, diagnostic);
   asserts.istrue(isfile(probe_file), diagnostic);

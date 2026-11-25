@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "NelsonComplexStorage.hpp"
 #include "omp_for_loop.hpp"
 #include <cmath>
 #include <complex>
@@ -22,7 +23,7 @@ log1pComplex(NelsonType destinationClass, T* values, bool allReal, const Dimensi
 {
     ompIndexType nbElements = dims.elementCount();
     T* ptrOut = (T*)ArrayOf::allocateArrayOf(destinationClass, nbElements);
-    std::complex<T>* outZ = reinterpret_cast<std::complex<T>*>(ptrOut);
+    std::complex<T>* outZ = TypeTraits::asComplex<T>(ptrOut);
     if (allReal) {
         OMP_PARALLEL_FOR_LOOP(nbElements)
         for (ompIndexType k = 0; k < nbElements; ++k) {
@@ -36,7 +37,7 @@ log1pComplex(NelsonType destinationClass, T* values, bool allReal, const Dimensi
             }
         }
     } else {
-        std::complex<T>* inZ = reinterpret_cast<std::complex<T>*>(values);
+        std::complex<T>* inZ = TypeTraits::asComplex<T>(values);
         OMP_PARALLEL_FOR_LOOP(nbElements)
         for (ompIndexType k = 0; k < nbElements; ++k) {
             outZ[k].real(log(complex_abs<T>(inZ[k].real() + 1, inZ[k].imag())));
@@ -58,27 +59,19 @@ Logarithm1p(const ArrayOf& A, bool& needToOverload)
     switch (A.dataClass()) {
     case NLS_DOUBLE: {
         res = log1pComplex<double>(NLS_DCOMPLEX, (double*)A.dataPointer(), true, A.dimensions());
-        if (res.allReal()) {
-            res.promoteType(NLS_DOUBLE);
-        }
+        res.demoteIfReal();
     } break;
     case NLS_DCOMPLEX: {
         res = log1pComplex<double>(NLS_DCOMPLEX, (double*)A.dataPointer(), false, A.dimensions());
-        if (res.allReal()) {
-            res.promoteType(NLS_DOUBLE);
-        }
+        res.demoteIfReal();
     } break;
     case NLS_SINGLE: {
         res = log1pComplex<single>(NLS_SCOMPLEX, (single*)A.dataPointer(), true, A.dimensions());
-        if (res.allReal()) {
-            res.promoteType(NLS_SINGLE);
-        }
+        res.demoteIfReal();
     } break;
     case NLS_SCOMPLEX: {
         res = log1pComplex<single>(NLS_SCOMPLEX, (single*)A.dataPointer(), false, A.dimensions());
-        if (res.allReal()) {
-            res.promoteType(NLS_SINGLE);
-        }
+        res.demoteIfReal();
     } break;
     default: {
         needToOverload = true;

@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "NelsonComplexStorage.hpp"
 #include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #include "ExpMatrix.hpp"
@@ -86,9 +87,7 @@ ExpMatrix(const ArrayOf& _A)
     if (A.isEmpty()) {
         return A;
     }
-    if (A.isComplex() && A.allReal()) {
-        A.promoteType(A.isDoubleClass() ? NLS_DOUBLE : NLS_SINGLE);
-    }
+    A.demoteIfReal();
     if (!isAllFinite(A)) {
         return NaN(A.rows(), A.columns());
     }
@@ -256,9 +255,7 @@ ExpDiagonalMatrix(const ArrayOf& A)
     default:
         return {};
     }
-    if (R.allReal()) {
-        R.promoteType(R.isDoubleClass() ? NLS_DOUBLE : NLS_SINGLE);
-    }
+    R.demoteIfReal();
     return R;
 }
 //=============================================================================
@@ -428,8 +425,8 @@ ExpMatrixComplex(const ArrayOf& A, NelsonType destinationType)
 {
     ArrayOf R(A);
     R.ensureSingleOwner();
-    auto* Az = reinterpret_cast<std::complex<T>*>((T*)A.dataPointer());
-    auto* Rz = reinterpret_cast<std::complex<T>*>((T*)R.dataPointer());
+    auto* Az = TypeTraits::asComplex<T>((T*)A.dataPointer());
+    auto* Rz = TypeTraits::asComplex<T>((T*)R.dataPointer());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matA(
         Az, (Eigen::Index)A.rows(), (Eigen::Index)A.columns());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matR(

@@ -12,6 +12,7 @@
 #endif
 //=============================================================================
 #include "LUMatrixFactorization.hpp"
+#include "NelsonComplexStorage.hpp"
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
@@ -208,8 +209,8 @@ ComplexLUP(int nrows, int ncols, T* l, T* u, T* pmat, double* pvec, std::complex
     fullpivot = nullptr;
 
     if (nrows > ncols) {
-        auto* ptrZl = reinterpret_cast<std::complex<T>*>((T*)l);
-        auto* ptrZu = reinterpret_cast<std::complex<T>*>((T*)u);
+        auto* ptrZl = TypeTraits::asComplex<T>((T*)l);
+        auto* ptrZu = TypeTraits::asComplex<T>((T*)u);
 
         ompIndexType lrows = nrows;
         ompIndexType lcols = ncols;
@@ -240,8 +241,8 @@ ComplexLUP(int nrows, int ncols, T* l, T* u, T* pmat, double* pvec, std::complex
         ompIndexType lrows = nrows;
         ompIndexType lcols = nrows;
         ompIndexType urows = nrows;
-        auto* ptrZl = reinterpret_cast<std::complex<T>*>((T*)l);
-        auto* ptrZu = reinterpret_cast<std::complex<T>*>((T*)u);
+        auto* ptrZl = TypeTraits::asComplex<T>((T*)l);
+        auto* ptrZu = TypeTraits::asComplex<T>((T*)u);
 #if WITH_OPENMP
 #pragma omp parallel for if (lcols > OMP_DEFAULT_THRESHOLD)
 #endif
@@ -291,8 +292,8 @@ ComplexLU(int nrows, int ncols, T* l, T* u, std::complex<T>* a,
 
     int* fullpivot = updatePivotVector(nrows, piv.data(), p);
     if (nrows > ncols) {
-        auto* ptrZl = reinterpret_cast<std::complex<T>*>((T*)l);
-        auto* ptrZu = reinterpret_cast<std::complex<T>*>((T*)u);
+        auto* ptrZl = TypeTraits::asComplex<T>((T*)l);
+        auto* ptrZu = TypeTraits::asComplex<T>((T*)u);
 
         ompIndexType lrows = nrows;
         ompIndexType lcols = ncols;
@@ -323,8 +324,8 @@ ComplexLU(int nrows, int ncols, T* l, T* u, std::complex<T>* a,
             }
         }
     } else {
-        auto* ptrZl = reinterpret_cast<std::complex<T>*>((T*)l);
-        auto* ptrZu = reinterpret_cast<std::complex<T>*>((T*)u);
+        auto* ptrZl = TypeTraits::asComplex<T>((T*)l);
+        auto* ptrZu = TypeTraits::asComplex<T>((T*)u);
 
         ompIndexType lrows = nrows;
         ompIndexType lcols = nrows;
@@ -717,7 +718,7 @@ LUMatrixFactorizationDoubleComplex(const ArrayOf& A, int nLhs, bool asVector)
     if (nLhs <= 1) {
         ArrayOf AA(A);
         AA.ensureSingleOwner();
-        auto* ptrZa = reinterpret_cast<std::complex<double>*>((double*)AA.dataPointer());
+        auto* ptrZa = TypeTraits::asComplex<double>((double*)AA.dataPointer());
         lapack_int m = nrows;
         lapack_int n = ncols;
         lapack_int lda = nrows;
@@ -735,7 +736,7 @@ LUMatrixFactorizationDoubleComplex(const ArrayOf& A, int nLhs, bool asVector)
     if (nLhs == 2) {
         ArrayOf AA(A);
         AA.ensureSingleOwner();
-        auto* ptrZa = reinterpret_cast<std::complex<double>*>((double*)AA.dataPointer());
+        auto* ptrZa = TypeTraits::asComplex<double>((double*)AA.dataPointer());
 
         ComplexLU<double>(nrows, ncols, l, u, ptrZa, luFactor);
         retval << ArrayOf(A.dataClass(), Dimensions(nrows, p), l);
@@ -744,7 +745,7 @@ LUMatrixFactorizationDoubleComplex(const ArrayOf& A, int nLhs, bool asVector)
         PermutationOutput<double> perm(NLS_DOUBLE, nrows, asVector);
         ArrayOf AA(A);
         AA.ensureSingleOwner();
-        auto* ptrZa = reinterpret_cast<std::complex<double>*>((double*)AA.dataPointer());
+        auto* ptrZa = TypeTraits::asComplex<double>((double*)AA.dataPointer());
 
         ComplexLUP<double>(nrows, ncols, l, u, perm.pmat, perm.pvec, ptrZa, luFactor);
         retval << ArrayOf(A.dataClass(), Dimensions(nrows, p), l);
@@ -786,7 +787,7 @@ LUMatrixFactorizationSingleComplex(const ArrayOf& A, int nLhs, bool asVector)
     if (nLhs <= 1) {
         ArrayOf AA(A);
         AA.ensureSingleOwner();
-        auto* ptrZa = reinterpret_cast<std::complex<single>*>((single*)AA.dataPointer());
+        auto* ptrZa = TypeTraits::asComplex<single>((single*)AA.dataPointer());
         lapack_int m = nrows;
         lapack_int n = ncols;
         lapack_int lda = nrows;
@@ -804,7 +805,7 @@ LUMatrixFactorizationSingleComplex(const ArrayOf& A, int nLhs, bool asVector)
     if (nLhs == 2) {
         ArrayOf AA(A);
         AA.ensureSingleOwner();
-        auto* ptrZa = reinterpret_cast<std::complex<single>*>((single*)AA.dataPointer());
+        auto* ptrZa = TypeTraits::asComplex<single>((single*)AA.dataPointer());
 
         ComplexLU<single>(nrows, ncols, l, u, ptrZa, luFactor);
         retval << ArrayOf(A.dataClass(), Dimensions(nrows, p), l);
@@ -813,7 +814,7 @@ LUMatrixFactorizationSingleComplex(const ArrayOf& A, int nLhs, bool asVector)
         PermutationOutput<single> perm(NLS_SINGLE, nrows, asVector);
         ArrayOf AA(A);
         AA.ensureSingleOwner();
-        auto* ptrZa = reinterpret_cast<std::complex<single>*>((single*)AA.dataPointer());
+        auto* ptrZa = TypeTraits::asComplex<single>((single*)AA.dataPointer());
 
         ComplexLUP<single>(nrows, ncols, l, u, perm.pmat, perm.pvec, ptrZa, luFactor);
         retval << ArrayOf(A.dataClass(), Dimensions(nrows, p), l);

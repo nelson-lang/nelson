@@ -8,6 +8,9 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <--ADV-CLI MODE-->
+% <--TIMEOUT 300-->
+% Laying out ~100 TeX symbols takes about 15 s alone; the default 140 s deadline
+% is tight on a loaded sharded runner, so the kill budget is widened.
 %=============================================================================
 tex = {'\alpha';
   '\upsilon';

@@ -93,6 +93,7 @@
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "StringHelpers.hpp"
+#include "RegularExpressionTextUtils.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -123,8 +124,6 @@ struct RegexResult
 //=============================================================================
 class PcreRegex;
 //=============================================================================
-static std::wstring
-lower(const std::wstring& s);
 static bool
 isStringLikeScalar(const ArrayOf& a);
 static bool
@@ -142,21 +141,13 @@ doubleRowFromInts(const std::vector<int>& values);
 static ArrayOf
 tokenExtentsMatrix(const RegexMatch& m);
 static std::wstring
-quoteNelsonString(const std::wstring& value);
-static std::wstring
 arrayToWideString(const ArrayOf& a);
 static std::wstring
 evaluateDynamicCommand(Evaluator* eval, const std::wstring& command);
-static void
-replaceAll(std::wstring& text, const std::wstring& from, const std::wstring& to);
 static std::wstring
 substituteTokensInCommand(std::wstring command, const RegexMatch* match);
 static std::wstring
 expandDynamicPattern(Evaluator* eval, const std::wstring& pattern);
-static std::wstring
-translatePosixWordAnchors(const std::wstring& pattern);
-static std::wstring
-makeLenientPattern(const std::wstring& pattern);
 static RegexOptions
 parseOptions(const ArrayOfVector& args, size_t start, bool defaultIgnoreCase,
     std::vector<RegexOutputKind>& outputs, bool forReplace);
@@ -176,16 +167,8 @@ static ArrayOf
 textOutputAsString(const ArrayOf& value, RegexOutputKind kind, bool once);
 static void
 groupBranches(const std::wstring& pattern, std::vector<int>& branches, int& branchCount);
-static bool
-isAscii(const std::wstring& text);
 ArrayOfVector
 RegExpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, bool defaultIgnoreCase);
-static bool
-isAllLower(const std::wstring& s);
-static bool
-isAllUpper(const std::wstring& s);
-static std::wstring
-toCaseLike(const std::wstring& replacement, const std::wstring& original);
 static std::wstring
 replacementText(Evaluator* eval, const std::wstring& replacement, const RegexMatch& match,
     const std::wstring& input, const RegexOptions& options);
@@ -194,10 +177,6 @@ regexReplace(Evaluator* eval, const std::wstring& input, const std::wstring& exp
     const std::wstring& replacement, const RegexOptions& options);
 ArrayOfVector
 RegexPrepBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-static std::wstring
-escapeRegex(const std::wstring& input);
-static std::wstring
-wildcardToRegex(const std::wstring& input);
 ArrayOfVector
 RegexpTranslateBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
@@ -726,51 +705,6 @@ RegexpTranslateBuiltin(int nLhs, const ArrayOfVector& argIn)
     return retval;
 }
 //=============================================================================
-bool
-isAllLower(const std::wstring& s)
-{
-    bool hasAlpha = false;
-    for (wchar_t c : s) {
-        if (std::iswalpha(c)) {
-            hasAlpha = true;
-            if (!std::iswlower(c)) {
-                return false;
-            }
-        }
-    }
-    return hasAlpha;
-}
-//=============================================================================
-bool
-isAllUpper(const std::wstring& s)
-{
-    bool hasAlpha = false;
-    for (wchar_t c : s) {
-        if (std::iswalpha(c)) {
-            hasAlpha = true;
-            if (!std::iswupper(c)) {
-                return false;
-            }
-        }
-    }
-    return hasAlpha;
-}
-//=============================================================================
-std::wstring
-toCaseLike(const std::wstring& replacement, const std::wstring& original)
-{
-    std::wstring res = replacement;
-    if (isAllUpper(original)) {
-        StringHelpers::to_upper(res);
-    } else if (isAllLower(original)) {
-        StringHelpers::to_lower(res);
-    } else if (!original.empty() && std::iswupper(original[0]) && !res.empty()) {
-        StringHelpers::to_lower(res);
-        res[0] = static_cast<wchar_t>(std::towupper(res[0]));
-    }
-    return res;
-}
-//=============================================================================
 std::wstring
 replacementText(Evaluator* eval, const std::wstring& replacement, const RegexMatch& match,
     const std::wstring& input, const RegexOptions& options)
@@ -1003,42 +937,6 @@ RegexReplaceText(const std::wstring& input, const std::wstring& expression,
     return regexReplace(nullptr, input, expression, replacement, options);
 }
 //=============================================================================
-std::wstring
-escapeRegex(const std::wstring& input)
-{
-    const std::wstring special = L"\\.^$|()[]{}*+?";
-    std::wstring out;
-    for (wchar_t c : input) {
-        if (special.find(c) != std::wstring::npos) {
-            out.push_back(L'\\');
-        }
-        out.push_back(c);
-    }
-    return out;
-}
-//=============================================================================
-std::wstring
-wildcardToRegex(const std::wstring& input)
-{
-    std::wstring out;
-    for (wchar_t c : input) {
-        if (c == L'*') {
-            out.append(L".*");
-        } else if (c == L'?') {
-            out.push_back(L'.');
-        } else {
-            out.append(escapeRegex(std::wstring(1, c)));
-        }
-    }
-    return out;
-}
-//=============================================================================
-std::wstring
-lower(const std::wstring& s)
-{
-    return StringHelpers::to_lower_copy(s);
-}
-//=============================================================================
 bool
 isStringLikeScalar(const ArrayOf& a)
 {
@@ -1127,20 +1025,6 @@ tokenExtentsMatrix(const RegexMatch& m)
 }
 //=============================================================================
 std::wstring
-quoteNelsonString(const std::wstring& value)
-{
-    std::wstring q = L"'";
-    for (wchar_t c : value) {
-        q.push_back(c);
-        if (c == L'\'') {
-            q.push_back(L'\'');
-        }
-    }
-    q.push_back(L'\'');
-    return q;
-}
-//=============================================================================
-std::wstring
 arrayToWideString(const ArrayOf& a)
 {
     if (a.isRowVectorCharacterArray() || (a.isStringArray() && a.isScalar())) {
@@ -1164,19 +1048,6 @@ evaluateDynamicCommand(Evaluator* eval, const std::wstring& command)
         return L"";
     }
     return arrayToWideString(res[0]);
-}
-//=============================================================================
-void
-replaceAll(std::wstring& text, const std::wstring& from, const std::wstring& to)
-{
-    if (from.empty()) {
-        return;
-    }
-    size_t pos = 0;
-    while ((pos = text.find(from, pos)) != std::wstring::npos) {
-        text.replace(pos, from.size(), to);
-        pos += to.size();
-    }
 }
 //=============================================================================
 std::wstring
@@ -1228,115 +1099,6 @@ expandDynamicPattern(Evaluator* eval, const std::wstring& pattern)
         } else {
             out.push_back(pattern[i++]);
         }
-    }
-    return out;
-}
-//=============================================================================
-std::wstring
-translatePosixWordAnchors(const std::wstring& pattern)
-{
-    // PCRE does not know the POSIX word anchors \< and \>. Translate them to lookarounds,
-    // leaving escaped backslashes and character classes intact.
-    if (pattern.find(L'<') == std::wstring::npos && pattern.find(L'>') == std::wstring::npos) {
-        return pattern;
-    }
-    std::wstring out;
-    out.reserve(pattern.size() + 8);
-    bool inClass = false;
-    for (size_t i = 0; i < pattern.size();) {
-        wchar_t c = pattern[i];
-        if (c == L'\\' && i + 1 < pattern.size()) {
-            wchar_t next = pattern[i + 1];
-            if (!inClass && next == L'<') {
-                out.append(L"\\b(?=\\w)");
-                i += 2;
-                continue;
-            }
-            if (!inClass && next == L'>') {
-                out.append(L"(?<=\\w)\\b");
-                i += 2;
-                continue;
-            }
-            out.push_back(c);
-            out.push_back(next);
-            i += 2;
-            continue;
-        }
-        if (!inClass && c == L'[') {
-            inClass = true;
-        } else if (inClass && c == L']') {
-            inClass = false;
-        }
-        out.push_back(c);
-        ++i;
-    }
-    return out;
-}
-//=============================================================================
-std::wstring
-makeLenientPattern(const std::wstring& pattern)
-{
-    // PCRE2 rejects a pattern with an unbalanced metacharacter. This pass escapes '(' and
-    // ')' without a partner and a '[' whose class is never terminated, so they match
-    // literally. It only runs after a compile failure. If nothing can be rescued the
-    // pattern is returned unchanged and the caller reports the original PCRE error.
-    const size_t len = pattern.size();
-    std::set<size_t> escapePositions;
-    std::vector<size_t> openParens;
-    bool inClass = false;
-    size_t classContentStart = 0;
-    size_t classOpenIdx = 0;
-    for (size_t i = 0; i < len;) {
-        wchar_t c = pattern[i];
-        if (c == L'\\') {
-            i += 2;
-            continue;
-        }
-        if (inClass) {
-            // The first ']' after '[' (or '[^') is a literal member, not the terminator.
-            if (c == L']' && i > classContentStart) {
-                inClass = false;
-            }
-            ++i;
-            continue;
-        }
-        if (c == L'[') {
-            inClass = true;
-            classOpenIdx = i;
-            classContentStart = i + 1;
-            if (classContentStart < len && pattern[classContentStart] == L'^') {
-                ++classContentStart;
-            }
-            ++i;
-            continue;
-        }
-        if (c == L'(') {
-            openParens.push_back(i);
-        } else if (c == L')') {
-            if (!openParens.empty()) {
-                openParens.pop_back();
-            } else {
-                escapePositions.insert(i);
-            }
-        }
-        ++i;
-    }
-    for (size_t idx : openParens) {
-        escapePositions.insert(idx);
-    }
-    if (inClass) {
-        escapePositions.insert(classOpenIdx);
-    }
-    if (escapePositions.empty()) {
-        return pattern;
-    }
-    std::wstring out;
-    out.reserve(len + escapePositions.size());
-    for (size_t i = 0; i < len; ++i) {
-        if (escapePositions.find(i) != escapePositions.end()) {
-            out.push_back(L'\\');
-        }
-        out.push_back(pattern[i]);
     }
     return out;
 }
@@ -1662,17 +1424,6 @@ groupBranches(const std::wstring& pattern, std::vector<int>& branches, int& bran
         }
     }
     branchCount = branch + 1;
-}
-//=============================================================================
-static bool
-isAscii(const std::wstring& text)
-{
-    for (wchar_t c : text) {
-        if (c > 127) {
-            return false;
-        }
-    }
-    return true;
 }
 //=============================================================================
 } // namespace Nelson

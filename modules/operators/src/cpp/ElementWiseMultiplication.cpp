@@ -12,6 +12,7 @@
 #include <type_traits>
 #include <vector>
 #include "nlsBuildConfig.h"
+#include "NelsonComplexStorage.hpp"
 #include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
@@ -24,66 +25,11 @@
 #include "IntegerCompatibilityHelpers.hpp"
 #include "IntegerDoubleArithmetic.hpp"
 #include "SparseOperatorsHelpers.hpp"
+#include "ElementWiseMultiplicationKernels.hpp"
 #include "Decomplexify.hpp"
 #include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-template <class T> struct WiderIntFor
-{
-    using type = T; // fallback (64-bit and non-integer): the wider path is unused
-};
-//=============================================================================
-template <> struct WiderIntFor<int8>
-{
-    using type = int32;
-};
-//=============================================================================
-template <> struct WiderIntFor<int16>
-{
-    using type = int32;
-};
-//=============================================================================
-template <> struct WiderIntFor<int32>
-{
-    using type = int64;
-};
-//=============================================================================
-template <> struct WiderIntFor<uint8>
-{
-    using type = uint32;
-};
-//=============================================================================
-template <> struct WiderIntFor<uint16>
-{
-    using type = uint32;
-};
-//=============================================================================
-template <> struct WiderIntFor<uint32>
-{
-    using type = uint64;
-};
-//=============================================================================
-// Saturating integer multiply. For 8/16/32-bit types the exact product fits in a
-// wider integer, so it is computed exactly and clamped, which auto-vectorizes. 64-bit
-// types have no portable wider integer and use the overflow-checked helper. The value
-// equals scalar_scalar_integer_times for every input.
-template <class T>
-static inline T
-saturating_integer_times(T a, T b)
-{
-    if constexpr (sizeof(T) <= 4) {
-        using W = typename WiderIntFor<T>::type;
-        W p = (W)a * (W)b;
-        W lo = (W)std::numeric_limits<T>::min();
-        W hi = (W)std::numeric_limits<T>::max();
-        p = (p < lo) ? lo : p;
-        p = (p > hi) ? hi : p;
-        return (T)p;
-    } else {
-        return scalar_scalar_integer_times<T>(a, b);
-    }
-}
 //=============================================================================
 template <class T>
 static ArrayOf
@@ -222,11 +168,11 @@ complex_matrix_matrix_elementWiseMultiplication(
     Dimensions dimsC = a.dimensions();
     indexType Clen = dimsC.elementCount();
     void* Cp = new_with_exception<T>(Clen * 2, false);
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(Cp);
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matC(Cz, 1, Clen);
-    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)a.dataPointer());
+    std::complex<T>* Az = TypeTraits::asComplex<T>((T*)a.dataPointer());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matA(Az, 1, Clen);
-    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)b.dataPointer());
+    std::complex<T>* Bz = TypeTraits::asComplex<T>((T*)b.dataPointer());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matB(Bz, 1, Clen);
     matC = matA.cwiseProduct(matB);
     return ArrayOf(classDestination, dimsC, Cp, false);
@@ -286,10 +232,10 @@ complex_scalar_matrix_elementWiseMultiplication(NelsonType classDestination, Arr
     indexType Clen = dimsC.elementCount();
     void* Cp = new_with_exception<T>(Clen * 2, false);
     T* da = (T*)a.dataPointer();
-    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(da);
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
+    std::complex<T>* Az = TypeTraits::asComplex<T>(da);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(Cp);
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matC(Cz, 1, Clen);
-    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)b.dataPointer());
+    std::complex<T>* Bz = TypeTraits::asComplex<T>((T*)b.dataPointer());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matB(Bz, 1, Clen);
     matC = Az[0] * matB.array();
     return ArrayOf(classDestination, dimsC, Cp, false);
@@ -323,9 +269,9 @@ static void
 complex_vector_elementWiseMultiplication(T* C, T* A, indexType NA, T* B, indexType NB)
 {
     indexType m = 0;
-    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(A);
-    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(B);
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(C);
+    std::complex<T>* Az = TypeTraits::asComplex<T>(A);
+    std::complex<T>* Bz = TypeTraits::asComplex<T>(B);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(C);
     for (indexType i = 0; i < NA; i++) {
         for (indexType j = 0; j < NB; j++) {
             Cz[m] = Az[i] * Bz[j];
@@ -379,9 +325,9 @@ complex_vector_matrix_elementWiseMultiplication(
     T* ptrB = (T*)b.dataPointer();
     void* Cp = new_with_exception<T>(Clen * 2, false);
     T* C = (T*)Cp;
-    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(ptrA);
-    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(C);
+    std::complex<T>* Az = TypeTraits::asComplex<T>(ptrA);
+    std::complex<T>* Bz = TypeTraits::asComplex<T>(ptrB);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(C);
     for (indexType i = 0; i < dimsC.rows(); i++) {
         for (indexType j = 0; j < dimsC.columns(); j++) {
             indexType m = i + j * a.rows();
@@ -433,9 +379,9 @@ complex_vector_column_elementWiseMultiplication(
     T* ptrB = (T*)b.dataPointer();
     void* Cp = new_with_exception<T>(Clen * 2, false);
     T* C = (T*)Cp;
-    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>(ptrA);
-    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>(ptrB);
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(C);
+    std::complex<T>* Az = TypeTraits::asComplex<T>(ptrA);
+    std::complex<T>* Bz = TypeTraits::asComplex<T>(ptrB);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(C);
     for (indexType i = 0; i < dimsC.rows(); i++) {
         for (indexType j = 0; j < dimsC.columns(); j++) {
             indexType m = i + j * b.rows();
@@ -714,9 +660,9 @@ scalar_matrix_complex_dotTimes(NelsonType classDestination, const ArrayOf& A, co
     Dimensions dimsC = B.dimensions();
     indexType Clen = dimsC.elementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
-    const std::complex<T>* Az = reinterpret_cast<const std::complex<T>*>(A.dataPointer());
-    std::complex<T>* Bz = reinterpret_cast<std::complex<T>*>((T*)B.dataPointer());
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
+    const std::complex<T>* Az = TypeTraits::asComplex<T>(A.dataPointer());
+    std::complex<T>* Bz = TypeTraits::asComplex<T>((T*)B.dataPointer());
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(Cp);
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matC(Cz, 1, Clen);
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matB(Bz, 1, Clen);
     matC = Az[0] * matB.array();
@@ -730,9 +676,9 @@ matrix_scalar_complex_dotTimes(NelsonType classDestination, const ArrayOf& A, co
     Dimensions dimsC = A.dimensions();
     indexType Clen = dimsC.elementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
-    std::complex<T>* Az = reinterpret_cast<std::complex<T>*>((T*)A.dataPointer());
-    const std::complex<T>* Bz = reinterpret_cast<const std::complex<T>*>(B.dataPointer());
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
+    std::complex<T>* Az = TypeTraits::asComplex<T>((T*)A.dataPointer());
+    const std::complex<T>* Bz = TypeTraits::asComplex<T>(B.dataPointer());
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(Cp);
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matC(Cz, 1, Clen);
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matA(Az, 1, Clen);
     matC = Bz[0] * matA.array();
@@ -754,9 +700,9 @@ row_matrix_complex_dotTimes(NelsonType classDestination, const ArrayOf& A, const
     Dimensions dimsC = B.dimensions();
     indexType Clen = dimsC.elementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
-    const std::complex<T>* Az = reinterpret_cast<const std::complex<T>*>(A.dataPointer());
-    const std::complex<T>* Bz = reinterpret_cast<const std::complex<T>*>(B.dataPointer());
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
+    const std::complex<T>* Az = TypeTraits::asComplex<T>(A.dataPointer());
+    const std::complex<T>* Bz = TypeTraits::asComplex<T>(B.dataPointer());
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(Cp);
     // Column-outer order keeps the inner write contiguous so it vectorizes.
     for (indexType j = 0; j < dimsC.columns(); j++) {
         for (indexType i = 0; i < dimsC.rows(); i++) {
@@ -774,9 +720,9 @@ column_matrix_complex_dotTimes(NelsonType classDestination, const ArrayOf& A, co
     Dimensions dimsC = B.dimensions();
     indexType Clen = dimsC.elementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
-    const std::complex<T>* Az = reinterpret_cast<const std::complex<T>*>(A.dataPointer());
-    const std::complex<T>* Bz = reinterpret_cast<const std::complex<T>*>(B.dataPointer());
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
+    const std::complex<T>* Az = TypeTraits::asComplex<T>(A.dataPointer());
+    const std::complex<T>* Bz = TypeTraits::asComplex<T>(B.dataPointer());
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(Cp);
     for (indexType j = 0; j < dimsC.columns(); j++) {
         std::complex<T> aj = Az[j];
         for (indexType i = 0; i < dimsC.rows(); i++) {
@@ -794,9 +740,9 @@ matrix_row_complex_dotTimes(NelsonType classDestination, const ArrayOf& A, const
     Dimensions dimsC = A.dimensions();
     indexType Clen = dimsC.elementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
-    const std::complex<T>* Az = reinterpret_cast<const std::complex<T>*>(A.dataPointer());
-    const std::complex<T>* Bz = reinterpret_cast<const std::complex<T>*>(B.dataPointer());
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
+    const std::complex<T>* Az = TypeTraits::asComplex<T>(A.dataPointer());
+    const std::complex<T>* Bz = TypeTraits::asComplex<T>(B.dataPointer());
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(Cp);
     // Column-outer order keeps the inner write contiguous so it vectorizes.
     for (indexType j = 0; j < dimsC.columns(); j++) {
         for (indexType i = 0; i < dimsC.rows(); i++) {
@@ -814,9 +760,9 @@ matrix_column_complex_dotTimes(NelsonType classDestination, const ArrayOf& A, co
     Dimensions dimsC = A.dimensions();
     indexType Clen = dimsC.elementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
-    const std::complex<T>* Az = reinterpret_cast<const std::complex<T>*>(A.dataPointer());
-    const std::complex<T>* Bz = reinterpret_cast<const std::complex<T>*>(B.dataPointer());
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
+    const std::complex<T>* Az = TypeTraits::asComplex<T>(A.dataPointer());
+    const std::complex<T>* Bz = TypeTraits::asComplex<T>(B.dataPointer());
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(Cp);
     for (indexType j = 0; j < dimsC.columns(); j++) {
         std::complex<T> bj = Bz[j];
         for (indexType i = 0; i < dimsC.rows(); i++) {
@@ -836,9 +782,9 @@ row_column_complex_dotTimes(NelsonType classDestination, const ArrayOf& A, const
     Dimensions dimsC(rows, columns);
     indexType Clen = dimsC.elementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
-    const std::complex<T>* Az = reinterpret_cast<const std::complex<T>*>(A.dataPointer());
-    const std::complex<T>* Bz = reinterpret_cast<const std::complex<T>*>(B.dataPointer());
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
+    const std::complex<T>* Az = TypeTraits::asComplex<T>(A.dataPointer());
+    const std::complex<T>* Bz = TypeTraits::asComplex<T>(B.dataPointer());
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(Cp);
     indexType m = 0;
     for (indexType i = 0; i < A.columns(); i++) {
         for (indexType j = 0; j < B.rows(); j++) {
@@ -858,9 +804,9 @@ column_row_complex_dotTimes(NelsonType classDestination, const ArrayOf& A, const
     Dimensions dimsC(rows, columns);
     indexType Clen = dimsC.elementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
-    const std::complex<T>* Az = reinterpret_cast<const std::complex<T>*>(A.dataPointer());
-    const std::complex<T>* Bz = reinterpret_cast<const std::complex<T>*>(B.dataPointer());
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
+    const std::complex<T>* Az = TypeTraits::asComplex<T>(A.dataPointer());
+    const std::complex<T>* Bz = TypeTraits::asComplex<T>(B.dataPointer());
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(Cp);
     indexType m = 0;
     indexType elementCountA = A.elementCount();
     indexType elementCountB = B.elementCount();
@@ -1129,10 +1075,9 @@ matrix_matrix_complex_real_times(
     Dimensions dimsC = complexArray.dimensions();
     indexType Clen = dimsC.elementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
-    const std::complex<T>* Az
-        = reinterpret_cast<const std::complex<T>*>(complexArray.dataPointer());
+    const std::complex<T>* Az = TypeTraits::asComplex<T>(complexArray.dataPointer());
     const T* Br = reinterpret_cast<const T*>(realArray.dataPointer());
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(Cp);
     for (indexType k = 0; k < Clen; ++k) {
         Cz[k] = std::complex<T>(Az[k].real() * Br[k], Az[k].imag() * Br[k]);
     }
@@ -1147,10 +1092,9 @@ matrix_scalar_complex_real_times(
     Dimensions dimsC = complexArray.dimensions();
     indexType Clen = dimsC.elementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
-    const std::complex<T>* Az
-        = reinterpret_cast<const std::complex<T>*>(complexArray.dataPointer());
+    const std::complex<T>* Az = TypeTraits::asComplex<T>(complexArray.dataPointer());
     T c = reinterpret_cast<const T*>(realArray.dataPointer())[0];
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(Cp);
     for (indexType k = 0; k < Clen; ++k) {
         Cz[k] = std::complex<T>(Az[k].real() * c, Az[k].imag() * c);
     }
@@ -1165,9 +1109,9 @@ scalar_matrix_complex_real_times(
     Dimensions dimsC = realArray.dimensions();
     indexType Clen = dimsC.elementCount();
     void* Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
-    std::complex<T> a = reinterpret_cast<const std::complex<T>*>(complexArray.dataPointer())[0];
+    std::complex<T> a = TypeTraits::asComplex<T>(complexArray.dataPointer())[0];
     const T* Br = reinterpret_cast<const T*>(realArray.dataPointer());
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(Cp);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(Cp);
     for (indexType k = 0; k < Clen; ++k) {
         Cz[k] = std::complex<T>(a.real() * Br[k], a.imag() * Br[k]);
     }
@@ -1198,13 +1142,11 @@ complex_real_times_scaling(NelsonType classDestination, const ArrayOf& complexAr
     } else {
         result = scalar_matrix_complex_real_times<T>(classDestination, complexArray, realArray);
     }
-    const std::complex<T>* Az
-        = reinterpret_cast<const std::complex<T>*>(complexArray.dataPointer());
+    const std::complex<T>* Az = TypeTraits::asComplex<T>(complexArray.dataPointer());
     indexType complexCount = complexArray.isScalar() ? 1 : complexArray.dimensions().elementCount();
     if (complexHasNaNPart<T>(Az, complexCount)) {
         spreadComplexNaNParts<T>(Az, complexCount,
-            reinterpret_cast<std::complex<T>*>((T*)result.dataPointer()),
-            result.dimensions().elementCount());
+            TypeTraits::asComplex<T>((T*)result.dataPointer()), result.dimensions().elementCount());
     }
     return true;
 }

@@ -11,6 +11,7 @@
 //=============================================================================
 #include <cmath>
 #include <complex>
+#include "NelsonComplexStorage.hpp"
 #include <limits>
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
@@ -135,16 +136,16 @@ logarithmDense(const ArrayOf& A, NelsonType realClass, NelsonType complexClass, 
             return ArrayOf(realClass, dimsA, ptrOut);
         }
         T* ptrOut = (T*)ArrayOf::allocateArrayOf(complexClass, elementCount, stringVector(), false);
-        std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrOut);
+        std::complex<T>* Cz = TypeTraits::asComplex<T>(ptrOut);
         OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; k++) {
             Cz[k] = logarithmRealAsComplex<T, Base>(ptrIn[k]);
         }
         return ArrayOf(complexClass, dimsA, ptrOut);
     }
-    const std::complex<T>* Az = reinterpret_cast<const std::complex<T>*>(A.dataPointer());
+    const std::complex<T>* Az = TypeTraits::asComplex<T>(A.dataPointer());
     T* ptrOut = (T*)ArrayOf::allocateArrayOf(complexClass, elementCount, stringVector(), false);
-    std::complex<T>* Cz = reinterpret_cast<std::complex<T>*>(ptrOut);
+    std::complex<T>* Cz = TypeTraits::asComplex<T>(ptrOut);
     OMP_PARALLEL_FOR_LOOP(elementCount)
     for (ompIndexType k = 0; k < elementCount; k++) {
         Cz[k] = logarithmComplexValue<T, Base>(Az[k]);

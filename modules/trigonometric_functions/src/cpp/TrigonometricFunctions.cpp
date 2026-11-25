@@ -25,6 +25,8 @@
 #include <limits>
 #include "TrigonometricFunctions.hpp"
 #include "ClassName.hpp"
+#include "NelsonComplexStorage.hpp"
+#include "NelsonElementwiseMap.hpp"
 #include "Error.hpp"
 #include "Decomplexify.hpp"
 #include "SparseType.hpp"
@@ -255,84 +257,41 @@ Cos(const ArrayOf& A, bool& needToOverload)
             return {};
         }
     }
+    ompIndexType n = (ompIndexType)A.elementCount();
+    Dimensions dims = A.dimensions();
     switch (A.dataClass()) {
     default: {
         needToOverload = true;
     } break;
-    case NLS_SCOMPLEX: {
-        single* ptrR = (single*)ArrayOf::allocateArrayOf(
-            NLS_SCOMPLEX, A.elementCount(), stringVector(), false);
-        R = ArrayOf(NLS_SCOMPLEX, A.dimensions(), ptrR);
-        auto* Az = reinterpret_cast<singlecomplex*>((single*)A.dataPointer());
-        auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
-#if defined(_NLS_WITH_VML)
-        Eigen::Map<Eigen::VectorXcf> matEigen(Az, R.dimensions().elementCount());
-        Eigen::Map<Eigen::VectorXcf> matRes(Rz, R.dimensions().elementCount());
-        matRes = matEigen.array().cos();
-#else
-        OMP_PARALLEL_FOR_LOOP(A.elementCount())
-        for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
-            Rz[k] = std::cos(Az[k]);
-        }
-#endif
-        if (R.allReal()) {
-            R.promoteType(NLS_SINGLE);
-        }
-    } break;
     case NLS_SINGLE: {
-        single* ptrR = (single*)ArrayOf::allocateArrayOf(
-            NLS_SINGLE, A.elementCount(), stringVector(), false);
-        R = ArrayOf(NLS_SINGLE, A.dimensions(), ptrR);
-#if defined(_NLS_WITH_VML)
-        Eigen::Map<Eigen::VectorXf> matEigen(
-            (single*)A.dataPointer(), R.dimensions().elementCount());
-        Eigen::Map<Eigen::VectorXf> matRes((single*)R.dataPointer(), R.dimensions().elementCount());
-        matRes = matEigen.array().cos();
-#else
-        single* ptrA = (single*)A.dataPointer();
-        OMP_PARALLEL_FOR_LOOP(A.elementCount())
-        for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
-            ptrR[k] = cos(ptrA[k]);
-        }
-#endif
-    } break;
-    case NLS_DCOMPLEX: {
-        double* ptrR = (double*)ArrayOf::allocateArrayOf(
-            NLS_DCOMPLEX, A.elementCount(), stringVector(), false);
-        R = ArrayOf(NLS_DCOMPLEX, A.dimensions(), ptrR);
-        auto* Az = reinterpret_cast<doublecomplex*>((double*)A.dataPointer());
-        auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
-
-#if defined(_NLS_WITH_VML)
-        Eigen::Map<Eigen::VectorXcd> matEigen(Az, R.dimensions().elementCount());
-        Eigen::Map<Eigen::VectorXcd> matRes(Rz, R.dimensions().elementCount());
-        matRes = matEigen.array().cos();
-#else
-        OMP_PARALLEL_FOR_LOOP(A.elementCount())
-        for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
-            Rz[k] = std::cos(Az[k]);
-        }
-#endif
-        if (R.allReal()) {
-            R.promoteType(NLS_DOUBLE);
-        }
+        single* ptrR = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, n, stringVector(), false);
+        R = ArrayOf(NLS_SINGLE, dims, ptrR);
+        TypeTraits::mapRealDense<single>((const single*)A.dataPointer(), ptrR, n,
+            [](const auto& a) { return a.cos(); }, [](single x) { return std::cos(x); });
     } break;
     case NLS_DOUBLE: {
-        double* ptrR = (double*)ArrayOf::allocateArrayOf(
-            NLS_DOUBLE, A.elementCount(), stringVector(), false);
-        R = ArrayOf(NLS_DOUBLE, A.dimensions(), ptrR);
-#if defined(_NLS_WITH_VML)
-        Eigen::Map<Eigen::VectorXd> matEigen(
-            (double*)A.dataPointer(), R.dimensions().elementCount());
-        Eigen::Map<Eigen::VectorXd> matRes((double*)R.dataPointer(), R.dimensions().elementCount());
-        matRes = matEigen.array().cos();
-#else
-        double* ptrA = (double*)A.dataPointer();
-        OMP_PARALLEL_FOR_LOOP(A.elementCount())
-        for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
-            ptrR[k] = cos(ptrA[k]);
-        }
-#endif
+        double* ptrR = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, n, stringVector(), false);
+        R = ArrayOf(NLS_DOUBLE, dims, ptrR);
+        TypeTraits::mapRealDense<double>((const double*)A.dataPointer(), ptrR, n,
+            [](const auto& a) { return a.cos(); }, [](double x) { return std::cos(x); });
+    } break;
+    case NLS_SCOMPLEX: {
+        single* ptrR = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, n, stringVector(), false);
+        R = ArrayOf(NLS_SCOMPLEX, dims, ptrR);
+        TypeTraits::mapComplexDense<single>(
+            TypeTraits::asComplex<single>(A.dataPointer()), TypeTraits::asComplex<single>(ptrR), n,
+            [](const auto& a) { return a.cos(); },
+            [](const std::complex<single>& z) { return std::cos(z); });
+        R.demoteIfReal();
+    } break;
+    case NLS_DCOMPLEX: {
+        double* ptrR = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, n, stringVector(), false);
+        R = ArrayOf(NLS_DCOMPLEX, dims, ptrR);
+        TypeTraits::mapComplexDense<double>(
+            TypeTraits::asComplex<double>(A.dataPointer()), TypeTraits::asComplex<double>(ptrR), n,
+            [](const auto& a) { return a.cos(); },
+            [](const std::complex<double>& z) { return std::cos(z); });
+        R.demoteIfReal();
     } break;
     }
     return R;
@@ -360,81 +319,41 @@ Sin(const ArrayOf& A, bool& needToOverload)
             return {};
         }
     }
+    ompIndexType n = (ompIndexType)A.elementCount();
+    Dimensions dims = A.dimensions();
     switch (A.dataClass()) {
     default: {
         needToOverload = true;
     } break;
-    case NLS_SCOMPLEX: {
-        single* ptrR = (single*)ArrayOf::allocateArrayOf(
-            NLS_SCOMPLEX, A.elementCount(), stringVector(), false);
-        R = ArrayOf(NLS_SCOMPLEX, A.dimensions(), ptrR);
-        auto* Az = reinterpret_cast<singlecomplex*>((single*)A.dataPointer());
-        auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
-#if defined(_NLS_WITH_VML)
-        Eigen::Map<Eigen::VectorXcf> matEigen(Az, R.dimensions().elementCount());
-        Eigen::Map<Eigen::VectorXcf> matRes(Rz, R.dimensions().elementCount());
-        matRes = matEigen.array().sin();
-#else
-        OMP_PARALLEL_FOR_LOOP(A.elementCount())
-        for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
-            Rz[k] = std::sin(Az[k]);
-        }
-#endif
-        if (R.allReal()) {
-            R.promoteType(NLS_SINGLE);
-        }
-    } break;
     case NLS_SINGLE: {
-        single* ptrR = (single*)ArrayOf::allocateArrayOf(
-            NLS_SINGLE, A.elementCount(), stringVector(), false);
-        R = ArrayOf(NLS_SINGLE, A.dimensions(), ptrR);
-        single* ptrA = (single*)A.dataPointer();
-#if defined(_NLS_WITH_VML)
-        Eigen::Map<Eigen::VectorXf> matEigen(ptrA, R.dimensions().elementCount());
-        Eigen::Map<Eigen::VectorXf> matRes(ptrR, R.dimensions().elementCount());
-        matRes = matEigen.array().sin();
-#else
-        OMP_PARALLEL_FOR_LOOP(A.elementCount())
-        for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
-            ptrR[k] = std::sin(ptrA[k]);
-        }
-#endif
-    } break;
-    case NLS_DCOMPLEX: {
-        double* ptrR = (double*)ArrayOf::allocateArrayOf(
-            NLS_DCOMPLEX, A.elementCount(), stringVector(), false);
-        R = ArrayOf(NLS_DCOMPLEX, A.dimensions(), ptrR);
-        auto* Az = reinterpret_cast<doublecomplex*>((double*)A.dataPointer());
-        auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
-#if defined(_NLS_WITH_VML)
-        Eigen::Map<Eigen::VectorXcd> matEigen(Az, R.dimensions().elementCount());
-        Eigen::Map<Eigen::VectorXcd> matRes(Rz, R.dimensions().elementCount());
-        matRes = matEigen.array().sin();
-#else
-        OMP_PARALLEL_FOR_LOOP(A.elementCount())
-        for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
-            Rz[k] = std::sin(Az[k]);
-        }
-#endif
-        if (R.allReal()) {
-            R.promoteType(NLS_DOUBLE);
-        }
+        single* ptrR = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, n, stringVector(), false);
+        R = ArrayOf(NLS_SINGLE, dims, ptrR);
+        TypeTraits::mapRealDense<single>((const single*)A.dataPointer(), ptrR, n,
+            [](const auto& a) { return a.sin(); }, [](single x) { return std::sin(x); });
     } break;
     case NLS_DOUBLE: {
-        double* ptrR = (double*)ArrayOf::allocateArrayOf(
-            NLS_DOUBLE, A.elementCount(), stringVector(), false);
-        R = ArrayOf(NLS_DOUBLE, A.dimensions(), ptrR);
-        double* ptrA = (double*)A.dataPointer();
-#if defined(_NLS_WITH_VML)
-        Eigen::Map<Eigen::VectorXd> matEigen(ptrA, R.dimensions().elementCount());
-        Eigen::Map<Eigen::VectorXd> matRes(ptrR, R.dimensions().elementCount());
-        matRes = matEigen.array().sin();
-#else
-        OMP_PARALLEL_FOR_LOOP(A.elementCount())
-        for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
-            ptrR[k] = sin(ptrA[k]);
-        }
-#endif
+        double* ptrR = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, n, stringVector(), false);
+        R = ArrayOf(NLS_DOUBLE, dims, ptrR);
+        TypeTraits::mapRealDense<double>((const double*)A.dataPointer(), ptrR, n,
+            [](const auto& a) { return a.sin(); }, [](double x) { return std::sin(x); });
+    } break;
+    case NLS_SCOMPLEX: {
+        single* ptrR = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, n, stringVector(), false);
+        R = ArrayOf(NLS_SCOMPLEX, dims, ptrR);
+        TypeTraits::mapComplexDense<single>(
+            TypeTraits::asComplex<single>(A.dataPointer()), TypeTraits::asComplex<single>(ptrR), n,
+            [](const auto& a) { return a.sin(); },
+            [](const std::complex<single>& z) { return std::sin(z); });
+        R.demoteIfReal();
+    } break;
+    case NLS_DCOMPLEX: {
+        double* ptrR = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, n, stringVector(), false);
+        R = ArrayOf(NLS_DCOMPLEX, dims, ptrR);
+        TypeTraits::mapComplexDense<double>(
+            TypeTraits::asComplex<double>(A.dataPointer()), TypeTraits::asComplex<double>(ptrR), n,
+            [](const auto& a) { return a.sin(); },
+            [](const std::complex<double>& z) { return std::sin(z); });
+        R.demoteIfReal();
     } break;
     }
     return R;
@@ -462,81 +381,41 @@ Tan(const ArrayOf& A, bool& needToOverload)
             return {};
         }
     }
+    ompIndexType n = (ompIndexType)A.elementCount();
+    Dimensions dims = A.dimensions();
     switch (A.dataClass()) {
     default: {
         needToOverload = true;
     } break;
-    case NLS_SCOMPLEX: {
-        single* ptrR = (single*)ArrayOf::allocateArrayOf(
-            NLS_SCOMPLEX, A.elementCount(), stringVector(), false);
-        R = ArrayOf(NLS_SCOMPLEX, A.dimensions(), ptrR);
-        auto* Az = reinterpret_cast<singlecomplex*>((single*)A.dataPointer());
-        auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
-#if defined(_NLS_WITH_VML)
-        Eigen::Map<Eigen::VectorXcf> matEigen(Az, R.dimensions().elementCount());
-        Eigen::Map<Eigen::VectorXcf> matRes(Rz, R.dimensions().elementCount());
-        matRes = matEigen.array().tan();
-#else
-        OMP_PARALLEL_FOR_LOOP(A.elementCount())
-        for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
-            Rz[k] = std::tan(Az[k]);
-        }
-#endif
-        if (R.allReal()) {
-            R.promoteType(NLS_SINGLE);
-        }
-    } break;
     case NLS_SINGLE: {
-        single* ptrR = (single*)ArrayOf::allocateArrayOf(
-            NLS_SINGLE, A.elementCount(), stringVector(), false);
-        R = ArrayOf(NLS_SINGLE, A.dimensions(), ptrR);
-        single* ptrA = (single*)A.dataPointer();
-#if defined(_NLS_WITH_VML)
-        Eigen::Map<Eigen::VectorXf> matEigen(ptrA, R.dimensions().elementCount());
-        Eigen::Map<Eigen::VectorXf> matRes(ptrR, R.dimensions().elementCount());
-        matRes = matEigen.array().tan();
-#else
-        OMP_PARALLEL_FOR_LOOP(A.elementCount())
-        for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
-            ptrR[k] = tan(ptrA[k]);
-        }
-#endif
-    } break;
-    case NLS_DCOMPLEX: {
-        double* ptrR = (double*)ArrayOf::allocateArrayOf(
-            NLS_DCOMPLEX, A.elementCount(), stringVector(), false);
-        R = ArrayOf(NLS_DCOMPLEX, A.dimensions(), ptrR);
-        auto* Az = reinterpret_cast<doublecomplex*>((double*)A.dataPointer());
-        auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
-#if defined(_NLS_WITH_VML)
-        Eigen::Map<Eigen::VectorXcd> matEigen(Az, R.dimensions().elementCount());
-        Eigen::Map<Eigen::VectorXcd> matRes(Rz, R.dimensions().elementCount());
-        matRes = matEigen.array().tan();
-#else
-        OMP_PARALLEL_FOR_LOOP(A.elementCount())
-        for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
-            Rz[k] = tan(Az[k]);
-        }
-#endif
-        if (R.allReal()) {
-            R.promoteType(NLS_DOUBLE);
-        }
+        single* ptrR = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, n, stringVector(), false);
+        R = ArrayOf(NLS_SINGLE, dims, ptrR);
+        TypeTraits::mapRealDense<single>((const single*)A.dataPointer(), ptrR, n,
+            [](const auto& a) { return a.tan(); }, [](single x) { return std::tan(x); });
     } break;
     case NLS_DOUBLE: {
-        double* ptrR = (double*)ArrayOf::allocateArrayOf(
-            NLS_DOUBLE, A.elementCount(), stringVector(), false);
-        R = ArrayOf(NLS_DOUBLE, A.dimensions(), ptrR);
-        double* ptrA = (double*)A.dataPointer();
-#if defined(_NLS_WITH_VML)
-        Eigen::Map<Eigen::VectorXd> matEigen(ptrA, R.dimensions().elementCount());
-        Eigen::Map<Eigen::VectorXd> matRes(ptrR, R.dimensions().elementCount());
-        matRes = matEigen.array().tan();
-#else
-        OMP_PARALLEL_FOR_LOOP(A.elementCount())
-        for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
-            ptrR[k] = tan(ptrA[k]);
-        }
-#endif
+        double* ptrR = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, n, stringVector(), false);
+        R = ArrayOf(NLS_DOUBLE, dims, ptrR);
+        TypeTraits::mapRealDense<double>((const double*)A.dataPointer(), ptrR, n,
+            [](const auto& a) { return a.tan(); }, [](double x) { return std::tan(x); });
+    } break;
+    case NLS_SCOMPLEX: {
+        single* ptrR = (single*)ArrayOf::allocateArrayOf(NLS_SCOMPLEX, n, stringVector(), false);
+        R = ArrayOf(NLS_SCOMPLEX, dims, ptrR);
+        TypeTraits::mapComplexDense<single>(
+            TypeTraits::asComplex<single>(A.dataPointer()), TypeTraits::asComplex<single>(ptrR), n,
+            [](const auto& a) { return a.tan(); },
+            [](const std::complex<single>& z) { return std::tan(z); });
+        R.demoteIfReal();
+    } break;
+    case NLS_DCOMPLEX: {
+        double* ptrR = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, n, stringVector(), false);
+        R = ArrayOf(NLS_DCOMPLEX, dims, ptrR);
+        TypeTraits::mapComplexDense<double>(
+            TypeTraits::asComplex<double>(A.dataPointer()), TypeTraits::asComplex<double>(ptrR), n,
+            [](const auto& a) { return a.tan(); },
+            [](const std::complex<double>& z) { return std::tan(z); });
+        R.demoteIfReal();
     } break;
     }
     return R;
@@ -572,15 +451,13 @@ Cosh(const ArrayOf& A, bool& needToOverload)
         single* ptrR = (single*)ArrayOf::allocateArrayOf(
             NLS_SCOMPLEX, A.elementCount(), stringVector(), false);
         R = ArrayOf(NLS_SCOMPLEX, A.dimensions(), ptrR);
-        auto* Az = reinterpret_cast<singlecomplex*>((single*)A.dataPointer());
-        auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
+        auto* Az = TypeTraits::asComplex<single>(A.dataPointer());
+        auto* Rz = TypeTraits::asComplex<single>(ptrR);
         OMP_PARALLEL_FOR_LOOP(A.elementCount())
         for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
             Rz[k] = std::cosh(Az[k]);
         }
-        if (R.allReal()) {
-            R.promoteType(NLS_SINGLE);
-        }
+        R.demoteIfReal();
     } break;
     case NLS_SINGLE: {
         single* ptrR = (single*)ArrayOf::allocateArrayOf(
@@ -596,15 +473,13 @@ Cosh(const ArrayOf& A, bool& needToOverload)
         double* ptrR = (double*)ArrayOf::allocateArrayOf(
             NLS_DCOMPLEX, A.elementCount(), stringVector(), false);
         R = ArrayOf(NLS_DCOMPLEX, A.dimensions(), ptrR);
-        auto* Az = reinterpret_cast<doublecomplex*>((double*)A.dataPointer());
-        auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
+        auto* Az = TypeTraits::asComplex<double>(A.dataPointer());
+        auto* Rz = TypeTraits::asComplex<double>(ptrR);
         OMP_PARALLEL_FOR_LOOP(A.elementCount())
         for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
             Rz[k] = std::cosh(Az[k]);
         }
-        if (R.allReal()) {
-            R.promoteType(NLS_DOUBLE);
-        }
+        R.demoteIfReal();
     } break;
     case NLS_DOUBLE: {
         double* ptrR = (double*)ArrayOf::allocateArrayOf(
@@ -650,15 +525,13 @@ Sinh(const ArrayOf& A, bool& needToOverload)
         single* ptrR = (single*)ArrayOf::allocateArrayOf(
             NLS_SCOMPLEX, A.elementCount(), stringVector(), false);
         R = ArrayOf(NLS_SCOMPLEX, A.dimensions(), ptrR);
-        auto* Az = reinterpret_cast<singlecomplex*>((single*)A.dataPointer());
-        auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
+        auto* Az = TypeTraits::asComplex<single>(A.dataPointer());
+        auto* Rz = TypeTraits::asComplex<single>(ptrR);
         OMP_PARALLEL_FOR_LOOP(A.elementCount())
         for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
             Rz[k] = std::sinh(Az[k]);
         }
-        if (R.allReal()) {
-            R.promoteType(NLS_SINGLE);
-        }
+        R.demoteIfReal();
     } break;
     case NLS_SINGLE: {
         single* ptrR = (single*)ArrayOf::allocateArrayOf(
@@ -674,15 +547,13 @@ Sinh(const ArrayOf& A, bool& needToOverload)
         double* ptrR = (double*)ArrayOf::allocateArrayOf(
             NLS_DCOMPLEX, A.elementCount(), stringVector(), false);
         R = ArrayOf(NLS_DCOMPLEX, A.dimensions(), ptrR);
-        auto* Az = reinterpret_cast<doublecomplex*>((double*)A.dataPointer());
-        auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
+        auto* Az = TypeTraits::asComplex<double>(A.dataPointer());
+        auto* Rz = TypeTraits::asComplex<double>(ptrR);
         OMP_PARALLEL_FOR_LOOP(A.elementCount())
         for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
             Rz[k] = std::sinh(Az[k]);
         }
-        if (R.allReal()) {
-            R.promoteType(NLS_DOUBLE);
-        }
+        R.demoteIfReal();
     } break;
     case NLS_DOUBLE: {
         double* ptrR = (double*)ArrayOf::allocateArrayOf(
@@ -728,15 +599,13 @@ Tanh(const ArrayOf& A, bool& needToOverload)
         single* ptrR = (single*)ArrayOf::allocateArrayOf(
             NLS_SCOMPLEX, A.elementCount(), stringVector(), false);
         R = ArrayOf(NLS_SCOMPLEX, A.dimensions(), ptrR);
-        auto* Az = reinterpret_cast<singlecomplex*>((single*)A.dataPointer());
-        auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
+        auto* Az = TypeTraits::asComplex<single>(A.dataPointer());
+        auto* Rz = TypeTraits::asComplex<single>(ptrR);
         OMP_PARALLEL_FOR_LOOP(A.elementCount())
         for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
             Rz[k] = std::tanh(Az[k]);
         }
-        if (R.allReal()) {
-            R.promoteType(NLS_SINGLE);
-        }
+        R.demoteIfReal();
     } break;
     case NLS_SINGLE: {
         single* ptrR = (single*)ArrayOf::allocateArrayOf(
@@ -752,15 +621,13 @@ Tanh(const ArrayOf& A, bool& needToOverload)
         double* ptrR = (double*)ArrayOf::allocateArrayOf(
             NLS_DCOMPLEX, A.elementCount(), stringVector(), false);
         R = ArrayOf(NLS_DCOMPLEX, A.dimensions(), ptrR);
-        auto* Az = reinterpret_cast<doublecomplex*>((double*)A.dataPointer());
-        auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
+        auto* Az = TypeTraits::asComplex<double>(A.dataPointer());
+        auto* Rz = TypeTraits::asComplex<double>(ptrR);
         OMP_PARALLEL_FOR_LOOP(A.elementCount())
         for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
             Rz[k] = std::tanh(Az[k]);
         }
-        if (R.allReal()) {
-            R.promoteType(NLS_DOUBLE);
-        }
+        R.demoteIfReal();
     } break;
     case NLS_DOUBLE: {
         double* ptrR = (double*)ArrayOf::allocateArrayOf(
@@ -812,15 +679,13 @@ Acos(const ArrayOf& A, bool& needToOverload)
         single* ptrR = (single*)ArrayOf::allocateArrayOf(
             NLS_SCOMPLEX, A.elementCount(), stringVector(), false);
         R = ArrayOf(NLS_SCOMPLEX, A.dimensions(), ptrR);
-        auto* Az = reinterpret_cast<singlecomplex*>((single*)A.dataPointer());
-        auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
+        auto* Az = TypeTraits::asComplex<single>(A.dataPointer());
+        auto* Rz = TypeTraits::asComplex<single>(ptrR);
         OMP_PARALLEL_FOR_LOOP(A.elementCount())
         for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
             Rz[k] = acosComplexValue<single>(Az[k]);
         }
-        if (R.allReal()) {
-            R.promoteType(NLS_SINGLE);
-        }
+        R.demoteIfReal();
     } break;
     case NLS_SINGLE: {
         auto* ptrA = (single*)A.dataPointer();
@@ -836,7 +701,7 @@ Acos(const ArrayOf& A, bool& needToOverload)
             single* ptrR = (single*)ArrayOf::allocateArrayOf(
                 NLS_SCOMPLEX, A.elementCount(), stringVector(), false);
             R = ArrayOf(NLS_SCOMPLEX, A.dimensions(), ptrR);
-            auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
+            auto* Rz = TypeTraits::asComplex<single>(ptrR);
             OMP_PARALLEL_FOR_LOOP(A.elementCount())
             for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
                 Rz[k] = acosRealAsComplex<single>(ptrA[k]);
@@ -845,32 +710,22 @@ Acos(const ArrayOf& A, bool& needToOverload)
             single* ptrR = (single*)ArrayOf::allocateArrayOf(
                 NLS_SINGLE, A.elementCount(), stringVector(), false);
             R = ArrayOf(NLS_SINGLE, A.dimensions(), ptrR);
-            single* ptrA = (single*)A.dataPointer();
-#if defined(_NLS_WITH_VML)
-            Eigen::Map<Eigen::VectorXf> matEigen(ptrA, R.dimensions().elementCount());
-            Eigen::Map<Eigen::VectorXf> matRes(ptrR, R.dimensions().elementCount());
-            matRes = matEigen.array().acos();
-#else
-            OMP_PARALLEL_FOR_LOOP(A.elementCount())
-            for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
-                ptrR[k] = acos(ptrA[k]);
-            }
-#endif
+            TypeTraits::mapRealDense<single>((const single*)A.dataPointer(), ptrR,
+                (ompIndexType)A.elementCount(), [](const auto& a) { return a.acos(); },
+                [](single x) { return std::acos(x); });
         }
     } break;
     case NLS_DCOMPLEX: {
         double* ptrR = (double*)ArrayOf::allocateArrayOf(
             NLS_DCOMPLEX, A.elementCount(), stringVector(), false);
         R = ArrayOf(NLS_DCOMPLEX, A.dimensions(), ptrR);
-        auto* Az = reinterpret_cast<doublecomplex*>((double*)A.dataPointer());
-        auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
+        auto* Az = TypeTraits::asComplex<double>(A.dataPointer());
+        auto* Rz = TypeTraits::asComplex<double>(ptrR);
         OMP_PARALLEL_FOR_LOOP(A.elementCount())
         for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
             Rz[k] = acosComplexValue<double>(Az[k]);
         }
-        if (R.allReal()) {
-            R.promoteType(NLS_DOUBLE);
-        }
+        R.demoteIfReal();
     } break;
     case NLS_DOUBLE: {
         auto* ptrA = (double*)A.dataPointer();
@@ -886,7 +741,7 @@ Acos(const ArrayOf& A, bool& needToOverload)
             double* ptrR = (double*)ArrayOf::allocateArrayOf(
                 NLS_DCOMPLEX, A.elementCount(), stringVector(), false);
             R = ArrayOf(NLS_DCOMPLEX, A.dimensions(), ptrR);
-            auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
+            auto* Rz = TypeTraits::asComplex<double>(ptrR);
             OMP_PARALLEL_FOR_LOOP(A.elementCount())
             for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
                 Rz[k] = acosRealAsComplex<double>(ptrA[k]);
@@ -895,17 +750,9 @@ Acos(const ArrayOf& A, bool& needToOverload)
             double* ptrR = (double*)ArrayOf::allocateArrayOf(
                 NLS_DOUBLE, A.elementCount(), stringVector(), false);
             R = ArrayOf(NLS_DOUBLE, A.dimensions(), ptrR);
-            double* ptrA = (double*)A.dataPointer();
-#if defined(_NLS_WITH_VML)
-            Eigen::Map<Eigen::VectorXd> matEigen(ptrA, R.dimensions().elementCount());
-            Eigen::Map<Eigen::VectorXd> matRes(ptrR, R.dimensions().elementCount());
-            matRes = matEigen.array().acos();
-#else
-            OMP_PARALLEL_FOR_LOOP(A.elementCount())
-            for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
-                ptrR[k] = acos(ptrA[k]);
-            }
-#endif
+            TypeTraits::mapRealDense<double>((const double*)A.dataPointer(), ptrR,
+                (ompIndexType)A.elementCount(), [](const auto& a) { return a.acos(); },
+                [](double x) { return std::acos(x); });
         }
     } break;
     }
@@ -948,15 +795,13 @@ Asin(const ArrayOf& A, bool& needToOverload)
         single* ptrR = (single*)ArrayOf::allocateArrayOf(
             NLS_SCOMPLEX, A.elementCount(), stringVector(), false);
         R = ArrayOf(NLS_SCOMPLEX, A.dimensions(), ptrR);
-        auto* Az = reinterpret_cast<singlecomplex*>((single*)A.dataPointer());
-        auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
+        auto* Az = TypeTraits::asComplex<single>(A.dataPointer());
+        auto* Rz = TypeTraits::asComplex<single>(ptrR);
         OMP_PARALLEL_FOR_LOOP(A.elementCount())
         for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
             Rz[k] = asinComplexValue<single>(Az[k]);
         }
-        if (R.allReal()) {
-            R.promoteType(NLS_SINGLE);
-        }
+        R.demoteIfReal();
     } break;
     case NLS_SINGLE: {
         auto* ptrA = (single*)A.dataPointer();
@@ -972,7 +817,7 @@ Asin(const ArrayOf& A, bool& needToOverload)
             single* ptrR = (single*)ArrayOf::allocateArrayOf(
                 NLS_SCOMPLEX, A.elementCount(), stringVector(), false);
             R = ArrayOf(NLS_SCOMPLEX, A.dimensions(), ptrR);
-            auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
+            auto* Rz = TypeTraits::asComplex<single>(ptrR);
             OMP_PARALLEL_FOR_LOOP(A.elementCount())
             for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
                 Rz[k] = asinRealAsComplex<single>(ptrA[k]);
@@ -981,32 +826,22 @@ Asin(const ArrayOf& A, bool& needToOverload)
             single* ptrR = (single*)ArrayOf::allocateArrayOf(
                 NLS_SINGLE, A.elementCount(), stringVector(), false);
             R = ArrayOf(NLS_SINGLE, A.dimensions(), ptrR);
-            single* ptrA = (single*)A.dataPointer();
-#if defined(_NLS_WITH_VML)
-            Eigen::Map<Eigen::VectorXf> matEigen(ptrA, R.dimensions().elementCount());
-            Eigen::Map<Eigen::VectorXf> matRes(ptrR, R.dimensions().elementCount());
-            matRes = matEigen.array().asin();
-#else
-            OMP_PARALLEL_FOR_LOOP(A.elementCount())
-            for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
-                ptrR[k] = asin(ptrA[k]);
-            }
-#endif
+            TypeTraits::mapRealDense<single>((const single*)A.dataPointer(), ptrR,
+                (ompIndexType)A.elementCount(), [](const auto& a) { return a.asin(); },
+                [](single x) { return std::asin(x); });
         }
     } break;
     case NLS_DCOMPLEX: {
         double* ptrR = (double*)ArrayOf::allocateArrayOf(
             NLS_DCOMPLEX, A.elementCount(), stringVector(), false);
         R = ArrayOf(NLS_DCOMPLEX, A.dimensions(), ptrR);
-        auto* Az = reinterpret_cast<doublecomplex*>((double*)A.dataPointer());
-        auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
+        auto* Az = TypeTraits::asComplex<double>(A.dataPointer());
+        auto* Rz = TypeTraits::asComplex<double>(ptrR);
         OMP_PARALLEL_FOR_LOOP(A.elementCount())
         for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
             Rz[k] = asinComplexValue<double>(Az[k]);
         }
-        if (R.allReal()) {
-            R.promoteType(NLS_DOUBLE);
-        }
+        R.demoteIfReal();
     } break;
     case NLS_DOUBLE: {
         auto* ptrA = (double*)A.dataPointer();
@@ -1022,7 +857,7 @@ Asin(const ArrayOf& A, bool& needToOverload)
             double* ptrR = (double*)ArrayOf::allocateArrayOf(
                 NLS_DCOMPLEX, A.elementCount(), stringVector(), false);
             R = ArrayOf(NLS_DCOMPLEX, A.dimensions(), ptrR);
-            auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
+            auto* Rz = TypeTraits::asComplex<double>(ptrR);
             OMP_PARALLEL_FOR_LOOP(A.elementCount())
             for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
                 Rz[k] = asinRealAsComplex<double>(ptrA[k]);
@@ -1031,17 +866,9 @@ Asin(const ArrayOf& A, bool& needToOverload)
             double* ptrR = (double*)ArrayOf::allocateArrayOf(
                 NLS_DOUBLE, A.elementCount(), stringVector(), false);
             R = ArrayOf(NLS_DOUBLE, A.dimensions(), ptrR);
-            double* ptrA = (double*)A.dataPointer();
-#if defined(_NLS_WITH_VML)
-            Eigen::Map<Eigen::VectorXd> matEigen(ptrA, R.dimensions().elementCount());
-            Eigen::Map<Eigen::VectorXd> matRes(ptrR, R.dimensions().elementCount());
-            matRes = matEigen.array().asin();
-#else
-            OMP_PARALLEL_FOR_LOOP(A.elementCount())
-            for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
-                ptrR[k] = asin(ptrA[k]);
-            }
-#endif
+            TypeTraits::mapRealDense<double>((const double*)A.dataPointer(), ptrR,
+                (ompIndexType)A.elementCount(), [](const auto& a) { return a.asin(); },
+                [](double x) { return std::asin(x); });
         }
     } break;
     }
@@ -1078,15 +905,13 @@ Atan(const ArrayOf& A, bool& needToOverload)
         single* ptrR = (single*)ArrayOf::allocateArrayOf(
             NLS_SCOMPLEX, A.elementCount(), stringVector(), false);
         R = ArrayOf(NLS_SCOMPLEX, A.dimensions(), ptrR);
-        auto* Az = reinterpret_cast<singlecomplex*>((single*)A.dataPointer());
-        auto* Rz = reinterpret_cast<singlecomplex*>(ptrR);
+        auto* Az = TypeTraits::asComplex<single>(A.dataPointer());
+        auto* Rz = TypeTraits::asComplex<single>(ptrR);
         OMP_PARALLEL_FOR_LOOP(A.elementCount())
         for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
             Rz[k] = std::atan(Az[k]);
         }
-        if (R.allReal()) {
-            R.promoteType(NLS_SINGLE);
-        }
+        R.demoteIfReal();
     } break;
     case NLS_SINGLE: {
         single* ptrR = (single*)ArrayOf::allocateArrayOf(
@@ -1102,15 +927,13 @@ Atan(const ArrayOf& A, bool& needToOverload)
         double* ptrR = (double*)ArrayOf::allocateArrayOf(
             NLS_DCOMPLEX, A.elementCount(), stringVector(), false);
         R = ArrayOf(NLS_DCOMPLEX, A.dimensions(), ptrR);
-        auto* Az = reinterpret_cast<doublecomplex*>((double*)A.dataPointer());
-        auto* Rz = reinterpret_cast<doublecomplex*>(ptrR);
+        auto* Az = TypeTraits::asComplex<double>(A.dataPointer());
+        auto* Rz = TypeTraits::asComplex<double>(ptrR);
         OMP_PARALLEL_FOR_LOOP(A.elementCount())
         for (ompIndexType k = 0; k < (ompIndexType)A.elementCount(); ++k) {
             Rz[k] = std::atan(Az[k]);
         }
-        if (R.allReal()) {
-            R.promoteType(NLS_DOUBLE);
-        }
+        R.demoteIfReal();
     } break;
     case NLS_DOUBLE: {
         double* ptrR = (double*)ArrayOf::allocateArrayOf(
@@ -1172,24 +995,22 @@ mapUnaryDense(const ArrayOf& A, NelsonType realClass, NelsonType complexClass, I
             return ArrayOf(realClass, dims, y);
         }
         T* y = (T*)ArrayOf::allocateArrayOf(complexClass, n, stringVector(), false);
-        auto* yz = reinterpret_cast<std::complex<T>*>(y);
+        auto* yz = TypeTraits::asComplex<T>(y);
         OMP_PARALLEL_FOR_LOOP(n)
         for (ompIndexType k = 0; k < n; ++k) {
             yz[k] = realAsComplexFn(x[k]);
         }
         return ArrayOf(complexClass, dims, y);
     }
-    const auto* xz = reinterpret_cast<const std::complex<T>*>(A.dataPointer());
+    const auto* xz = TypeTraits::asComplex<T>(A.dataPointer());
     T* y = (T*)ArrayOf::allocateArrayOf(complexClass, n, stringVector(), false);
-    auto* yz = reinterpret_cast<std::complex<T>*>(y);
+    auto* yz = TypeTraits::asComplex<T>(y);
     OMP_PARALLEL_FOR_LOOP(n)
     for (ompIndexType k = 0; k < n; ++k) {
         yz[k] = complexFn(xz[k]);
     }
     ArrayOf R(complexClass, dims, y);
-    if (R.allReal()) {
-        R.promoteType(realClass);
-    }
+    R.demoteIfReal();
     return R;
 }
 //=============================================================================

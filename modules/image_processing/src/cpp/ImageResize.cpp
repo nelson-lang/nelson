@@ -328,55 +328,50 @@ ImageResize(const ArrayOf& image, size_t numrows, size_t numcols, const ResizeOp
         useAntialiasing = (scale_x > 1.0 || scale_y > 1.0);
     }
 
+    // Every supported class forwards to the same resizeImage<T> kernel; a
+    // generic lambda factors the eleven identical cases.
+    auto resize = [&](auto tag) {
+        using T = decltype(tag);
+        resizeImage<T>((const T*)image.dataPointer(), (T*)outputImage.dataPointer(), width, height,
+            channels, numcols, numrows, options.method, useAntialiasing);
+    };
     switch (dataClass) {
-    case NLS_DOUBLE: {
-        resizeImage<double>((const double*)image.dataPointer(), (double*)outputImage.dataPointer(),
-            width, height, channels, numcols, numrows, options.method, useAntialiasing);
-    } break;
-    case NLS_SINGLE: {
-        resizeImage<single>((const single*)image.dataPointer(), (single*)outputImage.dataPointer(),
-            width, height, channels, numcols, numrows, options.method, useAntialiasing);
-    } break;
-    case NLS_INT8: {
-        resizeImage<int8>((const int8*)image.dataPointer(), (int8*)outputImage.dataPointer(), width,
-            height, channels, numcols, numrows, options.method, useAntialiasing);
-    } break;
-    case NLS_INT16: {
-        resizeImage<int16>((const int16*)image.dataPointer(), (int16*)outputImage.dataPointer(),
-            width, height, channels, numcols, numrows, options.method, useAntialiasing);
-    } break;
-    case NLS_INT32: {
-        resizeImage<int32>((const int32*)image.dataPointer(), (int32*)outputImage.dataPointer(),
-            width, height, channels, numcols, numrows, options.method, useAntialiasing);
-    } break;
-    case NLS_INT64: {
-        resizeImage<int64>((const int64*)image.dataPointer(), (int64*)outputImage.dataPointer(),
-            width, height, channels, numcols, numrows, options.method, useAntialiasing);
-    } break;
-    case NLS_UINT8: {
-        resizeImage<uint8>((const uint8*)image.dataPointer(), (uint8*)outputImage.dataPointer(),
-            width, height, channels, numcols, numrows, options.method, useAntialiasing);
-    } break;
-    case NLS_UINT16: {
-        resizeImage<uint16>((const uint16*)image.dataPointer(), (uint16*)outputImage.dataPointer(),
-            width, height, channels, numcols, numrows, options.method, useAntialiasing);
-    } break;
-    case NLS_UINT32: {
-        resizeImage<uint32>((const uint32*)image.dataPointer(), (uint32*)outputImage.dataPointer(),
-            width, height, channels, numcols, numrows, options.method, useAntialiasing);
-    } break;
-    case NLS_UINT64: {
-        resizeImage<uint64>((const uint64*)image.dataPointer(), (uint64*)outputImage.dataPointer(),
-            width, height, channels, numcols, numrows, options.method, useAntialiasing);
-    } break;
-    case NLS_LOGICAL: {
-        resizeImage<logical>((const logical*)image.dataPointer(),
-            (logical*)outputImage.dataPointer(), width, height, channels, numcols, numrows,
-            options.method, useAntialiasing);
-    } break;
-    default: {
+    case NLS_DOUBLE:
+        resize(double {});
+        break;
+    case NLS_SINGLE:
+        resize(single {});
+        break;
+    case NLS_INT8:
+        resize(int8 {});
+        break;
+    case NLS_INT16:
+        resize(int16 {});
+        break;
+    case NLS_INT32:
+        resize(int32 {});
+        break;
+    case NLS_INT64:
+        resize(int64 {});
+        break;
+    case NLS_UINT8:
+        resize(uint8 {});
+        break;
+    case NLS_UINT16:
+        resize(uint16 {});
+        break;
+    case NLS_UINT32:
+        resize(uint32 {});
+        break;
+    case NLS_UINT64:
+        resize(uint64 {});
+        break;
+    case NLS_LOGICAL:
+        resize(logical {});
+        break;
+    default:
         Error(L"Nelson:image_processing:typeNotSupported", L"Type not supported.");
-    } break;
+        break;
     }
 
     return outputImage;

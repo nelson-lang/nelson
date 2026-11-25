@@ -10,6 +10,7 @@
 #define _SCL_SECURE_NO_WARNINGS
 //=============================================================================
 #include "lapack_eigen_config.hpp"
+#include "NelsonComplexStorage.hpp"
 #include <cmath>
 #include <type_traits>
 #include <Eigen/Dense>
@@ -170,7 +171,7 @@ Eigen_MakeDenseArrayOf(NelsonType dclass, indexType rows, indexType cols, const 
             doublecomplex* pzMat = nullptr;
             try {
                 pMat = new double[spMat->rows() * spMat->cols() * 2];
-                pzMat = reinterpret_cast<doublecomplex*>(pMat);
+                pzMat = TypeTraits::asComplex<double>(pMat);
             } catch (const std::bad_alloc&) {
                 spMat = nullptr;
                 Error(L"Nelson:outOfMemory",
@@ -190,7 +191,7 @@ Eigen_MakeDenseArrayOf(NelsonType dclass, indexType rows, indexType cols, const 
             singlecomplex* pzMat = nullptr;
             try {
                 pMat = new single[spMat->rows() * spMat->cols() * 2];
-                pzMat = reinterpret_cast<singlecomplex*>(pMat);
+                pzMat = TypeTraits::asComplex<single>(pMat);
             } catch (const std::bad_alloc&) {
                 spMat = nullptr;
                 Error(L"Nelson:outOfMemory",
@@ -239,7 +240,7 @@ Eigen_MakeSparseArrayOf(NelsonType dclass, indexType rows, indexType cols, const
         return Eigen_MakeSparseArrayOf<single>(rows, cols, cp);
     } break;
     case NLS_DCOMPLEX: {
-        auto* Az = reinterpret_cast<doublecomplex*>((double*)cp);
+        auto* Az = TypeTraits::asComplex<double>((double*)cp);
         Eigen::Map<Eigen::Matrix<doublecomplex, Eigen::Dynamic, Eigen::Dynamic>> matA(
             Az, rows, cols);
         Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spMat;
@@ -255,7 +256,7 @@ Eigen_MakeSparseArrayOf(NelsonType dclass, indexType rows, indexType cols, const
         return (void*)spMat;
     } break;
     case NLS_SCOMPLEX: {
-        auto* Az = reinterpret_cast<singlecomplex*>((single*)cp);
+        auto* Az = TypeTraits::asComplex<single>((single*)cp);
         Eigen::Map<Eigen::Matrix<singlecomplex, Eigen::Dynamic, Eigen::Dynamic>> matA(
             Az, rows, cols);
         Eigen::SparseMatrix<singlecomplex, 0, signedIndexType>* spMat;

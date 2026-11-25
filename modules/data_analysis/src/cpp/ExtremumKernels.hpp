@@ -34,6 +34,11 @@ struct MaxPolicy
     {
         return a > b;
     }
+    static inline const char*
+    name()
+    {
+        return "max";
+    }
 };
 //=============================================================================
 struct MinPolicy
@@ -43,6 +48,11 @@ struct MinPolicy
     better(T a, T b)
     {
         return a < b;
+    }
+    static inline const char*
+    name()
+    {
+        return "min";
     }
 };
 //=============================================================================

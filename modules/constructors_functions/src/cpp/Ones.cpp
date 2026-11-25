@@ -12,6 +12,8 @@
 #include <Eigen/Dense>
 #include "omp_for_loop.hpp"
 #include "Ones.hpp"
+#include "NelsonTypeVisitor.hpp"
+#include "NelsonComplexStorage.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
 //=============================================================================
@@ -45,7 +47,7 @@ template <class T>
 ArrayOf
 complexOnes(NelsonType classOut, void* dp, const Dimensions& outDims)
 {
-    auto* ptrDpz = reinterpret_cast<std::complex<T>*>((T*)dp);
+    auto* ptrDpz = TypeTraits::asComplex<T>(dp);
     std::complex<T> value = { 1, 0 };
     ompIndexType nbElements = (ompIndexType)outDims.elementCount();
     if (nbElements == 1) {
@@ -72,53 +74,14 @@ Ones(Dimensions& dims, NelsonType cl)
     indexType nbElements = dims.elementCount();
     void* dp = ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false);
 
-    switch (cl) {
-    case NLS_LOGICAL: {
-        return realOnes<logical>(cl, dp, dims);
-    } break;
-    case NLS_INT8: {
-        return realOnes<int8>(cl, dp, dims);
-    } break;
-    case NLS_UINT8: {
-        return realOnes<uint8>(cl, dp, dims);
-    } break;
-    case NLS_INT16: {
-        return realOnes<int16>(cl, dp, dims);
-    } break;
-    case NLS_UINT16: {
-        return realOnes<uint16>(cl, dp, dims);
-    } break;
-    case NLS_INT32: {
-        return realOnes<int32>(cl, dp, dims);
-    } break;
-    case NLS_UINT32: {
-        return realOnes<uint32>(cl, dp, dims);
-    } break;
-    case NLS_INT64: {
-        return realOnes<int64>(cl, dp, dims);
-    } break;
-    case NLS_UINT64: {
-        return realOnes<uint64>(cl, dp, dims);
-    } break;
-    case NLS_SINGLE: {
-        return realOnes<single>(cl, dp, dims);
-    } break;
-    case NLS_DOUBLE: {
-        return realOnes<double>(cl, dp, dims);
-    } break;
-    case NLS_SCOMPLEX: {
-        return complexOnes<single>(cl, dp, dims);
-    } break;
-    case NLS_DCOMPLEX: {
-        return complexOnes<double>(cl, dp, dims);
-    } break;
-    case NLS_CHAR: {
-        return realOnes<charType>(cl, dp, dims);
-    } break;
-    default:
-        Error(L"Nelson:constructors_functions:typeNotSupported", L"Type not supported.");
-    }
-    return {};
+    return TypeTraits::visitStorage(cl, [&](auto tag) {
+        using T = decltype(tag);
+        if constexpr (TypeTraits::isComplexElement<T>) {
+            return complexOnes<typename T::value_type>(cl, dp, dims);
+        } else {
+            return realOnes<T>(cl, dp, dims);
+        }
+    });
 }
 //=============================================================================
 } // namespace Nelson

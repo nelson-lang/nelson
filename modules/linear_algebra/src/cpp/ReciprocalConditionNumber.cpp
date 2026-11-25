@@ -13,6 +13,7 @@
 #include <algorithm>
 #include <cfloat>
 #include "BlasThreadScope.hpp"
+#include "NelsonComplexStorage.hpp"
 #include "lapack_eigen_config.hpp"
 #undef EIGEN_USE_MKL
 #undef EIGEN_USE_MKL_VML
@@ -83,7 +84,7 @@ static ArrayOf
 ReciprocalConditionNumber_DoubleComplex(const ArrayOf& A, bool precionWarning)
 {
     ArrayOf rcond;
-    auto* input = reinterpret_cast<const doublecomplex*>((const double*)A.dataPointer());
+    auto* input = TypeTraits::asComplex<double>((const double*)A.dataPointer());
     if (A.isScalar()) {
         doublecomplex value = input[0];
         if (std::isnan(value.real()) || std::isnan(value.imag())) {
@@ -184,7 +185,7 @@ ReciprocalConditionNumber_SingleComplex(const ArrayOf& A, bool precionWarning)
 {
     ArrayOf rcond;
     Dimensions dimsA = A.dimensions();
-    auto* input = reinterpret_cast<const singlecomplex*>((const single*)A.dataPointer());
+    auto* input = TypeTraits::asComplex<single>((const single*)A.dataPointer());
     if (A.isScalar()) {
         singlecomplex value = input[0];
         if (std::isnan(value.real()) || std::isnan(value.imag())) {

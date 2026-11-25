@@ -12,6 +12,7 @@
 #endif
 #include <vector>
 #include "nlsBuildConfig.h"
+#include "NelsonComplexStorage.hpp"
 #include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #undef EIGEN_USE_MKL_VML
@@ -138,23 +139,17 @@ PageMatrixMultiply(
     } break;
     case NLS_DCOMPLEX: {
         pagemul_loop<Eigen::MatrixXcd, std::complex<double>>(
-            reinterpret_cast<std::complex<double>*>((double*)AA.dataPointer()), rA, cA, pagesA,
-            reinterpret_cast<std::complex<double>*>((double*)BB.dataPointer()), rB, cB, pagesB,
-            transpA, transpB, reinterpret_cast<std::complex<double>*>((double*)ptrC), rC, cC,
-            nPages);
-        if (res.allReal()) {
-            res.promoteType(NLS_DOUBLE);
-        }
+            TypeTraits::asComplex<double>((double*)AA.dataPointer()), rA, cA, pagesA,
+            TypeTraits::asComplex<double>((double*)BB.dataPointer()), rB, cB, pagesB, transpA,
+            transpB, TypeTraits::asComplex<double>((double*)ptrC), rC, cC, nPages);
+        res.demoteIfReal();
     } break;
     case NLS_SCOMPLEX: {
         pagemul_loop<Eigen::MatrixXcf, std::complex<single>>(
-            reinterpret_cast<std::complex<single>*>((single*)AA.dataPointer()), rA, cA, pagesA,
-            reinterpret_cast<std::complex<single>*>((single*)BB.dataPointer()), rB, cB, pagesB,
-            transpA, transpB, reinterpret_cast<std::complex<single>*>((single*)ptrC), rC, cC,
-            nPages);
-        if (res.allReal()) {
-            res.promoteType(NLS_SINGLE);
-        }
+            TypeTraits::asComplex<single>((single*)AA.dataPointer()), rA, cA, pagesA,
+            TypeTraits::asComplex<single>((single*)BB.dataPointer()), rB, cB, pagesB, transpA,
+            transpB, TypeTraits::asComplex<single>((single*)ptrC), rC, cC, nPages);
+        res.demoteIfReal();
     } break;
     default: {
         needToOverload = true;

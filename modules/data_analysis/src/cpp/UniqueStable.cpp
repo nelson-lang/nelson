@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "UniqueStable.hpp"
+#include "NelsonComplexStorage.hpp"
 #include "Unique.hpp"
 #include <algorithm>
 #include <complex>
@@ -47,8 +48,8 @@ reorderComplexArray(const ArrayOf& input, const std::vector<ompIndexType>& order
     Dimensions dimsOut(input.dimensions());
     T* op = static_cast<T*>(ArrayOf::allocateArrayOf(cls, input.elementCount()));
     const T* dp = static_cast<const T*>(input.dataPointer());
-    auto* opz = reinterpret_cast<std::complex<T>*>(op);
-    auto* dpz = reinterpret_cast<const std::complex<T>*>(dp);
+    auto* opz = TypeTraits::asComplex<T>(op);
+    auto* dpz = TypeTraits::asComplex<T>(dp);
     if (asRows) {
         ompIndexType rows = input.rows();
         ompIndexType cols = input.columns();

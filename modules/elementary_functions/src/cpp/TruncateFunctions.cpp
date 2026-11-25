@@ -95,6 +95,28 @@ oCeil(indexType len, const T* pIn, T* pOut)
     }
 }
 //=============================================================================
+// Apply the truncation level to one finite scalar (non-finite values pass through).
+// Shared by the sparse paths, which otherwise repeat the level switch per field.
+template <class T>
+static inline T
+truncateScalar(T value, TRUNCATE_LEVEL level)
+{
+    if (!std::isfinite(value)) {
+        return value;
+    }
+    switch (level) {
+    case TRUNCATE_LEVEL::CEIL:
+        return std::ceil(value);
+    case TRUNCATE_LEVEL::ROUND:
+        return std::round(value);
+    case TRUNCATE_LEVEL::FIX:
+        return std::trunc(value);
+    case TRUNCATE_LEVEL::FLOOR:
+        return std::floor(value);
+    }
+    return value;
+}
+//=============================================================================
 static ArrayOf
 FixSingleComplex(const ArrayOf& arrayIn)
 {
@@ -384,23 +406,7 @@ SparseTruncate(const ArrayOf& arrayIn, TRUNCATE_LEVEL level)
                 for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(
                          *spmatSRC, k);
                     it; ++it) {
-                    double value = it.value();
-                    if (std::isfinite(value)) {
-                        switch (level) {
-                        case TRUNCATE_LEVEL::CEIL:
-                            value = std::ceil(value);
-                            break;
-                        case TRUNCATE_LEVEL::ROUND:
-                            value = std::round(value);
-                            break;
-                        case TRUNCATE_LEVEL::FIX:
-                            value = std::trunc(value);
-                            break;
-                        case TRUNCATE_LEVEL::FLOOR:
-                            value = std::floor(value);
-                            break;
-                        }
-                    }
+                    double value = truncateScalar(it.value(), level);
                     if (value != 0.) {
                         triplets.emplace_back(it.row(), it.col(), value);
                     }
@@ -421,23 +427,7 @@ SparseTruncate(const ArrayOf& arrayIn, TRUNCATE_LEVEL level)
                 for (Eigen::SparseMatrix<single, 0, signedIndexType>::InnerIterator it(
                          *spmatSRC, k);
                     it; ++it) {
-                    single value = it.value();
-                    if (std::isfinite(value)) {
-                        switch (level) {
-                        case TRUNCATE_LEVEL::CEIL:
-                            value = std::ceil(value);
-                            break;
-                        case TRUNCATE_LEVEL::ROUND:
-                            value = std::round(value);
-                            break;
-                        case TRUNCATE_LEVEL::FIX:
-                            value = std::trunc(value);
-                            break;
-                        case TRUNCATE_LEVEL::FLOOR:
-                            value = std::floor(value);
-                            break;
-                        }
-                    }
+                    single value = truncateScalar(it.value(), level);
                     if (value != single(0.)) {
                         triplets.emplace_back(it.row(), it.col(), value);
                     }
@@ -459,40 +449,8 @@ SparseTruncate(const ArrayOf& arrayIn, TRUNCATE_LEVEL level)
                 for (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>::InnerIterator it(
                          *spmatSRC, k);
                     it; ++it) {
-                    double realValue = it.value().real();
-                    double imagValue = it.value().imag();
-                    if (std::isfinite(realValue)) {
-                        switch (level) {
-                        case TRUNCATE_LEVEL::CEIL:
-                            realValue = std::ceil(realValue);
-                            break;
-                        case TRUNCATE_LEVEL::ROUND:
-                            realValue = std::round(realValue);
-                            break;
-                        case TRUNCATE_LEVEL::FIX:
-                            realValue = std::trunc(realValue);
-                            break;
-                        case TRUNCATE_LEVEL::FLOOR:
-                            realValue = std::floor(realValue);
-                            break;
-                        }
-                    }
-                    if (std::isfinite(imagValue)) {
-                        switch (level) {
-                        case TRUNCATE_LEVEL::CEIL:
-                            imagValue = std::ceil(imagValue);
-                            break;
-                        case TRUNCATE_LEVEL::ROUND:
-                            imagValue = std::round(imagValue);
-                            break;
-                        case TRUNCATE_LEVEL::FIX:
-                            imagValue = std::trunc(imagValue);
-                            break;
-                        case TRUNCATE_LEVEL::FLOOR:
-                            imagValue = std::floor(imagValue);
-                            break;
-                        }
-                    }
+                    double realValue = truncateScalar(it.value().real(), level);
+                    double imagValue = truncateScalar(it.value().imag(), level);
                     doublecomplex value(realValue, imagValue);
                     if (value != doublecomplex(0., 0.)) {
                         triplets.emplace_back(it.row(), it.col(), value);
@@ -515,40 +473,8 @@ SparseTruncate(const ArrayOf& arrayIn, TRUNCATE_LEVEL level)
                 for (Eigen::SparseMatrix<singlecomplex, 0, signedIndexType>::InnerIterator it(
                          *spmatSRC, k);
                     it; ++it) {
-                    single realValue = it.value().real();
-                    single imagValue = it.value().imag();
-                    if (std::isfinite(realValue)) {
-                        switch (level) {
-                        case TRUNCATE_LEVEL::CEIL:
-                            realValue = std::ceil(realValue);
-                            break;
-                        case TRUNCATE_LEVEL::ROUND:
-                            realValue = std::round(realValue);
-                            break;
-                        case TRUNCATE_LEVEL::FIX:
-                            realValue = std::trunc(realValue);
-                            break;
-                        case TRUNCATE_LEVEL::FLOOR:
-                            realValue = std::floor(realValue);
-                            break;
-                        }
-                    }
-                    if (std::isfinite(imagValue)) {
-                        switch (level) {
-                        case TRUNCATE_LEVEL::CEIL:
-                            imagValue = std::ceil(imagValue);
-                            break;
-                        case TRUNCATE_LEVEL::ROUND:
-                            imagValue = std::round(imagValue);
-                            break;
-                        case TRUNCATE_LEVEL::FIX:
-                            imagValue = std::trunc(imagValue);
-                            break;
-                        case TRUNCATE_LEVEL::FLOOR:
-                            imagValue = std::floor(imagValue);
-                            break;
-                        }
-                    }
+                    single realValue = truncateScalar(it.value().real(), level);
+                    single imagValue = truncateScalar(it.value().imag(), level);
                     singlecomplex value(realValue, imagValue);
                     if (value != singlecomplex(0., 0.)) {
                         triplets.emplace_back(it.row(), it.col(), value);

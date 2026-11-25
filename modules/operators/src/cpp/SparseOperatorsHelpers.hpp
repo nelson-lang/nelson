@@ -39,6 +39,35 @@ getSparseScalarValue(const ArrayOf& A)
     return getSparseMatrixPointer<T>(A)->coeff(0, 0);
 }
 //=============================================================================
+// Pure read of operand A at a linear index (sparse coeff or dense element),
+// shared by the element-wise binary operators. No arithmetic.
+template <class T>
+T
+sparseOperandValueAtIndex(
+    const ArrayOf& A, const NelsonSparseMatrix<T>* sparseA, const T* denseA, indexType linearIndex)
+{
+    if (A.isSparse()) {
+        indexType row = linearIndex % A.rows();
+        indexType col = linearIndex / A.rows();
+        return sparseA->coeff(static_cast<signedIndexType>(row), static_cast<signedIndexType>(col));
+    }
+    return denseA[linearIndex];
+}
+//=============================================================================
+// Pure read of operand A at (row, col), honoring scalar expansion. No arithmetic.
+template <class T>
+T
+sparseOperandValue(const ArrayOf& A, const NelsonSparseMatrix<T>* sparseA, const T* denseA,
+    indexType row, indexType col, indexType linearIndex)
+{
+    if (A.isSparse()) {
+        signedIndexType sparseRow = A.isScalar() ? 0 : static_cast<signedIndexType>(row);
+        signedIndexType sparseCol = A.isScalar() ? 0 : static_cast<signedIndexType>(col);
+        return sparseA->coeff(sparseRow, sparseCol);
+    }
+    return denseA[A.isScalar() ? 0 : linearIndex];
+}
+//=============================================================================
 template <class T>
 ArrayOf
 makeSparseOperatorResult(

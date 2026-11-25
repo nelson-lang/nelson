@@ -296,9 +296,7 @@ scomplexFFTW(const ArrayOf& X, indexType n, indexType dim, bool asInverse)
     }
     delete[] buffer;
     buffer = nullptr;
-    if (res.allReal()) {
-        res.promoteType(NLS_SINGLE);
-    }
+    res.demoteIfReal();
     return res;
 }
 //=============================================================================
@@ -360,9 +358,7 @@ dcomplexFFTW(const ArrayOf& X, indexType n, indexType dim, bool asInverse)
     }
     delete[] buffer;
     buffer = nullptr;
-    if (res.allReal()) {
-        res.promoteType(NLS_DOUBLE);
-    }
+    res.demoteIfReal();
     return res;
 }
 //=============================================================================

@@ -20,7 +20,7 @@ using namespace Nelson;
 static bool
 needsOverload(const ArrayOf& value)
 {
-    return value.isCell() || value.isHandle() || value.isStruct() || value.isClassType();
+    return isOverloadRequiredType(value);
 }
 //=============================================================================
 ArrayOfVector

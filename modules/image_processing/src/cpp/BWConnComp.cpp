@@ -78,29 +78,35 @@ imageAsForegroundMask(const ArrayOf& image)
         }
         return mask;
     }
+    // Every fixed-width class forwards to the same foreground-mask kernel; a
+    // generic lambda factors the eleven identical cases.
+    auto foregroundMask = [&](auto tag) {
+        using T = decltype(tag);
+        return realDataAsForegroundMask<T>(image);
+    };
     switch (image.dataClass()) {
     case NLS_LOGICAL:
-        return realDataAsForegroundMask<logical>(image);
+        return foregroundMask(logical {});
     case NLS_DOUBLE:
-        return realDataAsForegroundMask<double>(image);
+        return foregroundMask(double {});
     case NLS_SINGLE:
-        return realDataAsForegroundMask<single>(image);
+        return foregroundMask(single {});
     case NLS_INT8:
-        return realDataAsForegroundMask<int8>(image);
+        return foregroundMask(int8 {});
     case NLS_INT16:
-        return realDataAsForegroundMask<int16>(image);
+        return foregroundMask(int16 {});
     case NLS_INT32:
-        return realDataAsForegroundMask<int32>(image);
+        return foregroundMask(int32 {});
     case NLS_INT64:
-        return realDataAsForegroundMask<int64>(image);
+        return foregroundMask(int64 {});
     case NLS_UINT8:
-        return realDataAsForegroundMask<uint8>(image);
+        return foregroundMask(uint8 {});
     case NLS_UINT16:
-        return realDataAsForegroundMask<uint16>(image);
+        return foregroundMask(uint16 {});
     case NLS_UINT32:
-        return realDataAsForegroundMask<uint32>(image);
+        return foregroundMask(uint32 {});
     case NLS_UINT64:
-        return realDataAsForegroundMask<uint64>(image);
+        return foregroundMask(uint64 {});
     default: {
         std::vector<double> data = imageAsDouble(image);
         std::vector<uint8_t> mask(data.size(), 0);

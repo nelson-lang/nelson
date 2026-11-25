@@ -11,6 +11,7 @@
 #include <array>
 #include <cmath>
 #include "GOColorBar.hpp"
+#include "GOCommonProperties.hpp"
 #include "GOAxesLayoutManager.hpp"
 #include "GOChartDecorators.hpp"
 #include "GOFontSpecHelpers.hpp"
@@ -193,11 +194,7 @@ GOColorBar::~GOColorBar()
 void
 GOColorBar::constructProperties()
 {
-    registerProperty(new GOOnOffProperty, GO_BEING_DELETED_PROPERTY_NAME_STR, false);
-    registerProperty(new GOCallbackProperty, GO_CREATE_FCN_PROPERTY_NAME_STR);
-    registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
-    registerProperty(new GOBusyActionProperty, GO_BUSY_ACTION_PROPERTY_NAME_STR);
-    registerProperty(new GOOnOffProperty, GO_INTERRUPTIBLE_PROPERTY_NAME_STR);
+    registerBaseProperties(this);
     registerProperty(new GOGObjectsProperty, GO_LABEL_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_BOX_PROPERTY_NAME_STR);
     registerProperty(new GOColorProperty, GO_COLOR_PROPERTY_NAME_STR);
@@ -228,9 +225,7 @@ GOColorBar::constructProperties()
     registerProperty(new GOHandleVisibilityProperty, GO_HANDLE_VISIBILITY_PROPERTY_NAME_STR);
     registerProperty(new GOCallbackProperty, GO_BUTTON_DOWN_FCN_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_CONTEXT_MENU_PROPERTY_NAME_STR);
-    registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR, false);
     registerProperty(new GOStringProperty, GO_TAG_PROPERTY_NAME_STR);
-    registerProperty(new GOArrayOfProperty, GO_USER_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_SELECTED_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_SELECTION_HIGHLIGHT_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_HIT_TEST_PROPERTY_NAME_STR);
