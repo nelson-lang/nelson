@@ -87,6 +87,8 @@ nelson_install_library(${module_library_name})
 nelson_install_library(${module_library_builtin_name})
 nelson_install_module_data(
   ${module_name}
+  EXTRA_DIRS
+  examples
   EXTRA_DIR_PATTERNS
   "functions/@tdigest:*.m"
 )

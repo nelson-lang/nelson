@@ -70,6 +70,25 @@
       "requirements": [
         "plots"
       ]
+    },
+    {
+      "file": "handwriting_recognition/demo_handwriting_recognition.m",
+      "title": {
+        "en_US": "Handwriting recognition",
+        "fr_FR": "Reconnaissance d'écriture manuscrite"
+      },
+      "description": {
+        "en_US": "Draw a digit or capital letter with the mouse; a k-nearest-neighbour classifier names it in large type.",
+        "fr_FR": "Dessinez un chiffre ou une lettre à la souris ; un classifieur k-plus-proches-voisins l'affiche en grand."
+      },
+      "tags": [
+        "classification",
+        "knn",
+        "interactive"
+      ],
+      "requirements": [
+        "gui"
+      ]
     }
   ]
 }
