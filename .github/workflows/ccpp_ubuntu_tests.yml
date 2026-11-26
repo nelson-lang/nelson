@@ -67,6 +67,10 @@ jobs:
           WEBKIT_DISABLE_COMPOSITING_MODE: "1"
           WEBKIT_DISABLE_DMABUF_RENDERER: "1"
           LIBGL_ALWAYS_SOFTWARE: "1"
+          # The headless runner has no accessibility bus: the GTK AT-SPI bridge
+          # blocks trying to reach org.a11y.Bus, which stalls figure windows.
+          NO_AT_BRIDGE: "1"
+          GTK_A11Y: "none"
         run: |
           xvfb-run -a dbus-run-session -- nelson-adv-cli --noipc --quiet -f /usr/share/Nelson/tools/benchmark_all/runbenchmark_all.m
 
@@ -129,6 +133,10 @@ jobs:
           WEBKIT_DISABLE_COMPOSITING_MODE: "1"
           WEBKIT_DISABLE_DMABUF_RENDERER: "1"
           LIBGL_ALWAYS_SOFTWARE: "1"
+          # The headless runner has no accessibility bus: the GTK AT-SPI bridge
+          # blocks trying to reach org.a11y.Bus, which stalls figure windows.
+          NO_AT_BRIDGE: "1"
+          GTK_A11Y: "none"
         run: |
           xvfb-run -a dbus-run-session -- nelson-adv-cli --noipc --quiet -f /usr/share/Nelson/tools/tests_all/runtests_all.m
 
