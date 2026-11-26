@@ -1007,6 +1007,8 @@ _webui_ui_run(webui_ui_task_func task, void* arg, bool blocking);
 static void
 _webui_wv_free(_webui_wv_win32_t* webView);
 static void
+_webui_win_request_stop(_webui_window_t* win);
+static void
 _webui_wv_close(_webui_wv_win32_t* webView);
 static bool
 _webui_wv_navigate(_webui_wv_win32_t* webView, wchar_t* url);
@@ -2049,10 +2051,7 @@ webui_close(size_t window)
         // Stop WebView thread if any
         if (win->webView) {
 #ifdef _WIN32
-            if (win->webView->cpp_handle) {
-                _webui_win32_wv2_set_stop(win->webView->cpp_handle, true);
-                _webui_webview_update(win);
-            }
+            _webui_win_request_stop(win);
 #else
             // The WebView thread clears and frees win->webView after releasing
             // this mutex. Recheck the pointer under the same mutex so shutdown
@@ -5071,10 +5070,7 @@ webui_exit(void)
                     // Stop WebView thread if any
                     if (_webui.wins[i]->webView) {
 #ifdef _WIN32
-                        if (_webui.wins[i]->webView->cpp_handle) {
-                            _webui_win32_wv2_set_stop(_webui.wins[i]->webView->cpp_handle, true);
-                            _webui_webview_update(_webui.wins[i]);
-                        }
+                        _webui_win_request_stop(_webui.wins[i]);
 #else
                         _webui.wins[i]->webView->stop = true;
                         _webui_webview_update(_webui.wins[i]);
@@ -13363,10 +13359,7 @@ static WEBUI_THREAD_SERVER_START
     // Clean WebView
     if (win->webView) {
 #ifdef _WIN32
-        if (win->webView->cpp_handle) {
-            _webui_win32_wv2_set_stop(win->webView->cpp_handle, true);
-            _webui_webview_update(win);
-        }
+        _webui_win_request_stop(win);
 #else
         win->webView->stop = true;
         _webui_webview_update(win);
@@ -15109,10 +15102,7 @@ WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             if (can_close) {
                 // Stop the WebView thread, close the window
                 // and free resources.
-                if (win->webView && win->webView->cpp_handle) {
-                    _webui_win32_wv2_set_stop(win->webView->cpp_handle, true);
-                    _webui_webview_update(win);
-                }
+                _webui_win_request_stop(win);
                 _webui_wv_event_closed(win);
             } else {
                 // Do not close the window, no default processing
@@ -15240,10 +15230,7 @@ _webui_wv_show(_webui_window_t* win, char* url)
         _webui_log_debug("[Core]\t\t_webui_wv_show() -> Stopping old WebView thread...\n");
 #endif
 
-        if (win->webView->cpp_handle) {
-            _webui_win32_wv2_set_stop(win->webView->cpp_handle, true);
-            _webui_webview_update(win);
-        }
+        _webui_win_request_stop(win);
 
         // Wait for old WebView thread to stop
         _webui_timer_t timer;
@@ -15371,10 +15358,7 @@ _webui_wv_show(_webui_window_t* win, char* url)
         // Tear this window down. The host thread owns is_webview_mode, so a
         // failure on one window never flips the whole process out of WebView
         // mode while other windows still live.
-        if (win->webView && win->webView->cpp_handle) {
-            _webui_win32_wv2_set_stop(win->webView->cpp_handle, true);
-            _webui_webview_update(win);
-        }
+        _webui_win_request_stop(win);
     }
 
 #ifdef WEBUI_LOG
@@ -15458,6 +15442,22 @@ _webui_wv_navigate(_webui_wv_win32_t* webView, wchar_t* url)
     }
     return false;
 };
+
+// NELSON PATCH: the WebView host thread frees win->webView (and its C++ handle)
+// under mutex_wv_windows. Read and flag it under the same lock, so a stop request
+// from the main thread (close, exit, a new show, a timeout) never touches a
+// WebView freed meanwhile (0xC0000005 in _webui_win32_wv2_set_stop). Only the
+// request is locked: callers that then wait for the host thread stay unlocked.
+static void
+_webui_win_request_stop(_webui_window_t* win)
+{
+    _webui_mutex_lock(&_webui.mutex_wv_windows);
+    if (win->webView != NULL && win->webView->cpp_handle != NULL) {
+        _webui_win32_wv2_set_stop(win->webView->cpp_handle, true);
+        _webui_webview_update(win);
+    }
+    _webui_mutex_unlock(&_webui.mutex_wv_windows);
+}
 
 static void
 _webui_wv_free(_webui_wv_win32_t* webView)
