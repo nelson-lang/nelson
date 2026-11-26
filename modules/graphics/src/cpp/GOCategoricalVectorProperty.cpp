@@ -10,6 +10,7 @@
 #include <algorithm>
 #include "GOCategoricalVectorProperty.hpp"
 #include "ClassName.hpp"
+#include "GOPropertyValidators.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -93,9 +94,16 @@ GOCategoricalTwoVectorProperty::set(ArrayOf value)
         _hasCategoricalValue = true;
         return;
     }
+    // Numeric limits: two increasing values (Inf allowed, NaN not).
+    checkFixedLengthPropertyValue(value, 2);
     ArrayOf asDouble(value);
     asDouble.promoteType(NLS_DOUBLE);
     const double* dp = static_cast<const double*>(asDouble.dataPointer());
+    checkNoNaNPropertyValue(dp, 2);
+    if (!(dp[0] < dp[1])) {
+        Error(L"Nelson:graphics:expectedIncreasingLimits",
+            L"Limits must be two increasing numeric values.");
+    }
     std::vector<double> values(2, 0);
     indexType count = std::min(static_cast<indexType>(2), asDouble.elementCount());
     for (indexType k = 0; k < count; k++) {

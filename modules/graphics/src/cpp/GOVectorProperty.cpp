@@ -11,6 +11,7 @@
 #include "omp_for_loop.hpp"
 #include <limits>
 #include "GOVectorProperty.hpp"
+#include "GOPropertyValidators.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
 #include "i18n.hpp"
@@ -43,6 +44,7 @@ GOVectorProperty::get()
 void
 GOVectorProperty::set(ArrayOf num)
 {
+    checkRealNumericPropertyValue(num);
     if (_finiteOnly) {
         ArrayOf asDouble(num);
         asDouble.promoteType(NLS_DOUBLE);

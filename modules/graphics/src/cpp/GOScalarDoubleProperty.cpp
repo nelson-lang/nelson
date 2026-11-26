@@ -13,6 +13,7 @@
 #include "GOScalarDoubleProperty.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
+#include "GOPropertyValidators.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -20,6 +21,7 @@ namespace Nelson {
 void
 GOScalarProperty::set(ArrayOf num)
 {
+    checkFixedLengthPropertyValue(num, 1);
     if (haveLimits) {
         ArrayOf copyNum(num);
         copyNum.promoteType(NLS_DOUBLE);

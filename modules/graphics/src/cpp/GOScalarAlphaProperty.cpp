@@ -11,6 +11,7 @@
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "GOScalarAlphaProperty.hpp"
+#include "StringHelpers.hpp"
 #include "Error.hpp"
 #include "ErrorID.hpp"
 #include "i18n.hpp"
@@ -22,7 +23,9 @@ GOScalarAlphaProperty::set(ArrayOf num)
 {
     if (num.isRowVectorCharacterArray() || num.isScalarStringArray()) {
         std::wstring str = num.asWideString();
+        StringHelpers::to_lower(str);
         if (str == L"flat") {
+            GOGenericProperty::set(num);
             _isFlat = true;
         } else {
             Error(L"Nelson:graphics:expectedFlat", L"'%s' expected.", L"flat");
@@ -60,6 +63,15 @@ GOScalarAlphaProperty::data(double x)
                 fmt::to_wstring(_minValue), fmt::to_wstring(_maxValue));
         Error(L"Nelson:graphics:valueOutOfRange", message);
     }
+}
+//=============================================================================
+ArrayOf
+GOScalarAlphaProperty::get()
+{
+    if (_isFlat) {
+        return ArrayOf::characterArray(L"flat");
+    }
+    return GOFixedVectorProperty::get();
 }
 //=============================================================================
 double

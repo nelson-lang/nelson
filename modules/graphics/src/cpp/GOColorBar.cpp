@@ -195,7 +195,7 @@ void
 GOColorBar::constructProperties()
 {
     registerBaseProperties(this);
-    registerProperty(new GOGObjectsProperty, GO_LABEL_PROPERTY_NAME_STR);
+    registerProperty(new GOGObjectsProperty, GO_LABEL_PROPERTY_NAME_STR, false);
     registerProperty(new GOOnOffProperty, GO_BOX_PROPERTY_NAME_STR);
     registerProperty(new GOColorProperty, GO_COLOR_PROPERTY_NAME_STR);
     registerProperty(new GONormalReverseProperty, GO_DIRECTION_PROPERTY_NAME_STR);

@@ -23,6 +23,9 @@
     <ClInclude Include="..\cpp\GOAxisHelpers.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\GOAxisPixelMapping.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\cpp\GOSurfaceScale.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -735,6 +738,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\GOAxisHelpers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\GOAxisPixelMapping.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\GOSurfaceScale.cpp">

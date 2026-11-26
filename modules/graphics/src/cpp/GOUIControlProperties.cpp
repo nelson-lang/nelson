@@ -34,6 +34,9 @@
 #include "GOCommonProperties.hpp"
 #include "GOPositionHelpers.hpp"
 #include "GOUIComponentUnits.hpp"
+#include "GOFontSpecHelpers.hpp"
+#include "GORoot.hpp"
+#include "RenderHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -53,6 +56,101 @@ public:
             && (_owner->stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_POPUPMENU_STR)
                 || _owner->stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_LISTBOX_STR));
         GOStringVectorProperty::set(arg);
+    }
+};
+//=============================================================================
+// FontSize of the control in pixels, read in its FontUnits.
+static double
+uicontrolFontPixels(GOUIControl* control, double controlHeight)
+{
+    const double size = control->findScalarDoubleProperty(GO_FONT_SIZE_PROPERTY_NAME_STR);
+    const std::wstring units = control->findStringProperty(GO_FONT_UNITS_PROPERTY_NAME_STR);
+    if (units == GO_PROPERTY_VALUE_PIXELS_STR) {
+        return size;
+    }
+    if (units == GO_PROPERTY_VALUE_INCHES_STR) {
+        return pointsToPixels(size * 72.0);
+    }
+    if (units == GO_PROPERTY_VALUE_CENTIMETERS_STR) {
+        return pointsToPixels(size * 72.0 / 2.54);
+    }
+    if (units == GO_PROPERTY_VALUE_NORMALIZED_STR) {
+        return size * controlHeight;
+    }
+    return pointsToPixels(size);
+}
+//=============================================================================
+// Extent: [0 0 width height] of the String in the control font, plus a fixed
+// padding, expressed in the control Units. It does not depend on Position.
+static std::vector<double>
+uicontrolExtent(GOUIControl* control)
+{
+    auto* stringProperty
+        = static_cast<GOStringVectorProperty*>(control->findProperty(GO_STRING_PROPERTY_NAME_STR));
+    const bool textStyle
+        = control->stringCheck(GO_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_TEXT_STR);
+    std::vector<std::wstring> lines;
+    for (const std::wstring& row : stringProperty->data()) {
+        if (!textStyle) {
+            lines.push_back(row);
+            continue;
+        }
+        size_t start = 0;
+        size_t end = 0;
+        while ((end = row.find(L'\n', start)) != std::wstring::npos) {
+            lines.push_back(row.substr(start, end - start));
+            start = end + 1;
+        }
+        lines.push_back(row.substr(start));
+    }
+    GOFigure* figure = control->getParentFigure();
+    double parentWidth = figure ? figure->getLayoutWidth() : 0;
+    double parentHeight = figure ? figure->getLayoutHeight() : 0;
+    std::vector<double> position = control->findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR);
+    double controlHeight = position.size() == 4 ? position[3] : 20;
+    FontSpec font = makeGOFontSpec(
+        resolveRootFontName(control->findStringProperty(GO_FONT_NAME_PROPERTY_NAME_STR)), true,
+        uicontrolFontPixels(control, controlHeight),
+        control->findStringProperty(GO_FONT_ANGLE_PROPERTY_NAME_STR),
+        control->findStringProperty(GO_FONT_WEIGHT_PROPERTY_NAME_STR));
+    int maxWidth = 0;
+    bool hasText = false;
+    for (const std::wstring& line : lines) {
+        int width = 0;
+        int height = 0;
+        measureGOText(line, font, width, height);
+        maxWidth = std::max(maxWidth, width);
+        hasText = hasText || !line.empty();
+    }
+    // Padding of the reference: 4 points wide and 6 points high around the text.
+    const double padWidth = pointsToPixels(4.0);
+    const double padHeight = pointsToPixels(6.0);
+    double width = (hasText ? maxWidth : 0) + padWidth;
+    double height = padHeight;
+    if (hasText) {
+        height += static_cast<double>(lines.size()) * goFontLineHeight(font);
+    }
+    std::wstring units = control->findStringProperty(GO_UNITS_PROPERTY_NAME_STR);
+    if (units == GO_PROPERTY_VALUE_PIXELS_STR || parentWidth <= 0 || parentHeight <= 0) {
+        return { 0, 0, width, height };
+    }
+    std::vector<double> converted
+        = convertFromPixels(units, 0, 0, width, height, parentWidth, parentHeight);
+    return { 0, 0, converted[2], converted[3] };
+}
+//=============================================================================
+class GOUIControlExtentProperty : public GOFourVectorProperty
+{
+    GOUIControl* _control;
+
+public:
+    explicit GOUIControlExtentProperty(GOUIControl* control) : _control(control) { }
+    ArrayOf
+    get() override
+    {
+        std::vector<double> extent = uicontrolExtent(_control);
+        _data = extent;
+        return ArrayOf::doubleRowVector(extent);
     }
 };
 //=============================================================================
@@ -92,6 +190,7 @@ GOUIControl::constructProperties()
         GO_VALUE_PROPERTY_NAME_STR);
     registerProperty(new GOFixedVectorProperty(2), GO_SLIDER_STEP_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty, GO_LISTBOX_TOP_PROPERTY_NAME_STR);
+    registerProperty(new GOUIControlExtentProperty(this), GO_EXTENT_PROPERTY_NAME_STR, false);
 
     registerCommonProperties(this);
     sortProperties();

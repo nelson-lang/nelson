@@ -9,15 +9,18 @@
 //=============================================================================
 #include <algorithm>
 #include "GOFixedVectorProperty.hpp"
+#include "GOPropertyValidators.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 void
 GOFixedVectorProperty::set(ArrayOf num)
 {
-    GOGenericProperty::set(num);
+    checkFixedLengthPropertyValue(num, (indexType)m_len);
     num.promoteType(NLS_DOUBLE);
     const double* dp = (const double*)num.dataPointer();
+    checkNoNaNPropertyValue(dp, num.elementCount());
+    GOGenericProperty::set(num);
     indexType minLen = std::min((indexType)m_len, num.elementCount());
     _data.reserve(minLen);
     for (indexType i = 0; i < minLen; i++) {

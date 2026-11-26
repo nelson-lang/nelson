@@ -123,7 +123,7 @@ f = figure('Visible', 'off');
 violinplot([1 2 2 3 8]);
 ylim([-10 20]);
 drawnow();
-expected = regexprep(__web_display_list__(f), '"displaySignature":"\d+"', '');
+expected = regexprep(__web_display_list__(f), '"(displaySignature|handle)":"?\d+"?', '');
 close(f);
 f = figure('Visible', 'off');
 h = violinplot([1 2 2 3 4]);
@@ -131,7 +131,7 @@ ylim([-10 20]);
 drawnow();
 h.YData = [1; 2; 2; 3; 8];
 drawnow();
-asserts.isequal(regexprep(__web_display_list__(f), '"displaySignature":"\d+"', ''), expected);
+asserts.isequal(regexprep(__web_display_list__(f), '"(displaySignature|handle)":"?\d+"?', ''), expected);
 close(f);
 %=============================================================================
 f = figure('Visible', 'off');

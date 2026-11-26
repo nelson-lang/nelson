@@ -352,7 +352,13 @@ end
 function [ax, group] = createHeatmapGroup(parent, chartArgs)
   if isempty(parent)
     refuseHold();
-    ax = newplot();
+    % a current heatmap is replaced in its container, as with an explicit parent
+    current = currentHeatmap();
+    if isempty(current)
+      ax = newplot();
+    else
+      ax = axesInParent(current.Parent);
+    end
   else
     ax = axesInParent(parent);
   end
@@ -401,6 +407,14 @@ function ax = drawingAxes(object)
   ax = object;
   if isgraphics(object, 'heatmap')
     ax = object.UserData.Axes;
+  end
+end
+%=============================================================================
+function current = currentHeatmap()
+  current = [];
+  fig = get(groot, 'CurrentFigure');
+  if ~isempty(fig) && isscalar(fig.CurrentAxes) && isgraphics(fig.CurrentAxes, 'heatmap')
+    current = fig.CurrentAxes;
   end
 end
 %=============================================================================

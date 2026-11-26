@@ -82,6 +82,25 @@ asserts.isequal(findRows, [2; 1]);
 asserts.isequal(findColumns, [1; 2]);
 asserts.isequal(findValues, [6; 5]);
 %=============================================================================
+% dense complex: the imaginary part must be returned as-is, not conjugated.
+[findRows, findColumns, findValues] = find([1 + 2i 0; 0 3 - 4i]);
+asserts.isequal(findRows, [1; 2]);
+asserts.isequal(findColumns, [1; 2]);
+asserts.isapprox(findValues, [1 + 2i; 3 - 4i], 1e-12);
+%=============================================================================
+D = [0 1 + 2i; -3 - 4i 0; 5i -6];
+[findRows, findColumns, findValues] = find(D);
+asserts.isequal(findRows, [2; 3; 1; 3]);
+asserts.isequal(findColumns, [1; 1; 2; 2]);
+asserts.isapprox(findValues, [-3 - 4i; 5i; 1 + 2i; -6], 1e-12);
+%=============================================================================
+DS = single([1 + 2i 0; 0 3 - 4i]);
+[findRows, findColumns, findValues] = find(DS);
+asserts.isequal(findRows, [1; 2]);
+asserts.isequal(findColumns, [1; 2]);
+asserts.isequal(class(findValues), 'single');
+asserts.isapprox(findValues, single([1 + 2i; 3 - 4i]), 1e-6);
+%=============================================================================
 S = sparse([0 2 + 3i; 4 0; 0 5]);
 [findRows, findColumns, findValues] = find(S);
 asserts.isequal(findRows, [2; 1; 3]);

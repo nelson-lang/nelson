@@ -29,6 +29,8 @@ public:
         _maxValue = 1;
     }
     void set(ArrayOf) override;
+    ArrayOf
+    get() override;
     ~GOScalarAlphaProperty() override = default;
     void
     data(double x);

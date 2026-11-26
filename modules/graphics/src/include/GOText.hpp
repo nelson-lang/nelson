@@ -14,6 +14,8 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+struct TexBlockLayout;
+//=============================================================================
 class NLSGRAPHICS_IMPEXP GOText : public GraphicsObject
 {
 private:
@@ -27,6 +29,18 @@ private:
     bool stateInitialized = false;
     std::wstring
     replaceSpecialCharacters(const std::wstring& text);
+    // Anchor of the text (its Position) in window pixels for the projection set on gc.
+    bool
+    anchorPixels(
+        RenderInterface& gc, int& x, int& y, double* exactX = nullptr, double* exactY = nullptr);
+    // A Units change converts Position so the text stays in place.
+    void
+    convertPositionOnUnitsChange();
+    // Text box (no margin) relative to the anchor: width, height and offsets in pixels.
+    void
+    measureBox(RenderInterface& gc, const FontSpec& paintFont,
+        RenderInterface::AlignmentFlag xalign, RenderInterface::AlignmentFlag yalign, int& width,
+        int& height, int& xoffset, int& yoffset, TexBlockLayout* layout);
 
 public:
     GOText();
@@ -50,6 +64,9 @@ public:
     paintMe(RenderInterface& gc) override;
     int
     getTextHeightInPixels();
+    // Extent [left bottom width height] of the text box in the text Units.
+    std::vector<double>
+    computeExtent();
 };
 //=============================================================================
 } // namespace Nelson

@@ -365,6 +365,10 @@ GOPatch::setupDefaults()
     setStringDefault(GO_X_DATA_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
     setStringDefault(GO_Y_DATA_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR);
     setStringDefault(GO_DISPLAY_NAME_PROPERTY_NAME_STR, L"");
+    // Without color data the vertex colors default to the foreground gray (33/255).
+    static_cast<GOArrayOfProperty*>(findProperty(GO_FACE_VERTEX_C_DATA_PROPERTY_NAME_STR))
+        ->data(ArrayOf::doubleRowVector(
+            std::vector<double> { 0.129411764705882, 0.129411764705882, 0.129411764705882 }));
     setRestrictedStringDefault(GO_BUSY_ACTION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_QUEUE_STR);
     setRestrictedStringDefault(GO_INTERRUPTIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     initializeCommonProperties(this);
@@ -474,7 +478,8 @@ GOPatch::synchronizeDataProperties()
         return false;
     }
 
-    ArrayOf vertices(ArrayOf::doubleMatrix2d(n, 3));
+    // 2-D data keeps two vertex columns; Z data adds the third one.
+    ArrayOf vertices(ArrayOf::doubleMatrix2d(n, useZData ? 3 : 2));
     double* vertexData = static_cast<double*>(vertices.readWriteDataPointer());
     const double* x = static_cast<const double*>(xData.dataPointer());
     const double* y = static_cast<const double*>(yData.dataPointer());
@@ -482,7 +487,9 @@ GOPatch::synchronizeDataProperties()
     for (indexType i = 0; i < n; ++i) {
         vertexData[i] = x[i];
         vertexData[i + n] = y[i];
-        vertexData[i + 2 * n] = z ? z[i] : 1.;
+        if (z) {
+            vertexData[i + 2 * n] = z[i];
+        }
     }
 
     ArrayOf faces(ArrayOf::doubleMatrix2d(cols, rows));
@@ -543,9 +550,10 @@ GOPatch::buildPolygons(FaceList& faces)
         return;
     }
 
-    if (nbColumnsVerticesData != 3) {
-        Error("Nelson:patch:invalidVertices", "Nx3 dimensional matrix expected for 'Vertices'.");
+    if (nbColumnsVerticesData != 2 && nbColumnsVerticesData != 3) {
+        Error("Nelson:patch:invalidVertices", "Nx2 or Nx3 matrix expected for 'Vertices'.");
     }
+    bool hasZ = nbColumnsVerticesData == 3;
 
     const double* pVertOrder = static_cast<const double*>(facesData.dataPointer());
     const double* pVertData = static_cast<const double*>(verticesdata.dataPointer());
@@ -586,15 +594,21 @@ GOPatch::buildPolygons(FaceList& faces)
     // Flat/Interp face colouring reads FaceVertexCData; with no colour data the
     // lookup would dereference a null buffer. Reject the empty case so that, e.g.,
     // set(h,'FaceColor','interp') on a patch with no CData raises an error.
-    if ((FaceColorMode == ColorMode::Flat || FaceColorMode == ColorMode::Interp)
-        && faceVertexCdata.isEmpty()) {
+    // Interp colors need one color per vertex.
+    if (((FaceColorMode == ColorMode::Flat || FaceColorMode == ColorMode::Interp)
+            && faceVertexCdata.isEmpty())
+        || (FaceColorMode == ColorMode::Interp && faceVertexCdata.rows() != nVertices)) {
         Error(L"Nelson:patch:invalidFaceVertexCDataFaceColor",
             FaceColorMode == ColorMode::Interp
                 ? L"Invalid FaceVertexCData parameter with FaceColor to 'interp'."
                 : L"Invalid FaceVertexCData parameter with FaceColor to 'flat'.");
     }
-    if (EdgeColorMode == ColorMode::Flat && (nbColumnsFaceVertexCdata != 3)
-        && ((nbRowsFaceVertexCdata != 1) || ((nbRowsFaceVertexCdata != nVertices)))) {
+    // Flat edges take one color for the patch, one per face or one per vertex.
+    if (EdgeColorMode == ColorMode::Flat
+        && (faceVertexCdata.isEmpty()
+            || (nbColumnsFaceVertexCdata != 1 && nbColumnsFaceVertexCdata != 3)
+            || (nbRowsFaceVertexCdata != 1 && nbRowsFaceVertexCdata != nVertices
+                && nbRowsFaceVertexCdata != facesData.rows()))) {
         Error(L"Nelson:patch:invalidFaceVertexCData",
             L"Invalid FaceVertexCData parameter with EdgeColor to '%s'.", L"flat");
     }
@@ -669,8 +683,9 @@ GOPatch::buildPolygons(FaceList& faces)
                 vert.y
                     = *(getVerticesData(pVertData, vertIndex, 1, nVertices, nbColumnsVerticesData));
 
-                vert.z
-                    = *(getVerticesData(pVertData, vertIndex, 2, nVertices, nbColumnsVerticesData));
+                vert.z = hasZ
+                    ? *(getVerticesData(pVertData, vertIndex, 2, nVertices, nbColumnsVerticesData))
+                    : 0.;
 
                 face.vertices.push_back(vert);
                 if (pVertexNormals) {

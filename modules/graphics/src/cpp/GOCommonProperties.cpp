@@ -275,7 +275,7 @@ registerAxesProperties(GraphicsObject* go)
         { GO_PROPERTY_VALUE_3DBOX_STR, GO_PROPERTY_VALUE_RECTANGLE_STR });
     addString(go, GO_COLOR_SCALE_PROPERTY_NAME_STR);
     addGo(go, GO_CONTEXT_MENU_PROPERTY_NAME_STR);
-    addArray(go, GO_CURRENT_POINT_PROPERTY_NAME_STR);
+    addProperty(go, new GOArrayOfProperty, GO_CURRENT_POINT_PROPERTY_NAME_STR, false);
     addAutoManual(go, GO_FONT_SIZE_MODE_PROPERTY_NAME_STR);
     addOnOff(go, GO_FONT_SMOOTHING_PROPERTY_NAME_STR);
     addAutoManual(go, GO_GRID_ALPHA_MODE_PROPERTY_NAME_STR);
@@ -295,7 +295,7 @@ registerAxesProperties(GraphicsObject* go)
     addProperty(
         go, new GOTwoVectorProperty, GO_SUBPLOT_GRID_INTERNAL_PROPERTY_NAME_STR, true, false);
     addScalar(go, GO_LABEL_FONT_SIZE_MULTIPLIER_PROPERTY_NAME_STR);
-    addGo(go, GO_LEGEND_PROPERTY_NAME_STR);
+    addProperty(go, new GOGObjectsProperty, GO_LEGEND_PROPERTY_NAME_STR, false);
     addString(go, GO_LINE_STYLE_CYCLING_METHOD_PROPERTY_NAME_STR);
     addScalar(go, GO_MINOR_GRID_ALPHA_PROPERTY_NAME_STR);
     addAutoManual(go, GO_MINOR_GRID_ALPHA_MODE_PROPERTY_NAME_STR);
@@ -306,7 +306,7 @@ registerAxesProperties(GraphicsObject* go)
             std::numeric_limits<double>::min(), std::numeric_limits<double>::infinity()),
         GO_MINOR_GRID_LINE_WIDTH_PROPERTY_NAME_STR);
     addAutoManual(go, GO_MINOR_GRID_LINE_WIDTH_MODE_PROPERTY_NAME_STR);
-    addScalar(go, GO_NEXT_SERIES_INDEX_PROPERTY_NAME_STR);
+    addProperty(go, new GOScalarProperty, GO_NEXT_SERIES_INDEX_PROPERTY_NAME_STR, false);
     addPickableParts(go);
     addRestrictedString(go, GO_POSITION_CONSTRAINT_PROPERTY_NAME_STR,
         { GO_PROPERTY_VALUE_OUTERPOSITION_STR, GO_PROPERTY_VALUE_INNERPOSITION_STR });
@@ -351,7 +351,7 @@ registerLineProperties(GraphicsObject* go)
     addAutoManual(go, GO_MARKER_MODE_PROPERTY_NAME_STR);
     addString(go, GO_R_DATA_SOURCE_PROPERTY_NAME_STR);
     addString(go, GO_R_VARIABLE_PROPERTY_NAME_STR);
-    addScalar(go, GO_SERIES_INDEX_PROPERTY_NAME_STR);
+    addSeriesIndex(go);
     addString(go, GO_THETA_DATA_SOURCE_PROPERTY_NAME_STR);
     addString(go, GO_THETA_VARIABLE_PROPERTY_NAME_STR);
     addDataTipTemplate(go, GO_DATA_TIP_TEMPLATE_PROPERTY_NAME_STR);
@@ -493,7 +493,6 @@ static void
 registerUIControlProperties(GraphicsObject* go)
 {
     addGo(go, GO_CONTEXT_MENU_PROPERTY_NAME_STR);
-    addFourVector(go, GO_EXTENT_PROPERTY_NAME_STR);
     addPixelOriginPosition(go, GO_INNER_POSITION_PROPERTY_NAME_STR);
     addPixelOriginPosition(go, GO_OUTER_POSITION_PROPERTY_NAME_STR);
     addString(go, GO_TAG_PROPERTY_NAME_STR);
@@ -810,9 +809,9 @@ initializeByType(GraphicsObject* go, const std::wstring& type)
     } else if (type == GO_PROPERTY_VALUE_HGGROUP_STR || type == GO_PROPERTY_VALUE_HGTRANSFORM_STR) {
         initializeInteractionProperties(go, false);
     } else if (type == GO_PROPERTY_VALUE_UICONTROL_STR) {
-        setFour(go, GO_EXTENT_PROPERTY_NAME_STR, 0, 0, 0, 0);
-        setFour(go, GO_INNER_POSITION_PROPERTY_NAME_STR, 20, 20, 60, 20);
-        setFour(go, GO_OUTER_POSITION_PROPERTY_NAME_STR, 20, 20, 60, 20);
+        // Stored zero-based like Position (read back as 20 20 60 20 in pixels).
+        setFour(go, GO_INNER_POSITION_PROPERTY_NAME_STR, 19, 19, 60, 20);
+        setFour(go, GO_OUTER_POSITION_PROPERTY_NAME_STR, 19, 19, 60, 20);
         setString(go, GO_TAG_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_EMPTY_STR);
     } else if (type == GO_PROPERTY_VALUE_STACKED_LINE_CHART_STR) {
         setString(go, GO_HANDLE_VISIBILITY_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);

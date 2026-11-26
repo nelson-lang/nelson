@@ -7,7 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <typeinfo>
 #include "GOStringProperty.hpp"
+#include "GOPropertyValidators.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -45,6 +47,10 @@ GOStringProperty::get()
 void
 GOStringProperty::set(ArrayOf arg)
 {
+    // Subclasses (titles, labels, restricted values) apply their own rules.
+    if (typeid(*this) == typeid(GOStringProperty)) {
+        checkTextPropertyValue(arg);
+    }
     GOGenericProperty::set(arg);
     _data = arg.asWideString();
 }

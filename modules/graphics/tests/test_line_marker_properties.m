@@ -68,7 +68,7 @@ set(q, 'LineStyle', 'none');
 asserts.isequal(get(q, 'LineStyle'), 'none');
 asserts.isequal(get(q, 'Marker'), 'v');
 %=============================================================================
-asserts.checkerror('set(h, ''Marker'', ''Z'');', graphicsPropertyErrorMessage('Marker', 'Nelson:graphics:illegalSelection'), ...
+asserts.checkerror('set(q, ''Marker'', ''Z'');', graphicsPropertyErrorMessage('Marker', 'Nelson:graphics:illegalSelection'), ...
   'Nelson:graphics:propertyError');
 %=============================================================================
 close(f);

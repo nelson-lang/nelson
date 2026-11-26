@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "GOFontUnitsProperty.hpp"
+#include "GOPropertyValidators.hpp"
 #include "GOPropertyValues.hpp"
 #include "GOUnitsProperty.hpp"
 #include "GOPropertyNames.hpp"
@@ -53,6 +54,12 @@ GOFontUnitsProperty::getSetOrder()
 void
 GOFontSizeProperty::set(ArrayOf arg)
 {
+    checkFixedLengthPropertyValue(arg, 1);
+    ArrayOf asDouble(arg);
+    asDouble.promoteType(NLS_DOUBLE);
+    if (!(static_cast<const double*>(asDouble.dataPointer())[0] > 0)) {
+        Error(L"Nelson:validators:mustBePositive", L"%s must be positive.", L"Value");
+    }
     GOScalarProperty::set(arg);
     setOrder = nextUnitsPositionSetOrder();
 }

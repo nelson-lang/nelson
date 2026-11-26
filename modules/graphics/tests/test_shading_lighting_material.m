@@ -80,6 +80,7 @@ close all
 % material accepts an explicit object (or object array) target, not only an axes
 f2 = figure('Visible', 'off');
 s1 = surf(peaks(8));
+hold('on');
 s2 = surf(peaks(8));
 material(s1, [0.1 0.2 0.3 4 0.5]);
 asserts.isapprox(s1.AmbientStrength, 0.1, 1e-12);

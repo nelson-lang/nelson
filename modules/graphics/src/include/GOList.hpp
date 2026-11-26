@@ -29,38 +29,21 @@ public:
     //=============================================================================
     ~GOList() = default;
     //=============================================================================
+    // Handles are never reused: a deleted object's handle stays invalid, so a stale
+    // handle cannot reach an object created later.
     int64
     assignGO(T val)
     {
-        int64 next = 0;
-        bool freeGOFound = false;
-        while ((next < maxGO()) && !freeGOFound) {
-            freeGOFound = (graphicsobjects.count(next) == 0);
-            if (!freeGOFound) {
-                next++;
-            }
-        }
+        int64 next = max_graphicsobject;
         graphicsobjects[next] = val;
-        if (next >= maxGO()) {
-            max_graphicsobject = next + 1;
-        }
+        max_graphicsobject = next + 1;
         return next + 1;
     }
     //=============================================================================
     void
     deleteGO(int64 handle)
     {
-        int64 index = handle - 1;
-        if (graphicsobjects.count(index) > 0) {
-            graphicsobjects.erase(index);
-            if (index + 1 == maxGO()) {
-                // Adjust max_graphicsobject only if the deleted one was the highest
-                while (
-                    max_graphicsobject > 0 && graphicsobjects.count(max_graphicsobject - 1) == 0) {
-                    max_graphicsobject--;
-                }
-            }
-        }
+        graphicsobjects.erase(handle - 1);
     }
     //=============================================================================
     int64

@@ -148,7 +148,7 @@ GOContour::constructProperties()
 {
     registerBaseProperties(this);
     registerStandardContainerProperties(this);
-    registerProperty(new GOArrayOfProperty, GO_CONTOUR_MATRIX_PROPERTY_NAME_STR);
+    registerProperty(new GOArrayOfProperty, GO_CONTOUR_MATRIX_PROPERTY_NAME_STR, false);
     registerProperty(new GOStringProperty, GO_DISPLAY_NAME_PROPERTY_NAME_STR);
     registerProperty(new GOFaceAlphaProperty, GO_FACE_ALPHA_PROPERTY_NAME_STR);
     registerProperty(new GOContourFaceColorProperty(this), GO_FACE_COLOR_PROPERTY_NAME_STR);

@@ -18,6 +18,7 @@
 #include "GOStringAutoManualProperty.hpp"
 #include "GOStringOnOffProperty.hpp"
 #include "GOStringProperty.hpp"
+#include "GOSeriesIndexProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -52,6 +53,23 @@ GOArea::GOArea() : GOPatch()
 }
 //=============================================================================
 GOArea::~GOArea() = default;
+//=============================================================================
+void
+GOArea::updateState()
+{
+    // 'flat' face or edge colors map the series index through the colormap.
+    bool flat = stringCheck(GO_FACE_COLOR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_FLAT_STR)
+        || stringCheck(GO_EDGE_COLOR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_FLAT_STR);
+    if (flat
+        && stringCheck(GO_FACE_VERTEX_C_DATA_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_AUTO_STR)) {
+        auto* seriesIndex = dynamic_cast<GOSeriesIndexProperty*>(
+            findProperty(GO_SERIES_INDEX_PROPERTY_NAME_STR, false));
+        double index = (seriesIndex && !seriesIndex->isNone()) ? seriesIndex->value() : 1.;
+        static_cast<GOArrayOfProperty*>(findProperty(GO_FACE_VERTEX_C_DATA_PROPERTY_NAME_STR))
+            ->data(ArrayOf::doubleScalar(index));
+    }
+    GOPatch::updateState();
+}
 //=============================================================================
 std::wstring
 GOArea::getType()

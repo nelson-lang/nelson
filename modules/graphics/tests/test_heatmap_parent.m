@@ -96,11 +96,14 @@ asserts.isequal(h2.UserData.Axes, firstAxes);
 nexttile(tl);
 h3 = heatmap(tl, magic(2));
 asserts.isfalse(isequal(h3.UserData.Axes, firstAxes));
+thirdAxes = h3.UserData.Axes;
 asserts.isequal(h3.Parent, tl);
 % no parent given: the current tile
 h4 = heatmap(magic(2));
-asserts.isequal(h4.UserData.Axes, h3.UserData.Axes);
+asserts.isequal(h4.UserData.Axes, thirdAxes);
 asserts.isequal(h4.Parent, tl);
+asserts.isfalse(isvalid(h3));
+asserts.isequal(numel(tl.Children), 2);
 close(f);
 %=============================================================================
 % assigning Parent moves the chart, its axes and its colorbar

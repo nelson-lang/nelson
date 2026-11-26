@@ -387,8 +387,8 @@ GOBar::GOBar()
     addProperty(this, new GOLineStyleProperty, GO_LINE_STYLE_PROPERTY_NAME_STR);
     addProperty(this, new GOScalarProperty, GO_LINE_WIDTH_PROPERTY_NAME_STR);
     addProperty(this, new GOOnOffProperty, GO_CLIPPING_PROPERTY_NAME_STR);
-    addProperty(this, new GOArrayOfProperty, GO_X_END_POINTS_PROPERTY_NAME_STR);
-    addProperty(this, new GOArrayOfProperty, GO_Y_END_POINTS_PROPERTY_NAME_STR);
+    addProperty(this, new GOArrayOfProperty, GO_X_END_POINTS_PROPERTY_NAME_STR, false);
+    addProperty(this, new GOArrayOfProperty, GO_Y_END_POINTS_PROPERTY_NAME_STR, false);
     addProperty(this, new GOArrayOfProperty, GO_LABELS_PROPERTY_NAME_STR);
     addProperty(this, new GORestrictedStringProperty(LABEL_LOCATION_VALUES),
         GO_LABEL_LOCATION_PROPERTY_NAME_STR);

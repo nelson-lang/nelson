@@ -40,6 +40,19 @@ public:
         _maxValue = maxValue;
     }
     void set(ArrayOf) override;
+    // Range a plain scalar must stay in (set once, at registration).
+    void
+    setLimits(double minValue, double maxValue)
+    {
+        haveLimits = true;
+        _minValue = minValue;
+        _maxValue = maxValue;
+    }
+    bool
+    hasLimits()
+    {
+        return haveLimits;
+    }
 
     ~GOScalarProperty() override = default;
     ArrayOf

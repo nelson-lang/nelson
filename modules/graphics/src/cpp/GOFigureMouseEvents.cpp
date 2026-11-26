@@ -35,11 +35,10 @@
 #include "GOUITab.h"
 #include "GOUITabGroup.h"
 #include "RenderWeb.hpp"
+#include "GOAxisPixelMapping.hpp"
 #include "UnitsConversionHelpers.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-using Vec3 = std::array<double, 3>;
 //=============================================================================
 static void
 updateChildrenCurrentPoint(
@@ -596,7 +595,11 @@ hitTestText(GOAxis* axis, RenderWeb& gc, GraphicsObject* text, int64 handle, dou
         && !text->stringCheck(GO_UNITS_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_DATA_STR)) {
         return;
     }
-    std::vector<double> extent = text->findVectorDoubleProperty(GO_EXTENT_PROPERTY_NAME_STR);
+    auto* textObject = dynamic_cast<GOText*>(text);
+    if (textObject == nullptr) {
+        return;
+    }
+    std::vector<double> extent = textObject->computeExtent();
     std::vector<double> pos = text->findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR);
     if (extent.size() < 4 || extent[2] <= 0 || extent[3] <= 0) {
         return;
@@ -821,63 +824,8 @@ updateChildrenCurrentPoint(
     }
 }
 //=============================================================================
-// Inverse of GOAxis::mapX/mapY/mapZ: the log scale is applied first, then the
-// reversed direction mirrors the value inside the limits.
-static double
-unmapCoordinate(GOAxis* axis, double value, const std::wstring& dirName,
-    const std::wstring& limName, const std::wstring& scaleName)
-{
-    if (axis->stringCheck(dirName, GO_PROPERTY_VALUE_REVERSE_STR)) {
-        std::vector<double> lims = axis->findVectorDoubleProperty(limName);
-        if (lims.size() == 2) {
-            value = lims[0] + lims[1] - value;
-        }
-    }
-    if (axis->stringCheck(scaleName, GO_PROPERTY_VALUE_LOG_STR)) {
-        value = std::pow(10.0, value);
-    }
-    return value;
-}
-//=============================================================================
-static Vec3
-toWindow(RenderWeb& gc, const Vec3& p)
-{
-    Vec3 w { 0, 0, 0 };
-    double eyeX = 0;
-    double eyeY = 0;
-    gc.toPixels(p[0], p[1], p[2], w[0], w[1]);
-    gc.mapPoint(p[0], p[1], p[2], eyeX, eyeY, w[2]);
-    return w;
-}
-//=============================================================================
-static double
-determinant(const std::array<Vec3, 3>& m)
-{
-    return m[0][0] * (m[1][1] * m[2][2] - m[2][1] * m[1][2])
-        - m[1][0] * (m[0][1] * m[2][2] - m[2][1] * m[0][2])
-        + m[2][0] * (m[0][1] * m[1][2] - m[1][1] * m[0][2]);
-}
-//=============================================================================
-// Solves columns * d = rhs (Cramer), columns[i] being the i-th column.
-static bool
-solve3(const std::array<Vec3, 3>& columns, const Vec3& rhs, Vec3& d)
-{
-    double det = determinant(columns);
-    if (!std::isfinite(det) || std::abs(det) < 1e-300) {
-        return false;
-    }
-    for (int i = 0; i < 3; i++) {
-        std::array<Vec3, 3> m = columns;
-        m[i] = rhs;
-        d[i] = determinant(m) / det;
-    }
-    return true;
-}
-//=============================================================================
-// The axes projection is orthographic, so mapped data -> (pixel x, pixel y,
-// eye depth) is affine: it is sampled on the projection the painter uses and
-// inverted. The view line under the pointer is cut at the depths of the
-// nearest and farthest corners of the axes box: front and back points.
+// The view line under the pointer is cut at the depths of the nearest and
+// farthest corners of the axes box: front and back points.
 static void
 updateAxesCurrentPoint(GOAxis* axis, double x, double y, double width, double height)
 {
@@ -886,68 +834,23 @@ updateAxesCurrentPoint(GOAxis* axis, double x, double y, double width, double he
     if (currentPoint == nullptr) {
         return;
     }
-    std::vector<double> xlim = axis->findVectorDoubleProperty(GO_X_LIM_PROPERTY_NAME_STR);
-    std::vector<double> ylim = axis->findVectorDoubleProperty(GO_Y_LIM_PROPERTY_NAME_STR);
-    std::vector<double> zlim = axis->findVectorDoubleProperty(GO_Z_LIM_PROPERTY_NAME_STR);
-    if (xlim.size() != 2 || ylim.size() != 2 || zlim.size() != 2) {
-        return;
-    }
     RenderWeb gc(0, 0, width, height, false);
     axis->setupProjectionOnly(gc, false);
-
-    std::vector<double> corners;
-    corners.reserve(24);
-    for (double cx : xlim) {
-        for (double cy : ylim) {
-            for (double cz : zlim) {
-                corners.insert(corners.end(), { cx, cy, cz });
-            }
-        }
-    }
-    std::vector<double> mapped = axis->reMap(corners, false);
-    Vec3 low { mapped[0], mapped[1], mapped[2] };
-    Vec3 high = low;
-    double nearDepth = -HUGE_VAL;
-    double farDepth = HUGE_VAL;
-    for (size_t k = 0; k + 2 < mapped.size(); k += 3) {
-        Vec3 corner { mapped[k], mapped[k + 1], mapped[k + 2] };
-        for (int i = 0; i < 3; i++) {
-            low[i] = std::min(low[i], corner[i]);
-            high[i] = std::max(high[i], corner[i]);
-        }
-        double depth = toWindow(gc, corner)[2];
-        nearDepth = std::max(nearDepth, depth);
-        farDepth = std::min(farDepth, depth);
-    }
-    Vec3 origin;
-    std::array<Vec3, 3> columns;
-    for (int i = 0; i < 3; i++) {
-        origin[i] = (low[i] + high[i]) / 2.0;
-    }
-    Vec3 base = toWindow(gc, origin);
-    for (int i = 0; i < 3; i++) {
-        double step = std::max(high[i] - low[i], 1.0);
-        Vec3 shifted = origin;
-        shifted[i] += step;
-        Vec3 moved = toWindow(gc, shifted);
-        for (int r = 0; r < 3; r++) {
-            columns[i][r] = (moved[r] - base[r]) / step;
-        }
+    GOAxisPixelMapping mapping;
+    if (!mapping.initialize(axis, gc)) {
+        return;
     }
     double* values = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, 6));
     ArrayOf result(NLS_DOUBLE, Dimensions(2, 3), values);
-    const double depths[2] = { nearDepth, farDepth };
+    const double depths[2] = { mapping.nearDepth(), mapping.farDepth() };
     for (int row = 0; row < 2; row++) {
-        Vec3 d { 0, 0, 0 };
-        if (!solve3(columns, { x - base[0], y - base[1], depths[row] - base[2] }, d)) {
+        GOAxisPixelMapping::Vec3 data { 0, 0, 0 };
+        if (!mapping.windowToData(x, y, depths[row], data)) {
             return;
         }
-        values[row] = unmapCoordinate(axis, origin[0] + d[0], GO_X_DIR_PROPERTY_NAME_STR,
-            GO_X_LIM_PROPERTY_NAME_STR, GO_X_SCALE_PROPERTY_NAME_STR);
-        values[row + 2] = unmapCoordinate(axis, origin[1] + d[1], GO_Y_DIR_PROPERTY_NAME_STR,
-            GO_Y_LIM_PROPERTY_NAME_STR, GO_Y_SCALE_PROPERTY_NAME_STR);
-        values[row + 4] = unmapCoordinate(axis, origin[2] + d[2], GO_Z_DIR_PROPERTY_NAME_STR,
-            GO_Z_LIM_PROPERTY_NAME_STR, GO_Z_SCALE_PROPERTY_NAME_STR);
+        values[row] = data[0];
+        values[row + 2] = data[1];
+        values[row + 4] = data[2];
     }
     currentPoint->data(result);
 }

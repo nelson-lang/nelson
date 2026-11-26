@@ -10,10 +10,14 @@
 #define FMT_HEADER_ONLY
 #include <algorithm>
 #include <cwctype>
+#include <limits>
+#include <typeinfo>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "nlsBuildConfig.h"
 #include "GraphicsObject.hpp"
+#include "GOChartDecorators.hpp"
+#include "GOScalarDoubleProperty.hpp"
 #include "GOReferenceSurfaceMask.hpp"
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
@@ -440,6 +444,34 @@ GraphicsObject::findGoProperty(const std::wstring& name)
     return (sp->data()[0]);
 }
 //=============================================================================
+// Sizes and widths that the reference keeps positive (or nonnegative), for the
+// plain scalars registered without an explicit range.
+static void
+applyScalarSignRule(GOGenericProperty* hp, const std::wstring& name)
+{
+    if (hp == nullptr || typeid(*hp) != typeid(GOScalarProperty)) {
+        return;
+    }
+    auto* scalar = static_cast<GOScalarProperty*>(hp);
+    if (scalar->hasLimits()) {
+        return;
+    }
+    static const std::vector<std::wstring> positive
+        = { GO_LINE_WIDTH_PROPERTY_NAME_STR, GO_FONT_SIZE_PROPERTY_NAME_STR,
+              GO_MARKER_SIZE_PROPERTY_NAME_STR, GO_LABEL_FONT_SIZE_MULTIPLIER_PROPERTY_NAME_STR,
+              GO_TITLE_FONT_SIZE_MULTIPLIER_PROPERTY_NAME_STR };
+    static const std::vector<std::wstring> nonnegative = { GO_CAP_SIZE_PROPERTY_NAME_STR,
+        GO_BOX_WIDTH_PROPERTY_NAME_STR, GO_SIZE_POWER_PROPERTY_NAME_STR,
+        GO_SPECULAR_EXPONENT_PROPERTY_NAME_STR, GO_X_JITTER_WIDTH_PROPERTY_NAME_STR,
+        GO_Y_JITTER_WIDTH_PROPERTY_NAME_STR, GO_Z_JITTER_WIDTH_PROPERTY_NAME_STR };
+    if (std::find(positive.begin(), positive.end(), name) != positive.end()) {
+        scalar->setLimits(
+            std::numeric_limits<double>::min(), std::numeric_limits<double>::infinity());
+    } else if (std::find(nonnegative.begin(), nonnegative.end(), name) != nonnegative.end()) {
+        scalar->setLimits(0, std::numeric_limits<double>::infinity());
+    }
+}
+//=============================================================================
 void
 GraphicsObject::registerProperty(
     GOGenericProperty* hp, const std::wstring& name, bool iwritable, bool visible)
@@ -447,6 +479,11 @@ GraphicsObject::registerProperty(
     std::unordered_map<std::wstring, GOGenericProperty*>::const_iterator got
         = m_properties.find(name);
 
+    // Decorator objects (BaseLine, Annotation, DataTipTemplate...) are read-only.
+    if (dynamic_cast<GOLazyDecoratorProperty*>(hp) != nullptr) {
+        iwritable = false;
+    }
+    applyScalarSignRule(hp, name);
     if (got == m_properties.end()) {
         m_property_names_order.push_back(name);
         if (visible) {

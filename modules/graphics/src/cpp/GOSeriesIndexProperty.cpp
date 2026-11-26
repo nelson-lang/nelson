@@ -39,9 +39,9 @@ parseWideDouble(const std::wstring& str, double& value)
 static void
 checkSeriesIndex(double value)
 {
-    if (!std::isfinite(value) || value < 1 || value != std::floor(value)) {
+    if (!std::isfinite(value) || value < 0 || value != std::floor(value)) {
         Error(L"Nelson:seriesindex:invalidValue",
-            L"SeriesIndex must be a positive integer or 'none'.");
+            L"SeriesIndex must be a nonnegative integer or 'none'.");
     }
 }
 //=============================================================================
@@ -94,14 +94,14 @@ GOSeriesIndexProperty::set(ArrayOf arg)
         double numericValue = 0;
         if (!parseWideDouble(value, numericValue)) {
             Error(L"Nelson:seriesindex:invalidValue",
-                L"SeriesIndex must be a positive integer or 'none'.");
+                L"SeriesIndex must be a nonnegative integer or 'none'.");
         }
         setValue(numericValue);
         return;
     }
     if (!arg.isNumeric() || arg.isComplex() || !arg.isScalar()) {
         Error(L"Nelson:seriesindex:invalidValue",
-            L"SeriesIndex must be a positive integer or 'none'.");
+            L"SeriesIndex must be a nonnegative integer or 'none'.");
     }
     setValue(arg.asDoubleScalar());
 }

@@ -171,27 +171,11 @@ normalizedDataArray(const ArrayOf& value)
 static void
 checkMatchingDataSizes(const ArrayOf& x, const ArrayOf& y, const ArrayOf& z)
 {
-    if (!x.is2D() || !y.is2D() || !z.is2D() || x.rows() != y.rows() || x.columns() != y.columns()
-        || x.rows() != z.rows() || x.columns() != z.columns()) {
+    bool sameXY = x.is2D() && y.is2D() && x.rows() == y.rows() && x.columns() == y.columns();
+    bool sameZ = z.isEmpty() || (z.is2D() && x.rows() == z.rows() && x.columns() == z.columns());
+    if (!sameXY || !sameZ) {
         Error("Nelson:dimagree:sizeDataMismatch", "Size of data mismatch.");
     }
-}
-//=============================================================================
-static std::vector<double>
-defaultZData(indexType rows, indexType columns)
-{
-    return std::vector<double>(static_cast<size_t>(rows * columns), 1.);
-}
-//=============================================================================
-static ArrayOf
-closedTriangleData(const ArrayOf& data)
-{
-    if (!data.isVector() || data.elementCount() != 3) {
-        return data;
-    }
-    std::vector<double> values = data.asDoubleVector();
-    values.insert(values.begin(), values[0]);
-    return makeDoubleColumn(values);
 }
 //=============================================================================
 static ArrayOf
@@ -215,17 +199,23 @@ makeFaces(const ArrayOf& x)
 static ArrayOf
 makeVertices(const ArrayOf& x, const ArrayOf& y, const ArrayOf& z)
 {
+    // 2-D data keeps two columns, as the reference does; Z adds the third one.
     indexType count = x.elementCount();
+    indexType columns = z.isEmpty() ? 2 : 3;
     std::vector<double> xValues = x.asDoubleVector();
     std::vector<double> yValues = y.asDoubleVector();
-    std::vector<double> zValues = z.asDoubleVector();
-    std::vector<double> vertices(static_cast<size_t>(count * 3));
+    std::vector<double> vertices(static_cast<size_t>(count * columns));
     for (indexType k = 0; k < count; k++) {
         vertices[k] = xValues[k];
         vertices[k + count] = yValues[k];
-        vertices[k + static_cast<indexType>(2) * count] = zValues[k];
     }
-    return makeDoubleMatrix(count, 3, vertices);
+    if (columns == 3) {
+        std::vector<double> zValues = z.asDoubleVector();
+        for (indexType k = 0; k < count; k++) {
+            vertices[k + static_cast<indexType>(2) * count] = zValues[k];
+        }
+    }
+    return makeDoubleMatrix(count, columns, vertices);
 }
 //=============================================================================
 static bool
@@ -481,10 +471,6 @@ patchFastBuiltin(int nLhs, const ArrayOfVector& argIn)
         cData = argIn[3];
         haveCData = true;
     }
-    if (zData.isEmpty()) {
-        zData = makeDoubleMatrix(
-            xData.rows(), xData.columns(), defaultZData(xData.rows(), xData.columns()));
-    }
     checkMatchingDataSizes(xData, yData, zData);
 
     ArrayOf faces = makeFaces(xData);
@@ -494,11 +480,11 @@ patchFastBuiltin(int nLhs, const ArrayOfVector& argIn)
     std::wstring cDataMapping = propertyValueAsString(
         argIn, firstProperty, GO_C_DATA_MAPPING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_SCALED_STR);
 
+    // Without color data, CData and FaceVertexCData keep their defaults and auto modes.
     if (explicitFaceColor) {
-        faceVertexCData = axis->findProperty(GO_COLOR_PROPERTY_NAME_STR)->get();
         faceColor = explicitFaceColorValue;
     } else if (haveCData) {
-        if (cData.isNumeric() && hasVaryingZ(zData)
+        if (cData.isNumeric() && !zData.isEmpty() && hasVaryingZ(zData)
             && !hasProperty(argIn, firstProperty, GO_FACE_COLOR_PROPERTY_NAME_STR)) {
             faceVertexCData = resolve3DNumericFlatColors(axis, xData, faces, cData);
         } else {
@@ -506,19 +492,22 @@ patchFastBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
         faceColor = ArrayOf::characterArray(GO_PROPERTY_VALUE_FLAT_STR);
     } else {
-        faceVertexCData = axis->findProperty(GO_COLOR_PROPERTY_NAME_STR)->get();
         faceColor = ArrayOf::doubleRowVector(std::vector<double> { 0., 0., 0. });
     }
 
     ArrayOfVector constructorArgs;
-    appendProperty(constructorArgs, GO_X_DATA_PROPERTY_NAME_STR, closedTriangleData(xData));
-    appendProperty(constructorArgs, GO_Y_DATA_PROPERTY_NAME_STR, closedTriangleData(yData));
-    appendProperty(constructorArgs, GO_Z_DATA_PROPERTY_NAME_STR, closedTriangleData(zData));
-    appendProperty(
-        constructorArgs, GO_C_DATA_PROPERTY_NAME_STR, haveCData ? cData : faceVertexCData);
+    appendProperty(constructorArgs, GO_X_DATA_PROPERTY_NAME_STR, xData);
+    appendProperty(constructorArgs, GO_Y_DATA_PROPERTY_NAME_STR, yData);
+    appendProperty(constructorArgs, GO_Z_DATA_PROPERTY_NAME_STR,
+        zData.isEmpty() ? ArrayOf::doubleMatrix2d(0, 0) : zData);
+    if (haveCData) {
+        appendProperty(constructorArgs, GO_C_DATA_PROPERTY_NAME_STR, cData);
+    }
     appendProperty(constructorArgs, GO_FACES_PROPERTY_NAME_STR, faces);
     appendProperty(constructorArgs, GO_VERTICES_PROPERTY_NAME_STR, vertices);
-    appendProperty(constructorArgs, GO_FACE_VERTEX_C_DATA_PROPERTY_NAME_STR, faceVertexCData);
+    if (haveCData) {
+        appendProperty(constructorArgs, GO_FACE_VERTEX_C_DATA_PROPERTY_NAME_STR, faceVertexCData);
+    }
     appendProperty(constructorArgs, GO_FACE_COLOR_PROPERTY_NAME_STR, faceColor);
     appendProperty(constructorArgs, GO_EDGE_COLOR_PROPERTY_NAME_STR,
         ArrayOf::doubleRowVector(

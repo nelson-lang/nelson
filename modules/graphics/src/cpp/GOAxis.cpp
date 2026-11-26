@@ -1950,7 +1950,7 @@ GOAxis::constructProperties()
     registerProperty(new GOInOutProperty, GO_TICK_DIR_PROPERTY_NAME_STR);
     registerProperty(new GOAutoManualProperty, GO_TICK_DIR_MODE_PROPERTY_NAME_STR);
     registerProperty(new GOTwoVectorProperty, GO_TICK_LENGTH_PROPERTY_NAME_STR);
-    registerProperty(new GOTightInsetProperty(this), GO_TIGHT_INSET_PROPERTY_NAME_STR);
+    registerProperty(new GOTightInsetProperty(this), GO_TIGHT_INSET_PROPERTY_NAME_STR, false);
     registerProperty(new GOGObjectsProperty, GO_TITLE_PROPERTY_NAME_STR);
     registerProperty(new GOUnitsProperty, GO_UNITS_PROPERTY_NAME_STR);
     registerProperty(new GOTopBottomProperty, GO_X_AXIS_LOCATION_PROPERTY_NAME_STR);

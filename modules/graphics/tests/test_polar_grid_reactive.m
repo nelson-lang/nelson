@@ -42,8 +42,9 @@ assert_istrue(polarHasSpokeAt(ax, tip));
 %=============================================================================
 % ThetaDir = 'clockwise': a theta = pi/2 point flips from up to down.
 ax.ThetaZeroLocation = 'right';
+% Without hold, polarplot replaces the first line, so only the new one is green.
 h2 = polarplot(ax, [0 pi / 2], [0 1]);
-set(h, 'Color', [1 1 1]);   % hide the first line so only the second is green
+assert_isfalse(isvalid(h));
 set(h2, 'Color', [0 1 0]);
 drawnow();
 assert_isapprox(polarDataTipAngle(f), pi / 2, 1e-3);

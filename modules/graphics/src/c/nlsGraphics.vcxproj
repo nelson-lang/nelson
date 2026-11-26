@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\cpp\GOAxisHelpers.hpp" />
+    <ClInclude Include="..\include\GOAxisPixelMapping.hpp" />
     <ClInclude Include="..\cpp\GOSurfaceScale.hpp" />
     <ClInclude Include="..\cpp\MinMaxHelpers.hpp" />
     <ClInclude Include="..\cpp\TexToUnicode.hpp" />
@@ -311,6 +312,7 @@
     <ClCompile Include="..\cpp\GOAxis_CameraProjection.cpp" />
     <ClCompile Include="..\cpp\GOAxisOrthographicProjection.cpp" />
     <ClCompile Include="..\cpp\GOAxisHelpers.cpp" />
+    <ClCompile Include="..\cpp\GOAxisPixelMapping.cpp" />
     <ClCompile Include="..\cpp\GOSurfaceScale.cpp" />
     <ClCompile Include="..\cpp\GOBackFaceLightingProperty.cpp" />
     <ClCompile Include="..\cpp\GOBar.cpp" />

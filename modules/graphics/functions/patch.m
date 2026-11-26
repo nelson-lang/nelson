@@ -629,22 +629,18 @@ function args = parsePatchArguments(inputArguments)
   end
 
   if isempty(VerticesAsProperty)
-    if isempty(ZData)
-      ZData = ones(size(XData));
-    end
-    if (size(XData) ~= size(YData) | size(XData) ~= size(ZData) | length(size(XData)) > 2)
+    if ~isequal(size(XData), size(YData)) || length(size(XData)) > 2 ...
+        || (~isempty(ZData) && ~isequal(size(XData), size(ZData)))
       error('Nelson:dimagree:sizeDataMismatch', 'Size of data mismatch.');
     end
-    Vertices = [XData(:), YData(:), ZData(:)];
+    % 2-D data keeps two vertex columns; Z data adds the third one.
+    if isempty(ZData)
+      Vertices = [XData(:), YData(:)];
+    else
+      Vertices = [XData(:), YData(:), ZData(:)];
+    end
   else
     Vertices = VerticesAsProperty;
-    if isnumeric(Vertices)
-      rows = size(Vertices, 1);
-      cols = size(Vertices, 2);
-      if (cols == 2)
-        Vertices(:, 3) = ones(rows, 1);
-      end
-    end
   end
 
   if ~isempty(FacesAsProperty)
@@ -658,17 +654,15 @@ function args = parsePatchArguments(inputArguments)
     end
   end
 
+  haveColorData = haveCData || ~isempty(CDataAsProperty);
   if ~isempty(CDataAsProperty)
     CData = CDataAsProperty;
-  else
-    if ~haveCData
-      CData = colorAxes.Color;
-    end
   end
 
+  % Without color data the color properties keep their defaults (and their auto modes).
   if ~isempty(FaceVertexCDataAsProperty)
     FaceVertexCData = FaceVertexCDataAsProperty;
-  else
+  elseif haveColorData
     if isnumeric(CData)
       FaceVertexCData = CData;
     elseif ischar(CData)
@@ -704,20 +698,18 @@ function args = parsePatchArguments(inputArguments)
     FaceAlpha = 1;
   end
 
-  if (isvector(XData) && (length(XData) == 3))
-    XData = [XData(1), XData(:)']';
-    YData = [YData(1), YData(:)']';
-    ZData = [ZData(1), ZData(:)']';
-  end
-
   args.Parent = Parent;
   args.XData = XData;
   args.YData = YData;
   args.ZData = ZData;
-  args.CData = CData;
+  if haveColorData
+    args.CData = CData;
+  end
   args.Faces = Faces;
   args.Vertices = Vertices;
-  args.FaceVertexCData = FaceVertexCData;
+  if ~isempty(FaceVertexCData)
+    args.FaceVertexCData = FaceVertexCData;
+  end
   args.FaceColor = FaceColor;
   args.EdgeColor = EdgeColor;
   args.FaceAlpha = FaceAlpha;

@@ -27,7 +27,9 @@ assert_properties(f, {'AutoResizeChildren'; 'Clipping'; 'ContextMenu'; 'CurrentC
   'WindowKeyPressFcn'; 'WindowKeyReleaseFcn'; 'WindowScrollWheelFcn'; 'WindowStyle'});
 %=============================================================================
 ax = axes('Parent', f);
-assert_reference_properties(ax, reference_axes_properties(), {'BeingDeleted'; 'Type'});
+% CurrentPoint, TightInset, NextSeriesIndex and Legend are read-only, as in the reference.
+assert_reference_properties(ax, reference_axes_properties(), {'BeingDeleted'; 'Type'; ...
+  'CurrentPoint'; 'TightInset'; 'NextSeriesIndex'; 'Legend'});
 assert_properties(ax, {'AlphaScale'; 'BoxStyle'; 'ButtonDownFcn'; 'ClippingStyle';
   'ColorScale'; 'ContextMenu'; 'CurrentPoint'; 'FontSizeMode'; 'FontSmoothing';
   'GridAlphaMode'; 'GridColorMode'; 'GridLineWidth'; 'GridLineWidthMode';
