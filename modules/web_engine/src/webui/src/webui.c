@@ -1076,6 +1076,8 @@ static int
 _webui_wv_position_idle(void* arg); // NELSON PATCH
 static int
 _webui_wv_navigate_idle(void* arg); // NELSON PATCH
+static int
+_webui_wv_navigate_window_idle(void* arg); // NELSON PATCH
 #else
 // macOS
 static void
@@ -2579,16 +2581,17 @@ webui_navigate(size_t window, const char* url)
         // NELSON PATCH: the WebKitGTK view already exists: navigate it directly.
         // Going through webui_show() allowed browser mode, which opened the same
         // page in an external browser (Chrome when installed, xdg-open otherwise).
-        // The in_show guard keeps the navigation-policy callback from catching it.
+        // The load is queued on the GTK main loop: WebKitGTK aborts when a view
+        // is driven from another thread.
         _webui_mutex_lock(&win->mutex_webview_update);
         if (win->webView) {
             _webui_free_mem((void*)win->webView->url);
             win->webView->url = _webui_str_dup(url);
-            win->webView->navigate = true;
-            GTK_WEBVIEW_SET_IN_SHOW(win, true)
-            _webui_webview_update(win);
         }
         _webui_mutex_unlock(&win->mutex_webview_update);
+        if (g_idle_add) {
+            g_idle_add(_webui_wv_navigate_window_idle, (void*)win);
+        }
 #endif
     }
 }
@@ -16508,6 +16511,24 @@ _webui_wv_navigate_idle(void* arg)
     _webui_wv_linux_t* webView = (_webui_wv_linux_t*)arg;
     if (webView && webView->gtk_win && webView->gtk_wv) {
         webkit_web_view_load_uri(webView->gtk_wv, webView->url);
+    }
+    return 0; // G_SOURCE_REMOVE: run once
+}
+
+// NELSON PATCH: loads the window's current URL from the GTK main loop. Takes
+// the window, re-checked here, because its WebView can be gone by the time the
+// idle runs. The in_show guard keeps the policy callback from catching the load.
+static int
+_webui_wv_navigate_window_idle(void* arg)
+{
+    _webui_window_t* win = _webui_dereference_win_ptr(arg);
+    if (win) {
+        _webui_mutex_lock(&win->mutex_webview_update);
+        if (win->webView && win->webView->gtk_win && win->webView->gtk_wv && win->webView->url) {
+            GTK_WEBVIEW_SET_IN_SHOW(win, true)
+            webkit_web_view_load_uri(win->webView->gtk_wv, win->webView->url);
+        }
+        _webui_mutex_unlock(&win->mutex_webview_update);
     }
     return 0; // G_SOURCE_REMOVE: run once
 }
