@@ -2544,9 +2544,19 @@ webui_navigate(size_t window, const char* url)
         // enables browser mode and opens the same page in an external browser.
         (void)_webui_wv_navigate(win->webView, (char*)url);
 #else
-        // In WebKitGTK, navigation can be triggered from navigation-policy callback.
-        // Route this path through show(), which already applies in_show guard.
-        (void)webui_show(window, url);
+        // NELSON PATCH: the WebKitGTK view already exists: navigate it directly.
+        // Going through webui_show() allowed browser mode, which opened the same
+        // page in an external browser (Chrome when installed, xdg-open otherwise).
+        // The in_show guard keeps the navigation-policy callback from catching it.
+        _webui_mutex_lock(&win->mutex_webview_update);
+        if (win->webView) {
+            _webui_free_mem((void*)win->webView->url);
+            win->webView->url = _webui_str_dup(url);
+            win->webView->navigate = true;
+            GTK_WEBVIEW_SET_IN_SHOW(win, true)
+            _webui_webview_update(win);
+        }
+        _webui_mutex_unlock(&win->mutex_webview_update);
 #endif
     }
 }
