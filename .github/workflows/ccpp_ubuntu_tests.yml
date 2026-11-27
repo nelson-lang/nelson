@@ -62,6 +62,10 @@ jobs:
         env:
           NELSON_TERM_IS_UNICODE_SUPPORTED: "TRUE"
           TESTS_RESULT_DIR: ${{ github.workspace }}/artifacts
+          # The headless runner has no accessibility bus: the GTK AT-SPI bridge
+          # blocks trying to reach org.a11y.Bus, which stalls WebView windows.
+          NO_AT_BRIDGE: "1"
+          GTK_A11Y: "none"
         run: |
           xvfb-run -a nelson-adv-cli --noipc --quiet -f /usr/share/Nelson/tools/benchmark_all/runbenchmark_all.m
 
@@ -119,6 +123,10 @@ jobs:
           NELSON_TEST_SHARD_COUNT: 3
           NELSON_TERM_IS_UNICODE_SUPPORTED: "TRUE"
           TESTS_RESULT_DIR: ${{ github.workspace }}/artifacts
+          # The headless runner has no accessibility bus: the GTK AT-SPI bridge
+          # blocks trying to reach org.a11y.Bus, which stalls WebView windows.
+          NO_AT_BRIDGE: "1"
+          GTK_A11Y: "none"
         run: |
           xvfb-run -a nelson-adv-cli --noipc --quiet -f /usr/share/Nelson/tools/tests_all/runtests_all.m
 
