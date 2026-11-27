@@ -19,7 +19,7 @@
     <p>The detail panel also shows the dependency tree (installed, to install or missing dependencies), the installed packages that require the selected one, its readme and changelog, and its repository, issues and documentation links. <b>Copy install command</b> copies the matching <b>nmm('install', ...)</b> call, with the version shown, for a package published by the registry. <b>Verify</b> checks an installed package (module folder, <b>module.json</b>, version, dependencies).</p>
     <p><b>Cache</b> lists the archives of the offline package cache, verifies them and removes them. <b>Environment</b> exports the installed packages as a list of <b>name version</b> lines, and installs the missing packages of such a list.</p>
     <p><b>Refresh</b> reloads the installed packages and always downloads the current registry; selecting a package reuses the registry read by the last refresh. The window follows the Nelson language.</p>
-    <p>The window requires the <b>webview</b> module. Without a configured registry, installed packages can still be listed and removed.</p>
+    <p>The window requires the <b>gui</b> module. Without a configured registry, installed packages can still be listed and removed.</p>
   </description>
   <used_function />
   <bibliography />
@@ -37,7 +37,7 @@
   </examples>
   <see_also>
     <see_also_item><link linkend="${modules_manager}nmm">nmm</link></see_also_item>
-    <see_also_item><link linkend="${webview}demo">demo</link></see_also_item>
+    <see_also_item><link linkend="${gui}demo">demo</link></see_also_item>
   </see_also>
   <history>
     <history_item><history_version>2.0.0</history_version><history_description>initial version</history_description></history_item>

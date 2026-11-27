@@ -19,7 +19,7 @@
     <p>Le panneau de détail présente aussi l’arbre des dépendances (installées, à installer ou manquantes), les paquets installés qui requièrent le paquet sélectionné, son readme et son changelog, ainsi que ses liens dépôt, tickets et documentation. <b>Copier la commande d’installation</b> copie l’appel <b>nmm('install', ...)</b> correspondant, avec la version affichée, pour un paquet publié par le registre. <b>Vérifier</b> contrôle un paquet installé (dossier du module, <b>module.json</b>, version, dépendances).</p>
     <p><b>Cache</b> liste les archives du cache hors ligne des paquets, les vérifie et les supprime. <b>Environnement</b> exporte les paquets installés sous forme de lignes <b>nom version</b>, et installe les paquets manquants d’une telle liste.</p>
     <p><b>Actualiser</b> recharge les paquets installés et télécharge toujours le registre actuel ; la sélection d’un paquet réutilise le registre lu lors de la dernière actualisation. La fenêtre suit la langue de Nelson.</p>
-    <p>La fenêtre requiert le module <b>webview</b>. Sans registre configuré, les paquets installés restent listés et peuvent être supprimés.</p>
+    <p>La fenêtre requiert le module <b>gui</b>. Sans registre configuré, les paquets installés restent listés et peuvent être supprimés.</p>
   </description>
   <examples>
     <example_item>
@@ -35,7 +35,7 @@
   </examples>
   <see_also>
     <see_also_item><link linkend="${modules_manager}nmm">nmm</link></see_also_item>
-    <see_also_item><link linkend="${webview}demo">demo</link></see_also_item>
+    <see_also_item><link linkend="${gui}demo">demo</link></see_also_item>
   </see_also>
   <history>
     <history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item>

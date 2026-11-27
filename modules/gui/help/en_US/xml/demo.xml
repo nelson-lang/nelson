@@ -38,7 +38,7 @@
     </example_item>
   </examples>
   <see_also>
-    <see_also_item><link linkend="${webview}web">web</link></see_also_item>
+    <see_also_item><link linkend="${gui}web">web</link></see_also_item>
   </see_also>
   <history>
     <history_item><history_version>2.0.0</history_version><history_description>initial version</history_description></history_item>

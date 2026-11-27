@@ -49,7 +49,7 @@
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${webview}nelson.htmlviewer.htmlviewer">nelson.htmlviewer.htmlviewer</link>
+      <link linkend="${gui}nelson.htmlviewer.htmlviewer">nelson.htmlviewer.htmlviewer</link>
     </see_also_item>
   </see_also>
   <history>

@@ -52,10 +52,10 @@ if ~isequal(file, 0), disp([path file]); end]]></example_item_data>
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${webview}uigetfile">uigetfile</link>
+      <link linkend="${gui}uigetfile">uigetfile</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${webview}uisave">uisave</link>
+      <link linkend="${gui}uisave">uisave</link>
     </see_also_item>
   </see_also>
   <history>

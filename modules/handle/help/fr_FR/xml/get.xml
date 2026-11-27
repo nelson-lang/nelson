@@ -33,7 +33,7 @@
   <bibliography />
   <see_also>
     <see_also_item>
-      <link linkend="${qml_engine}QObject_get">QObject_get (get)</link>
+      <link linkend="${handle}set">set</link>
     </see_also_item>
   </see_also>
   <history>

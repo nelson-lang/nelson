@@ -50,10 +50,10 @@ if ~isequal(path, 0), disp(path); end]]></example_item_data>
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${webview}uigetfile">uigetfile</link>
+      <link linkend="${gui}uigetfile">uigetfile</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${webview}uiputfile">uiputfile</link>
+      <link linkend="${gui}uiputfile">uiputfile</link>
     </see_also_item>
   </see_also>
   <history>

@@ -61,7 +61,7 @@ close(f)]]></example_item_data>
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${webview}uiconfirm">uiconfirm</link>
+      <link linkend="${gui}uiconfirm">uiconfirm</link>
     </see_also_item>
     <see_also_item>
       <link linkend="${graphics}uiprogressdlg">uiprogressdlg</link>

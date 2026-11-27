@@ -57,7 +57,7 @@ close(h)]]></example_item_data>
       <link linkend="${graphics}errordlg">errordlg</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${webview}questdlg">questdlg</link>
+      <link linkend="${gui}questdlg">questdlg</link>
     </see_also_item>
   </see_also>
   <history>

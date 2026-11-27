@@ -43,7 +43,7 @@ close(h);
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${webview}web">web</link>
+      <link linkend="${gui}web">web</link>
     </see_also_item>
   </see_also>
   <history>

@@ -54,7 +54,7 @@ disp(answer)]]></example_item_data>
       <link linkend="${graphics}msgbox">msgbox</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${webview}uiconfirm">uiconfirm</link>
+      <link linkend="${gui}uiconfirm">uiconfirm</link>
     </see_also_item>
   </see_also>
   <history>

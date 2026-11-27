@@ -56,10 +56,10 @@ if ~isempty(answer), disp(answer{1}); end]]></example_item_data>
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${webview}listdlg">listdlg</link>
+      <link linkend="${gui}listdlg">listdlg</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${webview}questdlg">questdlg</link>
+      <link linkend="${gui}questdlg">questdlg</link>
     </see_also_item>
   </see_also>
   <history>
