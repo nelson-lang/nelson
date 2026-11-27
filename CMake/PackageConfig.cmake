@@ -258,10 +258,15 @@ if(UNIX)
         OUTPUT_STRIP_TRAILING_WHITESPACE
       )
       if(UBUNTU_VERSION VERSION_EQUAL "26.04")
-        # WebKitGTK is loaded at run time by the native WebView window, apt installs it by default
-        set(CPACK_DEBIAN_PACKAGE_RECOMMENDS "cmake, libwebkit2gtk-4.1-0")
+        # WebKitGTK is loaded at run time by the native WebView window (used by
+        # nflow and the markdown viewer). It is a hard dependency: without it the
+        # webview has no backend and falls back to launching an external browser.
+        set(CPACK_DEBIAN_PACKAGE_RECOMMENDS "cmake")
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "libfftw3-bin, libfftw3-double3, libfftw3-single3"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libwebkit2gtk-4.1-0 | libwebkit2gtk-4.0-37"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qt6-declarative-dev"
@@ -430,9 +435,17 @@ if(UNIX)
         )
       endif()
       if(UBUNTU_VERSION VERSION_EQUAL "24.04")
-        # WebKitGTK is loaded at run time by the native WebView window, apt installs it by default
-        set(CPACK_DEBIAN_PACKAGE_RECOMMENDS "cmake, libwebkit2gtk-4.1-0")
+        # WebKitGTK is loaded at run time by the native WebView window (used by
+        # nflow and the markdown viewer). It is a hard dependency: without it the
+        # webview has no backend and falls back to launching an external browser.
+        set(CPACK_DEBIAN_PACKAGE_RECOMMENDS "cmake")
         # NOTE: libfftw3-bin, libfftw3-double3, libfftw3-single3 are separate deps
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "libfftw3-bin, libfftw3-double3, libfftw3-single3"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libwebkit2gtk-4.1-0 | libwebkit2gtk-4.0-37"
+        )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "libfftw3-bin, libfftw3-double3, libfftw3-single3"
         )
