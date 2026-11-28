@@ -14,6 +14,11 @@
 #include <mutex>
 #include <stdexcept>
 #include <string>
+#ifdef _WIN32
+#include <process.h>
+#else
+#include <unistd.h>
+#endif
 //=============================================================================
 extern "C"
 {
@@ -32,6 +37,9 @@ static constexpr int MIN_WINDOW_HEIGHT = 600;
 static constexpr const char* WINDOW_GEOMETRY_KEY = "nelson-web.window.geometry";
 static constexpr const char* WINDOW_COORDINATE_SPACE = "native-window";
 static std::mutex preferencesMutex;
+//=============================================================================
+static long long
+currentProcessId();
 //=============================================================================
 static std::filesystem::path
 preferencesPath()
@@ -110,14 +118,18 @@ writePreferencesUnlocked(const nlohmann::json& values)
     if (ec) {
         throw std::runtime_error("unable to create preferences directory");
     }
+    // One temporary file per process: instances saving at the same time must not share it.
     std::filesystem::path temporary = path;
-    temporary += L".tmp";
+    temporary += L"." + std::to_wstring(currentProcessId()) + L".tmp";
+    bool written = false;
     {
         std::ofstream output(temporary, std::ios::binary | std::ios::trunc);
         output << serialized;
-        if (!output) {
-            throw std::runtime_error("unable to write desktop preferences");
-        }
+        written = static_cast<bool>(output);
+    }
+    if (!written) {
+        std::filesystem::remove(temporary, ec);
+        throw std::runtime_error("unable to write desktop preferences");
     }
     std::filesystem::remove(path, ec);
     ec.clear();
@@ -187,18 +199,33 @@ applyWebGuiWindowGeometry(size_t window)
 void
 saveWebGuiWindowGeometry(size_t window)
 {
-    const WebUiWindowGeometry geometry = captureWebUiWindowGeometry(window);
-    if (!geometry.valid) {
-        return;
-    }
-    const nlohmann::json value = { { "coordinateSpace", WINDOW_COORDINATE_SPACE },
-        { "x", geometry.x }, { "y", geometry.y }, { "width", geometry.width },
-        { "height", geometry.height }, { "maximized", geometry.maximized } };
+    // Best effort: this runs on the exit path and in WebUI C callbacks, where an
+    // exception ends the process. Another instance may hold the file.
+    try {
+        const WebUiWindowGeometry geometry = captureWebUiWindowGeometry(window);
+        if (!geometry.valid) {
+            return;
+        }
+        const nlohmann::json value = { { "coordinateSpace", WINDOW_COORDINATE_SPACE },
+            { "x", geometry.x }, { "y", geometry.y }, { "width", geometry.width },
+            { "height", geometry.height }, { "maximized", geometry.maximized } };
 
-    std::lock_guard<std::mutex> lock(preferencesMutex);
-    nlohmann::json preferences = readPreferencesUnlocked();
-    preferences["values"][WINDOW_GEOMETRY_KEY] = value.dump();
-    writePreferencesUnlocked(preferences["values"]);
+        std::lock_guard<std::mutex> lock(preferencesMutex);
+        nlohmann::json preferences = readPreferencesUnlocked();
+        preferences["values"][WINDOW_GEOMETRY_KEY] = value.dump();
+        writePreferencesUnlocked(preferences["values"]);
+    } catch (...) {
+    }
+}
+//=============================================================================
+static long long
+currentProcessId()
+{
+#ifdef _WIN32
+    return static_cast<long long>(_getpid());
+#else
+    return static_cast<long long>(getpid());
+#endif
 }
 //=============================================================================
 } // namespace Nelson
