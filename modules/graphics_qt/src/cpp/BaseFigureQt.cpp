@@ -163,10 +163,10 @@ renderFigureToImage(BaseFigureQt* widget, GOFigure* figure)
     if (renderWidth <= 0 || renderHeight <= 0) {
         return QImage();
     }
-    // A figure with axes is captured at device resolution (a 500x400 figure with a plot
-    // at 125% yields 625x500). An empty figure keeps its logical pixel size.
+    // A figure that shows axes and no UI component is captured at device resolution (a
+    // 500x400 figure with a plot at 125% yields 625x500). Any other keeps its logical size.
     double ratio = 1.0;
-    if (figureShowsAxes(figure)) {
+    if (figureFrameAtDeviceResolution(figure)) {
         ratio = figure->findScalarDoubleProperty(GO_DEVICE_PIXEL_RATIO_PROPERTY_NAME_STR);
         if (ratio <= 0.0) {
             ratio = 1.0;
@@ -501,11 +501,11 @@ BaseFigureQt::getFrame()
             image = renderFigureToImage(this, hfig);
             renderedByQt = true;
         }
-        // An empty figure (no axes) is reported at its logical pixel size, but
-        // grabFramebuffer/captureWidgetToImage return a device-resolution image on a HiDPI
-        // display. Scale that grab back to the logical layout size. A figure with axes keeps
-        // the device-resolution grab.
-        if (!renderedByQt && hfig && !figureShowsAxes(hfig)) {
+        // A figure without axes, or with UI components, is reported at its logical pixel
+        // size, but grabFramebuffer/captureWidgetToImage return a device-resolution image on
+        // a HiDPI display. Scale that grab back to the logical layout size. A figure that
+        // only shows axes keeps the device-resolution grab.
+        if (!renderedByQt && hfig && !figureFrameAtDeviceResolution(hfig)) {
             int layoutWidth = hfig->getLayoutWidth();
             int layoutHeight = hfig->getLayoutHeight();
             if (layoutWidth > 0 && layoutHeight > 0

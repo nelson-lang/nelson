@@ -689,10 +689,34 @@ holdsAxes(GraphicsObject* parent, int depth)
     return false;
 }
 //=============================================================================
-bool
-figureShowsAxes(GOFigure* figure)
+// A uicontrol or a UI component among the children of the figure, unless hidden.
+static bool
+showsUIComponent(GOFigure* figure)
 {
-    return holdsAxes(figure, 0);
+    auto* children = dynamic_cast<GOGObjectsProperty*>(
+        figure->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false));
+    if (children == nullptr) {
+        return false;
+    }
+    for (int64 handle : children->data()) {
+        GraphicsObject* child = findGraphicsObject(handle, false);
+        if (child == nullptr) {
+            continue;
+        }
+        const bool isComponent = child->isType(GO_PROPERTY_VALUE_UICONTROL_STR)
+            || dynamic_cast<GOUIComponent*>(child) != nullptr;
+        if (isComponent
+            && !child->stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR)) {
+            return true;
+        }
+    }
+    return false;
+}
+//=============================================================================
+bool
+figureFrameAtDeviceResolution(GOFigure* figure)
+{
+    return figure != nullptr && holdsAxes(figure, 0) && !showsUIComponent(figure);
 }
 //=============================================================================
 bool

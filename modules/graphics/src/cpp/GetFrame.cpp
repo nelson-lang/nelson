@@ -96,12 +96,12 @@ webGetFrame(GOFigureHost* f, ArrayOf& result)
     if (!figurePositionPixelSize(fig, width, height)) {
         return false;
     }
-    // A figure with axes is captured at device resolution, like the Qt backend (640x480
-    // at 125% yields 800x600). An empty figure keeps its logical pixel size.
+    // A figure that shows axes and no UI component is captured at device resolution, like
+    // the Qt backend (640x480 at 125% yields 800x600). Any other keeps its logical size.
     // DevicePixelRatio is set from the native widget, or defaults to the primary screen
     // ratio for a headless web figure.
     double ratio = 1.0;
-    if (figureShowsAxes(fig)) {
+    if (figureFrameAtDeviceResolution(fig)) {
         ratio
             = std::max(1.0, fig->findScalarDoubleProperty(GO_DEVICE_PIXEL_RATIO_PROPERTY_NAME_STR));
     }
