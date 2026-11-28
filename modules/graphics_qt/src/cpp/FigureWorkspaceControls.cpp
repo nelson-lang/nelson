@@ -195,9 +195,7 @@ FigureWorkspaceQt::updatePointMarker()
             break;
         }
     }
-    const double ratio = canvas->devicePixelRatioF();
-    const QPointF local(
-        pixel[0].toDouble() / ratio, canvas->height() - pixel[1].toDouble() / ratio);
+    const QPointF local(pixel[0].toDouble(), canvas->height() - pixel[1].toDouble());
     if (!visible || !QRectF(canvas->rect()).contains(local)) {
         pointMarker->hide();
         pointTip->hide();

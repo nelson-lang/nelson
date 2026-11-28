@@ -1631,18 +1631,16 @@ GOWindow::findContainingColorBar(GOFigure* fig, int x, int y)
 int
 GOWindow::remapX(int x)
 {
-    // Mouse coordinates are logical pixels, but axis client areas (m_box) are
-    // stored in device pixels (the GL surface is sized in device pixels). Scale
-    // to device pixels so hit-testing matches on HiDPI displays.
+    // Mouse coordinates and the figure layout (axis client areas) are both in logical pixels.
     QRect plot_region(qtchild->geometry());
-    return toDevicePixels(x - plot_region.x(), qtchild->devicePixelRatioF());
+    return x - plot_region.x();
 }
 //=============================================================================
 int
 GOWindow::remapY(int y)
 {
     QRect plot_region(qtchild->geometry());
-    return toDevicePixels(plot_region.height() - y + plot_region.y(), qtchild->devicePixelRatioF());
+    return plot_region.height() - y + plot_region.y();
 }
 //=============================================================================
 MOUSE_MODE

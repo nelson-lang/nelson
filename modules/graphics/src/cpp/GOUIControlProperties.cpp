@@ -36,7 +36,6 @@
 #include "GOUIComponentUnits.hpp"
 #include "GOFontSpecHelpers.hpp"
 #include "GORoot.hpp"
-#include "RenderHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -58,27 +57,6 @@ public:
         GOStringVectorProperty::set(arg);
     }
 };
-//=============================================================================
-// FontSize of the control in pixels, read in its FontUnits.
-static double
-uicontrolFontPixels(GOUIControl* control, double controlHeight)
-{
-    const double size = control->findScalarDoubleProperty(GO_FONT_SIZE_PROPERTY_NAME_STR);
-    const std::wstring units = control->findStringProperty(GO_FONT_UNITS_PROPERTY_NAME_STR);
-    if (units == GO_PROPERTY_VALUE_PIXELS_STR) {
-        return size;
-    }
-    if (units == GO_PROPERTY_VALUE_INCHES_STR) {
-        return pointsToPixels(size * 72.0);
-    }
-    if (units == GO_PROPERTY_VALUE_CENTIMETERS_STR) {
-        return pointsToPixels(size * 72.0 / 2.54);
-    }
-    if (units == GO_PROPERTY_VALUE_NORMALIZED_STR) {
-        return size * controlHeight;
-    }
-    return pointsToPixels(size);
-}
 //=============================================================================
 // Extent: [0 0 width height] of the String in the control font, plus a fixed
 // padding, expressed in the control Units. It does not depend on Position.
@@ -110,7 +88,7 @@ uicontrolExtent(GOUIControl* control)
     double controlHeight = position.size() == 4 ? position[3] : 20;
     FontSpec font = makeGOFontSpec(
         resolveRootFontName(control->findStringProperty(GO_FONT_NAME_PROPERTY_NAME_STR)), true,
-        uicontrolFontPixels(control, controlHeight),
+        control->fontSizeInPixels(controlHeight),
         control->findStringProperty(GO_FONT_ANGLE_PROPERTY_NAME_STR),
         control->findStringProperty(GO_FONT_WEIGHT_PROPERTY_NAME_STR));
     int maxWidth = 0;
@@ -123,10 +101,10 @@ uicontrolExtent(GOUIControl* control)
         hasText = hasText || !line.empty();
     }
     // Padding of the reference: 4 points wide and 6 points high around the text.
-    const double padWidth = pointsToPixels(4.0);
-    const double padHeight = pointsToPixels(6.0);
-    double width = (hasText ? maxWidth : 0) + padWidth;
-    double height = padHeight;
+    const std::pair<double, double> padding
+        = convertToPixels(GO_PROPERTY_VALUE_POINTS_STR, 4.0, 6.0, parentWidth, parentHeight);
+    double width = (hasText ? maxWidth : 0) + padding.first;
+    double height = padding.second;
     if (hasText) {
         height += static_cast<double>(lines.size()) * goFontLineHeight(font);
     }

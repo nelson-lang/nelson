@@ -122,11 +122,20 @@ private:
 
     void
     resetState(double x1, double y1, double width, double height, const std::wstring& name);
-    // Device pixel ratio of the backing window. The GL frame buffer is allocated at
-    // device resolution, so point-based sizes (markers, line widths) are multiplied
-    // by this ratio. Returns 1.0 when no widget is attached.
+    // Device pixel ratio of the backing window: the model draws in logical pixels and
+    // the GL frame buffer is at device resolution. Returns 1.0 when no widget is attached.
     double
     deviceScale() const;
+    // Loads viewp (logical pixels) as the GL viewport (frame buffer pixels).
+    void
+    applyViewport();
+    // Frame buffer pixels per logical pixel along each axis of the whole frame.
+    void
+    frameDeviceScale(double& scaleX, double& scaleY) const;
+    // On a scaled frame, moves an axis-aligned direct-draw segment onto the centres of the
+    // frame buffer pixels: the model aligns it on logical pixels, which fall between them.
+    void
+    alignSegmentToDevicePixels(double& x1, double& y1, double& x2, double& y2) const;
     void
     clearTextTextureCache();
     void

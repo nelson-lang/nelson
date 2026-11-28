@@ -207,32 +207,85 @@ isInsideTriangle(double w0, double w1, double w2)
     return w0 >= tolerance && w1 >= tolerance && w2 >= tolerance;
 }
 //=============================================================================
-void
-RenderQt::drawInterpolatedTriangle(const QPointF& p0, const QPointF& p1, const QPointF& p2,
-    const RGBAColorData& c0, const RGBAColorData& c1, const RGBAColorData& c2)
+// Pixel frame a triangle is rasterized in. A scaled painter (HiDPI capture, print) would
+// stretch an image rasterized in local pixels and open seams between neighbours: the
+// triangle is then rasterized in device pixels and drawn without the world transform.
+struct TriangleRaster
 {
-    const double denominator
-        = (p1.y() - p2.y()) * (p0.x() - p2.x()) + (p2.x() - p1.x()) * (p0.y() - p2.y());
-    if (std::abs(denominator) < 1e-12) {
+    QPointF p0;
+    QPointF p1;
+    QPointF p2;
+    double denominator = 0.;
+    int minX = 0;
+    int minY = 0;
+    int maxX = 0;
+    int maxY = 0;
+    bool devicePixels = false;
+};
+//=============================================================================
+static bool
+prepareTriangleRaster(QPainter* painter, double width, double height, const QPointF& p0,
+    const QPointF& p1, const QPointF& p2, TriangleRaster& raster)
+{
+    const QTransform transform = painter->worldTransform();
+    raster.devicePixels
+        = transform.type() == QTransform::TxScale && transform.m11() > 0 && transform.m22() > 0;
+    raster.p0 = raster.devicePixels ? transform.map(p0) : p0;
+    raster.p1 = raster.devicePixels ? transform.map(p1) : p1;
+    raster.p2 = raster.devicePixels ? transform.map(p2) : p2;
+    const QPointF origin = raster.devicePixels ? transform.map(QPointF(0, 0)) : QPointF(0, 0);
+    const QPointF limit
+        = raster.devicePixels ? transform.map(QPointF(width, height)) : QPointF(width, height);
+    raster.denominator = (raster.p1.y() - raster.p2.y()) * (raster.p0.x() - raster.p2.x())
+        + (raster.p2.x() - raster.p1.x()) * (raster.p0.y() - raster.p2.y());
+    if (std::abs(raster.denominator) < 1e-12) {
+        return false;
+    }
+    const auto xs = { raster.p0.x(), raster.p1.x(), raster.p2.x() };
+    const auto ys = { raster.p0.y(), raster.p1.y(), raster.p2.y() };
+    raster.minX = std::max(
+        static_cast<int>(std::floor(std::min(xs))), static_cast<int>(std::floor(origin.x())));
+    raster.minY = std::max(
+        static_cast<int>(std::floor(std::min(ys))), static_cast<int>(std::floor(origin.y())));
+    raster.maxX = std::min(
+        static_cast<int>(std::ceil(std::max(xs))), static_cast<int>(std::ceil(limit.x())));
+    raster.maxY = std::min(
+        static_cast<int>(std::ceil(std::max(ys))), static_cast<int>(std::ceil(limit.y())));
+    return raster.maxX >= raster.minX && raster.maxY >= raster.minY;
+}
+//=============================================================================
+static void
+drawTriangleRaster(QPainter* painter, const TriangleRaster& raster, const QImage& image)
+{
+    if (!raster.devicePixels) {
+        painter->drawImage(raster.minX, raster.minY, image);
         return;
     }
-
-    int minX = static_cast<int>(std::floor(std::min({ p0.x(), p1.x(), p2.x() })));
-    int maxX = static_cast<int>(std::ceil(std::max({ p0.x(), p1.x(), p2.x() })));
-    int minY = static_cast<int>(std::floor(std::min({ p0.y(), p1.y(), p2.y() })));
-    int maxY = static_cast<int>(std::ceil(std::max({ p0.y(), p1.y(), p2.y() })));
-    minX = std::max(minX, 0);
-    minY = std::max(minY, 0);
-    maxX = std::min(maxX, static_cast<int>(std::ceil(m_width)));
-    maxY = std::min(maxY, static_cast<int>(std::ceil(m_height)));
-
-    const int imageWidth = maxX - minX + 1;
-    const int imageHeight = maxY - minY + 1;
-    if (imageWidth <= 0 || imageHeight <= 0) {
+    painter->save();
+    painter->setWorldMatrixEnabled(false);
+    painter->drawImage(raster.minX, raster.minY, image);
+    painter->restore();
+}
+//=============================================================================
+void
+RenderQt::drawInterpolatedTriangle(const QPointF& local0, const QPointF& local1,
+    const QPointF& local2, const RGBAColorData& c0, const RGBAColorData& c1,
+    const RGBAColorData& c2)
+{
+    TriangleRaster raster;
+    if (!prepareTriangleRaster(pnt, m_width, m_height, local0, local1, local2, raster)) {
         return;
     }
+    const QPointF& p0 = raster.p0;
+    const QPointF& p1 = raster.p1;
+    const QPointF& p2 = raster.p2;
+    const double denominator = raster.denominator;
+    const int minX = raster.minX;
+    const int minY = raster.minY;
+    const int maxX = raster.maxX;
+    const int maxY = raster.maxY;
 
-    QImage image(imageWidth, imageHeight, QImage::Format_ARGB32);
+    QImage image(maxX - minX + 1, maxY - minY + 1, QImage::Format_ARGB32);
     image.fill(Qt::transparent);
     for (int y = minY; y <= maxY; ++y) {
         QRgb* line = reinterpret_cast<QRgb*>(image.scanLine(y - minY));
@@ -257,12 +310,12 @@ RenderQt::drawInterpolatedTriangle(const QPointF& p0, const QPointF& p1, const Q
                 clampColorComponent(b), clampColorComponent(a));
         }
     }
-    pnt->drawImage(minX, minY, image);
+    drawTriangleRaster(pnt, raster, image);
 }
 //=============================================================================
 void
-RenderQt::drawTexturedTriangle(const QImage& tex, const QPointF& p0, const QPointF& p1,
-    const QPointF& p2, const double uv0[2], const double uv1[2], const double uv2[2],
+RenderQt::drawTexturedTriangle(const QImage& tex, const QPointF& local0, const QPointF& local1,
+    const QPointF& local2, const double uv0[2], const double uv1[2], const double uv2[2],
     const RGBAColorData& c0, const RGBAColorData& c1, const RGBAColorData& c2)
 {
     const int texW = tex.width();
@@ -270,24 +323,18 @@ RenderQt::drawTexturedTriangle(const QImage& tex, const QPointF& p0, const QPoin
     if (texW <= 0 || texH <= 0) {
         return;
     }
-    const double denominator
-        = (p1.y() - p2.y()) * (p0.x() - p2.x()) + (p2.x() - p1.x()) * (p0.y() - p2.y());
-    if (std::abs(denominator) < 1e-12) {
+    TriangleRaster raster;
+    if (!prepareTriangleRaster(pnt, m_width, m_height, local0, local1, local2, raster)) {
         return;
     }
-    int minX = static_cast<int>(std::floor(std::min({ p0.x(), p1.x(), p2.x() })));
-    int maxX = static_cast<int>(std::ceil(std::max({ p0.x(), p1.x(), p2.x() })));
-    int minY = static_cast<int>(std::floor(std::min({ p0.y(), p1.y(), p2.y() })));
-    int maxY = static_cast<int>(std::ceil(std::max({ p0.y(), p1.y(), p2.y() })));
-    minX = std::max(minX, 0);
-    minY = std::max(minY, 0);
-    maxX = std::min(maxX, static_cast<int>(std::ceil(m_width)));
-    maxY = std::min(maxY, static_cast<int>(std::ceil(m_height)));
-    const int imageWidth = maxX - minX + 1;
-    const int imageHeight = maxY - minY + 1;
-    if (imageWidth <= 0 || imageHeight <= 0) {
-        return;
-    }
+    const QPointF& p0 = raster.p0;
+    const QPointF& p1 = raster.p1;
+    const QPointF& p2 = raster.p2;
+    const double denominator = raster.denominator;
+    const int minX = raster.minX;
+    const int minY = raster.minY;
+    const int maxX = raster.maxX;
+    const int maxY = raster.maxY;
     // Bilinear texel fetch at normalized (u, v) in [0, 1].
     auto sampleTexel = [&tex, texW, texH](double u, double v, double& tr, double& tg, double& tb) {
         const double fx = std::clamp(u, 0.0, 1.0) * static_cast<double>(texW - 1);
@@ -311,7 +358,7 @@ RenderQt::drawTexturedTriangle(const QImage& tex, const QPointF& p0, const QPoin
         tg = mix(qGreen(p00), qGreen(p10), qGreen(p01), qGreen(p11));
         tb = mix(qBlue(p00), qBlue(p10), qBlue(p01), qBlue(p11));
     };
-    QImage image(imageWidth, imageHeight, QImage::Format_ARGB32);
+    QImage image(maxX - minX + 1, maxY - minY + 1, QImage::Format_ARGB32);
     image.fill(Qt::transparent);
     for (int y = minY; y <= maxY; ++y) {
         QRgb* line = reinterpret_cast<QRgb*>(image.scanLine(y - minY));
@@ -343,7 +390,7 @@ RenderQt::drawTexturedTriangle(const QImage& tex, const QPointF& p0, const QPoin
                 clampColorComponent(tb * mb), clampColorComponent(a));
         }
     }
-    pnt->drawImage(minX, minY, image);
+    drawTriangleRaster(pnt, raster, image);
 }
 //=============================================================================
 void

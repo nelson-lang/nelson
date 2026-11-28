@@ -795,8 +795,8 @@ pickObjectAtPixel(GOFigure* fig, double x, double y)
 // Walks the objects that can hold axes. (x, y) and (width, height) are the
 // pointer and the size of the current frame in logical pixels: the figure
 // drawing area, then the content area of each nested container. scale is the
-// ratio of the surface the axes of that frame are painted on: the figure
-// canvas is rendered in device pixels, containers paint in logical pixels.
+// ratio of the surface the axes of that frame are painted on: the render scale
+// of the figure canvas, 1 for a container.
 static void
 updateChildrenCurrentPoint(
     GraphicsObject* parent, double x, double y, double width, double height, double scale)

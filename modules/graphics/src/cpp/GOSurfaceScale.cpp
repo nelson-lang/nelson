@@ -83,7 +83,7 @@ axesParentLogicalSizeInPixels(GraphicsObject* axis, double& width, double& heigh
         return false;
     }
     // A container reports its logical size; the figure reports its render
-    // size, which is in device pixels on a scaled display.
+    // size, which a render scale may enlarge.
     double scaleX, scaleY;
     logicalToSurfaceScale(axis, fig->getWidth(), fig->getHeight(), scaleX, scaleY);
     width /= scaleX;

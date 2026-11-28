@@ -180,14 +180,14 @@ asserts.isequal(f.UserData, 'TT');
 drawnow();
 asserts.isequal(f.UserData, 'TT');
 f.UserData = '';
-pause(0.1);
+waitForDeferredEvents(f, 'npaqb');
 asserts.isequal(f.UserData, 'npaqb');
 % same when the figure resizes the group
 f.UserData = '';
 f.Position = [100 100 600 450];
 asserts.isequal(f.UserData, 'T');
 f.UserData = '';
-pause(0.1);
+waitForDeferredEvents(f, 'npaqb');
 asserts.isequal(f.UserData, 'npaqb');
 % two resizes separated by a callback processing are raised separately
 f.UserData = '';
@@ -196,7 +196,7 @@ drawnow();
 group.Position = [0 0 0.6 0.6];
 asserts.isequal(f.UserData, 'TT');
 f.UserData = '';
-pause(0.15);
+waitForDeferredEvents(f, 'npaqbnpaqb');
 asserts.isequal(f.UserData, 'npaqbnpaqb');
 % a container resized on its own inside a tab, selected or not, still runs at once
 f.UserData = '';
@@ -236,7 +236,7 @@ asserts.isequal(first.InnerPosition, [1 1 198 75]);
 asserts.isequal(first.OuterPosition, [1 1 198 75]);
 asserts.isequal(getpixelposition(first), [1 1 198 75]);
 f.UserData = '';
-pause(0.1);
+waitForDeferredEvents(f, 'ab');
 asserts.isequal(f.UserData, 'ab');
 asserts.isequal(first.Position(3:4), [248 95]);
 asserts.isequal(second.Position(3:4), [248 95]);
@@ -248,7 +248,7 @@ group.Position = [10 10 260 120];
 drawnow();
 group.Position = [10 10 270 120];
 asserts.isequal(first.Position(3), 248);
-pause(0.15);
+waitForDeferredEvents(f, 'TT258,268,');
 asserts.isequal(f.UserData, 'TT258,268,');
 asserts.isequal(first.Position(3), 268);
 first.SizeChangedFcn = @(s, e) logResize(s, 'a');
@@ -305,6 +305,18 @@ p.Position = [30 30 200 120];
 drawnow();
 asserts.isequal(f.UserData.panel, 1);
 close(f);
+%=============================================================================
+% The deferred events run once callbacks have been processed for 20 ms: waits for them
+% rather than for a fixed delay, then a little more so that an event in excess is seen.
+function waitForDeferredEvents(f, expected)
+  for k = 1:250
+    pause(0.02);
+    if numel(f.UserData) >= numel(expected)
+      break;
+    end
+  end
+  pause(0.05);
+end
 %=============================================================================
 function countFigureResize(source, event)
   data = source.UserData;

@@ -41,7 +41,8 @@ asserts.isequal(g.HandleVisibility, 'on');
 asserts.isequal(g.ShowHiddenHandles, 'off');
 screenPixelsPerInch = g.ScreenPixelsPerInch;
 asserts.istrue(isnumeric(screenPixelsPerInch));
-asserts.istrue(screenPixelsPerInch > 0);
+% logical pixels: 96 per inch whatever the screen and its scale
+asserts.isequal(screenPixelsPerInch, 96);
 screenSizePixels = g.ScreenSize;
 monitorPositionsPixels = g.MonitorPositions;
 screenWidthPixels = screenSizePixels(3);

@@ -75,35 +75,24 @@ colorStyle(const QString& name, GOColorProperty* color)
     return QString("%1: %2;").arg(name, qColor.name());
 }
 //=============================================================================
+// Qt sizes a point with the dpi of the widget's screen (72 on macOS): the points given
+// here yield the logical pixel size of the model (1/96 inch) on any screen.
 static QString
-fontSizeStyle(GOUIControl* control)
+fontSizeStyle(GOUIControl* control, const QWidget* widget)
 {
     GOScalarProperty* size
         = static_cast<GOScalarProperty*>(control->findProperty(GO_FONT_SIZE_PROPERTY_NAME_STR));
     auto* units
         = static_cast<GOStringProperty*>(control->findProperty(GO_FONT_UNITS_PROPERTY_NAME_STR));
-    if (!size || !units) {
+    if (!size || !units || units->data() == GO_PROPERTY_VALUE_NORMALIZED_STR) {
         return {};
     }
-    double fontSize = size->data();
-    std::wstring unit = units->data();
-    if (unit == GO_PROPERTY_VALUE_PIXELS_STR) {
-        return QString("font-size: %1px;").arg(fontSize);
-    }
-    if (unit == GO_PROPERTY_VALUE_POINTS_STR) {
-        return QString("font-size: %1pt;").arg(fontSize);
-    }
-    if (unit == GO_PROPERTY_VALUE_CENTIMETERS_STR) {
-        return QString("font-size: %1pt;").arg(fontSize * 28.3465);
-    }
-    if (unit == GO_PROPERTY_VALUE_INCHES_STR) {
-        return QString("font-size: %1pt;").arg(fontSize * 72.0);
-    }
-    return {};
+    const double screenDpi = widget ? widget->logicalDpiY() : 96.0;
+    return QString("font-size: %1pt;").arg(control->fontSizeInPixels(0) * 72.0 / screenDpi);
 }
 //=============================================================================
 static QString
-buildWidgetStyleSheet(GOUIControl* control)
+buildWidgetStyleSheet(GOUIControl* control, const QWidget* widget)
 {
     QString styleSheet;
     if (control->findArrayOfProperty(GO_C_DATA_PROPERTY_NAME_STR).isEmpty()) {
@@ -121,7 +110,7 @@ buildWidgetStyleSheet(GOUIControl* control)
         styleSheet += QString("font-family: %1;")
                           .arg(wstringToQString(resolveRootFontName(fontName->data())));
     }
-    styleSheet += fontSizeStyle(control);
+    styleSheet += fontSizeStyle(control, widget);
 
     GOFontAngleProperty* fontAngle
         = static_cast<GOFontAngleProperty*>(control->findProperty(GO_FONT_ANGLE_PROPERTY_NAME_STR));
@@ -660,7 +649,7 @@ namespace {
             if (!model->hasChanged(GO_BACKGROUND_COLOR_PROPERTY_NAME_STR) && !newWidget) {
                 return;
             }
-            widget->setStyleSheet(buildWidgetStyleSheet(model));
+            widget->setStyleSheet(buildWidgetStyleSheet(model, widget));
             model->clearChanged(GO_BACKGROUND_COLOR_PROPERTY_NAME_STR);
         }
         //=============================================================================
@@ -670,7 +659,7 @@ namespace {
             if (!model->hasChanged(GO_FOREGROUND_COLOR_PROPERTY_NAME_STR) && !newWidget) {
                 return;
             }
-            widget->setStyleSheet(buildWidgetStyleSheet(model));
+            widget->setStyleSheet(buildWidgetStyleSheet(model, widget));
             model->clearChanged(GO_FOREGROUND_COLOR_PROPERTY_NAME_STR);
         }
         //=============================================================================
@@ -688,7 +677,7 @@ namespace {
             GOStringProperty* fontname = static_cast<GOStringProperty*>(
                 model->findProperty(GO_FONT_NAME_PROPERTY_NAME_STR));
             if (fontname) {
-                widget->setStyleSheet(buildWidgetStyleSheet(model));
+                widget->setStyleSheet(buildWidgetStyleSheet(model, widget));
             }
             model->clearChanged(GO_FONT_NAME_PROPERTY_NAME_STR);
         }
@@ -704,7 +693,7 @@ namespace {
             GOScalarProperty* fSize = static_cast<GOScalarProperty*>(
                 model->findProperty(GO_FONT_SIZE_PROPERTY_NAME_STR));
             if (fSize) {
-                widget->setStyleSheet(buildWidgetStyleSheet(model));
+                widget->setStyleSheet(buildWidgetStyleSheet(model, widget));
             }
             model->clearChanged(GO_FONT_SIZE_PROPERTY_NAME_STR);
             model->clearChanged(GO_FONT_UNITS_PROPERTY_NAME_STR);
@@ -719,7 +708,7 @@ namespace {
             GOFontAngleProperty* fontangle
                 = (GOFontAngleProperty*)model->findProperty(GO_FONT_ANGLE_PROPERTY_NAME_STR);
             if (fontangle) {
-                widget->setStyleSheet(buildWidgetStyleSheet(model));
+                widget->setStyleSheet(buildWidgetStyleSheet(model, widget));
             }
             model->clearChanged(GO_FONT_ANGLE_PROPERTY_NAME_STR);
         }
@@ -733,7 +722,7 @@ namespace {
             GOFontWeightProperty* fontweight
                 = (GOFontWeightProperty*)model->findProperty(GO_FONT_WEIGHT_PROPERTY_NAME_STR);
             if (fontweight) {
-                widget->setStyleSheet(buildWidgetStyleSheet(model));
+                widget->setStyleSheet(buildWidgetStyleSheet(model, widget));
             }
             model->clearChanged(GO_FONT_WEIGHT_PROPERTY_NAME_STR);
         }

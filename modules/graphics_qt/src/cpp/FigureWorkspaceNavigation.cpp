@@ -93,8 +93,7 @@ FigureWorkspaceQt::axisAt(const QPointF& position) const
             ? pageAxisAt(window->goFig, local.x(), canvas->height() - local.y())
             : nullptr;
     }
-    const double ratio = canvas->devicePixelRatioF();
-    return axisAtPixel(window->goFig, local.x() * ratio, (canvas->height() - local.y()) * ratio);
+    return axisAtPixel(window->goFig, local.x(), canvas->height() - local.y());
 }
 //=============================================================================
 void
@@ -337,12 +336,11 @@ FigureWorkspaceQt::wheel(QWheelEvent* event)
     // 3D axes.
     const auto box = axis->getClientAreaAsPixels();
     if (box.size() == 4 && box[2] > 0 && box[3] > 0 && canvas) {
-        const double ratio = canvas->devicePixelRatioF();
         const auto local = event->position() - canvas->geometry().topLeft();
-        const double axLeft = box[0] / ratio;
-        const double axWidth = box[2] / ratio;
-        const double axTop = canvas->height() - (box[1] + box[3]) / ratio;
-        const double axHeight = box[3] / ratio;
+        const double axLeft = box[0];
+        const double axWidth = box[2];
+        const double axTop = canvas->height() - (box[1] + box[3]);
+        const double axHeight = box[3];
         request["focusXFrac"] = std::clamp((local.x() - axLeft) / axWidth, 0.0, 1.0);
         request["focusYFrac"] = std::clamp((local.y() - axTop) / axHeight, 0.0, 1.0);
     }
@@ -553,7 +551,7 @@ pageAxisAt(GOFigure* figure, double x, double y)
     return axis && !axis->isPolarAxes() ? axis : nullptr;
 }
 //=============================================================================
-// Plot box in window coordinates: canvas boxes are in device pixels, page boxes in logical ones.
+// Plot box in window coordinates: canvas and page boxes are in logical pixels.
 static QRectF
 axisWindowRect(QWidget* canvas, QWidget* window, GOAxis* axis)
 {
@@ -562,7 +560,6 @@ axisWindowRect(QWidget* canvas, QWidget* window, GOAxis* axis)
         return {};
     }
     QWidget* surface = canvas;
-    double ratio = canvas->devicePixelRatioF();
     auto* parent
         = dynamic_cast<GOGObjectsProperty*>(axis->findProperty(GO_PARENT_PROPERTY_NAME_STR, false));
     auto* container = parent && !parent->data().empty()
@@ -570,11 +567,10 @@ axisWindowRect(QWidget* canvas, QWidget* window, GOAxis* axis)
         : nullptr;
     if (container && container->getBinding() && container->getBinding()->exists()) {
         surface = static_cast<QWidget*>(container->getBinding()->nativeWidget());
-        ratio = 1.0;
     }
     const QPoint origin = surface->mapTo(window, QPoint());
-    return QRectF(origin.x() + box[0] / ratio,
-        origin.y() + surface->height() - (box[1] + box[3]) / ratio, box[2] / ratio, box[3] / ratio);
+    return QRectF(
+        origin.x() + box[0], origin.y() + surface->height() - (box[1] + box[3]), box[2], box[3]);
 }
 //=============================================================================
 } // namespace Nelson

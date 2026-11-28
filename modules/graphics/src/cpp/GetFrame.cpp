@@ -11,7 +11,6 @@
 #include "omp_for_loop.hpp"
 #include "GetFrame.hpp"
 #include "GOFigureHost.hpp"
-#include "GOAxis.hpp"
 #include "GOFigure.hpp"
 #include "GOHelpers.hpp"
 #include "GOGObjectsProperty.hpp"
@@ -30,29 +29,6 @@ namespace Nelson {
 //=============================================================================
 static ArrayOf
 rgbaToArrayOf(const std::vector<unsigned char>& rgba, int width, int height);
-//=============================================================================
-// A figure with axes is captured at device resolution (Position x DevicePixelRatio), a
-// figure without axes at its logical pixel size. GOPolarAxes derives from GOAxis, so it
-// is caught here too. The Qt path applies the same split in
-// BaseFigureQt::renderFigureToImage.
-static bool
-figureHasAxes(GOFigure* fig)
-{
-    if (fig == nullptr) {
-        return false;
-    }
-    auto* children
-        = static_cast<GOGObjectsProperty*>(fig->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false));
-    if (children == nullptr) {
-        return false;
-    }
-    for (int64 handle : children->data()) {
-        if (dynamic_cast<GOAxis*>(findGraphicsObject(handle, false)) != nullptr) {
-            return true;
-        }
-    }
-    return false;
-}
 //=============================================================================
 static bool
 figurePositionPixelSize(GOFigure* fig, int& width, int& height)
@@ -125,7 +101,7 @@ webGetFrame(GOFigureHost* f, ArrayOf& result)
     // DevicePixelRatio is set from the native widget, or defaults to the primary screen
     // ratio for a headless web figure.
     double ratio = 1.0;
-    if (figureHasAxes(fig)) {
+    if (figureShowsAxes(fig)) {
         ratio
             = std::max(1.0, fig->findScalarDoubleProperty(GO_DEVICE_PIXEL_RATIO_PROPERTY_NAME_STR));
     }

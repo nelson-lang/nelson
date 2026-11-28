@@ -16,7 +16,9 @@
 //=============================================================================
 #include "nlsQtWarnings.h"
 #include <QtGui/QFont>
+#include <QtGui/QGuiApplication>
 #include <QtGui/QImage>
+#include <QtGui/QScreen>
 #include "RenderInterface.hpp"
 #include "QStringConverter.hpp"
 //=============================================================================
@@ -39,6 +41,23 @@ fontSpecFromQFont(const QFont& font)
     return spec;
 }
 //=============================================================================
+// Points to the logical pixels of the drawing model: 1/96 inch whatever the screen dpi.
+inline double
+qtLogicalPointsToPixels(double points)
+{
+    return points * (96.0 / 72.0);
+}
+//=============================================================================
+// Qt sizes a point with the screen dpi (72 on macOS): the point size returned here
+// draws the font at the logical pixel size of the model on any screen.
+inline double
+qtPointSizeForLogicalPixels(double points)
+{
+    const QScreen* screen = QGuiApplication::primaryScreen();
+    const int screenDpi = screen ? qRound(screen->logicalDotsPerInchY()) : 96;
+    return screenDpi > 0 ? points * 96.0 / screenDpi : points;
+}
+//=============================================================================
 inline QFont
 qFontFromSpec(const FontSpec& spec)
 {
@@ -46,7 +65,7 @@ qFontFromSpec(const FontSpec& spec)
     if (spec.pixelSize > 0) {
         font.setPixelSize(static_cast<int>(spec.pixelSize));
     } else if (spec.pointSizeF > 0) {
-        font.setPointSizeF(spec.pointSizeF);
+        font.setPointSizeF(qtPointSizeForLogicalPixels(spec.pointSizeF));
     }
     if (spec.weight != 400) {
         font.setWeight(static_cast<QFont::Weight>(spec.weight));

@@ -111,3 +111,15 @@ asserts.isequal(getpixelposition(b), [10 12 60 20]);
 asserts.isequal(getpixelposition(b, true), [60 72 60 20]);
 close(f);
 %=============================================================================
+% a tiled layout places its axes in the frame of its own parent: no shift
+f = figure('Visible', 'off', 'Position', [100 100 560 420]);
+t = tiledlayout(f, 2, 2);
+ax = nexttile(t, 4);
+drawnow();
+asserts.isapprox(getpixelposition(ax, true), getpixelposition(ax), 1e-9);
+layoutPosition = getpixelposition(t);
+tilePosition = getpixelposition(ax, true);
+asserts.istrue(tilePosition(1) + tilePosition(3) <= layoutPosition(1) + layoutPosition(3) + 1);
+asserts.istrue(tilePosition(2) + tilePosition(4) <= layoutPosition(2) + layoutPosition(4) + 1);
+close(f);
+%=============================================================================

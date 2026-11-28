@@ -10,8 +10,6 @@
 #define _USE_MATH_DEFINES
 #include "nlsQtWarnings.h"
 #include <cmath>
-#include <QtGui/QGuiApplication>
-#include <QtGui/QScreen>
 #include <algorithm>
 #include <limits>
 #include <QtGui/QPainterPath>
@@ -30,16 +28,6 @@
 // The OMP_PARALLEL_FOR_LOOP macro (omp_for_loop.hpp) references
 // NelsonConfiguration unqualified; make the Nelson namespace visible here.
 using namespace Nelson;
-//=============================================================================
-// Screen-dpi points->pixels used by the Qt backends (kept local so the render
-// module does not import the graphics DLL: the link goes the other way).
-static double
-qtScreenPointsToPixels(double points)
-{
-    QScreen* screen = QGuiApplication::primaryScreen();
-    double dpi = screen ? screen->logicalDotsPerInch() : 96.0;
-    return points * (dpi / 72.0);
-}
 //=============================================================================
 RenderQt::~RenderQt() = default;
 //=============================================================================
@@ -216,16 +204,13 @@ RenderQt::lineWidth(double n)
 double
 RenderQt::edgeStrokePixelWidth(double points) const
 {
-    return std::max(1.0, qtScreenPointsToPixels(points));
+    return std::max(1.0, Nelson::qtLogicalPointsToPixels(points));
 }
 //=============================================================================
 double
 RenderQt::pointsToPixels(double points)
 {
-    if (renderName == L"Image" || renderName == L"SVG") {
-        return points * (150.0 / 72.0);
-    }
-    return qtScreenPointsToPixels(points);
+    return Nelson::qtLogicalPointsToPixels(points);
 }
 //=============================================================================
 void

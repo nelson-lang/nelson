@@ -185,5 +185,13 @@ GOUIControl::setFocus()
     }
 }
 //=============================================================================
+double
+GOUIControl::fontSizeInPixels(double controlHeight)
+{
+    return convertFontSizeUnits(findScalarDoubleProperty(GO_FONT_SIZE_PROPERTY_NAME_STR),
+        findStringProperty(GO_FONT_UNITS_PROPERTY_NAME_STR), GO_PROPERTY_VALUE_PIXELS_STR,
+        controlHeight);
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

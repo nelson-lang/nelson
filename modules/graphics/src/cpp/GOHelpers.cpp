@@ -664,6 +664,37 @@ highlightsSelection(GraphicsObject* object)
     return !property || !property->isEqual(GO_PROPERTY_VALUE_OFF_STR);
 }
 //=============================================================================
+// GOPolarAxes derives from GOAxis; a tiled layout can hold other tiled layouts.
+static bool
+holdsAxes(GraphicsObject* parent, int depth)
+{
+    if (parent == nullptr || depth > 16) {
+        return false;
+    }
+    auto* children = dynamic_cast<GOGObjectsProperty*>(
+        parent->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false));
+    if (children == nullptr) {
+        return false;
+    }
+    for (int64 handle : children->data()) {
+        GraphicsObject* child = findGraphicsObject(handle, false);
+        if (dynamic_cast<GOAxis*>(child) != nullptr) {
+            return true;
+        }
+        if (child && child->isType(GO_PROPERTY_VALUE_TILED_LAYOUT_STR)
+            && holdsAxes(child, depth + 1)) {
+            return true;
+        }
+    }
+    return false;
+}
+//=============================================================================
+bool
+figureShowsAxes(GOFigure* figure)
+{
+    return holdsAxes(figure, 0);
+}
+//=============================================================================
 bool
 legendIconHidden(GraphicsObject* object)
 {

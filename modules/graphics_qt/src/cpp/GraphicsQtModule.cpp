@@ -42,7 +42,6 @@ static GraphicsEnvironmentHooks
 guiEnvironmentHooks()
 {
     GraphicsEnvironmentHooks hooks;
-    hooks.primaryScreenDpi = &primaryScreenDpi;
     hooks.frameCaptureDeviceRatio = &primaryScreenDevicePixelRatio;
     hooks.primaryScreenDepth = &primaryScreenDepth;
     hooks.currentScreenResolution = &currentScreenResolution;
@@ -82,7 +81,6 @@ static struct FigureHostFactoryLifetime
             // Web figures are headless (no GOWindow, no GUI event pump), but
             // the root object still reports desktop screen metrics.
             GraphicsEnvironmentHooks webHooks;
-            webHooks.primaryScreenDpi = &primaryScreenDpi;
             webHooks.frameCaptureDeviceRatio = &primaryScreenDevicePixelRatio;
             webHooks.primaryScreenDepth = &primaryScreenDepth;
             webHooks.currentScreenResolution = &currentScreenResolution;

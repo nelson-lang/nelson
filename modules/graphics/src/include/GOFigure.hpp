@@ -34,9 +34,9 @@ class NLSGRAPHICS_IMPEXP GOFigure : public GraphicsObject
 {
 private:
     int m_width, m_height;
-    // ratio between the rendering size above and the layout size: 1 for an
-    // ordinary render, the device pixel ratio on screen, the export ratio when
-    // rendering to a file. Layout geometry must always use the layout size.
+    // ratio between the rendering size above and the layout size. Every host lays the
+    // figure out in logical pixels (ratio 1) and lets its renderer scale the frame to the
+    // device. Layout geometry must always use the layout size.
     double m_renderScale = 1.0;
     bool m_childrenLayoutStale = false;
     // the host applied a size whose resize report is still to come
@@ -175,8 +175,9 @@ public:
     paintMe(RenderInterface& gc) override;
     void
     paintAnnotations(RenderInterface& gc);
+    // size of the host canvas, in device pixels
     virtual void
-    resizeGL(int width, int height);
+    resizeGL(int deviceWidth, int deviceHeight);
     void
     initializeProperties();
     void

@@ -880,8 +880,16 @@ GOFigure::refreshChildrenLayout()
 }
 //=============================================================================
 void
-GOFigure::resizeGL(int width, int height)
+GOFigure::resizeGL(int deviceWidth, int deviceHeight)
 {
+    // The canvas reports device pixels. The figure is laid out in logical pixels and the
+    // renderer scales the frame to the device, as the captures and the exports do.
+    double devicePixelRatio = findScalarDoubleProperty(GO_DEVICE_PIXEL_RATIO_PROPERTY_NAME_STR);
+    if (devicePixelRatio <= 0) {
+        devicePixelRatio = 1.0;
+    }
+    const int width = static_cast<int>(std::lround(deviceWidth / devicePixelRatio));
+    const int height = static_cast<int>(std::lround(deviceHeight / devicePixelRatio));
     if ((m_width == width) && (m_height == height) && !m_sizeReportExpected) {
         return;
     }
@@ -897,13 +905,9 @@ GOFigure::resizeGL(int width, int height)
         return; // headless: resize goes through setRenderingSize
     }
     std::wstring units = findStringProperty(GO_UNITS_PROPERTY_NAME_STR);
-    double devicePixelRatio = findScalarDoubleProperty(GO_DEVICE_PIXEL_RATIO_PROPERTY_NAME_STR);
-    if (devicePixelRatio <= 0) {
-        devicePixelRatio = 1.0;
-    }
-    setRenderingSize(width, height, devicePixelRatio);
-    double logicalWidth = static_cast<double>(width) / devicePixelRatio;
-    double logicalHeight = static_cast<double>(height) / devicePixelRatio;
+    setRenderingSize(width, height, 1.0);
+    double logicalWidth = width;
+    double logicalHeight = height;
     double transformedY = transformY(
         geoY - frameTopOffset, logicalHeight, GraphicsEnvironment::currentScreenHeight());
 
@@ -1026,8 +1030,7 @@ GOFigure::refreshPositionProperties(bool forceUpdate)
     double geoFrameTop = 0;
     const bool hasGeometry = m_win->hostFrameGeometry(geoX, geoY, geoW, geoH, geoFrameTop);
     std::wstring units = findStringProperty(GO_UNITS_PROPERTY_NAME_STR);
-    // m_width/m_height are in m_renderScale units (device pixels once the GL canvas
-    // resized, logical pixels set from Position before that).
+    // m_width/m_height are in m_renderScale units.
     double width = m_width > 0 ? m_width / m_renderScale : (hasGeometry ? geoW : 0);
     double height = m_height > 0 ? m_height / m_renderScale : (hasGeometry ? geoH : 0);
 

@@ -22,7 +22,6 @@ namespace Nelson {
 //=============================================================================
 struct GraphicsEnvironmentHooks
 {
-    double (*primaryScreenDpi)() = nullptr;
     double (*frameCaptureDeviceRatio)() = nullptr;
     int (*primaryScreenDepth)() = nullptr;
     bool (*currentScreenResolution)(int& width, int& height) = nullptr;
@@ -44,8 +43,6 @@ clearGraphicsEnvironmentHooks();
 //=============================================================================
 namespace GraphicsEnvironment {
     //=============================================================================
-    NLSGRAPHICS_IMPEXP double
-    primaryScreenDpi(); // 96.0 headless
     NLSGRAPHICS_IMPEXP double
     frameCaptureDeviceRatio(); // 1.0 headless; screen devicePixelRatio when a
                                // windowing backend is registered (getframe only)

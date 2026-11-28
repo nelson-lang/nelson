@@ -96,10 +96,8 @@ GOWindow::findContainingAxis(GOFigure* fig, int x, int y)
     if (!workspace || !qtchild || fig != goFig) {
         return nullptr;
     }
-    const double ratio = qtchild->devicePixelRatioF();
     const auto origin = qtchild->geometry().topLeft();
-    return workspace->axisAt(
-        QPointF(origin.x() + x / ratio, origin.y() + qtchild->height() - y / ratio));
+    return workspace->axisAt(QPointF(origin.x() + x, origin.y() + qtchild->height() - y));
 }
 //=============================================================================
 void

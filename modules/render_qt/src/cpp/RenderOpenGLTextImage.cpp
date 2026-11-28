@@ -55,6 +55,7 @@ struct TextImageKey
     int green = 0;
     int blue = 0;
     int rotation = 0;
+    int deviceScale = 0;
 
     bool
     operator==(const TextImageKey& other) const
@@ -62,7 +63,8 @@ struct TextImageKey
         return text == other.text && family == other.family && pixelSize == other.pixelSize
             && pointSize == other.pointSize && weight == other.weight && italic == other.italic
             && underline == other.underline && antialias == other.antialias && red == other.red
-            && green == other.green && blue == other.blue && rotation == other.rotation;
+            && green == other.green && blue == other.blue && rotation == other.rotation
+            && deviceScale == other.deviceScale;
     }
 };
 //=============================================================================
@@ -86,6 +88,7 @@ struct TextImageKeyHash
         combine(std::hash<int> {}(key.green));
         combine(std::hash<int> {}(key.blue));
         combine(std::hash<int> {}(key.rotation));
+        combine(std::hash<int> {}(key.deviceScale));
         return seed;
     }
 };
@@ -93,11 +96,13 @@ struct TextImageKeyHash
 struct TextImageEntry
 {
     QImage image;
+    // image and metrics are in frame buffer pixels: deviceScale times the logical ones
     int textWidth = 0;
     int textHeight = 0;
     double baselineX = 0.;
     double baselineY = 0.;
     int descent = 0;
+    double deviceScale = 1.;
 };
 //=============================================================================
 static std::unordered_map<TextImageKey, TextImageEntry, TextImageKeyHash>&
@@ -109,7 +114,7 @@ textImageCache()
 //=============================================================================
 static TextImageKey
 makeTextImageKey(const std::wstring& text, const FontSpec& font, const std::vector<double>& color,
-    double rotation)
+    double rotation, double deviceScale)
 {
     TextImageKey key;
     key.text = text;
@@ -124,6 +129,7 @@ makeTextImageKey(const std::wstring& text, const FontSpec& font, const std::vect
     key.green = std::clamp(static_cast<int>(std::lround(color[1] * 255.0)), 0, 255);
     key.blue = std::clamp(static_cast<int>(std::lround(color[2] * 255.0)), 0, 255);
     key.rotation = static_cast<int>(std::lround(rotation * 100.0));
+    key.deviceScale = static_cast<int>(std::lround(deviceScale * 1000.0));
     return key;
 }
 //=============================================================================
@@ -134,7 +140,8 @@ textTextureCacheKey(const TextImageKey& key)
     stream << key.text << L'\x1f' << key.family << L'\x1f' << key.pixelSize << L'\x1f'
            << key.pointSize << L'\x1f' << key.weight << L'\x1f' << key.italic << L'\x1f'
            << key.underline << L'\x1f' << key.antialias << L'\x1f' << key.red << L'\x1f'
-           << key.green << L'\x1f' << key.blue << L'\x1f' << key.rotation;
+           << key.green << L'\x1f' << key.blue << L'\x1f' << key.rotation << L'\x1f'
+           << key.deviceScale;
     return stream.str();
 }
 //=============================================================================
@@ -388,6 +395,22 @@ cropAndOrientImage(
     return orientations ? Nelson::flipImage(cropped, orientations) : cropped;
 }
 //=============================================================================
+// Font of a FontSpec at the frame buffer resolution (scale 1 gives the logical font).
+static QFont
+deviceFont(const FontSpec& fntSpec, double deviceScale)
+{
+    QFont fnt = Nelson::qFontFromSpec(fntSpec);
+    if (deviceScale == 1.0) {
+        return fnt;
+    }
+    if (fnt.pixelSize() > 0) {
+        fnt.setPixelSize(std::max(1, static_cast<int>(std::lround(fnt.pixelSize() * deviceScale))));
+    } else if (fnt.pointSizeF() > 0) {
+        fnt.setPointSizeF(fnt.pointSizeF() * deviceScale);
+    }
+    return fnt;
+}
+//=============================================================================
 std::vector<std::wstring>
 RenderOpenGL::splitEoLText(const std::wstring& text)
 {
@@ -452,12 +475,15 @@ void
 RenderOpenGL::putText(double x, double y, std::wstring txt, std::vector<double> col,
     AlignmentFlag xflag, AlignmentFlag yflag, const FontSpec& fntSpec, double rotation)
 {
-    TextImageKey key = makeTextImageKey(txt, fntSpec, col, rotation);
+    // The glyphs are rasterized at the frame buffer resolution and the image is drawn
+    // over its logical size: the text scales with the display like the rest of the frame.
+    const double textScale = deviceScale();
+    TextImageKey key = makeTextImageKey(txt, fntSpec, col, rotation, textScale);
     std::wstring textureKey = textTextureCacheKey(key);
     auto& cache = textImageCache();
     auto found = cache.find(key);
     if (found == cache.end()) {
-        QFont fnt = Nelson::qFontFromSpec(fntSpec);
+        QFont fnt = deviceFont(fntSpec, textScale);
         size_t nbLines;
         QRect sze = boundingRectMultiLine(txt, fnt, nbLines);
         QFontMetrics fm(fnt);
@@ -502,26 +528,31 @@ RenderOpenGL::putText(double x, double y, std::wstring txt, std::vector<double> 
         entry.baselineX = baselineX;
         entry.baselineY = baselineY;
         entry.descent = fm.descent();
+        entry.deviceScale = textScale;
         if (cache.size() > 512) {
             cache.clear();
         }
         found = cache.emplace(std::move(key), std::move(entry)).first;
     }
     const TextImageEntry& textImage = found->second;
+    // back to the logical pixels of the model
+    const double toLogical = 1.0 / textImage.deviceScale;
+    const double textWidth = textImage.textWidth * toLogical;
+    const double textHeight = textImage.textHeight * toLogical;
 
     double xdelta = 0;
     double ydelta = 0;
     if (xflag == Mean) {
-        xdelta = -textImage.textWidth / 2.0;
+        xdelta = -textWidth / 2.0;
     } else if (xflag == Max) {
-        xdelta = -textImage.textWidth;
+        xdelta = -textWidth;
     }
     if (yflag == Mean) {
-        ydelta = -textImage.textHeight / 2.0;
+        ydelta = -textHeight / 2.0;
     } else if (yflag == Max) {
-        ydelta = -textImage.textHeight;
+        ydelta = -textHeight;
     }
-    ydelta += textImage.descent;
+    ydelta += textImage.descent * toLogical;
     double costhet = cos(rotation * M_PI / 180.0);
     double sinthet = sin(rotation * M_PI / 180.0);
     double xpos = x + xdelta * costhet - ydelta * sinthet;
@@ -532,8 +563,16 @@ RenderOpenGL::putText(double x, double y, std::wstring txt, std::vector<double> 
     if (needsDirectDraw) {
         setupDirectDraw();
     }
-    double left = pixel.x() - textImage.baselineX;
-    double bottom = pixel.y() - (textImage.image.height() - textImage.baselineY);
+    double left = pixel.x() - textImage.baselineX * toLogical;
+    double bottom = pixel.y() - (textImage.image.height() - textImage.baselineY) * toLogical;
+    if (textImage.deviceScale != 1.0) {
+        // one texel per frame buffer pixel keeps the glyphs sharp on a scaled frame
+        double scaleX;
+        double scaleY;
+        frameDeviceScale(scaleX, scaleY);
+        left = std::round(left * scaleX) / scaleX;
+        bottom = std::round(bottom * scaleY) / scaleY;
+    }
     auto textureFound = textTextureCache.find(textureKey);
     if (textureFound != textTextureCache.end()
         && (textureFound->second.width != textImage.image.width()
@@ -557,9 +596,9 @@ RenderOpenGL::putText(double x, double y, std::wstring txt, std::vector<double> 
                                    texture, textImage.image.width(), textImage.image.height() })
                            .first;
     }
-    drawTexturedQuadTexture2D(left, bottom, left + textImage.image.width(),
-        bottom + textImage.image.height(), static_cast<GLuint>(textureFound->second.texture),
-        currentColor);
+    drawTexturedQuadTexture2D(left, bottom, left + textImage.image.width() * toLogical,
+        bottom + textImage.image.height() * toLogical,
+        static_cast<GLuint>(textureFound->second.texture), currentColor);
     if (needsDirectDraw) {
         releaseDirectDraw();
     }

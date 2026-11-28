@@ -715,7 +715,7 @@ plotBoxLogicalHeight(GOAxis* axis)
     if (plotBox.size() < 4) {
         return 0.0;
     }
-    // A shown figure is measured in device pixels; its Position is in logical pixels.
+    // The render size of a figure may be a multiple of its Position (render scale).
     double height = plotBox[3];
     GOFigure* fig = axis->getParentFigure();
     if (fig && fig->getHeight() > 0) {
@@ -2307,7 +2307,7 @@ GOAxis::getTickCount(
 // Layout geometry follows the figure's layout size, not the transient rendering
 // size: neither an export render nor a HiDPI screen render may change stored
 // ticks. GOFigure::getLayoutWidth() divides the rendering size by the scale its
-// producer declared (device pixel ratio on screen, export ratio when printing).
+// producer declared.
 static void
 figureLogicalSize(GOFigure* fig, unsigned& width, unsigned& height)
 {

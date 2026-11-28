@@ -67,6 +67,12 @@ highlightsSelection(GraphicsObject* object);
 NLSGRAPHICS_IMPEXP bool
 legendIconHidden(GraphicsObject* object);
 //=============================================================================
+// True when a figure shows axes as its children or through tiled layouts: getframe then
+// captures it at the device resolution (Position x DevicePixelRatio). An empty figure, or
+// one whose axes are all held by UI containers, is captured at its logical pixel size.
+NLSGRAPHICS_IMPEXP bool
+figureShowsAxes(GOFigure* figure);
+//=============================================================================
 // True when an axes has its built-in interactions turned off: either by
 // disableDefaultInteractivity (the hidden flag) or by the user emptying the
 // Interactions property (ax.Interactions = []).

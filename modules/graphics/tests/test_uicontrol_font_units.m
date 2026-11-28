@@ -32,3 +32,23 @@ assert_isequal(u3.FontUnits, 'pixels');
 %=============================================================================
 close(f);
 %=============================================================================
+% a FontUnits change keeps the size of the drawn text, whatever the screen dpi
+f = figure('Position', [100 100 600 300], 'Color', [1 1 1]);
+u = uicontrol(f, 'Style', 'text', 'String', 'HHHH', 'FontSize', 26, ...
+  'BackgroundColor', [1 1 1], 'ForegroundColor', [0 0 0], 'Units', 'pixels', ...
+  'Position', [1 1 600 300]);
+drawnow();
+inkPoints = inkSize(f);
+u.FontUnits = 'pixels';
+drawnow();
+assert_istrue(all(abs(inkSize(f) - inkPoints) <= 2));
+close(f);
+%=============================================================================
+function wh = inkSize(f)
+  frame = getframe(f);
+  ink = all(frame.cdata < 128, 3);
+  [rows, cols] = find(ink);
+  assert_isfalse(isempty(cols));
+  wh = [max(cols) - min(cols), max(rows) - min(rows)] + 1;
+end
+%=============================================================================

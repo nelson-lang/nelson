@@ -110,12 +110,6 @@ clearGraphicsEnvironmentHooks()
 namespace GraphicsEnvironment {
     //=============================================================================
     double
-    primaryScreenDpi()
-    {
-        return environmentHooks.primaryScreenDpi ? environmentHooks.primaryScreenDpi() : 96.0;
-    }
-    //=============================================================================
-    double
     frameCaptureDeviceRatio()
     {
         return environmentHooks.frameCaptureDeviceRatio ? environmentHooks.frameCaptureDeviceRatio()

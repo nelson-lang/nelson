@@ -25,8 +25,6 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static double
-webFontPixels(GOUIControl* control, RenderWeb& renderer, double controlHeight);
 static std::string
 webFontFamily(GOUIControl* control);
 //=============================================================================
@@ -81,7 +79,7 @@ GOUIControl::describeForWeb(RenderWeb& renderer, const std::vector<double>& posi
     control.value = findScalarDoubleProperty(GO_VALUE_PROPERTY_NAME_STR);
     control.minimum = findScalarDoubleProperty(GO_MIN_PROPERTY_NAME_STR);
     control.maximum = findScalarDoubleProperty(GO_MAX_PROPERTY_NAME_STR);
-    control.fontSize = webFontPixels(this, renderer, control.h);
+    control.fontSize = fontSizeInPixels(control.h);
     control.fontFamily = webFontFamily(this);
     control.bold = stringCheck(GO_FONT_WEIGHT_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_BOLD_STR);
     control.italic = !stringCheck(GO_FONT_ANGLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NORMAL_STR);
@@ -190,27 +188,6 @@ GOUIControl::paintMe(RenderInterface& gc)
             binding->renderSnapshot(gc);
         }
     }
-}
-//=============================================================================
-// FontSize in page pixels, read in its FontUnits as the native widget does
-static double
-webFontPixels(GOUIControl* control, RenderWeb& renderer, double controlHeight)
-{
-    const double size = control->findScalarDoubleProperty(GO_FONT_SIZE_PROPERTY_NAME_STR);
-    const std::wstring units = control->findStringProperty(GO_FONT_UNITS_PROPERTY_NAME_STR);
-    if (units == GO_PROPERTY_VALUE_PIXELS_STR) {
-        return size;
-    }
-    if (units == GO_PROPERTY_VALUE_INCHES_STR) {
-        return renderer.pointsToPixels(size * 72.0);
-    }
-    if (units == GO_PROPERTY_VALUE_CENTIMETERS_STR) {
-        return renderer.pointsToPixels(size * 72.0 / 2.54);
-    }
-    if (units == GO_PROPERTY_VALUE_NORMALIZED_STR) {
-        return size * controlHeight;
-    }
-    return renderer.pointsToPixels(size);
 }
 //=============================================================================
 // FontName as a CSS family list: the scalable family the native widget draws, then a generic one

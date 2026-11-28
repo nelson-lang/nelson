@@ -17,8 +17,6 @@
 #include "nlsQtWarnings.h"
 #include <cmath>
 #include <cstring>
-#include <QtGui/QGuiApplication>
-#include <QtGui/QScreen>
 #include <algorithm>
 #include <array>
 #include <functional>
@@ -45,23 +43,14 @@
 #include "RenderOpenGL.hpp"
 #include "RenderOpenGLSurfaceArrays.hpp"
 #include "GOPropertyValues.hpp"
-//=============================================================================
-// Screen-dpi points->pixels used by the Qt backends (kept local so the render
-// module does not import the graphics DLL: the link goes the other way).
-static double
-qtScreenPointsToPixels(double points)
-{
-    QScreen* screen = QGuiApplication::primaryScreen();
-    double dpi = screen ? screen->logicalDotsPerInch() : 96.0;
-    return points * (dpi / 72.0);
-}
+#include "RenderQtHelpers.hpp"
 //=============================================================================
 double
 RenderOpenGL::deviceScale() const
 {
-    // QOpenGLWidget grabs its frame buffer at device resolution (logical size *
-    // devicePixelRatio) while qtScreenPointsToPixels yields logical pixels. Scale by
-    // the ratio so markers and line widths keep their physical size on HiDPI.
+    // The model draws in logical pixels while the QOpenGLWidget frame buffer is at device
+    // resolution (logical size * devicePixelRatio): the viewport, the text images and
+    // the sizes OpenGL takes in frame buffer pixels are multiplied by this ratio.
     double ratio = widget ? static_cast<double>(widget->devicePixelRatioF()) : 1.0;
     return ratio > 0.0 ? ratio : 1.0;
 }
@@ -150,7 +139,7 @@ RenderOpenGL::resetState(
     viewp[2] = static_cast<int>(width);
     viewp[3] = static_cast<int>(height);
     if (widget) {
-        glViewport(viewp[0], viewp[1], viewp[2], viewp[3]);
+        applyViewport();
         glDisable(GL_SCISSOR_TEST);
         glDisable(GL_TEXTURE_2D);
         glDisable(GL_CULL_FACE);
@@ -495,7 +484,8 @@ void
 RenderOpenGL::lineWidth(double n)
 {
     m_lineWidthPoints = n;
-    glLineWidth(static_cast<GLfloat>(std::max(1.0, pointsToPixels(n))));
+    // glLineWidth is in frame buffer pixels
+    glLineWidth(static_cast<GLfloat>(std::max(1.0, pointsToPixels(n) * deviceScale())));
 }
 //=============================================================================
 static void
@@ -547,7 +537,7 @@ RenderOpenGL::drawStyledLines(unsigned int primitive, const double* xyz, size_t 
         drawVertexArrayRaw(primitive, xyz, static_cast<GLsizei>(vertexCount));
         return;
     }
-    const double widthPixels = std::max(1.0, qtScreenPointsToPixels(m_lineWidthPoints));
+    const double widthPixels = std::max(1.0, Nelson::qtLogicalPointsToPixels(m_lineWidthPoints));
     const double scale = deviceScale() * widthPixels;
     for (double& value : pattern) {
         value *= scale;
@@ -725,6 +715,7 @@ RenderOpenGL::line(double x1, double y1, double z1, double x2, double y2, double
 void
 RenderOpenGL::line(double x1, double y1, double x2, double y2)
 {
+    alignSegmentToDevicePixels(x1, y1, x2, y2);
     line(x1, y1, 0, x2, y2, 0);
 }
 //=============================================================================
@@ -739,8 +730,13 @@ RenderOpenGL::lineSegments2D(const std::vector<double>& xy)
 {
     std::vector<GLdouble> xyz;
     xyz.reserve(xy.size() / 2 * 3);
-    for (size_t i = 0; i + 1 < xy.size(); i += 2) {
-        xyz.insert(xyz.end(), { xy[i], xy[i + 1], 0.0 });
+    for (size_t i = 0; i + 3 < xy.size(); i += 4) {
+        double x1 = xy[i];
+        double y1 = xy[i + 1];
+        double x2 = xy[i + 2];
+        double y2 = xy[i + 3];
+        alignSegmentToDevicePixels(x1, y1, x2, y2);
+        xyz.insert(xyz.end(), { x1, y1, 0.0, x2, y2, 0.0 });
     }
     drawStyledLines(GL_LINES, xyz.data(), xyz.size() / 3);
 }
@@ -786,7 +782,7 @@ static int
 pointMarkerPixelSize(double markerSize, double deviceScale)
 {
     // The point marker '.' renders at a third of the nominal MarkerSize.
-    double pixelSize = qtScreenPointsToPixels(markerSize) * deviceScale / 3.0;
+    double pixelSize = Nelson::qtLogicalPointsToPixels(markerSize) * deviceScale / 3.0;
     pixelSize
         = std::max(1.0, std::min(static_cast<double>(MAX_POINT_MARKER_PIXEL_SIZE), pixelSize));
     return static_cast<int>(std::round(pixelSize));
@@ -795,7 +791,8 @@ pointMarkerPixelSize(double markerSize, double deviceScale)
 double
 RenderOpenGL::pointsToPixels(double points)
 {
-    return qtScreenPointsToPixels(points) * deviceScale();
+    // logical pixels, like every length of the model: the viewport scales them to the device
+    return Nelson::qtLogicalPointsToPixels(points);
 }
 //=============================================================================
 bool
@@ -1077,8 +1074,44 @@ RenderOpenGL::viewport(double x0, double y0, double width, double height)
     viewp[2] = static_cast<int>(width);
     viewp[3] = static_cast<int>(height);
     if (widget) {
-        glViewport(viewp[0], viewp[1], viewp[2], viewp[3]);
+        applyViewport();
     }
+}
+//=============================================================================
+void
+RenderOpenGL::applyViewport()
+{
+    // viewp holds logical pixels; the edges are rounded so adjacent viewports stay adjacent
+    const double scale = deviceScale();
+    const int left = static_cast<int>(std::lround(viewp[0] * scale));
+    const int bottom = static_cast<int>(std::lround(viewp[1] * scale));
+    const int right = static_cast<int>(std::lround((viewp[0] + viewp[2]) * scale));
+    const int top = static_cast<int>(std::lround((viewp[1] + viewp[3]) * scale));
+    glViewport(left, bottom, right - left, top - bottom);
+}
+//=============================================================================
+void
+RenderOpenGL::frameDeviceScale(double& scaleX, double& scaleY) const
+{
+    // the frame buffer size is a rounded multiple of the logical size
+    const double scale = deviceScale();
+    scaleX = m_width > 0 ? std::lround(m_width * scale) / m_width : scale;
+    scaleY = m_height > 0 ? std::lround(m_height * scale) / m_height : scale;
+}
+//=============================================================================
+void
+RenderOpenGL::alignSegmentToDevicePixels(double& x1, double& y1, double& x2, double& y2) const
+{
+    if (!inDirect || deviceScale() == 1.0 || (x1 != x2 && y1 != y2)) {
+        return;
+    }
+    double scaleX;
+    double scaleY;
+    frameDeviceScale(scaleX, scaleY);
+    x1 = (std::floor(x1 * scaleX) + 0.5) / scaleX;
+    x2 = (std::floor(x2 * scaleX) + 0.5) / scaleX;
+    y1 = (std::floor(y1 * scaleY) + 0.5) / scaleY;
+    y2 = (std::floor(y2 * scaleY) + 0.5) / scaleY;
 }
 //=============================================================================
 void
@@ -1115,7 +1148,7 @@ RenderOpenGL::clipToEntireFrame()
     viewp[2] = static_cast<int>(m_width);
     viewp[3] = static_cast<int>(m_height);
     if (widget) {
-        glViewport(viewp[0], viewp[1], viewp[2], viewp[3]);
+        applyViewport();
     }
     loadProjectionMatrix();
 }
@@ -1245,7 +1278,7 @@ RenderOpenGL::releaseDirectDraw()
     for (int i = 0; i < 4; i++) {
         viewp[i] = save_viewp[i];
     }
-    glViewport(viewp[0], viewp[1], viewp[2], viewp[3]);
+    applyViewport();
     if (widget) {
         glDisable(GL_SCISSOR_TEST);
     }
@@ -1263,10 +1296,12 @@ RenderOpenGL::setClipBox(double x0, double y0, double width, double height)
     if (!widget) {
         return;
     }
-    int ix = static_cast<int>(std::floor(x0));
-    int iy = static_cast<int>(std::floor(y0));
-    int iw = std::max(0, static_cast<int>(std::ceil(width)));
-    int ih = std::max(0, static_cast<int>(std::ceil(height)));
+    // the scissor box is in frame buffer pixels
+    const double scale = deviceScale();
+    int ix = static_cast<int>(std::floor(x0 * scale));
+    int iy = static_cast<int>(std::floor(y0 * scale));
+    int iw = std::max(0, static_cast<int>(std::ceil(width * scale)));
+    int ih = std::max(0, static_cast<int>(std::ceil(height * scale)));
     glEnable(GL_SCISSOR_TEST);
     glScissor(ix, iy, iw, ih);
 }
@@ -1354,6 +1389,9 @@ RenderOpenGL::depth(bool on)
 void
 RenderOpenGL::rect(double x1, double y1, double x2, double y2)
 {
+    // the four sides are axis-aligned: align the two corners
+    alignSegmentToDevicePixels(x1, y1, x1, y1);
+    alignSegmentToDevicePixels(x2, y2, x2, y2);
     const GLdouble vertices[] = { x1, y1, 0, x2, y1, 0, x2, y2, 0, x1, y2, 0 };
     drawStyledLines(GL_LINE_LOOP, vertices, 4);
 }

@@ -96,13 +96,7 @@ GOWindow::setFigureGeometryFromInnerPosition(int x, int y, int width, int height
     // the drawing area reported the size during setGeometry on most platforms: when it has
     // not (Cocoa resizes later), the size is applied now and the report must still run the
     // SizeChangedFcn
-    // The figure holds device pixels: a logical comparison never matches on a scaled display.
-    const qreal ratio = devicePixelRatioF() > 0 ? devicePixelRatioF() : 1;
-    const int deviceWidth = static_cast<int>(width * ratio + 0.5);
-    const int deviceHeight = static_cast<int>(height * ratio + 0.5);
-    const bool reported = goFig
-        && ((goFig->getWidth() == width && goFig->getHeight() == height)
-            || (goFig->getWidth() == deviceWidth && goFig->getHeight() == deviceHeight));
+    const bool reported = goFig && goFig->getWidth() == width && goFig->getHeight() == height;
     if (goFig && !reported) {
         goFig->setRenderingSize(width, height);
         goFig->expectSizeReport();

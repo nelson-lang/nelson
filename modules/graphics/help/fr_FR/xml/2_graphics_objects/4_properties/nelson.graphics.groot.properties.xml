@@ -75,7 +75,7 @@
       <tr>
         <td><b>ScreenPixelsPerInch</b></td>
         <td>rapporte la résolution logique utilisée pour convertir les pixels en pouces, centimetres et points.</td>
-        <td>Type: scalaire numérique fini. Valeurs prises en charge: 96 sous Windows, quelle que soit l&apos;échelle d&apos;affichage.</td>
+        <td>Type: scalaire numérique fini. Valeurs prises en charge: 96, quels que soient l'écran et l'échelle d'affichage.</td>
       </tr>
       <tr>
         <td><b>ScreenSize</b></td>

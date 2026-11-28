@@ -84,13 +84,6 @@ getCurrentScreenWidth()
     return w;
 }
 //=============================================================================
-double
-primaryScreenDpi()
-{
-    QScreen* mainScreen = QGuiApplication::primaryScreen();
-    return mainScreen ? mainScreen->logicalDotsPerInch() : 96.0;
-}
-//=============================================================================
 int
 primaryScreenDepth()
 {

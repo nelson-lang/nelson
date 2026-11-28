@@ -40,6 +40,8 @@ namespace Nelson {
 //=============================================================================
 static GORoot* _graphicsRootObject = nullptr;
 //=============================================================================
+// Logical pixels of the drawing model: 1/96 inch whatever the screen dpi.
+static constexpr double ROOT_PIXELS_PER_INCH = 96.0;
 static constexpr double ROOT_POINTS_PER_INCH = 72.0;
 static constexpr double ROOT_CM_PER_INCH = 2.54;
 static constexpr double ROOT_CHARACTER_WIDTH_PIXELS = 28.0 / 3.0;
@@ -146,15 +148,9 @@ defaultNameFor(const std::wstring& objectType, const std::wstring& propertyName)
 }
 //=============================================================================
 static double
-screenDpi()
-{
-    return GraphicsEnvironment::primaryScreenDpi();
-}
-//=============================================================================
-static double
 rootLengthFromPixels(const std::wstring& unit, double value, double extent)
 {
-    double dpi = screenDpi();
+    const double dpi = ROOT_PIXELS_PER_INCH;
     if (unit == GO_PROPERTY_VALUE_INCHES_STR) {
         return value / dpi;
     }
@@ -185,7 +181,7 @@ rootHeightFromPixels(const std::wstring& unit, double value, double extent)
 static double
 rootLengthToPixels(const std::wstring& unit, double value, double extent)
 {
-    double dpi = screenDpi();
+    const double dpi = ROOT_PIXELS_PER_INCH;
     if (unit == GO_PROPERTY_VALUE_INCHES_STR) {
         return value * dpi;
     }
@@ -531,7 +527,7 @@ GORoot::paintMe(RenderInterface& gc) { };
 void
 GORoot::refreshScreenPixelsPerInchProperty()
 {
-    setScalarDoubleDefault(GO_SCREEN_PIXELS_PER_INCH_PROPERTY_NAME_STR, screenDpi());
+    setScalarDoubleDefault(GO_SCREEN_PIXELS_PER_INCH_PROPERTY_NAME_STR, ROOT_PIXELS_PER_INCH);
     clearChanged(GO_SCREEN_PIXELS_PER_INCH_PROPERTY_NAME_STR);
 }
 //=============================================================================

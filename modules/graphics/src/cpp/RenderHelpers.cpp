@@ -15,13 +15,13 @@
 #define M_PI 3.141592653589793
 #endif
 #include "RenderHelpers.hpp"
-#include "GraphicsEnvironment.hpp"
 #include "GOPropertyValues.hpp"
 //=============================================================================
+// Logical pixels of the drawing model: 1/96 inch whatever the screen dpi.
 double
 pointsToPixels(double points)
 {
-    return points * (Nelson::GraphicsEnvironment::primaryScreenDpi() / 72.0);
+    return points * (96.0 / 72.0);
 }
 //=============================================================================
 double

@@ -22,8 +22,8 @@ u.Position = [50 60 200 40];
 assert_isequal(u.InnerPosition, [50 60 200 40]);
 assert_isequal(u.OuterPosition, [50 60 200 40]);
 %=============================================================================
-% a point is 96/72 pixel on most screens and one pixel on a 72 dpi screen
-pixelsPerPoint = get(groot, 'ScreenPixelsPerInch') / 72;
+% a point is 96/72 pixel whatever the screen dpi
+pixelsPerPoint = 96 / 72;
 padding = [4 6] * pixelsPerPoint;
 fontPixels = round(8 * pixelsPerPoint);
 u = uicontrol(f, 'Style', 'text', 'String', '');
@@ -40,6 +40,11 @@ assert_istrue(textSize(1) > 3.5 * fontPixels && textSize(1) < 7 * fontPixels);
 assert_istrue(textSize(2) > 0.8 * fontPixels && textSize(2) < 2 * fontPixels);
 u.Position = [50 60 200 40];
 assert_isequal(u.Extent, e);
+% a FontUnits change converts FontSize and keeps the Extent
+u.FontUnits = 'pixels';
+assert_isapprox(u.Extent, e, 1e-9);
+u.FontUnits = 'points';
+assert_isapprox(u.Extent, e, 1e-9);
 u.String = 'Hello world, a longer string';
 e2 = u.Extent;
 assert_istrue(e2(3) > 1.8 * e(3));

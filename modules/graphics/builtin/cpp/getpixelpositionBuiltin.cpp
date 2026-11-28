@@ -55,6 +55,12 @@ getpixelpositionBuiltin(int nLhs, const ArrayOfVector& argIn)
             if (ancestor->isType(GO_PROPERTY_VALUE_FIGURE_STR)) {
                 break;
             }
+            // A tiled layout places its axes in the frame of its own parent: no shift.
+            if (ancestor->isType(GO_PROPERTY_VALUE_TILED_LAYOUT_STR)) {
+                child = ancestor;
+                ancestor = parentObject(ancestor);
+                continue;
+            }
             std::vector<double> ancestorPosition = pixelPosition(ancestor);
             std::vector<double> content;
             double frameHeight = 0;

@@ -75,7 +75,7 @@
       <tr>
         <td><b>ScreenPixelsPerInch</b></td>
         <td>reports the logical resolution used to convert pixels to inches, centimeters, and points.</td>
-        <td>Type: finite numeric scalar. Supported values: 96 on Windows, whatever the display scale.</td>
+        <td>Type: finite numeric scalar. Supported values: 96, whatever the screen and the display scale.</td>
       </tr>
       <tr>
         <td><b>ScreenSize</b></td>

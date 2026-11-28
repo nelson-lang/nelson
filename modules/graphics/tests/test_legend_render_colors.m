@@ -20,9 +20,11 @@ lgd = legend(ax, {'red'; 'blue'}, 'Location', 'northeast');
 lgd.Direction = 'reverse';
 drawnow();
 frame = getframe(f);
+% the capture is scaled as a whole by the display scale
+scale = size(frame.cdata, 2) / 560;
 if ~ismac()
-  assert_legend_swatch_color(frame.cdata, lgd.Position, 1, [0 0 1]);
-  assert_legend_swatch_color(frame.cdata, lgd.Position, 2, [1 0 0]);
+  assert_legend_swatch_color(frame.cdata, lgd.Position, 1, [0 0 1], scale);
+  assert_legend_swatch_color(frame.cdata, lgd.Position, 2, [1 0 0], scale);
 end
 close(f);
 %=============================================================================
@@ -60,12 +62,12 @@ function names = reference_legend_properties()
     'SelectionHighlight'; 'HitTest'; 'PickableParts'; 'Layout'};
 end
 %=============================================================================
-function assert_legend_swatch_color(cdata, position, rowIndex, expectedColor)
+function assert_legend_swatch_color(cdata, position, rowIndex, expectedColor, scale)
   figureHeight = size(cdata, 1);
   figureWidth = size(cdata, 2);
-  rowHeight = ceil(9 * 1.35);
-  xmin = max(1, round(position(1) * figureWidth) + 4);
-  xmax = min(figureWidth, round(position(1) * figureWidth) + 35);
+  rowHeight = round(ceil(9 * 1.35) * scale);
+  xmin = max(1, round(position(1) * figureWidth) + round(4 * scale));
+  xmax = min(figureWidth, round(position(1) * figureWidth) + round(35 * scale));
   legendTop = round(figureHeight - (position(2) + position(4)) * figureHeight);
   ymin = max(1, legendTop + (rowIndex - 1) * rowHeight);
   ymax = min(figureHeight, ymin + rowHeight - 1);

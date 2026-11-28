@@ -27,9 +27,7 @@ getCurrentScreenHeight();
 NLSGUI_IMPEXP int
 getCurrentScreenWidth();
 //=============================================================================
-// Primary-screen properties (dpi / bit depth).
-NLSGUI_IMPEXP double
-primaryScreenDpi();
+// Bit depth of the primary screen.
 NLSGUI_IMPEXP int
 primaryScreenDepth();
 //=============================================================================

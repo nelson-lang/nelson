@@ -22,7 +22,8 @@ asserts.istrue(point.found);
 asserts.isequal(point.objectHandle, __web_graphics_handle__(h, 'number'));
 asserts.isequal(point.index, 2);
 asserts.isequal(point.position(:)', [5 5 0]);
-expectedPixel = geometry(3:4) * f.DevicePixelRatio / 2;
+% the picked pixel is in the layout pixels of the figure, whatever the display scale
+expectedPixel = geometry(3:4) / 2;
 pixelTolerance = 1 + abs(geometry(3:4) - [400 300]);
 asserts.istrue(all(abs(point.pixel(:)' - expectedPixel) <= pixelTolerance));
 close(f);

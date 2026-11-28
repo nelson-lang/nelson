@@ -38,7 +38,6 @@
 #include "GOPropertyNames.hpp"
 #include "GOHelpers.hpp"
 #include "GOGObjectsProperty.hpp"
-#include "GOAxis.hpp"
 #include "ScreenInfo.hpp"
 #include <cmath>
 //=============================================================================
@@ -96,28 +95,6 @@ static bool
 hasPrimaryScreen()
 {
     return QGuiApplication::primaryScreen() != nullptr;
-}
-//=============================================================================
-// getframe captures a figure with axes at device resolution (Position x
-// DevicePixelRatio) and a figure without axes at its logical pixel size. This tells
-// which case applies (GOPolarAxes derives from GOAxis, so it counts as axes).
-static bool
-figureHasAxes(GOFigure* figure)
-{
-    if (!figure) {
-        return false;
-    }
-    GOGObjectsProperty* children = static_cast<GOGObjectsProperty*>(
-        figure->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false));
-    if (!children) {
-        return false;
-    }
-    for (int64 handle : children->data()) {
-        if (dynamic_cast<GOAxis*>(findGraphicsObject(handle, false))) {
-            return true;
-        }
-    }
-    return false;
 }
 //=============================================================================
 static bool
@@ -188,17 +165,30 @@ renderFigureToImage(BaseFigureQt* widget, GOFigure* figure)
     }
     // A figure with axes is captured at device resolution (a 500x400 figure with a plot
     // at 125% yields 625x500). An empty figure keeps its logical pixel size.
-    if (figureHasAxes(figure)) {
-        double ratio = figure->findScalarDoubleProperty(GO_DEVICE_PIXEL_RATIO_PROPERTY_NAME_STR);
-        if (ratio > 0.0) {
-            renderWidth = static_cast<int>(std::lround(renderWidth * ratio));
-            renderHeight = static_cast<int>(std::lround(renderHeight * ratio));
+    double ratio = 1.0;
+    if (figureShowsAxes(figure)) {
+        ratio = figure->findScalarDoubleProperty(GO_DEVICE_PIXEL_RATIO_PROPERTY_NAME_STR);
+        if (ratio <= 0.0) {
+            ratio = 1.0;
         }
     }
-    QImage image(renderWidth, renderHeight, QImage::Format_ARGB32);
+    const int imageWidth = static_cast<int>(std::lround(renderWidth * ratio));
+    const int imageHeight = static_cast<int>(std::lround(renderHeight * ratio));
+    QImage image(imageWidth, imageHeight, QImage::Format_ARGB32);
     QPainter painter(&image);
+    // Laid out at the logical size, then scaled as a whole to the device ratio: axes, text,
+    // line widths and markers scale together, as in the web capture.
+    painter.scale(static_cast<double>(imageWidth) / renderWidth,
+        static_cast<double>(imageHeight) / renderHeight);
+    const int previousWidth = figure->getWidth();
+    const int previousHeight = figure->getHeight();
+    const double previousScale = figure->getRenderScale();
+    const bool previousStale = figure->childrenLayoutStale();
+    figure->setRenderingSize(renderWidth, renderHeight, 1.0);
     RenderQt gc(&painter, 0, 0, renderWidth, renderHeight, L"Image");
     figure->paintMe(gc);
+    figure->setRenderingSize(previousWidth, previousHeight, previousScale);
+    figure->setChildrenLayoutStale(previousStale);
     painter.end();
     renderChildWidgets(widget, image);
     return image.convertToFormat(QImage::Format_ARGB32);
@@ -515,7 +505,7 @@ BaseFigureQt::getFrame()
         // grabFramebuffer/captureWidgetToImage return a device-resolution image on a HiDPI
         // display. Scale that grab back to the logical layout size. A figure with axes keeps
         // the device-resolution grab.
-        if (!renderedByQt && hfig && !figureHasAxes(hfig)) {
+        if (!renderedByQt && hfig && !figureShowsAxes(hfig)) {
             int layoutWidth = hfig->getLayoutWidth();
             int layoutHeight = hfig->getLayoutHeight();
             if (layoutWidth > 0 && layoutHeight > 0
@@ -684,8 +674,11 @@ BaseFigureQt::paintGL()
 #endif
         syncFigureSize(width(), height());
     }
-    int renderWidth = glWidth;
-    int renderHeight = glHeight;
+    // The figure is laid out in logical pixels: the renderer scales them to the device
+    // pixels of the frame buffer (glWidth x glHeight).
+    const qreal ratio = devicePixelRatioF() > 0 ? devicePixelRatioF() : 1;
+    int renderWidth = static_cast<int>(std::lround(glWidth / ratio));
+    int renderHeight = static_cast<int>(std::lround(glHeight / ratio));
     if (!glRenderer) {
         glRenderer = std::make_unique<RenderOpenGL>(this, 0, 0, renderWidth, renderHeight, L"GL");
     } else {
@@ -695,8 +688,7 @@ BaseFigureQt::paintGL()
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
     painter.setRenderHint(QPainter::TextAntialiasing);
-    // The widget painter works in logical pixels (Qt applies the device pixel
-    // ratio), unlike the GL surface above.
+    // The widget painter works in logical pixels too (Qt applies the device pixel ratio).
     RenderQt annotationRenderer(&painter, 0, 0, width(), height(), L"GLOverlay");
     hfig->paintAnnotations(annotationRenderer);
     painter.end();

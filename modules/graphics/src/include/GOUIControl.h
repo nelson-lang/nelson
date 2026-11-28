@@ -108,6 +108,11 @@ public:
     void
     onUnitsChanged(bool newWidget);
     //=============================================================================
+    // FontSize in logical pixels (1/96 inch) whatever FontUnits and the screen dpi;
+    // normalized units refer to controlHeight pixels.
+    double
+    fontSizeInPixels(double controlHeight);
+    //=============================================================================
     void
     tokenize(
         const std::wstring& str, std::vector<std::wstring>& tokens, const std::wstring& delimiters);
