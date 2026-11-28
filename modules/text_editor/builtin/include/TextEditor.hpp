@@ -14,10 +14,6 @@ namespace Nelson {
 class Evaluator;
 //=============================================================================
 bool
-isTextEditorVisible();
-void
-showTextEditor();
-bool
 closeTextEditor();
 // No native editor in this build: the assistant 'editorInsert' router is a no-op.
 void

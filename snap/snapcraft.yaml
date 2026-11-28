@@ -148,7 +148,6 @@ parts:
       - libpng-dev
       - libtiff-dev
       - libwebp-dev
-      # Qt 6
       # Python engine
       - python3-dev
       - python3-numpy
@@ -219,7 +218,6 @@ parts:
       - libpng16-16t64
       - libtiff6
       - libwebp7
-      # Qt 6
       # WebView window (WebUI loads libwebkit2gtk-4.1 at run time, GTK 3 comes from the gnome extension)
       - libwebkit2gtk-4.1-0
       # Python engine

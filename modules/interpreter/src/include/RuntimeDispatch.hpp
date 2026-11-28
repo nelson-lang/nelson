@@ -19,16 +19,10 @@ using RuntimeDispatchTask = std::function<void()>;
 //=============================================================================
 struct RuntimeDispatchBackend
 {
-    std::function<void(RuntimeDispatchTask)> postToEvaluator;
-    std::function<void(RuntimeDispatchTask)> postToGui;
     std::function<void(RuntimeDispatchTask)> callGuiSync;
-    std::function<void(size_t)> notifyInterrupt;
     std::function<void(bool)> processGuiEvents;
     std::function<bool()> hasGuiServices;
-    std::function<bool()> hasGraphicsServices;
-    std::function<bool()> hasQmlServices;
     std::function<bool()> isGuiThread;
-    std::function<bool()> isEvaluatorThread;
 };
 //=============================================================================
 NLSINTERPRETER_IMPEXP void
@@ -38,47 +32,16 @@ NLSINTERPRETER_IMPEXP void
 resetRuntimeDispatchBackend();
 //=============================================================================
 NLSINTERPRETER_IMPEXP void
-postToEvaluator(RuntimeDispatchTask task);
-//=============================================================================
-NLSINTERPRETER_IMPEXP void
-postToGui(RuntimeDispatchTask task);
-//=============================================================================
-NLSINTERPRETER_IMPEXP void
 callGuiSync(RuntimeDispatchTask task);
 //=============================================================================
 NLSINTERPRETER_IMPEXP void
-notifyInterrupt(size_t evaluatorId);
-//=============================================================================
-NLSINTERPRETER_IMPEXP void
 processGuiEvents(bool waitEvents);
-//=============================================================================
-// Wakes a main loop sleeping in waitGuiWork: call after posting GUI work.
-NLSINTERPRETER_IMPEXP void
-notifyGuiWork();
-//=============================================================================
-// Queues a task for the main loop and wakes it. The main loop runs it in waitGuiWork.
-NLSINTERPRETER_IMPEXP void
-postGuiDirectTask(RuntimeDispatchTask task);
-//=============================================================================
-// Sleeps at most maxTimeMs, returning early as soon as notifyGuiWork is called.
-// Runs the tasks queued by postGuiDirectTask, on the calling (main) thread.
-NLSINTERPRETER_IMPEXP void
-waitGuiWork(int maxTimeMs);
 //=============================================================================
 NLSINTERPRETER_IMPEXP bool
 hasGuiServices();
 //=============================================================================
 NLSINTERPRETER_IMPEXP bool
-hasGraphicsServices();
-//=============================================================================
-NLSINTERPRETER_IMPEXP bool
-hasQmlServices();
-//=============================================================================
-NLSINTERPRETER_IMPEXP bool
 isGuiThread();
-//=============================================================================
-NLSINTERPRETER_IMPEXP bool
-isEvaluatorThread();
 //=============================================================================
 /**
  * True when the calling thread may run an interpreter task in place while the

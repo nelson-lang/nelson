@@ -35,28 +35,6 @@ UiAlert(const ArrayOfVector& argIn);
 NLSGUI_IMPEXP ArrayOf
 UiConfirm(const ArrayOfVector& argIn);
 //=============================================================================
-struct UiPreferenceDialogOptions
-{
-    std::wstring title;
-    std::wstring question;
-    wstringVector buttonLabels;
-    wstringVector buttonValues;
-    wstringVector extraButtons;
-    std::wstring defaultButton;
-    std::wstring checkboxText;
-    bool checkboxState = false;
-    std::wstring helpString;
-};
-struct UiPreferenceDialogResult
-{
-    std::wstring value;
-    bool dialogOpened = false;
-    bool checkboxChecked = false;
-    bool buttonClicked = false;
-    bool helpRequested = false;
-};
-NLSGUI_IMPEXP UiPreferenceDialogResult
-UiPreferenceDialog(const UiPreferenceDialogOptions& options);
 NLSGUI_IMPEXP void
 UiOpen(Evaluator* eval, const ArrayOfVector& argIn);
 NLSGUI_IMPEXP void

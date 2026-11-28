@@ -13,13 +13,7 @@
 //=============================================================================
 namespace Nelson {
 NLSINTERPRETER_IMPEXP void
-doExit();
-NLSINTERPRETER_IMPEXP void
 doHelp();
-NLSINTERPRETER_IMPEXP void
-doPause();
-NLSINTERPRETER_IMPEXP void
-doStop();
 //=============================================================================
 }; // namespace Nelson
 //=============================================================================

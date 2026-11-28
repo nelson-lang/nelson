@@ -47,9 +47,6 @@ DrawSymbolBatchUniform(RenderInterface& gc, RenderInterface::SymbolType symb,
 NLSGRAPHICS_IMPEXP double
 pointsToPixels(double points);
 //=============================================================================
-NLSGRAPHICS_IMPEXP double
-fontPointsToQtPoints(double points);
-//=============================================================================
 NLSGRAPHICS_IMPEXP RenderInterface::SymbolType
 StringToSymbol(const std::wstring& symbolName);
 //=============================================================================

@@ -149,7 +149,6 @@ GuiServer::clearBridgeHooks()
     WebDesktopBridge::getInstance()->setWebFigurePositionHook(nullptr, nullptr);
     WebDesktopBridge::getInstance()->setWebClipboardImageHook(nullptr, nullptr);
     WebDesktopBridge::getInstance()->setWebPackageUpdatesHook(nullptr, nullptr);
-    WebDesktopBridge::getInstance()->setWebTerminalOpener(nullptr, nullptr);
     WebDesktopBridge::getInstance()->setWebEditorOpener(nullptr, nullptr);
     WebDesktopBridge::getInstance()->setWebNotebookOpener(nullptr, nullptr);
 }
@@ -224,11 +223,6 @@ GuiServer::start(const std::wstring& rootFolder, const WebUiLaunchOptions& optio
         // The notebook host installs no other desktop hook; the desktop keeps its own windows.
         return true;
     }
-    WebDesktopBridge::getInstance()->setWebTerminalOpener(
-        [](void* ctx) {
-            static_cast<GuiServer*>(ctx)->pushJson("terminal.open", nlohmann::json::object());
-        },
-        this);
     WebDesktopBridge::getInstance()->setWebEditorOpener(
         [](void* ctx, const wchar_t* path, int line, int column) {
             const std::string p

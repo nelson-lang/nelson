@@ -9,9 +9,6 @@
 //=============================================================================
 #include "RuntimeDispatch.hpp"
 #include <atomic>
-#include <chrono>
-#include <condition_variable>
-#include <deque>
 #include <mutex>
 //=============================================================================
 namespace Nelson {
@@ -25,7 +22,7 @@ namespace {
         return fn ? fn() : false;
     }
     //=============================================================================
-    // copy one callback under the lock: the backend holds a dozen std::function
+    // copy one callback under the lock, not the whole backend
     template <typename Callback>
     Callback
     backendCallback(Callback RuntimeDispatchBackend::* member)
@@ -51,34 +48,6 @@ resetRuntimeDispatchBackend()
 }
 //=============================================================================
 void
-postToEvaluator(RuntimeDispatchTask task)
-{
-    if (!task) {
-        return;
-    }
-    auto postToEvaluatorFn = backendCallback(&RuntimeDispatchBackend::postToEvaluator);
-    if (postToEvaluatorFn) {
-        postToEvaluatorFn(std::move(task));
-    } else {
-        task();
-    }
-}
-//=============================================================================
-void
-postToGui(RuntimeDispatchTask task)
-{
-    if (!task) {
-        return;
-    }
-    auto postToGuiFn = backendCallback(&RuntimeDispatchBackend::postToGui);
-    if (postToGuiFn) {
-        postToGuiFn(std::move(task));
-    } else {
-        task();
-    }
-}
-//=============================================================================
-void
 callGuiSync(RuntimeDispatchTask task)
 {
     if (!task) {
@@ -93,66 +62,11 @@ callGuiSync(RuntimeDispatchTask task)
 }
 //=============================================================================
 void
-notifyInterrupt(size_t evaluatorId)
-{
-    auto notifyInterruptFn = backendCallback(&RuntimeDispatchBackend::notifyInterrupt);
-    if (notifyInterruptFn) {
-        notifyInterruptFn(evaluatorId);
-    }
-}
-//=============================================================================
-void
 processGuiEvents(bool waitEvents)
 {
     auto processGuiEventsFn = backendCallback(&RuntimeDispatchBackend::processGuiEvents);
     if (processGuiEventsFn) {
         processGuiEventsFn(waitEvents);
-    }
-}
-//=============================================================================
-namespace {
-    std::mutex guiWorkMutex;
-    std::condition_variable guiWorkCondition;
-    bool guiWorkPending = false;
-    std::deque<RuntimeDispatchTask> guiDirectTasks;
-}
-//=============================================================================
-void
-notifyGuiWork()
-{
-    {
-        std::lock_guard<std::mutex> lock(guiWorkMutex);
-        guiWorkPending = true;
-    }
-    guiWorkCondition.notify_one();
-}
-//=============================================================================
-void
-postGuiDirectTask(RuntimeDispatchTask task)
-{
-    {
-        std::lock_guard<std::mutex> lock(guiWorkMutex);
-        guiDirectTasks.push_back(std::move(task));
-        guiWorkPending = true;
-    }
-    guiWorkCondition.notify_one();
-}
-//=============================================================================
-void
-waitGuiWork(int maxTimeMs)
-{
-    std::deque<RuntimeDispatchTask> tasks;
-    {
-        std::unique_lock<std::mutex> lock(guiWorkMutex);
-        guiWorkCondition.wait_for(
-            lock, std::chrono::milliseconds(maxTimeMs), [] { return guiWorkPending; });
-        guiWorkPending = false;
-        tasks.swap(guiDirectTasks);
-    }
-    for (auto& task : tasks) {
-        if (task) {
-            task();
-        }
     }
 }
 //=============================================================================
@@ -163,27 +77,9 @@ hasGuiServices()
 }
 //=============================================================================
 bool
-hasGraphicsServices()
-{
-    return callBool(backendCallback(&RuntimeDispatchBackend::hasGraphicsServices));
-}
-//=============================================================================
-bool
-hasQmlServices()
-{
-    return callBool(backendCallback(&RuntimeDispatchBackend::hasQmlServices));
-}
-//=============================================================================
-bool
 isGuiThread()
 {
     return callBool(backendCallback(&RuntimeDispatchBackend::isGuiThread));
-}
-//=============================================================================
-bool
-isEvaluatorThread()
-{
-    return callBool(backendCallback(&RuntimeDispatchBackend::isEvaluatorThread));
 }
 //=============================================================================
 bool

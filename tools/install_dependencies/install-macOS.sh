@@ -54,7 +54,6 @@ dependencies=(
     libomp
     openblas
     arpack
-    qt
     giflib
     jpeg-turbo
     libpng

@@ -63,8 +63,6 @@ fi
 print_status "Installing core libraries"
 install_packages libffi icu zlib zstd libarchive curl libgit2 pcre2
 
-# Install Qt dependencies
-
 # Install math libraries
 print_status "Installing math libraries"
 install_packages blas lapack fftw eigen

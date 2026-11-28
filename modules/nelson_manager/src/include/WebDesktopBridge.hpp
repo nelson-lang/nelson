@@ -56,12 +56,6 @@ public:
     void
     destroy();
     //=============================================================================
-    // Desktop: the `terminal` builtin opens a browser shell panel, not a Qt window.
-    void
-    setWebTerminalOpener(void (*fn)(void*), void* ctx);
-    bool
-    openWebTerminal();
-    //=============================================================================
     // Desktop: the `editor` builtin opens the Monaco panel, not the Qt text editor.
     // An empty path means "new file".
     void
@@ -162,8 +156,6 @@ public:
     void
     setWebIsMinimizedHook(bool (*fn)(void*), void* ctx);
     bool
-    hasWebMinimizeHook() const;
-    bool
     requestWebMinimize(bool minimize);
     bool
     queryWebMinimized();
@@ -201,8 +193,6 @@ private:
     //=============================================================================
     static WebDesktopBridge* m_pInstance;
     //=============================================================================
-    void (*m_webTerminalFn)(void*) = nullptr;
-    void* m_webTerminalCtx = nullptr;
     void (*m_webEditorFn)(void*, const wchar_t*, int, int) = nullptr;
     void* m_webEditorCtx = nullptr;
     void (*m_webNotebookFn)(void*, const wchar_t*) = nullptr;

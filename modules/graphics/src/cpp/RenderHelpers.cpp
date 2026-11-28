@@ -24,12 +24,6 @@ pointsToPixels(double points)
     return points * (Nelson::GraphicsEnvironment::primaryScreenDpi() / 72.0);
 }
 //=============================================================================
-double
-fontPointsToQtPoints(double points)
-{
-    return points * 1.25;
-}
-//=============================================================================
 void
 DrawSymbol(RenderInterface& gc, RenderInterface::SymbolType symb, double x, double y, double z,
     double sze, std::vector<double> edgecolor, std::vector<double> fillcolor, double width)

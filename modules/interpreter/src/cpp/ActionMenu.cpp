@@ -15,38 +15,11 @@
 namespace Nelson {
 //=============================================================================
 void
-doExit()
-{
-    auto* eval = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
-    if (eval != nullptr) {
-        eval->addCommandToQueue(L"quit;");
-    }
-}
-//=============================================================================
-void
 doHelp()
 {
     auto* eval = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
     if (eval != nullptr) {
         eval->addCommandToQueue(L"doc;");
-    }
-}
-//=============================================================================
-void
-doPause()
-{
-    auto* eval = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
-    if (eval != nullptr) {
-        eval->addCommandToQueue(L"keyboard;");
-    }
-}
-//=============================================================================
-void
-doStop()
-{
-    auto* eval = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
-    if (eval != nullptr) {
-        eval->addCommandToQueue(L"abort;");
     }
 }
 //=============================================================================

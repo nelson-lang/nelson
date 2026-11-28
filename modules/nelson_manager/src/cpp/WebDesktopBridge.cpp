@@ -37,23 +37,6 @@ WebDesktopBridge::destroy()
 }
 //=============================================================================
 void
-WebDesktopBridge::setWebTerminalOpener(void (*fn)(void*), void* ctx)
-{
-    this->m_webTerminalFn = fn;
-    this->m_webTerminalCtx = ctx;
-}
-//=============================================================================
-bool
-WebDesktopBridge::openWebTerminal()
-{
-    if (this->m_webTerminalFn == nullptr) {
-        return false;
-    }
-    this->m_webTerminalFn(this->m_webTerminalCtx);
-    return true;
-}
-//=============================================================================
-void
 WebDesktopBridge::setWebEditorOpener(void (*fn)(void*, const wchar_t*, int, int), void* ctx)
 {
     this->m_webEditorFn = fn;
@@ -296,12 +279,6 @@ WebDesktopBridge::setWebIsMinimizedHook(bool (*fn)(void*), void* ctx)
 {
     this->m_webIsMinimizedFn = fn;
     this->m_webIsMinimizedCtx = ctx;
-}
-//=============================================================================
-bool
-WebDesktopBridge::hasWebMinimizeHook() const
-{
-    return this->m_webMinimizeFn != nullptr;
 }
 //=============================================================================
 bool
