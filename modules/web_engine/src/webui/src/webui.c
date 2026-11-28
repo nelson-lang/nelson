@@ -745,6 +745,8 @@ static bool
 _webui_get_cb_index(_webui_window_t* win, const char* element, size_t* id);
 static size_t
 _webui_get_free_port(void);
+static size_t
+_webui_port_candidate(void); // NELSON PATCH
 static void
 _webui_free_port(size_t port);
 static char*
@@ -11930,7 +11932,7 @@ _webui_get_free_port(void)
     _webui_log_debug("[Core]\t\t_webui_get_free_port()\n");
 #endif
 
-    size_t port = (rand() % (WEBUI_MAX_PORT + 1 - WEBUI_MIN_PORT)) + WEBUI_MIN_PORT;
+    size_t port = _webui_port_candidate();
 
     for (size_t i = WEBUI_MIN_PORT; i <= WEBUI_MAX_PORT; i++) {
 
@@ -11945,11 +11947,11 @@ _webui_get_free_port(void)
 
         if (found) {
             // Port used by local window
-            port = (rand() % (WEBUI_MAX_PORT + 1 - WEBUI_MIN_PORT)) + WEBUI_MIN_PORT;
+            port = _webui_port_candidate();
         } else {
             if (_webui_port_is_used(port)) {
                 // Port used by an external app
-                port = (rand() % (WEBUI_MAX_PORT + 1 - WEBUI_MIN_PORT)) + WEBUI_MIN_PORT;
+                port = _webui_port_candidate();
             } else {
                 // Port is free
                 break;
@@ -11966,6 +11968,27 @@ _webui_get_free_port(void)
     }
 
     return port;
+}
+
+// NELSON PATCH: rand() is seeded with the time in seconds, so processes started
+// in the same second all tried the same ports. The process id tells them apart.
+static size_t
+_webui_port_candidate(void)
+{
+    static uint32_t state = 0;
+    if (state == 0) {
+#if defined(_WIN32)
+        const uint32_t pid = (uint32_t)GetCurrentProcessId();
+#else
+        const uint32_t pid = (uint32_t)getpid();
+#endif
+        state = ((uint32_t)time(NULL) ^ (pid * 2654435761u)) | 1u;
+    }
+    // xorshift32
+    state ^= state << 13;
+    state ^= state >> 17;
+    state ^= state << 5;
+    return (size_t)(state % (WEBUI_MAX_PORT + 1 - WEBUI_MIN_PORT)) + WEBUI_MIN_PORT;
 }
 
 static void
@@ -15722,14 +15745,15 @@ static WEBUI_THREAD_WEBVIEW
         WEBUI_THREAD_RETURN
     }
 
-    // One shared user-data folder for the whole process (random per run,
-    // deleted at exit) so concurrent Nelson instances stay isolated.
+    // One shared user-data folder for the whole process (deleted at exit) so
+    // concurrent Nelson instances stay isolated. The process id makes the name
+    // unique: the random part only changes once per second.
     if (!_webui.webview_cacheFolder) {
         const char* temp = _webui_get_temp_path();
         _webui.webview_cacheFolder = (char*)_webui_malloc(WEBUI_MAX_PATH);
         WEBUI_SN_PRINTF_DYN(_webui.webview_cacheFolder, WEBUI_MAX_PATH,
-            "%s%s.WebUI%sWebUIWebViewCache_%" PRIu32, temp, os_sep, os_sep,
-            _webui_generate_random_uint32());
+            "%s%s.WebUI%sWebUIWebViewCache_%lu_%" PRIu32, temp, os_sep, os_sep,
+            (unsigned long)GetCurrentProcessId(), _webui_generate_random_uint32());
     }
     wchar_t* cacheFolderW = NULL;
     _webui_str_to_wide(_webui.webview_cacheFolder, &cacheFolderW);
