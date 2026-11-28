@@ -704,15 +704,31 @@ rerange(double& amin, double& amax, double arange)
 // is satisfied: gap(theta) = min(gapX/|cos|, gapY/|sin|).
 static constexpr double REF_TICK_GAP_HORIZONTAL_PER_PT = 4.35;
 static constexpr double REF_TICK_GAP_STACKED_PER_PT = 2.58;
+// Projected edge of a 3-D box: gaps along and across the text, and the room the
+// labels of both ends add to the edge, measured on the reference.
+static constexpr double REF_TICK_PROJECTED_GAP_HORIZONTAL_PER_PT = 5.0;
+static constexpr double REF_TICK_PROJECTED_GAP_STACKED_PER_PT = 2.8;
+static constexpr double REF_TICK_PROJECTED_PAD_PER_PT = 0.5;
+// Room left past the end ticks, in steps, for a grid that is not aligned on the limits.
+static constexpr double REF_TICK_END_MARGIN = 0.7;
+static constexpr double REF_TICK_PROJECTED_END_MARGIN = 1.0;
+// A projected edge keeps at least three ticks, however short it is.
+static constexpr int REF_TICK_PROJECTED_MIN_COUNT = 3;
 static constexpr int REF_TICK_HARD_MAX = 11;
 static constexpr double REF_TICK_ALIGN_TOL = 1e-9;
 //=============================================================================
 static double
-refTickGap(double labelAngleDeg, double fontSizePoints)
+refTickGap(double labelAngleDeg, double fontSizePoints, bool projectedEdge = false)
 {
     double theta = labelAngleDeg * M_PI / 180.0;
     double c = std::fabs(std::cos(theta));
     double s = std::fabs(std::sin(theta));
+    if (projectedEdge) {
+        // the gap turns with the edge, from the horizontal one to the stacked one
+        double gapAlong = REF_TICK_PROJECTED_GAP_HORIZONTAL_PER_PT * fontSizePoints;
+        double gapAcross = REF_TICK_PROJECTED_GAP_STACKED_PER_PT * fontSizePoints;
+        return 1.0 / std::hypot(c / gapAlong, s / gapAcross);
+    }
     double gapX = REF_TICK_GAP_HORIZONTAL_PER_PT * fontSizePoints;
     double gapY = REF_TICK_GAP_STACKED_PER_PT * fontSizePoints;
     double byWidth = c > 1e-9 ? gapX / c : std::numeric_limits<double>::infinity();
@@ -768,7 +784,7 @@ refGenerateTicks(double lo, double hi, const RefTickCandidate& c)
 //=============================================================================
 static std::vector<double>
 refLinearAutoTicks(double lo, double hi, double axisLengthPx, double labelAngleDeg, int forcedMax,
-    double fontSizePoints)
+    double fontSizePoints, bool projectedEdge = false)
 {
     double span = hi - lo;
     if (!std::isfinite(span) || span <= 0) {
@@ -778,14 +794,20 @@ refLinearAutoTicks(double lo, double hi, double axisLengthPx, double labelAngleD
         fontSizePoints = 10.0;
     }
     int maxCount;
+    // the edge is too short for its minimum count: no extra tick on top of it
+    bool atMinimum = false;
     if (forcedMax > 0) {
         maxCount = forcedMax;
     } else {
-        double gap = refTickGap(labelAngleDeg, fontSizePoints);
-        maxCount = std::max(
-            2, std::min(REF_TICK_HARD_MAX, static_cast<int>(std::floor(axisLengthPx / gap)) + 1));
+        double gap = refTickGap(labelAngleDeg, fontSizePoints, projectedEdge);
+        double length
+            = axisLengthPx + (projectedEdge ? REF_TICK_PROJECTED_PAD_PER_PT * fontSizePoints : 0.0);
+        const int byLength = static_cast<int>(std::floor(length / gap)) + 1;
+        const int minCount = projectedEdge ? REF_TICK_PROJECTED_MIN_COUNT : 2;
+        atMinimum = projectedEdge && byLength < minCount;
+        maxCount = std::max(minCount, std::min(REF_TICK_HARD_MAX, byLength));
     }
-    RefTickCandidate bothFit, bothOver, bothTwo, loFit, anyFit, anyLoose;
+    RefTickCandidate bothFit, bothOver, bothTwo, loFit, anyFit, anyLoose, coarsestThree;
     int kStart = static_cast<int>(std::floor(std::log10(span))) - 3;
     static const double mantissas[3] = { 1.0, 2.0, 5.0 };
     for (int kk = kStart; kk < kStart + 8; ++kk) {
@@ -806,7 +828,9 @@ refLinearAutoTicks(double lo, double hi, double axisLengthPx, double labelAngleD
             bool hiAl = refAligned(static_cast<double>(k1) * s, hi, s);
             double marginLo = static_cast<double>(k0) * s - lo;
             double marginHi = hi - static_cast<double>(k1) * s;
-            bool marginOk = n > 5 || std::max(marginLo, marginHi) <= 0.7 * s + 1e-12 * s;
+            const double endMargin
+                = projectedEdge ? REF_TICK_PROJECTED_END_MARGIN : REF_TICK_END_MARGIN;
+            bool marginOk = n > 5 || std::max(marginLo, marginHi) <= endMargin * s + 1e-12 * s;
             RefTickCandidate cand;
             cand.step = s;
             cand.k0 = k0;
@@ -818,7 +842,7 @@ refLinearAutoTicks(double lo, double hi, double axisLengthPx, double labelAngleD
             if (loAl && hiAl && n == 2 && !bothTwo.valid) {
                 bothTwo = cand;
             }
-            if (loAl && hiAl && n == maxCount + 1 && !bothOver.valid) {
+            if (!atMinimum && loAl && hiAl && n == maxCount + 1 && !bothOver.valid) {
                 double first = loAl ? lo : static_cast<double>(k0) * s;
                 double delta = 0.0;
                 for (long long i = 1; i < n; ++i) {
@@ -831,11 +855,17 @@ refLinearAutoTicks(double lo, double hi, double axisLengthPx, double labelAngleD
             if (loAl && n <= maxCount && !loFit.valid) {
                 loFit = cand;
             }
-            if (n <= maxCount && marginOk && !anyFit.valid) {
+            // a projected edge shows two ticks only when the grid starts on its lower limit
+            const bool enoughTicks = !projectedEdge || n >= 3;
+            if (n <= maxCount && marginOk && enoughTicks && !anyFit.valid) {
                 anyFit = cand;
             }
-            if (n <= maxCount && !anyLoose.valid) {
+            if (n <= maxCount && enoughTicks && !anyLoose.valid) {
                 anyLoose = cand;
+            }
+            if (projectedEdge && n >= 3) {
+                // steps grow: the last one is the coarsest grid of three ticks or more
+                coarsestThree = cand;
             }
         }
     }
@@ -845,7 +875,7 @@ refLinearAutoTicks(double lo, double hi, double axisLengthPx, double labelAngleD
         loFit.valid = false;
     }
     for (const RefTickCandidate* c :
-        { &bothFit, &bothOver, &loFit, &bothTwo, &anyFit, &anyLoose }) {
+        { &bothFit, &bothOver, &loFit, &bothTwo, &anyFit, &anyLoose, &coarsestThree }) {
         if (c->valid) {
             return refGenerateTicks(lo, hi, *c);
         }
@@ -982,12 +1012,13 @@ computeLogAxisAlignedLimits(double dataMin, double dataMax, double axisLengthPx,
 //=============================================================================
 std::vector<double>
 computeReferenceAutoTicks(double lo, double hi, double axisLengthPx, double labelAngleDeg,
-    bool isLog, int forcedMaxCount, double fontSizePoints)
+    bool isLog, int forcedMaxCount, double fontSizePoints, bool projectedEdge)
 {
     if (isLog) {
         return refLogAutoTicks(lo, hi, axisLengthPx, labelAngleDeg, fontSizePoints);
     }
-    return refLinearAutoTicks(lo, hi, axisLengthPx, labelAngleDeg, forcedMaxCount, fontSizePoints);
+    return refLinearAutoTicks(
+        lo, hi, axisLengthPx, labelAngleDeg, forcedMaxCount, fontSizePoints, projectedEdge);
 }
 //=============================================================================
 } // namespace Nelson

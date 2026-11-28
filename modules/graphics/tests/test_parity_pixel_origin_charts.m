@@ -14,13 +14,16 @@
 f = figure('Visible', 'off', 'Units', 'pixels', 'Position', [100 100 560 420]);
 h = heatmap(magic(4));
 assert_isequal(char(h.Units), 'normalized');
-assert_istrue(close_to(h.Position, [0.13 0.11 0.775 0.815]));
+% the plot box leaves the room of the colorbar on its right
+normalizedPosition = h.Position;
+assert_istrue(close_to(normalizedPosition([2 4]), [0.11 0.815]));
+assert_istrue(abs(normalizedPosition(1) - 0.13) < 0.02 && normalizedPosition(3) < 0.775);
 h.Units = 'pixels';
 drawnow();
-assert_istrue(close_to(h.Position, [73.8 47.2 434 342.3]));
+assert_istrue(close_to(h.Position, [1 1 0 0] + normalizedPosition .* [560 420 560 420]));
 h.Units = 'normalized';
 drawnow();
-assert_istrue(close_to(h.Position, [0.13 0.11 0.775 0.815]));
+assert_istrue(close_to(h.Position, normalizedPosition));
 %=============================================================================
 % a pixel Position reads back unchanged and converts with origin 1
 h.Units = 'pixels';

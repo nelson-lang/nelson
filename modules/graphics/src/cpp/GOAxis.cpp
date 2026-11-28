@@ -376,6 +376,10 @@ axisHasLimitChildren(GOAxis* axis);
 static void
 updatePeerColorBars(GOAxis* axis);
 //=============================================================================
+static void
+outerInsetsAroundBox(bool shared, double boxSize, double parentSize, double lowShare,
+    double highShare, double tightLow, double tightHigh, double& low, double& high);
+//=============================================================================
 static bool
 hasNoFinitePoint(const std::vector<double>& childLimits);
 //=============================================================================
@@ -2360,7 +2364,10 @@ GOAxis::recalculateTicks()
         && std::max(axisPixelPosition[2], axisPixelPosition[3]) < 420.0;
     compactDepthSortedSurface = !axes2D && depthSortedSurface && autoZLimits && height <= 455
         && (compactNormalizedAxis || compactPixelAxis);
-    bool compact3DAutoZAxis = !axes2D && autoZLimits && (compactNormalizedAxis || compactPixelAxis);
+    // a locked aspect ratio keeps the tick count its projected Z edge earns
+    bool compact3DAutoZAxis = !axes2D && autoZLimits
+        && isAuto(GO_DATA_ASPECT_RATIO_MODE_PROPERTY_NAME_STR)
+        && (compactNormalizedAxis || compactPixelAxis);
     bool flat2DAxis = axes2D && axisPosition.size() >= 4 && std::isfinite(axisPosition[2])
         && std::isfinite(axisPosition[3]) && axisPosition[3] < 0.22
         && axisPosition[2] > axisPosition[3];
@@ -3043,6 +3050,9 @@ GOAxis::recalculateTicks()
         double angY = 90.0;
         double angZ = 90.0;
         int zForcedMax = 3;
+        // 3-D box with a locked aspect ratio: its edges keep their projected length
+        const bool lockedAspectEdges
+            = !axes2D && !isAuto(GO_DATA_ASPECT_RATIO_MODE_PROPERTY_NAME_STR);
         if (!axes2D) {
             // Rebuild the projection with the settled limits so the projected
             // edge geometry does not depend on the pre-settlement camera
@@ -3061,14 +3071,7 @@ GOAxis::recalculateTicks()
             lenX *= 1.0 + PROJECTION_CLIP_MARGIN;
             lenY *= 1.0 + PROJECTION_CLIP_MARGIN;
             lenZ *= 1.0 + PROJECTION_CLIP_MARGIN;
-            if (preserveDataAspectAutoLimits && !depthSortedSurface) {
-                lenX = std::max(lenX, axisPixelPosition[2]);
-                lenY = std::max(lenY, axisPixelPosition[3]);
-            }
-            zForcedMax
-                = (preserveDataAspectAutoLimits && depthSortedSurface && !preserveQuiverAutoLimits)
-                ? 11
-                : 0;
+            zForcedMax = 0;
         }
         // Snap automatic log-axis limits outward onto the same decade-stride grid
         // the ticks use. Otherwise the limit (from the pre-settlement pass) and
@@ -3121,10 +3124,7 @@ GOAxis::recalculateTicks()
             std::vector<double> rawLim(findVectorDoubleProperty(GO_X_LIM_PROPERTY_NAME_STR));
             if (rawLim.size() == 2) {
                 int xForcedMax = 0;
-                if (preserveDataAspectAutoLimits && depthSortedSurface
-                    && !preserveQuiverAutoLimits) {
-                    xForcedMax = 3;
-                } else if (!axes2D && depthSortedSurface && !xLogScale
+                if (!axes2D && depthSortedSurface && !xLogScale
                     && std::fabs(rawLim[0] - 1.0) <= 1e-12 && std::fabs(rawLim[1] - 20.0) <= 1e-12
                     && dataLimits.size() >= 2 && std::fabs(dataLimits[0] - 1.0) <= 1e-12
                     && std::fabs(dataLimits[1] - 20.0) <= 1e-12) {
@@ -3133,8 +3133,8 @@ GOAxis::recalculateTicks()
                     && std::fabs(rawLim[1] - 50.0) <= 1e-12) {
                     xForcedMax = 6;
                 }
-                std::vector<double> t = computeReferenceAutoTicks(
-                    rawLim[0], rawLim[1], lenX, angX, xLogScale, xForcedMax, tickFontSize);
+                std::vector<double> t = computeReferenceAutoTicks(rawLim[0], rawLim[1], lenX, angX,
+                    xLogScale, xForcedMax, tickFontSize, lockedAspectEdges);
                 if (!axes2D && depthSortedSurface && !xLogScale
                     && std::fabs(rawLim[0] - 1.0) <= 1e-12 && std::fabs(rawLim[1] - 20.0) <= 1e-12
                     && dataLimits.size() >= 2 && std::fabs(dataLimits[0] - 1.0) <= 1e-12
@@ -3142,9 +3142,6 @@ GOAxis::recalculateTicks()
                     t = { 5.0, 10.0, 15.0, 20.0 };
                 }
                 if (!t.empty()) {
-                    if (preserveDataAspectAutoLimits && !depthSortedSurface && !xLogScale) {
-                        densifyInteriorLinearTicks(rawLim[0], rawLim[1], 5.0, t);
-                    }
                     refinePreservedQuiverTicks(rawLim[0], rawLim[1], xLogScale, t);
                     xticks = t;
                 }
@@ -3153,18 +3150,15 @@ GOAxis::recalculateTicks()
         if (isAuto(GO_Y_TICK_MODE_PROPERTY_NAME_STR)) {
             std::vector<double> rawLim(findVectorDoubleProperty(GO_Y_LIM_PROPERTY_NAME_STR));
             if (rawLim.size() == 2) {
-                int yForcedMax = (preserveDataAspectAutoLimits && depthSortedSurface
-                                     && !preserveQuiverAutoLimits)
-                    ? 3
-                    : 0;
+                int yForcedMax = 0;
                 if (!axes2D && depthSortedSurface && !yLogScale
                     && std::fabs(rawLim[0] - 1.0) <= 1e-12 && std::fabs(rawLim[1] - 20.0) <= 1e-12
                     && dataLimits.size() >= 4 && std::fabs(dataLimits[2] - 1.0) <= 1e-12
                     && std::fabs(dataLimits[3] - 20.0) <= 1e-12) {
                     yForcedMax = 4;
                 }
-                std::vector<double> t = computeReferenceAutoTicks(
-                    rawLim[0], rawLim[1], lenY, angY, yLogScale, yForcedMax, tickFontSize);
+                std::vector<double> t = computeReferenceAutoTicks(rawLim[0], rawLim[1], lenY, angY,
+                    yLogScale, yForcedMax, tickFontSize, lockedAspectEdges);
                 if (!axes2D && depthSortedSurface && !yLogScale
                     && std::fabs(rawLim[0] - 1.0) <= 1e-12 && std::fabs(rawLim[1] - 20.0) <= 1e-12
                     && dataLimits.size() >= 4 && std::fabs(dataLimits[2] - 1.0) <= 1e-12
@@ -3172,9 +3166,6 @@ GOAxis::recalculateTicks()
                     t = { 5.0, 10.0, 15.0, 20.0 };
                 }
                 if (!t.empty()) {
-                    if (preserveDataAspectAutoLimits && !depthSortedSurface && !yLogScale) {
-                        densifyInteriorLinearTicks(rawLim[0], rawLim[1], 4.0, t);
-                    }
                     refinePreservedQuiverTicks(rawLim[0], rawLim[1], yLogScale, t);
                     yticks = t;
                 }
@@ -3184,25 +3175,12 @@ GOAxis::recalculateTicks()
             std::vector<double> rawLim(findVectorDoubleProperty(GO_Z_LIM_PROPERTY_NAME_STR));
             if (rawLim.size() == 2) {
                 int zLocalForcedMax = zForcedMax;
-                // A unit-range depth axis of a data-aspect-locked surface keeps a
-                // coarse 5-tick grid, unless a manual DataAspectRatio elongates the
-                // Z axis (a smaller Z ratio makes it the longest edge), in which
-                // case its higher pixel length earns the denser reference grid.
-                std::vector<double> zTickDar(
-                    findVectorDoubleProperty(GO_DATA_ASPECT_RATIO_PROPERTY_NAME_STR));
-                bool zAxisElongated = zTickDar.size() >= 3 && std::isfinite(zTickDar[2])
-                    && (zTickDar[2] < zTickDar[0] - 1e-12 || zTickDar[2] < zTickDar[1] - 1e-12);
-                if (preserveDataAspectAutoLimits && depthSortedSurface && !preserveQuiverAutoLimits
-                    && !zLogScale && std::fabs(rawLim[0] + 1.0) <= 1e-12
-                    && std::fabs(rawLim[1] - 1.0) <= 1e-12 && !zAxisElongated) {
-                    zLocalForcedMax = 5;
-                }
                 if (hasQuiverChild && !preserveQuiverAutoLimits && !depthSortedSurface && !zLogScale
                     && std::fabs(rawLim[1] - rawLim[0]) <= 2.5) {
                     zLocalForcedMax = std::max(zLocalForcedMax, 11);
                 }
-                std::vector<double> t = computeReferenceAutoTicks(
-                    rawLim[0], rawLim[1], lenZ, angZ, zLogScale, zLocalForcedMax, tickFontSize);
+                std::vector<double> t = computeReferenceAutoTicks(rawLim[0], rawLim[1], lenZ, angZ,
+                    zLogScale, zLocalForcedMax, tickFontSize, lockedAspectEdges);
                 if (!t.empty()) {
                     refinePreservedQuiverTicks(rawLim[0], rawLim[1], zLogScale, t);
                     zticks = t;
@@ -4131,11 +4109,15 @@ GOAxis::updateOuterPositionFromPosition()
         return;
     }
     std::vector<double> inset = tightInsetPixels();
-    const double left = std::max(0.13 * width, inset[0]);
-    const double bottom = std::max(0.11 * height, inset[1]);
-    const double right = std::max(0.095 * width, inset[2]);
-    const double top = std::max(0.075 * height, inset[3]);
     std::wstring units = findStringProperty(GO_UNITS_PROPERTY_NAME_STR);
+    // normalized: the loose inset is a share of the outer box, not of the parent
+    const bool shared = units == GO_PROPERTY_VALUE_NORMALIZED_STR;
+    double left = 0;
+    double right = 0;
+    double bottom = 0;
+    double top = 0;
+    outerInsetsAroundBox(shared, box[2], width, 0.13, 0.095, inset[0], inset[2], left, right);
+    outerInsetsAroundBox(shared, box[3], height, 0.11, 0.075, inset[1], inset[3], bottom, top);
     std::vector<double> outer = convertFromPixelsPixelOrigin(units, box[0] - left, box[1] - bottom,
         box[2] + left + right, box[3] + bottom + top, width, height);
     auto* outerProperty
@@ -6450,6 +6432,17 @@ GOAxis::markStateDirty()
 }
 //=============================================================================
 void
+GOAxis::releaseUserOuterPosition()
+{
+    // a subplot axes keeps the outer box of its grid cell
+    std::vector<double> grid = findVectorDoubleProperty(GO_SUBPLOT_GRID_INTERNAL_PROPERTY_NAME_STR);
+    if (grid.size() == 2 && grid[0] >= 1 && grid[1] >= 1) {
+        return;
+    }
+    m_outerPositionFromUser = false;
+}
+//=============================================================================
+void
 GOAxis::requestLayoutUpdate()
 {
     if (m_updateDepth > 0) {
@@ -7537,6 +7530,33 @@ GOAxis::getPropertyVectorAsPixels(const std::wstring& name)
 {
     GOFourVectorProperty* hp = static_cast<GOFourVectorProperty*>(findProperty(name));
     return (unitsReinterpret(hp->data()));
+}
+//=============================================================================
+// Insets of the outer box on both sides of a plot box, along one direction: the loose
+// inset or the tight one when it is larger. A shared loose inset is a share of the outer
+// box itself, so the outer size is solved from the box size.
+static void
+outerInsetsAroundBox(bool shared, double boxSize, double parentSize, double lowShare,
+    double highShare, double tightLow, double tightHigh, double& low, double& high)
+{
+    if (!shared) {
+        low = std::max(lowShare * parentSize, tightLow);
+        high = std::max(highShare * parentSize, tightHigh);
+        return;
+    }
+    double outerSize = boxSize / (1.0 - lowShare - highShare);
+    low = lowShare * outerSize;
+    high = highShare * outerSize;
+    if (tightLow > low) {
+        // the tight inset wins on the low side: the loose share applies to the other one
+        outerSize = (boxSize + tightLow) / (1.0 - highShare);
+        low = tightLow;
+        high = std::max(highShare * outerSize, tightHigh);
+    } else if (tightHigh > high) {
+        outerSize = (boxSize + tightHigh) / (1.0 - lowShare);
+        high = tightHigh;
+        low = std::max(lowShare * outerSize, tightLow);
+    }
 }
 //=============================================================================
 // The room an outside colorbar takes depends on a 2-D or 3-D view, and a hidden

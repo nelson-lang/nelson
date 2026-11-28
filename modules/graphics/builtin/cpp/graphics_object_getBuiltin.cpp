@@ -13,6 +13,7 @@
 #include "i18n.hpp"
 #include "GraphicsObject.hpp"
 #include "GOAxis.hpp"
+#include "GOAxesLayoutManager.hpp"
 #include "GOHelpers.hpp"
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
@@ -185,6 +186,25 @@ propertyValueForUser(
             = host ? host->findProperty(GO_PARENT_PROPERTY_NAME_STR, false) : nullptr;
         if (hostParent) {
             return hostParent->get();
+        }
+    }
+    // The boxes of a heatmap are the boxes of the axes that draws it; the outer one is
+    // the box given to the chart, before its colorbar took room.
+    if (fp->isType(GO_PROPERTY_VALUE_HEATMAP_STR) && fp->getParentAxis()) {
+        GraphicsObject* host = fp->getParentAxis();
+        if (StringHelpers::iequals(propname, GO_POSITION_PROPERTY_NAME_STR)
+            || StringHelpers::iequals(propname, GO_INNER_POSITION_PROPERTY_NAME_STR)) {
+            return host->findProperty(GO_POSITION_PROPERTY_NAME_STR)->get();
+        }
+        if (StringHelpers::iequals(propname, GO_POSITION_CONSTRAINT_PROPERTY_NAME_STR)) {
+            return host->findProperty(GO_POSITION_CONSTRAINT_PROPERTY_NAME_STR)->get();
+        }
+        if (StringHelpers::iequals(propname, GO_OUTER_POSITION_PROPERTY_NAME_STR)) {
+            std::vector<double> outer;
+            if (axesLayoutBaseOuterPosition(host, outer) && outer.size() == 4) {
+                return ArrayOf::doubleRowVector(outer);
+            }
+            return host->findProperty(GO_OUTER_POSITION_PROPERTY_NAME_STR)->get();
         }
     }
     ArrayOf value = property->get();

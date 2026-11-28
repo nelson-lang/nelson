@@ -165,7 +165,10 @@ asserts.isapprox(h.Position, [0.2 0.2 0.5 0.5], 1e-12);
 asserts.isapprox(ax.Position, [0.2 0.2 0.5 0.5], 1e-12);
 h.OuterPosition = [0 0 0.5 1];
 asserts.isapprox(h.OuterPosition, [0 0 0.5 1], 1e-12);
-asserts.isapprox(ax.OuterPosition, [0 0 0.5 1], 1e-12);
+% the colorbar takes its room inside the outer box given to the chart
+asserts.isapprox(ax.OuterPosition([1 2 4]), [0 0 1], 1e-12);
+asserts.istrue(ax.OuterPosition(3) < 0.5);
+asserts.istrue(ax.Position(1) + ax.Position(3) < 0.5);
 % a Children list read from the container can be assigned back
 button = uicontrol(p, 'Style', 'pushbutton');
 p.Children = p.Children([2 1]);

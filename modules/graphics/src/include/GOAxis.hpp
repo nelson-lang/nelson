@@ -60,6 +60,9 @@ public:
     // draw or computed-property read.
     void
     markStateDirty();
+    // A Position given by the user replaces an outer box given before.
+    void
+    releaseUserOuterPosition();
     //=============================================================================
     // No-op unless the axes is dirty. Called from the draw path and from computed-property
     // reads.

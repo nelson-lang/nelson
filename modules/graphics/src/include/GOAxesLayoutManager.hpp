@@ -74,6 +74,16 @@ NLSGRAPHICS_IMPEXP std::vector<double>
 layoutColorBarAroundAxes(GraphicsObject* peer, GraphicsObject* decoration,
     const std::wstring& location, double figW, double figH);
 //=============================================================================
+// A box the user gives a peer that holds decorations becomes their base geometry:
+// Position is kept as given, InnerPosition and OuterPosition give them their room.
+// propertyName is the property set; call it before the peer update.
+NLSGRAPHICS_IMPEXP void
+rebaseAxesLayout(GraphicsObject* peer, const std::wstring& propertyName);
+//=============================================================================
+// Moves the decorations of a peer after its box changed.
+NLSGRAPHICS_IMPEXP void
+relayoutAxesDecorations(GraphicsObject* peer);
+//=============================================================================
 // Updates the peer now, or marks it for its next update when it is already
 // updating (its repaint runs the decorations).
 NLSGRAPHICS_IMPEXP void

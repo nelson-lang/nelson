@@ -27,7 +27,7 @@ drawnow();
 limits = [xlim(), ylim(), zlim()];
 asserts.isapprox(limits, [x, -20, 180, z], 1e-12);
 asserts.isequal(get(ax, 'XTick'), -100:20:-20);
-asserts.isequal(get(ax, 'YTick'), [0 50 100 150]);
+asserts.isequal(get(ax, 'YTick'), -20:20:180);
 asserts.isequal(get(ax, 'ZTick'), -10:10:30);
 center = [(limits(1) + limits(2)) / 2, (limits(3) + limits(4)) / 2, ...
   (limits(5) + limits(6)) / 2];

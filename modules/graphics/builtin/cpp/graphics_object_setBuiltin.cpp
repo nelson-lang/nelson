@@ -21,6 +21,7 @@
 #include "GOGObjectsProperty.hpp"
 #include "GOAnnotation.hpp"
 #include "GOAxis.hpp"
+#include "GOAxesLayoutManager.hpp"
 #include "GOFigure.hpp"
 #include "GOHelpers.hpp"
 #include "SizeChangedDispatcher.hpp"
@@ -231,6 +232,8 @@ graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
         bool polarStateSync = false;
         bool heatmapRefreshNeeded = false;
         bool wordcloudRefreshNeeded = false;
+        std::wstring axesBoxPropertySet;
+        bool axesOuterPositionSet = false;
         std::vector<std::wstring> namesSetInCall;
         std::vector<std::wstring> gridModesForcedAuto;
         while (ptr + 1 < pairs.size()) {
@@ -276,7 +279,11 @@ graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
                     ArrayOfVector hostArguments;
                     hostArguments << graphicsObjectHandle(
                         findGraphicsObjectHandle(fp->getParentAxis()));
-                    hostArguments << ArrayOf::characterArray(propname);
+                    // the inner box of a chart is its plot box: kept as given, like Position
+                    hostArguments << ArrayOf::characterArray(
+                        propname == GO_INNER_POSITION_PROPERTY_NAME_STR
+                            ? std::wstring(GO_POSITION_PROPERTY_NAME_STR)
+                            : propname);
                     hostArguments << pairs[ptr + 1];
                     graphics_object_setBuiltin(0, hostArguments);
                     fp->findProperty(propname)->set(pairs[ptr + 1]);
@@ -346,6 +353,13 @@ graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
                                 if (!valueAlreadySet || flipsAutoMode || refreshesTitleLayout) {
                                     savedPropertyValues.emplace_back(hp, hp->get());
                                     hp->set(pairs[ptr + 1]);
+                                    if (propname == GO_POSITION_PROPERTY_NAME_STR
+                                        || propname == GO_INNER_POSITION_PROPERTY_NAME_STR
+                                        || propname == GO_OUTER_POSITION_PROPERTY_NAME_STR) {
+                                        axesBoxPropertySet = propname;
+                                        axesOuterPositionSet = axesOuterPositionSet
+                                            || propname == GO_OUTER_POSITION_PROPERTY_NAME_STR;
+                                    }
                                     if (flipsAutoMode) {
                                         // An equal enumerated value is not flagged by set().
                                         hp->setModified(true);
@@ -399,8 +413,20 @@ graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (objectChanged && userDataOnlyUpdate) {
             fp->clearAllChanged();
         } else if (objectChanged) {
+            // a box the user gives an axes: its outside decorations move around it
+            const bool axesBoxSet = !axesBoxPropertySet.empty() && dynamic_cast<GOAxis*>(fp);
+            if (axesBoxSet) {
+                rebaseAxesLayout(fp, axesBoxPropertySet);
+                // an outer box given in the same call stays with the Position given with it
+                if (!axesOuterPositionSet) {
+                    static_cast<GOAxis*>(fp)->releaseUserOuterPosition();
+                }
+            }
             try {
                 fp->updateState();
+                if (axesBoxSet) {
+                    relayoutAxesDecorations(fp);
+                }
             } catch (...) {
                 for (auto it = savedPropertyValues.rbegin(); it != savedPropertyValues.rend();
                     ++it) {

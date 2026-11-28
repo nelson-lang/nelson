@@ -13,6 +13,8 @@
 #include "GOAxesLayoutManager.hpp"
 #include "GOAxis.hpp"
 #include "GOFigure.hpp"
+#include "GOGObjectsProperty.hpp"
+#include "GOHelpers.hpp"
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
 #include "GOStringOnOffProperty.hpp"
@@ -34,7 +36,11 @@ namespace {
     {
         std::vector<double> position;
         std::vector<double> outerPosition;
+        // Units the two boxes are written in
+        std::wstring units;
         bool outerDriven = false;
+        // Position given by the user: kept as it is, the decorations sit around it
+        bool fixedBox = false;
     };
     // Room one decoration takes on one side of the peer.
     struct DecorationSlot
@@ -90,6 +96,8 @@ slotOffsetPixels(
     GraphicsObject* peer, GraphicsObject* decoration, AxesLayoutSide side, double axesExtentPixels);
 static void
 relayoutOtherDecorations(GraphicsObject* peer, GraphicsObject* decoration);
+static bool
+hostsHeatmap(GraphicsObject* peer);
 //=============================================================================
 AxesLayoutSide
 axesLayoutSideFromLocation(const std::wstring& location)
@@ -368,7 +376,9 @@ layoutColorBarAroundAxes(GraphicsObject* peer, GraphicsObject* decoration,
     DecorationSlot slot;
     slot.decoration = decoration;
     slot.side = side;
-    slot.pixels = pointsToPixels(COLORBAR_THICKNESS_POINTS + COLORBAR_LABELS_POINTS) + gap;
+    // the tick labels of a heatmap colorbar stay in the margin of the chart
+    const double labelsPoints = hostsHeatmap(peer) ? 0.0 : COLORBAR_LABELS_POINTS;
+    slot.pixels = pointsToPixels(COLORBAR_THICKNESS_POINTS + labelsPoints) + gap;
     slot.colorBar = true;
     std::vector<double> box = reserveDecorationSlot(peer, slot);
     if (box.size() < 4) {
@@ -390,6 +400,39 @@ layoutColorBarAroundAxes(GraphicsObject* peer, GraphicsObject* decoration,
     default:
         return { drawn[0], drawn[1] - (distance + thickness) / figH, drawn[2], thickness / figH };
     }
+}
+//=============================================================================
+void
+rebaseAxesLayout(GraphicsObject* peer, const std::wstring& propertyName)
+{
+    auto& stacks = decorationStacks();
+    auto it = stacks.find(peer);
+    GOAxis* axis = layoutAxis(peer);
+    if (it == stacks.end() || !axis || axis->usesUiAxesLayout()) {
+        return;
+    }
+    AxesLayoutBase& base = it->second.base;
+    base.units = axis->findStringProperty(GO_UNITS_PROPERTY_NAME_STR);
+    base.outerPosition = axis->findVectorDoubleProperty(GO_OUTER_POSITION_PROPERTY_NAME_STR);
+    base.outerDriven
+        = propertyName == GO_OUTER_POSITION_PROPERTY_NAME_STR && base.outerPosition.size() == 4;
+    base.fixedBox = propertyName == GO_POSITION_PROPERTY_NAME_STR;
+    base.position = axis->findVectorDoubleProperty(
+        base.fixedBox ? GO_POSITION_PROPERTY_NAME_STR : GO_INNER_POSITION_PROPERTY_NAME_STR);
+    double width = 0;
+    double height = 0;
+    if (base.outerDriven && parentSizeInPixels(axis, width, height)) {
+        // the box the new outer box gives before any slot is taken
+        base.position = pixelsToUnits(axis->findStringProperty(GO_UNITS_PROPERTY_NAME_STR),
+            axis->positionFromOuterPixels(axis->layoutUnitsToPixels(base.outerPosition)), width,
+            height);
+    }
+}
+//=============================================================================
+void
+relayoutAxesDecorations(GraphicsObject* peer)
+{
+    relayoutOtherDecorations(peer, nullptr);
 }
 //=============================================================================
 void
@@ -540,6 +583,7 @@ captureLayoutBase(GOAxis* axis, AxesLayoutBase& base)
 {
     base.position = axis->findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR);
     base.outerPosition = axis->findVectorDoubleProperty(GO_OUTER_POSITION_PROPERTY_NAME_STR);
+    base.units = axis->findStringProperty(GO_UNITS_PROPERTY_NAME_STR);
     if (base.position.size() < 4) {
         return false;
     }
@@ -561,6 +605,8 @@ captureLayoutBase(GOAxis* axis, AxesLayoutBase& base)
             }
         }
     }
+    // a chart keeps the plot box it was given: its colorbar sits beside it
+    base.fixedBox = !base.outerDriven && hostsHeatmap(axis);
     return true;
 }
 //=============================================================================
@@ -600,12 +646,25 @@ static std::vector<double>
 applyDecorationStack(GOAxis* axis, double width, double height, bool& written)
 {
     written = false;
-    const DecorationStack& stack = decorationStacks()[axis];
+    DecorationStack& stack = decorationStacks()[axis];
+    std::wstring units = axis->findStringProperty(GO_UNITS_PROPERTY_NAME_STR);
+    if (!stack.base.units.empty() && stack.base.units != units) {
+        // the peer changed its Units: its base boxes follow
+        convertPositionPixelOrigin(stack.base.units, units, stack.base.position, width, height);
+        if (stack.base.outerPosition.size() == 4) {
+            convertPositionPixelOrigin(
+                stack.base.units, units, stack.base.outerPosition, width, height);
+        }
+        stack.base.units = units;
+    }
     const AxesLayoutSide sides[4] = { AxesLayoutSide::East, AxesLayoutSide::West,
         AxesLayoutSide::North, AxesLayoutSide::South };
     double take[4] = { 0.0, 0.0, 0.0, 0.0 };
     bool used[4] = { false, false, false, false };
     for (const DecorationSlot& slot : stack.slots) {
+        if (stack.base.fixedBox) {
+            break;
+        }
         for (size_t k = 0; k < 4; ++k) {
             if (slot.side == sides[k]) {
                 take[k] += slot.pixels;
@@ -618,7 +677,6 @@ applyDecorationStack(GOAxis* axis, double width, double height, bool& written)
             take[k] += sideInsetPixels(axis, sides[k]);
         }
     }
-    std::wstring units = axis->findStringProperty(GO_UNITS_PROPERTY_NAME_STR);
     std::vector<double> box;
     if (stack.base.outerDriven) {
         std::vector<double> outer = axis->layoutUnitsToPixels(stack.base.outerPosition);
@@ -747,6 +805,25 @@ relayoutOtherDecorations(GraphicsObject* peer, GraphicsObject* decoration)
         other->updateState();
     }
     relayoutRunning = false;
+}
+//=============================================================================
+// True for the axes that draws a heatmap chart.
+static bool
+hostsHeatmap(GraphicsObject* peer)
+{
+    auto* children = peer ? dynamic_cast<GOGObjectsProperty*>(
+                                peer->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false))
+                          : nullptr;
+    if (!children) {
+        return false;
+    }
+    for (int64 handle : children->data()) {
+        GraphicsObject* child = findGraphicsObject(handle, false);
+        if (child && child->isType(GO_PROPERTY_VALUE_HEATMAP_STR)) {
+            return true;
+        }
+    }
+    return false;
 }
 //=============================================================================
 } // namespace Nelson

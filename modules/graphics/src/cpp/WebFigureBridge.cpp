@@ -1197,6 +1197,10 @@ extern "C"
         if (!fig->stringCheck(GO_UNITS_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_PIXELS_STR)) {
             return false;
         }
+        // a hidden figure has no window the user could move: its Position stands
+        if (fig->stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR)) {
+            return true;
+        }
         return fig->applyWebWindowGeometry(x, y, width, height);
     }
     //=============================================================================

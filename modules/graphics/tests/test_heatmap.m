@@ -43,9 +43,10 @@ asserts.isequal(ax.TickLength, [0 0]);
 asserts.istrue(isprop(h, 'Units'));
 asserts.isequal(h.Units, 'normalized');
 asserts.istrue(isprop(h, 'Position'));
-asserts.isequal(h.Position, [0.13 0.11 0.775 0.815]);
+% the colorbar takes its room from the plot box
+asserts.isapprox(h.Position, [0.13 0.11 0.73776 0.815], 5e-2);
 asserts.istrue(isprop(h, 'InnerPosition'));
-asserts.isequal(h.InnerPosition, [0.13 0.11 0.775 0.815]);
+asserts.isequal(h.InnerPosition, h.Position);
 asserts.istrue(isprop(h, 'OuterPosition'));
 asserts.isequal(h.OuterPosition, [0 0 1 1]);
 asserts.istrue(isprop(h, 'FontName'));

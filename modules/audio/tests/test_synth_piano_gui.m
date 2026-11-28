@@ -59,6 +59,19 @@ function keyUp(fig, character)
   callback(fig, struct('Key', character, 'Character', character));
 end
 %=============================================================================
+function [low, high] = calibrateKeyAxes(fig, keyAxes)
+  % two presses outside the keys, below and above them, play nothing
+  __figure_mouse_event__(fig, 'press', [100 5]);
+  low = keyAxes.CurrentPoint(1, 1:2);
+  __figure_mouse_event__(fig, 'press', [1000 240]);
+  high = keyAxes.CurrentPoint(1, 1:2);
+  __figure_mouse_event__(fig, 'release', [1000 240]);
+  % those three callbacks leave no trace: drain them
+  for k = 1:10
+    drawnow();
+  end
+end
+%=============================================================================
 function press(fig, character)
   keyDown(fig, character);
   keyUp(fig, character);
@@ -135,14 +148,17 @@ recordToggled = app.recButton.ValueChangedFcn;
 recordToggled(app.recButton, []);
 % Each drawnow runs one queued callback: wait for the state each gesture
 % leaves instead.
-__figure_mouse_event__(fig, 'press', [100 5]);
-low = app.keyAxes.CurrentPoint(1, 1:2);
-__figure_mouse_event__(fig, 'press', [1000 240]);
-high = app.keyAxes.CurrentPoint(1, 1:2);
-__figure_mouse_event__(fig, 'release', [1000 240]);
-% those three callbacks leave no trace: drain them
-for k = 1:10
-  drawnow();
+[low, high] = calibrateKeyAxes(fig, app.keyAxes);
+% a figure window reports its size after it opens: wait until the mapping holds
+for attempt = 1:20
+  pause(0.5);
+  [lowAgain, highAgain] = calibrateKeyAxes(fig, app.keyAxes);
+  settled = isequal(low, lowAgain) && isequal(high, highAgain);
+  low = lowAgain;
+  high = highAgain;
+  if settled
+    break
+  end
 end
 assert_istrue(low(2) < 0 && high(2) > 216);
 toPixels = @(u)[100, 5] + (u - low) .* ([1000, 240] - [100, 5]) ./ (high - low);

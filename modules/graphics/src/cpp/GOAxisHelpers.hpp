@@ -57,9 +57,11 @@ getMinorTicks(
 // labelAngleDeg is the screen angle of the axis direction (0 = horizontal,
 // 90 = vertical); label clearance follows min(gapX/|cos|, gapY/|sin|).
 // forcedMaxCount > 0 overrides the pixel-based tick budget (degenerate axes).
+// projectedEdge: the axis is an oblique edge of a 3-D box with a locked aspect ratio;
+// its label clearance blends the two gaps instead of taking the smaller one.
 std::vector<double>
 computeReferenceAutoTicks(double lo, double hi, double axisLengthPx, double labelAngleDeg,
-    bool isLog, int forcedMaxCount, double fontSizePoints = 10.0);
+    bool isLog, int forcedMaxCount, double fontSizePoints = 10.0, bool projectedEdge = false);
 //=============================================================================
 // Outward tick-aligned exponent limits for an automatic log axis whose data
 // spans [dataMin, dataMax] (linear, > 0). Shares the decade-stride density

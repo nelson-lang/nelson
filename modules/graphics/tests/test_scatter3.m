@@ -25,7 +25,8 @@ asserts.isequal(s.ZData, 1);
 asserts.isequal(s.SizeData, 36);
 asserts.isequal(s.CData, [0.0660 0.4430 0.7450]);
 %=============================================================================
-f = figure('Visible', 'off');
+% the tick density follows the projected length of each edge: fixed figure size
+f = figure('Visible', 'off', 'Position', [100 100 560 420]);
 rng(0);
 n = 100;
 x = randn(n, 1);
@@ -43,6 +44,6 @@ grid on;
 axis equal;
 view(-66.5, 12);
 ax = gca();
-asserts.isequal(ax.XTick, [-2 -1 0 1 2 3]);
+asserts.isequal(ax.XTick, [-2 0 2]);
 asserts.isequal(ax.YTick, [-2 -1 0 1 2]);
-asserts.isequal(ax.ZTick, [-3 -2.5 -2 -1.5 -1 -0.5 0 0.5 1 1.5 2]); %=============================================================================
+asserts.isequal(ax.ZTick, [-3 -2 -1 0 1 2]); %=============================================================================
