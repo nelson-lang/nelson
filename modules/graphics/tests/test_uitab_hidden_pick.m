@@ -70,9 +70,14 @@ before = cascade.View;
 __figure_mouse_event__(f, 'press', [200 130]);
 __figure_mouse_event__(f, 'motion', [240 150]);
 __figure_mouse_event__(f, 'release', [260 160]);
-drawnow();
-pause(0.5);
-drawnow();
+% the rotation is applied by queued commands: wait for it, not for a fixed delay
+for index = 1:500
+  drawnow();
+  pause(0.01);
+  if ~isequal(cascade.View, before)
+    break;
+  end
+end
 assert_isfalse(isequal(cascade.View, before));
 asserts.isequal(g.SelectedTab, shownTab);
 close(f);
