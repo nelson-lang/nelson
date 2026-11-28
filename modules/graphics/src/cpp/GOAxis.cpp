@@ -67,6 +67,7 @@
 #include "GOTextInterpreterProperty.hpp"
 #include "GOList.hpp"
 #include "GOFigure.hpp"
+#include "GOColorBar.hpp"
 #include "GOText.hpp"
 #include "GORuler.hpp"
 #include "GOHelpers.hpp"
@@ -371,6 +372,9 @@ trimTicksToLimits(
 //=============================================================================
 static bool
 axisHasLimitChildren(GOAxis* axis);
+//=============================================================================
+static void
+updatePeerColorBars(GOAxis* axis);
 //=============================================================================
 static bool
 hasNoFinitePoint(const std::vector<double>& childLimits);
@@ -6322,7 +6326,11 @@ GOAxis::updateState()
 
     auto finishAxisUpdate = [this]() {
         m_settledPosition = findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR);
+        const bool viewChanged = hasChanged(GO_VIEW_PROPERTY_NAME_STR);
         clearAllChanged();
+        if (viewChanged) {
+            updatePeerColorBars(this);
+        }
         GOFigure* fig = getParentFigure();
         if (fig) {
             fig->setRenderingStateInvalid(true);
@@ -6909,6 +6917,8 @@ GOAxis::setView(double azimuth, double elevation)
     GOTwoVectorProperty* viewProperty
         = static_cast<GOTwoVectorProperty*>(findProperty(GO_VIEW_PROPERTY_NAME_STR));
     viewProperty->value(azimuth, elevation);
+    // flagged like a View set through set(): the next update sees the change
+    viewProperty->setModified(true);
 }
 //=============================================================================
 void
@@ -6938,7 +6948,7 @@ GOAxis::updateInteractionState()
     applyAutoAxisLabelOrientation(this);
     // A view turned 3D gives the ZLabel its size.
     syncAxisLabelTexts(this, AxisTextFontSync());
-    clearChanged(GO_VIEW_PROPERTY_NAME_STR);
+    // View stays flagged: the full update that follows moves the outside colorbars
     if (isAuto(GO_CAMERA_TARGET_MODE_PROPERTY_NAME_STR)) {
         clearChanged(GO_CAMERA_TARGET_PROPERTY_NAME_STR);
     }
@@ -7527,6 +7537,29 @@ GOAxis::getPropertyVectorAsPixels(const std::wstring& name)
 {
     GOFourVectorProperty* hp = static_cast<GOFourVectorProperty*>(findProperty(name));
     return (unitsReinterpret(hp->data()));
+}
+//=============================================================================
+// The room an outside colorbar takes depends on a 2-D or 3-D view, and a hidden
+// figure is never painted: its colorbars follow a view change here.
+static void
+updatePeerColorBars(GOAxis* axis)
+{
+    int64 holderHandle = HANDLE_UNASSIGNED_OBJECT;
+    GraphicsObject* holder = axesDecorationHolder(axis, holderHandle);
+    auto* children = holder ? dynamic_cast<GOGObjectsProperty*>(
+                                  holder->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false))
+                            : nullptr;
+    if (!children) {
+        return;
+    }
+    const int64 axisHandle = findGraphicsObjectHandle(axis);
+    const std::vector<int64> handles(children->data());
+    for (int64 handle : handles) {
+        auto* colorBar = dynamic_cast<GOColorBar*>(findGraphicsObject(handle, false));
+        if (colorBar && colorBar->getPeerAxesHandle() == axisHandle) {
+            colorBar->updateState();
+        }
+    }
 }
 //=============================================================================
 

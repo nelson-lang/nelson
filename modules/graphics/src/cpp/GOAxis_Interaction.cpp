@@ -95,6 +95,8 @@ GOAxis::updateViewState()
     constexpr unsigned requiredWarmupUpdates = 2;
     if (m_viewStateWarmupCount >= requiredWarmupUpdates) {
         updateInteractionState();
+        // ticks and layout follow the view: the next read or paint settles them
+        markStateDirty();
         return true;
     }
     GOFigure* fig = getParentFigure();

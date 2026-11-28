@@ -213,12 +213,15 @@ GuiServer::start(const std::wstring& rootFolder, const WebUiLaunchOptions& optio
         return false;
     }
     m_launchResult.publicAccess = publicAccess;
-    WebDesktopBridge::getInstance()->setWebNotebookOpener(
-        [](void* ctx, const wchar_t* path) {
-            static_cast<GuiServer*>(ctx)->openNotebookDocument(
-                path != nullptr ? std::wstring(path) : std::wstring());
-        },
-        this);
+    // figures only: there is no desktop page to host a notebook
+    if (!m_launchOptions.figuresOnly) {
+        WebDesktopBridge::getInstance()->setWebNotebookOpener(
+            [](void* ctx, const wchar_t* path) {
+                static_cast<GuiServer*>(ctx)->openNotebookDocument(
+                    path != nullptr ? std::wstring(path) : std::wstring());
+            },
+            this);
+    }
     if (m_launchOptions.notebookHost) {
         // The notebook host installs no other desktop hook; the desktop keeps its own windows.
         return true;

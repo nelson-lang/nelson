@@ -49,6 +49,8 @@ public:
     void
     registerProperties() override;
     void
+    updateState() override;
+    void
     paintMe(RenderInterface& gc) override;
 };
 //=============================================================================

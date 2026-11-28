@@ -10,9 +10,8 @@
 % Effective graphics backend for the run, selected by the 'Launcher' run option
 % (transported through the NELSON_UNITTEST_LAUNCHER environment variable so it
 % also reaches parallel worker processes). Values:
-%   'default'  nelson-cli / -adv-cli / -gui; adv-cli tests run `--headless` so
-%              figures render offscreen (stable for batch runs). Running the
-%              suite with real web figure windows is a separate, gated effort.
+%   'default'  nelson-cli / -adv-cli / -gui; adv-cli tests run in its default
+%              render mode (a batch run opens no figure window).
 function backend = test_launcher_backend()
   backend = getenv('NELSON_UNITTEST_LAUNCHER');
   if isempty(backend)

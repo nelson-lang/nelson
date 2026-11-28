@@ -17,6 +17,8 @@
 #include "GOStringProperty.hpp"
 #include "GORestrictedStringProperty.hpp"
 #include "GOHelpers.hpp"
+#include "GOFigure.hpp"
+#include "GOFiguresManager.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -88,6 +90,20 @@ GOLegendEntry::registerProperties()
         GO_ICON_DISPLAY_STYLE_PROPERTY_NAME_STR);
     registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR, false);
     sortProperties();
+}
+//=============================================================================
+void
+GOLegendEntry::updateState()
+{
+    // the entry does not know its owner: every figure refreshes its legends at the next draw
+    for (int64 figureId : getFigureGraphicsObjects()) {
+        GOFigureHost* host = getFigure(figureId);
+        GOFigure* figure = host ? host->hostFigure() : nullptr;
+        if (figure) {
+            figure->setRenderingStateInvalid(true);
+        }
+    }
+    clearAllChanged();
 }
 //=============================================================================
 void

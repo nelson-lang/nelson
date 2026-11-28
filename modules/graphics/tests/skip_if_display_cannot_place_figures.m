@@ -25,8 +25,8 @@ function skip_if_display_cannot_place_figures(reason)
   cleaner = onCleanup(@() close(probe)); %#ok<NLS0004>
   drawnow();
   placed = probe.Position;
-  % No native figure window at all (headless / offscreen rendering, e.g. the
-  % advanced-terminal test launcher runs with --headless): the on-screen
+  % No native figure window at all (offscreen rendering, e.g. a batch run of
+  % the advanced terminal opens no figure window): the on-screen
   % placement and pixel-readback checks cannot run, so skip rather than fail.
   skip_testsuite(isempty(__figure_native_geometry__(probe)), ...
     ['Display cannot place figures (', reason, '): no native figure window.']);
