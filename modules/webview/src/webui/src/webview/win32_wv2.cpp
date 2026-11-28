@@ -13,6 +13,7 @@
 
 #include "win32_wv2.hpp"
 #include "WebView2.h"
+#include "WebViewCacheSweep.hpp"
 #include <cstdlib>
 #include <cstdio>
 
@@ -1235,6 +1236,9 @@ extern "C"
             g_sharedEnvState = 3;
             return false;
         }
+        // NELSON PATCH: every WebView of the process starts here. Remove the
+        // folders of ended runs while the browser process comes up.
+        Nelson::SweepStaleWebViewCacheFolders();
         return true;
     }
 

@@ -48,6 +48,9 @@
     <ClCompile Include="..\cpp\WebUiHelpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\WebViewCacheSweep.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\cpp\dllMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -97,6 +100,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\WebUiHelpers.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\WebViewCacheSweep.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\webui\include\webui.h">

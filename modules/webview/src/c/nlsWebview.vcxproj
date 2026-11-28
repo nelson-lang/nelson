@@ -218,6 +218,7 @@
     <ClCompile Include="..\cpp\RenderHtmlHelpers.cpp" />
     <ClCompile Include="..\cpp\WebViewer.cpp" />
     <ClCompile Include="..\cpp\WebUiHelpers.cpp" />
+    <ClCompile Include="..\cpp\WebViewCacheSweep.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
     <ClCompile Include="..\webui\src\webui.c" />
     <ClCompile Include="..\webui\src\civetweb\civetweb.c" />
@@ -236,6 +237,7 @@
     <ClInclude Include="..\include\WebViewer.hpp" />
     <ClInclude Include="..\include\WebUiConfigScope.hpp" />
     <ClInclude Include="..\include\WebUiHelpers.hpp" />
+    <ClInclude Include="..\include\WebViewCacheSweep.hpp" />
     <ClInclude Include="..\webui\include\webui.h" />
     <ClInclude Include="..\webui\include\webui.hpp" />
     <ClInclude Include="..\webui\src\civetweb\civetweb.h" />
