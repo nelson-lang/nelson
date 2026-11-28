@@ -147,7 +147,6 @@ GuiServer::clearBridgeHooks()
     WebDesktopBridge::getInstance()->setWebFigureVisibleHook(nullptr, nullptr);
     WebDesktopBridge::getInstance()->setWebFigureTitleHook(nullptr, nullptr);
     WebDesktopBridge::getInstance()->setWebFigurePositionHook(nullptr, nullptr);
-    WebDesktopBridge::getInstance()->setWebMessageBox(nullptr, nullptr);
     WebDesktopBridge::getInstance()->setWebClipboardImageHook(nullptr, nullptr);
     WebDesktopBridge::getInstance()->setWebPackageUpdatesHook(nullptr, nullptr);
     WebDesktopBridge::getInstance()->setWebTerminalOpener(nullptr, nullptr);
@@ -383,15 +382,6 @@ GuiServer::start(const std::wstring& rootFolder, const WebUiLaunchOptions& optio
                 return;
             }
             server->requestFigureWindowPosition(handle, x, y);
-        },
-        this);
-    // msgbox shows a clean message modal in the browser instead of a figure.
-    WebDesktopBridge::getInstance()->setWebMessageBox(
-        [](void* ctx, const wchar_t* title, const wchar_t* message, const wchar_t* icon) {
-            auto w = [](const wchar_t* s) { return wstring_to_utf8(std::wstring(s ? s : L"")); };
-            static_cast<GuiServer*>(ctx)->pushJson("dialog.message",
-                nlohmann::json {
-                    { "title", w(title) }, { "message", w(message) }, { "icon", w(icon) } });
         },
         this);
     WebDesktopBridge::getInstance()->setWebClipboardImageHook(

@@ -24,12 +24,6 @@ struct RuntimeDispatchBackend
     std::function<void(RuntimeDispatchTask)> callGuiSync;
     std::function<void(size_t)> notifyInterrupt;
     std::function<void(bool)> processGuiEvents;
-    // Runs the GUI event loop for at most maxTimeMs milliseconds, waking
-    // immediately on any posted event (cross-thread calls, timers, input).
-    // Used by the engine main loop so it does not have to poll with a sleep
-    // whose granularity is an OS timer tick (~15.6 ms on Windows).
-    std::function<void(int)> pumpGuiEventsBlocking;
-    std::function<bool()> hasQtRuntime;
     std::function<bool()> hasGuiServices;
     std::function<bool()> hasGraphicsServices;
     std::function<bool()> hasQmlServices;
@@ -58,11 +52,6 @@ notifyInterrupt(size_t evaluatorId);
 NLSINTERPRETER_IMPEXP void
 processGuiEvents(bool waitEvents);
 //=============================================================================
-// Returns false when no backend pump is registered (caller should fall back
-// to polling); otherwise runs the GUI event loop for at most maxTimeMs.
-NLSINTERPRETER_IMPEXP bool
-pumpGuiEventsBlocking(int maxTimeMs);
-//=============================================================================
 // Wakes a main loop sleeping in waitGuiWork: call after posting GUI work.
 NLSINTERPRETER_IMPEXP void
 notifyGuiWork();
@@ -75,9 +64,6 @@ postGuiDirectTask(RuntimeDispatchTask task);
 // Runs the tasks queued by postGuiDirectTask, on the calling (main) thread.
 NLSINTERPRETER_IMPEXP void
 waitGuiWork(int maxTimeMs);
-//=============================================================================
-NLSINTERPRETER_IMPEXP bool
-hasQtRuntime();
 //=============================================================================
 NLSINTERPRETER_IMPEXP bool
 hasGuiServices();

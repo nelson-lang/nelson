@@ -110,17 +110,6 @@ processGuiEvents(bool waitEvents)
     }
 }
 //=============================================================================
-bool
-pumpGuiEventsBlocking(int maxTimeMs)
-{
-    auto pumpGuiEventsBlockingFn = backendCallback(&RuntimeDispatchBackend::pumpGuiEventsBlocking);
-    if (pumpGuiEventsBlockingFn) {
-        pumpGuiEventsBlockingFn(maxTimeMs);
-        return true;
-    }
-    return false;
-}
-//=============================================================================
 namespace {
     std::mutex guiWorkMutex;
     std::condition_variable guiWorkCondition;
@@ -165,12 +154,6 @@ waitGuiWork(int maxTimeMs)
             task();
         }
     }
-}
-//=============================================================================
-bool
-hasQtRuntime()
-{
-    return callBool(backendCallback(&RuntimeDispatchBackend::hasQtRuntime));
 }
 //=============================================================================
 bool

@@ -83,14 +83,6 @@ public:
     bool
     openWebNFlow(Evaluator* eval, const std::wstring& modelPath = {});
     //=============================================================================
-    // Returns true when a web handler was registered and called; graphics falls
-    // back to the Qt figure otherwise.
-    void
-    setWebMessageBox(void (*fn)(void*, const wchar_t*, const wchar_t*, const wchar_t*), void* ctx);
-    bool
-    showWebMessageBox(
-        const std::wstring& title, const std::wstring& message, const std::wstring& icon);
-    //=============================================================================
     // drawnow pushes the figure frame (display-list JSON) to the browser so
     // animations play live.
     void
@@ -235,8 +227,6 @@ private:
     void* m_webFigureTitleCtx = nullptr;
     void (*m_webFigurePositionFn)(void*, long long, int, int, int, int) = nullptr;
     void* m_webFigurePositionCtx = nullptr;
-    void (*m_webMessageBoxFn)(void*, const wchar_t*, const wchar_t*, const wchar_t*) = nullptr;
-    void* m_webMessageBoxCtx = nullptr;
     void (*m_webClipboardImageFn)(void*, const char*, int) = nullptr;
     void* m_webClipboardImageCtx = nullptr;
     void (*m_webPackageUpdatesFn)(void*, int) = nullptr;

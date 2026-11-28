@@ -105,25 +105,6 @@ WebDesktopBridge::openWebNFlow(Evaluator* eval, const std::wstring& modelPath)
 }
 //=============================================================================
 void
-WebDesktopBridge::setWebMessageBox(
-    void (*fn)(void*, const wchar_t*, const wchar_t*, const wchar_t*), void* ctx)
-{
-    this->m_webMessageBoxFn = fn;
-    this->m_webMessageBoxCtx = ctx;
-}
-//=============================================================================
-bool
-WebDesktopBridge::showWebMessageBox(
-    const std::wstring& title, const std::wstring& message, const std::wstring& icon)
-{
-    if (this->m_webMessageBoxFn == nullptr) {
-        return false;
-    }
-    this->m_webMessageBoxFn(this->m_webMessageBoxCtx, title.c_str(), message.c_str(), icon.c_str());
-    return true;
-}
-//=============================================================================
-void
 WebDesktopBridge::setWebFigureFrameHook(void (*fn)(void*, long long, const char*, int), void* ctx)
 {
     this->m_webFigureFrameFn = fn;
