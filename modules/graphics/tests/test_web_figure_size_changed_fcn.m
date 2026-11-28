@@ -19,7 +19,8 @@ asserts.istrue(isfile(scenario));
 command = ['"', nelson_adv_cli, '" --webview --quiet --no-user-startup --no-ipc -f "', scenario, '"'];
 result = [tempname(), '.txt'];
 setenv('NELSON_WEB_SIZE_CHANGED_FCN_RESULT', result);
-% a child that died writes no result
+% a child that died before the scenario writes no result; one that stopped
+% later leaves the name of the check it was running
 [status, output] = system(command, 120);
 setenv('NELSON_WEB_SIZE_CHANGED_FCN_RESULT', '');
 asserts.istrue(isfile(result), output);

@@ -9,11 +9,14 @@
 %=============================================================================
 % Run by test_web_figure_size_changed_fcn in a child started with --webview.
 try
-  checkClassicFigure();
-  checkInvisibleParent();
-  checkInvisibleFigure();
-  checkUiFigure();
-  checkTabGroup();
+  checks = {@checkClassicFigure, @checkInvisibleParent, @checkInvisibleFigure, ...
+    @checkUiFigure, @checkTabGroup};
+  for k = 1:numel(checks)
+    % a child stopped by the timeout leaves the name of the check it was running
+    check = checks{k};
+    writeResult(['RUNNING: ', func2str(check)]);
+    check();
+  end
   writeResult('OK');
   exit(0);
 catch
