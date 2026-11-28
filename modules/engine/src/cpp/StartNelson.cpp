@@ -31,6 +31,7 @@
 #include <thread>
 #include "FileSystemWrapper.hpp"
 #include "StartNelson.h"
+#include "FatalErrorReport.hpp"
 #include "StartNelsonMainScript.hpp"
 #include "RunStartupScripts.hpp"
 #include "StartNelsonUserModules.hpp"
@@ -795,6 +796,8 @@ StartNelsonInternal(wstringVector args, NELSON_ENGINE_MODE _mode)
 static int
 StartNelsonInternalWithMutex(const wstringVector& args, NELSON_ENGINE_MODE _mode)
 {
+    // First of all: a fatal error during the start is reported too.
+    Nelson::installFatalErrorReport();
     if (!haveNelsonMutex()) {
         openNelsonMutex();
     }

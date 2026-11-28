@@ -213,6 +213,7 @@
     <ClCompile Include="..\cpp\StartNelsonApplication.cpp" />
     <ClCompile Include="..\cpp\StartNelsonUserModules.cpp" />
     <ClCompile Include="..\cpp\RunStartupScripts.cpp" />
+    <ClCompile Include="..\cpp\FatalErrorReport.cpp" />
     <ClCompile Include="..\cpp\TimeoutThread.cpp" />
     <ClCompile Include="..\cpp\EngineGatewayLifecycle.cpp" />
     <ClCompile Include="..\cpp\PortableEngine.cpp" />
@@ -238,6 +239,7 @@
     <ClInclude Include="..\include\StartNelsonMainScript.hpp" />
     <ClInclude Include="..\include\StartNelsonUserModules.hpp" />
     <ClInclude Include="..\include\RunStartupScripts.hpp" />
+    <ClInclude Include="..\include\FatalErrorReport.hpp" />
     <ClInclude Include="..\include\TimeoutThread.hpp" />
     <ClInclude Include="..\include\EngineGatewayLifecycle.hpp" />
     <ClInclude Include="..\include\PortableEngine.hpp" />
