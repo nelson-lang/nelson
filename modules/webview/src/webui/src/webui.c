@@ -274,6 +274,7 @@ typedef int (*gdk_pixbuf_loader_close_func)(void*, void**);
 typedef void* (*gdk_pixbuf_loader_get_pixbuf_func)(void*);
 typedef void (*gtk_window_set_icon_func)(void*, void*);
 typedef void (*g_object_unref_func)(void*);
+typedef void* (*g_object_ref_func)(void*);
 // GTK Symbol Initialization
 static gtk_init_func gtk_init = NULL;
 static gtk_widget_show_all_func gtk_widget_show_all = NULL;
@@ -327,6 +328,7 @@ static gdk_pixbuf_loader_close_func gdk_pixbuf_loader_close = NULL;
 static gdk_pixbuf_loader_get_pixbuf_func gdk_pixbuf_loader_get_pixbuf = NULL;
 static gtk_window_set_icon_func gtk_window_set_icon = NULL;
 static g_object_unref_func g_object_unref = NULL;
+static g_object_ref_func g_object_ref = NULL;
 // NELSON PATCH: `gtk_init()` is now called separately from symbol
 // resolution, so its own "already done" flag is needed.
 static bool _webui_gtk_initialized = false;
@@ -395,6 +397,7 @@ typedef struct _webui_wv_linux_t
     void* gtk_win;
     void* gtk_wv;
     bool open;
+    bool gtk_win_ref; // NELSON PATCH: this struct holds a reference on gtk_win
     // WebUI Window
     char* url;
     bool navigate;
@@ -739,6 +742,8 @@ static bool
 _webui_get_cb_index(_webui_window_t* win, const char* element, size_t* id);
 static size_t
 _webui_get_free_port(void);
+static size_t
+_webui_port_candidate(void); // NELSON PATCH
 static void
 _webui_free_port(size_t port);
 static char*
@@ -1064,7 +1069,7 @@ _webui_wv_create_task(void* arg); // NELSON PATCH
 static int
 _webui_gtk_host_probe(void* arg); // NELSON PATCH
 static int
-_webui_wv_close_idle(void* arg); // NELSON PATCH
+_webui_wv_release_idle(void* arg); // NELSON PATCH
 static int
 _webui_wv_size_idle(void* arg); // NELSON PATCH
 static int
@@ -11839,7 +11844,7 @@ _webui_get_free_port(void)
     _webui_log_debug("[Core]\t\t_webui_get_free_port()\n");
 #endif
 
-    size_t port = (rand() % (WEBUI_MAX_PORT + 1 - WEBUI_MIN_PORT)) + WEBUI_MIN_PORT;
+    size_t port = _webui_port_candidate();
 
     for (size_t i = WEBUI_MIN_PORT; i <= WEBUI_MAX_PORT; i++) {
 
@@ -11854,11 +11859,11 @@ _webui_get_free_port(void)
 
         if (found) {
             // Port used by local window
-            port = (rand() % (WEBUI_MAX_PORT + 1 - WEBUI_MIN_PORT)) + WEBUI_MIN_PORT;
+            port = _webui_port_candidate();
         } else {
             if (_webui_port_is_used(port)) {
                 // Port used by an external app
-                port = (rand() % (WEBUI_MAX_PORT + 1 - WEBUI_MIN_PORT)) + WEBUI_MIN_PORT;
+                port = _webui_port_candidate();
             } else {
                 // Port is free
                 break;
@@ -11875,6 +11880,27 @@ _webui_get_free_port(void)
     }
 
     return port;
+}
+
+// NELSON PATCH: rand() is seeded with the time in seconds, so processes started
+// in the same second all tried the same ports. The process id tells them apart.
+static size_t
+_webui_port_candidate(void)
+{
+    static uint32_t state = 0;
+    if (state == 0) {
+#if defined(_WIN32)
+        const uint32_t pid = (uint32_t)GetCurrentProcessId();
+#else
+        const uint32_t pid = (uint32_t)getpid();
+#endif
+        state = ((uint32_t)time(NULL) ^ (pid * 2654435761u)) | 1u;
+    }
+    // xorshift32
+    state ^= state << 13;
+    state ^= state >> 17;
+    state ^= state << 5;
+    return (size_t)(state % (WEBUI_MAX_PORT + 1 - WEBUI_MIN_PORT)) + WEBUI_MIN_PORT;
 }
 
 static void
@@ -13288,6 +13314,15 @@ static WEBUI_THREAD_SERVER_START
             _webui_win32_wv2_set_stop(win->webView->cpp_handle, true);
             _webui_webview_update(win);
         }
+#elif __linux__
+        // NELSON PATCH: under the mutex, like webui_close(): the WebView
+        // thread cannot miss the request, nor clear the pointer meanwhile.
+        _webui_mutex_lock(&win->mutex_webview_update);
+        if (win->webView) {
+            win->webView->stop = true;
+            _webui_webview_update(win);
+        }
+        _webui_mutex_unlock(&win->mutex_webview_update);
 #else
         win->webView->stop = true;
         _webui_webview_update(win);
@@ -15574,14 +15609,15 @@ static WEBUI_THREAD_WEBVIEW
         WEBUI_THREAD_RETURN
     }
 
-    // One shared user-data folder for the whole process (random per run,
-    // deleted at exit) so concurrent Nelson instances stay isolated.
+    // One shared user-data folder for the whole process (deleted at exit) so
+    // concurrent Nelson instances stay isolated. The process id makes the name
+    // unique: the random part only changes once per second.
     if (!_webui.webview_cacheFolder) {
         const char* temp = _webui_get_temp_path();
         _webui.webview_cacheFolder = (char*)_webui_malloc(WEBUI_MAX_PATH);
         WEBUI_SN_PRINTF_DYN(_webui.webview_cacheFolder, WEBUI_MAX_PATH,
-            "%s%s.WebUI%sWebUIWebViewCache_%" PRIu32, temp, os_sep, os_sep,
-            _webui_generate_random_uint32());
+            "%s%s.WebUI%sWebUIWebViewCache_%lu_%" PRIu32, temp, os_sep, os_sep,
+            (unsigned long)GetCurrentProcessId(), _webui_generate_random_uint32());
     }
     wchar_t* cacheFolderW = NULL;
     _webui_str_to_wide(_webui.webview_cacheFolder, &cacheFolderW);
@@ -15735,7 +15771,12 @@ _webui_wv_event_title(void* web_view, void* pspec, void* arg)
 #ifdef WEBUI_LOG
     _webui_log_debug("[Core]\t\t_webui_wv_event_title()\n");
 #endif
-    _webui_window_t* win = (_webui_window_t*)arg;
+    // NELSON PATCH: the view can outlive its window slot, which can be reused
+    // by another window in the meantime: act only for the view of this window.
+    _webui_window_t* win = _webui_dereference_win_ptr(arg);
+    if (!win || !win->webView || win->webView->gtk_wv != web_view || !win->webView->open) {
+        return;
+    }
     webkit_web_view_get_title_func webkit_web_view_get_title
         = (webkit_web_view_get_title_func)dlsym(libwebkit, "webkit_web_view_get_title");
     const char* title = webkit_web_view_get_title(web_view);
@@ -15771,6 +15812,11 @@ _webui_wv_event_decision(void* widget, void* decision, int decision_type, void* 
     case WEBKIT_POLICY_DECISION_TYPE_NAVIGATION_ACTION: {
 
         _webui_window_t* win = _webui_dereference_win_ptr(user_data);
+
+        // NELSON PATCH: a view whose window is gone, or whose slot was reused.
+        if (!win || !win->webView || win->webView->gtk_wv != widget) {
+            return false;
+        }
 
         // If all events are handled, check in_show
         if (win->has_all_events) {
@@ -15840,7 +15886,9 @@ _webui_wv_event_closed(void* widget, void* arg)
     _webui_log_debug("[Core]\t\t_webui_wv_event_closed()\n");
 #endif
     _webui_window_t* win = _webui_dereference_win_ptr(arg);
-    if (win) {
+    // NELSON PATCH: the slot of a destroyed window can be reused before its
+    // GTK window is gone: a window owned by another WebView is not this one.
+    if (win && (!win->webView || win->webView->gtk_win == widget)) {
         win->is_closed = true;
         if (win->webView) {
             win->webView->open = false;
@@ -15856,7 +15904,8 @@ _webui_wv_event_on_close(void* widget, void* evt, void* arg)
     _webui_log_debug("[Core]\t\t_webui_wv_event_on_close()\n");
 #endif
     _webui_window_t* win = _webui_dereference_win_ptr(arg);
-    if (win) {
+    // NELSON PATCH: ask the handler only for the window this WebView still owns.
+    if (win && win->webView && win->webView->gtk_win == widget) {
         if (win->close_handler_wv) {
             bool can_close = win->close_handler_wv(win->num);
 #ifdef WEBUI_LOG
@@ -15887,7 +15936,7 @@ static int
 _webui_wv_minimize_idle(void* arg)
 {
     _webui_wv_linux_t* webView = (_webui_wv_linux_t*)arg;
-    if (webView && webView->gtk_win && gtk_window_iconify) {
+    if (webView && webView->open && webView->gtk_win && gtk_window_iconify) {
         gtk_window_iconify(webView->gtk_win);
     }
     return 0; // G_SOURCE_REMOVE: run once
@@ -15910,7 +15959,7 @@ static int
 _webui_wv_maximize_idle(void* arg)
 {
     _webui_wv_linux_t* webView = (_webui_wv_linux_t*)arg;
-    if (webView && webView->gtk_win && gtk_window_maximize) {
+    if (webView && webView->open && webView->gtk_win && gtk_window_maximize) {
         if (!gtk_window_is_maximized || !gtk_window_is_maximized(webView->gtk_win)) {
             gtk_window_maximize(webView->gtk_win);
         }
@@ -15937,7 +15986,7 @@ static int
 _webui_wv_hide_idle(void* arg)
 {
     _webui_wv_linux_t* webView = (_webui_wv_linux_t*)arg;
-    if (webView && webView->gtk_win && gtk_widget_hide) {
+    if (webView && webView->open && webView->gtk_win && gtk_widget_hide) {
         gtk_widget_hide(webView->gtk_win);
     }
     return 0; // G_SOURCE_REMOVE: run once
@@ -15947,7 +15996,7 @@ static int
 _webui_wv_show_idle(void* arg)
 {
     _webui_wv_linux_t* webView = (_webui_wv_linux_t*)arg;
-    if (webView && webView->gtk_win && gtk_widget_show) {
+    if (webView && webView->open && webView->gtk_win && gtk_widget_show) {
         gtk_widget_show(webView->gtk_win);
     }
     return 0; // G_SOURCE_REMOVE: run once
@@ -16004,27 +16053,19 @@ _webui_wv_close(_webui_wv_linux_t* webView)
     _webui_log_debug("[Core]\t\t_webui_wv_close()\n");
 #endif
 
-    if (webView) {
-
-        if (webView->open) {
-
-            webView->open = false;
-
-#ifdef WEBUI_LOG
-            _webui_log_debug("[Core]\t\t_webui_wv_close() -> Closing WebView window\n");
-#endif
-            // NELSON PATCH: reached from the WebView worker thread as well.
-            // `gtk_window_close` belongs to the thread owning the widgets;
-            // the GtkWindow is passed by value because `webView` is freed
-            // just below.
-            if (_webui_ui_hosted() && !_webui_ui_on_thread() && g_idle_add) {
-                g_idle_add(_webui_wv_close_idle, webView->gtk_win);
-            } else {
-                gtk_window_close(webView->gtk_win);
-            }
-        }
+    if (!webView) {
+        return;
     }
 
+    // NELSON PATCH: reached from the WebView worker thread as well. The window
+    // is closed and the struct freed on the GTK main loop, behind the
+    // operations already queued for this window, which still read the struct.
+    if (g_idle_add) {
+        g_idle_add(_webui_wv_release_idle, (void*)webView);
+        return;
+    }
+
+    // GTK was never loaded: there is no window to close.
     _webui_free_mem((void*)webView->url);
     _webui_free_mem((void*)webView);
 };
@@ -16193,6 +16234,13 @@ _webui_wv_create(_webui_window_t* win)
     // Initialize GTK Window
     win->webView->gtk_win = gtk_window_new(0);
 
+    // NELSON PATCH: keep the window object valid until the struct is released,
+    // even when the user closes the window first.
+    if (win->webView->gtk_win && g_object_ref && g_object_unref) {
+        g_object_ref(win->webView->gtk_win);
+        win->webView->gtk_win_ref = true;
+    }
+
     // NELSON PATCH: title known before the page loads (see webui_set_native_title)
     if (!_webui_is_empty(win->native_title) && gtk_window_set_title) {
         gtk_window_set_title(win->webView->gtk_win, win->native_title);
@@ -16350,7 +16398,7 @@ static int
 _webui_wv_size_idle(void* arg)
 {
     _webui_wv_linux_t* webView = (_webui_wv_linux_t*)arg;
-    if (webView && webView->gtk_win) {
+    if (webView && webView->open && webView->gtk_win) {
         gtk_window_resize(webView->gtk_win, webView->width, webView->height);
     }
     return 0; // G_SOURCE_REMOVE: run once
@@ -16360,7 +16408,7 @@ static int
 _webui_wv_position_idle(void* arg)
 {
     _webui_wv_linux_t* webView = (_webui_wv_linux_t*)arg;
-    if (webView && webView->gtk_win) {
+    if (webView && webView->open && webView->gtk_win) {
         gtk_window_move(webView->gtk_win, webView->x, webView->y);
     }
     return 0; // G_SOURCE_REMOVE: run once
@@ -16370,7 +16418,7 @@ static int
 _webui_wv_navigate_idle(void* arg)
 {
     _webui_wv_linux_t* webView = (_webui_wv_linux_t*)arg;
-    if (webView && webView->gtk_win && webView->gtk_wv) {
+    if (webView && webView->open && webView->gtk_win && webView->gtk_wv) {
         webkit_web_view_load_uri(webView->gtk_wv, webView->url);
     }
     return 0; // G_SOURCE_REMOVE: run once
@@ -16385,7 +16433,8 @@ _webui_wv_navigate_window_idle(void* arg)
     _webui_window_t* win = _webui_dereference_win_ptr(arg);
     if (win) {
         _webui_mutex_lock(&win->mutex_webview_update);
-        if (win->webView && win->webView->gtk_win && win->webView->gtk_wv && win->webView->url) {
+        if (win->webView && win->webView->open && win->webView->gtk_win && win->webView->gtk_wv
+            && win->webView->url) {
             GTK_WEBVIEW_SET_IN_SHOW(win, true)
             webkit_web_view_load_uri(win->webView->gtk_wv, win->webView->url);
         }
@@ -16394,14 +16443,23 @@ _webui_wv_navigate_window_idle(void* arg)
     return 0; // G_SOURCE_REMOVE: run once
 }
 
-// NELSON PATCH: takes the GtkWindow itself, because the caller frees the
-// `_webui_wv_linux_t` as soon as it has scheduled this.
+// NELSON PATCH: closes the window and frees its WebView struct. Idle sources
+// run in the order they were queued, so nothing queued earlier for this
+// window can read the struct after it is freed.
 static int
-_webui_wv_close_idle(void* arg)
+_webui_wv_release_idle(void* arg)
 {
-    if (arg && gtk_window_close) {
-        gtk_window_close(arg);
+    _webui_wv_linux_t* webView = (_webui_wv_linux_t*)arg;
+    if (webView->gtk_win) {
+        if (webView->open && gtk_window_close) {
+            gtk_window_close(webView->gtk_win);
+        }
+        if (webView->gtk_win_ref && g_object_unref) {
+            g_object_unref(webView->gtk_win);
+        }
     }
+    _webui_free_mem((void*)webView->url);
+    _webui_free_mem((void*)webView);
     return 0; // G_SOURCE_REMOVE: run once
 }
 
@@ -16589,6 +16647,7 @@ _webui_resolve_gtk_and_webkit(void)
             = (gdk_pixbuf_loader_get_pixbuf_func)dlsym(libgtk, "gdk_pixbuf_loader_get_pixbuf");
         gtk_window_set_icon = (gtk_window_set_icon_func)dlsym(libgtk, "gtk_window_set_icon");
         g_object_unref = (g_object_unref_func)dlsym(libgtk, "g_object_unref");
+        g_object_ref = (g_object_ref_func)dlsym(libgtk, "g_object_ref");
 
         // WebView Symbol Addresses
         webkit_web_view_new = (webkit_web_view_new_func)dlsym(libwebkit, "webkit_web_view_new");
@@ -16936,7 +16995,16 @@ static WEBUI_THREAD_WEBVIEW
 #endif
 
             _webui_mutex_lock(&win->mutex_webview_update);
-            _webui_condition_wait(&win->condition_webview_update, &win->mutex_webview_update);
+            if (!win->webView) {
+                _webui_mutex_unlock(&win->mutex_webview_update);
+                break;
+            }
+            // NELSON PATCH: a request made while this thread was busy has no
+            // signal left to wake it up: wait only when nothing is pending.
+            if (!win->webView->stop && !win->webView->size && !win->webView->position
+                && !win->webView->navigate) {
+                _webui_condition_wait(&win->condition_webview_update, &win->mutex_webview_update);
+            }
 
             if (win->webView) {
                 // Stop this thread
@@ -16944,10 +17012,10 @@ static WEBUI_THREAD_WEBVIEW
                     _webui_mutex_unlock(&win->mutex_webview_update);
                     break;
                 }
-                // NELSON PATCH: under a host UI loop these resize / move /
-                // load calls would run on this worker thread, which does not
-                // own the widgets. Hand them to the thread that does.
-                const bool marshal = (_webui_ui_hosted() && g_idle_add != NULL);
+                // NELSON PATCH: these resize / move / load calls would run on
+                // this worker thread, which does not own the widgets. Hand
+                // them to the GTK main loop, whoever iterates it.
+                const bool marshal = (g_idle_add != NULL);
                 // Window Size
                 if (win->webView->size) {
                     win->webView->size = false;
