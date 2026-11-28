@@ -117,6 +117,13 @@ jobs:
       - name: Set Julia Environment for Nelson
         run: nelson-adv-cli --noipc --quiet -f /usr/share/Nelson/tools/julia_environment_CI/configureJuliaEnvironment.m
 
+      # A crashed test process leaves a core file, read by the step after the tests.
+      # Name: core.<pid>.<signal>.<executable path, with '!' for '/'>
+      - name: Enable core dumps
+        run: |
+          mkdir -p /tmp/nelson-cores
+          sudo sysctl -w kernel.core_pattern='/tmp/nelson-cores/core.%p.%s.%E'
+
       - name: Tests
         env:
           NELSON_TEST_SHARD_INDEX: ${{ matrix.shard }}
@@ -128,7 +135,31 @@ jobs:
           NO_AT_BRIDGE: "1"
           GTK_A11Y: "none"
         run: |
+          ulimit -c unlimited
           xvfb-run -a nelson-adv-cli --noipc --quiet -f /usr/share/Nelson/tools/tests_all/runtests_all.m
+
+      - name: Crash backtraces
+        if: always()
+        continue-on-error: true
+        run: |
+          shopt -s nullglob
+          cores=(/tmp/nelson-cores/core.*)
+          if [ ${#cores[@]} -eq 0 ]; then
+            echo "No core file: no test process crashed."
+            exit 0
+          fi
+          echo "::warning::${#cores[@]} test process(es) crashed (${{ inputs.arch }}, shard ${{ matrix.shard }}): see the Crash backtraces step."
+          sudo apt-get install -y gdb > /dev/null
+          # At most 5 cores: the backtrace of every thread is already long.
+          for core in "${cores[@]:0:5}"; do
+            name=$(basename "$core")
+            exe=$(echo "$name" | cut -d. -f4- | tr '!' '/')
+            echo "::group::$name"
+            gdb -batch -iex "set debuginfod enabled off" \
+              -ex 'print $_siginfo' -ex "bt 40" -ex "thread apply all bt 30" \
+              "$exe" "$core" 2>&1
+            echo "::endgroup::"
+          done
 
       - name: Rename test results with shard index
         if: always()
